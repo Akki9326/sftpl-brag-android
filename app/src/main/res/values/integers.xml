@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="enter_duration">200</integer>
+    <integer name="exit_duration">250</integer>
+
+    <integer name="obj_anim_long">225</integer>
+    <integer name="obj_anim_short">195</integer>
+
+    <!--<integer name="enter_duration">1990</integer>-->
+    <!--<integer name="exit_duration">1900</integer>-->
+
+    <!--<integer name="obj_anim_long">1900</integer>-->
+    <!--<integer name="obj_anim_short">1900</integer>-->
+</resources>

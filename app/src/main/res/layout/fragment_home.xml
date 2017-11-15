@@ -10,13 +10,13 @@
         android:orientation="horizontal">
 
         <FrameLayout
-            android:id="@+id/fragment_container_one"
+            android:id="@+id/fragment_container_category"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <FrameLayout
-            android:id="@+id/fragment_container_category"
+            android:id="@+id/fragment_container_collection"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

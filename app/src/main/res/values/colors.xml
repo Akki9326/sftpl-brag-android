@@ -6,11 +6,15 @@
     <color name="colorPrimaryDark">#EEEEEE</color>
     <color name="colorAccent">#5C5A5A</color>
     <color name="dialog_text">#212121</color>
-
+    <color name="semi_transparent">#60000000</color>
 
     <color name="text_black">#000000</color>
     <color name="gray">#5C5A5A</color>
     <color name="gray_transparent">#735C5A5A</color>
     <color name="white">#ffffff</color>
+    <color name="semi_white_bg">#BFffffff</color>
+    <!--<color name="semi_white_bg">#90ffffff</color>-->
     <color name="pink">#E40044</color>
+    <color name="dynamic_color">#123123</color>
+    <color name="semi_pink">#F06292</color>
 </resources>

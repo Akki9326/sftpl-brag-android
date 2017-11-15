@@ -11,7 +11,7 @@
 
     <size android:height="15dp" android:width="15dp" />
     <padding
-        android:top="2dp"
-        android:bottom="2dp"/>
+        android:top="1dp"
+        android:bottom="1dp"/>
 
 </shape>

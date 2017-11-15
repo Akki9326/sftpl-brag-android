@@ -11,10 +11,11 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar_layout" />
 
-    <FrameLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/toolbar"
+        android:visibility="gone"
         android:foreground="@drawable/toolbar_dropshadow"/>
 
     <FrameLayout

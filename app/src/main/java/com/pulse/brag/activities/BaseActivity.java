@@ -14,6 +14,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,9 +24,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pulse.brag.R;
+import com.pulse.brag.fragments.CartFragment;
 import com.pulse.brag.fragments.OrderDatailFragment;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
@@ -39,6 +43,7 @@ import com.pulse.brag.views.CustomProgressDialog;
 public class BaseActivity extends AppCompatActivity {
 
     private long mLastClickTimeListViewItem = 0;
+    private long mLastClick = 0;
 
     Toolbar mToolbar;
     TextView mToolbarTitle, mTxtBagCount;
@@ -48,6 +53,7 @@ public class BaseActivity extends AppCompatActivity {
     LinearLayout mLinearCart;
     CustomProgressDialog mProgressDialog;
     Fragment fragmentName;
+    RelativeLayout mRelText;
 
     protected void onCreate(@Nullable Bundle savedInstanceState, int layout) {
         super.onCreate(savedInstanceState);
@@ -67,22 +73,23 @@ public class BaseActivity extends AppCompatActivity {
         mImgLogo = (ImageView) mToolbar.findViewById(R.id.imageView_logo);
         mLinearCart = (LinearLayout) mToolbar.findViewById(R.id.linear_card);
         mTxtBagCount = (TextView) mToolbar.findViewById(R.id.badge_tv_toolbar);
+        mRelText = (RelativeLayout) mToolbar.findViewById(R.id.relative_text);
         Utility.applyTypeFace(getApplicationContext(), mToolbar);
 
 
         mLinearCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pushFragments(new OrderDatailFragment(), true, true);
+                pushFragments(new CartFragment(), true, true);
             }
         });
 
     }
 
     public void setBagCount(int num) {
-        if (num == 0){
+        if (num == 0) {
             mTxtBagCount.setVisibility(View.GONE);
-        }else {
+        } else {
             mTxtBagCount.setVisibility(View.VISIBLE);
             mTxtBagCount.setText("" + num);
         }
@@ -98,14 +105,17 @@ public class BaseActivity extends AppCompatActivity {
 
         if (isBackBtn) {
             mImgBack.setVisibility(View.VISIBLE);
+            mRelText.setVisibility(View.VISIBLE);
         } else {
             mImgBack.setVisibility(View.GONE);
         }
         if (isLogo) {
             mImgLogo.setVisibility(View.VISIBLE);
             mToolbarTitle.setVisibility(View.GONE);
+            mRelText.setVisibility(View.GONE);
         } else {
             mToolbarTitle.setVisibility(View.VISIBLE);
+            mRelText.setVisibility(View.VISIBLE);
             mImgLogo.setVisibility(View.GONE);
         }
 
@@ -193,7 +203,7 @@ public class BaseActivity extends AppCompatActivity {
 
         try {
             Utility.hideSoftkeyboard(BaseActivity.this);
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container_one);
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container_category);
 
             if (ignoreIfCurrent && currentFragment != null && fragment != null && currentFragment.getClass().equals(fragment.getClass())) {
                 return;
@@ -221,9 +231,9 @@ public class BaseActivity extends AppCompatActivity {
             if (shouldAnimate)
                 ft.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.left_in, R.anim.right_out);
 
-            if (getSupportFragmentManager().findFragmentById(R.id.fragment_container_one) != null) {
-                System.out.println("my==>" + BaseActivity.this.getSupportFragmentManager().findFragmentById(R.id.fragment_container_one));
-                ft.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container_one));
+            if (getSupportFragmentManager().findFragmentById(R.id.fragment_container_category) != null) {
+                System.out.println("my==>" + BaseActivity.this.getSupportFragmentManager().findFragmentById(R.id.fragment_container_category));
+                ft.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container_category));
                 ft.hide(fragmentName);
             }
             getFragmentManager().executePendingTransactions();
@@ -231,7 +241,7 @@ public class BaseActivity extends AppCompatActivity {
                 ft.show(fragment);
             } else {
                 fragmentName = fragment;
-                ft.add(R.id.fragment_container_one, fragment, fragment.getClass().getCanonicalName());
+                ft.add(R.id.fragment_container_category, fragment, fragment.getClass().getCanonicalName());
             }
 
 //            ft.commitAllowingStateLoss();

@@ -14,13 +14,14 @@ import com.pulse.brag.views.CustomProgressDialog;
 public class BaseFragment extends Fragment {
 
     private CustomProgressDialog mProgressDialog;
-    public Activity mActivity;
+    //    public Activity mActivity;
+    String TAG = getClass().getSimpleName();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProgressDialog = new CustomProgressDialog(getActivity());
-        mActivity = ((BaseActivity) getActivity());
+//        mActivity = ((BaseActivity) getActivity());
     }
 
 

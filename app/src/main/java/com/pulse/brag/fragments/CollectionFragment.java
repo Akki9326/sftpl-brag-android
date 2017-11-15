@@ -16,20 +16,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pulse.brag.R;
+import com.pulse.brag.activities.BaseActivity;
+import com.pulse.brag.interfaces.BaseInterface;
 
 /**
  * Created by nikhil.vadoliya on 26-09-2017.
  */
 
 
-public class FragmentThree extends Fragment {
+public class CollectionFragment extends Fragment implements BaseInterface {
 
 
-    public static FragmentThree newInstance() {
+    public static CollectionFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        FragmentThree fragment = new FragmentThree();
+        CollectionFragment fragment = new CollectionFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,7 +41,37 @@ public class FragmentThree extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_three, container, false);
+
+        if (mView == null) {
+            mView = inflater.inflate(R.layout.fragment_collection, container, false);
+        }
         return mView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setToolbar();
+    }
+
+    @Override
+    public void setToolbar() {
+//        ((BaseActivity) getActivity()).showToolbar(false, true, true);
+
+    }
+
+    @Override
+    public void initializeData() {
+
+    }
+
+    @Override
+    public void setListeners() {
+
+    }
+
+    @Override
+    public void showData() {
+
     }
 }

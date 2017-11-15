@@ -11,26 +11,45 @@ package com.pulse.brag.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
+import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.helper.Constants;
+import com.pulse.brag.helper.Utility;
+import com.pulse.brag.helper.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
+import com.pulse.brag.pojo.requests.LoginRequest;
+import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.pojo.respones.LoginRespone;
+import com.pulse.brag.pojo.respones.SignUpRespone;
+import com.pulse.brag.views.OnSingleClickListener;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 27-09-2017.
  */
 
 
-public class SignUpFragment extends Fragment implements BaseInterface {
+public class SignUpFragment extends BaseFragment implements BaseInterface {
 
     View mView;
 
+    EditText mEdtFirstNam, mEdtLastNam, mEdtEmail, mEdtMobile, mEdtPass, mEdtConfirmPas;
     Button mBtnSignup, mBtnLogin;
-    TextView mTxtLogin, mTxtSignup;
+    TextView mTxtSignup;
 
     @Nullable
     @Override
@@ -52,27 +71,90 @@ public class SignUpFragment extends Fragment implements BaseInterface {
     @Override
     public void initializeData() {
 
+        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
         mTxtSignup = (TextView) mView.findViewById(R.id.textview_signup);
-        mTxtLogin = (TextView) mView.findViewById(R.id.textview_login);
+        mEdtFirstNam = (EditText) mView.findViewById(R.id.edittext_firstname);
+        mEdtLastNam = (EditText) mView.findViewById(R.id.edittext_lastname);
+        mEdtEmail = (EditText) mView.findViewById(R.id.edittext_email);
+        mEdtMobile = (EditText) mView.findViewById(R.id.edittext_mobile_num);
+        mEdtPass = (EditText) mView.findViewById(R.id.edittext_password);
+        mEdtConfirmPas = (EditText) mView.findViewById(R.id.edittext_confirm_password);
     }
 
     @Override
     public void setListeners() {
-        mTxtSignup.setOnClickListener(new View.OnClickListener() {
+        mTxtSignup.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.login_contrainer, new FragmentOne())
-                        .addToBackStack(null).commit();
+            public void onSingleClick(View v) {
+
+
+                if (Validation.isEmpty(mEdtFirstNam)) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_please_enter_first_name));
+                } else if (Validation.isEmpty(mEdtEmail)) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_please_email));
+                } else if (!Validation.isEmailValid(mEdtEmail)) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
+                } else if (Validation.isEmpty(mEdtMobile)) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+                } else if (mEdtMobile.getText().toString().trim().length() < 10) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+                } else if (Validation.isEmpty(mEdtPass)) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_pass));
+                } else if (Validation.isEmpty(mEdtConfirmPas)) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+                } else if (!(mEdtPass.getText().toString().trim().equals(mEdtConfirmPas.getText().toString().trim()))) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+                } else if (Utility.isConnection(getActivity())) {
+                    SignInRequest signInRequest = new SignInRequest("Mr", mEdtFirstNam.getText().toString(), mEdtLastNam.getText().toString().trim(),
+                            mEdtEmail.getText().toString(), mEdtMobile.getText().toString()
+                            , mEdtPass.getText().toString());
+                    SignInAPICall(signInRequest);
+                } else {
+                    Utility.showAlertMessage(getActivity(), 0);
+                }
             }
         });
 
-        mTxtLogin.setOnClickListener(new View.OnClickListener() {
+        mEdtConfirmPas.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    mTxtSignup.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void SignInAPICall(final SignInRequest signInRequest) {
+        Utility.hideSoftkeyboard(getActivity());
+        showProgressDialog();
+        Call<SignUpRespone> mSignUpResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userSignIn(signInRequest);
+        mSignUpResponeCall.enqueue(new Callback<SignUpRespone>() {
+            @Override
+            public void onResponse(Call<SignUpRespone> call, Response<SignUpRespone> response) {
+                hideProgressDialog();
+                if (response.isSuccessful()) {
+                    SignUpRespone signUpRespone = response.body();
+                    if (signUpRespone.isStatus()) {
+
+                        ((SplashActivty) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString(), mEdtEmail.getText().toString(), true),
+                                true, true, "OTP_Frag");
+
+
+                    } else {
+                        Utility.showAlertMessage(getActivity(), signUpRespone.getMessage());
+                    }
+                } else {
+                    Utility.showAlertMessage(getActivity(), 1);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignUpRespone> call, Throwable t) {
+                hideProgressDialog();
+                Utility.showAlertMessage(getActivity(), t);
             }
         });
 

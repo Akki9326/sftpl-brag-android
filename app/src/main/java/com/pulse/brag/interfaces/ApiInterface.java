@@ -8,10 +8,21 @@ package com.pulse.brag.interfaces;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.pojo.MoviesResponse;
+import com.pulse.brag.pojo.DummeyDataRespone;
+import com.pulse.brag.pojo.DummeyRespone;
+import com.pulse.brag.pojo.GeneralRespone;
+import com.pulse.brag.pojo.requests.ChangePasswordRequest;
+import com.pulse.brag.pojo.requests.LoginRequest;
+import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.pojo.respones.ChangePasswordRespone;
+import com.pulse.brag.pojo.respones.LoginRespone;
+import com.pulse.brag.pojo.respones.OTPVerifyRespone;
+import com.pulse.brag.pojo.respones.SignUpRespone;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -21,6 +32,31 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-    @GET("movie/top_rated")
-    Call<MoviesResponse> getTopRatedMovies(@Query("api_key") String apiKey);
+
+    @GET("users")
+    Call<DummeyRespone> getProductionList(@Query("pages") int page);
+
+    @POST("login")
+    Call<LoginRespone> userLogin(@Body LoginRequest loginRequest);
+
+    @POST("signup")
+    Call<SignUpRespone> userSignIn(@Body SignInRequest signInRequest);
+
+    @GET("validate")
+    Call<OTPVerifyRespone> verifyOtp(@Query("mobile") String mobile, @Query("otp") String otp);
+
+    @GET("validateForgetPassword")
+    Call<OTPVerifyRespone> verifyOtpForgetPass(@Query("mobile") String mobile, @Query("otp") String otp);
+
+    @GET("resendotp")
+    Call<GeneralRespone> resendOtp(@Query("mobile") String mobile);
+
+    @POST("changePassword")
+    Call<ChangePasswordRespone> changePassword(@Body ChangePasswordRequest changePasswordRequest);
+
+    @POST("resetPassword")
+    Call<ChangePasswordRespone> resetPassword(@Body ChangePasswordRequest changePasswordRequest);
+
+    @GET("logout")
+    Call<GeneralRespone> logout();
 }

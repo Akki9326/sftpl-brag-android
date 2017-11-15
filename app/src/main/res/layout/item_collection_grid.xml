@@ -7,16 +7,24 @@
         android:id="@+id/imageView_collection_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/background" />
 
+    <!--<com.pulse.brag.views.SquareImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:alpha=".4"-->
+    <!--android:background="@android:color/black" />-->
 
     <TextView
         android:id="@+id/textview_collection_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom"
         android:tag="@string/font_sans_rounded_id"
-        android:text="text"
-        android:textSize="@dimen/text_size_medium" />
+        android:background="@color/semi_transparent"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_very_small" />
 </FrameLayout>

@@ -27,6 +27,14 @@ public class OrderDatailFragment extends BaseFragment implements BaseInterface {
 
     View mView;
 
+    public static OrderDatailFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        OrderDatailFragment fragment = new OrderDatailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +56,8 @@ public class OrderDatailFragment extends BaseFragment implements BaseInterface {
 
     @Override
     public void setToolbar() {
-        ((BaseActivity) getActivity()).showToolbar(true, false, false, "Order Details");
+
+//        ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_order));
     }
 
     @Override

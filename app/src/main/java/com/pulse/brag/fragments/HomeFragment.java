@@ -8,6 +8,10 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,11 +25,6 @@ import android.widget.FrameLayout;
 
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
-import com.pulse.brag.fragments.BaseFragment;
-import com.pulse.brag.fragments.FragmentOne;
-import com.pulse.brag.fragments.FragmentThree;
-import com.pulse.brag.fragments.FragmentTwo;
-import com.pulse.brag.fragments.LogInFragment;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 
@@ -39,12 +38,12 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
     View mView;
 
     BottomNavigationView mNavigationView;
-    FrameLayout mFrameLayoutOne;
     FrameLayout mFrameLayoutCategory;
+    FrameLayout mFrameLayoutCollection;
     FrameLayout mFrameLayoutOrder;
     FrameLayout mFrameLayoutMore;
 
-    boolean isAddedOne, isAddedCateg, isAddedOrder, isAddedFour;
+    boolean isAddedCategory, isAddedCollection, isAddedOrder, isAddedMore;
 
     @Nullable
     @Override
@@ -67,7 +66,25 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
 
     @Override
     public void setToolbar() {
-        ((BaseActivity) getActivity()).showToolbar(false, true,true);
+
+
+        switch (mNavigationView.getSelectedItemId()) {
+            case R.id.bottombar_item_categoty:
+                ((BaseActivity) getActivity()).showToolbar(false, true, true);
+                break;
+            case R.id.bottombar_item_collection:
+                ((BaseActivity) getActivity()).showToolbar(false, true, true);
+
+                break;
+            case R.id.bottombar_item_order:
+                ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_order));
+
+                break;
+            case R.id.bottombar_item_more:
+                ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
+
+                break;
+        }
     }
 
     @Override
@@ -75,13 +92,16 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
         mNavigationView = (BottomNavigationView) mView.findViewById(R.id.bottom_sheet);
         Utility.removeShiftModeInBottomNavigation(mNavigationView);
 
-        mFrameLayoutOne = (FrameLayout) mView.findViewById(R.id.fragment_container_one);
         mFrameLayoutCategory = (FrameLayout) mView.findViewById(R.id.fragment_container_category);
+        mFrameLayoutCollection = (FrameLayout) mView.findViewById(R.id.fragment_container_collection);
         mFrameLayoutOrder = (FrameLayout) mView.findViewById(R.id.fragment_container_order);
         mFrameLayoutMore = (FrameLayout) mView.findViewById(R.id.fragment_container_more);
 
         setFragmentInTab();
-        isAddedOne = true;
+        isAddedCategory = true;
+
+
+
     }
 
     @Override
@@ -92,53 +112,61 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
 
-                    case R.id.bottombaritem_golf:
-                        mFrameLayoutOne.setVisibility(View.VISIBLE);
-                        mFrameLayoutCategory.setVisibility(View.GONE);
+                    case R.id.bottombar_item_categoty:
+                        mFrameLayoutCategory.setVisibility(View.VISIBLE);
+                        mFrameLayoutCollection.setVisibility(View.GONE);
                         mFrameLayoutOrder.setVisibility(View.GONE);
                         mFrameLayoutMore.setVisibility(View.GONE);
 
+                        ((BaseActivity) getActivity()).showToolbar(false, true, true);
                         return true;
 
-                    case R.id.bottombaritem_category:
+                    case R.id.bottombar_item_collection:
 
-                        if (!isAddedCateg) {
-                            isAddedCateg = true;
+                        if (!isAddedCollection) {
+                            isAddedCollection = true;
                             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-                            transactionTwo.replace(R.id.fragment_container_category, new FragmentTwo(), "Two");
+                            transactionTwo.replace(R.id.fragment_container_collection, new CollectionFragment(), "Collection_Tag");
                             transactionTwo.commit();
                         }
-                        mFrameLayoutOne.setVisibility(View.GONE);
-                        mFrameLayoutCategory.setVisibility(View.VISIBLE);
+                        mFrameLayoutCategory.setVisibility(View.GONE);
+                        mFrameLayoutCollection.setVisibility(View.VISIBLE);
                         mFrameLayoutOrder.setVisibility(View.GONE);
                         mFrameLayoutMore.setVisibility(View.GONE);
+
+                        ((BaseActivity) getActivity()).showToolbar(false, true, true);
                         return true;
 
-                    case R.id.bottombaritem_order:
+                    case R.id.bottombar_item_order:
 
                         if (!isAddedOrder) {
                             isAddedOrder = true;
                             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-                            transactionTwo.replace(R.id.fragment_container_order, new FragmentThree(), "Three");
+                            transactionTwo.replace(R.id.fragment_container_order, new OrderDatailFragment(), "Order_Tag");
                             transactionTwo.commit();
                         }
-                        mFrameLayoutOne.setVisibility(View.GONE);
                         mFrameLayoutCategory.setVisibility(View.GONE);
+                        mFrameLayoutCollection.setVisibility(View.GONE);
                         mFrameLayoutOrder.setVisibility(View.VISIBLE);
                         mFrameLayoutMore.setVisibility(View.GONE);
+
+                        ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_order));
+
                         return true;
 
-                    case R.id.bottombaritem_more:
-                        if (!isAddedFour) {
-                            isAddedFour = true;
+                    case R.id.bottombar_item_more:
+                        if (!isAddedMore) {
+                            isAddedMore = true;
                             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-                            transactionTwo.replace(R.id.fragment_container_more, new LogInFragment(), "Four");
+                            transactionTwo.replace(R.id.fragment_container_more, new MoreFragment(), "More_Tag");
                             transactionTwo.commit();
                         }
-                        mFrameLayoutOne.setVisibility(View.GONE);
                         mFrameLayoutCategory.setVisibility(View.GONE);
+                        mFrameLayoutCollection.setVisibility(View.GONE);
                         mFrameLayoutOrder.setVisibility(View.GONE);
                         mFrameLayoutMore.setVisibility(View.VISIBLE);
+
+                        ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
                         return true;
 
 
@@ -157,7 +185,10 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
     private void setFragmentInTab() {
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_one, new FragmentOne(), "One");
+        transaction.replace(R.id.fragment_container_category, new CategoryFragment(), "Category_Tag");
         transaction.commit();
+
+        ((BaseActivity) getActivity()).showToolbar(false, true, true);
+
     }
 }

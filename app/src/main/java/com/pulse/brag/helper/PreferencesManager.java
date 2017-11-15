@@ -3,6 +3,9 @@ package com.pulse.brag.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.pulse.brag.pojo.datas.UserData;
+
 
 public class PreferencesManager {
 
@@ -14,6 +17,13 @@ public class PreferencesManager {
 
     private static final String IS_LOGIN = "isLogin";
     public String SELECTED_CONTENT_CATEGORY_POSITION = "selectedContentPosition";
+    private static final String ACCESS_TOKEN = "accessToken";
+    private static final String DEVICE_TOKEN = "deviceToken";
+    private static final String DEVICE_TYPE = "deviceType";
+    private static final String OS_VERSION = "osVersion";
+    private static final String OS = "os";
+    private static final String USER_DATA = "userdata";
+    private static final String NOTIFICATION_ID ="notificationid" ;
 
 
     private PreferencesManager(Context context) {
@@ -59,5 +69,53 @@ public class PreferencesManager {
         return mPref.getString(SELECTED_CONTENT_CATEGORY_POSITION, "0");
     }
 
+    public void setAccessToken(String token) {
+        mPref.edit().putString(ACCESS_TOKEN, token).commit();
+    }
 
+    public String getAccessToken() {
+        return mPref.getString(ACCESS_TOKEN, "");
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        mPref.edit().putString(DEVICE_TOKEN, deviceToken).commit();
+    }
+
+    public int getNotificationId() {
+        return mPref.getInt(NOTIFICATION_ID, 0);
+    }
+
+    public void setNotificationId(int notificationId) {
+
+        mPref.edit().putInt(NOTIFICATION_ID, notificationId).commit();
+    }
+
+    public String getDeviceToken() {
+        return mPref.getString(DEVICE_TOKEN, "");
+    }
+
+    public void setDeviceTypeAndOsVer(String deviceName, String osVersion) {
+        mPref.edit().putString(DEVICE_TYPE, deviceName).commit();
+        mPref.edit().putString(OS_VERSION, osVersion).commit();
+    }
+
+    public String getOsVersion() {
+        return mPref.getString(OS_VERSION, "");
+    }
+
+    public String getDeviceType() {
+        return mPref.getString(DEVICE_TYPE, "");
+    }
+
+    public void setUserData(String s) {
+        mPref.edit().putString(USER_DATA, s).commit();
+    }
+
+    public UserData getUserData() {
+        return new Gson().fromJson(mPref.getString(USER_DATA, ""), UserData.class);
+    }
+
+    public void logout() {
+        mPref.edit().clear().commit();
+    }
 }

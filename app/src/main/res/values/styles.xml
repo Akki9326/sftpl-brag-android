@@ -42,4 +42,26 @@
         <item name="android:textCursorDrawable">@drawable/cursor</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
+
+    <style name="NormalEditTextPassword">
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:tag">@string/font_sans_rounded_id</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="PinWidget" />
+
+    <style name="PinWidget.PinView" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
 </resources>

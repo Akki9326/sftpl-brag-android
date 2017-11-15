@@ -1,4 +1,4 @@
-package com.pulse.brag.pojo;
+package com.pulse.brag.pojo.respones;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.

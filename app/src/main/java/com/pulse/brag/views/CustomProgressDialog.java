@@ -51,7 +51,7 @@ public class CustomProgressDialog extends Dialog {
 
 
         //progress1.setColorSchemeResources(R.color.red,R.color.green,R.color.blue,R.color.orange);
-        progress1.setColorSchemeResources(R.color.colorPrimary);
+        progress1.setColorSchemeResources(R.color.pink);
 //        ImageView imageView = (ImageView) dialog.findViewById(R.id.spinnerImageView);
 //        AnimationDrawable spinner = (AnimationDrawable) imageView.getBackground();
 //        spinner.start();

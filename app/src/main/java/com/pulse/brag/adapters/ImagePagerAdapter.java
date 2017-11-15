@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
-import com.pulse.brag.pojo.ImagePagerRespone;
+import com.pulse.brag.pojo.respones.ImagePagerRespone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class ImagePagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = mLayoutInflater.inflate(R.layout.item_image_pager, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);

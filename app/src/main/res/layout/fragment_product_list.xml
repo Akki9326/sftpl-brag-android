@@ -21,16 +21,15 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/rounder_corner_solid_gray_bg" />
+            android:background="@drawable/rounder_corner_solid_gray" />
 
         <ImageView
             android:id="@+id/imageView_sort"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginLeft="5dp"
-            android:background="@color/pink"
             android:padding="5dp"
-            android:src="@drawable/ic_add" />
+            android:src="@drawable/ic_sort" />
 
         <ImageView
             android:id="@+id/imageView_filter"

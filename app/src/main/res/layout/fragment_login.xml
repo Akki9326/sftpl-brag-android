@@ -8,35 +8,28 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="230dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_logo" />
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="left"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
                     android:tag="@string/font_sans_rounded_id"
@@ -45,14 +38,14 @@
                     android:textSize="@dimen/text_size_very_small_12" />
 
                 <EditText
-                    android:id="@+id/edittext_username"
+                    android:id="@+id/edittext_mobile_num"
                     style="@style/NormalEditText"
                     android:background="@null"
+                    android:hint="@string/hint_mobile_num"
                     android:imeOptions="actionNext"
                     android:inputType="number"
-
-                    android:paddingBottom="5dp"
-                    android:text="9638529630" />
+                    android:maxLength="10"
+                    android:paddingBottom="5dp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -70,17 +63,35 @@
                     android:tag="@string/font_sans_rounded_id"
                     android:text="@string/label_password"
                     android:textColor="@color/pink"
-
                     android:textSize="@dimen/text_size_very_small_12" />
 
-                <EditText
-                    android:id="@+id/edittext_password"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:imeActionLabel="@string/button_login"
-                    android:inputType="textPassword"
-                    android:paddingBottom="5dp"
-                    android:text="text password" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edittext_password"
+                        style="@style/NormalEditTextPassword"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/hint_password"
+                        android:imeActionLabel="@string/button_login"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLength="@integer/max_length"
+                        android:paddingBottom="5dp" />
+
+                    <ImageView
+                        android:id="@+id/img_pass_visible"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/selector_password" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -91,6 +102,7 @@
 
 
                 <TextView
+                    android:id="@+id/textview_forget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -107,12 +119,11 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="30dp"
-                    android:background="@drawable/round_corner_solid_pink_bg"
+                    android:background="@drawable/round_corner_solid_pink"
                     android:paddingBottom="10dp"
                     android:paddingLeft="70dp"
                     android:paddingRight="70dp"
                     android:paddingTop="10dp"
-
                     android:tag="@string/font_sans_rounded_id"
                     android:text="@string/button_login"
                     android:textColor="@color/white"
@@ -121,12 +132,13 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -167,7 +179,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/round_corner_edge_pink_bg"
+                    android:background="@drawable/round_corner_edge_pink"
                     android:paddingBottom="10dp"
                     android:paddingLeft="70dp"
                     android:paddingRight="70dp"

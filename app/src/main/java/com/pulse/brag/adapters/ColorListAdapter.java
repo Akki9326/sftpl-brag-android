@@ -8,9 +8,36 @@ package com.pulse.brag.adapters;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.pulse.brag.R;
+import com.pulse.brag.helper.Utility;
+import com.pulse.brag.interfaces.OnProductColorSelectListener;
+import com.pulse.brag.views.OnSingleClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 18-10-2017.
@@ -18,24 +45,84 @@ import android.view.ViewGroup;
 
 
 public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyViewHolder> {
-    @Override
-    public ColorListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+
+    Activity mActivity;
+    List<String> mList;
+    OnProductColorSelectListener colorSelectListener;
+    int mSeletedPos;
+    List<Boolean> mBooleanList;
+
+    MyViewHolder mViewHolder;
+
+    public ColorListAdapter(Activity mActivity, List<String> mList, int mSeletedPos, OnProductColorSelectListener colorSelectListener) {
+        this.mActivity = mActivity;
+        this.mList = new ArrayList<>();
+        this.mList = mList;
+        this.colorSelectListener = colorSelectListener;
+        this.mSeletedPos = mSeletedPos;
+
+        int pos = 0;
+        mBooleanList = new ArrayList<>();
+        for (int i = 0; i < mList.size(); i++) {
+            mBooleanList.add(pos++, Boolean.FALSE);
+        }
+        mBooleanList.add(0, Boolean.TRUE);
     }
 
     @Override
-    public void onBindViewHolder(ColorListAdapter.MyViewHolder holder, int position) {
+    public ColorListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_color_list, null);
+        MyViewHolder viewHolder1 = new MyViewHolder(view1);
+        return viewHolder1;
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+
+        mViewHolder = holder;
+
+        holder.mImgColor.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                colorSelectListener.onSeleteColor(position);
+            }
+        });
+        holder.mBaseView.setSelected(mBooleanList.get(position));
+        holder.mImgColor.setImageBitmap(Utility.getRoundBitmap(mList.get(position)));
+//        holder.mImgColor.getDrawable().setColorFilter(Color.parseColor("#B7B2B0"), PorterDuff.Mode.DST_ATOP);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            holder.mView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(mList.get(position))));
+//        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList.size();
+    }
+
+    public void setSelectorItem(int pos) {
+        if (mSeletedPos != pos) {
+            mBooleanList.set(pos, Boolean.TRUE);
+            mBooleanList.set(mSeletedPos, Boolean.FALSE);
+            mSeletedPos = pos;
+            notifyDataSetChanged();
+        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        View mBaseView;
+        ImageView mImgColor;
+        LinearLayout mBaseLayout;
+
+
         public MyViewHolder(View itemView) {
             super(itemView);
+            mBaseView = itemView;
+            mBaseLayout = (LinearLayout) itemView.findViewById(R.id.base_layout);
+            mImgColor = (ImageView) itemView.findViewById(R.id.imageView_color);
+
         }
     }
 }

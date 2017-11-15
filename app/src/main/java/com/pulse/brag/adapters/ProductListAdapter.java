@@ -19,8 +19,11 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
+import com.pulse.brag.interfaces.OnAddButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.CollectionListRespone;
+import com.pulse.brag.pojo.DummeyDataRespone;
+import com.pulse.brag.pojo.respones.CollectionListRespone;
+import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +37,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 
     Context mContext;
-    List<CollectionListRespone> mListRespones;
+    List<DummeyDataRespone> mListRespones;
     OnItemClickListener mOnItemClickListener;
+    OnAddButtonClickListener mAddButtonClickListener;
 
-    public ProductListAdapter(Context mContext, OnItemClickListener mOnItemClickListener, List<CollectionListRespone> mListRespones) {
+    public ProductListAdapter(Context mContext, OnItemClickListener mOnItemClickListener, OnAddButtonClickListener mAddButtonClickListener, List<DummeyDataRespone> mListRespones) {
         this.mContext = mContext;
         this.mOnItemClickListener = mOnItemClickListener;
         this.mListRespones = new ArrayList<>();
         this.mListRespones = mListRespones;
+        this.mAddButtonClickListener = mAddButtonClickListener;
     }
 
     @Override
@@ -54,17 +59,25 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
-        CollectionListRespone data = mListRespones.get(position);
+        DummeyDataRespone data = mListRespones.get(position);
 
         Utility.applyTypeFace(mContext, holder.mLinearLayout);
-        Utility.imageSet(mContext, data.getUrl(), holder.mImageView);
-        holder.mTxtProdName.setText(data.getName());
-        holder.mTxtProdPrice.setText(data.getPriceWithSym());
+        Utility.imageSet(mContext, data.getAvatar(), holder.mImageView);
+        holder.mTxtProdName.setText(data.getFirst_name());
+//        holder.mTxtProdPrice.setText(data.getPriceWithSym(mContext));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mOnItemClickListener.onItemClick(position);
+            }
+        });
+
+        holder.mLinerAdd.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                mAddButtonClickListener.OnAddListener(position);
+
             }
         });
     }
@@ -80,6 +93,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ImageView mImageView;
         TextView mTxtProdName, mTxtProdPrice;
         LinearLayout mLinearLayout;
+        LinearLayout mLinerAdd;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -89,6 +103,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             mTxtProdName = (TextView) itemView.findViewById(R.id.textview_product_name);
             mTxtProdPrice = (TextView) itemView.findViewById(R.id.textView_price);
             mLinearLayout = (LinearLayout) itemView.findViewById(R.id.base_layout);
+            mLinerAdd = (LinearLayout) itemView.findViewById(R.id.linear_add);
         }
     }
 }

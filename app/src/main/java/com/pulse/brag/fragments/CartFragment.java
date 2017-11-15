@@ -1,5 +1,6 @@
 package com.pulse.brag.fragments;
 
+
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
@@ -10,40 +11,30 @@ package com.pulse.brag.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.R;
+import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.interfaces.BaseInterface;
 
 /**
- * Created by nikhil.vadoliya on 26-09-2017.
+ * Created by nikhil.vadoliya on 07-11-2017.
  */
 
 
-public class FragmentTwo extends Fragment implements BaseInterface {
-
-
-    public static FragmentTwo newInstance() {
-
-        Bundle args = new Bundle();
-
-        FragmentTwo fragment = new FragmentTwo();
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class CartFragment extends BaseFragment implements BaseInterface {
 
     View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_two, container, false);
+            mView = inflater.inflate(R.layout.fragment_cart, container, false);
+            initializeData();
+            setListeners();
         }
         return mView;
     }
@@ -56,6 +47,7 @@ public class FragmentTwo extends Fragment implements BaseInterface {
 
     @Override
     public void setToolbar() {
+        ((BaseActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_cart));
     }
 
     @Override

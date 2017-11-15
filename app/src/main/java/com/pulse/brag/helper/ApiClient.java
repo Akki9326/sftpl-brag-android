@@ -29,12 +29,28 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "http://api.themoviedb.org/";
-    public static final String API_PATH_POST = "3/";
+//    public static final String BASE_URL = "https://reqres.in/api/";
+//    public static final String BASE_URL = "http://192.168.131.123:8085/brag/api/";
+    public static final String BASE_URL = "http://103.204.192.148/brag/api/";
+
+    public static final String API_VERSION = "v1/";
+
+        public static String FULL_URL = BASE_URL + API_VERSION;
+//    public static final String FULL_URL = BASE_URL;
+
+    private String MAP_KEY_ACCESS_TOKEN = "access-token";
+    private String MAP_KEY_DEVICE_TOKEN = "device-token";
+    private String MAP_KEY_DEVICE_TYPE = "device-type";
+    private String MAP_API_VERSION = "api-version";
+    private String MAP_KEY_OS = "os";
+    private String MAP_KEY_OSV = "os-version";
+    private String OS = "Android";
+
     private static Retrofit retrofit = null;
     public static ApiClient apiClient;
     static Context mContext;
     ApiInterface apiInterface;
+
 
     public static Retrofit getClient() {
         if (retrofit == null) {
@@ -53,7 +69,7 @@ public class ApiClient {
         return apiClient;
     }
 
-    public ApiInterface getWebApiWithToken() {
+    public ApiInterface getApiResp() {
         try {
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -65,24 +81,32 @@ public class ApiClient {
             Interceptor interceptor = new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
-                    Request newRequest = chain.request().newBuilder()
-//                            .header(KEY_VERSION_NAME,VERSION_NAME)
-//                            .header(KEY_ACCESS_TOKEN,ACCESS_TOKEN)
-//                            .header(KEY_DEVICE_TOKEN,DEVICE_TOKEN)
-//                            .header(KEY_DEVICE_TYPE,DEVICE_TYPE)
-//                            .header(KEY_OSV,OSV)
-//                            .header(KEY_OS,OS)
-                            .method(chain.request().method(), chain.request().body())
-                            .build();
-                    return chain.proceed(newRequest);
+                    Request.Builder builder = chain.request().newBuilder();
+                    if (!PreferencesManager.getInstance().getAccessToken().isEmpty()) {
+                        builder.header(MAP_KEY_ACCESS_TOKEN, PreferencesManager.getInstance().getAccessToken());
+                    }
+                    if (!PreferencesManager.getInstance().getDeviceType().isEmpty()) {
+                        builder.header(MAP_KEY_DEVICE_TYPE, PreferencesManager.getInstance().getDeviceType());
+                    }
+                    if (!PreferencesManager.getInstance().getDeviceToken().isEmpty()) {
+                        builder.header(MAP_KEY_DEVICE_TOKEN, PreferencesManager.getInstance().getDeviceToken());
+                    }
+                    if (!PreferencesManager.getInstance().getOsVersion().isEmpty()) {
+                        builder.header(MAP_KEY_OSV, PreferencesManager.getInstance().getOsVersion());
+                    }
+                    builder.header(MAP_KEY_OS, OS);
+                    builder.header(MAP_API_VERSION, API_VERSION.replace("/", ""));
+
+                    return chain.proceed(builder.build());
                 }
             };
+
             httpClient.addInterceptor(interceptor);
             httpClient.addInterceptor(logging);
 
             OkHttpClient client = httpClient.build();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL + API_PATH_POST).addConverterFactory(GsonConverterFactory.create())
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(FULL_URL).addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();
 
@@ -93,5 +117,18 @@ public class ApiClient {
             return null;
         }
     }
+
+
+
+
+    public static void changeApiBaseUrl(String newApiBaseUrl) {
+        FULL_URL = newApiBaseUrl;
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(FULL_URL).addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+
 
 }

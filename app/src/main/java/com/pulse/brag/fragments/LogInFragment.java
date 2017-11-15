@@ -8,32 +8,56 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.R;
+import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
+import com.pulse.brag.helper.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
+import com.pulse.brag.pojo.requests.LoginRequest;
+import com.pulse.brag.pojo.respones.LoginRespone;
+import com.pulse.brag.views.OnSingleClickListener;
+
+import org.w3c.dom.Text;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 26-09-2017.
  */
 
 
-public class LogInFragment extends Fragment implements BaseInterface {
+public class LogInFragment extends BaseFragment implements BaseInterface {
 
 
     View mView;
-    TextView mTxtLogin, mTxtSignUp;
+    TextView mTxtLogin, mTxtSignUp, mTxtForget;
+    ImageView mImgPass;
+    EditText mEdtNumber, mEdtPassword;
 
     @Nullable
     @Override
@@ -61,32 +85,122 @@ public class LogInFragment extends Fragment implements BaseInterface {
     public void initializeData() {
         mTxtLogin = (TextView) mView.findViewById(R.id.textview_login);
         mTxtSignUp = (TextView) mView.findViewById(R.id.textview_signup);
+        mImgPass = (ImageView) mView.findViewById(R.id.img_pass_visible);
+        mEdtPassword = (EditText) mView.findViewById(R.id.edittext_password);
+        mEdtNumber = (EditText) mView.findViewById(R.id.edittext_mobile_num);
+        mTxtForget = (TextView) mView.findViewById(R.id.textview_forget);
+
+        // TODO: 08-11-2017 Login username and password
+        mEdtNumber.setText("7874487853");
+        mEdtPassword.setText("sailfin*123");
+
+        Log.i("", "onCreate:   " + FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override
     public void setListeners() {
-        mTxtLogin.setOnClickListener(new View.OnClickListener() {
+
+        mTxtLogin.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
 
-
-                PreferencesManager.getInstance().setIsLogin(true);
-
-                startActivity(new Intent(getActivity(), MainActivity.class));
-                getActivity().finish();
-                getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                if (Validation.isEmpty(mEdtNumber)) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+                } else if (mEdtNumber.getText().toString().length() < 10) {
+                    Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+                } else if (Validation.isEmpty(mEdtPassword)) {
+                    Utility.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
+                } else if (Utility.isConnection(getActivity())) {
+                    LoginAPICall(mEdtNumber.getText().toString(), mEdtPassword.getText().toString());
+                } else {
+                    Utility.showAlertMessage(getActivity(), 0);
+                }
             }
         });
-        mTxtSignUp.setOnClickListener(new View.OnClickListener() {
+
+        mTxtSignUp.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.login_contrainer, new SignUpFragment())
-                        .addToBackStack("SignUpFrag").commit();
+            public void onSingleClick(View v) {
+                ((SplashActivty) getActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
             }
         });
+
+        mEdtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    mTxtLogin.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        mImgPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mImgPass.isSelected()) {
+                    mImgPass.setSelected(false);
+                    mEdtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    mEdtPassword.setSelection(mEdtPassword.getText().length());
+                } else {
+                    mImgPass.setSelected(true);
+                    mEdtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    mEdtPassword.setSelection(mEdtPassword.getText().length());
+                }
+            }
+        });
+        mTxtForget.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+
+                ((SplashActivty) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mEdtNumber.getText().toString()), true, true, "Forget_Frag");
+
+            }
+        });
+    }
+
+    private void LoginAPICall(String mobile, String password) {
+
+        showProgressDialog();
+        LoginRequest loginRequest = new LoginRequest(mobile, password);
+        Call<LoginRespone> mLoginResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userLogin(loginRequest);
+        mLoginResponeCall.enqueue(new Callback<LoginRespone>() {
+            @Override
+            public void onResponse(Call<LoginRespone> call, Response<LoginRespone> response) {
+                hideProgressDialog();
+                if (response.isSuccessful()) {
+                    LoginRespone respone = response.body();
+                    okhttp3.Headers headers = response.headers();
+                    if (respone.isStatus()) {
+
+                        setHeaderInPref(headers);
+                        PreferencesManager.getInstance().setIsLogin(true);
+                        PreferencesManager.getInstance().setUserData(new Gson().toJson(respone.getData()));
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    } else {
+                        Utility.showAlertMessage(getActivity(), respone.getMessage());
+                    }
+                } else {
+                    Utility.showAlertMessage(getActivity(), -1);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginRespone> call, Throwable t) {
+                hideProgressDialog();
+                Utility.showAlertMessage(getActivity(), t);
+            }
+        });
+    }
+
+    private void setHeaderInPref(okhttp3.Headers headers) {
+
+        PreferencesManager.getInstance().setAccessToken(headers.get("access_token"));
+        PreferencesManager.getInstance().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
+
     }
 
     @Override

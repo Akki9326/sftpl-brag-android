@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,9 +21,7 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.CategoryListRespone;
-import com.pulse.brag.pojo.CollectionListRespone;
-import com.pulse.brag.views.SquareImageView;
+import com.pulse.brag.pojo.respones.CategoryListRespone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +56,8 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
     @Override
     public void onBindViewHolder(CollectionListAdapter.ViewHolder holder, final int position) {
 
+        runEnterAnimation(holder.mView);
+
         Utility.imageSet(mActivity, listRespones.get(position).getUrl(), holder.mImgBackground);
         holder.mText.setText(listRespones.get(position).getName());
 
@@ -88,5 +89,14 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
             mImgBackground = (ImageView) itemView.findViewById(R.id.imageView_collection_background);
             mText = (TextView) itemView.findViewById(R.id.textview_collection_label);
         }
+    }
+
+    private void runEnterAnimation(View view) {
+        view.setTranslationY(Utility.getScreenHeight(mActivity));
+        view.animate()
+                .translationY(0)
+                .setInterpolator(new DecelerateInterpolator(10.f))
+                .setDuration(1000)
+                .start();
     }
 }

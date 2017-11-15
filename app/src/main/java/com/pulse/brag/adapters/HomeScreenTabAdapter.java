@@ -12,9 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.pulse.brag.fragments.FragmentOne;
-import com.pulse.brag.fragments.FragmentThree;
-import com.pulse.brag.fragments.FragmentTwo;
+import com.pulse.brag.fragments.CategoryFragment;
+import com.pulse.brag.fragments.CollectionFragment;
+import com.pulse.brag.fragments.OrderDatailFragment;
 
 /**
  * Created by nikhil.vadoliya on 26-09-2017.
@@ -31,13 +31,13 @@ public class HomeScreenTabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return FragmentOne.newInstance();
+                return CategoryFragment.newInstance();
             case 1:
-                return FragmentTwo.newInstance();
+                return CollectionFragment.newInstance();
             case 2:
-                return FragmentThree.newInstance();
+                return OrderDatailFragment.newInstance();
         }
-        return FragmentOne.newInstance();
+        return CategoryFragment.newInstance();
     }
 
     @Override

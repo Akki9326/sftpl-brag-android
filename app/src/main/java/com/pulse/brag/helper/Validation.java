@@ -20,14 +20,17 @@ import java.util.regex.Pattern;
 
 public class Validation {
 
-    public static boolean isEmailValid(String email) {
-        String regExpn = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@" + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\." + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|" + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
-        CharSequence inputStr = email.trim();
+    public static boolean isEmailValid(EditText editText) {
+//        String regExpn = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@" + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\." + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|" + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+//        CharSequence inputStr = editText.getText().toString().trim();
+//
+//        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
+//        Matcher matcher = pattern.matcher(inputStr);
+//
+//        return matcher.matches();
 
-        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(inputStr);
-
-        return matcher.matches();
+        CharSequence inputStr = editText.getText().toString().trim();
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(inputStr).matches();
     }
 
     public static boolean isEmpty(EditText etText) {

@@ -14,31 +14,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/notification_icon" />
-        <meta-data android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/pink" />
 
         <activity
             android:name=".activities.SplashActivty"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
         <!-- FCM -->
@@ -53,7 +45,13 @@
             </intent-filter>
         </service>
         <!-- FCM -->
-        <activity android:name=".NotificationHandlerActivity"></activity>
+        <activity
+            android:name=".NotificationHandlerActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".activities.ChangePasswordActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

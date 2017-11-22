@@ -3,20 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_layout" />
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="25dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/toolbar"
-        android:visibility="gone"
-        android:foreground="@drawable/toolbar_dropshadow"/>
+        android:foreground="@drawable/toolbar_dropshadow"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/fragment_container"

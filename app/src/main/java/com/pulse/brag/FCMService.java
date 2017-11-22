@@ -79,11 +79,16 @@ public class FCMService extends FirebaseMessagingService {
             Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
         }
 
-        sendNotification(remoteMessage.getData().get(MESSAGE),
-                remoteMessage.getData().get(TITLE),
-                Integer.parseInt(remoteMessage.getData().get(N_TYPE)),
-                remoteMessage.getData().get(WHAT_ID),
-                remoteMessage.getData().get(N_ID));
+//        sendNotification(remoteMessage.getData().get(MESSAGE),
+//                remoteMessage.getData().get(TITLE),
+//                Integer.parseInt(remoteMessage.getData().get(N_TYPE)),
+//                remoteMessage.getData().get(WHAT_ID),
+//                remoteMessage.getData().get(N_ID));
+        sendNotification("Message",
+                "Title",
+                2,
+                "1",
+                "1");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -117,13 +122,16 @@ public class FCMService extends FirebaseMessagingService {
                 break;
 
             case LOGIN:
-                notificationIntent = new Intent(getApplicationContext(), SplashActivty.class);
-//              notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
-                notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
-                simplePendingIntent =
-                        PendingIntent.getActivity(getApplicationContext(), mNotificationId,
-                                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    notificationIntent = new Intent(getApplicationContext(), SplashActivty.class);
+                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
+                    notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
+                    simplePendingIntent =
+                            PendingIntent.getActivity(getApplicationContext(), mNotificationId,
+                                    notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
                 break;
 
             case OTHER:
@@ -154,7 +162,7 @@ public class FCMService extends FirebaseMessagingService {
                     .setContentText(message)
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.notification_icon)
-                    .setColor(getResources().getColor(R.color.pink))
+                    .setColor(getResources().getColor(R.color.semi_pink))
                     .setContentIntent(simplePendingIntent)
                     .build();
         } else {

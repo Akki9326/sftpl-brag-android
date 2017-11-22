@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
@@ -37,6 +39,10 @@ dependencies {
 
     compile 'com.google.firebase:firebase-messaging:11.6.0'
     compile 'com.google.firebase:firebase-core:11.6.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
 }
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+}

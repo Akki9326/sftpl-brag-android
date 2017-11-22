@@ -91,10 +91,8 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
         mTxtForget = (TextView) mView.findViewById(R.id.textview_forget);
 
         // TODO: 08-11-2017 Login username and password
-        mEdtNumber.setText("7874487853");
-        mEdtPassword.setText("sailfin*123");
-
-        Log.i("", "onCreate:   " + FirebaseInstanceId.getInstance().getToken());
+//        mEdtNumber.setText("7874487853");
+//        mEdtPassword.setText("sailfin*123");
     }
 
     @Override
@@ -184,7 +182,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
                         Utility.showAlertMessage(getActivity(), respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), -1);
+                    Utility.showAlertMessage(getActivity(), 1);
                 }
             }
 

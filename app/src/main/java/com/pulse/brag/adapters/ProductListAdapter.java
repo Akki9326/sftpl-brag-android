@@ -40,6 +40,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     List<DummeyDataRespone> mListRespones;
     OnItemClickListener mOnItemClickListener;
     OnAddButtonClickListener mAddButtonClickListener;
+    boolean isSwitchView = true;
+
 
     public ProductListAdapter(Context mContext, OnItemClickListener mOnItemClickListener, OnAddButtonClickListener mAddButtonClickListener, List<DummeyDataRespone> mListRespones) {
         this.mContext = mContext;
@@ -47,6 +49,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.mListRespones = new ArrayList<>();
         this.mListRespones = mListRespones;
         this.mAddButtonClickListener = mAddButtonClickListener;
+
     }
 
     @Override
@@ -64,6 +67,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         Utility.applyTypeFace(mContext, holder.mLinearLayout);
         Utility.imageSet(mContext, data.getAvatar(), holder.mImageView);
         holder.mTxtProdName.setText(data.getFirst_name());
+        holder.mTxtProdPrice.setText("Rs 500.00");
 //        holder.mTxtProdPrice.setText(data.getPriceWithSym(mContext));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

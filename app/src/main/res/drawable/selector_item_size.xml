@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/squre_corner_edge_gray" android:state_pressed="false" android:state_selected="true" />
+    <item android:drawable="@drawable/squre_corner_edge_gray_transparent" android:state_selected="false" />
+</selector>

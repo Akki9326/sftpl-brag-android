@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/label_quality"
+        android:textColor="@color/pink"
+        android:textSize="@dimen/text_size_medium" />
+
+    <NumberPicker
+        android:id="@+id/numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/button_back_alert_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_alert_tv"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/margin_child_layout"
+            android:background="@android:color/transparent"
+            android:tag="@string/font_sans_rounded_id"
+            android:text="@string/btn_back"
+            android:textColor="@color/pink" />
+
+        <Button
+            android:id="@+id/button_ok_alert_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_alert_tv"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/margin_child_layout"
+            android:background="@android:color/transparent"
+            android:tag="@string/font_sans_rounded_id"
+            android:text="@string/btn_ok"
+            android:textColor="@color/pink" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -3,6 +3,9 @@
     android:id="@+id/base_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:background="@color/white"
     android:padding="5dp">
 

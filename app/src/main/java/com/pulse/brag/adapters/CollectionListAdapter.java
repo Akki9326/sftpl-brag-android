@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -56,7 +57,7 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
     @Override
     public void onBindViewHolder(CollectionListAdapter.ViewHolder holder, final int position) {
 
-        runEnterAnimation(holder.mView);
+//        runEnterAnimation(holder.mView);
 
         Utility.imageSet(mActivity, listRespones.get(position).getUrl(), holder.mImgBackground);
         holder.mText.setText(listRespones.get(position).getName());
@@ -85,18 +86,11 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 
             mView = itemView;
 
-            Utility.applyTypeFace(mActivity, (FrameLayout) itemView.findViewById(R.id.base_layout));
+            Utility.applyTypeFace(mActivity, (RelativeLayout) itemView.findViewById(R.id.base_layout));
             mImgBackground = (ImageView) itemView.findViewById(R.id.imageView_collection_background);
             mText = (TextView) itemView.findViewById(R.id.textview_collection_label);
         }
     }
 
-    private void runEnterAnimation(View view) {
-        view.setTranslationY(Utility.getScreenHeight(mActivity));
-        view.animate()
-                .translationY(0)
-                .setInterpolator(new DecelerateInterpolator(10.f))
-                .setDuration(1000)
-                .start();
-    }
+
 }

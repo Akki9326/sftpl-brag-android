@@ -20,7 +20,7 @@ import com.pulse.brag.helper.PreferencesManager;
 public class BragApp extends Application {
 
     static BragApp mInstance;
-    public static int CartNumber = 10;
+    public static int CartNumber = 0;
 
     @Override
     public void onCreate() {

@@ -22,10 +22,12 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -48,6 +50,7 @@ import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.DummeyRespone;
 import com.pulse.brag.pojo.respones.CollectionListRespone;
+import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,6 +145,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     @Override
     public void setListeners() {
 
+
         mRecyclerView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
         mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -180,6 +184,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
             }
         });
     }
+
 
     private void checkNetworkConnection(boolean isShowLoader) {
 
@@ -263,8 +268,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void onItemClick(int position) {
-
-//        ((BaseActivity) getActivity()).pushFragments(new ProductDetailFragment(), true, true);
+        ((BaseActivity) getActivity()).pushFragments(new ProductDetailFragment(), true, true);
     }
 
     @Override

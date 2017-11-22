@@ -95,6 +95,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
     public void initializeData() {
 
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+
         mViewPagerIndicator = (CustomViewPagerIndicator) mView.findViewById(R.id.pager_view);
         mTxtProductName = (TextView) mView.findViewById(R.id.textview_product_name);
         mTxtProDetails = (TextView) mView.findViewById(R.id.textView_description);

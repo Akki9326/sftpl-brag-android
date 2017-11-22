@@ -16,6 +16,7 @@ public class BaseFragment extends Fragment {
     private CustomProgressDialog mProgressDialog;
     //    public Activity mActivity;
     String TAG = getClass().getSimpleName();
+    Activity mActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

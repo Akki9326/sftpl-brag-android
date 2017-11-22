@@ -50,6 +50,7 @@
                     android:layout_gravity="center_vertical"
                     android:padding="10dp"
                     android:src="@drawable/ic_arrow_back"
+                    android:tint="@color/text_black"
                     android:visibility="gone" />
             </RelativeLayout>
 
@@ -99,13 +100,12 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/notification_counter_bg"
                 android:gravity="center"
-                android:tag="@string/font_sans_rounded_id"
-                android:singleLine="true"
                 android:maxLines="1"
-                android:text="10"
+                android:singleLine="true"
+                android:tag="@string/font_sans_rounded_id"
                 android:textColor="@color/white"
                 android:textSize="6dp"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
 
 

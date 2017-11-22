@@ -9,6 +9,8 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

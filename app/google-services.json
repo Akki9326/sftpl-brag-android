@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "808294784311",
+    "firebase_url": "https://brag-c44e9.firebaseio.com",
+    "project_id": "brag-c44e9",
+    "storage_bucket": "brag-c44e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808294784311:android:068843e09372dd91",
+        "android_client_info": {
+          "package_name": "com.pulse.brag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808294784311-ha4b0u32ojq7ic310hgqu56sau82f7l1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-CtA9Wyd__DrLWjGKsWWPoZAqwbou90s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

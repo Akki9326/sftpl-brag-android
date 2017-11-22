@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,10 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.pulse.brag.FCMInstanceIDService;
 import com.pulse.brag.R;
 import com.pulse.brag.fragments.LogInFragment;
 import com.pulse.brag.fragments.SignUpComplateFragment;
+import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
 
@@ -42,9 +45,6 @@ public class SplashActivty extends AppCompatActivity {
         setDeviceNameAndOS();
 
 
-        Intent intent = new Intent(this, FCMInstanceIDService.class);
-        startService(intent);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -60,6 +60,8 @@ public class SplashActivty extends AppCompatActivity {
             }
         }, 2000);
     }
+
+
 
     private void animatedViewAndLogin() {
         Animation slide = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -94,6 +96,8 @@ public class SplashActivty extends AppCompatActivity {
         if (PreferencesManager.getInstance().getDeviceType().isEmpty()) {
             PreferencesManager.getInstance().setDeviceTypeAndOsVer(Utility.getDeviceName(), android.os.Build.VERSION.RELEASE);
         }
+        Log.i(getClass().getSimpleName(), "setDeviceNameAndOS: device token " + FirebaseInstanceId.getInstance().getToken());
+        PreferencesManager.getInstance().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override

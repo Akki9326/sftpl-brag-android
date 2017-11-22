@@ -35,7 +35,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState, R.layout.activity_main);
 
 
-        setBagCount(60);
         pushFragments(new HomeFragment(), false, false);
 
 
@@ -63,7 +62,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 hideProgressDialog();
-                setBagCount(BragApp.CartNumber++);
+                BragApp.CartNumber++;
+                setBagCount(BragApp.CartNumber);
             }
         }, 1000);
 

@@ -8,9 +8,11 @@ package com.pulse.brag.activities;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -320,5 +322,15 @@ public class BaseActivity extends AppCompatActivity {
         for (int i = 0; i < count; ++i) {
             fm.popBackStack();
         }
+    }
+
+
+    public void setToolbarTransparent(boolean b) {
+        if (b)
+            mToolbar.setVisibility(View.VISIBLE);
+//            mToolbar.setBackgroundColor(android.R.color.transparent);
+        else
+            mToolbar.setVisibility(View.GONE);
+//        mToolbar.setBackgroundColor(R.color.white);
     }
 }

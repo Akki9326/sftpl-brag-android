@@ -46,6 +46,8 @@ import android.widget.TextView;
 
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
+import com.pulse.brag.activities.BaseActivity;
+import com.pulse.brag.activities.ChangePasswordActivity;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
@@ -334,29 +336,7 @@ public class Utility {
 
         }
 
-        try {
-            dissmissDialog();
-            alertDialog = new Dialog(mContext);
-
-            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            alertDialog.setContentView(R.layout.dialog_one_button);
-            applyTypeFace(mContext, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
-            alertDialog.setCancelable(false);
-
-            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
-            txt.setText(message);
-
-            Button dialogButton = (Button) alertDialog.findViewById(R.id.button_ok_alert_btn);
-            dialogButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                }
-            });
-            alertDialog.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        showAlertMessage(mContext, message);
     }
 
 
@@ -387,6 +367,43 @@ public class Utility {
             e.printStackTrace();
         }
     }
+
+    public static void showAlertMessage(final Context mContext, String s, final boolean isOktoBack) {
+
+
+        try {
+            dissmissDialog();
+            alertDialog = new Dialog(mContext);
+
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.setContentView(R.layout.dialog_one_button);
+            applyTypeFace(mContext, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            alertDialog.setCancelable(false);
+
+            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
+            txt.setText(s);
+
+            Button dialogButton = (Button) alertDialog.findViewById(R.id.button_ok_alert_btn);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                    if (isOktoBack) {
+
+                        if(mContext instanceof ChangePasswordActivity){
+                            ((ChangePasswordActivity) mContext).onBackPressed();
+                        }else {
+                            ((BaseActivity) mContext).onBackPressed();
+                        }
+                    }
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void showAlertMessage(final Context mContext, Throwable throwable) {
 

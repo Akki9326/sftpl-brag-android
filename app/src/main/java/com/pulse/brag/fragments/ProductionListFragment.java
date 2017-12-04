@@ -15,6 +15,7 @@ package com.pulse.brag.fragments;
 *  mRecyclerView.loadMoreComplete(true)- hide footer loader,complate load more
 * */
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +28,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -73,6 +77,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     RecyclerView mRecyclerViewColor, mRecyclerViewSize;
     TextView mTxtQty;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    LinearLayout mLinearSearch;
 
     boolean isExecuteAsync = false;
     private static final int LOAD_LIST = 1;
@@ -137,6 +142,8 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
         collectionListRespones = new ArrayList<>();
         mDummeyDataRespones = new ArrayList<>();
+
+        mLinearSearch = (LinearLayout) mView.findViewById(R.id.linear_search);
 
         Utility.hideSoftkeyboard(getActivity());
 
@@ -236,6 +243,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
                             mSwipeRefreshLayout.setRefreshing(false);
                             break;
                         case LOAD_MORE:
+
                             mDummeyDataRespones.addAll(respone.getData());
                             mProductListAdapter.notifyDataSetChanged();
                             mRecyclerView.loadMoreComplete(false);
@@ -269,6 +277,42 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     @Override
     public void onItemClick(int position) {
         ((BaseActivity) getActivity()).pushFragments(new ProductDetailFragment(), true, true);
+
+        /*final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mLinearSearch.getLayoutParams();
+        if (params.topMargin == 10) {
+            Animation a = new Animation() {
+
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+
+
+                    params.leftMargin = (int) (0 * interpolatedTime);
+                    params.rightMargin = (int) (0 * interpolatedTime);
+                    params.topMargin = (int) (0 * interpolatedTime);
+                    mLinearSearch.setLayoutParams(params);
+                }
+            };
+            a.setDuration(2000); // in ms
+            mLinearSearch.startAnimation(a);
+        } else {
+            Animation a = new Animation() {
+
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+
+
+                    params.leftMargin = (int) (10 * interpolatedTime);
+                    params.rightMargin = (int) (10 * interpolatedTime);
+                    params.topMargin = (int) (10 * interpolatedTime);
+                    mLinearSearch.setLayoutParams(params);
+                }
+            };
+            a.setDuration(500); // in ms
+            mLinearSearch.startAnimation(a);
+
+        }
+*/
+
     }
 
     @Override

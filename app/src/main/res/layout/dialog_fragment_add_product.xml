@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal|bottom"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/linear_dummey"
@@ -28,7 +28,7 @@
             android:layout_margin="10dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:textSize="@dimen/text_size_medium" />
 
         <View
@@ -69,6 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@string/label_qty_s"
                 android:textSize="@dimen/text_size_medium" />
 
@@ -79,13 +80,15 @@
                 android:background="@drawable/rounder_corner_edge_gray"
                 android:gravity="center"
                 android:inputType="number"
+                android:maxLength="3"
                 android:maxLines="1"
                 android:maxWidth="120dp"
                 android:paddingBottom="2dp"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:paddingTop="2dp"
                 android:singleLine="true"
+                android:tag="@string/font_opensans_regular_id"
                 android:textSize="@dimen/text_size_medium" />
 
             <TextView
@@ -93,6 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="(max. 50)"
                 android:textSize="@dimen/text_size_very_small_12" />
 
@@ -110,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_bold_id"
             android:text="@string/label_add_to_cart_small"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />

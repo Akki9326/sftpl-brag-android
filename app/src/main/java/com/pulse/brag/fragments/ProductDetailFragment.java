@@ -150,11 +150,11 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
     public void showData() {
 
         imagePagerResponeList = new ArrayList<>();
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/products/2_front_7b6ad7b4-2320-420b-badd-07087487111f_1024x1024.jpg?v=1491997975%22", "CLASSIC BIKINI"));
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/products/3_front_c39c2cb7-5048-4e46-b37f-3855d570c6c1_large.jpg?v=1491990016", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("http://kingfisher.scene7.com/is/image/Kingfisher/5011583143836_04i?crop=15,15,1981,1398&anchor=1005,714&anchor=1007,1007&wid=600", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("https://wallpaperscraft.com/image/usa_new_york_top_view_skyscrapers_112139_602x339.jpg", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn01.androidauthority.net/wp-content/uploads/2015/11/00-best-backgrounds-and-wallpaper-apps-for-android.jpg", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", "CLASSIC BIKINI"));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
         mViewPager.setAdapter(new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this));
         mViewPagerIndicator.setViewPager(mViewPager);

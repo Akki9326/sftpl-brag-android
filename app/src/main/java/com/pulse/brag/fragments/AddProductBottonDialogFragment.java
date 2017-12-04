@@ -30,6 +30,7 @@ import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
 import com.pulse.brag.adapters.SizeListAdapter;
 import com.pulse.brag.helper.Constants;
+import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
@@ -105,6 +106,9 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mTxtQty = (TextView) mView.findViewById(R.id.textView_qty);
         mLinerDummey = (LinearLayout) mView.findViewById(R.id.linear_dummey);
         mTxtAddCart = (TextView) mView.findViewById(R.id.textview_add_cart);
+
+        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
+
         data = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
 
     }

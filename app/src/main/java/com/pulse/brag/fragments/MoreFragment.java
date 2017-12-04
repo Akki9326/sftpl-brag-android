@@ -103,6 +103,8 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         mTxtName = (TextView) mView.findViewById(R.id.textview_name);
 
         mUserData = PreferencesManager.getInstance().getUserData();
+
+        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
     }
 
     @Override
@@ -138,8 +140,8 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                         Toast.makeText(getActivity(), "Terms", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
-                        Intent intent=new Intent(getActivity(), ChangePasswordActivity.class);
-                        intent.putExtra(Constants.BUNDLE_MOBILE,mUserData.getMobileNumber());
+                        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+                        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
 //                        ((BaseActivity) getActivity()).pushFragments(
@@ -179,7 +181,6 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
     private void showAlertMessageLogOut(final Context mContext, String s) {
 
 
-
         try {
             alertDialog = new Dialog(mContext);
 
@@ -203,6 +204,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 @Override
                 public void onSingleClick(View v) {
                     if (Utility.isConnection(getActivity())) {
+                        alertDialog.dismiss();
                         LogOutAPI();
                     } else {
                         Utility.showAlertMessage(getActivity(), 0);

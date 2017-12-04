@@ -20,7 +20,10 @@ public class Constants {
     public static final String BASE_URL = "http://139.162.1.39:8082/";
 
     //font type
-    public static final int FONT_SANS_ROUNDED = 1;
+//    public static final int FONT_SANS_ROUNDED = 1;
+    public static final int FONT_OPENSANS_REGULAR = 1;
+    public static final int FONT_OPENSANS_LIGHT = 2;
+    public static final int FONT_OPENSANS_BOLD = 3;
 
     public static final int EXIT_LEFT = 1;
     public static final int EXIT_BOTTOM = 2;

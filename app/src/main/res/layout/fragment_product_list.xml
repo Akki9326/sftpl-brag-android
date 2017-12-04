@@ -7,10 +7,11 @@
 
 
     <LinearLayout
+        android:id="@+id/linear_search"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/white"
         android:layout_marginTop="2dp"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible">
@@ -37,9 +38,8 @@
             android:layout_height="32dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@color/pink"
             android:padding="5dp"
-            android:src="@drawable/ic_add" />
+            android:src="@drawable/ic_filter" />
     </LinearLayout>
 
     <LinearLayout

@@ -139,10 +139,8 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
 
         List<ImagePagerRespone> imagePagerResponeList = new ArrayList<>();
         imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("https://marketplace.canva.com/MAB-l9EMG4I/1/0/thumbnail_large/canva-light-blue-beach-horizon-cool-desktop-wallpaper-MAB-l9EMG4I.jpg", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("http://kingfisher.scene7.com/is/image/Kingfisher/5011583143836_04i?crop=15,15,1981,1398&anchor=1005,714&anchor=1007,1007&wid=600", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("https://wallpaperscraft.com/image/usa_new_york_top_view_skyscrapers_112139_602x339.jpg", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn01.androidauthority.net/wp-content/uploads/2015/11/00-best-backgrounds-and-wallpaper-apps-for-android.jpg", ""));
+//        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
         mViewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
         mPagerIndicator.setViewPager(mViewPager);

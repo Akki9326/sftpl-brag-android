@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:text="One"
             android:textSize="@dimen/text_size_very_small" />
     </LinearLayout>
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:text="Two"
             android:textSize="@dimen/text_size_very_small" />
     </LinearLayout>
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:text="Three"
             android:textSize="@dimen/text_size_very_small" />
     </LinearLayout>
@@ -83,7 +83,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:text="Four"
             android:textSize="@dimen/text_size_very_small" />
     </LinearLayout>

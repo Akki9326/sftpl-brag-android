@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -156,6 +157,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         mEdtNewPass = (EditText) findViewById(R.id.edittext_password);
         mEdtConfirmPass = (EditText) findViewById(R.id.edittext_confirm_password);
         mTxtDone = (TextView) findViewById(R.id.textview_done);
+
+        Utility.applyTypeFace(getApplicationContext(), (LinearLayout) findViewById(R.id.base_layout));
 
         mProgressDialog = new CustomProgressDialog(this);
 

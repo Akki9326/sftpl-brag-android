@@ -24,6 +24,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,10 +90,6 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         });
         holder.mBaseView.setSelected(mBooleanList.get(position));
         holder.mImgColor.setImageBitmap(Utility.getRoundBitmap(mList.get(position)));
-//        holder.mImgColor.getDrawable().setColorFilter(Color.parseColor("#B7B2B0"), PorterDuff.Mode.DST_ATOP);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            holder.mView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(mList.get(position))));
-//        }
 
     }
 
@@ -115,6 +112,7 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         View mBaseView;
         ImageView mImgColor;
         LinearLayout mBaseLayout;
+
 
 
         public MyViewHolder(View itemView) {

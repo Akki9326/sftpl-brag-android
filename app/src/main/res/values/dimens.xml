@@ -3,11 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="main_layout_padding">10dp</dimen>
-    <dimen name="text_size_very_small">14dp</dimen>
-    <dimen name="text_size_small">16dp</dimen>
-    <dimen name="text_size_large">22dp</dimen>
-    <dimen name="text_size_extra_large">24dp</dimen>
-    <dimen name="text_size_medium">18dp</dimen>
+    <dimen name="text_size_very_small">14sp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_extra_large">24sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
     <dimen name="margin_child_layout">5dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>

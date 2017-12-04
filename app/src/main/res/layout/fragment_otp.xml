@@ -76,7 +76,7 @@
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:paddingTop="10dp"
-        android:tag="@string/font_sans_rounded_id"
+        android:tag="@string/font_opensans_regular_id"
         android:text="@string/button_verify"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small"

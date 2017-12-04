@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
+    android:id="@+id/base_layout"
     android:orientation="vertical">
 
     <LinearLayout
@@ -29,6 +30,7 @@
             <TextView
                 android:id="@+id/textview_name"
                 android:layout_width="match_parent"
+                android:tag="@string/font_opensans_bold_id"
                 android:layout_height="wrap_content"
                 android:text="Full Name"
                 android:textColor="@color/colorAccent"
@@ -39,6 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
+                android:ellipsize="end"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@string/text_s"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/text_size_small" />
@@ -71,6 +75,7 @@
             android:id="@+id/textview_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="@string/font_opensans_regular_id"
             android:textSize="@dimen/text_size_very_small_12" />
     </LinearLayout>
 

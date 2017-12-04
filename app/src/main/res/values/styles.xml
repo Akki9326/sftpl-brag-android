@@ -39,7 +39,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>
-        <item name="android:tag">@string/font_sans_rounded_id</item>
+        <item name="android:tag">@string/font_opensans_regular_id</item>
         <item name="android:textColor">@color/text_black</item>
         <item name="android:textCursorDrawable">@drawable/cursor</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
@@ -48,7 +48,7 @@
     <style name="NormalEditTextPassword">
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>
-        <item name="android:tag">@string/font_sans_rounded_id</item>
+        <item name="android:tag">@string/font_opensans_regular_id</item>
         <item name="android:textColor">@color/text_black</item>
         <item name="android:textCursorDrawable">@drawable/cursor</item>
         <item name="android:textSize">@dimen/text_size_medium</item>

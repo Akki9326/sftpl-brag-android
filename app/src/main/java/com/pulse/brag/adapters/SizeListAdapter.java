@@ -95,7 +95,9 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
         public MyViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
+
             mBaseLayout = (LinearLayout) itemView.findViewById(R.id.base_layout);
+            Utility.applyTypeFace(mActivity, mBaseLayout);
             mTxtSize = (TextView) itemView.findViewById(R.id.textView_size);
         }
     }

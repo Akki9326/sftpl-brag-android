@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:tag="@string/font_sans_rounded_id"
+        android:tag="@string/font_opensans_regular_id"
         android:background="@color/semi_transparent"
         android:gravity="center"
         android:padding="5dp"

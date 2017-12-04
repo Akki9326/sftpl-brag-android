@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="3dp"
-        android:tag="@string/font_sans_rounded_id"
+        android:tag="@string/font_opensans_regular_id"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_very_small" />
 

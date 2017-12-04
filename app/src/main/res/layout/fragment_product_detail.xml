@@ -57,7 +57,7 @@
                         android:id="@+id/textview_product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tag="@string/font_sans_rounded_id"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@string/text_s"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_medium" />
@@ -72,7 +72,7 @@
                             android:id="@+id/textView_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:tag="@string/font_sans_rounded_id"
+                            android:tag="@string/font_opensans_regular_id"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_small" />
 
@@ -80,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:tag="@string/font_sans_rounded_id"
+                            android:tag="@string/font_opensans_regular_id"
                             android:text="Size Guide"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_small" />
@@ -98,7 +98,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tag="@string/font_sans_rounded_id"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@string/label_color"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_small" />
@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:tag="@string/font_sans_rounded_id"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@string/label_size"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_small" />
@@ -141,7 +141,7 @@
                         android:id="@+id/textView_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:tag="@string/font_sans_rounded_id"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@string/text_s"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_very_small" />
@@ -151,7 +151,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:tag="@string/font_sans_rounded_id"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@string/text_s"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_very_small" />
@@ -164,7 +164,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/pink"
+        android:background="@color/gray"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -177,7 +177,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="@string/font_sans_rounded_id"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@string/label_qty"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium" />
@@ -201,16 +201,17 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
-                android:tag="@string/font_sans_rounded_id"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="1"
                 android:textSize="@dimen/text_size_medium" />
 
             <ImageView
                 android:id="@+id/imageView_minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_golf_course" />
+                android:padding="5dp"
+                android:src="@drawable/ic_minus" />
         </LinearLayout>
 
         <View
@@ -223,7 +224,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:text="@string/label_add_to_cart"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium" />

@@ -52,6 +52,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.security.SecureRandom;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeoutException;
@@ -147,23 +148,23 @@ public class Utility {
     public static String getFontType(Context context, View view) {
         try {
             switch (Integer.parseInt(view.getTag().toString())) {
-                case Constants.FONT_SANS_ROUNDED:
-                    return context.getResources().getString(R.string.font_sans_rounded);
-//                case Constants.FONT_SEMIBOLD_ID:
-//                    return context.getResources().getString(R.string.font_semibold);
-//                case Constants.FONT_LIGHT_ID:
-//                    return context.getResources().getString(R.string.font_light);
+                case Constants.FONT_OPENSANS_REGULAR:
+                    return context.getResources().getString(R.string.font_opensans_regular);
+                case Constants.FONT_OPENSANS_LIGHT:
+                    return context.getResources().getString(R.string.font_opensans_light);
+                case Constants.FONT_OPENSANS_BOLD:
+                    return context.getResources().getString(R.string.font_opensans_bold);
 //                case Constants.FONT_BOOK_ID:
 //                    return context.getResources().getString(R.string.font_book);
 //                case Constants.FONT_BOOK_ITALIC_ID:
 //                    return context.getResources().getString(R.string.font_book_italic);
                 default:
-                    return context.getResources().getString(R.string.font_sans_rounded);
+                    return context.getResources().getString(R.string.font_opensans_regular);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return context.getResources().getString(R.string.font_sans_rounded);
+        return context.getResources().getString(R.string.font_opensans_regular);
     }
 
     public static void expandTextView(TextView tv) {
@@ -390,9 +391,9 @@ public class Utility {
                     alertDialog.dismiss();
                     if (isOktoBack) {
 
-                        if(mContext instanceof ChangePasswordActivity){
+                        if (mContext instanceof ChangePasswordActivity) {
                             ((ChangePasswordActivity) mContext).onBackPressed();
-                        }else {
+                        } else {
                             ((BaseActivity) mContext).onBackPressed();
                         }
                     }
@@ -408,7 +409,7 @@ public class Utility {
     public static void showAlertMessage(final Context mContext, Throwable throwable) {
 
 
-        if (throwable instanceof TimeoutException) {
+        if (throwable instanceof TimeoutException || throwable instanceof SocketTimeoutException) {
             showAlertMessage(mContext, mContext.getResources().getString(R.string.error_retrofit_request_timeout));
         } else if (throwable instanceof NetworkOnMainThreadException) {
             showAlertMessage(mContext, mContext.getResources().getString(R.string.error_retrofit_network_error));

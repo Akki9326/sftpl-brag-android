@@ -31,7 +31,7 @@
             android:ellipsize="end"
             android:minHeight="50dp"
             android:maxLines="2"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:textSize="@dimen/text_size_medium" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:tag="@string/font_sans_rounded_id"
+            android:tag="@string/font_opensans_regular_id"
             android:text="@string/app_name"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_very_small_12" />
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:paddingRight="2dp"
-                android:tag="@string/font_sans_rounded_id"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="ADD"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_very_small_12" />

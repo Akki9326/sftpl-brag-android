@@ -4,8 +4,19 @@
 
 
     <!--font style and id-->
-    <string name="font_sans_rounded_id">1</string>
-    <string name="font_sans_rounded">museo_sans_rounded.ttf</string>
+    <!--<string name="font_sans_rounded_id">1</string>-->
+    <!--<string name="font_sans_rounded">museo_sans_rounded.ttf</string>-->
+
+
+    <string name="font_opensans_regular_id">1</string>
+    <string name="font_opensans_regular">opensans_regular.ttf</string>
+
+    <string name="font_opensans_light_id">2</string>
+    <string name="font_opensans_light">opensans_light.ttf</string>
+
+    <string name="font_opensans_bold_id">3</string>
+    <string name="font_opensans_bold">opensans_bold.ttf</string>
+
 
     <string name="text_s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique odio vel enim imperdiet, sit amet sagittis nisl lobortis. Proin sit amet condimentum libero, vel placerat orci. </string>
     <string name="test_l">Lorem ipsum dolor sit amet, ut duis lorem provident sed felis blandit, condimentum donec lectus ipsum et mauris, morbi porttitor interdum feugiat nulla donec sodales, vestibulum nisl primis a molestie vestibulum quam, sapien mauris metus risus suspendisse magnis. Augue viverra nulla faucibus egestas eu, a etiam id congue rutrum ante, arcu tincidunt donec quam felis at ornare, iaculis ligula sodales venenatis commodo volutpat neque, suspendisse elit praesent tellus felis mi amet. Inceptos amet tempor lectus lorem est non, ac donec ac libero neque mauris, tellus ante metus eget leo consequat. Scelerisque dolor curabitur pretium blandit ut feugiat, amet lacus pulvinar justo convallis ut, sed natoque ipsum urna posuere nibh eu. Sed at sed vulputate sit orci, facilisis a aliquam tellus quam aliquam, eu aliquam donec at molestie ante, pellentesque mauris lorem ultrices libero faucibus porta, imperdiet adipiscing sit hac diam ut nulla. Lacus enim elit pulvinar donec vehicula dapibus, accumsan purus officia cursus dolor sapien, eu amet dis mauris mi nulla ut. Non accusamus etiam pede non urna tempus, vestibulum aliquam tortor eget pharetra sodales, in vestibulum ut justo orci nulla, lobortis purus sem semper consectetuer magni purus. Dolor a leo vestibulum amet ut sit, arcu ut eaque urna fusce aliquet turpis, sed fermentum sed vestibulum nisl pede, tristique enim lorem posuere in laborum ut. Vestibulum id id justo leo nulla, magna lobortis ullamcorper et dignissim pellentesque, duis suspendisse quis id lorem ante. Vivamus a nullam ante adipiscing amet, mi vel consectetuer nunc aenean pede quisque, eget rhoncus dis porttitor habitant nunc vivamus, duis cubilia blandit non donec justo dictumst, praesent vitae nulla nam pulvinar urna. Adipiscing adipiscing justo urna pulvinar imperdiet nullam, vitae fusce rhoncus proin nonummy suscipit, ullamcorper amet et non potenti platea ultrices, mauris nullam sapien nunc justo vel, eu semper pellentesque arcu fusce augue. Malesuada mauris nibh sit a a scelerisque, velit sem lectus tellus convallis consectetuer, ultricies auctor a ante eros amet sed.\n\n
@@ -141,4 +152,6 @@
     <string name="label_qty_s">Qty :</string>
     <string name="label_add_to_cart_small">Add to Cart</string>
     <string name="msg_password_change_successfull">Your password successfully change.</string>
+    <string name="btn_place_order">PLACE ORDER</string>
+    <string name="btn_view_detail">VIEW DETAILS</string>
 </resources>

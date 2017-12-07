@@ -39,6 +39,8 @@ public class Constants {
     public static final String BUNDLE_IS_FROM_SIGNUP = "bundleisFromsignup";
     public static final String BUNDLE_IS_FROM_CHANGE_PASS = "bundleisfromchangepass";
     public static final String BUNDLE_OTP ="bundleotp" ;
+    public static final String BUNDLE_PRODUCT_NAME ="bundleproductname" ;
+    public static final String BUNDLE_PRODUCT_IMG ="bundleproductImg" ;
     public static final String BUNDLE_DEVICE_TOKEN ="devicetoken" ;
     public static final String BUNDLE_NOTIFICATION_MODEL = "notificationModel";
     public static final String BUNDLE_KEY_NOTIFICATION_ID ="notificationId" ;

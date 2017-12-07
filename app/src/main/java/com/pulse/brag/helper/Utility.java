@@ -41,6 +41,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
@@ -54,6 +56,8 @@ import java.lang.reflect.Field;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.security.SecureRandom;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeoutException;
 
@@ -510,7 +514,7 @@ public class Utility {
         return temp.toString();
     }
 
-    public static Bitmap getRoundBitmap(String color) {
+    public static Bitmap getRoundBitmap(String color, boolean isBorder) {
         Bitmap bitmap = Bitmap.createBitmap(
                 160, // Width
                 160, // Height
@@ -521,25 +525,35 @@ public class Utility {
         Canvas canvas = new Canvas(bitmap);
 
         // Draw a solid color to the canvas background
-//        canvas.drawColor(Color.TRANSPARENT);
+//        canvas.drawColor(Color.BLUE);
         // Initialize a new Paint instance to draw the Circle
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.parseColor(color));
         paint.setAntiAlias(true);
-
         // Calculate the available radius of canvas
         int radius = Math.min(canvas.getWidth(), canvas.getHeight() / 2);
-
         // Set a pixels value to padding around the circle
         int padding = 5;
 
         canvas.drawCircle(
-                canvas.getWidth() / 2, // cx
-                canvas.getHeight() / 2, // cy
+                canvas.getWidth() / 2,
+                canvas.getHeight() / 2,
                 radius - padding, // Radius
                 paint // Paint
         );
+
+
+        if (isBorder) {
+            paint.setColor(Color.BLACK);
+            paint.setStyle(Paint.Style.STROKE);
+            float saveStrokeWidth = paint.getStrokeWidth();
+            paint.setAntiAlias(true);
+            paint.setStrokeWidth(5);
+            canvas.drawCircle(canvas.getWidth() / 2, canvas.getHeight() / 2, radius - (5 / 2), paint);
+            paint.setStrokeWidth(saveStrokeWidth);
+        }
+
         return bitmap;
     }
 
@@ -558,4 +572,29 @@ public class Utility {
         return height;
     }
 
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    public static String getIndianCurrencePriceFormate(int price) {
+
+        return NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(new Integer(price));
+    }
 }

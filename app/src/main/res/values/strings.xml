@@ -84,7 +84,8 @@
     <string name="label_lastname">Last name</string>
     <string name="label_email">Email</string>
     <string name="label_mobileno">Mobile number</string>
-    <string name="label_color">Colors:</string>
+    <string name="label_colors">Colors:</string>
+    <string name="label_color">Color:</string>
     <string name="label_size">Size:</string>
     <string name="label_add_to_cart">ADD TO CART</string>
     <string name="label_qty">QTY :</string>
@@ -154,4 +155,7 @@
     <string name="msg_password_change_successfull">Your password successfully change.</string>
     <string name="btn_place_order">PLACE ORDER</string>
     <string name="btn_view_detail">VIEW DETAILS</string>
+    <string name="error_qty_not_empty">Please enter atleast one qty.</string>
+    <string name="error_enter_qty">Please enter product qty.</string>
+    <string name="error_valid_qty">Please enter valid qty.</string>
 </resources>

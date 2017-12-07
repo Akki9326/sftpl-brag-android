@@ -58,7 +58,7 @@ public class MoreListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = inflter.inflate(R.layout.item_more_list, null);
+        convertView = inflter.inflate(R.layout.item_list_more, null);
         TextView textLabel = (TextView) convertView.findViewById(R.id.textview_label);
         ImageView imageIcon = (ImageView) convertView.findViewById(R.id.imageview_icon);
 

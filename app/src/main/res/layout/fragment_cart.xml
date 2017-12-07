@@ -5,12 +5,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
+
+                <View
+                    android:id="@+id/dummy_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +44,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@drawable/toolbar_dropshadow"/>
+            android:background="@drawable/dropshadow" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,10 +91,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounder_corner_solid_pink"
                 android:gravity="center"
-                android:paddingBottom="16dp"
+                android:paddingBottom="12dp"
                 android:paddingLeft="26dp"
                 android:paddingRight="26dp"
-                android:paddingTop="16dp"
+                android:paddingTop="12dp"
                 android:singleLine="true"
                 android:tag="@string/font_opensans_regular_id"
                 android:text="@string/btn_place_order"

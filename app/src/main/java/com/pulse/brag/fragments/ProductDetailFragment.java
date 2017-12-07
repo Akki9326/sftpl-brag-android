@@ -161,7 +161,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
 
 
         mTxtProductName.setText("Classic Pullover T-shirt Bralette - White");
-        mTxtProPrice.setText("Rs. 1200");
+        mTxtProPrice.setText(Utility.getIndianCurrencePriceFormate(1200));
 
         String mShortDetail = " Lucille Curtis |Juana Hanson |Lila Flores |Kevin Rodriguez |Ebony Norman |Celia Rodriquez |Jake Morales |Jane Farmer |Willie tRivera |Freeman";
 

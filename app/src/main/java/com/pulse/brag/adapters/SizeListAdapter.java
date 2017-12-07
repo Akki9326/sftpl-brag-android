@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -53,7 +52,7 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_size_list, null);
+        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_list_size, null);
         MyViewHolder viewHolder1 = new MyViewHolder(view1);
         return viewHolder1;
     }

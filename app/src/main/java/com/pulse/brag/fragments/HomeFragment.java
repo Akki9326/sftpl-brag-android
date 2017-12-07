@@ -10,23 +10,34 @@ package com.pulse.brag.fragments;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.style.MetricAffectingSpan;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
+import com.pulse.brag.views.CustomTypefaceSpan;
 
 /**
  * Created by nikhil.vadoliya on 03-10-2017.
@@ -92,6 +103,22 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
         mNavigationView = (BottomNavigationView) mView.findViewById(R.id.bottom_sheet);
         Utility.removeShiftModeInBottomNavigation(mNavigationView);
 
+//        BottomNavigationMenuView menuView = (BottomNavigationMenuView) mNavigationView.getChildAt(0);
+//        for (int i = 0; i < menuView.getChildCount(); i++) {
+//            final View iconView = menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
+//            final ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
+//            final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+//            layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, displayMetrics);
+//            layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, displayMetrics);
+//            iconView.setLayoutParams(layoutParams);
+//        }
+
+        //font apply to BottonNavigationBar
+        Menu menu = mNavigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem mi = menu.getItem(i);
+            applyFontToMenuItem(mi);
+        }
         mFrameLayoutCategory = (FrameLayout) mView.findViewById(R.id.fragment_container_category);
         mFrameLayoutCollection = (FrameLayout) mView.findViewById(R.id.fragment_container_collection);
         mFrameLayoutOrder = (FrameLayout) mView.findViewById(R.id.fragment_container_order);
@@ -99,7 +126,6 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
 
         setFragmentInTab();
         isAddedCategory = true;
-
 
 
     }
@@ -191,4 +217,12 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
         ((BaseActivity) getActivity()).showToolbar(false, true, true);
 
     }
+
+    private void applyFontToMenuItem(MenuItem mi) {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/opensans_regular.ttf");
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
+    }
+
 }

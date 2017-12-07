@@ -22,7 +22,6 @@ import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnAddButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
-import com.pulse.brag.pojo.respones.CollectionListRespone;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_product_grid, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
         MyViewHolder viewHolder1 = new MyViewHolder(view);
         return viewHolder1;
     }

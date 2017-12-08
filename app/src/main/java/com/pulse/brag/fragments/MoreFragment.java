@@ -219,7 +219,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
 
     private void LogOutAPI() {
         showProgressDialog();
-        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/");
+        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
         Call<GeneralRespone> responeCall = ApiClient.getInstance(getActivity()).getApiResp().logout();
         responeCall.enqueue(new Callback<GeneralRespone>() {
             @Override

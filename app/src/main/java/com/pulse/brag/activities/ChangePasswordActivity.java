@@ -123,7 +123,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         changePasswordRequest.setMobileNumber(mobile);
         changePasswordRequest.setOldPassword(mEdtOldPass.getText().toString());
         changePasswordRequest.setPassword(mEdtNewPass.getText().toString());
-        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/");
+        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1");
         Call<ChangePasswordRespone> mChangePasswordResponeCall = ApiClient.getInstance(ChangePasswordActivity.this).getApiResp().changePassword(changePasswordRequest);
         mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordRespone>() {
             @Override

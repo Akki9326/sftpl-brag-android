@@ -42,7 +42,7 @@
     </declare-styleable>
 
     <declare-styleable name="RoundView">
-        <attr name="radius" format="integer" />
+        <attr name="round_color" format="color" />
     </declare-styleable>
 
 
@@ -69,4 +69,6 @@
             <enum name="line" value="1" />
         </attr>
     </declare-styleable>
+
+
 </resources>

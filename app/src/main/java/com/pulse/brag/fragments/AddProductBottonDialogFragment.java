@@ -16,18 +16,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
+import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.adapters.SizeListAdapter;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
@@ -35,16 +40,14 @@ import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
-import com.pulse.brag.pojo.DummeyRespone;
 import com.pulse.brag.pojo.requests.AddToCartRequest;
-import com.pulse.brag.pojo.respones.CollectionListRespone;
+import com.pulse.brag.pojo.respones.ImagePagerRespone;
+import com.pulse.brag.views.CustomViewPagerIndicator;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by nikhil.vadoliya on 06-11-2017.
@@ -58,6 +61,11 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
     LinearLayout mLinerDummey;
     RecyclerView mRecyclerViewColor, mRecyclerViewSize;
     TextView mTxtQty, mTxtTitle, mTxtAddCart;
+    TextView mTxtMax;
+    EditText mEditQty;
+    ViewPager mViewPager;
+    CustomViewPagerIndicator mViewPagerIndicator;
+    ScrollView mScrollView;
 
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
@@ -106,6 +114,11 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mTxtQty = (TextView) mView.findViewById(R.id.textView_qty);
         mLinerDummey = (LinearLayout) mView.findViewById(R.id.linear_dummey);
         mTxtAddCart = (TextView) mView.findViewById(R.id.textview_add_cart);
+        mEditQty = (EditText) mView.findViewById(R.id.edittext_qty);
+        mTxtMax = (TextView) mView.findViewById(R.id.textview_max);
+        mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+        mViewPagerIndicator = (CustomViewPagerIndicator) mView.findViewById(R.id.pager_view);
+        mScrollView = (ScrollView) mView.findViewById(R.id.scrollView);
 
         Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
 
@@ -129,11 +142,49 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
                 dismiss();
             }
         });
+        mEditQty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mScrollView.smoothScrollTo(0, mTxtAddCart.getBottom() + 205);
+            }
+        });
+
+
+        mEditQty.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s != null) {
+                    if (s.toString().trim().length() == 0 || new Integer(s.toString()).intValue() == 0) {
+                        mTxtMax.setTextColor(getResources().getColor(R.color.text_black));
+                        mTxtAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
+                        mTxtAddCart.setEnabled(false);
+                    } else if (new Integer(s.toString()).intValue() > 50) {
+                        mTxtMax.setTextColor(Color.RED);
+                        mTxtAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
+                        mTxtAddCart.setEnabled(false);
+                    } else {
+                        mTxtMax.setTextColor(getResources().getColor(R.color.text_black));
+                        mTxtAddCart.setTextColor(getResources().getColor(R.color.text_black));
+                        mTxtAddCart.setEnabled(true);
+                    }
+                }
+            }
+        });
     }
 
     public void showData() {
 
-        mTxtTitle.setText("Name");
+        mTxtTitle.setText("CLASSIC BIKINI (PACK OF 3) - MULTI COLOURED");
         List<String> mIntegerList = new ArrayList<>();
         mIntegerList.add("#F44336");
         mIntegerList.add("#E91E63");
@@ -159,6 +210,16 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mSizeListAdapter = new SizeListAdapter(getActivity(), mStringList, 0, this);
         mRecyclerViewSize.setAdapter(mSizeListAdapter);
         mRecyclerViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
+
+        List<ImagePagerRespone> imagePagerResponeList = new ArrayList<>();
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", "CLASSIC BIKINI"));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
+        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
+
+        mViewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
+        mViewPagerIndicator.setViewPager(mViewPager);
     }
 
 
@@ -179,6 +240,8 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         Drawable d = new ColorDrawable(Color.BLACK);
         d.setAlpha(130);
         dialog.getWindow().setBackgroundDrawable(d);
+        dialog.getWindow()
+                .getAttributes().windowAnimations = R.style.AddProdDialogAnimation;
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         return dialog;
     }

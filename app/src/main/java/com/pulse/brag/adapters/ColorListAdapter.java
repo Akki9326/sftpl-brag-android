@@ -1,5 +1,6 @@
 package com.pulse.brag.adapters;
 
+
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
@@ -20,12 +21,13 @@ import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.views.RoundView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nikhil.vadoliya on 18-10-2017.
+ * Created by nikhil.vadoliya on 08-12-2017.
  */
 
 
@@ -55,8 +57,8 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
     }
 
     @Override
-    public ColorListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_list_color, null);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_list_color_2, null);
         MyViewHolder viewHolder1 = new MyViewHolder(view1);
         return viewHolder1;
     }
@@ -66,15 +68,19 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
 
         mViewHolder = holder;
 
-        holder.mImgColor.setOnClickListener(new OnSingleClickListener() {
+        holder.mRoundColor.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 colorSelectListener.onSeleteColor(position);
             }
         });
-        holder.mBaseView.setSelected(mBooleanList.get(position));
-        holder.mImgColor.setImageBitmap(Utility.getRoundBitmap(mList.get(position),false));
-
+        if (mBooleanList.get(position)) {
+            holder.mRoundSelector.setVisibility(View.VISIBLE);
+        } else {
+            holder.mRoundSelector.setVisibility(View.INVISIBLE);
+        }
+        holder.mRoundSelector.setColor(mList.get(position));
+        holder.mRoundColor.setColor(mList.get(position));
     }
 
     @Override
@@ -94,16 +100,16 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         View mBaseView;
-        ImageView mImgColor;
-        LinearLayout mBaseLayout;
+        RoundView mRoundColor, mRoundSelector;
 
+        LinearLayout mBaseLayout;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mBaseView = itemView;
-            mBaseLayout = (LinearLayout) itemView.findViewById(R.id.base_layout);
-            mImgColor = (ImageView) itemView.findViewById(R.id.imageView_color);
+            mRoundColor = (RoundView) itemView.findViewById(R.id.roundview_product_color);
+            mRoundSelector = (RoundView) itemView.findViewById(R.id.roundview_selector);
 
         }
     }

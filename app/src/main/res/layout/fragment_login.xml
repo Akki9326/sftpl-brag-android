@@ -87,7 +87,7 @@
                         android:paddingBottom="5dp" />
 
                     <ImageView
-                        android:id="@+id/img_pass_visible"
+                        android:id="@+id/imageview_pass_visible"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="5dp"

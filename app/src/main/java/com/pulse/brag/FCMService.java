@@ -12,32 +12,22 @@ package com.pulse.brag;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.Gson;
 import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.activities.SplashActivty;
 import com.pulse.brag.enums.NotificationType;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
-import com.pulse.brag.pojo.NotificationResponeData;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.security.Provider;
+import com.pulse.brag.pojo.NotificationResponseData;
 
 import static android.content.ContentValues.TAG;
 
@@ -94,7 +84,7 @@ public class FCMService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void sendNotification(String message, String title, int ntype, String whatid, String nid) {
 
-        NotificationResponeData modelNotification = new NotificationResponeData();
+        NotificationResponseData modelNotification = new NotificationResponseData();
         modelNotification.setBody(message);
         modelNotification.setTitle(title);
         modelNotification.setId(nid);

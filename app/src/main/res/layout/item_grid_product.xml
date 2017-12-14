@@ -3,34 +3,35 @@
     android:id="@+id/base_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
     android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="250dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView_product"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="90dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="2dp"
+            android:scaleType="fitXY"
             android:src="@drawable/background" />
 
         <TextView
             android:id="@+id/textview_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
+            android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:minHeight="50dp"
             android:maxLines="2"
+            android:minHeight="45dp"
+            android:padding="5dp"
             android:tag="@string/font_opensans_regular_id"
             android:textSize="@dimen/text_size_medium" />
 
@@ -38,7 +39,7 @@
             android:id="@+id/textView_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:tag="@string/font_opensans_regular_id"
             android:text="@string/app_name"
             android:textColor="@color/gray"
@@ -48,8 +49,8 @@
             android:id="@+id/linear_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/round_corner_solid_gray"
             android:gravity="center"
             android:orientation="horizontal"

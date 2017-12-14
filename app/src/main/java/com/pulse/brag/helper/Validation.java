@@ -36,4 +36,9 @@ public class Validation {
     public static boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;
     }
+
+    public static boolean isValidMobileNum(EditText mEditText) {
+
+        return mEditText.getText().toString().trim().length() == 10 ? true : false;
+    }
 }

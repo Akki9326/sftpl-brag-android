@@ -1,4 +1,5 @@
-package com.pulse.brag.pojo.respones;
+package com.pulse.brag.pojo.response;
+
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -9,28 +10,27 @@ package com.pulse.brag.pojo.respones;
  */
 
 /**
- * Created by nikhil.vadoliya on 16-10-2017.
+ * Created by nikhil.vadoliya on 13-12-2017.
  */
 
 
-public class CategoryListRespone {
-
-    private String id;
-    private String name;
+public class CollectionListResponse {
     private String url;
+    private String name;
+    private String id;
 
-    public CategoryListRespone(String id, String name, String url) {
-        this.id = id;
-        this.name = name;
+    public CollectionListResponse(String id, String name, String url) {
         this.url = url;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+        this.name = name;
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getName() {
@@ -41,11 +41,11 @@ public class CategoryListRespone {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getId() {
+        return id;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setId(String id) {
+        this.id = id;
     }
 }

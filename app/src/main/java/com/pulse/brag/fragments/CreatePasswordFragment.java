@@ -10,7 +10,6 @@ package com.pulse.brag.fragments;
  */
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pulse.brag.R;
 import com.pulse.brag.activities.SplashActivty;
@@ -31,7 +29,7 @@ import com.pulse.brag.helper.Utility;
 import com.pulse.brag.helper.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
-import com.pulse.brag.pojo.respones.ChangePasswordRespone;
+import com.pulse.brag.pojo.response.ChangePasswordResponse;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import retrofit2.Call;
@@ -133,13 +131,13 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
         resetPassword.setMobileNumber(mobile);
         resetPassword.setOtp(Integer.parseInt(otp));
         resetPassword.setPassword(mEdtNewPass.getText().toString());
-        Call<ChangePasswordRespone> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().resetPassword(resetPassword);
-        mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordRespone>() {
+        Call<ChangePasswordResponse> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().resetPassword(resetPassword);
+        mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordResponse>() {
             @Override
-            public void onResponse(Call<ChangePasswordRespone> call, Response<ChangePasswordRespone> response) {
+            public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    ChangePasswordRespone respone = response.body();
+                    ChangePasswordResponse respone = response.body();
                     if (respone.isStatus()) {
                         showAlertMessage();
                     } else {
@@ -151,7 +149,7 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
             }
 
             @Override
-            public void onFailure(Call<ChangePasswordRespone> call, Throwable t) {
+            public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
                 hideProgressDialog();
                 Utility.showAlertMessage(getActivity(), t);
             }

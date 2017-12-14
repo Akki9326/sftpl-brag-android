@@ -18,13 +18,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
+import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.helper.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.GeneralRespone;
+import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import retrofit2.Call;
@@ -40,7 +42,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
 
     View mView;
     EditText mEdtMobile;
-    TextView mTxtSendOtp;
+    TextView mTxtSendOtp, mTxtMobileNum;
 
 
     public static ForgetPasswordFragment newInstance(String mobile) {
@@ -65,8 +67,16 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
     }
 
     @Override
-    public void setToolbar() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setToolbar();
+    }
 
+    @Override
+    public void setToolbar() {
+        if (getActivity() instanceof ChangePasswordOrMobileActivity) {
+            ((ChangePasswordOrMobileActivity) getActivity()).showToolBar("Change Mobile Number");
+        }
     }
 
     @Override
@@ -74,8 +84,9 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
 
         mEdtMobile = (EditText) mView.findViewById(R.id.edittext_mobile_num);
         mTxtSendOtp = (TextView) mView.findViewById(R.id.textview_send_otp);
+        mTxtMobileNum = (TextView) mView.findViewById(R.id.textview_mobile_num);
 
-        if (getArguments().containsKey(Constants.BUNDLE_MOBILE)) {
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_MOBILE)) {
             if (getArguments().getString(Constants.BUNDLE_MOBILE).trim().isEmpty()
                     || getArguments().getString(Constants.BUNDLE_MOBILE).length() < 10) {
                 mEdtMobile.setText("");
@@ -83,6 +94,11 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                 mEdtMobile.setText(getArguments().getString(Constants.BUNDLE_MOBILE));
             }
         }
+        if (getActivity() instanceof ChangePasswordOrMobileActivity) {
+            mEdtMobile.setHint(getString(R.string.hint_new_mobile_num));
+            mTxtMobileNum.setText(getString(R.string.label_new_mobile_no));
+        }
+
     }
 
     @Override
@@ -94,7 +110,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
 
                 if (Validation.isEmpty(mEdtMobile)) {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-                } else if (mEdtMobile.getText().toString().length() < 10) {
+                } else if (!Validation.isValidMobileNum(mEdtMobile)) {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
                 } else if (Utility.isConnection(getActivity())) {
                     ForgetPassAPI(mEdtMobile.getText().toString());
@@ -107,25 +123,35 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
 
     private void ForgetPassAPI(String s) {
         showProgressDialog();
-        Call<GeneralRespone> responeCall = ApiClient.getInstance(getActivity()).getApiResp().resendOtp(s);
-        responeCall.enqueue(new Callback<GeneralRespone>() {
+        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
+        Call<GeneralResponse> responeCall = ApiClient.getInstance(getActivity()).getApiResp().resendOtp(s);
+        responeCall.enqueue(new Callback<GeneralResponse>() {
             @Override
-            public void onResponse(Call<GeneralRespone> call, Response<GeneralRespone> response) {
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    GeneralRespone respone = response.body();
+                    GeneralResponse respone = response.body();
                     if (respone.isStatus()) {
-                        // TODO: 13-11-2017 email address pass for disply in otp screen
-                        ((SplashActivty) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString(), "email@email.com", false), true, true, "OTP_frag");
+                        // TODO: 13-11-2017 email address pass for display in otp screen
+                        if (getActivity() instanceof SplashActivty) {
+                            ((SplashActivty) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString(),
+                                    "email@email.com", OTPValidationIsFrom.FORGET_PASS.ordinal()),
+                                    true, true, "OTP_frag");
+                        } else {
+                            ((ChangePasswordOrMobileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mEdtMobile.getText().toString(),
+                                    "email@email.com", OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
+                                    true, true, "OTP_frag");
+                        }
+
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getMessage());
+                        Utility.showAlertMessage(getActivity(), respone.getErrorCode());
                     }
 
                 }
             }
 
             @Override
-            public void onFailure(Call<GeneralRespone> call, Throwable t) {
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 hideProgressDialog();
                 Utility.showAlertMessage(getActivity(), t);
             }

@@ -8,13 +8,11 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,16 +29,13 @@ import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.R;
 import com.pulse.brag.activities.SplashActivty;
 import com.pulse.brag.helper.ApiClient;
-import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.helper.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.LoginRequest;
-import com.pulse.brag.pojo.respones.LoginRespone;
+import com.pulse.brag.pojo.response.LoginResponse;
 import com.pulse.brag.views.OnSingleClickListener;
-
-import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,7 +80,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
     public void initializeData() {
         mTxtLogin = (TextView) mView.findViewById(R.id.textview_login);
         mTxtSignUp = (TextView) mView.findViewById(R.id.textview_signup);
-        mImgPass = (ImageView) mView.findViewById(R.id.img_pass_visible);
+        mImgPass = (ImageView) mView.findViewById(R.id.imageview_pass_visible);
         mEdtPassword = (EditText) mView.findViewById(R.id.edittext_password);
         mEdtNumber = (EditText) mView.findViewById(R.id.edittext_mobile_num);
         mTxtForget = (TextView) mView.findViewById(R.id.textview_forget);
@@ -104,7 +99,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
 
                 if (Validation.isEmpty(mEdtNumber)) {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-                } else if (mEdtNumber.getText().toString().length() < 10) {
+                } else if (!Validation.isValidMobileNum(mEdtNumber)) {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
                 } else if (Validation.isEmpty(mEdtPassword)) {
                     Utility.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
@@ -162,13 +157,13 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
 
         showProgressDialog();
         LoginRequest loginRequest = new LoginRequest(mobile, password);
-        Call<LoginRespone> mLoginResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userLogin(loginRequest);
-        mLoginResponeCall.enqueue(new Callback<LoginRespone>() {
+        Call<LoginResponse> mLoginResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userLogin(loginRequest);
+        mLoginResponeCall.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<LoginRespone> call, Response<LoginRespone> response) {
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    LoginRespone respone = response.body();
+                    LoginResponse respone = response.body();
                     okhttp3.Headers headers = response.headers();
                     if (respone.isStatus()) {
 
@@ -187,7 +182,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
             }
 
             @Override
-            public void onFailure(Call<LoginRespone> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 hideProgressDialog();
                 Utility.showAlertMessage(getActivity(), t);
             }

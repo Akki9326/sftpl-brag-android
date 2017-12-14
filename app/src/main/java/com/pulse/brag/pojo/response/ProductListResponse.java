@@ -1,4 +1,4 @@
-package com.pulse.brag.pojo.respones;
+package com.pulse.brag.pojo.response;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -8,7 +8,6 @@ package com.pulse.brag.pojo.respones;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -20,14 +19,14 @@ import com.pulse.brag.R;
  */
 
 
-public class CollectionListRespone implements Parcelable {
+public class ProductListResponse implements Parcelable {
 
     String url;
     String name;
     String id;
     String price;
 
-    public CollectionListRespone(String url, String name, String id, String price) {
+    public ProductListResponse(String url, String name, String id, String price) {
         this.url = url;
         this.name = name;
         this.id = id;
@@ -83,22 +82,22 @@ public class CollectionListRespone implements Parcelable {
         dest.writeString(this.price);
     }
 
-    protected CollectionListRespone(Parcel in) {
+    protected ProductListResponse(Parcel in) {
         this.url = in.readString();
         this.name = in.readString();
         this.id = in.readString();
         this.price = in.readString();
     }
 
-    public static final Parcelable.Creator<CollectionListRespone> CREATOR = new Parcelable.Creator<CollectionListRespone>() {
+    public static final Parcelable.Creator<ProductListResponse> CREATOR = new Parcelable.Creator<ProductListResponse>() {
         @Override
-        public CollectionListRespone createFromParcel(Parcel source) {
-            return new CollectionListRespone(source);
+        public ProductListResponse createFromParcel(Parcel source) {
+            return new ProductListResponse(source);
         }
 
         @Override
-        public CollectionListRespone[] newArray(int size) {
-            return new CollectionListRespone[size];
+        public ProductListResponse[] newArray(int size) {
+            return new ProductListResponse[size];
         }
     };
 }

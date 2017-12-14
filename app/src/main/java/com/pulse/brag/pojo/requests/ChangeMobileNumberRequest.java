@@ -1,4 +1,4 @@
-package com.pulse.brag.enums;
+package com.pulse.brag.pojo.requests;
 
 
 /**
@@ -10,26 +10,16 @@ package com.pulse.brag.enums;
  */
 
 /**
- * Created by nikhil.vadoliya on 13-11-2017.
+ * Created by nikhil.vadoliya on 11-12-2017.
  */
 
 
-public enum MoreList {
-    MY_ORDER(1),
-    PRIVACY_POLICY(2),
-    TERMS_AND(3),
-    CHANGE_PASS(4),
-    LOGOUT(5),
-    CHANGE_MOBILE(6);
+public class ChangeMobileNumberRequest {
+    private String mobileNumber;
+    private String password;
 
-
-    MoreList(int i) {
-        this.type = i;
-    }
-
-    private int type;
-
-    public int getNumericType() {
-        return type;
+    public ChangeMobileNumberRequest(String mobileNumber, String password) {
+        this.mobileNumber = mobileNumber;
+        this.password = password;
     }
 }

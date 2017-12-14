@@ -1,4 +1,5 @@
-package com.pulse.brag.pojo.respones;
+package com.pulse.brag.pojo;
+
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -8,27 +9,24 @@ package com.pulse.brag.pojo.respones;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.pojo.datas.UserData;
-
 /**
- * Created by nikhil.vadoliya on 02-11-2017.
+ * Created by nikhil.vadoliya on 13-11-2017.
  */
 
 
-public class LoginRespone {
-
+public class GeneralResponse {
 
     private boolean status;
-    private Integer errorCode;
     private String message;
-    private UserData data;
+    private Integer errorCode;
+    private Object data;
 
-    public UserData getData() {
-        return data;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setData(UserData data) {
-        this.data = data;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getMessage() {
@@ -39,19 +37,19 @@ public class LoginRespone {
         this.message = message;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     public Integer getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(int errorCode) {
+    public void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

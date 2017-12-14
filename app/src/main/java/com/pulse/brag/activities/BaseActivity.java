@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -327,10 +328,10 @@ public class BaseActivity extends AppCompatActivity {
 
     public void setToolbarTransparent(boolean b) {
         if (b)
-            mToolbar.setVisibility(View.VISIBLE);
+            mToolbar.setBackgroundColor(getResources().getColor(R.color.semi_transparent));
 //            mToolbar.setBackgroundColor(android.R.color.transparent);
         else
-            mToolbar.setVisibility(View.GONE);
+            mToolbar.setVisibility(getResources().getColor(R.color.white));
 //        mToolbar.setBackgroundColor(R.color.white);
     }
 }

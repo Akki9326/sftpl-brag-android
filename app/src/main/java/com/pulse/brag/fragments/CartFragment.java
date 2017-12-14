@@ -128,7 +128,7 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
                 "Product Name", "L", "#ffffff", 500, 1));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 50000000, 2));
+                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 100, 2));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256",
                 "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#9C27B0", 500, 1));

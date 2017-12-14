@@ -8,16 +8,16 @@ package com.pulse.brag.interfaces;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.DummeyRespone;
-import com.pulse.brag.pojo.GeneralRespone;
+import com.pulse.brag.pojo.GeneralResponse;
+import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
 import com.pulse.brag.pojo.requests.LoginRequest;
 import com.pulse.brag.pojo.requests.SignInRequest;
-import com.pulse.brag.pojo.respones.ChangePasswordRespone;
-import com.pulse.brag.pojo.respones.LoginRespone;
-import com.pulse.brag.pojo.respones.OTPVerifyRespone;
-import com.pulse.brag.pojo.respones.SignUpRespone;
+import com.pulse.brag.pojo.response.ChangePasswordResponse;
+import com.pulse.brag.pojo.response.LoginResponse;
+import com.pulse.brag.pojo.response.OTPVerifyResponse;
+import com.pulse.brag.pojo.response.SignUpResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,26 +37,29 @@ public interface ApiInterface {
     Call<DummeyRespone> getProductionList(@Query("pages") int page);
 
     @POST("login")
-    Call<LoginRespone> userLogin(@Body LoginRequest loginRequest);
+    Call<LoginResponse> userLogin(@Body LoginRequest loginRequest);
 
     @POST("signup")
-    Call<SignUpRespone> userSignIn(@Body SignInRequest signInRequest);
+    Call<SignUpResponse> userSignIn(@Body SignInRequest signInRequest);
 
     @GET("validate")
-    Call<OTPVerifyRespone> verifyOtp(@Query("mobile") String mobile, @Query("otp") String otp);
+    Call<OTPVerifyResponse> verifyOtp(@Query("mobile") String mobile, @Query("otp") String otp);
 
     @GET("validateForgetPassword")
-    Call<OTPVerifyRespone> verifyOtpForgetPass(@Query("mobile") String mobile, @Query("otp") String otp);
+    Call<OTPVerifyResponse> verifyOtpForgetPass(@Query("mobile") String mobile, @Query("otp") String otp);
 
     @GET("resendotp")
-    Call<GeneralRespone> resendOtp(@Query("mobile") String mobile);
+    Call<GeneralResponse> resendOtp(@Query("mobile") String mobile);
 
     @POST("changePassword")
-    Call<ChangePasswordRespone> changePassword(@Body ChangePasswordRequest changePasswordRequest);
+    Call<ChangePasswordResponse> changePassword(@Body ChangePasswordRequest changePasswordRequest);
 
     @POST("resetPassword")
-    Call<ChangePasswordRespone> resetPassword(@Body ChangePasswordRequest changePasswordRequest);
+    Call<ChangePasswordResponse> resetPassword(@Body ChangePasswordRequest changePasswordRequest);
 
     @GET("logout")
-    Call<GeneralRespone> logout();
+    Call<GeneralResponse> logout();
+
+    @POST("changeMobileNumber")
+    Call<GeneralResponse> changeMobileNum(@Body ChangeMobileNumberRequest changeMobileNumberRequest);
 }

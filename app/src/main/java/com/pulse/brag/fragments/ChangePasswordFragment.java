@@ -12,21 +12,23 @@ package com.pulse.brag.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.activities.BaseActivity;
+import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.helper.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
-import com.pulse.brag.pojo.respones.ChangePasswordRespone;
+import com.pulse.brag.pojo.response.ChangePasswordResponse;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import retrofit2.Call;
@@ -60,12 +62,7 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
         return fragment;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = ((BaseActivity) context);
-        ((BaseActivity) mContext).setToolbarTransparent(false);
-    }
+
 
     @Nullable
     @Override
@@ -86,7 +83,7 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void setToolbar() {
-        ((BaseActivity) getActivity()).showToolbar(true, false, false, "Change Password");
+        ((ChangePasswordOrMobileActivity) getActivity()).showToolBar("Change Password");
     }
 
     @Override
@@ -107,6 +104,17 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
             public void onSingleClick(View v) {
 
                 validationAndAPI();
+            }
+        });
+
+        mEdtConfirmPass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    mTxtDone.performClick();
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -136,13 +144,14 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
         changePasswordRequest.setMobileNumber(mobile);
         changePasswordRequest.setOldPassword(mEdtOldPass.getText().toString());
         changePasswordRequest.setPassword(mEdtNewPass.getText().toString());
-        Call<ChangePasswordRespone> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().changePassword(changePasswordRequest);
-        mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordRespone>() {
+        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
+        Call<ChangePasswordResponse> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().changePassword(changePasswordRequest);
+        mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordResponse>() {
             @Override
-            public void onResponse(Call<ChangePasswordRespone> call, Response<ChangePasswordRespone> response) {
+            public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    ChangePasswordRespone respone = response.body();
+                    ChangePasswordResponse respone = response.body();
                     if (respone.isStatus()) {
                         Utility.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
                     } else {
@@ -154,7 +163,7 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
             }
 
             @Override
-            public void onFailure(Call<ChangePasswordRespone> call, Throwable t) {
+            public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
                 hideProgressDialog();
                 Utility.showAlertMessage(getActivity(), t);
             }
@@ -166,10 +175,5 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
 
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mContext instanceof BaseActivity)
-            ((BaseActivity) mContext).setToolbarTransparent(true);
-    }
+
 }

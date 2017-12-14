@@ -26,7 +26,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -48,7 +51,8 @@ import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.DummeyRespone;
-import com.pulse.brag.pojo.respones.CollectionListRespone;
+import com.pulse.brag.pojo.response.ProductListResponse;
+import com.pulse.brag.views.ScrollingToolbarBehavior;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +76,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     TextView mTxtQty;
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout mLinearSearch;
+    RelativeLayout mRelativeSearch;
 
     boolean isExecuteAsync = false;
     private static final int LOAD_LIST = 1;
@@ -90,7 +95,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     int mSelectedQty;
     int productSize;
 
-    List<CollectionListRespone> collectionListRespones;
+    List<ProductListResponse> collectionListRespones;
     ProductListAdapter mProductListAdapter;
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
@@ -126,6 +131,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     public void initializeData() {
 
         mRecyclerView = (ERecyclerView) mView.findViewById(R.id.recycleView);
+        mRelativeSearch = (RelativeLayout) mView.findViewById(R.id.relative_s);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setHasFixedSize(true);
@@ -165,7 +171,6 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
                 }, 500);
             }
         });
-
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -213,9 +218,9 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     }
 
-    private void GetProductListAPICall(boolean isShoeLoader) {
+    private void GetProductListAPICall(boolean isshowloader) {
 
-        if (isShoeLoader)
+        if (isshowloader)
             showProgressDialog();
 
         ApiClient.changeApiBaseUrl("https://reqres.in/api/");

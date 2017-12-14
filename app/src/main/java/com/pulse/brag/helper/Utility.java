@@ -13,14 +13,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -49,7 +46,7 @@ import android.widget.TextView;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
-import com.pulse.brag.activities.ChangePasswordActivity;
+import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
@@ -395,8 +392,8 @@ public class Utility {
                     alertDialog.dismiss();
                     if (isOktoBack) {
 
-                        if (mContext instanceof ChangePasswordActivity) {
-                            ((ChangePasswordActivity) mContext).onBackPressed();
+                        if (mContext instanceof ChangePasswordOrMobileActivity) {
+                            ((ChangePasswordOrMobileActivity) mContext).onBackPressed();
                         } else {
                             ((BaseActivity) mContext).onBackPressed();
                         }
@@ -470,10 +467,19 @@ public class Utility {
 
         Picasso.with(context)
                 .load(url)
-                .placeholder(R.drawable.image_placeholder)
-                .error(R.drawable.image_placeholder)
+                .placeholder(R.drawable.logo_placeholder_1)
+                .error(R.drawable.logo_placeholder_1)
                 .into(imageView);
 
+
+//        Picasso.with(context)
+//                .load(url)
+//                .config(Bitmap.Config.ARGB_4444)
+//                .fit()
+//                .centerCrop()
+//                .placeholder(R.drawable.logo_placeholder_1)
+//                .error(R.drawable.logo_placeholder_1)
+//                .into(imageView);
 
     }
 
@@ -595,6 +601,16 @@ public class Utility {
 
     public static String getIndianCurrencePriceFormate(int price) {
 
-        return NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(new Integer(price));
+        String rupeessymbol;
+        String totalprice = NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(new Integer(price));
+        if (totalprice.contains("Rs.")) {
+//            String pricewithoutRs = totalprice.substring(3, totalprice.length()).trim();
+            rupeessymbol = "\u20B9 " + totalprice.substring(3, totalprice.length()).trim();
+            return rupeessymbol;
+        } else {
+            return totalprice;
+        }
+
+
     }
 }

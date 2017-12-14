@@ -14,11 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.views.OnSingleClickListener;
 import com.pulse.brag.views.RoundView;
@@ -58,7 +56,7 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_list_color_2, null);
+        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_list_color, null);
         MyViewHolder viewHolder1 = new MyViewHolder(view1);
         return viewHolder1;
     }

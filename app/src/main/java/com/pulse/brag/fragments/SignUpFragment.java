@@ -10,7 +10,6 @@ package com.pulse.brag.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,15 +22,13 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.helper.ApiClient;
-import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.helper.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.requests.LoginRequest;
 import com.pulse.brag.pojo.requests.SignInRequest;
-import com.pulse.brag.pojo.respones.LoginRespone;
-import com.pulse.brag.pojo.respones.SignUpRespone;
+import com.pulse.brag.pojo.response.SignUpResponse;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import retrofit2.Call;
@@ -96,7 +93,7 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
                 } else if (Validation.isEmpty(mEdtMobile)) {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-                } else if (mEdtMobile.getText().toString().trim().length() < 10) {
+                } else if (!Validation.isValidMobileNum(mEdtMobile)) {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
                 } else if (Validation.isEmpty(mEdtPass)) {
                     Utility.showAlertMessage(getActivity(), getString(R.string.error_pass));
@@ -130,16 +127,17 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
     private void SignInAPICall(final SignInRequest signInRequest) {
         Utility.hideSoftkeyboard(getActivity());
         showProgressDialog();
-        Call<SignUpRespone> mSignUpResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userSignIn(signInRequest);
-        mSignUpResponeCall.enqueue(new Callback<SignUpRespone>() {
+        Call<SignUpResponse> mSignUpResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userSignIn(signInRequest);
+        mSignUpResponeCall.enqueue(new Callback<SignUpResponse>() {
             @Override
-            public void onResponse(Call<SignUpRespone> call, Response<SignUpRespone> response) {
+            public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    SignUpRespone signUpRespone = response.body();
+                    SignUpResponse signUpRespone = response.body();
                     if (signUpRespone.isStatus()) {
 
-                        ((SplashActivty) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString(), mEdtEmail.getText().toString(), true),
+                        ((SplashActivty) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString()
+                                , mEdtEmail.getText().toString(), OTPValidationIsFrom.SIGN_UP.ordinal()),
                                 true, true, "OTP_Frag");
 
 
@@ -152,7 +150,7 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
             }
 
             @Override
-            public void onFailure(Call<SignUpRespone> call, Throwable t) {
+            public void onFailure(Call<SignUpResponse> call, Throwable t) {
                 hideProgressDialog();
                 Utility.showAlertMessage(getActivity(), t);
             }

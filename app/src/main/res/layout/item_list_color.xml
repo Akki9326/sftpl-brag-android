@@ -1,18 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/base_layout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/selector_item_color"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:layout_width="50dp"
+    android:layout_gravity="center"
+    android:layout_height="50dp">
 
-    <ImageView
-        android:id="@+id/imageView_color"
+
+    <com.pulse.brag.views.RoundView
+        android:id="@+id/roundview_selector"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_gravity="center"
+        app:round_color="@android:color/holo_orange_dark" />
+
+    <com.pulse.brag.views.RoundView
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_gravity="center"
+        app:round_color="@color/white" />
+
+    <com.pulse.brag.views.RoundView
+        android:id="@+id/roundview_product_color"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:visibility="visible" />
+        android:layout_gravity="center"
+        app:round_color="@android:color/holo_orange_dark" />
 
-
-</LinearLayout>
+</FrameLayout>

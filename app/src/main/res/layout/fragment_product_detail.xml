@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -21,6 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -211,7 +214,8 @@
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_minus" />
+                android:src="@drawable/ic_minus"
+                android:tint="@color/white" />
         </LinearLayout>
 
         <View

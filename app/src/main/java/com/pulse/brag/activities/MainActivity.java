@@ -1,30 +1,16 @@
 package com.pulse.brag.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.fragments.HomeFragment;
 import com.pulse.brag.R;
-import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.PreferencesManager;
-import com.pulse.brag.helper.Utility;
 import com.pulse.brag.pojo.requests.AddToCartRequest;
-import com.pulse.brag.pojo.requests.LoginRequest;
-import com.pulse.brag.pojo.respones.LoginRespone;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
 

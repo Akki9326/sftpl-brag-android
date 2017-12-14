@@ -9,27 +9,32 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.pulse.brag.R;
+import com.pulse.brag.activities.BaseActivity;
+import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Constants;
+import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.GeneralRespone;
-import com.pulse.brag.pojo.requests.LoginRequest;
-import com.pulse.brag.pojo.respones.LoginRespone;
-import com.pulse.brag.pojo.respones.OTPVerifyRespone;
+import com.pulse.brag.pojo.GeneralResponse;
+import com.pulse.brag.pojo.response.OTPVerifyResponse;
 import com.pulse.brag.views.OnSingleClickListener;
 import com.pulse.brag.views.PinView;
 
@@ -53,18 +58,19 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
     String emailAddress;
 
     //is from signup or forget pass
-    boolean isFromSignup;
+    int isFromScreen;
 
-    public static OTPFragment newInstance(String mobilenum, String email, boolean isFromSignup) {
+    public static OTPFragment newInstance(String mobilenum, String email, int isFromScreen) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_MOBILE, mobilenum);
         args.putString(Constants.BUNDLE_EMAIL, email);
-        args.putBoolean(Constants.BUNDLE_IS_FROM_SIGNUP, isFromSignup);
+        args.putInt(Constants.BUNDLE_IS_FROM_SIGNUP, isFromScreen);
         OTPFragment fragment = new OTPFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Nullable
     @Override
@@ -91,7 +97,7 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
         mTxtResend = (TextView) mView.findViewById(R.id.textview_resend);
         mobileNum = getArguments().getString(Constants.BUNDLE_MOBILE);
         emailAddress = getArguments().getString(Constants.BUNDLE_EMAIL);
-        isFromSignup = getArguments().getBoolean(Constants.BUNDLE_IS_FROM_SIGNUP);
+        isFromScreen = getArguments().getInt(Constants.BUNDLE_IS_FROM_SIGNUP);
 
         mPinView.setLineColor(getResources().getColor(R.color.pink));
         mPinView.setAnimationEnable(true);
@@ -139,13 +145,13 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
 
     private void ResendOTPAPI() {
         showProgressDialog();
-        Call<GeneralRespone> responeCall = ApiClient.getInstance(getActivity()).getApiResp().resendOtp(mobileNum);
-        responeCall.enqueue(new Callback<GeneralRespone>() {
+        Call<GeneralResponse> responeCall = ApiClient.getInstance(getActivity()).getApiResp().resendOtp(mobileNum);
+        responeCall.enqueue(new Callback<GeneralResponse>() {
             @Override
-            public void onResponse(Call<GeneralRespone> call, Response<GeneralRespone> response) {
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    GeneralRespone respone = response.body();
+                    GeneralResponse respone = response.body();
                     if (respone.isStatus()) {
 
 
@@ -158,7 +164,7 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
             }
 
             @Override
-            public void onFailure(Call<GeneralRespone> call, Throwable t) {
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 hideProgressDialog();
                 Utility.showAlertMessage(getActivity(), t);
             }
@@ -168,28 +174,44 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
     private void OTPVerifyAPI(final String otp) {
         showProgressDialog();
 
-        Call<OTPVerifyRespone> mOtpVerifyResponeCall;
-        if (isFromSignup) {
-            mOtpVerifyResponeCall = ApiClient.getInstance(getActivity()).getApiResp().verifyOtp(mobileNum, otp);
-        } else {
-            mOtpVerifyResponeCall = ApiClient.getInstance(getActivity()).getApiResp().verifyOtpForgetPass(mobileNum, otp);
+        Call<OTPVerifyResponse> mOtpVerifyResponeCall = null;
+        switch (OTPValidationIsFrom.values()[isFromScreen]) {
+            case SIGN_UP:
+                mOtpVerifyResponeCall = ApiClient.getInstance(getActivity()).getApiResp().verifyOtp(mobileNum, otp);
+                break;
+            case FORGET_PASS:
+                mOtpVerifyResponeCall = ApiClient.getInstance(getActivity()).getApiResp().verifyOtpForgetPass(mobileNum, otp);
+                break;
+            case CHANGE_MOBILE:
+                mOtpVerifyResponeCall = ApiClient.getInstance(getActivity()).getApiResp().verifyOtp(mobileNum, otp);
+                break;
         }
 
-        mOtpVerifyResponeCall.enqueue(new Callback<OTPVerifyRespone>() {
+
+        mOtpVerifyResponeCall.enqueue(new Callback<OTPVerifyResponse>() {
             @Override
-            public void onResponse(Call<OTPVerifyRespone> call, Response<OTPVerifyRespone> response) {
+            public void onResponse(Call<OTPVerifyResponse> call, Response<OTPVerifyResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    OTPVerifyRespone respone = response.body();
+                    OTPVerifyResponse respone = response.body();
                     if (respone.isStatus()) {
-                        if (isFromSignup) {
-                            ((SplashActivty) getActivity()).pushFragments(new SignUpComplateFragment(),
-                                    true, true, "Signup_Complete_Frag");
-                        } else {
-                            ((SplashActivty) getActivity()).pushFragments(CreatePasswordFragment.newInstance(mobileNum,otp),
-                                    true, true, "Create_Pass_Frag");
-                        }
 
+                        switch (OTPValidationIsFrom.values()[isFromScreen]) {
+                            case CHANGE_MOBILE:
+
+                                ((ChangePasswordOrMobileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
+                                        , true, true, "");
+                                break;
+                            case FORGET_PASS:
+                                ((SplashActivty) getActivity()).pushFragments(CreatePasswordFragment.newInstance(mobileNum, otp),
+                                        true, true, "Create_Pass_Frag");
+                                break;
+
+                            case SIGN_UP:
+                                ((SplashActivty) getActivity()).pushFragments(new SignUpComplateFragment(),
+                                        true, true, "Signup_Complete_Frag");
+                                break;
+                        }
                     } else {
                         Utility.showAlertMessage(getActivity(), respone.getErrorCode());
                     }
@@ -200,7 +222,7 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
             }
 
             @Override
-            public void onFailure(Call<OTPVerifyRespone> call, Throwable t) {
+            public void onFailure(Call<OTPVerifyResponse> call, Throwable t) {
                 hideProgressDialog();
                 Utility.showAlertMessage(getActivity(), t);
             }
@@ -210,5 +232,32 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
     @Override
     public void showData() {
         mTxtEmailMsg.setText(getString(R.string.msg_otp_label) + " " + emailAddress);
+    }
+
+    private void showAlertMessage(String message) {
+        try {
+
+            final Dialog alertDialog = new Dialog(getActivity());
+
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.setContentView(R.layout.dialog_one_button);
+            Utility.applyTypeFace(getActivity(), (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            alertDialog.setCancelable(false);
+
+            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
+            txt.setText(message);
+
+            Button dialogButton = (Button) alertDialog.findViewById(R.id.button_ok_alert_btn);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                    ((ChangePasswordOrMobileActivity) getActivity()).finish();
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

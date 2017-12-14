@@ -45,7 +45,7 @@
                 android:tag="@string/font_opensans_regular_id"
                 android:text="@string/text_s"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_very_small_12" />
         </LinearLayout>
     </LinearLayout>
 

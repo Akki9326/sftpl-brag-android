@@ -1,4 +1,4 @@
-package com.pulse.brag.pojo.respones;
+package com.pulse.brag.pojo.response;
 
 
 /**
@@ -14,7 +14,7 @@ package com.pulse.brag.pojo.respones;
  */
 
 
-public class OTPVerifyRespone {
+public class OTPVerifyResponse {
     private boolean status;
     private String message;
     private int errorCode;

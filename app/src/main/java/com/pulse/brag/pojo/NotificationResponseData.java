@@ -17,7 +17,7 @@ import android.os.Parcelable;
  */
 
 
-public class NotificationResponeData implements Parcelable {
+public class NotificationResponseData implements Parcelable {
 
     private String id;
     private String title;
@@ -89,10 +89,10 @@ public class NotificationResponeData implements Parcelable {
         dest.writeString(this.category);
     }
 
-    public NotificationResponeData() {
+    public NotificationResponseData() {
     }
 
-    protected NotificationResponeData(Parcel in) {
+    protected NotificationResponseData(Parcel in) {
         this.id = in.readString();
         this.title = in.readString();
         this.body = in.readString();
@@ -101,15 +101,15 @@ public class NotificationResponeData implements Parcelable {
         this.category = in.readString();
     }
 
-    public static final Parcelable.Creator<NotificationResponeData> CREATOR = new Parcelable.Creator<NotificationResponeData>() {
+    public static final Parcelable.Creator<NotificationResponseData> CREATOR = new Parcelable.Creator<NotificationResponseData>() {
         @Override
-        public NotificationResponeData createFromParcel(Parcel source) {
-            return new NotificationResponeData(source);
+        public NotificationResponseData createFromParcel(Parcel source) {
+            return new NotificationResponseData(source);
         }
 
         @Override
-        public NotificationResponeData[] newArray(int size) {
-            return new NotificationResponeData[size];
+        public NotificationResponseData[] newArray(int size) {
+            return new NotificationResponseData[size];
         }
     };
 }

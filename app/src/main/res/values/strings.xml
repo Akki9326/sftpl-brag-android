@@ -158,4 +158,10 @@
     <string name="error_qty_not_empty">Please enter atleast one qty.</string>
     <string name="error_enter_qty">Please enter product qty.</string>
     <string name="error_valid_qty">Please enter valid qty.</string>
+    <string name="label_change_mobile_num">Change Moblie Number</string>
+    <string name="label_new_mobile_no">New Mobile Number</string>
+    <string name="hint_new_mobile_num">New Mobile Number</string>
+    <string name="error_empty_new_mobile_num">Please Enter mobile Number.</string>
+    <string name="msg_mobile_num_change_success">Your mobile number change successfull.</string>
+    <string name="hint_search_product">search product</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.pulse.brag.adapters;
 
+
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
@@ -9,57 +10,68 @@ package com.pulse.brag.adapters;
  */
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.respones.CategoryListRespone;
+import com.pulse.brag.pojo.response.CollectionListResponse;
+import com.pulse.brag.pojo.response.ProductListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 /**
- * Created by nikhil.vadoliya on 29-09-2017.
+ * Created by nikhil.vadoliya on 13-12-2017.
  */
 
 
-public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter.ViewHolder> {
+public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter.MyViewHolder> {
 
-
-    List<CategoryListRespone> listRespones;
     Activity mActivity;
+    List<CollectionListResponse> mListResponses;
     OnItemClickListener mItemClickListener;
 
-    public CollectionListAdapter(Activity mActivity, List<CategoryListRespone> listRespones, OnItemClickListener mItemClickListener) {
-        this.mActivity = mActivity;
-        this.listRespones = new ArrayList<>();
-        this.listRespones = listRespones;
+    public CollectionListAdapter(Activity activity, List<CollectionListResponse> mListResponses, OnItemClickListener mItemClickListener) {
+        this.mActivity = activity;
+        this.mListResponses = new ArrayList<>();
+        this.mListResponses = mListResponses;
         this.mItemClickListener = mItemClickListener;
     }
 
-    @Override
-    public CollectionListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_grid_collection, null);
-        ViewHolder viewHolder1 = new ViewHolder(view1);
-        return viewHolder1;
 
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        switch (viewType) {
+            case 1:
+                view = LayoutInflater.from(mActivity).inflate(R.layout.item_list_collection_even, parent, false);
+                break;
+            case 2:
+                view = LayoutInflater.from(mActivity).inflate(R.layout.item_list_collection_odd, parent, false);
+                break;
+
+        }
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CollectionListAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
 
-//        runEnterAnimation(holder.mView);
 
-        Utility.imageSet(mActivity, listRespones.get(position).getUrl(), holder.mImgBackground);
-        holder.mText.setText(listRespones.get(position).getName());
-
+//        Utility.imageSet(mActivity, mListResponses.get(position).getUrl(), holder.mImgBackground);
+        holder.mText.setText(mListResponses.get(position).getName().toUpperCase());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,25 +82,33 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
     }
 
     @Override
-    public int getItemCount() {
-        return listRespones.size();
+    public int getItemViewType(int position) {
+        //1 for odd and 2 for even
+        return position % 2 != 0 ? 1 : 2;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemCount() {
+        return mListResponses.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
         ImageView mImgBackground;
         TextView mText;
         View mView;
 
-        public ViewHolder(View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;
 
-            Utility.applyTypeFace(mActivity, (RelativeLayout) itemView.findViewById(R.id.base_layout));
-            mImgBackground = (ImageView) itemView.findViewById(R.id.imageView_collection_background);
-            mText = (TextView) itemView.findViewById(R.id.textview_collection_label);
+            Utility.applyTypeFace(mActivity, (LinearLayout) itemView.findViewById(R.id.base_layout));
+            mImgBackground = (ImageView) itemView.findViewById(R.id.imageview_product_img);
+            mText = (TextView) itemView.findViewById(R.id.textview_product_name);
+
+//            mImgBackground = (ImageView) itemView.findViewById(R.id.imageView_collection_background);
+//            mText = (TextView) itemView.findViewById(R.id.textview_collection_label);
         }
     }
-
-
 }

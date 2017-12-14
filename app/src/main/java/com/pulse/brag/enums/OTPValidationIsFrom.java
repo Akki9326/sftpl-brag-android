@@ -10,26 +10,13 @@ package com.pulse.brag.enums;
  */
 
 /**
- * Created by nikhil.vadoliya on 13-11-2017.
+ * Created by nikhil.vadoliya on 11-12-2017.
  */
 
 
-public enum MoreList {
-    MY_ORDER(1),
-    PRIVACY_POLICY(2),
-    TERMS_AND(3),
-    CHANGE_PASS(4),
-    LOGOUT(5),
-    CHANGE_MOBILE(6);
+public enum OTPValidationIsFrom {
+    SIGN_UP,
+    FORGET_PASS,
+    CHANGE_MOBILE;
 
-
-    MoreList(int i) {
-        this.type = i;
-    }
-
-    private int type;
-
-    public int getNumericType() {
-        return type;
-    }
 }

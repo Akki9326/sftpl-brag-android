@@ -1,4 +1,4 @@
-package com.pulse.brag.pojo.respones;
+package com.pulse.brag.pojo.response;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -16,11 +16,11 @@ import android.os.Parcelable;
  */
 
 
-public class ImagePagerRespone implements Parcelable {
+public class ImagePagerResponse implements Parcelable {
     String url;
     String id;
 
-    public ImagePagerRespone(String url, String id) {
+    public ImagePagerResponse(String url, String id) {
         this.url = url;
         this.id = id;
     }
@@ -52,20 +52,20 @@ public class ImagePagerRespone implements Parcelable {
         dest.writeString(this.id);
     }
 
-    protected ImagePagerRespone(Parcel in) {
+    protected ImagePagerResponse(Parcel in) {
         this.url = in.readString();
         this.id = in.readString();
     }
 
-    public static final Parcelable.Creator<ImagePagerRespone> CREATOR = new Parcelable.Creator<ImagePagerRespone>() {
+    public static final Parcelable.Creator<ImagePagerResponse> CREATOR = new Parcelable.Creator<ImagePagerResponse>() {
         @Override
-        public ImagePagerRespone createFromParcel(Parcel source) {
-            return new ImagePagerRespone(source);
+        public ImagePagerResponse createFromParcel(Parcel source) {
+            return new ImagePagerResponse(source);
         }
 
         @Override
-        public ImagePagerRespone[] newArray(int size) {
-            return new ImagePagerRespone[size];
+        public ImagePagerResponse[] newArray(int size) {
+            return new ImagePagerResponse[size];
         }
     };
 }

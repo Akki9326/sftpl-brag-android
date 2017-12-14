@@ -9,27 +9,35 @@ package com.pulse.brag.fragments;
  */
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
+import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
@@ -41,13 +49,15 @@ import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.requests.AddToCartRequest;
-import com.pulse.brag.pojo.respones.ImagePagerRespone;
+import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.CustomViewPagerIndicator;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by nikhil.vadoliya on 06-11-2017.
@@ -65,7 +75,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
     EditText mEditQty;
     ViewPager mViewPager;
     CustomViewPagerIndicator mViewPagerIndicator;
-    ScrollView mScrollView;
+    NestedScrollView mScrollView;
 
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
@@ -90,6 +100,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         super.onActivityCreated(savedInstanceState);
         initializeData();
         setListeners();
+        attachKeyboardListeners();
         showData();
     }
 
@@ -118,7 +129,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mTxtMax = (TextView) mView.findViewById(R.id.textview_max);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
         mViewPagerIndicator = (CustomViewPagerIndicator) mView.findViewById(R.id.pager_view);
-        mScrollView = (ScrollView) mView.findViewById(R.id.scrollView);
+        mScrollView = (NestedScrollView) mView.findViewById(R.id.scrollView);
 
         Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
 
@@ -142,10 +153,12 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
                 dismiss();
             }
         });
+
+
         mEditQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mScrollView.smoothScrollTo(0, mTxtAddCart.getBottom() + 205);
+                mScrollView.smoothScrollTo(0, mTxtAddCart.getTop() + 205);
             }
         });
 
@@ -211,17 +224,53 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mRecyclerViewSize.setAdapter(mSizeListAdapter);
         mRecyclerViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
 
-        List<ImagePagerRespone> imagePagerResponeList = new ArrayList<>();
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", "CLASSIC BIKINI"));
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
-        imagePagerResponeList.add(new ImagePagerRespone("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
+        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
+        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", "CLASSIC BIKINI"));
+        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
+        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
+        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
+        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
         mViewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
         mViewPagerIndicator.setViewPager(mViewPager);
     }
 
+    private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            int heightDiff = rootLayout.getRootView().getHeight() - rootLayout.getHeight();
+            int contentViewTop = getActivity().getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
+
+
+            if (heightDiff <= contentViewTop) {
+                Log.i(TAG, "onGlobalLayout: KeyboardWillHide");
+            } else {
+                mScrollView.smoothScrollTo(0, mTxtAddCart.getTop() + 205);
+                Log.i(TAG, "onGlobalLayout: KeyboardWillShow");
+            }
+        }
+    };
+
+    private boolean keyboardListenersAttached = false;
+    private ViewGroup rootLayout;
+    protected void attachKeyboardListeners() {
+        if (keyboardListenersAttached) {
+            return;
+        }
+
+        rootLayout = (LinearLayout) mView.findViewById(R.id.base_layout);
+        rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyboardLayoutListener);
+
+        keyboardListenersAttached = true;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (keyboardListenersAttached) {
+            rootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(keyboardLayoutListener);
+        }
+    }
 
     @Override
     public void onSeleteColor(int pos) {

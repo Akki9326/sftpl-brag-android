@@ -31,8 +31,7 @@ import android.widget.Toast;
 
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
-import com.pulse.brag.activities.BaseActivity;
-import com.pulse.brag.activities.ChangePasswordActivity;
+import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.activities.SplashActivty;
 import com.pulse.brag.adapters.MoreListAdapter;
 import com.pulse.brag.enums.MoreList;
@@ -41,10 +40,9 @@ import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.GeneralRespone;
+import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.datas.MoreListData;
 import com.pulse.brag.pojo.datas.UserData;
-import com.pulse.brag.pojo.respones.ChangePasswordRespone;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
@@ -128,7 +126,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int viewId = (int) moreListAdapter.getItemId(position);
-
+                Intent intent;
                 switch (viewId) {
                     case 1:
                         Toast.makeText(getActivity(), "My Order", Toast.LENGTH_SHORT).show();
@@ -140,7 +138,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                         Toast.makeText(getActivity(), "Terms", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
-                        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+                        intent = new Intent(getActivity(), ChangePasswordOrMobileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -151,6 +149,11 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     case 5:
                         showAlertMessageLogOut(getActivity(), getString(R.string.msg_logout));
                         break;
+
+                    case 6:
+                        intent = new Intent(getActivity(), ChangePasswordOrMobileActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 }
             }
         });
@@ -169,6 +172,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         moreListData.add(new MoreListData(MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_terms_and)));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart), ""));
         moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass), getString(R.string.label_change_pass)));
+        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_change_mobile_num)));
         moreListData.add(new MoreListData(MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout), getString(R.string.label_logout)));
 
         moreListAdapter = new MoreListAdapter(getContext(), moreListData);
@@ -220,13 +224,13 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
     private void LogOutAPI() {
         showProgressDialog();
         ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<GeneralRespone> responeCall = ApiClient.getInstance(getActivity()).getApiResp().logout();
-        responeCall.enqueue(new Callback<GeneralRespone>() {
+        Call<GeneralResponse> responeCall = ApiClient.getInstance(getActivity()).getApiResp().logout();
+        responeCall.enqueue(new Callback<GeneralResponse>() {
             @Override
-            public void onResponse(Call<GeneralRespone> call, Response<GeneralRespone> response) {
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    GeneralRespone respone = response.body();
+                    GeneralResponse respone = response.body();
                     if (respone.isStatus()) {
                         alertDialog.dismiss();
                         PreferencesManager.getInstance().logout();
@@ -242,7 +246,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
             }
 
             @Override
-            public void onFailure(Call<GeneralRespone> call, Throwable t) {
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 hideProgressDialog();
                 alertDialog.dismiss();
                 Utility.showAlertMessage(getActivity(), t);

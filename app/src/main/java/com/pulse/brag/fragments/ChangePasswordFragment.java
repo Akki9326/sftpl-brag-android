@@ -133,7 +133,7 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
         } else if (Utility.isConnection(getActivity())) {
             ChangePasswordAPI();
         } else {
-            Utility.showAlertMessage(getActivity(), 0);
+            Utility.showAlertMessage(getActivity(), 0,null);
         }
     }
 
@@ -155,10 +155,10 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
                     if (respone.isStatus()) {
                         Utility.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode());
+                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1);
+                    Utility.showAlertMessage(getActivity(), 1,null);
                 }
             }
 

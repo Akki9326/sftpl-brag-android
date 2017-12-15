@@ -65,7 +65,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         Utility.applyTypeFace(mContext, holder.mLinearLayout);
         Utility.imageSet(mContext, data.getAvatar(), holder.mImageView);
-        holder.mTxtProdName.setText(data.getFirst_name());
+        holder.mTxtProdName.setText(data.getFirst_name() + " " + data.getLast_name() + "" + mContext.getString(R.string.text_s));
         holder.mTxtProdPrice.setText("Rs 500.00");
 //        holder.mTxtProdPrice.setText(data.getPriceWithSym(mContext));
 

@@ -117,7 +117,7 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                 } else if (Utility.isConnection(getActivity())) {
                     OTPVerifyAPI(mPinView.getText().toString());
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0);
+                    Utility.showAlertMessage(getActivity(), 0,null);
                 }
             }
         });
@@ -137,7 +137,7 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                 if (Utility.isConnection(getActivity())) {
                     ResendOTPAPI();
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0);
+                    Utility.showAlertMessage(getActivity(), 0,null);
                 }
             }
         });
@@ -156,10 +156,10 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
 
 
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getMessage());
+                        Utility.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1);
+                    Utility.showAlertMessage(getActivity(), 1,null);
                 }
             }
 
@@ -213,11 +213,11 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                                 break;
                         }
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode());
+                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
                     }
 
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1);
+                    Utility.showAlertMessage(getActivity(), 1,null);
                 }
             }
 

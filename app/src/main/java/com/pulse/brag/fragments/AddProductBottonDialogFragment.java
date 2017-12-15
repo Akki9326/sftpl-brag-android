@@ -24,6 +24,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -197,7 +198,10 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
 
     public void showData() {
 
-        mTxtTitle.setText("CLASSIC BIKINI (PACK OF 3) - MULTI COLOURED");
+        // TODO: 15-12-2017 Qty max lenght
+        mEditQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
+
+        mTxtTitle.setText(data.getFirst_name() + " " + data.getLast_name());
         List<String> mIntegerList = new ArrayList<>();
         mIntegerList.add("#F44336");
         mIntegerList.add("#E91E63");
@@ -253,6 +257,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
 
     private boolean keyboardListenersAttached = false;
     private ViewGroup rootLayout;
+
     protected void attachKeyboardListeners() {
         if (keyboardListenersAttached) {
             return;

@@ -11,6 +11,7 @@ package com.pulse.brag.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,8 +72,7 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 
 
 //        Utility.imageSet(mActivity, mListResponses.get(position).getUrl(), holder.mImgBackground);
-        holder.mText.setText(mListResponses.get(position).getName().toUpperCase());
-
+        holder.mText.setText(mListResponses.get(position).getName());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

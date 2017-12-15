@@ -143,7 +143,7 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
         } else if (Utility.isConnection(getActivity())) {
             ChangeMobileNumberAPICall();
         } else {
-            Utility.showAlertMessage(getActivity(), 0);
+            Utility.showAlertMessage(getActivity(), 0,null);
         }
     }
 
@@ -167,7 +167,7 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
                         ((ChangePasswordOrMobileActivity) getActivity()).finish();
                         ((ChangePasswordOrMobileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     } else {
-                        Utility.showAlertMessage(getActivity(), data.getErrorCode());
+                        Utility.showAlertMessage(getActivity(), data.getErrorCode(),data.getMessage());
                     }
 
                 }

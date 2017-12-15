@@ -120,7 +120,7 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
         } else if (Utility.isConnection(getActivity())) {
             ChangePasswordAPI();
         } else {
-            Utility.showAlertMessage(getActivity(), 0);
+            Utility.showAlertMessage(getActivity(), 0, null);
         }
     }
 
@@ -141,10 +141,10 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
                     if (respone.isStatus()) {
                         showAlertMessage();
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode());
+                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1);
+                    Utility.showAlertMessage(getActivity(), 1, null);
                 }
             }
 
@@ -183,7 +183,6 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
             e.printStackTrace();
         }
     }
-
 
 
     @Override

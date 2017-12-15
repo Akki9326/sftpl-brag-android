@@ -93,6 +93,8 @@ public class EditQtyDialogFragment extends DialogFragment implements BaseInterfa
         if (getArguments().containsKey(Constants.BUNDLE_QTY)) {
             qty = getArguments().getInt(Constants.BUNDLE_QTY);
             mEdtQty.setText("" + qty);
+            mEdtQty.setSelection(mEdtQty.getText().length());
+
         }
         if (getArguments().containsKey(Constants.BUNDLE_PRODUCT_IMG)) {
             Utility.imageSet(getActivity(), getArguments().getString(Constants.BUNDLE_PRODUCT_IMG), mImgProduct);

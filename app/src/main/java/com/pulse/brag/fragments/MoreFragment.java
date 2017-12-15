@@ -172,7 +172,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         moreListData.add(new MoreListData(MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_terms_and)));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart), ""));
         moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass), getString(R.string.label_change_pass)));
-        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_change_mobile_num)));
+//        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_change_mobile_num)));
         moreListData.add(new MoreListData(MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout), getString(R.string.label_logout)));
 
         moreListAdapter = new MoreListAdapter(getContext(), moreListData);
@@ -207,11 +207,11 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
             dialogYesBtn.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
+                    alertDialog.dismiss();
                     if (Utility.isConnection(getActivity())) {
-                        alertDialog.dismiss();
                         LogOutAPI();
                     } else {
-                        Utility.showAlertMessage(getActivity(), 0);
+                        Utility.showAlertMessage(getActivity(), 0,null);
                     }
                 }
             });
@@ -241,7 +241,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     }
                 } else {
                     alertDialog.dismiss();
-                    Utility.showAlertMessage(getActivity(), 1);
+                    Utility.showAlertMessage(getActivity(), 1,null);
                 }
             }
 

@@ -16,10 +16,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,12 +37,8 @@ import com.pulse.brag.pojo.datas.CartListResponeData;
 import com.pulse.brag.pojo.datas.PriceListData;
 import com.pulse.brag.views.OnSingleClickListener;
 
-import java.math.BigDecimal;
-import java.text.Format;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by nikhil.vadoliya on 07-11-2017.
@@ -58,6 +54,7 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
     RecyclerView mRecyclerView;
     ListView mListView;
     NestedScrollView mNestedScrollView;
+    LinearLayout mLinearPrice;
 
     CartListAdapter mAdapter;
 
@@ -72,9 +69,18 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
             mView = inflater.inflate(R.layout.fragment_cart, container, false);
             initializeData();
             setListeners();
-            showData();
+            checkInternet();
+//            showData();
         }
         return mView;
+    }
+
+    private void checkInternet() {
+        if (Utility.isConnection(getActivity())) {
+            showData();
+        } else {
+            Utility.showAlertMessage(getActivity(), 0, null);
+        }
     }
 
     @Override
@@ -97,11 +103,11 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setMotionEventSplittingEnabled(false);
         mRecyclerView.setNestedScrollingEnabled(false);
-        ;
 
-        mTxtTotalPrice = (TextView) mView.findViewById(R.id.textview_total_price);
-        mTxtViewDetail = (TextView) mView.findViewById(R.id.textview_view_detail);
-        mNestedScrollView = (NestedScrollView) mView.findViewById(R.id.nested_scroll);
+        mLinearPrice = mView.findViewById(R.id.linear_price);
+        mTxtTotalPrice = mView.findViewById(R.id.textview_total_price);
+        mTxtViewDetail = mView.findViewById(R.id.textview_view_detail);
+        mNestedScrollView = mView.findViewById(R.id.nested_scroll);
 
 //        mListView = (ListView) mView.findViewById(R.id.listview);
         Utility.applyTypeFace(getActivity(), (RelativeLayout) mView.findViewById(R.id.base_layout));
@@ -117,6 +123,12 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
                 mNestedScrollView.smoothScrollTo(0, ((View) mView.findViewById(R.id.dummy_view)).getTop());
             }
         });
+        mLinearPrice.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                mTxtViewDetail.performClick();
+            }
+        });
     }
 
     @Override
@@ -125,7 +137,7 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
         mList = new ArrayList<>();
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Product Name", "L", "#ffffff", 500, 1));
+                "" + getString(R.string.text_s), "L", "#ffffff", 500, 1));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
                 "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 100, 2));
@@ -166,6 +178,7 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
 
     private void setTotalPrice() {
 
+
         int total = 0;
         for (int i = 0; i < mList.size(); i++) {
             total += (mList.get(i).getQty()) * (mList.get(i).getPrice());
@@ -188,19 +201,33 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(final int position) {
 //        showProgressDialog();
-        mList.remove(position);
-        mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount() - 1);
-        mAdapter.notifyItemRemoved(position);
+//        mList.remove(position);
+//        mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount() - 1);
+//        mAdapter.notifyItemRemoved(position);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                hideProgressDialog();
+//                mAdapter.notifyDataSetChanged();
+//            }
+//        }, 100);
+//        setTotalPrice();
+
+
+        showProgressDialog();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                hideProgressDialog();
+                hideProgressDialog();
+                mList.remove(position);
+                setTotalPrice();
+//                mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount() - 1);
+//                mAdapter.notifyItemRemoved(position);
                 mAdapter.notifyDataSetChanged();
             }
         }, 500);
-        setTotalPrice();
     }
 
     @Override
@@ -210,7 +237,7 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
         Bundle bundle = new Bundle();
         bundle.putString(Constants.BUNDLE_PRODUCT_NAME, mList.get(position).getProduct_name());
         bundle.putInt(Constants.BUNDLE_QTY, mList.get(position).getQty());
-        bundle.putString(Constants.BUNDLE_PRODUCT_IMG,mList.get(position).getProduct_image());
+        bundle.putString(Constants.BUNDLE_PRODUCT_IMG, mList.get(position).getProduct_image());
 
         EditQtyDialogFragment dialogFragment = new EditQtyDialogFragment();
         dialogFragment.setTargetFragment(this, REQUEST_QTY);

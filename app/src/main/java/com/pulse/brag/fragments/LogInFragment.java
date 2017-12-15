@@ -106,7 +106,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
                 } else if (Utility.isConnection(getActivity())) {
                     LoginAPICall(mEdtNumber.getText().toString(), mEdtPassword.getText().toString());
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0);
+                    Utility.showAlertMessage(getActivity(), 0,null);
                 }
             }
         });
@@ -174,10 +174,10 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
                         getActivity().finish();
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getMessage());
+                        Utility.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1);
+                    Utility.showAlertMessage(getActivity(), 1,null);
                 }
             }
 

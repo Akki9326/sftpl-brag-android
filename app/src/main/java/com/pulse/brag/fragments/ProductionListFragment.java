@@ -203,7 +203,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mRecyclerView.loadMoreComplete(false);
-            Utility.showAlertMessage(getActivity(), 0);
+            Utility.showAlertMessage(getActivity(), 0,null);
         }
 
 //        isExecuteAsync = true;

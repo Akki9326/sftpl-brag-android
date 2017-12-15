@@ -115,7 +115,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                 } else if (Utility.isConnection(getActivity())) {
                     ForgetPassAPI(mEdtMobile.getText().toString());
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0);
+                    Utility.showAlertMessage(getActivity(), 0,null);
                 }
             }
         });
@@ -144,7 +144,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                         }
 
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode());
+                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
                     }
 
                 }

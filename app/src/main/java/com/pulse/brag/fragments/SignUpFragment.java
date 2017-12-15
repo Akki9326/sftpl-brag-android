@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,11 +54,19 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_sign_up, container, false);
+//            getActivity().getWindow().addFlags();
             initializeData();
             setListeners();
             showData();
         }
         return mView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
     }
 
     @Override
@@ -107,7 +116,7 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
                             , mEdtPass.getText().toString());
                     SignInAPICall(signInRequest);
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0);
+                    Utility.showAlertMessage(getActivity(), 0, null);
                 }
             }
         });
@@ -142,10 +151,10 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
 
 
                     } else {
-                        Utility.showAlertMessage(getActivity(), signUpRespone.getMessage());
+                        Utility.showAlertMessage(getActivity(), signUpRespone.getErrorCode(), signUpRespone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1);
+                    Utility.showAlertMessage(getActivity(), 1, null);
                 }
             }
 

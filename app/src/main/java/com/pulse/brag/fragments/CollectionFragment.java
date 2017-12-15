@@ -105,6 +105,7 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
         mLinearDetail = (LinearLayout) mView.findViewById(R.id.linear_detail);
         Utility.applyTypeFace(getContext(), mCoordinatorLayout);
 
@@ -116,7 +117,7 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
 //            GetCollectionAPI();
             showData();
         } else {
-            Utility.showAlertMessage(getActivity(), 0);
+            Utility.showAlertMessage(getActivity(), 0,null);
         }
 
     }
@@ -148,12 +149,9 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
         mPagerIndicator.setViewPager(mViewPager);
 
         List<CollectionListResponse> collectionListRespones = new ArrayList<>();
-        collectionListRespones.add(new CollectionListResponse("", "Classic Bralet", "http://cdn.shopify.com/s/files/1/1629/9535/products/0_6a00a44b-22a8-4872-9ca4-16552a32188f_large.jpg?v=1490696913"));
-        collectionListRespones.add(new CollectionListResponse("", "Racerback Bral Racerback Bral Racerback Bral Racerback Bral Racerback Bral", "http://cdn.shopify.com/s/files/1/1629/9535/products/0_large.jpg?v=1490696473"));
-        collectionListRespones.add(new CollectionListResponse("", "Cage Back Bral", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg?9636438770338163967"));
-        collectionListRespones.add(new CollectionListResponse("", "Mesh Racerback", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg?9636438770338163967"));
-        collectionListRespones.add(new CollectionListResponse("", "Classic Bikini", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature5.jpg?9636438770338163967"));
-        collectionListRespones.add(new CollectionListResponse("", "Classic Bikini", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature6.jpg?9636438770338163967"));
+        collectionListRespones.add(new CollectionListResponse("", "NEON BLOOM", "http://cdn.shopify.com/s/files/1/1629/9535/products/0_6a00a44b-22a8-4872-9ca4-16552a32188f_large.jpg?v=1490696913"));
+        collectionListRespones.add(new CollectionListResponse("", "AZTEC POP", "http://cdn.shopify.com/s/files/1/1629/9535/products/0_large.jpg?v=1490696473"));
+        collectionListRespones.add(new CollectionListResponse("", "TRIPPER", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg?9636438770338163967"));
 
 
         mRecyclerView.setAdapter(new CollectionListAdapter(getActivity(), collectionListRespones, this));

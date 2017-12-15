@@ -9,6 +9,7 @@ package com.pulse.brag.helper;
  */
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -179,166 +180,171 @@ public class Utility {
     }
 
 
-    public static void showAlertMessage(final Context mContext, Integer code) {
-        String message = "";
-        if (code == null)
-            code = 1;
+    public static void showAlertMessage(final Context mContext, Integer code, String errormessage) {
 
-        switch (code) {
+        if (code != null) {
+            String message = "";
+            switch (code) {
 
-            case 0:
-                message = mContext.getResources().getString(R.string.error_internet);
-                break;
+                case 0:
+                    message = mContext.getResources().getString(R.string.error_internet);
+                    break;
 
-            case 1:
-                message = mContext.getResources().getString(R.string.error_code_1);
-                break;
+                case 1:
+                    message = mContext.getResources().getString(R.string.error_code_1);
+                    break;
 
-            case 2:
-                message = mContext.getResources().getString(R.string.error_code_2);
-                break;
+                case 2:
+                    message = mContext.getResources().getString(R.string.error_code_2);
+                    break;
 
-            case 3:
-                message = mContext.getResources().getString(R.string.error_code_3);
-                break;
+                case 3:
+                    message = mContext.getResources().getString(R.string.error_code_3);
+                    break;
 
-            case 4:
-                message = mContext.getResources().getString(R.string.error_code_4);
-                break;
+                case 4:
+                    message = mContext.getResources().getString(R.string.error_code_4);
+                    break;
 
-            case 5:
-                message = mContext.getResources().getString(R.string.error_code_5);
-                break;
+                case 5:
+                    message = mContext.getResources().getString(R.string.error_code_5);
+                    break;
 
-            case 6:
-                message = mContext.getResources().getString(R.string.error_code_6);
-                break;
+                case 6:
+                    message = mContext.getResources().getString(R.string.error_code_6);
+                    break;
 
-            case 7:
-                message = mContext.getResources().getString(R.string.error_code_7);
-                break;
+                case 7:
+                    message = mContext.getResources().getString(R.string.error_code_7);
+                    break;
 
-            case 8:
-                message = mContext.getResources().getString(R.string.error_code_8);
-                break;
+                case 8:
+                    message = mContext.getResources().getString(R.string.error_code_8);
+                    break;
 
-            case 9:
-                message = mContext.getResources().getString(R.string.error_code_9);
-                break;
+                case 9:
+                    message = mContext.getResources().getString(R.string.error_code_9);
+                    break;
 
-            case 10:
-                message = mContext.getResources().getString(R.string.error_code_10);
-                break;
+                case 10:
+                    message = mContext.getResources().getString(R.string.error_code_10);
+                    break;
 
-            case 11:
-                message = mContext.getResources().getString(R.string.error_code_11);
-                break;
+                case 11:
+                    message = mContext.getResources().getString(R.string.error_code_11);
+                    break;
 
-            case 12:
-                message = mContext.getResources().getString(R.string.error_code_12);
-                break;
+                case 12:
+                    message = mContext.getResources().getString(R.string.error_code_12);
+                    break;
 
-            case 13:
-                message = mContext.getResources().getString(R.string.error_code_13);
-                break;
+                case 13:
+                    message = mContext.getResources().getString(R.string.error_code_13);
+                    break;
 
-            case 14:
-                message = mContext.getResources().getString(R.string.error_code_14);
-                break;
+                case 14:
+                    message = mContext.getResources().getString(R.string.error_code_14);
+                    break;
 
-            case 15:
-                message = mContext.getResources().getString(R.string.error_code_15);
-                break;
+                case 15:
+                    message = mContext.getResources().getString(R.string.error_code_15);
+                    break;
 
-            case 16:
-                message = mContext.getResources().getString(R.string.error_code_16);
-                break;
+                case 16:
+                    message = mContext.getResources().getString(R.string.error_code_16);
+                    break;
 
-            case 17:
-                message = mContext.getResources().getString(R.string.error_code_17);
-                break;
+                case 17:
+                    message = mContext.getResources().getString(R.string.error_code_17);
+                    break;
 
-            case 18:
-                message = mContext.getResources().getString(R.string.error_code_18);
-                break;
+                case 18:
+                    message = mContext.getResources().getString(R.string.error_code_18);
+                    break;
 
-            case 19:
-                message = mContext.getResources().getString(R.string.error_code_19);
-                break;
+                case 19:
+                    message = mContext.getResources().getString(R.string.error_code_19);
+                    break;
 
-            case 20:
-                message = mContext.getResources().getString(R.string.error_code_20);
-                break;
+                case 20:
+                    message = mContext.getResources().getString(R.string.error_code_20);
+                    break;
 
-            case 21:
-                message = mContext.getResources().getString(R.string.error_code_21);
-                break;
-            case 22:
-                message = mContext.getResources().getString(R.string.error_code_22);
-                break;
-            case 23:
-                message = mContext.getResources().getString(R.string.error_code_23);
-                break;
-            case 24:
-                message = mContext.getResources().getString(R.string.error_code_24);
-                break;
-            case 25:
-                message = mContext.getResources().getString(R.string.error_code_25);
-                break;
-            case 26:
-                message = mContext.getResources().getString(R.string.error_code_26);
-                break;
-            case 27:
-                message = mContext.getResources().getString(R.string.error_code_27);
-                break;
-            case 28:
-                message = mContext.getResources().getString(R.string.error_code_28);
-                break;
-            case 29:
-                message = mContext.getResources().getString(R.string.error_code_29);
-                break;
-            case 30:
-                message = mContext.getResources().getString(R.string.error_code_30);
-                break;
-            case 31:
-                message = mContext.getResources().getString(R.string.error_code_31);
-                break;
-            case 32:
-                message = mContext.getResources().getString(R.string.error_code_32);
-                break;
-            case 33:
-                message = mContext.getResources().getString(R.string.error_code_33);
-                break;
-            case 34:
-                message = mContext.getResources().getString(R.string.error_code_34);
-                break;
-            case 35:
-                message = mContext.getResources().getString(R.string.error_code_35);
-                break;
-            case 36:
-                message = mContext.getResources().getString(R.string.error_code_36);
-                break;
-            case 37:
-                message = mContext.getResources().getString(R.string.error_code_37);
-                break;
-            case 38:
-                message = mContext.getResources().getString(R.string.error_code_38);
-                break;
-            case 39:
-                message = mContext.getResources().getString(R.string.error_code_38);
-                break;
-            case 40:
-                message = mContext.getResources().getString(R.string.error_code_40);
-                break;
+                case 21:
+                    message = mContext.getResources().getString(R.string.error_code_21);
+                    break;
+                case 22:
+                    message = mContext.getResources().getString(R.string.error_code_22);
+                    break;
+                case 23:
+                    message = mContext.getResources().getString(R.string.error_code_23);
+                    break;
+                case 24:
+                    message = mContext.getResources().getString(R.string.error_code_24);
+                    break;
+                case 25:
+                    message = mContext.getResources().getString(R.string.error_code_25);
+                    break;
+                case 26:
+                    message = mContext.getResources().getString(R.string.error_code_26);
+                    break;
+                case 27:
+                    message = mContext.getResources().getString(R.string.error_code_27);
+                    break;
+                case 28:
+                    message = mContext.getResources().getString(R.string.error_code_28);
+                    break;
+                case 29:
+                    message = mContext.getResources().getString(R.string.error_code_29);
+                    break;
+                case 30:
+                    message = mContext.getResources().getString(R.string.error_code_30);
+                    break;
+                case 31:
+                    message = mContext.getResources().getString(R.string.error_code_31);
+                    break;
+                case 32:
+                    message = mContext.getResources().getString(R.string.error_code_32);
+                    break;
+                case 33:
+                    message = mContext.getResources().getString(R.string.error_code_33);
+                    break;
+                case 34:
+                    message = mContext.getResources().getString(R.string.error_code_34);
+                    break;
+                case 35:
+                    message = mContext.getResources().getString(R.string.error_code_35);
+                    break;
+                case 36:
+                    message = mContext.getResources().getString(R.string.error_code_36);
+                    break;
+                case 37:
+                    message = mContext.getResources().getString(R.string.error_code_37);
+                    break;
+                case 38:
+                    message = mContext.getResources().getString(R.string.error_code_38);
+                    break;
+                case 39:
+                    message = mContext.getResources().getString(R.string.error_code_38);
+                    break;
+                case 40:
+                    message = mContext.getResources().getString(R.string.error_code_40);
+                    break;
 
 
-            case 1011:
-                blockApplicationAlert(mContext, mContext.getResources().getString(R.string.error_code_block));
-                return;
+                case 1011:
+                    blockApplicationAlert(mContext, mContext.getResources().getString(R.string.error_code_block));
+                    return;
 
+            }
+            showAlertMessage(mContext, message);
+        } else if (errormessage != null && !errormessage.isEmpty()) {
+            showAlertMessage(mContext, errormessage);
+        } else {
+            showAlertMessage(mContext, 1, null);
         }
 
-        showAlertMessage(mContext, message);
+
     }
 
 
@@ -418,7 +424,7 @@ public class Utility {
             showAlertMessage(mContext, mContext.getResources().getString(R.string.error_retrofit_connection));
         } else {
             throwable.printStackTrace();
-            showAlertMessage(mContext, 1);
+            showAlertMessage(mContext, 1, null);
         }
     }
 
@@ -465,8 +471,17 @@ public class Utility {
 
     public static void imageSet(Context context, String url, ImageView imageView) {
 
+//        Picasso.with(context)
+//                .load(url)
+//                .placeholder(R.drawable.logo_placeholder_1)
+//                .error(R.drawable.logo_placeholder_1)
+//                .into(imageView);
+
+
         Picasso.with(context)
                 .load(url)
+                .centerInside()
+                .resize(500, 500)
                 .placeholder(R.drawable.logo_placeholder_1)
                 .error(R.drawable.logo_placeholder_1)
                 .into(imageView);
@@ -486,6 +501,7 @@ public class Utility {
     /*
     * Default animation in bottom navigation view remove
     * */
+    @SuppressLint("RestrictedApi")
     public static void removeShiftModeInBottomNavigation(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {

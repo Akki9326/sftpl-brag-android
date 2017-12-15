@@ -79,7 +79,7 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
 //            GetCollectionAPI();
             showData();
         } else {
-            Utility.showAlertMessage(getActivity(), 0);
+            Utility.showAlertMessage(getActivity(), 0, null);
         }
 
     }
@@ -108,6 +108,7 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
         mRecyclerView.setMotionEventSplittingEnabled(false);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
         mLinearDetail = (LinearLayout) mView.findViewById(R.id.linear_detail);
         Utility.applyTypeFace(getContext(), mCoordinatorLayout);
 

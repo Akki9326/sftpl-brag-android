@@ -10,6 +10,7 @@ package com.pulse.brag.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnAddButtonClickListener;
@@ -26,6 +28,8 @@ import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by nikhil.vadoliya on 03-10-2017.
@@ -53,9 +57,19 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
-        MyViewHolder viewHolder1 = new MyViewHolder(view);
-        return viewHolder1;
+        Log.i(TAG, "onCreateViewHolder: " + viewType);
+        View view;
+        MyViewHolder viewHolder1;
+        if (!BragApp.isProductViewAsList) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
+            viewHolder1 = new MyViewHolder(view);
+            return viewHolder1;
+
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_product, null);
+            viewHolder1 = new MyViewHolder(view);
+            return viewHolder1;
+        }
     }
 
     @Override
@@ -65,7 +79,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         Utility.applyTypeFace(mContext, holder.mLinearLayout);
         Utility.imageSet(mContext, data.getAvatar(), holder.mImageView);
-        holder.mTxtProdName.setText(data.getFirst_name() + " " + data.getLast_name() + "" + mContext.getString(R.string.text_s));
+        holder.mTxtProdName.setText(data.getFirst_name() + " " + data.getLast_name() + mContext.getString(R.string.text_s));
         holder.mTxtProdPrice.setText("Rs 500.00");
 //        holder.mTxtProdPrice.setText(data.getPriceWithSym(mContext));
 
@@ -85,12 +99,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         });
     }
 
+
     @Override
     public int getItemCount() {
         return mListRespones.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         View mView;
         ImageView mImageView;
@@ -109,4 +124,5 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             mLinerAdd = (LinearLayout) itemView.findViewById(R.id.linear_add);
         }
     }
+
 }

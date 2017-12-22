@@ -1,17 +1,14 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-       android:shape="oval"
-       android:useLevel="false"
-       android:thickness="9dp"
-       android:innerRadius="0dp"
-    >
+    android:innerRadius="0dp"
+    android:shape="oval"
+    android:thickness="9dp"
+    android:useLevel="false">
 
-    <solid
-        android:color="@color/pink"
-        />
+    <solid android:color="#F44336" />
 
-    <size android:height="15dp" android:width="15dp" />
+
     <padding
-        android:top="1dp"
-        android:bottom="1dp"/>
+        android:bottom="1dp"
+        android:top="1dp" />
 
 </shape>

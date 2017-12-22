@@ -12,15 +12,18 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginLeft="5dp"
-        android:src="@drawable/ic_golf_course"
+        android:antialias="false"
+        android:src="@drawable/ic_cart"
         android:tint="@color/colorAccent" />
 
     <TextView
         android:id="@+id/textview_label"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_weight="1"
         android:tag="@string/font_opensans_regular_id"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_size_small" />
+
 </LinearLayout>

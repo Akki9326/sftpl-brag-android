@@ -21,6 +21,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState, R.layout.activity_main);
 
 
+        BragApp.NotificationNumber = 102;
+        setBagCount(BragApp.CartNumber);
         pushFragments(new HomeFragment(), false, false);
 
 

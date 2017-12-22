@@ -20,7 +20,10 @@ import com.pulse.brag.helper.PreferencesManager;
 public class BragApp extends Application {
 
     static BragApp mInstance;
-    public static int CartNumber = 0;
+    public static int CartNumber = 200;
+    public static int NotificationNumber = 0;
+
+    public static boolean isProductViewAsList = false;
 
     @Override
     public void onCreate() {
@@ -31,5 +34,14 @@ public class BragApp extends Application {
 
     public static synchronized BragApp getInstance() {
         return mInstance;
+    }
+
+
+    public static String getCartNumber() {
+        if (CartNumber > 0 && CartNumber <= 99) {
+            return "" + CartNumber;
+        } else {
+            return "99+";
+        }
     }
 }

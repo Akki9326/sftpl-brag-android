@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.pojo.datas.MoreListData;
@@ -61,7 +62,6 @@ public class MoreListAdapter extends BaseAdapter {
         convertView = inflter.inflate(R.layout.item_list_more, null);
         TextView textLabel = (TextView) convertView.findViewById(R.id.textview_label);
         ImageView imageIcon = (ImageView) convertView.findViewById(R.id.imageview_icon);
-
         Utility.applyTypeFace(context, (LinearLayout) convertView.findViewById(R.id.base_layout));
 
         if (moreListData.get(position).getLabel().isEmpty()) {
@@ -72,7 +72,6 @@ public class MoreListAdapter extends BaseAdapter {
             textLabel.setText(moreListData.get(position).getLabel());
             imageIcon.setImageDrawable(moreListData.get(position).getDrawable());
         }
-
 
         return convertView;
     }

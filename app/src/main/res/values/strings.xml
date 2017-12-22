@@ -101,10 +101,8 @@
     <string name="label_collection">Collection</string>
     <string name="label_order">Order</string>
     <string name="label_more">More</string>
-    <string name="toolbar_label_order">Order Details</string>
-    <string name="toolbar_label_more">More</string>
+
     <string name="label_cart">Cart Detail</string>
-    <string name="toolbar_label_cart">Cart</string>
 
 
     <string name="text_rs">\u20B9</string>
@@ -164,4 +162,18 @@
     <string name="error_empty_new_mobile_num">Please Enter mobile Number.</string>
     <string name="msg_mobile_num_change_success">Your mobile number change successfull.</string>
     <string name="hint_search_product">search product</string>
+    <string name="label_notification">Notifications</string>
+
+
+    <string name="toolbar_label_notification">Notifications</string>
+    <string name="toolbar_label_productlist">Product List</string>
+    <string name="toolbar_label_product_detail">Product Detail</string>
+    <string name="toolbar_label_change_password">Change Password</string>
+    <string name="toolbar_label_change_mobile_num">Change Mobile Number</string>
+
+    <string name="toolbar_label_order">Order Details</string>
+    <string name="toolbar_label_more">More</string>
+    <string name="toolbar_label_cart">Cart</string>
+    <string name="toolbar_label_right_read_all">Read all</string>
+
 </resources>

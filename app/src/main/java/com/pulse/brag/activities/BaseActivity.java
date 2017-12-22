@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.fragments.CartFragment;
 import com.pulse.brag.fragments.OrderDatailFragment;
@@ -50,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     TextView mToolbarTitle, mTxtBagCount;
+    public TextView mTxtReadAll;
     ImageView mImgBack;
     ImageView mImgLogo;
 
@@ -77,6 +79,7 @@ public class BaseActivity extends AppCompatActivity {
         mLinearCart = (LinearLayout) mToolbar.findViewById(R.id.linear_card);
         mTxtBagCount = (TextView) mToolbar.findViewById(R.id.badge_tv_toolbar);
         mRelText = (RelativeLayout) mToolbar.findViewById(R.id.relative_text);
+        mTxtReadAll = mToolbar.findViewById(R.id.textview_read_all);
         Utility.applyTypeFace(getApplicationContext(), mToolbar);
 
 
@@ -86,7 +89,13 @@ public class BaseActivity extends AppCompatActivity {
                 pushFragments(new CartFragment(), true, true);
             }
         });
-
+        mImgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.hideSoftkeyboard(BaseActivity.this, view);
+                onBackPressed();
+            }
+        });
     }
 
     public void setBagCount(int num) {
@@ -94,7 +103,7 @@ public class BaseActivity extends AppCompatActivity {
             mTxtBagCount.setVisibility(View.GONE);
         } else {
             mTxtBagCount.setVisibility(View.VISIBLE);
-            mTxtBagCount.setText("" + num);
+            mTxtBagCount.setText(Utility.getBadgeNumber(num));
         }
     }
 
@@ -106,6 +115,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showToolbar(boolean isBackBtn, boolean isLogo, boolean isCardBtn) {
 
+        mTxtReadAll.setVisibility(View.GONE);
         if (isBackBtn) {
             mImgBack.setVisibility(View.VISIBLE);
             mRelText.setVisibility(View.VISIBLE);
@@ -121,14 +131,6 @@ public class BaseActivity extends AppCompatActivity {
             mRelText.setVisibility(View.VISIBLE);
             mImgLogo.setVisibility(View.GONE);
         }
-
-        mImgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Utility.hideSoftkeyboard(BaseActivity.this, view);
-                onBackPressed();
-            }
-        });
         if (isCardBtn) {
             mLinearCart.setVisibility(View.VISIBLE);
         } else {
@@ -143,6 +145,30 @@ public class BaseActivity extends AppCompatActivity {
             mToolbarTitle.setText(title);
 
     }
+
+    public void showToolbar(boolean isBack, boolean isLogo, String title, String rightLabel) {
+        mTxtReadAll.setVisibility(View.VISIBLE);
+        mToolbarTitle.setText(title);
+        mTxtReadAll.setText(rightLabel);
+        if (isBack) {
+            mImgBack.setVisibility(View.VISIBLE);
+            mRelText.setVisibility(View.VISIBLE);
+        } else {
+            mImgBack.setVisibility(View.GONE);
+        }
+        if (isLogo) {
+            mImgLogo.setVisibility(View.VISIBLE);
+            mToolbarTitle.setVisibility(View.GONE);
+            mRelText.setVisibility(View.GONE);
+        } else {
+            mToolbarTitle.setVisibility(View.VISIBLE);
+            mRelText.setVisibility(View.VISIBLE);
+            mImgLogo.setVisibility(View.GONE);
+        }
+
+
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -333,5 +359,13 @@ public class BaseActivity extends AppCompatActivity {
         else
             mToolbar.setVisibility(getResources().getColor(R.color.white));
 //        mToolbar.setBackgroundColor(R.color.white);
+    }
+
+    public String getNotificationlabel() {
+        if (BragApp.NotificationNumber > 0) {
+            return getString(R.string.toolbar_label_notification) + " (" + Utility.getBadgeNumber(BragApp.NotificationNumber) + ")";
+        } else {
+            return getString(R.string.toolbar_label_notification);
+        }
     }
 }

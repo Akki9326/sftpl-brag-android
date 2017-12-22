@@ -1,83 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/base_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    android:id="@+id/base_layout"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <com.pulse.brag.views.CircleImageView
-            android:id="@+id/imageview_profile"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/background" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textview_name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:tag="@string/font_opensans_bold_id"
                 android:layout_height="wrap_content"
-                android:text="Full Name"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/text_size_large" />
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/textview_location"
+                <com.pulse.brag.views.CircleImageView
+                    android:id="@+id/imageview_profile"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/background" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textview_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_bold_id"
+                        android:text="Full Name"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/textview_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/text_s"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/text_size_very_small_12" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@+id/listview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:tag="@string/font_opensans_regular_id"
-                android:text="@string/text_s"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/text_size_very_small_12" />
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
         </LinearLayout>
-    </LinearLayout>
-
-
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="bottom"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:gravity="bottom|center"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_logo" />
-
-        <TextView
-            android:id="@+id/textview_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="@string/font_opensans_regular_id"
-            android:textSize="@dimen/text_size_very_small_12" />
-    </LinearLayout>
-
-
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

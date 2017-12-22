@@ -120,15 +120,13 @@
                         android:background="@drawable/rounder_corner_edge_gray"
                         android:gravity="center"
                         android:inputType="number"
-                        android:maxLength="3"
+                        android:maxLength="2"
                         android:text="1"
-                        android:maxLines="1"
                         android:maxWidth="120dp"
                         android:paddingBottom="2dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingTop="2dp"
-                        android:singleLine="true"
                         android:tag="@string/font_opensans_regular_id"
                         android:textSize="@dimen/text_size_medium" />
 

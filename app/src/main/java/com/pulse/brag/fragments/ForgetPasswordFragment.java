@@ -75,7 +75,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
     @Override
     public void setToolbar() {
         if (getActivity() instanceof ChangePasswordOrMobileActivity) {
-            ((ChangePasswordOrMobileActivity) getActivity()).showToolBar("Change Mobile Number");
+            ((ChangePasswordOrMobileActivity) getActivity()).showToolBar(getString(R.string.toolbar_label_change_mobile_num));
         }
     }
 
@@ -115,7 +115,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                 } else if (Utility.isConnection(getActivity())) {
                     ForgetPassAPI(mEdtMobile.getText().toString());
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0,null);
+                    Utility.showAlertMessage(getActivity(), 0, null);
                 }
             }
         });
@@ -144,7 +144,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                         }
 
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
+                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
                     }
 
                 }

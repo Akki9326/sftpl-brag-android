@@ -20,6 +20,13 @@ public class MoreListData {
     private int id;
     private String label;
     private Drawable drawable;
+    private boolean isBadge;
+
+    public MoreListData(int id, Drawable drawable, String label) {
+        this.id = id;
+        this.label = label;
+        this.drawable = drawable;
+    }
 
     public int getId() {
         return id;
@@ -29,11 +36,7 @@ public class MoreListData {
         this.id = id;
     }
 
-    public MoreListData(int id, Drawable drawable, String label) {
-        this.id = id;
-        this.label = label;
-        this.drawable = drawable;
-    }
+
 
     public String getLabel() {
         return label;

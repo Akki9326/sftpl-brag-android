@@ -10,13 +10,16 @@ package com.pulse.brag.fragments;
  */
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +32,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
+import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.activities.SplashActivty;
 import com.pulse.brag.adapters.MoreListAdapter;
@@ -62,11 +67,11 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
     View mView;
     ImageView mImgProfile;
     ListView mListView;
-    TextView mTxtVersion;
     TextView mTxtName;
 
     UserData mUserData;
     MoreListAdapter moreListAdapter;
+    List<MoreListData> moreListData;
 
     Dialog alertDialog;
 
@@ -80,6 +85,13 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
             showData();
         }
         return mView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotification,
+                new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
     }
 
     @Override
@@ -97,12 +109,16 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
     public void initializeData() {
         mImgProfile = (ImageView) mView.findViewById(R.id.imageview_profile);
         mListView = (ListView) mView.findViewById(R.id.listview);
-        mTxtVersion = (TextView) mView.findViewById(R.id.textview_version);
         mTxtName = (TextView) mView.findViewById(R.id.textview_name);
 
         mUserData = PreferencesManager.getInstance().getUserData();
 
         Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
+
+        //footer (version name)
+        View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_more_list, null, false);
+        ((TextView) footerView.findViewById(R.id.textview_version)).setText(getString(R.string.label_version) + " " + BuildConfig.VERSION_NAME);
+        mListView.addFooterView(footerView, null, false);
     }
 
     @Override
@@ -154,6 +170,10 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                         intent = new Intent(getActivity(), ChangePasswordOrMobileActivity.class);
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                        break;
+                    case 7:
+                        ((BaseActivity) getActivity()).pushFragments(new NotificationListFragment(), true, true);
+                        break;
                 }
             }
         });
@@ -164,21 +184,32 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
 
         mTxtName.setText(mUserData.getFullName());
 
-        List<MoreListData> moreListData = new ArrayList<>();
-        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart), ""));
-        moreListData.add(new MoreListData(MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_my_order)));
-        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart), ""));
-        moreListData.add(new MoreListData(MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_pri_policy)));
-        moreListData.add(new MoreListData(MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_terms_and)));
-        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart), ""));
-        moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass), getString(R.string.label_change_pass)));
-//        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart), getString(R.string.label_change_mobile_num)));
-        moreListData.add(new MoreListData(MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout), getString(R.string.label_logout)));
+        moreListData = new ArrayList<>();
+        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
+                ""));
+        moreListData.add(new MoreListData(MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+                getString(R.string.label_my_order)));
+        moreListData.add(new MoreListData(MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
+                ((BaseActivity) getActivity()).getNotificationlabel()));
+        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
+                ""));
+        moreListData.add(new MoreListData(MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+                getString(R.string.label_pri_policy)));
+        moreListData.add(new MoreListData(MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+                getString(R.string.label_terms_and)));
+        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
+                ""));
+        moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
+                getString(R.string.label_change_pass)));
+//        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+// getString(R.string.label_change_mobile_num)));
+        moreListData.add(new MoreListData(MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
+                getString(R.string.label_logout)));
 
         moreListAdapter = new MoreListAdapter(getContext(), moreListData);
         mListView.setAdapter(moreListAdapter);
 
-        mTxtVersion.setText(getString(R.string.label_version) + " " + BuildConfig.VERSION_NAME);
+        Utility.setListViewHeightBasedOnChildren(mListView);
 
     }
 
@@ -211,7 +242,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     if (Utility.isConnection(getActivity())) {
                         LogOutAPI();
                     } else {
-                        Utility.showAlertMessage(getActivity(), 0,null);
+                        Utility.showAlertMessage(getActivity(), 0, null);
                     }
                 }
             });
@@ -241,7 +272,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     }
                 } else {
                     alertDialog.dismiss();
-                    Utility.showAlertMessage(getActivity(), 1,null);
+                    Utility.showAlertMessage(getActivity(), 1, null);
                 }
             }
 
@@ -252,5 +283,20 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 Utility.showAlertMessage(getActivity(), t);
             }
         });
+    }
+
+    private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            moreListData.set(2, new MoreListData(MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((BaseActivity) getActivity()).getNotificationlabel()));
+            moreListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
+
     }
 }

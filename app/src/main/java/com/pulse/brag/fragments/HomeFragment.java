@@ -8,33 +8,36 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
-import android.graphics.drawable.RippleDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.MetricAffectingSpan;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
+import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.CustomTypefaceSpan;
@@ -49,10 +52,16 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
     View mView;
 
     BottomNavigationView mNavigationView;
+    BottomNavigationMenuView bottomNavigationMenuView;
+    BottomNavigationItemView itemView;
     FrameLayout mFrameLayoutCategory;
     FrameLayout mFrameLayoutCollection;
     FrameLayout mFrameLayoutOrder;
     FrameLayout mFrameLayoutMore;
+
+    //badge
+    TextView txtBadge;
+    View badge;
 
     boolean isAddedCategory, isAddedCollection, isAddedOrder, isAddedMore;
 
@@ -64,9 +73,17 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
             mView = inflater.inflate(R.layout.fragment_home, container, false);
             initializeData();
             setListeners();
+            setNotificationBadge();
             showData();
         }
         return mView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotification,
+                new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
     }
 
     @Override
@@ -102,6 +119,7 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
     public void initializeData() {
         mNavigationView = (BottomNavigationView) mView.findViewById(R.id.bottom_sheet);
         Utility.removeShiftModeInBottomNavigation(mNavigationView);
+        bottomNavigationMenuView = (BottomNavigationMenuView) mNavigationView.getChildAt(0);
 
 //        BottomNavigationMenuView menuView = (BottomNavigationMenuView) mNavigationView.getChildAt(0);
 //        for (int i = 0; i < menuView.getChildCount(); i++) {
@@ -113,7 +131,8 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
 //            iconView.setLayoutParams(layoutParams);
 //        }
 
-        //font apply to BottonNavigationBar
+
+        //apply  font to BottonNavigationBar
         Menu menu = mNavigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
             MenuItem mi = menu.getItem(i);
@@ -127,6 +146,20 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
         setFragmentInTab();
         isAddedCategory = true;
 
+
+    }
+
+    private void setNotificationBadge() {
+
+        View v = bottomNavigationMenuView.getChildAt(3);
+        itemView = (BottomNavigationItemView) v;
+        badge = LayoutInflater.from(getActivity())
+                .inflate(R.layout.bottom_navigation_notification_badge, bottomNavigationMenuView, false);
+        txtBadge = badge.findViewById(R.id.notifications_badge);
+        if (BragApp.NotificationNumber > 0) {
+            itemView.addView(badge);
+            txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
+        }
 
     }
 
@@ -225,4 +258,20 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
         mi.setTitle(mNewTitle);
     }
 
+    private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (BragApp.NotificationNumber > 0) {
+                txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
+            } else {
+                itemView.removeView(badge);
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
+    }
 }

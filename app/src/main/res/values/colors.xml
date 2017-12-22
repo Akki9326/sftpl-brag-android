@@ -11,6 +11,7 @@
     <color name="text_black">#000000</color>
     <color name="gray">#5C5A5A</color>
     <color name="gray_transparent">#735C5A5A</color>
+    <color name="gray_10">#E0E0E0</color>
     <color name="white">#ffffff</color>
     <color name="semi_white_bg">#BFffffff</color>
     <!--<color name="semi_white_bg">#90ffffff</color>-->

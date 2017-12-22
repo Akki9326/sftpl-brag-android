@@ -83,7 +83,7 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void setToolbar() {
-        ((ChangePasswordOrMobileActivity) getActivity()).showToolBar("Change Password");
+        ((ChangePasswordOrMobileActivity) getActivity()).showToolBar(getString(R.string.toolbar_label_change_password));
     }
 
     @Override

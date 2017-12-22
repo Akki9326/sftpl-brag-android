@@ -11,14 +11,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="245dp"
+        android:layout_height="213dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView_product"
             android:layout_width="90dp"
-            android:layout_height="130dp"
+            android:layout_height="100dp"
             android:layout_marginTop="2dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="2"
             android:minHeight="45dp"
-            android:gravity="center"
             android:padding="5dp"
             android:tag="@string/font_opensans_regular_id"
             android:textSize="@dimen/text_size_small" />
@@ -50,15 +50,15 @@
         <LinearLayout
             android:id="@+id/linear_add"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/round_corner_solid_gray"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
             android:paddingTop="5dp">
 
             <ImageView
@@ -70,8 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:paddingRight="2dp"
+                android:padding="2dp"
                 android:tag="@string/font_opensans_regular_id"
                 android:text="ADD"
                 android:textColor="@color/white"

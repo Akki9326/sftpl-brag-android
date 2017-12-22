@@ -294,9 +294,8 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         Drawable d = new ColorDrawable(Color.BLACK);
         d.setAlpha(130);
         dialog.getWindow().setBackgroundDrawable(d);
-        dialog.getWindow()
-                .getAttributes().windowAnimations = R.style.AddProdDialogAnimation;
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.AddProdDialogAnimation;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         return dialog;
     }
 }

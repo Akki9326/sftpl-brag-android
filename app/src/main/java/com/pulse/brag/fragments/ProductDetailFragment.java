@@ -8,9 +8,12 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.transition.Transition;
+import android.support.transition.TransitionInflater;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,6 +31,7 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
+import com.pulse.brag.adapters.FullScreenImagePagerAdaper;
 import com.pulse.brag.adapters.ProductDetailImagePagerAdapter;
 import com.pulse.brag.adapters.SizeListAdapter;
 import com.pulse.brag.helper.Constants;
@@ -61,7 +65,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
 
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
-
+    ProductDetailImagePagerAdapter mDetailImagePagerAdapter;
     List<String> mIntegerList;
     List<String> mStringList;
     List<ImagePagerResponse> imagePagerResponeList;
@@ -88,7 +92,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
 
     @Override
     public void setToolbar() {
-        ((BaseActivity) getActivity()).showToolbar(true, false, true, "Product Detail");
+        ((BaseActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_product_detail));
     }
 
     @Override
@@ -156,7 +160,8 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
-        mViewPager.setAdapter(new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this));
+        mDetailImagePagerAdapter=new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this);
+        mViewPager.setAdapter(mDetailImagePagerAdapter);
         mViewPagerIndicator.setViewPager(mViewPager);
 
 
@@ -207,6 +212,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
         mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
         mDialogFragmentImage.setArguments(args);
         mDialogFragmentImage.show(fm, "");
+
     }
 
 

@@ -75,7 +75,6 @@ public class ApiClient {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
             Interceptor interceptor = new Interceptor() {
@@ -96,7 +95,6 @@ public class ApiClient {
                     }
                     builder.header(MAP_KEY_OS, OS);
                     builder.header(MAP_API_VERSION, API_VERSION.replace("/", ""));
-
                     return chain.proceed(builder.build());
                 }
             };

@@ -59,4 +59,5 @@ public class Constants {
     public static final int SUCCESS_RESPONE = 200;
 
 
+    public static final String LOCALBROADCAST_UPDATE_NOTIFICATION ="localbrodUpdateNotification" ;
 }

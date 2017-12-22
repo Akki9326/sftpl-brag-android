@@ -75,7 +75,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/imageView_sort"
+                android:id="@+id/imageview_sort"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="5dp"
@@ -83,7 +83,7 @@
                 android:src="@drawable/ic_sort" />
 
             <ImageView
-                android:id="@+id/imageView_filter"
+                android:id="@+id/imageview_filter"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="5dp"

@@ -20,7 +20,8 @@ public enum MoreList {
     TERMS_AND(3),
     CHANGE_PASS(4),
     LOGOUT(5),
-    CHANGE_MOBILE(6);
+    CHANGE_MOBILE(6),
+    NOTIFICATION(7);
 
 
     MoreList(int i) {

@@ -44,6 +44,7 @@ import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
@@ -628,5 +629,13 @@ public class Utility {
         }
 
 
+    }
+
+    public static String getBadgeNumber(int num) {
+        if (num > 0 && num <= 99) {
+            return "" + num;
+        } else {
+            return "99+";
+        }
     }
 }

@@ -8,12 +8,19 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Intent;
+import android.graphics.Rect;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -31,6 +38,8 @@ import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.SignInRequest;
 import com.pulse.brag.pojo.response.SignUpResponse;
 import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.views.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import com.pulse.brag.views.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,13 +57,15 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
     EditText mEdtFirstNam, mEdtLastNam, mEdtEmail, mEdtMobile, mEdtPass, mEdtConfirmPas;
     Button mBtnSignup, mBtnLogin;
     TextView mTxtSignup;
+    View mDummyView;
+
+    int keyboardheight;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_sign_up, container, false);
-//            getActivity().getWindow().addFlags();
             initializeData();
             setListeners();
             showData();
@@ -85,6 +96,8 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
         mEdtMobile = (EditText) mView.findViewById(R.id.edittext_mobile_num);
         mEdtPass = (EditText) mView.findViewById(R.id.edittext_password);
         mEdtConfirmPas = (EditText) mView.findViewById(R.id.edittext_confirm_password);
+        mDummyView = mView.findViewById(R.id.view_dummy);
+
     }
 
     @Override
@@ -131,7 +144,40 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
                 return false;
             }
         });
+
+        /*KeyboardVisibilityEvent.setEventListener(
+                getActivity(),
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        if (isOpen) {
+                            mDummyView.setMinimumHeight(keyboardheight);
+                            mDummyView.setVisibility(View.VISIBLE);
+                        } else {
+                            mDummyView.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+
+        mView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                Rect r = new Rect();
+                mView.getWindowVisibleDisplayFrame(r);
+
+                int screenHeight = mView.getRootView().getHeight();
+                int heightDifference = screenHeight - (r.bottom - r.top);
+                keyboardheight = heightDifference;
+                Log.d("Keyboard Size", "Size: " + heightDifference);
+
+                //boolean visible = heightDiff > screenHeight / 3;
+            }
+        });*/
     }
+
 
     private void SignInAPICall(final SignInRequest signInRequest) {
         Utility.hideSoftkeyboard(getActivity());
@@ -169,6 +215,13 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
 
     @Override
     public void showData() {
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
     }
 }

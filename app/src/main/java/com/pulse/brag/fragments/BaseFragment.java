@@ -22,6 +22,7 @@ public class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProgressDialog = new CustomProgressDialog(getActivity());
+        //this comment because forget pass and change mobile have splash screen base activity
 //        mActivity = ((BaseActivity) getActivity());
     }
 

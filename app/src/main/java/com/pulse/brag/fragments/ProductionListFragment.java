@@ -17,21 +17,28 @@ package com.pulse.brag.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
@@ -52,6 +59,7 @@ import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.DummeyRespone;
 import com.pulse.brag.pojo.response.ProductListResponse;
+import com.pulse.brag.views.OnSingleClickListener;
 import com.pulse.brag.views.ScrollingToolbarBehavior;
 
 import java.util.ArrayList;
@@ -77,6 +85,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout mLinearSearch;
     RelativeLayout mRelativeSearch;
+    ImageView mImgSort;
 
     boolean isExecuteAsync = false;
     private static final int LOAD_LIST = 1;
@@ -101,6 +110,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     SizeListAdapter mSizeListAdapter;
 
     List<DummeyDataRespone> mDummeyDataRespones;
+    boolean isViewWithCatalog = true;
 
     @Nullable
     @Override
@@ -124,7 +134,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void setToolbar() {
-        ((BaseActivity) getActivity()).showToolbar(true, false, true, "Product List");
+        ((BaseActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_productlist));
     }
 
     @Override
@@ -132,6 +142,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
         mRecyclerView = (ERecyclerView) mView.findViewById(R.id.recycleView);
         mRelativeSearch = (RelativeLayout) mView.findViewById(R.id.relative_s);
+        mImgSort = mView.findViewById(R.id.imageview_sort);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setHasFixedSize(true);
@@ -140,6 +151,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
+
         collectionListRespones = new ArrayList<>();
         mDummeyDataRespones = new ArrayList<>();
 
@@ -189,6 +201,19 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
             }
         });
+
+        mImgSort.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                BragApp.isProductViewAsList = !BragApp.isProductViewAsList;
+                mRecyclerView.setLayoutManager(BragApp.isProductViewAsList ? new LinearLayoutManager(getActivity()) : new GridLayoutManager(getActivity(), 2));
+                mProductListAdapter.notifyDataSetChanged();
+//                mRecyclerView.removeAllViewsInLayout();
+//                mRecyclerView.setAdapter(mProductListAdapter);
+                isViewWithCatalog = !isViewWithCatalog;
+
+            }
+        });
     }
 
 
@@ -203,7 +228,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mRecyclerView.loadMoreComplete(false);
-            Utility.showAlertMessage(getActivity(), 0,null);
+            Utility.showAlertMessage(getActivity(), 0, null);
         }
 
 //        isExecuteAsync = true;
@@ -275,42 +300,9 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void onItemClick(int position) {
+
         ((BaseActivity) getActivity()).pushFragments(new ProductDetailFragment(), true, true);
 
-        /*final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mLinearSearch.getLayoutParams();
-        if (params.topMargin == 10) {
-            Animation a = new Animation() {
-
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-
-
-                    params.leftMargin = (int) (0 * interpolatedTime);
-                    params.rightMargin = (int) (0 * interpolatedTime);
-                    params.topMargin = (int) (0 * interpolatedTime);
-                    mLinearSearch.setLayoutParams(params);
-                }
-            };
-            a.setDuration(2000); // in ms
-            mLinearSearch.startAnimation(a);
-        } else {
-            Animation a = new Animation() {
-
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-
-
-                    params.leftMargin = (int) (10 * interpolatedTime);
-                    params.rightMargin = (int) (10 * interpolatedTime);
-                    params.topMargin = (int) (10 * interpolatedTime);
-                    mLinearSearch.setLayoutParams(params);
-                }
-            };
-            a.setDuration(500); // in ms
-            mLinearSearch.startAnimation(a);
-
-        }
-*/
 
     }
 

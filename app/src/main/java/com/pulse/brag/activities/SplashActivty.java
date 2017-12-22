@@ -5,10 +5,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -37,6 +40,7 @@ public class SplashActivty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_splash_activty);
 
         Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) findViewById(R.id.base_layout));
@@ -60,7 +64,6 @@ public class SplashActivty extends AppCompatActivity {
             }
         }, 2000);
     }
-
 
 
     private void animatedViewAndLogin() {
@@ -87,8 +90,8 @@ public class SplashActivty extends AppCompatActivity {
     }
 
     private void init() {
-        mImgLogo = (ImageView) findViewById(R.id.imageview_logo);
-        mFrameLayout = (FrameLayout) findViewById(R.id.login_contrainer);
+        mImgLogo = findViewById(R.id.imageview_logo);
+        mFrameLayout = findViewById(R.id.fragment_container_login);
     }
 
 
@@ -102,7 +105,7 @@ public class SplashActivty extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (manager.findFragmentById(R.id.login_contrainer) instanceof SignUpComplateFragment) {
+        if (manager.findFragmentById(R.id.fragment_container_login) instanceof SignUpComplateFragment) {
             return;
         } else {
             super.onBackPressed();
@@ -131,7 +134,7 @@ public class SplashActivty extends AppCompatActivity {
         if (shouldAdd) {
             ft.addToBackStack(TAG);
         }
-        ft.replace(R.id.login_contrainer, fragment);
+        ft.replace(R.id.fragment_container_login, fragment);
 
         if (!isFinishing()) {
             ft.commitAllowingStateLoss();
@@ -142,5 +145,12 @@ public class SplashActivty extends AppCompatActivity {
 
     public void popBackToLogin() {
         manager.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

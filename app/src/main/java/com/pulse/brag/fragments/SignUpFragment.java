@@ -164,7 +164,6 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
 
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
                 Rect r = new Rect();
                 mView.getWindowVisibleDisplayFrame(r);
 

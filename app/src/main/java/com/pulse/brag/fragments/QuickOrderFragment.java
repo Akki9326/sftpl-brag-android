@@ -1,5 +1,6 @@
 package com.pulse.brag.fragments;
 
+
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
@@ -15,23 +16,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pulse.brag.R;
-import com.pulse.brag.activities.BaseActivity;
+import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 
 /**
- * Created by nikhil.vadoliya on 04-10-2017.
+ * Created by nikhil.vadoliya on 03-01-2018.
  */
 
 
-public class OrderDatailFragment extends BaseFragment implements BaseInterface {
+public class QuickOrderFragment extends BaseFragment implements BaseInterface {
 
     View mView;
 
-    public static OrderDatailFragment newInstance() {
 
+    public static QuickOrderFragment newInstance() {
+        
         Bundle args = new Bundle();
 
-        OrderDatailFragment fragment = new OrderDatailFragment();
+        QuickOrderFragment fragment = new QuickOrderFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,21 +45,23 @@ public class OrderDatailFragment extends BaseFragment implements BaseInterface {
             mView = inflater.inflate(R.layout.fragment_order_detail, container, false);
             initializeData();
             setListeners();
-            showData();
+            checkInternet();
         }
         return mView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar();
+    private void checkInternet() {
+
+        if (Utility.isConnection(getActivity())) {
+            showData();
+        } else {
+            Utility.showAlertMessage(getContext(), 0, null);
+        }
     }
 
     @Override
     public void setToolbar() {
 
-//        ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_order));
     }
 
     @Override

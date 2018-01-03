@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
+import com.pulse.brag.WebViewActivity;
 import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.activities.SplashActivty;
@@ -118,6 +119,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         //footer (version name)
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_more_list, null, false);
         ((TextView) footerView.findViewById(R.id.textview_version)).setText(getString(R.string.label_version) + " " + BuildConfig.VERSION_NAME);
+        Utility.applyTypeFace(getActivity(), (LinearLayout) footerView.findViewById(R.id.base_layout));
         mListView.addFooterView(footerView, null, false);
     }
 
@@ -145,10 +147,22 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 Intent intent;
                 switch (viewId) {
                     case 1:
-                        Toast.makeText(getActivity(), "My Order", Toast.LENGTH_SHORT).show();
+                        ((BaseActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance()
+                                , true, true);
                         break;
                     case 2:
-                        Toast.makeText(getActivity(), "Privacy", Toast.LENGTH_SHORT).show();
+//                        intent = new Intent(getActivity(), WebViewActivity.class);
+//                        intent.putExtra(Constants.BUNDLE_TITLE, "Privacy");
+//                        intent.putExtra(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/privacy-policy");
+//                        startActivity(intent);
+//                        getActivity().overridePendingTransition(R.anim.slide_down, R.anim.slide_up);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.BUNDLE_TITLE, "Privacy");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/privacy-policy");
+                        WebviewDialogFragment dialogFragment = new WebviewDialogFragment();
+                        dialogFragment.setArguments(bundle);
+                        dialogFragment.show(getChildFragmentManager(), "");
                         break;
                     case 3:
                         Toast.makeText(getActivity(), "Terms", Toast.LENGTH_SHORT).show();
@@ -187,7 +201,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         moreListData = new ArrayList<>();
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
                 getString(R.string.label_my_order)));
         moreListData.add(new MoreListData(MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
                 ((BaseActivity) getActivity()).getNotificationlabel()));
@@ -195,8 +209,6 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 ""));
         moreListData.add(new MoreListData(MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
                 getString(R.string.label_pri_policy)));
-        moreListData.add(new MoreListData(MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
-                getString(R.string.label_terms_and)));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),

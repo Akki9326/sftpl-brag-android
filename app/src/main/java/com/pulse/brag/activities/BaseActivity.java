@@ -34,7 +34,6 @@ import android.widget.Toast;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.fragments.CartFragment;
-import com.pulse.brag.fragments.OrderDatailFragment;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.views.CustomProgressDialog;

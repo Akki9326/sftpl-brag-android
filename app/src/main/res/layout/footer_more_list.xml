@@ -16,6 +16,6 @@
         android:id="@+id/textview_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tag="@string/font_opensans_regular_id"
+        android:tag="@string/font_opensans_light_id"
         android:textSize="@dimen/text_size_very_small_12" />
 </LinearLayout>

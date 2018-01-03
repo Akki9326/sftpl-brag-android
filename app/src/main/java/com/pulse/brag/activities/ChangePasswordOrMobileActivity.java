@@ -33,8 +33,12 @@ import com.pulse.brag.views.OnSingleClickListener;
 
 
 /*
-* In this activity ,toolbar have transparent and layout of toolbar and framelayout are relative not linear so not extend
+* In this activity ,toolbar have transparent and layout of toolbar and framelayout(container) are relative not linear so not extend
 * to BaseActivity and make new progressbar
+*
+*
+* Why new Activity -new Toolbar ,Toolbar and FrameLayout(container) have parent RelativeLayout
+ * Why not extend to BaseActivty- new Toolbar
 */
 
 /**

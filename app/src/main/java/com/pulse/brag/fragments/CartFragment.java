@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
     ListView mListView;
     NestedScrollView mNestedScrollView;
     LinearLayout mLinearPrice;
+    LinearLayout mLinearList, mLinearError;
 
     CartListAdapter mAdapter;
 
@@ -109,8 +111,11 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
         mTxtViewDetail = mView.findViewById(R.id.textview_view_detail);
         mNestedScrollView = mView.findViewById(R.id.nested_scroll);
 
+        mLinearList = mView.findViewById(R.id.linear_cart);
+        mLinearError = mView.findViewById(R.id.linear_no_cart);
+
 //        mListView = (ListView) mView.findViewById(R.id.listview);
-        Utility.applyTypeFace(getActivity(), (RelativeLayout) mView.findViewById(R.id.base_layout));
+        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
 
     }
 
@@ -174,10 +179,18 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
 
         setTotalPrice();
 
+
+        if (mList.isEmpty()) {
+            mLinearError.setVisibility(View.VISIBLE);
+            mLinearList.setVisibility(View.GONE);
+        } else {
+            mLinearList.setVisibility(View.VISIBLE);
+            mLinearError.setVisibility(View.GONE);
+        }
+
     }
 
     private void setTotalPrice() {
-
 
         int total = 0;
         for (int i = 0; i < mList.size(); i++) {
@@ -226,6 +239,11 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
 //                mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount() - 1);
 //                mAdapter.notifyItemRemoved(position);
                 mAdapter.notifyDataSetChanged();
+                if (mAdapter.getItemCount() == 0) {
+                    mLinearError.setVisibility(View.VISIBLE);
+                    mLinearList.setVisibility(View.GONE);
+                }
+
             }
         }, 500);
     }
@@ -269,4 +287,6 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
 
         }
     }
+
+
 }

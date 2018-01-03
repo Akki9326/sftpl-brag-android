@@ -43,6 +43,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     List<DummeyDataRespone> mListRespones;
     OnItemClickListener mOnItemClickListener;
     OnAddButtonClickListener mAddButtonClickListener;
+
+    private static final int LIST_ITEM = 0;
+    private static final int GRID_ITEM = 1;
     boolean isSwitchView = true;
 
 
@@ -57,19 +60,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.i(TAG, "onCreateViewHolder: " + viewType);
         View view;
         MyViewHolder viewHolder1;
-        if (!BragApp.isProductViewAsList) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
-            viewHolder1 = new MyViewHolder(view);
-            return viewHolder1;
+        view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
+        viewHolder1 = new MyViewHolder(view);
+        return viewHolder1;
 
-        } else {
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_product, null);
-            viewHolder1 = new MyViewHolder(view);
-            return viewHolder1;
-        }
+//        if (viewType == LIST_ITEM) {
+//            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_product, null);
+//        } else {
+//            view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
+//        }
+//        return new MyViewHolder(view);
     }
 
     @Override
@@ -125,4 +127,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         }
     }
 
+//    @Override
+//    public int getItemViewType(int position) {
+//        if (isSwitchView) {
+//            return LIST_ITEM;
+//        } else {
+//            return GRID_ITEM;
+//        }
+//    }
+
+    public boolean toggleItemViewType() {
+        isSwitchView = !isSwitchView;
+        return isSwitchView;
+    }
 }

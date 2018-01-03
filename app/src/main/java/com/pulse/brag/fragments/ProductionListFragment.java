@@ -205,13 +205,8 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
         mImgSort.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                BragApp.isProductViewAsList = !BragApp.isProductViewAsList;
-                mRecyclerView.setLayoutManager(BragApp.isProductViewAsList ? new LinearLayoutManager(getActivity()) : new GridLayoutManager(getActivity(), 2));
-                mProductListAdapter.notifyDataSetChanged();
-//                mRecyclerView.removeAllViewsInLayout();
-//                mRecyclerView.setAdapter(mProductListAdapter);
-                isViewWithCatalog = !isViewWithCatalog;
 
+//                swithcher();
             }
         });
     }
@@ -345,4 +340,17 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     }
 
 
+    private void swithcher() {
+        int position;
+        if (mProductListAdapter.getItemViewType(0) == 0) {
+            position = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+        } else {
+            position = ((GridLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+        }
+        boolean isSwitched = mProductListAdapter.toggleItemViewType();
+        mRecyclerView.setLayoutManager(isSwitched ? new LinearLayoutManager(getActivity()) : new GridLayoutManager(getActivity(), 2));
+        mProductListAdapter.notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(position);
+
+    }
 }

@@ -105,7 +105,7 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
 
                 break;
             case R.id.bottombar_item_order:
-                ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_order));
+                ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_quick_order));
 
                 break;
             case R.id.bottombar_item_more:
@@ -201,7 +201,7 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
                         if (!isAddedOrder) {
                             isAddedOrder = true;
                             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-                            transactionTwo.replace(R.id.fragment_container_order, new OrderDatailFragment(), "Order_Tag");
+                            transactionTwo.replace(R.id.fragment_container_order, new QuickOrderFragment(), "Quick_Order_Tag");
                             transactionTwo.commit();
                         }
                         mFrameLayoutCategory.setVisibility(View.GONE);
@@ -209,7 +209,7 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
                         mFrameLayoutOrder.setVisibility(View.VISIBLE);
                         mFrameLayoutMore.setVisibility(View.GONE);
 
-                        ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_order));
+                        ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_quick_order));
 
                         return true;
 

@@ -171,9 +171,15 @@
     <string name="toolbar_label_change_password">Change Password</string>
     <string name="toolbar_label_change_mobile_num">Change Mobile Number</string>
 
+    <string name="toolbar_label_quick_order">Quick Order</string>
     <string name="toolbar_label_order">Order Details</string>
     <string name="toolbar_label_more">More</string>
     <string name="toolbar_label_cart">Cart</string>
     <string name="toolbar_label_right_read_all">Read all</string>
+    <string name="error_empty_cart">Your cart is empty.</string>
+    <string name="label_order_id">ORDER ID - </string>
+    <string name="label_order_empty">Order list empty.</string>
+    <string name="toolbar_my_order">My Order</string>
+    <string name="label_quick_order">Quick Order</string>
 
 </resources>

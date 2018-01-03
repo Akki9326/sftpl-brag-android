@@ -4,18 +4,18 @@
     <item
         android:id="@+id/bottombar_item_categoty"
         android:enabled="true"
-        android:icon="@drawable/ic_golf_course"
+        android:icon="@drawable/ic_category"
         android:title="@string/label_category" />
     <item
         android:id="@+id/bottombar_item_collection"
         android:enabled="true"
-        android:icon="@drawable/ic_golf_course"
+        android:icon="@drawable/ic_collection"
         android:title="@string/label_collection" />
     <item
         android:id="@+id/bottombar_item_order"
         android:enabled="true"
-        android:icon="@drawable/ic_golf_course"
-        android:title="@string/label_order" />
+        android:icon="@drawable/ic_order_bottomsheet"
+        android:title="@string/label_quick_order" />
 
     <item
         android:id="@+id/bottombar_item_more"

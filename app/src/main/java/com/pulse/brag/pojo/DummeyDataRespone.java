@@ -55,7 +55,7 @@ public class DummeyDataRespone implements Parcelable {
     }
 
     public String getAvatar() {
-        return avatar;
+        return "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256";
     }
 
     public void setAvatar(String avatar) {

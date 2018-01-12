@@ -10,8 +10,6 @@ package com.pulse.brag.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,7 @@ import android.widget.LinearLayout;
 
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
-import com.pulse.brag.adapters.OrderDetailsAdapter;
+import com.pulse.brag.adapters.MyOrderAdapter;
 import com.pulse.brag.erecyclerview.ERecyclerView;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
@@ -34,7 +32,7 @@ import java.util.List;
  */
 
 
-public class OrderDetailFragment extends BaseFragment implements BaseInterface {
+public class MyOrderFragment extends BaseFragment implements BaseInterface {
 
     View mView;
     ERecyclerView mRecyclerView;
@@ -42,21 +40,13 @@ public class OrderDetailFragment extends BaseFragment implements BaseInterface {
 
     List<OrderListResponeData> mList;
 
-    public static OrderDetailFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        OrderDetailFragment fragment = new OrderDetailFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_order_detail, container, false);
+            mView = inflater.inflate(R.layout.fragment_my_order, container, false);
             initializeData();
             setListeners();
             checkInternet();
@@ -137,7 +127,7 @@ public class OrderDetailFragment extends BaseFragment implements BaseInterface {
                 "1", "500"));
 
 
-        mRecyclerView.setAdapter(new OrderDetailsAdapter(getActivity(), mList));
+        mRecyclerView.setAdapter(new MyOrderAdapter(getActivity(), mList));
 
         if (mList.isEmpty()) {
             mLinearError.setVisibility(View.VISIBLE);

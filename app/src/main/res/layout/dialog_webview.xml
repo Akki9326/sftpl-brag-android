@@ -15,6 +15,18 @@
             layout="@layout/toolbar_webview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="-8dp"
+            android:layout_marginTop="-4dp"
+            android:max="100" />
     </android.support.design.widget.AppBarLayout>
 
     <WebView

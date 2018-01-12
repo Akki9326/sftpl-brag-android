@@ -134,10 +134,12 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
         List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
 //        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
+//        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
         mViewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
         mPagerIndicator.setViewPager(mViewPager);
+
+
 
         List<CategoryListResponse> collectionListRespones = new ArrayList<>();
         collectionListRespones.add(new CategoryListResponse("", "Classic Bralet", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature1.jpg?9636438770338163967"));

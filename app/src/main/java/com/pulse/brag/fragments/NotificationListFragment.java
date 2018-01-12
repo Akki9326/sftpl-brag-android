@@ -165,7 +165,7 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
             mListData.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", false));
             mListData.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley",false));
+                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", false));
             mListData.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
             mListData.add(new NotificationListData("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
@@ -175,7 +175,7 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
             mListData.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", false));
             mListData.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley",false));
+                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", false));
             mListData.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", false));
 
@@ -190,7 +190,7 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
             mListData.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", true));
             mListData.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley",true));
+                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", true));
             mListData.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
             mListData.add(new NotificationListData("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
@@ -200,7 +200,7 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
             mListData.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", true));
             mListData.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley",true));
+                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", true));
             mListData.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
 

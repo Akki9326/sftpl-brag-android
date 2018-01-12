@@ -9,6 +9,7 @@ package com.pulse.brag.adapters;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,8 @@ public class MoreListAdapter extends BaseAdapter {
             textLabel.setText(moreListData.get(position).getLabel());
             imageIcon.setImageDrawable(moreListData.get(position).getDrawable());
         }
+
+
 
         return convertView;
     }

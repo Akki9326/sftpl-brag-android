@@ -9,6 +9,7 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -145,27 +146,29 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int viewId = (int) moreListAdapter.getItemId(position);
                 Intent intent;
+                Bundle bundle;
+                WebviewDialogFragment dialogFragment;
                 switch (viewId) {
                     case 1:
-                        ((BaseActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance()
+                        ((BaseActivity) getActivity()).pushFragments(new MyOrderFragment()
                                 , true, true);
                         break;
                     case 2:
-//                        intent = new Intent(getActivity(), WebViewActivity.class);
-//                        intent.putExtra(Constants.BUNDLE_TITLE, "Privacy");
-//                        intent.putExtra(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/privacy-policy");
-//                        startActivity(intent);
-//                        getActivity().overridePendingTransition(R.anim.slide_down, R.anim.slide_up);
 
-                        Bundle bundle = new Bundle();
+                        bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "Privacy");
                         bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/privacy-policy");
-                        WebviewDialogFragment dialogFragment = new WebviewDialogFragment();
+                        dialogFragment = new WebviewDialogFragment();
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
                         break;
                     case 3:
-                        Toast.makeText(getActivity(), "Terms", Toast.LENGTH_SHORT).show();
+                        bundle = new Bundle();
+                        bundle.putString(Constants.BUNDLE_TITLE, "Terms and Condition");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/terms-and-condition");
+                        dialogFragment = new WebviewDialogFragment();
+                        dialogFragment.setArguments(bundle);
+                        dialogFragment.show(getChildFragmentManager(), "");
                         break;
                     case 4:
                         intent = new Intent(getActivity(), ChangePasswordOrMobileActivity.class);
@@ -209,6 +212,8 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 ""));
         moreListData.add(new MoreListData(MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
                 getString(R.string.label_pri_policy)));
+        moreListData.add(new MoreListData(MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+                getString(R.string.label_terms_and)));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),

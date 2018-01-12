@@ -30,12 +30,12 @@ import java.util.List;
  */
 
 
-public class OrderDetailsAdapter extends RecyclerView.Adapter<OrderDetailsAdapter.OrderViewHolder> {
+public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.OrderViewHolder> {
 
     Activity activity;
     List<OrderListResponeData> mList;
 
-    public OrderDetailsAdapter(Activity activity, List<OrderListResponeData> mList) {
+    public MyOrderAdapter(Activity activity, List<OrderListResponeData> mList) {
         this.activity = activity;
         this.mList = new ArrayList<>();
         this.mList = mList;

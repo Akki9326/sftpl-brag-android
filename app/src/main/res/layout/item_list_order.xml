@@ -42,7 +42,7 @@
                     android:layout_marginLeft="5dp"
                     android:tag="@string/font_opensans_regular_id"
                     android:textColor="@color/gray_transparent"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    android:textSize="@dimen/text_size_very_small" />
             </LinearLayout>
 
             <View
@@ -94,7 +94,8 @@
                         android:id="@+id/imageview_product"
                         android:layout_width="60dp"
                         android:layout_height="90dp"
-                        android:layout_margin="10dp" />
+                        android:layout_margin="10dp"
+                        android:scaleType="fitXY" />
 
                     <TextView
                         android:id="@+id/textview_qty"

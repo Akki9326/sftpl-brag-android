@@ -330,14 +330,14 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     }
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == QTY_REQUEST && resultCode == Activity.RESULT_OK) {
             mSelectedQty = data.getIntExtra(Constants.BUNDLE_QTY, 1);
             mTxtQty.setText("" + data.getIntExtra(Constants.BUNDLE_QTY, 1));
         }
-    }
+    }*/
 
 
     private void swithcher() {

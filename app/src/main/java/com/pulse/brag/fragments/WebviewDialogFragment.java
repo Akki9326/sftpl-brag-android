@@ -11,10 +11,14 @@ package com.pulse.brag.fragments;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -22,11 +26,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -51,7 +57,8 @@ public class WebviewDialogFragment extends DialogFragment implements BaseInterfa
     ImageView mImgClose;
     WebView mWebView;
 
-    CustomProgressDialog mProgressDialog;
+
+    ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -104,7 +111,9 @@ public class WebviewDialogFragment extends DialogFragment implements BaseInterfa
         mWebView = mView.findViewById(R.id.webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
 
-        mProgressDialog = new CustomProgressDialog(getActivity());
+        progressBar = mView.findViewById(R.id.progress);
+        progressBar.setMax(100);
+        progressBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.pink), PorterDuff.Mode.SRC_IN);
 
         Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
 
@@ -125,51 +134,39 @@ public class WebviewDialogFragment extends DialogFragment implements BaseInterfa
     @Override
     public void showData() {
 
-        showProgressDialog();
+        mWebView.loadUrl(getArguments().getString(Constants.BUNDLE_SUBTITLE));
+
+
         mWebView.setWebViewClient(new WebViewClient() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest url) {
-                view.loadData(url.getUrl().toString(), "text/html", "UTF-8");
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
                 return true;
             }
 
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+
+                setProgressBar(0);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
             public void onPageFinished(WebView view, String url) {
-                hideProgressDialog();
-//                hideProgressDialog();
+                setProgressBar(100);
+                progressBar.setVisibility(View.GONE);
             }
         });
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.loadUrl(getArguments().getString(Constants.BUNDLE_SUBTITLE));
+        mWebView.setWebChromeClient(new WebChromeClient() {
 
-    }
-
-    public void showProgressDialog() {
-        try {
-            if (mProgressDialog != null) {
-                if (mProgressDialog.isShowing()) {
-                    hideProgressDialog();
-                    mProgressDialog.show("");
-                }
-
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                setProgressBar(newProgress);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        });
     }
 
-    public void hideProgressDialog() {
-        try {
-            if (mProgressDialog != null) {
-                mProgressDialog.dismiss("");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-
-    }
 
     @NonNull
     @Override
@@ -181,5 +178,13 @@ public class WebviewDialogFragment extends DialogFragment implements BaseInterfa
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         return dialog;
+    }
+
+    public void setProgressBar(int index) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBar.setProgress(index, true);
+        } else {
+            progressBar.setProgress(index);
+        }
     }
 }

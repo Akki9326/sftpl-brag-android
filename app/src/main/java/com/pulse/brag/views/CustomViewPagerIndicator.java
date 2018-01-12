@@ -172,6 +172,13 @@ public class CustomViewPagerIndicator extends View implements ViewPager.OnPageCh
     public void setViewPager(ViewPager viewPager) {
         this.viewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
+
+        // TODO: 08-01-2018 : if pager size greater than 1 than pager visible pager else gone
+        if (viewPager.getAdapter().getCount() > 1) {
+            setVisibility(VISIBLE);
+        } else {
+            setVisibility(GONE);
+        }
         setPageCount(viewPager.getAdapter().getCount());
         viewPager.getAdapter().registerDataSetObserver(new DataSetObserver() {
             @Override

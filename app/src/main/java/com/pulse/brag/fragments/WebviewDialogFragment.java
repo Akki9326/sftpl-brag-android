@@ -33,6 +33,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -115,7 +116,7 @@ public class WebviewDialogFragment extends DialogFragment implements BaseInterfa
         progressBar.setMax(100);
         progressBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.pink), PorterDuff.Mode.SRC_IN);
 
-        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
+        Utility.applyTypeFace(getActivity(), (RelativeLayout) mView.findViewById(R.id.base_layout));
 
     }
 
@@ -154,7 +155,7 @@ public class WebviewDialogFragment extends DialogFragment implements BaseInterfa
 
             public void onPageFinished(WebView view, String url) {
                 setProgressBar(100);
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
         mWebView.setWebChromeClient(new WebChromeClient() {

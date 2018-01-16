@@ -9,16 +9,13 @@ package com.pulse.brag.fragments;
  */
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,19 +23,17 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
@@ -58,8 +53,6 @@ import com.pulse.brag.views.OnSingleClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by nikhil.vadoliya on 06-11-2017.
  */
@@ -76,7 +69,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
     EditText mEditQty;
     ViewPager mViewPager;
     CustomViewPagerIndicator mViewPagerIndicator;
-    NestedScrollView mScrollView;
+    NestedScrollView mNestedScrollView;
 
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
@@ -86,6 +79,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mView = inflater.inflate(R.layout.dialog_fragment_add_product, container, false);
         return mView;
     }
@@ -114,23 +108,23 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
     @Override
     public void initializeData() {
 
-        mRecyclerViewColor = (RecyclerView) mView.findViewById(R.id.recycleView_color);
+        mRecyclerViewColor = mView.findViewById(R.id.recycleView_color);
         mRecyclerViewColor.setHasFixedSize(true);
         mRecyclerViewColor.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        mRecyclerViewSize = (RecyclerView) mView.findViewById(R.id.recycleView_size);
+        mRecyclerViewSize = mView.findViewById(R.id.recycleView_size);
         mRecyclerViewColor.setHasFixedSize(true);
         mRecyclerViewSize.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        mTxtTitle = (TextView) mView.findViewById(R.id.textview_product_name);
-        mTxtQty = (TextView) mView.findViewById(R.id.textView_qty);
-        mLinerDummey = (LinearLayout) mView.findViewById(R.id.linear_dummey);
-        mTxtAddCart = (TextView) mView.findViewById(R.id.textview_add_cart);
-        mEditQty = (EditText) mView.findViewById(R.id.edittext_qty);
-        mTxtMax = (TextView) mView.findViewById(R.id.textview_max);
-        mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
-        mViewPagerIndicator = (CustomViewPagerIndicator) mView.findViewById(R.id.pager_view);
-        mScrollView = (NestedScrollView) mView.findViewById(R.id.scrollView);
+        mTxtTitle = mView.findViewById(R.id.textview_product_name);
+        mTxtQty = mView.findViewById(R.id.textView_qty);
+        mLinerDummey = mView.findViewById(R.id.linear_dummey);
+        mTxtAddCart = mView.findViewById(R.id.textview_add_cart);
+        mEditQty = mView.findViewById(R.id.edittext_qty);
+        mTxtMax = mView.findViewById(R.id.textview_max);
+        mViewPager = mView.findViewById(R.id.view_pager);
+        mViewPagerIndicator = mView.findViewById(R.id.pager_view);
+        mNestedScrollView = mView.findViewById(R.id.scrollView);
 
         Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
 
@@ -141,7 +135,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
     @Override
     public void setListeners() {
 
-        mLinerDummey.setOnClickListener(new OnSingleClickListener() {
+        ((LinearLayout) mView.findViewById(R.id.base_layout)).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 dismiss();
@@ -159,11 +153,16 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mEditQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mScrollView.smoothScrollTo(0, mTxtAddCart.getTop() + 205);
+                mNestedScrollView.smoothScrollTo(0, mTxtAddCart.getTop() + 205);
             }
         });
 
-
+        mTxtTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //prevent onclick of baselayout
+            }
+        });
         mEditQty.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -194,6 +193,8 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
                 }
             }
         });
+
+
     }
 
     public void showData() {
@@ -211,12 +212,13 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mIntegerList.add("#FF5722");
         mIntegerList.add("#3F51B5");
 
+
+
         mColorListAdapter = new ColorListAdapter(getActivity(), mIntegerList, 0, this);
         mRecyclerViewColor.setAdapter(mColorListAdapter);
         mRecyclerViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
 
         List<String> mStringList = new ArrayList<>();
-        mStringList.add("S");
         mStringList.add("S");
         mStringList.add("M");
         mStringList.add("X");
@@ -244,17 +246,14 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         public void onGlobalLayout() {
             int heightDiff = rootLayout.getRootView().getHeight() - rootLayout.getHeight();
             int contentViewTop = getActivity().getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
-
-
             if (heightDiff <= contentViewTop) {
-                Log.i(TAG, "onGlobalLayout: KeyboardWillHide");
+
             } else {
-                mScrollView.smoothScrollTo(0, mTxtAddCart.getTop() + 205);
-                Log.i(TAG, "onGlobalLayout: KeyboardWillShow");
+                mNestedScrollView.smoothScrollTo(0, mTxtAddCart.getTop() + 205);
+
             }
         }
     };
-
     private boolean keyboardListenersAttached = false;
     private ViewGroup rootLayout;
 
@@ -262,12 +261,11 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         if (keyboardListenersAttached) {
             return;
         }
-
         rootLayout = (LinearLayout) mView.findViewById(R.id.base_layout);
         rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyboardLayoutListener);
-
         keyboardListenersAttached = true;
     }
+
 
     @Override
     public void onDetach() {
@@ -291,9 +289,12 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         Drawable d = new ColorDrawable(Color.BLACK);
         d.setAlpha(130);
         dialog.getWindow().setBackgroundDrawable(d);
+
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.AddProdDialogAnimation;
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         return dialog;

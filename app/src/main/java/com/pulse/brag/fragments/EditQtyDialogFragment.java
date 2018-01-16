@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -49,6 +50,7 @@ public class EditQtyDialogFragment extends DialogFragment implements BaseInterfa
     TextView mTxtProduct, mTxtDone, mTxtMax;
     EditText mEdtQty;
     ImageView mImgProduct;
+    NestedScrollView mNestedScrollView;
 
     int qty;
     boolean isValidQty;
@@ -72,16 +74,18 @@ public class EditQtyDialogFragment extends DialogFragment implements BaseInterfa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog);
 
     }
 
     @Override
     public void initializeData() {
-        mTxtProduct = (TextView) mView.findViewById(R.id.textview_product_name);
-        mTxtDone = (TextView) mView.findViewById(R.id.textview_done);
-        mTxtMax = (TextView) mView.findViewById(R.id.textview_max);
-        mEdtQty = (EditText) mView.findViewById(R.id.edittext_qty);
-        mImgProduct = (ImageView) mView.findViewById(R.id.imageview_product_img);
+        mTxtProduct = mView.findViewById(R.id.textview_product_name);
+        mTxtDone = mView.findViewById(R.id.textview_done);
+        mTxtMax = mView.findViewById(R.id.textview_max);
+        mEdtQty = mView.findViewById(R.id.edittext_qty);
+        mImgProduct = mView.findViewById(R.id.imageview_product_img);
+        mNestedScrollView = mView.findViewById(R.id.nested_scroll);
 
         isValidQty = true;
 
@@ -102,6 +106,7 @@ public class EditQtyDialogFragment extends DialogFragment implements BaseInterfa
 
         // TODO: 07-12-2017 max length of qty
         mEdtQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
+
     }
 
     @NonNull

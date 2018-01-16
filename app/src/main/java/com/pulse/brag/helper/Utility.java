@@ -483,8 +483,8 @@ public class Utility {
                 .load(url)
                 .centerInside()
                 .resize(500, 500)
-                .placeholder(R.drawable.logo_placeholder_1)
-                .error(R.drawable.logo_placeholder_1)
+                .placeholder(R.drawable.place_holder)
+                .error(R.drawable.place_holder)
                 .into(imageView);
 
 

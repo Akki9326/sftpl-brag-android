@@ -1,16 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="50dp"
-    android:layout_gravity="center"
-    android:layout_height="50dp">
-
-
+    android:layout_height="50dp"
+    android:layout_gravity="center">
     <com.pulse.brag.views.RoundView
         android:id="@+id/roundview_selector"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_gravity="center"
-        app:round_color="@android:color/holo_orange_dark" />
+        app:round_color="@color/pink" />
+
 
     <com.pulse.brag.views.RoundView
         android:layout_width="39dp"
@@ -23,6 +22,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        app:round_color="@android:color/holo_orange_dark" />
+        app:round_color="@color/pink" />
 
 </FrameLayout>

@@ -161,7 +161,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
-        mDetailImagePagerAdapter=new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this);
+        mDetailImagePagerAdapter = new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this);
         mViewPager.setAdapter(mDetailImagePagerAdapter);
         mViewPagerIndicator.setViewPager(mViewPager);
 

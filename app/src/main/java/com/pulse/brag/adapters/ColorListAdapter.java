@@ -10,7 +10,10 @@ package com.pulse.brag.adapters;
  */
 
 import android.app.Activity;
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,8 @@ import com.pulse.brag.views.RoundView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by nikhil.vadoliya on 08-12-2017.
@@ -45,7 +50,6 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         this.mList = mList;
         this.colorSelectListener = colorSelectListener;
         this.mSeletedPos = mSeletedPos;
-
         int pos = 0;
         mBooleanList = new ArrayList<>();
         for (int i = 0; i < mList.size(); i++) {
@@ -62,7 +66,7 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         mViewHolder = holder;
 
@@ -92,6 +96,7 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
             mBooleanList.set(mSeletedPos, Boolean.FALSE);
             mSeletedPos = pos;
             notifyDataSetChanged();
+
         }
     }
 
@@ -106,8 +111,8 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         public MyViewHolder(View itemView) {
             super(itemView);
             mBaseView = itemView;
-            mRoundColor = (RoundView) itemView.findViewById(R.id.roundview_product_color);
-            mRoundSelector = (RoundView) itemView.findViewById(R.id.roundview_selector);
+            mRoundColor = itemView.findViewById(R.id.roundview_product_color);
+            mRoundSelector = itemView.findViewById(R.id.roundview_selector);
 
         }
     }

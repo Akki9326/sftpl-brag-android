@@ -1,13 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/base_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:id="@+id/base_layout"
     android:background="@drawable/rounder_corner_solid_white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -38,14 +38,13 @@
                     android:layout_toRightOf="@+id/imageview_product_img"
                     android:padding="10dp"
                     android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/text_s"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_medium" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:background="@color/gray_transparent" />
 
             <LinearLayout
@@ -61,18 +60,33 @@
                     android:text="@string/label_qty_s"
                     android:textColor="@color/text_black" />
 
-                <EditText
-                    android:id="@+id/edittext_qty"
-                    android:layout_width="70dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLines="3"
-                    android:padding="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/edittext_qty"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:textColor="@color/text_black"
+                        android:textCursorDrawable="@drawable/cursor"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <View
+                        android:layout_width="70dp"
+                        android:layout_height="1dp"
+                        android:background="@color/gray" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textview_max"
@@ -86,7 +100,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:background="@color/gray_transparent" />
 
             <TextView
@@ -99,6 +113,7 @@
                 android:text="@string/button_done"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_medium" />
+
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

@@ -19,9 +19,13 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.BaseAdapter;
 
 import com.pulse.brag.R;
 
@@ -70,25 +74,28 @@ public class RoundView extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(color);
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
-
+        super.onDraw(canvas);
         int radius = Math.min(canvas.getWidth(), canvas.getHeight() / 2);
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius, paint);
     }
 
+
     public void setColor(String color) {
         paint.setColor(Color.parseColor(color));
+        invalidate();
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        Log.d(TAG, "onLayout() called with: changed = [" + changed + "], left = [" + left + "], top = [" + top + "], right = [" + right + "], bottom = [" + bottom + "]");
         height = 10;
         width = 10;
     }
@@ -96,6 +103,7 @@ public class RoundView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.i(TAG, "onMeasure:  widthMeasureSpec" + widthMeasureSpec + " heightMeasureSpec  " + heightMeasureSpec);
     }
+
+
 }

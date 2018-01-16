@@ -14,16 +14,20 @@ import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
 import com.pulse.brag.pojo.requests.LoginRequest;
 import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.pojo.response.CategoryListResponse;
 import com.pulse.brag.pojo.response.ChangePasswordResponse;
+import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.LoginResponse;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
 import com.pulse.brag.pojo.response.SignUpResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by nikhil.vadoliya on 25-09-2017.
@@ -62,4 +66,10 @@ public interface ApiInterface {
 
     @POST("changeMobileNumber")
     Call<GeneralResponse> changeMobileNum(@Body ChangeMobileNumberRequest changeMobileNumberRequest);
+
+    @GET
+    Call<CategoryListResponse> getCategoryProduct(@Url String url);
+
+    @GET
+    Call<CollectionListResponse> getCollectionProduct(@Url String url);
 }

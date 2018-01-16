@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -76,6 +77,9 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
     List<MoreListData> moreListData;
 
     Dialog alertDialog;
+
+    private long mLastClickTime = 0;
+
 
     @Nullable
     @Override
@@ -144,6 +148,12 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
                 int viewId = (int) moreListAdapter.getItemId(position);
                 Intent intent;
                 Bundle bundle;

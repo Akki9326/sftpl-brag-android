@@ -26,15 +26,23 @@ import com.pulse.brag.R;
 import com.pulse.brag.adapters.CategoryListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
+import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.pojo.datas.CategoryListResponseData;
 import com.pulse.brag.pojo.response.CategoryListResponse;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.CustomViewPagerIndicator;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 26-09-2017.
@@ -51,6 +59,8 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
     CoordinatorLayout mCoordinatorLayout;
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout mLinearDetail;
+
+    List<CategoryListResponseData> mCategoryList;
 
     public static CategoryFragment newInstance() {
 
@@ -76,12 +86,39 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
     private void checkInternet() {
 
         if (Utility.isConnection(getActivity())) {
-//            GetCollectionAPI();
-            showData();
+            GetCategoryAPI();
+//            showData();
         } else {
             Utility.showAlertMessage(getActivity(), 0, null);
         }
 
+    }
+
+    private void GetCategoryAPI() {
+        Call<CategoryListResponse> getCategoryList = ApiClient.getInstance(getContext()).getApiResp().getCategoryProduct("home/get/1");
+        getCategoryList.enqueue(new Callback<CategoryListResponse>() {
+            @Override
+            public void onResponse(Call<CategoryListResponse> call, Response<CategoryListResponse> response) {
+                if (response.isSuccessful()) {
+                    CategoryListResponse data = response.body();
+                    if (data.isStatus()) {
+                        mCategoryList = new ArrayList<>();
+                        mCategoryList.addAll(data.getData());
+//                        Collections.sort(mCategoryList);
+                        showData();
+                    } else {
+                        Utility.showAlertMessage(getContext(), data.getErrorCode(), data.getMessage());
+                    }
+                } else {
+                    Utility.showAlertMessage(getContext(), 1, null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryListResponse> call, Throwable t) {
+                Utility.showAlertMessage(getContext(), t);
+            }
+        });
     }
 
 
@@ -110,7 +147,10 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
         mLinearDetail = (LinearLayout) mView.findViewById(R.id.linear_detail);
+
         Utility.applyTypeFace(getContext(), mCoordinatorLayout);
+
+        mCategoryList = new ArrayList<>();
 
     }
 
@@ -133,24 +173,14 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
 
         List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
-//        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
+        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
 //        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
         mViewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
         mPagerIndicator.setViewPager(mViewPager);
 
 
-
-        List<CategoryListResponse> collectionListRespones = new ArrayList<>();
-        collectionListRespones.add(new CategoryListResponse("", "Classic Bralet", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature1.jpg?9636438770338163967"));
-        collectionListRespones.add(new CategoryListResponse("", "Racerback Bral", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature2.jpg?9636438770338163967"));
-        collectionListRespones.add(new CategoryListResponse("", "Cage Back Bral", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg?9636438770338163967"));
-        collectionListRespones.add(new CategoryListResponse("", "Mesh Racerback", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg?9636438770338163967"));
-        collectionListRespones.add(new CategoryListResponse("", "Classic Bikini", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature5.jpg?9636438770338163967"));
-        collectionListRespones.add(new CategoryListResponse("", "Classic Bikini", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature6.jpg?9636438770338163967"));
-
-
-        mRecyclerView.setAdapter(new CategoryListAdapter(getActivity(), collectionListRespones, this));
+        mRecyclerView.setAdapter(new CategoryListAdapter(getActivity(), mCategoryList, this));
 
         mRecyclerView.setNestedScrollingEnabled(false);
 

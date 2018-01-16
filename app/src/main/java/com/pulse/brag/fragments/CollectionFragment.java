@@ -15,8 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,17 +26,23 @@ import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.adapters.CollectionListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
-import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
+import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.pojo.datas.CollectionListResponeData;
 import com.pulse.brag.pojo.response.CategoryListResponse;
 import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.CustomViewPagerIndicator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 26-09-2017.
@@ -54,6 +58,8 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
     CoordinatorLayout mCoordinatorLayout;
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout mLinearDetail;
+
+    List<CollectionListResponeData> mCollectionList;
 
     public static CollectionFragment newInstance() {
 
@@ -114,12 +120,38 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
     private void checkInternet() {
 
         if (Utility.isConnection(getActivity())) {
-//            GetCollectionAPI();
-            showData();
+            GetCollectionAPI();
         } else {
-            Utility.showAlertMessage(getActivity(), 0,null);
+            Utility.showAlertMessage(getActivity(), 0, null);
         }
 
+    }
+
+    private void GetCollectionAPI() {
+        Call<CollectionListResponse> getCategoryList = ApiClient.getInstance(getContext()).getApiResp().getCollectionProduct("home/get/2");
+        getCategoryList.enqueue(new Callback<CollectionListResponse>() {
+            @Override
+            public void onResponse(Call<CollectionListResponse> call, Response<CollectionListResponse> response) {
+                if (response.isSuccessful()) {
+                    CollectionListResponse data = response.body();
+                    if (data.isStatus()) {
+                        mCollectionList = new ArrayList<>();
+                        mCollectionList.addAll(data.getData());
+//                        Collections.sort(mCollectionList);
+                        showData();
+                    } else {
+                        Utility.showAlertMessage(getContext(), data.getErrorCode(), data.getMessage());
+                    }
+                } else {
+                    Utility.showAlertMessage(getContext(), 1, null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CollectionListResponse> call, Throwable t) {
+                Utility.showAlertMessage(getContext(), t);
+            }
+        });
     }
 
     @Override
@@ -148,13 +180,8 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
         mViewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
         mPagerIndicator.setViewPager(mViewPager);
 
-        List<CollectionListResponse> collectionListRespones = new ArrayList<>();
-        collectionListRespones.add(new CollectionListResponse("", "NEON BLOOM", "http://cdn.shopify.com/s/files/1/1629/9535/products/0_6a00a44b-22a8-4872-9ca4-16552a32188f_large.jpg?v=1490696913"));
-        collectionListRespones.add(new CollectionListResponse("", "AZTEC POP", "http://cdn.shopify.com/s/files/1/1629/9535/products/0_large.jpg?v=1490696473"));
-        collectionListRespones.add(new CollectionListResponse("", "TRIPPER", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg?9636438770338163967"));
 
-
-        mRecyclerView.setAdapter(new CollectionListAdapter(getActivity(), collectionListRespones, this));
+        mRecyclerView.setAdapter(new CollectionListAdapter(getActivity(), mCollectionList, this));
         mRecyclerView.setNestedScrollingEnabled(false);
     }
 

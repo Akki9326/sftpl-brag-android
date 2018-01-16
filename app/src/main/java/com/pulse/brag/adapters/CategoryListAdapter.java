@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.response.CategoryListResponse;
+import com.pulse.brag.pojo.datas.CategoryListResponseData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,11 @@ import java.util.List;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
 
-    List<CategoryListResponse> listRespones;
+    List<CategoryListResponseData> listRespones;
     Activity mActivity;
     OnItemClickListener mItemClickListener;
 
-    public CategoryListAdapter(Activity mActivity, List<CategoryListResponse> listRespones, OnItemClickListener mItemClickListener) {
+    public CategoryListAdapter(Activity mActivity, List<CategoryListResponseData> listRespones, OnItemClickListener mItemClickListener) {
         this.mActivity = mActivity;
         this.listRespones = new ArrayList<>();
         this.listRespones = listRespones;
@@ -55,10 +55,9 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     @Override
     public void onBindViewHolder(CategoryListAdapter.ViewHolder holder, final int position) {
 
-//        runEnterAnimation(holder.mView);
 
         Utility.imageSet(mActivity, listRespones.get(position).getUrl(), holder.mImgBackground);
-        holder.mText.setText(listRespones.get(position).getName());
+        holder.mText.setText(listRespones.get(position).getOptionName());
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

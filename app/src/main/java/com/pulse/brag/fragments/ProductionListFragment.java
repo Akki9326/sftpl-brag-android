@@ -173,6 +173,10 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
                     @Override
                     public void run() {
 
+                        if (mSwipeRefreshLayout.isRefreshing()) {
+                            return;
+                        }
+
                         if (mDummeyDataRespones.size() != productSize) {
                             ACTION = LOAD_MORE;
                             checkNetworkConnection(false);
@@ -191,7 +195,6 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
                         ACTION = LOAD_LIST;
                         PAGE_NUM = 1;
                         mRecyclerView.setIsLoadingMore(true);
@@ -315,6 +318,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mDummeyDataRespones.get(position));
         AddProductBottonDialogFragment mAddProductDialogFragment = new AddProductBottonDialogFragment();
+        mAddProductDialogFragment.setCancelable(true);
         mAddProductDialogFragment.setArguments(bundle);
         mAddProductDialogFragment.show(getChildFragmentManager(), "");
     }

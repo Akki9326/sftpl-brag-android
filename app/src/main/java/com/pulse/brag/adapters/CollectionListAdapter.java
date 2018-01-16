@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.pojo.datas.CollectionListResponeData;
 import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.ProductListResponse;
 
@@ -41,10 +42,10 @@ import static android.content.ContentValues.TAG;
 public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter.MyViewHolder> {
 
     Activity mActivity;
-    List<CollectionListResponse> mListResponses;
+    List<CollectionListResponeData> mListResponses;
     OnItemClickListener mItemClickListener;
 
-    public CollectionListAdapter(Activity activity, List<CollectionListResponse> mListResponses, OnItemClickListener mItemClickListener) {
+    public CollectionListAdapter(Activity activity, List<CollectionListResponeData> mListResponses, OnItemClickListener mItemClickListener) {
         this.mActivity = activity;
         this.mListResponses = new ArrayList<>();
         this.mListResponses = mListResponses;
@@ -71,8 +72,8 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
 
-//        Utility.imageSet(mActivity, mListResponses.get(position).getUrl(), holder.mImgBackground);
-        holder.mText.setText(mListResponses.get(position).getName());
+        Utility.imageSet(mActivity, mListResponses.get(position).getUrl(), holder.mImgBackground);
+        holder.mText.setText(mListResponses.get(position).getOptionName());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,8 +108,6 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
             mImgBackground = (ImageView) itemView.findViewById(R.id.imageview_product_img);
             mText = (TextView) itemView.findViewById(R.id.textview_product_name);
 
-//            mImgBackground = (ImageView) itemView.findViewById(R.id.imageView_collection_background);
-//            mText = (TextView) itemView.findViewById(R.id.textview_collection_label);
         }
     }
 }

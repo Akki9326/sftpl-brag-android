@@ -1,15 +1,15 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style optionName="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowEnableSplitTouch">false</item>
-        <item name="android:splitMotionEvents">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:actionMenuTextAppearance">@style/menuText</item>
+        <item optionName="colorPrimary">@color/colorPrimary</item>
+        <item optionName="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item optionName="colorAccent">@color/colorAccent</item>
+        <item optionName="android:windowContentOverlay">@null</item>
+        <item optionName="android:windowEnableSplitTouch">false</item>
+        <item optionName="android:splitMotionEvents">false</item>
+        <item optionName="android:windowTranslucentStatus">true</item>
+        <item optionName="android:actionMenuTextAppearance">@style/menuText</item>
 
 
 

@@ -142,22 +142,22 @@ public class CartFragment extends BaseFragment implements BaseInterface, OnItemC
         mList = new ArrayList<>();
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "" + getString(R.string.text_s), "L", "#ffffff", 500, 1));
+                "" + getString(R.string.text_s), "S", "#ffffff", 500, 1));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 100, 2));
+                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "M", "#F44336", 100, 2));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256",
-                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#9C27B0", 500, 1));
+                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "XL", "#9C27B0", 500, 1));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/yellow-caged_front_large.jpg?v=1480569528",
-                "Plunge Neck Cage Back T-shirt Bralette - Yellow", "L", "#2196F3", 500, 1));
+                "Plunge Neck Cage Back T-shirt Bralette - Yellow", "XXL", "#2196F3", 500, 1));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/pink-printed-cage_front_large.jpg?v=1482476302",
-                "Plunge Neck Cage Back T-shirt Bralette - Pink", "L", "#FF5722", 500, 1));
+                "Plunge Neck Cage Back T-shirt Bralette - Pink", "XXXL", "#FF5722", 500, 1));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Product Name", "L", "#ffffff", 500, 1));
+                "Product Name", "XXXXXXL", "#ffffff", 500, 1));
         mList.add(new CartListResponeData("1",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
                 "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 500, 1));

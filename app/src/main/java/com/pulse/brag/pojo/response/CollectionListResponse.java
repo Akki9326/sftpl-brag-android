@@ -9,43 +9,51 @@ package com.pulse.brag.pojo.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.pojo.datas.CategoryListResponseData;
+import com.pulse.brag.pojo.datas.CollectionListResponeData;
+
+import java.util.List;
+
 /**
  * Created by nikhil.vadoliya on 13-12-2017.
  */
 
 
 public class CollectionListResponse {
-    private String url;
-    private String name;
-    private String id;
+    private boolean status;
+    private Integer errorCode;
+    private String message;
+    private List<CollectionListResponeData> data;
 
-    public CollectionListResponse(String id, String name, String url) {
-        this.url = url;
-        this.name = name;
-        this.id = id;
+    public boolean isStatus() {
+        return status;
     }
 
-    public String getUrl() {
-        return url;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public Integer getErrorCode() {
+        return errorCode;
     }
 
-    public String getName() {
-        return name;
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getMessage() {
+        return message;
     }
 
-    public String getId() {
-        return id;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public List<CollectionListResponeData> getData() {
+        return data;
+    }
+
+    public void setData(List<CollectionListResponeData> data) {
+        this.data = data;
     }
 }

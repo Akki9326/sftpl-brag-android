@@ -8,6 +8,11 @@ package com.pulse.brag.pojo.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.pojo.datas.CategoryListResponseData;
+import com.pulse.brag.pojo.datas.UserData;
+
+import java.util.List;
+
 /**
  * Created by nikhil.vadoliya on 16-10-2017.
  */
@@ -15,37 +20,40 @@ package com.pulse.brag.pojo.response;
 
 public class CategoryListResponse {
 
-    private String id;
-    private String name;
-    private String url;
+    private boolean status;
+    private Integer errorCode;
+    private String message;
+    private List<CategoryListResponseData> data;
 
-    public CategoryListResponse(String id, String name, String url) {
-        this.id = id;
-        this.name = name;
-        this.url = url;
+    public boolean isStatus() {
+        return status;
     }
 
-    public String getId() {
-        return id;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Integer getErrorCode() {
+        return errorCode;
     }
 
-    public String getName() {
-        return name;
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getMessage() {
+        return message;
     }
 
-    public String getUrl() {
-        return url;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public List<CategoryListResponseData> getData() {
+        return data;
+    }
+
+    public void setData(List<CategoryListResponseData> data) {
+        this.data = data;
     }
 }

@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:tag="@string/font_opensans_bold_id"
+        android:text="@string/msg_back_to_exit_app"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_medium" />
+
+</LinearLayout>

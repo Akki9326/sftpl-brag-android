@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/gray_10" />
+        </shape>
+    </item>
+    <item
+        android:bottom="30dp"
+        android:left="30dp"
+        android:right="30dp"
+        android:top="30dp">
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/placeholder" />
+    </item>
+</layer-list>

@@ -190,8 +190,8 @@ public class BaseActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         if (shouldAnimate) {
-            ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                    R.anim.enter_from_left, R.anim.exit_to_right);
+            ft.setCustomAnimations(R.anim.right_in, R.anim.left_out,
+                    R.anim.left_in, R.anim.right_out);
         }
         if (shouldAdd) {
             ft.addToBackStack(null);
@@ -210,12 +210,17 @@ public class BaseActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         if (shouldAnimate) {
-            ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                    R.anim.enter_from_left, R.anim.exit_to_right);
+            ft.setCustomAnimations(R.anim.right_in, R.anim.left_out,
+                    R.anim.left_in, R.anim.right_out);
         }
         if (shouldAdd) {
             ft.addToBackStack(null);
         }
+
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) != null) {
+            ft.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
+        }
+
         ft.add(R.id.fragment_container, fragment);
 
         if (!isFinishing()) {

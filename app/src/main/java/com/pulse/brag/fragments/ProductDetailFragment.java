@@ -8,15 +8,16 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.transition.Transition;
-import android.support.transition.TransitionInflater;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +32,6 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
-import com.pulse.brag.adapters.FullScreenImagePagerAdaper;
 import com.pulse.brag.adapters.ProductDetailImagePagerAdapter;
 import com.pulse.brag.adapters.SizeListAdapter;
 import com.pulse.brag.helper.Constants;
@@ -40,6 +40,7 @@ import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
+import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.CustomViewPagerIndicator;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
@@ -71,6 +72,16 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
     List<ImagePagerResponse> imagePagerResponeList;
     int mQuality;
 
+
+    public static ProductDetailFragment newInstance(DummeyDataRespone dataRespone) {
+
+        Bundle args = new Bundle();
+        args.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, dataRespone);
+        ProductDetailFragment fragment = new ProductDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,21 +109,21 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
     @Override
     public void initializeData() {
 
-        mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+        mViewPager =  mView.findViewById(R.id.view_pager);
 
-        mViewPagerIndicator = (CustomViewPagerIndicator) mView.findViewById(R.id.pager_view);
-        mTxtProductName = (TextView) mView.findViewById(R.id.textview_product_name);
-        mTxtProDetails = (TextView) mView.findViewById(R.id.textView_description);
-        mTxtProShortDetail = (TextView) mView.findViewById(R.id.textView_short_des);
-        mTxtProPrice = (TextView) mView.findViewById(R.id.textView_price);
-        mTxtQty = (TextView) mView.findViewById(R.id.textView_qty);
-        mImgAdd = (ImageView) mView.findViewById(R.id.imageView_add);
-        mImgMinus = (ImageView) mView.findViewById(R.id.imageView_minus);
+        mViewPagerIndicator =  mView.findViewById(R.id.pager_view);
+        mTxtProductName =mView.findViewById(R.id.textview_product_name);
+        mTxtProDetails = mView.findViewById(R.id.textView_description);
+        mTxtProShortDetail = mView.findViewById(R.id.textView_short_des);
+        mTxtProPrice = mView.findViewById(R.id.textView_price);
+        mTxtQty = mView.findViewById(R.id.textView_qty);
+        mImgAdd =  mView.findViewById(R.id.imageView_add);
+        mImgMinus = mView.findViewById(R.id.imageView_minus);
 
-        mRecyclerViewColor = (RecyclerView) mView.findViewById(R.id.recycleView_color);
+        mRecyclerViewColor =  mView.findViewById(R.id.recycleView_color);
         mRecyclerViewColor.setHasFixedSize(true);
         mRecyclerViewColor.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mRecyclerViewSize = (RecyclerView) mView.findViewById(R.id.recycleView_size);
+        mRecyclerViewSize =  mView.findViewById(R.id.recycleView_size);
         mRecyclerViewColor.setHasFixedSize(true);
         mRecyclerViewSize.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
@@ -166,8 +177,11 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
         mViewPagerIndicator.setViewPager(mViewPager);
 
 
-        mTxtProductName.setText("Classic Pullover T-shirt Bralette - White");
-        mTxtProPrice.setText(Utility.getIndianCurrencePriceFormate(1200));
+        if (getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
+            DummeyDataRespone dataRespone = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
+            mTxtProductName.setText(dataRespone.getFirst_name());
+        }
+        mTxtProPrice.setText(Utility.getIndianCurrencePriceFormate(500));
 
         String mShortDetail = " Lucille Curtis |Juana Hanson |Lila Flores |Kevin Rodriguez |Ebony Norman |Celia Rodriquez |Jake Morales |Jane Farmer |Willie tRivera |Freeman";
 
@@ -175,13 +189,14 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
         mTxtProShortDetail.setText(Html.fromHtml(Utility.getTextWithBullet(mShortDetail)));
 
 
-        mIntegerList.add("#F44336");
-        mIntegerList.add("#E91E63");
-        mIntegerList.add("#9C27B0");
-        mIntegerList.add("#2196F3");
-        mIntegerList.add("#FF9800");
-        mIntegerList.add("#FF5722");
-        mIntegerList.add("#3F51B5");
+//        mIntegerList.add("#F44336");
+        mIntegerList.add("#000000");
+//        mIntegerList.add("#E91E63");
+//        mIntegerList.add("#9C27B0");
+//        mIntegerList.add("#2196F3");
+//        mIntegerList.add("#FF9800");
+//        mIntegerList.add("#FF5722");
+//        mIntegerList.add("#3F51B5");
 
         mColorListAdapter = new ColorListAdapter(getActivity(), mIntegerList, 0, this);
         mRecyclerViewColor.setAdapter(mColorListAdapter);
@@ -189,12 +204,14 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
 
 
         List<String> mStringList = new ArrayList<>();
+        mStringList.add("XS");
         mStringList.add("S");
         mStringList.add("M");
-        mStringList.add("X");
-        mStringList.add("XL");
-        mStringList.add("XXL");
-        mStringList.add("XXL");
+        mStringList.add("L");
+//        mStringList.add("X");
+//        mStringList.add("XL");
+//        mStringList.add("XXL");
+//        mStringList.add("XXL");
 
         mSizeListAdapter = new SizeListAdapter(getActivity(), mStringList, 0, this);
         mRecyclerViewSize.setAdapter(mSizeListAdapter);
@@ -203,6 +220,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
 
     @Override
     public void onItemClick(int position) {
+
         Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.BUNDLE_IMAGE_LIST, (ArrayList<? extends Parcelable>) imagePagerResponeList);
         args.putInt(Constants.BUNDLE_POSITION, position);

@@ -16,7 +16,7 @@ import android.support.annotation.NonNull;
  */
 
 
-public class CollectionListResponeData implements Comparable<CollectionListResponeData>{
+public class CollectionListResponeData implements Comparable<CollectionListResponeData> {
     private String id;
     private String optionName;
     private String url;

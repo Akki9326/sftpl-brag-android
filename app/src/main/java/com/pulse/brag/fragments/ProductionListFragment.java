@@ -163,30 +163,30 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void setListeners() {
+//        mRecyclerView.loadMoreComplete(true);
 
-
-        mRecyclerView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
-        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (mSwipeRefreshLayout.isRefreshing()) {
-                            return;
-                        }
-
-                        if (mDummeyDataRespones.size() != productSize) {
-                            ACTION = LOAD_MORE;
-                            checkNetworkConnection(false);
-                        } else {
-                            mRecyclerView.loadMoreComplete(true);
-                        }
-                    }
-                }, 500);
-            }
-        });
+//        mRecyclerView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
+//        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        if (mSwipeRefreshLayout.isRefreshing()) {
+//                            return;
+//                        }
+//
+//                        if (mDummeyDataRespones.size() != productSize) {
+//                            ACTION = LOAD_MORE;
+//                            checkNetworkConnection(false);
+//                        } else {
+//                            mRecyclerView.loadMoreComplete(true);
+//                        }
+//                    }
+//                }, 500);
+//            }
+//        });
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -260,7 +260,24 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
                             productSize = 0;
                             productSize = respone.getTotal();
                             mDummeyDataRespones.clear();
-                            mDummeyDataRespones.addAll(respone.getData());
+
+                            mDummeyDataRespones.add(new DummeyDataRespone(0,
+                                    "Classic Pullover T-shirt Bralette - Black Solid body with Black trims",
+                                    "",
+                                    "http://cdn.shopify.com/s/files/1/1629/9535/products/Chandini_SLIDE_Pattern_B_BRAG-Optical59961_large.jpg?v=1516609967"));
+
+                            mDummeyDataRespones.add(new DummeyDataRespone(0,
+                                    "Classic Pullover T-shirt Bralette - White with Black Print & Black trims",
+                                    "",
+                                    "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG-Optical60283_large.jpg?v=1516609966"));
+
+                            mDummeyDataRespones.add(new DummeyDataRespone(0,
+                                    "Classic Pullover T-shirt Bralette - White with Black Print & Black trims",
+                                    "",
+                                    "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG-Optical59472_large.jpg?v=1516609967"));
+
+
+//                            mDummeyDataRespones.addAll(respone.getData());
                             showData();
                             mSwipeRefreshLayout.setRefreshing(false);
                             break;
@@ -299,7 +316,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
     @Override
     public void onItemClick(int position) {
 
-        ((BaseActivity) getActivity()).pushFragments(new ProductDetailFragment(), true, true);
+        ((BaseActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
 
 
     }
@@ -356,5 +373,12 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
         mProductListAdapter.notifyDataSetChanged();
         mRecyclerView.scrollToPosition(position);
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setToolbar();
     }
 }

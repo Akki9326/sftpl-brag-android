@@ -23,6 +23,13 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
     private String url;
     private int optionOrderNo;
 
+    public CategoryListResponseData(String id, String optionName, String url, int optionOrderNo) {
+        this.id = id;
+        this.optionName = optionName;
+        this.url = url;
+        this.optionOrderNo = optionOrderNo;
+    }
+
     public String getId() {
         return id;
     }
@@ -32,7 +39,7 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
     }
 
     public String getOptionName() {
-        return optionName;
+        return optionName == null ? "" : optionName;
     }
 
     public void setOptionName(String optionName) {

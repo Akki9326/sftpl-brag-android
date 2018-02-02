@@ -99,20 +99,20 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
     @Override
     public void initializeData() {
 
-        mCoordinatorLayout = (CoordinatorLayout) mView.findViewById(R.id.base_layout);
-        mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
-        mPagerIndicator = (CustomViewPagerIndicator) mView.findViewById(R.id.pager_view);
+        mCoordinatorLayout =  mView.findViewById(R.id.base_layout);
+        mViewPager =  mView.findViewById(R.id.view_pager);
+        mPagerIndicator = mView.findViewById(R.id.pager_view);
 
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycleView);
+        mRecyclerView =  mView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setMotionEventSplittingEnabled(false);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout =  mView.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
-        mLinearDetail = (LinearLayout) mView.findViewById(R.id.linear_detail);
+        mLinearDetail = mView.findViewById(R.id.linear_detail);
         Utility.applyTypeFace(getContext(), mCoordinatorLayout);
 
     }
@@ -128,6 +128,7 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
     }
 
     private void GetCollectionAPI() {
+        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
         Call<CollectionListResponse> getCategoryList = ApiClient.getInstance(getContext()).getApiResp().getCollectionProduct("home/get/2");
         getCategoryList.enqueue(new Callback<CollectionListResponse>() {
             @Override

@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,31 +8,28 @@
         android:layout_height="0dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
         android:layout_weight="1"
+        android:gravity="top"
         android:orientation="vertical">
 
-
         <TextView
-            android:id="@+id/textview_new_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:tag="@string/font_opensans_regular_id"
-            android:text="@string/label_new_password"
+            android:text="@string/label_name"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_size_very_small_12" />
 
         <EditText
-            android:id="@+id/edittext_password"
+            android:id="@+id/edittext_name"
             style="@style/NormalEditText"
             android:background="@null"
-            android:hint="@string/hint_new_password_ast"
+            android:hint="@string/hint_name_ast"
             android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:maxLength="@integer/max_length"
+            android:maxLength="10"
             android:paddingBottom="5dp" />
 
         <View
@@ -50,31 +46,56 @@
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:tag="@string/font_opensans_regular_id"
-            android:text="@string/label_confirm_password"
+            android:text="@string/label_email"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_size_very_small_12" />
 
-        <LinearLayout
+
+        <EditText
+            android:id="@+id/edittext_email"
+            style="@style/NormalEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="@null"
+            android:hint="@string/hint_email_ast"
+            android:inputType="textEmailAddress"
+            android:maxLength="@integer/max_length"
+            android:paddingBottom="5dp" />
 
-            <EditText
-                android:id="@+id/edittext_confirm_password"
-                style="@style/NormalEditTextPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/hint_confirm_password_ast"
-                android:imeActionLabel="@string/button_login"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:maxLength="@integer/max_length"
-                android:paddingBottom="5dp" />
 
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:alpha=".5"
+            android:background="@color/pink" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:tag="@string/font_opensans_regular_id"
+            android:text="@string/label_message"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/text_size_very_small_12" />
+
+
+        <EditText
+            android:id="@+id/edittext_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="@string/hint_message_ast"
+            android:lines="5"
+            android:maxLength="@integer/max_length"
+            android:maxLines="5"
+            android:paddingBottom="5dp"
+            android:textColor="@color/text_black"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="@dimen/text_size_medium" />
+
 
         <View
             android:layout_width="match_parent"
@@ -85,10 +106,11 @@
 
 
         <TextView
-            android:id="@+id/textview_done"
+            android:id="@+id/textview_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/round_corner_solid_pink"
             android:paddingBottom="10dp"
@@ -96,11 +118,12 @@
             android:paddingRight="70dp"
             android:paddingTop="10dp"
             android:tag="@string/font_opensans_regular_id"
-            android:text="@string/button_done"
+            android:text="@string/button_send"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small" />
 
 
     </LinearLayout>
+
 
 </LinearLayout>

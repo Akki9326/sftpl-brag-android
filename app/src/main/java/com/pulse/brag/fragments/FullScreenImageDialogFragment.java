@@ -58,7 +58,7 @@ public class FullScreenImageDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-        mViewPager = (ViewPager) v.findViewById(R.id.view_pager);
+        mViewPager = v.findViewById(R.id.view_pager);
 //        mViewPager.setPageTransformer(false, new Transformer());
         mViewPager.setAdapter(new FullScreenImagePagerAdaper(getActivity(), mPagerRespones));
         mViewPager.setCurrentItem(pos);

@@ -90,6 +90,7 @@
                 style="@style/NormalEditText"
                 android:background="@null"
                 android:hint="@string/hint_email_ast"
+                android:inputType="textEmailAddress"
                 android:imeOptions="actionNext"
                 android:maxLength="@integer/max_length"
                 android:paddingBottom="5dp" />

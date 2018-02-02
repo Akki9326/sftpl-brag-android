@@ -50,7 +50,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
 
 
     View mView;
-    TextView mTxtLogin, mTxtSignUp, mTxtForget;
+    TextView mTxtLogin, mTxtSignUp, mTxtForget, mTxtContactUs;
     ImageView mImgPass;
     EditText mEdtNumber, mEdtPassword;
 
@@ -78,13 +78,13 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
 
     @Override
     public void initializeData() {
-        mTxtLogin = (TextView) mView.findViewById(R.id.textview_login);
-        mTxtSignUp = (TextView) mView.findViewById(R.id.textview_signup);
-        mImgPass = (ImageView) mView.findViewById(R.id.imageview_pass_visible);
-        mEdtPassword = (EditText) mView.findViewById(R.id.edittext_password);
-        mEdtNumber = (EditText) mView.findViewById(R.id.edittext_mobile_num);
-        mTxtForget = (TextView) mView.findViewById(R.id.textview_forget);
-
+        mTxtLogin = mView.findViewById(R.id.textview_login);
+        mTxtSignUp = mView.findViewById(R.id.textview_signup);
+        mImgPass = mView.findViewById(R.id.imageview_pass_visible);
+        mEdtPassword = mView.findViewById(R.id.edittext_password);
+        mEdtNumber = mView.findViewById(R.id.edittext_mobile_num);
+        mTxtForget = mView.findViewById(R.id.textview_forget);
+        mTxtContactUs = mView.findViewById(R.id.textview_contact);
         // TODO: 08-11-2017 Login username and password
 //        mEdtNumber.setText("7874487853");
 //        mEdtPassword.setText("sailfin*123");
@@ -106,7 +106,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
                 } else if (Utility.isConnection(getActivity())) {
                     LoginAPICall(mEdtNumber.getText().toString(), mEdtPassword.getText().toString());
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0,null);
+                    Utility.showAlertMessage(getActivity(), 0, null);
                 }
             }
         });
@@ -115,6 +115,13 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
             @Override
             public void onSingleClick(View v) {
                 ((SplashActivty) getActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
+            }
+        });
+        mTxtContactUs.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                ((SplashActivty) getActivity()).pushFragments(new ContactUsFragment(), true, true, "Signup_Frag");
+
             }
         });
 
@@ -174,10 +181,10 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
                         getActivity().finish();
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     } else {
-                        Utility.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
+                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1,null);
+                    Utility.showAlertMessage(getActivity(), 1, null);
                 }
             }
 

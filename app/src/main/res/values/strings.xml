@@ -114,15 +114,15 @@
     <string name="msg_logout">Are you sure want to logout?</string>
     <string name="btn_yes">YES</string>
     <string name="btn_no">NO</string>
-    <string name="hint_mobile_num">Mobile number</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_first_name">First name*</string>
-    <string name="hint_last_name">Last name</string>
-    <string name="hint_mobile_num_ast">Mobile number*</string>
-    <string name="hint_email_ast">Email*</string>
-    <string name="hint_password_ast">Password*</string>
+    <string name="hint_mobile_num"><font size="12">Mobile number</font></string>
+    <string name="hint_password"><font size="12">Password</font></string>
+    <string name="hint_first_name"><font size="12">First name*</font></string>
+    <string name="hint_last_name"><font size="12">Last name</font></string>
+    <string name="hint_mobile_num_ast"><font size="12">Mobile number*</font></string>
+    <string name="hint_email_ast"><font size="12">Email*</font></string>
+    <string name="hint_password_ast"><font size="12">Password*</font></string>
     <string name="label_confirm_password">Confirm Password</string>
-    <string name="hint_confirm_password_ast">Confirm Password*</string>
+    <string name="hint_confirm_password_ast"><font size="12">Confirm Password*</font></string>
     <string name="error_password_not_match">Entered password not match with confirm password.</string>
     <string name="error_please_enter_first_name">Please Enter your first name.</string>
     <string name="error_please_email">Please enter your email address.</string>
@@ -141,11 +141,11 @@
     <string name="btn_send_otp">Send OTP</string>
     <string name="button_done">Done</string>
     <string name="label_old_pass">Old Password</string>
-    <string name="hint_old_password_ast">Old Password*</string>
+    <string name="hint_old_password_ast"><font size="12">Old Password*</font></string>
     <string name="error_enter_old_pass">Please enter old password.</string>
     <string name="error_new_pass">Please enter new Password</string>
     <string name="label_new_password">New Password</string>
-    <string name="hint_new_password_ast">New Password*</string>
+    <string name="hint_new_password_ast"><font size="12">New Password*</font></string>
     <string name="label_change_pass">Change Password</string>
     <string name="error_code_block">Please update the application for better experience.</string>
     <string name="label_qty_s">Qty :</string>
@@ -158,7 +158,7 @@
     <string name="error_valid_qty">Please enter valid qty.</string>
     <string name="label_change_mobile_num">Change Moblie Number</string>
     <string name="label_new_mobile_no">New Mobile Number</string>
-    <string name="hint_new_mobile_num">New Mobile Number</string>
+    <string name="hint_new_mobile_num"><font size="12">New Mobile Number</font></string>
     <string name="error_empty_new_mobile_num">Please Enter mobile Number.</string>
     <string name="msg_mobile_num_change_success">Your mobile number change successfull.</string>
     <string name="hint_search_product">search product</string>
@@ -182,5 +182,16 @@
     <string name="toolbar_my_order">My Order</string>
     <string name="label_quick_order">Quick Order</string>
     <string name="btn_add">ADD</string>
+    <string name="toolbar_label_sub_category">Sub Category</string>
+    <string name="button_contact_us">Contact Us</string>
+    <string name="label_name">Name</string>
+    <string name="hint_name"><font size="12">Name</font></string>
+    <string name="label_message">Message</string>
+    <string name="hint_message_ast"><font size="12">Message*</font></string>
+    <string name="hint_name_ast"><font size="12">Name*</font></string>
+    <string name="button_send">Send</string>
+    <string name="error_empty_name">Please Enter Name.</string>
+    <string name="error_empty_message">Please Enter Message.</string>
+    <string name="transition_image">transitionimage</string>
 
 </resources>

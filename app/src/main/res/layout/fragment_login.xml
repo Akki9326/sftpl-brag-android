@@ -131,7 +131,6 @@
                     android:textSize="@dimen/text_size_small" />
 
 
-
             </LinearLayout>
 
 
@@ -188,6 +187,22 @@
                     android:paddingTop="10dp"
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@string/button_signup"
+                    android:textColor="@color/pink"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/textview_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/round_corner_edge_pink"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="60dp"
+                    android:paddingRight="60dp"
+                    android:paddingTop="10dp"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/button_contact_us"
                     android:textColor="@color/pink"
                     android:textSize="@dimen/text_size_small" />
 

@@ -274,4 +274,11 @@ public class HomeFragment extends BaseFragment implements BaseInterface {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setToolbar();
+    }
 }

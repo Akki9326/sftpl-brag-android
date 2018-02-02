@@ -478,7 +478,9 @@ public class Utility {
 //                .error(R.drawable.logo_placeholder_1)
 //                .into(imageView);
 
-
+        if (url.isEmpty()) {
+            url = String.valueOf(R.drawable.background);
+        }
         Picasso.with(context)
                 .load(url)
                 .centerInside()

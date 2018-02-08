@@ -22,15 +22,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.pulse.brag.R;
-import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
-import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.activities.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.GeneralResponse;
@@ -203,12 +200,12 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                                         , true, true, "");
                                 break;
                             case FORGET_PASS:
-                                ((SplashActivty) getActivity()).pushFragments(CreatePasswordFragment.newInstance(mobileNum, otp),
+                                ((SplashActivity) getActivity()).pushFragments(CreatePasswordFragment.newInstance(mobileNum, otp),
                                         true, true, "Create_Pass_Frag");
                                 break;
 
                             case SIGN_UP:
-                                ((SplashActivty) getActivity()).pushFragments(new SignUpComplateFragment(),
+                                ((SplashActivity) getActivity()).pushFragments(new SignUpComplateFragment(),
                                         true, true, "Signup_Complete_Frag");
                                 break;
                         }

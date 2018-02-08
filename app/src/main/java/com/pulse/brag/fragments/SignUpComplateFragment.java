@@ -17,8 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.activities.BaseActivity;
-import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.activities.SplashActivity;
 import com.pulse.brag.interfaces.BaseInterface;
 
 /**
@@ -64,7 +63,7 @@ public class SignUpComplateFragment extends BaseFragment implements BaseInterfac
             @Override
             public void onClick(View v) {
 
-                ((SplashActivty) getActivity()).popBackToLogin();
+                ((SplashActivity) getActivity()).popBackToLogin();
             }
         });
     }

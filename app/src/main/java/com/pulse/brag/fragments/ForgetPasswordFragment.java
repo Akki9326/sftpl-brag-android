@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
-import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.activities.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Constants;
@@ -133,8 +133,8 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                     GeneralResponse respone = response.body();
                     if (respone.isStatus()) {
                         // TODO: 13-11-2017 email address pass for display in otp screen
-                        if (getActivity() instanceof SplashActivty) {
-                            ((SplashActivty) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString(),
+                        if (getActivity() instanceof SplashActivity) {
+                            ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString(),
                                     "email@email.com", OTPValidationIsFrom.FORGET_PASS.ordinal()),
                                     true, true, "OTP_frag");
                         } else {

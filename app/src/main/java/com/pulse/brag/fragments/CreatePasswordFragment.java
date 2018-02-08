@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.activities.SplashActivity;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
@@ -175,7 +175,7 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
                 @Override
                 public void onClick(View v) {
                     alertDialog.dismiss();
-                    ((SplashActivty) getActivity()).popBackToLogin();
+                    ((SplashActivity) getActivity()).popBackToLogin();
                 }
             });
             alertDialog.show();

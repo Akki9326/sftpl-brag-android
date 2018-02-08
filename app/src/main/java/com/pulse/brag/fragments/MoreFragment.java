@@ -9,7 +9,6 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,15 +31,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.pulse.brag.BragApp;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
-import com.pulse.brag.WebViewActivity;
 import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
-import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.activities.SplashActivity;
 import com.pulse.brag.adapters.MoreListAdapter;
 import com.pulse.brag.enums.MoreList;
 import com.pulse.brag.helper.ApiClient;
@@ -292,7 +288,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     if (respone.isStatus()) {
                         alertDialog.dismiss();
                         PreferencesManager.getInstance().logout();
-                        Intent intent = new Intent(getActivity(), SplashActivty.class);
+                        Intent intent = new Intent(getActivity(), SplashActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         getActivity().finish();

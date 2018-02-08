@@ -27,7 +27,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pulse.brag.activities.MainActivity;
 import com.pulse.brag.R;
-import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.activities.SplashActivity;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
@@ -114,13 +114,13 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
         mTxtSignUp.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                ((SplashActivty) getActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
+                ((SplashActivity) getActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
             }
         });
         mTxtContactUs.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                ((SplashActivty) getActivity()).pushFragments(new ContactUsFragment(), true, true, "Signup_Frag");
+                ((SplashActivity) getActivity()).pushFragments(new ContactUsFragment(), true, true, "Signup_Frag");
 
             }
         });
@@ -154,7 +154,7 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
             @Override
             public void onSingleClick(View v) {
 
-                ((SplashActivty) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mEdtNumber.getText().toString()), true, true, "Forget_Frag");
+                ((SplashActivity) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mEdtNumber.getText().toString()), true, true, "Forget_Frag");
 
             }
         });

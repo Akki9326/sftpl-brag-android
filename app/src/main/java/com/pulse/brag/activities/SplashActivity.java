@@ -5,13 +5,10 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -21,15 +18,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.pulse.brag.FCMInstanceIDService;
 import com.pulse.brag.R;
 import com.pulse.brag.fragments.LogInFragment;
 import com.pulse.brag.fragments.SignUpComplateFragment;
-import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
+import com.pulse.brag.splash.SplashNavigator;
+import com.pulse.brag.utils.AppLogger;
 
-public class SplashActivty extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements SplashNavigator {
 
     ImageView mImgLogo;
     FrameLayout mFrameLayout;
@@ -54,9 +51,7 @@ public class SplashActivty extends AppCompatActivity {
             public void run() {
 
                 if (PreferencesManager.getInstance().isLogin()) {
-                    startActivity(new Intent(SplashActivty.this, MainActivity.class));
-                    finish();
-                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    openMainActivity();
                 } else {
                     animatedViewAndLogin();
                 }
@@ -79,7 +74,7 @@ public class SplashActivty extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mFrameLayout.setVisibility(View.VISIBLE);
-                pushFragments(new LogInFragment(), true, false, "");
+                openLoginFragment();
             }
 
             @Override
@@ -99,7 +94,7 @@ public class SplashActivty extends AppCompatActivity {
         if (PreferencesManager.getInstance().getDeviceType().isEmpty()) {
             PreferencesManager.getInstance().setDeviceTypeAndOsVer(Utility.getDeviceName(), android.os.Build.VERSION.RELEASE);
         }
-        Log.i(getClass().getSimpleName(), "setDeviceNameAndOS: device token " + FirebaseInstanceId.getInstance().getToken());
+        AppLogger.i(getClass().getSimpleName()+" : setDeviceNameAndOS: device token " + FirebaseInstanceId.getInstance().getToken());
         PreferencesManager.getInstance().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
     }
 
@@ -152,5 +147,17 @@ public class SplashActivty extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    public void openMainActivity() {
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        finish();
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void openLoginFragment() {
+        pushFragments(new LogInFragment(), true, false, "");
     }
 }

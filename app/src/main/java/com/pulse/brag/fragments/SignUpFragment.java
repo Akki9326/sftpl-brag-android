@@ -8,19 +8,12 @@ package com.pulse.brag.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.Intent;
-import android.graphics.Rect;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -29,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.activities.SplashActivty;
+import com.pulse.brag.activities.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.helper.ApiClient;
 import com.pulse.brag.helper.Utility;
@@ -38,8 +31,6 @@ import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.SignInRequest;
 import com.pulse.brag.pojo.response.SignUpResponse;
 import com.pulse.brag.views.OnSingleClickListener;
-import com.pulse.brag.views.keyboardvisibilityevent.KeyboardVisibilityEvent;
-import com.pulse.brag.views.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -190,7 +181,7 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
                     SignUpResponse signUpRespone = response.body();
                     if (signUpRespone.isStatus()) {
 
-                        ((SplashActivty) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString()
+                        ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString()
                                 , mEdtEmail.getText().toString(), OTPValidationIsFrom.SIGN_UP.ordinal()),
                                 true, true, "OTP_Frag");
 

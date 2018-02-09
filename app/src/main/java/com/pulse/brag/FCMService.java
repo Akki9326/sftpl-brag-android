@@ -22,8 +22,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.pulse.brag.activities.MainActivity;
-import com.pulse.brag.activities.SplashActivity;
+import com.pulse.brag.ui.activities.MainActivity;
+import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.NotificationType;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;

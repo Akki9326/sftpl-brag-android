@@ -26,7 +26,7 @@ import com.pulse.brag.R;
 import com.pulse.brag.adapters.CategoryListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
-import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnItemClickListener;

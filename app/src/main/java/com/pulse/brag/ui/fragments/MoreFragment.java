@@ -39,7 +39,7 @@ import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.adapters.MoreListAdapter;
 import com.pulse.brag.enums.MoreList;
-import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;

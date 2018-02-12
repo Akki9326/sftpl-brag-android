@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.login;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -14,28 +14,30 @@ import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
+import com.pulse.brag.BR;
+import com.pulse.brag.databinding.FragmentLoginBinding;
 import com.pulse.brag.ui.activities.MainActivity;
 import com.pulse.brag.R;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.fragments.ContactUsFragment;
+import com.pulse.brag.ui.fragments.ForgetPasswordFragment;
+import com.pulse.brag.ui.fragments.SignUpFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
-import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.helper.Validation;
-import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.LoginRequest;
 import com.pulse.brag.pojo.response.LoginResponse;
-import com.pulse.brag.views.OnSingleClickListener;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,22 +48,39 @@ import retrofit2.Response;
  */
 
 
-public class LogInFragment extends BaseFragment implements BaseInterface {
+public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewModel> implements LoginNavigator/*BaseFragment implements BaseInterface*/ {
 
+    @Inject
+    LoginViewModel mLoginViewModel;
 
-    View mView;
+    FragmentLoginBinding mFragmentLoginBinding;
+
+   /* View mView;
     TextView mTxtLogin, mTxtSignUp, mTxtForget, mTxtContactUs;
-    ImageView mImgPass;
-    EditText mEdtNumber, mEdtPassword;
+    ImageView mImgPass;*/
+    //EditText mEdtNumber, mEdtPassword;
 
-    @Nullable
+    public static LogInFragment newInstance() {
+        Bundle args = new Bundle();
+        LogInFragment fragment = new LogInFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mLoginViewModel.setNavigator(this);
+    }
+
+    /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_login, container, false);
-            initializeData();
-            setListeners();
-            showData();
+            //initializeData();
+            //setListeners();
+            //showData();
         }
         return mView;
     }
@@ -69,10 +88,33 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }*/
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mFragmentLoginBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentLoginBinding.baseLayout);
     }
 
     @Override
+    public LoginViewModel getViewModel() {
+        return mLoginViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_login;
+    }
+
+
+
+   /* @Override
     public void setToolbar() {
     }
 
@@ -160,7 +202,13 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
         });
     }
 
-    private void LoginAPICall(String mobile, String password) {
+    @Override
+    public void showData() {
+        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
+    }**/
+
+
+   /* private void LoginAPICall(String mobile, String password) {
 
         showProgressDialog();
         LoginRequest loginRequest = new LoginRequest(mobile, password);
@@ -194,7 +242,8 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
                 Utility.showAlertMessage(getActivity(), t);
             }
         });
-    }
+    }*/
+
 
     private void setHeaderInPref(okhttp3.Headers headers) {
 
@@ -204,7 +253,67 @@ public class LogInFragment extends BaseFragment implements BaseInterface {
     }
 
     @Override
-    public void showData() {
-        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
+    public void login() {
+        if (Validation.isEmpty(mFragmentLoginBinding.edittextMobileNum)) {
+            Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+        } else if (!Validation.isValidMobileNum(mFragmentLoginBinding.edittextMobileNum)) {
+            Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+        } else if (Validation.isEmpty(mFragmentLoginBinding.edittextPassword)) {
+            Utility.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
+        } else if (Utility.isConnection(getActivity())) {
+            //LoginAPICall(mEdtNumber.getText().toString(), mEdtPassword.getText().toString());
+            mLoginViewModel.login(mFragmentLoginBinding.edittextMobileNum.getText().toString(), mFragmentLoginBinding.edittextPassword.getText().toString());
+        } else {
+            Utility.showAlertMessage(getActivity(), 0, null);
+        }
     }
+
+    @Override
+    public void hideUnhidePass() {
+        if (mFragmentLoginBinding.imageviewPassVisible.isSelected()) {
+            mFragmentLoginBinding.imageviewPassVisible.setSelected(false);
+            mFragmentLoginBinding.edittextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            mFragmentLoginBinding.edittextPassword.setSelection(mFragmentLoginBinding.edittextPassword.getText().length());
+        } else {
+            mFragmentLoginBinding.imageviewPassVisible.setSelected(true);
+            mFragmentLoginBinding.edittextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            mFragmentLoginBinding.edittextPassword.setSelection(mFragmentLoginBinding.edittextPassword.getText().length());
+        }
+    }
+
+    @Override
+    public boolean onEditorActionPass(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            mFragmentLoginBinding.textviewLogin.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void showLoginProgress() {
+        showProgress();
+    }
+
+    @Override
+    public void hideLoginProgress() {
+        hideProgress();
+    }
+
+    @Override
+    public void openSignUpFragment() {
+        ((SplashActivity) getBaseActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
+    }
+
+    @Override
+    public void openContactUsFragment() {
+        ((SplashActivity) getBaseActivity()).pushFragments(new ContactUsFragment(), true, true, "Signup_Frag");
+    }
+
+    @Override
+    public void openForgotPassFragment() {
+        ((SplashActivity) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mFragmentLoginBinding.edittextMobileNum.getText().toString()), true, true, "Forget_Frag");
+    }
+
+
 }

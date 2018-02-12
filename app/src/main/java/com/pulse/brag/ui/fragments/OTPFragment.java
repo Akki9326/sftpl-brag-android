@@ -26,7 +26,7 @@ import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
-import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;

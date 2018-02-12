@@ -1,4 +1,4 @@
-package com.pulse.brag.interfaces;
+package com.pulse.brag.data.remote;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.

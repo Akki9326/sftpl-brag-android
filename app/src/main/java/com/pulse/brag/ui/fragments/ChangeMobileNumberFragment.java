@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
-import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;

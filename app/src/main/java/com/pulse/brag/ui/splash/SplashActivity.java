@@ -13,24 +13,28 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ActivitySplashBinding;
 import com.pulse.brag.ui.core.CoreActivity;
-import com.pulse.brag.ui.fragments.LogInFragment;
+import com.pulse.brag.ui.login.LogInFragment;
 import com.pulse.brag.ui.fragments.SignUpComplateFragment;
-import com.pulse.brag.helper.PreferencesManager;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.ui.activities.MainActivity;
-import com.pulse.brag.utils.AppLogger;
 
 import javax.inject.Inject;
 
-public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBinding,SplashViewModel> implements SplashNavigator {
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
+public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBinding,SplashViewModel> implements SplashNavigator,HasSupportFragmentInjector {
 
     @Inject
     SplashViewModel mSplashViewModel;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     ActivitySplashBinding mActiviSplashBinding;
 
@@ -210,4 +214,8 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
+    }
 }

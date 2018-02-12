@@ -5,10 +5,15 @@ import android.content.Context;
 
 import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
+import com.pulse.brag.data.remote.IApiManager;
 import com.pulse.brag.pojo.datas.UserData;
+import com.pulse.brag.pojo.requests.LoginRequest;
+import com.pulse.brag.pojo.response.LoginResponse;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import retrofit2.Call;
 
 /**
  * Created by alpesh.rathod on 2/9/2018.
@@ -19,6 +24,7 @@ public class AppDataManager implements IDataManager {
 
     private final Context mContext;
     private final IPreferenceManager mPreferencesHelper;
+    private final IApiManager mApiManager;
 
 
     /**
@@ -26,9 +32,10 @@ public class AppDataManager implements IDataManager {
      * @param mPreferencesHelper {@link com.pulse.brag.di.module.AppModule#providePreferenceHelper(AppPrefsManager)}
      */
     @Inject
-    public AppDataManager(Context mContext, IPreferenceManager mPreferencesHelper) {
+    public AppDataManager(Context mContext, IPreferenceManager mPreferencesHelper, IApiManager mApiManager) {
         this.mContext = mContext;
         this.mPreferencesHelper = mPreferencesHelper;
+        this.mApiManager=mApiManager;
     }
 
     @Override
@@ -99,5 +106,10 @@ public class AppDataManager implements IDataManager {
     @Override
     public void logout() {
         mPreferencesHelper.logout();
+    }
+
+    @Override
+    public Call<LoginResponse> userLogin(LoginRequest loginRequest) {
+        return mApiManager.userLogin(loginRequest);
     }
 }

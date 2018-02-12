@@ -62,4 +62,17 @@ public class Constants {
     public static final String LOCALBROADCAST_UPDATE_NOTIFICATION ="localbrodUpdateNotification" ;
     public static final String BUNDLE_TITLE ="bunbletitle" ;
     public static final String BUNDLE_SUBTITLE ="bunblesubtitle" ;
+
+    public interface ApiHelper{
+        String BASE_URL = "http://103.204.192.148/brag/api/";
+        String API_VERSION = "v1/";
+        String OS = "Android";
+
+        String MAP_KEY_ACCESS_TOKEN = "access-token";
+        String MAP_KEY_DEVICE_TOKEN = "device-token";
+        String MAP_KEY_DEVICE_TYPE = "device-type";
+        String MAP_API_VERSION = "api-version";
+        String MAP_KEY_OSV = "os-version";
+        String MAP_KEY_OS = "os";
+    }
 }

@@ -37,7 +37,7 @@ import com.pulse.brag.adapters.ProductListAdapter;
 import com.pulse.brag.adapters.SizeListAdapter;
 import com.pulse.brag.erecyclerview.ERecyclerView;
 import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
-import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;

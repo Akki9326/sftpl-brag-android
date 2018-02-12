@@ -32,7 +32,7 @@ import com.pulse.brag.erecyclerview.ERecyclerView;
 import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.erecyclerview.loadmore.OnLoadMoreListener;
-import com.pulse.brag.helper.ApiClient;
+import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;

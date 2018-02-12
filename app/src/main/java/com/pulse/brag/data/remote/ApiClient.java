@@ -1,4 +1,4 @@
-package com.pulse.brag.helper;
+package com.pulse.brag.data.remote;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -10,9 +10,12 @@ package com.pulse.brag.helper;
 
 import android.content.Context;
 
-import com.pulse.brag.interfaces.ApiInterface;
+import com.pulse.brag.data.local.IPreferenceManager;
+import com.pulse.brag.helper.PreferencesManager;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -29,13 +32,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-//    public static final String BASE_URL = "https://reqres.in/api/";
+    //    public static final String BASE_URL = "https://reqres.in/api/";
 //    public static final String BASE_URL = "http://192.168.131.123:8085/brag/api/";
     public static final String BASE_URL = "http://103.204.192.148/brag/api/";
 
     public static final String API_VERSION = "v1/";
 
-        public static String FULL_URL = BASE_URL + API_VERSION;
+    public static String FULL_URL = BASE_URL + API_VERSION;
 //    public static final String FULL_URL = BASE_URL;
 
     private String MAP_KEY_ACCESS_TOKEN = "access-token";
@@ -48,8 +51,10 @@ public class ApiClient {
 
     private static Retrofit retrofit = null;
     public static ApiClient apiClient;
-    static Context mContext;
+    //static Context mContext;
     ApiInterface apiInterface;
+
+    private IPreferenceManager mPreferencesHelper=null;
 
 
     public static Retrofit getClient() {
@@ -65,8 +70,16 @@ public class ApiClient {
     public static ApiClient getInstance(Context context) {
         if (apiClient == null)
             apiClient = new ApiClient();
-        mContext = context;
+        //mContext = context;
         return apiClient;
+    }
+
+    public ApiClient() {
+    }
+
+    @Inject
+    public ApiClient(Context mContext, IPreferenceManager mPreferencesHelper) {
+        this.mPreferencesHelper = mPreferencesHelper;
     }
 
     public ApiInterface getApiResp() {
@@ -117,8 +130,6 @@ public class ApiClient {
     }
 
 
-
-
     public static void changeApiBaseUrl(String newApiBaseUrl) {
         FULL_URL = newApiBaseUrl;
 
@@ -126,7 +137,6 @@ public class ApiClient {
                 .baseUrl(FULL_URL).addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
 
 
 }

@@ -8,16 +8,25 @@ package com.pulse.brag;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Activity;
 import android.app.Application;
 
+import com.pulse.brag.di.component.DaggerAppComponent;
 import com.pulse.brag.helper.PreferencesManager;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.support.DaggerApplication;
 
 /**
  * Created by nikhil.vadoliya on 25-09-2017.
  */
 
 
-public class BragApp extends Application {
+public class BragApp extends Application implements HasActivityInjector{
 
     static BragApp mInstance;
     public static int CartNumber = 0;
@@ -25,9 +34,14 @@ public class BragApp extends Application {
 
     public static boolean isProductViewAsList = false;
 
+    @Inject
+    DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        DaggerAppComponent.builder().application(this).build().inject(this);
         mInstance = this;
         PreferencesManager.initializeInstance(mInstance);
     }
@@ -43,5 +57,10 @@ public class BragApp extends Application {
         } else {
             return "99+";
         }
+    }
+
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return activityDispatchingAndroidInjector;
     }
 }

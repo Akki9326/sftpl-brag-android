@@ -1,6 +1,5 @@
 package com.pulse.brag
 
-import android.app.Fragment
 import android.app.FragmentManager
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -14,12 +13,11 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
 import com.google.firebase.iid.FirebaseInstanceId
-import com.pulse.brag.activities.MainActivity
-import com.pulse.brag.fragments.LogInFragment
+import com.pulse.brag.ui.activities.MainActivity
 import com.pulse.brag.helper.PreferencesManager
 import com.pulse.brag.helper.Utility
 import com.pulse.brag.interfaces.BaseInterface
-import kotlinx.android.synthetic.main.activity_splash_activty.*
+import kotlinx.android.synthetic.main.activity_splash.*
 
 
 class SpActivity : AppCompatActivity(), BaseInterface {

@@ -44,11 +44,10 @@ import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
-import com.pulse.brag.BragApp;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
-import com.pulse.brag.activities.BaseActivity;
-import com.pulse.brag.activities.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.activities.BaseActivity;
+import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;

@@ -19,27 +19,41 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     //retrofit
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
-    compile 'com.android.support:appcompat-v7:26.0.0'
-    compile 'com.android.support:design:26.0.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile files('libs/android-auto-scroll-view-pager.jar')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    compile 'com.google.firebase:firebase-messaging:11.6.0'
-    compile 'com.google.firebase:firebase-core:11.6.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
+    compile 'com.google.firebase:firebase-core:11.8.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //viewmodel
+    implementation 'android.arch.lifecycle:extensions:1.1.0'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+
+    // dependency injection - dagger
+    implementation 'com.google.dagger:dagger:2.11'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.11"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.11"
+    implementation 'com.google.dagger:dagger-android-support:2.11'
 
 }
 apply plugin: 'com.google.gms.google-services'

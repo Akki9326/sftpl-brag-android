@@ -5,17 +5,14 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.pulse.brag.activities.BaseActivity;
 import com.pulse.brag.helper.Constants;
 import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.BaseInterface;

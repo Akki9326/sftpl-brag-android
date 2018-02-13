@@ -22,9 +22,10 @@ import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
-import com.pulse.brag.helper.Validation;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
+import com.pulse.brag.utils.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.views.OnSingleClickListener;
@@ -109,13 +110,16 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
             public void onSingleClick(View v) {
 
                 if (Validation.isEmpty(mEdtMobile)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
                 } else if (!Validation.isValidMobileNum(mEdtMobile)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
                 } else if (Utility.isConnection(getActivity())) {
                     ForgetPassAPI(mEdtMobile.getText().toString());
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0, null);
+                    //Utility.showAlertMessage(getActivity(), 0, null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null);
                 }
             }
         });
@@ -144,7 +148,8 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                         }
 
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
+                        //Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
                     }
 
                 }
@@ -153,7 +158,8 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getActivity(), t);
+                //Utility.showAlertMessage(getActivity(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
     }

@@ -194,4 +194,10 @@
     <string name="error_empty_message">Please Enter Message.</string>
     <string name="transition_image">transitionimage</string>
 
+    <!--Common utils-->
+    <string name="value_is_not_valid_email_address">Invalid email address</string>
+    <string name="field_could_not_be_empty">Field must not be empty.</string>
+    <string name="not_in_range">Given value is not in a range between %1$d and %2$d.</string>
+    <string name="dialog_action_ok">OK</string>
+    <string name="dialog_error_title">Error</string>
 </resources>

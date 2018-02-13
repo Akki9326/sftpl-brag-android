@@ -18,8 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
-import com.pulse.brag.helper.Validation;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Utility;
+import com.pulse.brag.utils.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.OnSingleClickListener;
 
@@ -69,18 +70,23 @@ public class ContactUsFragment extends BaseFragment implements BaseInterface {
             @Override
             public void onSingleClick(View v) {
                 if (Validation.isEmpty(mEdtName)){
-                    Utility.showAlertMessage(getContext(),getString(R.string.error_empty_name));
+                    //Utility.showAlertMessage(getContext(),getString(R.string.error_empty_name));
+                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_empty_name));
                 }else  if(Validation.isEmpty(mEdtEmail)){
-                    Utility.showAlertMessage(getContext(),getString(R.string.error_please_email));
+                    //Utility.showAlertMessage(getContext(),getString(R.string.error_please_email));
+                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_please_email));
                 }else if(!Validation.isEmailValid(mEdtEmail)){
-                    Utility.showAlertMessage(getContext(),getString(R.string.error_email_valid));
+                    //Utility.showAlertMessage(getContext(),getString(R.string.error_email_valid));
+                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_email_valid));
                 }else if(Validation.isEmpty(mEdtMessage)){
-                    Utility.showAlertMessage(getContext(),getString(R.string.error_empty_message));
+                    //Utility.showAlertMessage(getContext(),getString(R.string.error_empty_message));
+                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_empty_message));
                 }else if(Utility.isConnection(getContext())){
                     //api call
                     getActivity().onBackPressed();
                 }else {
-                    Utility.showAlertMessage(getContext(),0,null);
+                    //Utility.showAlertMessage(getContext(),0,null);
+                    AlertUtils.showAlertMessage(getContext(),0,null);
                 }
             }
         });

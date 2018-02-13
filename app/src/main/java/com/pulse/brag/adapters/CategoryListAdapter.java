@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
 

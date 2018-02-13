@@ -19,7 +19,7 @@ import com.pulse.brag.databinding.ActivitySplashBinding;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.login.LogInFragment;
 import com.pulse.brag.ui.fragments.SignUpComplateFragment;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.ui.activities.MainActivity;
 
 import javax.inject.Inject;

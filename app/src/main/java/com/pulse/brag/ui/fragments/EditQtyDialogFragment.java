@@ -30,8 +30,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.OnSingleClickListener;
 
@@ -128,11 +129,14 @@ public class EditQtyDialogFragment extends DialogFragment implements BaseInterfa
 //                    return;
 //                }
                 if (mEdtQty.getText().toString().isEmpty()) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_qty));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_qty));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_qty));
                 } else if (Integer.parseInt(mEdtQty.getText().toString()) == 0) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_qty_not_empty));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_qty_not_empty));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_qty_not_empty));
                 } else if (!isValidQty) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_valid_qty));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_valid_qty));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_valid_qty));
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra(Constants.BUNDLE_QTY, Integer.valueOf(mEdtQty.getText().toString()));

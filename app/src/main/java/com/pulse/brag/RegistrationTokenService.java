@@ -10,10 +10,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.PreferencesManager;
-
-import static android.content.ContentValues.TAG;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.PreferencesManager;
 
 /**
  * Created by nikhil.vadoliya on 15-11-2017.

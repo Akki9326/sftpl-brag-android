@@ -10,10 +10,9 @@ package com.pulse.brag.pojo.datas;
  */
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Utility;
 
 /**
  * Created by nikhil.vadoliya on 02-01-2018.

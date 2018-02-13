@@ -1,8 +1,7 @@
 package com.pulse.brag.ui.splash;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.pulse.brag.helper.PreferencesManager;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.utils.AppLogger;

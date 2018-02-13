@@ -1,28 +1,23 @@
 package com.pulse.brag.ui.login;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
-import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.PreferencesManager;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.pojo.requests.LoginRequest;
 import com.pulse.brag.pojo.response.LoginResponse;
-import com.pulse.brag.ui.activities.MainActivity;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.views.OnSingleClickListener;
 
+import okhttp3.Headers;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by alpesh.rathod on 2/12/2018.
@@ -79,41 +74,32 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
     }
 
     public boolean onEditorActionPass(@NonNull final TextView textView, final int actionId,
-                                  @Nullable final KeyEvent keyEvent) {
-        return getNavigator().onEditorActionPass(textView,actionId,keyEvent);
+                                      @Nullable final KeyEvent keyEvent) {
+        return getNavigator().onEditorActionPass(textView, actionId, keyEvent);
     }
 
-    public void login(String mobile,String password){
-        getNavigator().showLoginProgress();
-        LoginRequest loginRequest = new LoginRequest(mobile, password);
-        Call<LoginResponse> mLoginResponeCall = getDataManager().userLogin(loginRequest);
-        mLoginResponeCall.enqueue(new Callback<LoginResponse>() {
+    public void login(String mobile, String password) {
+        final LoginRequest loginRequest = new LoginRequest(mobile, password);
+        Call<LoginResponse> mLoginResponseCall = getDataManager().userLogin(loginRequest);
+        mLoginResponseCall.enqueue(new ApiResponse<LoginResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                getNavigator().hideLoginProgress();
-                /*if (response.isSuccessful()) {
-                    LoginResponse respone = response.body();
-                    okhttp3.Headers headers = response.headers();
-                    if (respone.isStatus()) {
-
-                        setHeaderInPref(headers);
-                        PreferencesManager.getInstance().setIsLogin(true);
-                        PreferencesManager.getInstance().setUserData(new Gson().toJson(respone.getData()));
-                        startActivity(new Intent(getActivity(), MainActivity.class));
-                        getActivity().finish();
-                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                    } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                    }
+            public void onSuccess(LoginResponse loginResponse, Headers headers) {
+                if (loginResponse.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    getDataManager().setAccessToken(headers.get("access_token"));
+                    getDataManager().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
+                    getDataManager().setIsLogin(true);
+                    getDataManager().setUserData(new Gson().toJson(loginResponse.getData()));
+                    getNavigator().openMainActivity();
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1, null);
-                }*/
+                    getNavigator().onApiError(new ApiError(loginResponse.getErrorCode(), loginResponse.getMessage()));
+                }
+
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                getNavigator().hideLoginProgress();
-                //Utility.showAlertMessage(getActivity(), t);
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
             }
         });
     }

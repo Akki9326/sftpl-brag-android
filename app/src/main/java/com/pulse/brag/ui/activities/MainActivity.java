@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.ui.fragments.HomeFragment;
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Constants;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.pojo.requests.AddToCartRequest;
 
 public class MainActivity extends BaseActivity {

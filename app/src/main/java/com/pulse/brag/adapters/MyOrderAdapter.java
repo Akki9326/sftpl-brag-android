@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.pojo.datas.OrderListResponeData;
 
 import java.util.ArrayList;

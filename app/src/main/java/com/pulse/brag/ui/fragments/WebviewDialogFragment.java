@@ -31,8 +31,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.OnSingleClickListener;
 
@@ -80,7 +81,8 @@ public class WebviewDialogFragment extends DialogFragment implements BaseInterfa
         if (Utility.isConnection(getActivity())) {
             showData();
         } else {
-            Utility.showAlertMessage(getActivity(), 0, null);
+            //Utility.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
 

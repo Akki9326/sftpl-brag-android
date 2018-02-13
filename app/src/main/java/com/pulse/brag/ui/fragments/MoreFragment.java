@@ -40,9 +40,10 @@ import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.adapters.MoreListAdapter;
 import com.pulse.brag.enums.MoreList;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.PreferencesManager;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.PreferencesManager;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.datas.MoreListData;
@@ -265,7 +266,8 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     if (Utility.isConnection(getActivity())) {
                         LogOutAPI();
                     } else {
-                        Utility.showAlertMessage(getActivity(), 0, null);
+                        //Utility.showAlertMessage(getActivity(), 0, null);
+                        AlertUtils.showAlertMessage(getActivity(), 0, null);
                     }
                 }
             });
@@ -295,7 +297,8 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     }
                 } else {
                     alertDialog.dismiss();
-                    Utility.showAlertMessage(getActivity(), 1, null);
+                    //Utility.showAlertMessage(getActivity(), 1, null);
+                    AlertUtils.showAlertMessage(getActivity(), 1, null);
                 }
             }
 
@@ -303,7 +306,8 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 hideProgressDialog();
                 alertDialog.dismiss();
-                Utility.showAlertMessage(getActivity(), t);
+                //Utility.showAlertMessage(getActivity(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
     }

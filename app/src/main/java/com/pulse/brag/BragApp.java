@@ -11,15 +11,14 @@ package com.pulse.brag;
 import android.app.Activity;
 import android.app.Application;
 
+import com.pulse.brag.di.component.DaggerABC;
 import com.pulse.brag.di.component.DaggerAppComponent;
-import com.pulse.brag.helper.PreferencesManager;
+import com.pulse.brag.utils.PreferencesManager;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
-import dagger.android.support.DaggerApplication;
 
 /**
  * Created by nikhil.vadoliya on 25-09-2017.

@@ -10,21 +10,14 @@ package com.pulse.brag.adapters;
  */
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.NotificationResponseData;
 import com.pulse.brag.pojo.datas.NotificationListData;
 import com.pulse.brag.views.OnSingleClickListener;
 

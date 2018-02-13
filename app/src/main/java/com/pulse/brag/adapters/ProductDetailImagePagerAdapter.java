@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 

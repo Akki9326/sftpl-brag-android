@@ -27,10 +27,11 @@ import com.google.gson.Gson;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.PreferencesManager;
-import com.pulse.brag.helper.Utility;
-import com.pulse.brag.helper.Validation;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.PreferencesManager;
+import com.pulse.brag.utils.Utility;
+import com.pulse.brag.utils.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
@@ -138,11 +139,13 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
 
     private void validationAndAPICall() {
         if (Validation.isEmpty(mEdtPass)) {
-            Utility.showAlertMessage(getActivity(), getString(R.string.error_pass));
+            //Utility.showAlertMessage(getActivity(), getString(R.string.error_pass));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
         } else if (Utility.isConnection(getActivity())) {
             ChangeMobileNumberAPICall();
         } else {
-            Utility.showAlertMessage(getActivity(), 0,null);
+            //Utility.showAlertMessage(getActivity(), 0,null);
+            AlertUtils.showAlertMessage(getActivity(), 0,null);
         }
     }
 
@@ -166,7 +169,8 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
                         ((ChangePasswordOrMobileActivity) getActivity()).finish();
                         ((ChangePasswordOrMobileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     } else {
-                        Utility.showAlertMessage(getActivity(), data.getErrorCode(),data.getMessage());
+                        //Utility.showAlertMessage(getActivity(), data.getErrorCode(),data.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), data.getErrorCode(),data.getMessage());
                     }
 
                 }
@@ -175,7 +179,8 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getActivity(), t);
+                //Utility.showAlertMessage(getActivity(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
     }

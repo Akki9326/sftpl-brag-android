@@ -1,4 +1,4 @@
-package com.pulse.brag.helper;
+package com.pulse.brag.utils;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -180,7 +180,7 @@ public class Utility {
     }
 
 
-    public static void showAlertMessage(final Context mContext, Integer code, String errormessage) {
+    /*public static void showAlertMessage(final Context mContext, Integer code, String errormessage) {
 
         if (code != null) {
             String message = "";
@@ -467,7 +467,7 @@ public class Utility {
         } catch (Exception e) {
 
         }
-    }
+    }*/
 
     public static void imageSet(Context context, String url, ImageView imageView) {
 

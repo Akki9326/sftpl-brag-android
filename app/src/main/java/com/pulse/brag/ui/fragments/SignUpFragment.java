@@ -25,8 +25,9 @@ import com.pulse.brag.R;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Utility;
-import com.pulse.brag.helper.Validation;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Utility;
+import com.pulse.brag.utils.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.SignInRequest;
 import com.pulse.brag.pojo.response.SignUpResponse;
@@ -99,28 +100,37 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
 
 
                 if (Validation.isEmpty(mEdtFirstNam)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_please_enter_first_name));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_please_enter_first_name));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_enter_first_name));
                 } else if (Validation.isEmpty(mEdtEmail)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_please_email));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_please_email));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_email));
                 } else if (!Validation.isEmailValid(mEdtEmail)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
                 } else if (Validation.isEmpty(mEdtMobile)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
                 } else if (!Validation.isValidMobileNum(mEdtMobile)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
                 } else if (Validation.isEmpty(mEdtPass)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_pass));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_pass));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
                 } else if (Validation.isEmpty(mEdtConfirmPas)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
                 } else if (!(mEdtPass.getText().toString().trim().equals(mEdtConfirmPas.getText().toString().trim()))) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
                 } else if (Utility.isConnection(getActivity())) {
                     SignInRequest signInRequest = new SignInRequest("Mr", mEdtFirstNam.getText().toString(), mEdtLastNam.getText().toString().trim(),
                             mEdtEmail.getText().toString(), mEdtMobile.getText().toString()
                             , mEdtPass.getText().toString());
                     SignInAPICall(signInRequest);
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0, null);
+                    //Utility.showAlertMessage(getActivity(), 0, null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null);
                 }
             }
         });
@@ -187,17 +197,20 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
 
 
                     } else {
-                        Utility.showAlertMessage(getActivity(), signUpRespone.getErrorCode(), signUpRespone.getMessage());
+                        //Utility.showAlertMessage(getActivity(), signUpRespone.getErrorCode(), signUpRespone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), signUpRespone.getErrorCode(), signUpRespone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1, null);
+                    //Utility.showAlertMessage(getActivity(), 1, null);
+                    AlertUtils.showAlertMessage(getActivity(), 1, null);
                 }
             }
 
             @Override
             public void onFailure(Call<SignUpResponse> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getActivity(), t);
+                //Utility.showAlertMessage(getActivity(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
 

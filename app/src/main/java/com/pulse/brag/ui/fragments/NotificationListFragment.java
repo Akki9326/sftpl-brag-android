@@ -28,8 +28,9 @@ import com.pulse.brag.adapters.NotificationListAdapter;
 import com.pulse.brag.erecyclerview.ERecyclerView;
 import com.pulse.brag.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.erecyclerview.loadmore.OnLoadMoreListener;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.NotificationListData;
@@ -80,7 +81,8 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
         if (Utility.isConnection(getContext())) {
             showData();
         } else {
-            Utility.showAlertMessage(getContext(), 0, null);
+            //Utility.showAlertMessage(getContext(), 0, null);
+            AlertUtils.showAlertMessage(getContext(), 0, null);
             mRecyclerView.loadMoreComplete(false);
         }
     }

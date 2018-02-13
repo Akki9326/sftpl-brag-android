@@ -27,8 +27,9 @@ import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
@@ -110,11 +111,13 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
 
 
                 if (mPinView.getText().toString().length() < 6) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_otp));
+                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_otp));
+                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_otp));
                 } else if (Utility.isConnection(getActivity())) {
                     OTPVerifyAPI(mPinView.getText().toString());
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0,null);
+                    //Utility.showAlertMessage(getActivity(), 0,null);
+                    AlertUtils.showAlertMessage(getActivity(), 0,null);
                 }
             }
         });
@@ -134,7 +137,8 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                 if (Utility.isConnection(getActivity())) {
                     ResendOTPAPI();
                 } else {
-                    Utility.showAlertMessage(getActivity(), 0,null);
+                    //Utility.showAlertMessage(getActivity(), 0,null);
+                    AlertUtils.showAlertMessage(getActivity(), 0,null);
                 }
             }
         });
@@ -153,17 +157,20 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
 
 
                     } else {
-                        Utility.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
+                        //Utility.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1,null);
+                    //Utility.showAlertMessage(getActivity(), 1,null);
+                    AlertUtils.showAlertMessage(getActivity(), 1,null);
                 }
             }
 
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getActivity(), t);
+                //Utility.showAlertMessage(getActivity(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
     }
@@ -210,18 +217,21 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                                 break;
                         }
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
+                        //Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
                     }
 
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1,null);
+                    //Utility.showAlertMessage(getActivity(), 1,null);
+                    AlertUtils.showAlertMessage(getActivity(), 1,null);
                 }
             }
 
             @Override
             public void onFailure(Call<OTPVerifyResponse> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getActivity(), t);
+                //Utility.showAlertMessage(getActivity(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
     }

@@ -38,8 +38,9 @@ import com.pulse.brag.adapters.SizeListAdapter;
 import com.pulse.brag.erecyclerview.ERecyclerView;
 import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnAddButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
@@ -214,7 +215,8 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mRecyclerView.loadMoreComplete(false);
-            Utility.showAlertMessage(getActivity(), 0, null);
+            //Utility.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
 
 //        isExecuteAsync = true;
@@ -283,7 +285,8 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
             @Override
             public void onFailure(Call<DummeyRespone> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getContext(), t);
+                //Utility.showAlertMessage(getContext(), t);
+                AlertUtils.showAlertMessage(getContext(), t);
             }
         });
     }

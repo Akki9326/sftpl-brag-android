@@ -23,9 +23,10 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
-import com.pulse.brag.helper.Validation;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
+import com.pulse.brag.utils.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
 import com.pulse.brag.pojo.response.ChangePasswordResponse;
@@ -123,17 +124,22 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
     private void validationAndAPI() {
 
         if (Validation.isEmpty(mEdtOldPass)) {
-            Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
+            //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
         } else if (Validation.isEmpty(mEdtNewPass)) {
-            Utility.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
+            //Utility.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
         } else if (Validation.isEmpty(mEdtConfirmPass)) {
-            Utility.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+            //Utility.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
         } else if (!(mEdtNewPass.getText().toString().equals(mEdtConfirmPass.getText().toString()))) {
-            Utility.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+            //Utility.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
         } else if (Utility.isConnection(getActivity())) {
             ChangePasswordAPI();
         } else {
-            Utility.showAlertMessage(getActivity(), 0,null);
+            //Utility.showAlertMessage(getActivity(), 0,null);
+            AlertUtils.showAlertMessage(getActivity(), 0,null);
         }
     }
 
@@ -153,19 +159,23 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
                 if (response.isSuccessful()) {
                     ChangePasswordResponse respone = response.body();
                     if (respone.isStatus()) {
-                        Utility.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
+                        //Utility.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
+                        AlertUtils.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
                     } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
+                        //Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getActivity(), 1,null);
+                    //Utility.showAlertMessage(getActivity(), 1,null);
+                    AlertUtils.showAlertMessage(getActivity(), 1,null);
                 }
             }
 
             @Override
             public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getActivity(), t);
+                //Utility.showAlertMessage(getActivity(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
     }

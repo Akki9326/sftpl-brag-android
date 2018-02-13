@@ -1,4 +1,4 @@
-package com.pulse.brag.helper;
+package com.pulse.brag.utils;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;

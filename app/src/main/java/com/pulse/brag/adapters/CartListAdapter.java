@@ -11,29 +11,22 @@ package com.pulse.brag.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
-import com.pulse.brag.interfaces.OnAddButtonClickListener;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.interfaces.OnQtyClickListener;
-import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.datas.CartListResponeData;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by nikhil.vadoliya on 04-12-2017.

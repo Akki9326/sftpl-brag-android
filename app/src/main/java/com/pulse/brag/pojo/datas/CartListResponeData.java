@@ -9,10 +9,7 @@ package com.pulse.brag.pojo.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.Context;
-
-import com.pulse.brag.R;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Utility;
 
 /**
  * Created by nikhil.vadoliya on 04-12-2017.

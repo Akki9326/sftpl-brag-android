@@ -25,8 +25,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.pulse.brag.ui.activities.MainActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.NotificationType;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.PreferencesManager;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.PreferencesManager;
 import com.pulse.brag.pojo.NotificationResponseData;
 
 import static android.content.ContentValues.TAG;

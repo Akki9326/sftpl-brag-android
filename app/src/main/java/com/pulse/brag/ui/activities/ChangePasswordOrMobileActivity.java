@@ -23,8 +23,8 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.fragments.ChangePasswordFragment;
 import com.pulse.brag.ui.fragments.ForgetPasswordFragment;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.views.OnSingleClickListener;
 
 

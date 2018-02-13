@@ -33,8 +33,9 @@ import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.erecyclerview.loadmore.OnLoadMoreListener;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnAddButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
@@ -129,7 +130,8 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
             mRecyclerView.loadMoreComplete(false);
-            Utility.showAlertMessage(getActivity(), 0, null);
+            //Utility.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
 
@@ -264,7 +266,8 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
             @Override
             public void onFailure(Call<DummeyRespone> call, Throwable t) {
                 hideProgressDialog();
-                Utility.showAlertMessage(getContext(), t);
+                //Utility.showAlertMessage(getContext(), t);
+                AlertUtils.showAlertMessage(getContext(), t);
             }
         });
     }
@@ -272,7 +275,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
 
     @Override
     public void onItemClick(int position) {
-        ((BaseActivity) getActivity()).pushFragments(new ProductDetailFragment(), true, true);
+        ((BaseActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
 
     }
 

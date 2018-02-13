@@ -1,17 +1,8 @@
 package com.pulse.brag.data.remote;
 
-/**
- * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
- * This software is the confidential and proprietary information
- * (Confidential Information) of Sailfin Technologies, Pvt. Ltd.  You shall not
- * disclose or use Confidential Information without the express written
- * agreement of Sailfin Technologies, Pvt. Ltd.
- */
-
 import android.content.Context;
 
 import com.pulse.brag.data.local.IPreferenceManager;
-import com.pulse.brag.utils.PreferencesManager;
 
 import java.io.IOException;
 
@@ -26,11 +17,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by nikhil.vadoliya on 25-09-2017.
+ * Created by alpesh.rathod on 2/13/2018.
  */
 
-
-public class ApiClient {
+public class ApiClientNew {
 
     //    public static final String BASE_URL = "https://reqres.in/api/";
 //    public static final String BASE_URL = "http://192.168.131.123:8085/brag/api/";
@@ -56,29 +46,8 @@ public class ApiClient {
 
     private IPreferenceManager mPreferencesHelper = null;
 
-
-    public static Retrofit getClient() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
-
-    public static ApiClient getInstance(Context context) {
-        if (apiClient == null)
-            apiClient = new ApiClient();
-        //mContext = context;
-        return apiClient;
-    }
-
-    public ApiClient() {
-    }
-
     @Inject
-    public ApiClient(Context mContext, IPreferenceManager mPreferencesHelper) {
+    public ApiClientNew(Context mContext, IPreferenceManager mPreferencesHelper) {
         this.mPreferencesHelper = mPreferencesHelper;
     }
 
@@ -94,21 +63,22 @@ public class ApiClient {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     Request.Builder builder = chain.request().newBuilder();
-                    if (!PreferencesManager.getInstance().getAccessToken().isEmpty()) {
-                        builder.header(MAP_KEY_ACCESS_TOKEN, PreferencesManager.getInstance().getAccessToken());
+
+                    if (!mPreferencesHelper.getAccessToken().isEmpty()) {
+                        builder.header(MAP_KEY_ACCESS_TOKEN, mPreferencesHelper.getAccessToken());
+                    }
+
+                    if (!mPreferencesHelper.getDeviceType().isEmpty()) {
+                        builder.header(MAP_KEY_DEVICE_TYPE, mPreferencesHelper.getDeviceType());
+                    }
+
+                    if (!mPreferencesHelper.getDeviceToken().isEmpty()) {
+                        builder.header(MAP_KEY_DEVICE_TOKEN, mPreferencesHelper.getDeviceToken());
                     }
 
 
-                    if (!PreferencesManager.getInstance().getDeviceType().isEmpty()) {
-                        builder.header(MAP_KEY_DEVICE_TYPE, PreferencesManager.getInstance().getDeviceType());
-                    }
-
-                    if (!PreferencesManager.getInstance().getDeviceToken().isEmpty()) {
-                        builder.header(MAP_KEY_DEVICE_TOKEN, PreferencesManager.getInstance().getDeviceToken());
-                    }
-
-                    if (!PreferencesManager.getInstance().getOsVersion().isEmpty()) {
-                        builder.header(MAP_KEY_OSV, PreferencesManager.getInstance().getOsVersion());
+                    if (!mPreferencesHelper.getOsVersion().isEmpty()) {
+                        builder.header(MAP_KEY_OSV, mPreferencesHelper.getOsVersion());
                     }
 
                     builder.header(MAP_KEY_OS, OS);
@@ -142,9 +112,4 @@ public class ApiClient {
                 .baseUrl(FULL_URL).addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
-
-
-
-
 }

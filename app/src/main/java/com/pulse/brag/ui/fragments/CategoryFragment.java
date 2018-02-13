@@ -27,7 +27,8 @@ import com.pulse.brag.adapters.CategoryListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
@@ -93,7 +94,8 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
             GetCategoryAPI();
 //            showData();
         } else {
-            Utility.showAlertMessage(getActivity(), 0, null);
+            //Utility.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
 
     }
@@ -117,16 +119,19 @@ public class CategoryFragment extends Fragment implements BaseInterface, OnItemC
 
                         showData();
                     } else {
-                        Utility.showAlertMessage(getContext(), data.getErrorCode(), data.getMessage());
+                        //Utility.showAlertMessage(getContext(), data.getErrorCode(), data.getMessage());
+                        AlertUtils.showAlertMessage(getContext(), data.getErrorCode(), data.getMessage());
                     }
                 } else {
-                    Utility.showAlertMessage(getContext(), 1, null);
+                    //Utility.showAlertMessage(getContext(), 1, null);
+                    AlertUtils.showAlertMessage(getContext(), 1, null);
                 }
             }
 
             @Override
             public void onFailure(Call<CategoryListResponse> call, Throwable t) {
-                Utility.showAlertMessage(getContext(), t);
+                //Utility.showAlertMessage(getContext(), t);
+                AlertUtils.showAlertMessage(getContext(), t);
             }
         });
     }

@@ -19,9 +19,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
 import com.pulse.brag.BR;
+import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentLoginBinding;
 import com.pulse.brag.ui.activities.MainActivity;
 import com.pulse.brag.R;
@@ -30,18 +29,11 @@ import com.pulse.brag.ui.fragments.ContactUsFragment;
 import com.pulse.brag.ui.fragments.ForgetPasswordFragment;
 import com.pulse.brag.ui.fragments.SignUpFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
-import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.helper.PreferencesManager;
-import com.pulse.brag.helper.Utility;
-import com.pulse.brag.helper.Validation;
-import com.pulse.brag.pojo.requests.LoginRequest;
-import com.pulse.brag.pojo.response.LoginResponse;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Utility;
+import com.pulse.brag.utils.Validation;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 26-09-2017.
@@ -128,8 +120,8 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
         mTxtForget = mView.findViewById(R.id.textview_forget);
         mTxtContactUs = mView.findViewById(R.id.textview_contact);
         // TODO: 08-11-2017 Login username and password
-//        mEdtNumber.setText("7874487853");
-//        mEdtPassword.setText("sailfin*123");
+        //mEdtNumber.setText("7874487853");
+        //mEdtPassword.setText("sailfin*123");
     }
 
     @Override
@@ -242,29 +234,33 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
                 Utility.showAlertMessage(getActivity(), t);
             }
         });
-    }*/
+    }
 
 
     private void setHeaderInPref(okhttp3.Headers headers) {
-
         PreferencesManager.getInstance().setAccessToken(headers.get("access_token"));
         PreferencesManager.getInstance().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
 
-    }
+    }*/
 
     @Override
     public void login() {
         if (Validation.isEmpty(mFragmentLoginBinding.edittextMobileNum)) {
-            Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+            //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
         } else if (!Validation.isValidMobileNum(mFragmentLoginBinding.edittextMobileNum)) {
-            Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+            //Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
         } else if (Validation.isEmpty(mFragmentLoginBinding.edittextPassword)) {
-            Utility.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
+            //Utility.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
+            AlertUtils.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
         } else if (Utility.isConnection(getActivity())) {
             //LoginAPICall(mEdtNumber.getText().toString(), mEdtPassword.getText().toString());
+            showProgress();
             mLoginViewModel.login(mFragmentLoginBinding.edittextMobileNum.getText().toString(), mFragmentLoginBinding.edittextPassword.getText().toString());
         } else {
-            Utility.showAlertMessage(getActivity(), 0, null);
+            //Utility.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
 
@@ -291,13 +287,15 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     }
 
     @Override
-    public void showLoginProgress() {
-        showProgress();
+    public void onApiSuccess() {
+        hideProgress();
     }
 
     @Override
-    public void hideLoginProgress() {
+    public void onApiError(ApiError error) {
         hideProgress();
+        //Utility.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
@@ -313,6 +311,13 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void openForgotPassFragment() {
         ((SplashActivity) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mFragmentLoginBinding.edittextMobileNum.getText().toString()), true, true, "Forget_Frag");
+    }
+
+    @Override
+    public void openMainActivity() {
+        startActivity(new Intent(getBaseActivity(), MainActivity.class));
+        getActivity().finish();
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
 

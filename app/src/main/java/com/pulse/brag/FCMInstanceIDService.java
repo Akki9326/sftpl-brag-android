@@ -10,13 +10,11 @@ package com.pulse.brag;
  */
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.pulse.brag.helper.Constants;
+import com.pulse.brag.utils.Constants;
 
 import static android.content.ContentValues.TAG;
 

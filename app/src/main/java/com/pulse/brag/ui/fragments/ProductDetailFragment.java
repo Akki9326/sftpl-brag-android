@@ -30,8 +30,8 @@ import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
 import com.pulse.brag.adapters.ProductDetailImagePagerAdapter;
 import com.pulse.brag.adapters.SizeListAdapter;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
@@ -173,7 +173,7 @@ public class ProductDetailFragment extends BaseFragment implements BaseInterface
         mViewPagerIndicator.setViewPager(mViewPager);
 
 
-        if (getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
+        if (getArguments()!=null && getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
             DummeyDataRespone dataRespone = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
             mTxtProductName.setText(dataRespone.getFirst_name());
         }

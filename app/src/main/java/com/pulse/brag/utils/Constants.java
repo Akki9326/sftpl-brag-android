@@ -1,4 +1,4 @@
-package com.pulse.brag.helper;
+package com.pulse.brag.utils;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -74,5 +74,22 @@ public class Constants {
         String MAP_API_VERSION = "api-version";
         String MAP_KEY_OSV = "os-version";
         String MAP_KEY_OS = "os";
+    }
+
+    public interface IErrorCode {
+        int defaultErrorCode = 1001;
+        int notInternetConnErrorCode = 1002;
+        int ioExceptionCancelApiErrorCode = 1003;
+        int ioExceptionOtherErrorCode = 1004;
+        int socketTimeOutError = 1006;
+    }
+
+    public interface IErrorMessage {
+        String CONTENT_NOT_MODIFIED = "Content not modified";
+        String IO_EXCEPTION = "We could not complete your request";
+        String NO_INTERNET_CONNECTION = "No internet connection.";
+        String OTHER_EXCEPTION = "We could not complete your request";
+        String SOMETHING_WRONG_ERROR = "Something went wrong!!\nPlease try again later.";
+        String TIME_OUT_CONNECTION = "We could not complete your request.\nPlease try again later.";
     }
 }

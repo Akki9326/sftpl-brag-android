@@ -13,8 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.CustomProgressDialog;
 import com.pulse.brag.views.OnSingleClickListener;
@@ -47,7 +48,8 @@ public class WebViewActivity extends AppCompatActivity implements BaseInterface 
         if (Utility.isConnection(this)) {
             showData();
         } else {
-            Utility.showAlertMessage(this, 0, null);
+            //Utility.showAlertMessage(this, 0, null);
+            AlertUtils.showAlertMessage(this, 0, null);
         }
     }
 

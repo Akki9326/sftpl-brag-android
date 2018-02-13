@@ -7,14 +7,14 @@ import com.pulse.brag.data.AppDataManager;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
-import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.data.remote.ApiClientNew;
 import com.pulse.brag.data.remote.ApiInterface;
 import com.pulse.brag.data.remote.AppApiManager;
 import com.pulse.brag.data.remote.IApiManager;
 import com.pulse.brag.di.ApiInfo;
 import com.pulse.brag.di.OSInfo;
 import com.pulse.brag.di.PreferenceInfo;
-import com.pulse.brag.helper.Constants;
+import com.pulse.brag.utils.Constants;
 
 import javax.inject.Singleton;
 
@@ -40,6 +40,13 @@ public class AppModule {
         return context.getPackageName()+".PREF_NAME";
     }
 
+
+    @Provides
+    @OSInfo
+    String provideOS(){
+        return Constants.ApiHelper.OS;
+    }
+
     /**
      *
      * @param appPrefsManager {@link AppPrefsManager#AppPrefsManager(Context, String)}
@@ -54,8 +61,6 @@ public class AppModule {
     //=====================================================================================
 
 
-
-
     @Provides
     @ApiInfo
     String provideBaseUrlString() {
@@ -63,28 +68,8 @@ public class AppModule {
     }
 
     @Provides
-    @OSInfo
-    String provideOS(){
-        return Constants.ApiHelper.OS;
-    }
-
-    /*@Provides
     @Singleton
-    Converter.Factory provideGsonConverter() {
-        return GsonConverterFactory.create();
-    }
-
-    @Provides
-    @Singleton
-    Retrofit provideRetrofit(Converter.Factory converter, @ApiInfo String baseUrl) {
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(converter)
-                .build();
-    }*/
-    @Provides
-    @Singleton
-    ApiInterface provideApiInterface(ApiClient apiClient){
+    ApiInterface provideApiInterface(ApiClientNew apiClient){
         return apiClient.getApiResp();
     }
 
@@ -112,4 +97,6 @@ public class AppModule {
     IDataManager providesDataManager(AppDataManager appDataManager){
         return appDataManager;
     }
+
+
 }

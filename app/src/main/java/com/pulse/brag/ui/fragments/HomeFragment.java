@@ -34,8 +34,8 @@ import android.widget.TextView;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.helper.Constants;
-import com.pulse.brag.helper.Utility;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.CustomTypefaceSpan;
 

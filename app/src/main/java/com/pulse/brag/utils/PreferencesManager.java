@@ -1,4 +1,4 @@
-package com.pulse.brag.helper;
+package com.pulse.brag.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

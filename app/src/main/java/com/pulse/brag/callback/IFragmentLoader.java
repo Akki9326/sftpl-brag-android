@@ -8,11 +8,11 @@ import android.support.v4.app.Fragment;
 
 public interface IFragmentLoader {
 
-    void pushFragment(int containerId, Fragment fragment, boolean addToStack, String tag);
+    void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack, String tag);
 
-    void pushFragment(int containerId, Fragment fragment, boolean addToStack);
+    void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack);
 
-    void pushFragment(int containerId, Fragment fragment, String tag);
+    void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, String tag);
 
-    void pushFragment(int containerId, Fragment fragment);
+    void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate);
 }

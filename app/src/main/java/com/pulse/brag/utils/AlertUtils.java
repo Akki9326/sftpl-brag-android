@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -42,8 +42,8 @@ public class AlertUtils {
     }
 
     public static Dialog createOkErrorAlertDialog(Context context,
-                                                   @StringRes int titleResource,
-                                                   @StringRes int messageResource) {
+                                                  @StringRes int titleResource,
+                                                  @StringRes int messageResource) {
 
         return createOkErrorAlertDialog(context,
                 context.getString(titleResource),
@@ -226,11 +226,13 @@ public class AlertUtils {
                 case 40:
                     message = mContext.getResources().getString(R.string.error_code_40);
                     break;
-
-
                 case 1011:
                     blockApplicationAlert(mContext, mContext.getResources().getString(R.string.error_code_block));
                     return;
+                case 5001:
+                    message = mContext.getResources().getString(R.string.error_code_5001);
+                    break;
+
 
             }
             showAlertMessage(mContext, message);
@@ -323,6 +325,7 @@ public class AlertUtils {
             showAlertMessage(mContext, 1, null);
         }
     }
+
     public static void blockApplicationAlert(final Context context, String message) {
         final Dialog alertDialog = new Dialog(context);
 

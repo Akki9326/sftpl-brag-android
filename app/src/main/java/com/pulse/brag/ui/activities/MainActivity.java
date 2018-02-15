@@ -23,8 +23,6 @@ public class MainActivity extends BaseActivity {
         BragApp.NotificationNumber = 0;
         setBagCount(BragApp.CartNumber);
         pushFragments(new HomeFragment(), false, false);
-
-
     }
 
     @Override
@@ -34,8 +32,6 @@ public class MainActivity extends BaseActivity {
                 super.onBackPressed();
             } else {
                 mLastBack = SystemClock.elapsedRealtime();
-//                Snackbar mSnackbar = Snackbar.make((FrameLayout) findViewById(R.id.fragment_container), getString(R.string.msg_back_to_exit_app), Snackbar.LENGTH_SHORT);
-//                mSnackbar.show();
                 Toast.makeText(this, "" + getString(R.string.msg_back_to_exit_app), Toast.LENGTH_SHORT).show();
                 return;
             }

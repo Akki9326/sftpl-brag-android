@@ -62,7 +62,7 @@ public interface ApiInterface {
     Call<ChangePasswordResponse> resetPassword(@Body ChangePasswordRequest changePasswordRequest);
 
     @GET("logout")
-    Call<GeneralResponse> logout();
+    Call<GeneralResponse> logoutCall();
 
     @POST("changeMobileNumber")
     Call<GeneralResponse> changeMobileNum(@Body ChangeMobileNumberRequest changeMobileNumberRequest);

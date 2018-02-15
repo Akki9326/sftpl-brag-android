@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.activities;
+package com.pulse.brag.ui.changepasswordmobile;
 
 
 /**
@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.ui.fragments.ChangePasswordFragment;
-import com.pulse.brag.ui.fragments.ForgetPasswordFragment;
+import com.pulse.brag.ui.forgotpassword.ForgetPasswordFragment;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.views.OnSingleClickListener;

@@ -3,6 +3,7 @@ package com.pulse.brag.data.remote;
 import android.content.Context;
 
 import com.pulse.brag.data.local.IPreferenceManager;
+import com.pulse.brag.utils.Constants;
 
 import java.io.IOException;
 
@@ -22,25 +23,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClientNew {
 
-    //    public static final String BASE_URL = "https://reqres.in/api/";
-//    public static final String BASE_URL = "http://192.168.131.123:8085/brag/api/";
-    public static final String BASE_URL = "http://103.204.192.148/brag/api/";
+    //public static final String BASE_URL = "https://reqres.in/api/";
+    //public static final String BASE_URL = "http://192.168.131.123:8085/brag/api/";
 
-    public static final String API_VERSION = "v1/";
+    /**
+     * Below part commented by alpesh on 14/02/18 because static constant moved to Constant.ApiHelper
+     **/
+    /*public static final String BASE_URL = "http://103.204.192.148/brag/api/";
+    public static final String API_VERSION = "v1/";*/
 
-    public static String FULL_URL = BASE_URL + API_VERSION;
-//    public static final String FULL_URL = BASE_URL;
+    public static String FULL_URL = Constants.ApiHelper.BASE_URL + Constants.ApiHelper.API_VERSION;
 
-    private String MAP_KEY_ACCESS_TOKEN = "access-token";
+    /*private String MAP_KEY_ACCESS_TOKEN = "access-token";
     private String MAP_KEY_DEVICE_TOKEN = "device-token";
     private String MAP_KEY_DEVICE_TYPE = "device-type";
     private String MAP_API_VERSION = "api-version";
     private String MAP_KEY_OS = "os";
     private String MAP_KEY_OSV = "os-version";
-    private String OS = "Android";
+    private String OS = "Android";*/
+
+    /*End comment by alpesh */
+
 
     private static Retrofit retrofit = null;
-    public static ApiClient apiClient;
+    public static ApiClientNew apiClient;
     //static Context mContext;
     ApiInterface apiInterface;
 
@@ -65,24 +71,24 @@ public class ApiClientNew {
                     Request.Builder builder = chain.request().newBuilder();
 
                     if (!mPreferencesHelper.getAccessToken().isEmpty()) {
-                        builder.header(MAP_KEY_ACCESS_TOKEN, mPreferencesHelper.getAccessToken());
+                        builder.header(Constants.ApiHelper.MAP_KEY_ACCESS_TOKEN, mPreferencesHelper.getAccessToken());
                     }
 
                     if (!mPreferencesHelper.getDeviceType().isEmpty()) {
-                        builder.header(MAP_KEY_DEVICE_TYPE, mPreferencesHelper.getDeviceType());
+                        builder.header(Constants.ApiHelper.MAP_KEY_DEVICE_TYPE, mPreferencesHelper.getDeviceType());
                     }
 
                     if (!mPreferencesHelper.getDeviceToken().isEmpty()) {
-                        builder.header(MAP_KEY_DEVICE_TOKEN, mPreferencesHelper.getDeviceToken());
+                        builder.header(Constants.ApiHelper.MAP_KEY_DEVICE_TOKEN, mPreferencesHelper.getDeviceToken());
                     }
 
 
                     if (!mPreferencesHelper.getOsVersion().isEmpty()) {
-                        builder.header(MAP_KEY_OSV, mPreferencesHelper.getOsVersion());
+                        builder.header(Constants.ApiHelper.MAP_KEY_OSV, mPreferencesHelper.getOsVersion());
                     }
 
-                    builder.header(MAP_KEY_OS, OS);
-                    builder.header(MAP_API_VERSION, API_VERSION.replace("/", ""));
+                    builder.header(Constants.ApiHelper.MAP_KEY_OS, Constants.ApiHelper.OS);
+                    builder.header(Constants.ApiHelper.MAP_API_VERSION, Constants.ApiHelper.API_VERSION.replace("/", ""));
                     return chain.proceed(builder.build());
                 }
             };

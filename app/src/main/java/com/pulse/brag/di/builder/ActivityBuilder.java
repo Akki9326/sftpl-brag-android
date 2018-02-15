@@ -1,5 +1,6 @@
 package com.pulse.brag.di.builder;
 
+import com.pulse.brag.ui.forgotpassword.ForgotPasswordProvider;
 import com.pulse.brag.ui.login.LoginFragmentProvider;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.ui.splash.SplashActivityModule;
@@ -14,6 +15,6 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuilder {
 
-    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class})
+    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class, ForgotPasswordProvider.class})
     abstract SplashActivity bindSplashActivity();
 }

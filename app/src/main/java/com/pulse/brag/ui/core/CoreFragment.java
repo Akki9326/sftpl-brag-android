@@ -31,6 +31,16 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
     private CustomProgressDialog mProgressDialog;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CoreActivity) {
+            CoreActivity activity = (CoreActivity) context;
+            this.mActivity = activity;
+            activity.onFragmentAttached();
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         performDependencyInjection();
         super.onCreate(savedInstanceState);
@@ -42,6 +52,7 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        beforeViewCreated();
         mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         mRootView = mViewDataBinding.getRoot();
         return mRootView;
@@ -52,15 +63,14 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         super.onViewCreated(view, savedInstanceState);
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
+        afterViewCreated();
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof CoreActivity) {
-            CoreActivity activity = (CoreActivity) context;
-            this.mActivity = activity;
-            activity.onFragmentAttached();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mActivity instanceof CoreActivity.OnToolbarSetupListener) {
+            setUpToolbar();
         }
     }
 
@@ -113,6 +123,24 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
     public T getViewDataBinding() {
         return mViewDataBinding;
     }
+
+    /**
+     * To perform operation before view set like bundle data and other data initialization
+     */
+    public abstract void beforeViewCreated();
+
+    /**
+     * To perform operation after view set
+     */
+    public abstract void afterViewCreated();
+
+
+    /**
+     * Setup toolbar
+     */
+
+    public abstract void setUpToolbar();
+
 
     /**
      * Override for set view model

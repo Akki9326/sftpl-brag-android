@@ -26,7 +26,7 @@ import com.pulse.brag.ui.activities.MainActivity;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.ContactUsFragment;
-import com.pulse.brag.ui.fragments.ForgetPasswordFragment;
+import com.pulse.brag.ui.forgotpassword.ForgetPasswordFragment;
 import com.pulse.brag.ui.fragments.SignUpFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
@@ -44,7 +44,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
 
     @Inject
     LoginViewModel mLoginViewModel;
-
     FragmentLoginBinding mFragmentLoginBinding;
 
    /* View mView;
@@ -85,8 +84,22 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void beforeViewCreated() {
+
+    }
+
+    @Override
+    public void afterViewCreated() {
         mFragmentLoginBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentLoginBinding.baseLayout);
+    }
+
+    @Override
+    public void setUpToolbar() {
+
     }
 
     @Override
@@ -294,7 +307,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        //Utility.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 

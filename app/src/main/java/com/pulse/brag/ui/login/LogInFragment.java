@@ -86,10 +86,7 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void beforeViewCreated() {
 
-    }
 
     @Override
     public void afterViewCreated() {
@@ -102,15 +99,9 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
 
     }
 
-    @Override
-    public void afterViewCreated() {
 
-    }
 
-    @Override
-    public void setUpToolbar() {
 
-    }
 
     @Override
     public void setUpToolbar() {

@@ -11,6 +11,7 @@ package com.pulse.brag.data.remote;
 import android.content.Context;
 
 import com.pulse.brag.data.local.IPreferenceManager;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.PreferencesManager;
 
 import java.io.IOException;
@@ -32,22 +33,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    //    public static final String BASE_URL = "https://reqres.in/api/";
-//    public static final String BASE_URL = "http://192.168.131.123:8085/brag/api/";
-    public static final String BASE_URL = "http://103.204.192.148/brag/api/";
+    //public static final String BASE_URL = "https://reqres.in/api/";
+    //public static final String BASE_URL = "http://192.168.131.123:8085/brag/api/";
 
-    public static final String API_VERSION = "v1/";
 
-    public static String FULL_URL = BASE_URL + API_VERSION;
-//    public static final String FULL_URL = BASE_URL;
+    /**
+     * Below part commented by alpesh on 14/02/18 because static constant moved to Constant.ApiHelper
+     **/
+    /*public static final String BASE_URL = "http://103.204.192.148/brag/api/";
+    public static final String API_VERSION = "v1/";*/
 
-    private String MAP_KEY_ACCESS_TOKEN = "access-token";
+    public static String FULL_URL = Constants.ApiHelper.BASE_URL + Constants.ApiHelper.API_VERSION;
+
+    /*private String MAP_KEY_ACCESS_TOKEN = "access-token";
     private String MAP_KEY_DEVICE_TOKEN = "device-token";
     private String MAP_KEY_DEVICE_TYPE = "device-type";
     private String MAP_API_VERSION = "api-version";
     private String MAP_KEY_OS = "os";
     private String MAP_KEY_OSV = "os-version";
-    private String OS = "Android";
+    private String OS = "Android";*/
+
+    /*End comment by alpesh */
 
     private static Retrofit retrofit = null;
     public static ApiClient apiClient;
@@ -60,7 +66,7 @@ public class ApiClient {
     public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(Constants.ApiHelper.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -95,24 +101,24 @@ public class ApiClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request.Builder builder = chain.request().newBuilder();
                     if (!PreferencesManager.getInstance().getAccessToken().isEmpty()) {
-                        builder.header(MAP_KEY_ACCESS_TOKEN, PreferencesManager.getInstance().getAccessToken());
+                        builder.header(Constants.ApiHelper.MAP_KEY_ACCESS_TOKEN, PreferencesManager.getInstance().getAccessToken());
                     }
 
 
                     if (!PreferencesManager.getInstance().getDeviceType().isEmpty()) {
-                        builder.header(MAP_KEY_DEVICE_TYPE, PreferencesManager.getInstance().getDeviceType());
+                        builder.header(Constants.ApiHelper.MAP_KEY_DEVICE_TYPE, PreferencesManager.getInstance().getDeviceType());
                     }
 
                     if (!PreferencesManager.getInstance().getDeviceToken().isEmpty()) {
-                        builder.header(MAP_KEY_DEVICE_TOKEN, PreferencesManager.getInstance().getDeviceToken());
+                        builder.header(Constants.ApiHelper.MAP_KEY_DEVICE_TOKEN, PreferencesManager.getInstance().getDeviceToken());
                     }
 
                     if (!PreferencesManager.getInstance().getOsVersion().isEmpty()) {
-                        builder.header(MAP_KEY_OSV, PreferencesManager.getInstance().getOsVersion());
+                        builder.header(Constants.ApiHelper.MAP_KEY_OSV, PreferencesManager.getInstance().getOsVersion());
                     }
 
-                    builder.header(MAP_KEY_OS, OS);
-                    builder.header(MAP_API_VERSION, API_VERSION.replace("/", ""));
+                    builder.header(Constants.ApiHelper.MAP_KEY_OS, Constants.ApiHelper.OS);
+                    builder.header(Constants.ApiHelper.MAP_API_VERSION, Constants.ApiHelper.API_VERSION.replace("/", ""));
                     return chain.proceed(builder.build());
                 }
             };
@@ -142,9 +148,4 @@ public class ApiClient {
                 .baseUrl(FULL_URL).addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
-
-
-
-
 }

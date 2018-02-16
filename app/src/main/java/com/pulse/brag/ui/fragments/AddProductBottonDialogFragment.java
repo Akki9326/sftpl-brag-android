@@ -34,7 +34,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.MainActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.adapters.SizeListAdapter;
@@ -44,7 +43,6 @@ import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
-import com.pulse.brag.pojo.requests.AddToCartRequest;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.CustomViewPagerIndicator;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
@@ -144,7 +142,7 @@ public class AddProductBottonDialogFragment extends DialogFragment implements On
         mTxtAddCart.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                ((MainActivity) getActivity()).addToCartAPI(new AddToCartRequest());
+//                ((MainActivity) getActivity()).addToCartAPI(new AddToCartRequest());
                 dismiss();
             }
         });

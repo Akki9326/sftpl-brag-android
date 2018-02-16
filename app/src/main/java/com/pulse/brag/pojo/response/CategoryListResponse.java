@@ -9,7 +9,6 @@ package com.pulse.brag.pojo.response;
  */
 
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
-import com.pulse.brag.pojo.datas.UserData;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class CategoryListResponse {
     private Integer errorCode;
     private String message;
     private List<CategoryListResponseData> data;
+    private List<ImagePagerResponse> imageSlide;
 
     public boolean isStatus() {
         return status;
@@ -55,5 +55,13 @@ public class CategoryListResponse {
 
     public void setData(List<CategoryListResponseData> data) {
         this.data = data;
+    }
+
+    public List<ImagePagerResponse> getImageSlide() {
+        return imageSlide;
+    }
+
+    public void setImageSlide(List<ImagePagerResponse> imageSlide) {
+        this.imageSlide = imageSlide;
     }
 }

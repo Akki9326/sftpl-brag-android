@@ -13,7 +13,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
 import com.google.firebase.iid.FirebaseInstanceId
-import com.pulse.brag.ui.activities.MainActivity
+import com.pulse.brag.ui.main.MainActivity
 import com.pulse.brag.utils.PreferencesManager
 import com.pulse.brag.utils.Utility
 import com.pulse.brag.interfaces.BaseInterface

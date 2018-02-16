@@ -6,9 +6,19 @@ import android.content.Context;
 import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
 import com.pulse.brag.data.remote.IApiManager;
+import com.pulse.brag.pojo.DummeyRespone;
+import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.datas.UserData;
+import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
+import com.pulse.brag.pojo.requests.ChangePasswordRequest;
 import com.pulse.brag.pojo.requests.LoginRequest;
+import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.pojo.response.CategoryListResponse;
+import com.pulse.brag.pojo.response.ChangePasswordResponse;
+import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.LoginResponse;
+import com.pulse.brag.pojo.response.OTPVerifyResponse;
+import com.pulse.brag.pojo.response.SignUpResponse;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -109,7 +119,62 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
+    public Call<GeneralResponse> changeMobileNum(ChangeMobileNumberRequest changeMobileNumberRequest) {
+        return mApiManager.changeMobileNum(changeMobileNumberRequest);
+    }
+
+    @Override
+    public Call<CategoryListResponse> getCategoryProduct(String url) {
+        return mApiManager.getCategoryProduct(url);
+    }
+
+    @Override
+    public Call<CollectionListResponse> getCollectionProduct(String url) {
+        return mApiManager.getCollectionProduct(url);
+    }
+
+    @Override
     public Call<LoginResponse> userLogin(LoginRequest loginRequest) {
         return mApiManager.userLogin(loginRequest);
+    }
+
+    @Override
+    public Call<DummeyRespone> getProductionList(int page) {
+        return mApiManager.getProductionList(page);
+    }
+
+    @Override
+    public Call<SignUpResponse> userSignIn(SignInRequest signInRequest) {
+        return mApiManager.userSignIn(signInRequest);
+    }
+
+    @Override
+    public Call<OTPVerifyResponse> verifyOtp(String mobile, String otp) {
+        return mApiManager.verifyOtp(mobile, otp);
+    }
+
+    @Override
+    public Call<OTPVerifyResponse> verifyOtpForgetPass(String mobile, String otp) {
+        return mApiManager.verifyOtpForgetPass(mobile, otp);
+    }
+
+    @Override
+    public Call<GeneralResponse> resendOtp(String mobile) {
+        return mApiManager.resendOtp(mobile);
+    }
+
+    @Override
+    public Call<ChangePasswordResponse> changePassword(ChangePasswordRequest changePasswordRequest) {
+        return mApiManager.changePassword(changePasswordRequest);
+    }
+
+    @Override
+    public Call<ChangePasswordResponse> resetPassword(ChangePasswordRequest changePasswordRequest) {
+        return mApiManager.resetPassword(changePasswordRequest);
+    }
+
+    @Override
+    public Call<GeneralResponse> logoutCall() {
+        return mApiManager.logoutCall();
     }
 }

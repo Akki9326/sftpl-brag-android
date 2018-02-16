@@ -275,7 +275,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
 
     @Override
     public void onItemClick(int position) {
-        ((BaseActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
+//        ((BaseActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
 
     }
 

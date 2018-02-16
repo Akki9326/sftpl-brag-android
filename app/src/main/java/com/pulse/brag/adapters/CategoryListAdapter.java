@@ -1,5 +1,6 @@
 package com.pulse.brag.adapters;
 
+
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
@@ -8,85 +9,96 @@ package com.pulse.brag.adapters;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pulse.brag.R;
-import com.pulse.brag.utils.Utility;
+import com.pulse.brag.databinding.ItemGridCategoryBinding;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
+import com.pulse.brag.ui.core.CoreViewHolder;
+import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nikhil.vadoliya on 29-09-2017.
+ * Created by nikhil.vadoliya on 14-02-2018.
  */
 
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
+    List<CategoryListResponseData> listRespones = new ArrayList<>();
+    Context context;
+    OnItemClickListener onItemClickListener;
 
-    List<CategoryListResponseData> listRespones;
-    Activity mActivity;
-    OnItemClickListener mItemClickListener;
-
-    public CategoryListAdapter(Activity mActivity, List<CategoryListResponseData> listRespones, OnItemClickListener mItemClickListener) {
-        this.mActivity = mActivity;
-        this.listRespones = new ArrayList<>();
+    public CategoryListAdapter(Context context, List<CategoryListResponseData> listRespones
+            , OnItemClickListener onItemClickListener) {
         this.listRespones = listRespones;
-        this.mItemClickListener = mItemClickListener;
+        this.context = context;
+        this.onItemClickListener = onItemClickListener;
+    }
+
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        ItemGridCategoryBinding itemGridCategoryBinding = ItemGridCategoryBinding
+                .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(itemGridCategoryBinding);
+
     }
 
     @Override
-    public CategoryListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_grid_category, null);
-        ViewHolder viewHolder1 = new ViewHolder(view1);
-        return viewHolder1;
-
-    }
-
-    @Override
-    public void onBindViewHolder(CategoryListAdapter.ViewHolder holder, final int position) {
-
-
-        Utility.imageSet(mActivity, listRespones.get(position).getUrl(), holder.mImgBackground);
-        holder.mText.setText(listRespones.get(position).getOptionName());
-
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mItemClickListener.onItemClick(position);
-            }
-        });
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.onBind(position);
     }
 
     @Override
     public int getItemCount() {
-        return listRespones.size();
+        return (null != listRespones ? listRespones.size() : 0);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mImgBackground;
-        TextView mText;
-        View mView;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+    public class ViewHolder extends CoreViewHolder /*implements CategoryListResponseData.ItemViewModelListener */ {
 
-            mView = itemView;
+        ItemGridCategoryBinding itemBinding;
 
-            Utility.applyTypeFace(mActivity, (RelativeLayout) itemView.findViewById(R.id.base_layout));
-            mImgBackground = (ImageView) itemView.findViewById(R.id.imageView_collection_background);
-            mText = (TextView) itemView.findViewById(R.id.textview_collection_label);
+        public ViewHolder(ItemGridCategoryBinding itemView) {
+            super(itemView.getRoot());
+            this.itemBinding = itemView;
+            //itemBinding = getViewDataBinding();
         }
+
+        @Override
+        public void onBind(final int position) {
+            //new CategoryListResponseData(this);
+            CategoryListResponseData listResponseData = listRespones.get(position);
+            itemBinding.setViewModel(listResponseData);
+            //itemBinding.setViewModel(listRespones.get(position));
+            itemBinding.executePendingBindings();
+            itemBinding.baseLayout.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    onItemClickListener.onItemClick(position);
+                }
+            });
+        }
+
+        /*@Override
+        public void onClickItem() {
+            onClickListener.onClickItem();
+        }*/
+
+    }
+
+    public interface AdapterListener {
+        void onClickItem();
     }
 
 

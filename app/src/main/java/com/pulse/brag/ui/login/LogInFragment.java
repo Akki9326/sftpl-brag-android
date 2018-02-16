@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.pulse.brag.BR;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentLoginBinding;
-import com.pulse.brag.ui.activities.MainActivity;
+import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.ContactUsFragment;
@@ -86,7 +86,22 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mFragmentLoginBinding = getViewDataBinding();
-        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentLoginBinding.baseLayout);
+        Utility.applyTypeFace(getBaseActivity(), mFragmentLoginBinding.baseLayout);
+    }
+
+    @Override
+    public void beforeViewCreated() {
+
+    }
+
+    @Override
+    public void afterViewCreated() {
+
+    }
+
+    @Override
+    public void setUpToolbar() {
+
     }
 
     @Override
@@ -294,7 +309,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        //Utility.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 

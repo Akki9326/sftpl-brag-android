@@ -20,7 +20,7 @@ import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.login.LogInFragment;
 import com.pulse.brag.ui.fragments.SignUpComplateFragment;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.ui.activities.MainActivity;
+import com.pulse.brag.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -45,25 +45,7 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActiviSplashBinding=getViewDataBinding();
-        mSplashViewModel.setNavigator(this);
-        //setContentView(R.layout.activity_splash);
 
-        Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) mActiviSplashBinding.baseLayout);
-        //init();
-        //setDeviceNameAndOS();
-        mSplashViewModel.setDeviceNameAndOS();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /*if (PreferencesManager.getInstance().isLogin()) {
-                    openMainActivity();
-                } else {
-                    animatedViewAndLogin();
-                }*/
-                mSplashViewModel.decideNextActivity();
-            }
-        }, 2000);
     }
 
 
@@ -212,6 +194,29 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
     public void beforeLayoutSet() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    @Override
+    public void afterLayoutSet() {
+        mActiviSplashBinding=getViewDataBinding();
+        mSplashViewModel.setNavigator(this);
+        //setContentView(R.layout.activity_splash);
+
+        Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) mActiviSplashBinding.baseLayout);
+        //init();
+        //setDeviceNameAndOS();
+        mSplashViewModel.setDeviceNameAndOS();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /*if (PreferencesManager.getInstance().isLogin()) {
+                    openMainActivity();
+                } else {
+                    animatedViewAndLogin();
+                }*/
+                mSplashViewModel.decideNextActivity();
+            }
+        }, 2000);
     }
 
     @Override

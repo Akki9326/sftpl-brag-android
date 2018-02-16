@@ -9,18 +9,27 @@ package com.pulse.brag.pojo.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Context;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import com.pulse.brag.BR;
+
 
 /**
  * Created by nikhil.vadoliya on 15-01-2018.
  */
 
 
-public class CategoryListResponseData implements Comparable<CategoryListResponseData> {
-
+public class CategoryListResponseData extends BaseObservable implements Comparable<CategoryListResponseData> {
+    @Bindable
     private String id;
+    @Bindable
     private String optionName;
+
+    @Bindable
     private String url;
+    @Bindable
     private int optionOrderNo;
 
     public CategoryListResponseData(String id, String optionName, String url, int optionOrderNo) {
@@ -28,6 +37,7 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
         this.optionName = optionName;
         this.url = url;
         this.optionOrderNo = optionOrderNo;
+
     }
 
     public String getId() {
@@ -36,6 +46,7 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
 
     public void setId(String id) {
         this.id = id;
+        notifyPropertyChanged(BR.id);
     }
 
     public String getOptionName() {
@@ -44,6 +55,7 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
 
     public void setOptionName(String optionName) {
         this.optionName = optionName;
+        notifyPropertyChanged(BR.optionName);
     }
 
     public String getUrl() {
@@ -52,6 +64,7 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
 
     public void setUrl(String url) {
         this.url = url;
+        notifyPropertyChanged(BR.url);
     }
 
     public int getOptionOrderNo() {
@@ -60,6 +73,7 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
 
     public void setOptionOrderNo(int optionOrderNo) {
         this.optionOrderNo = optionOrderNo;
+        notifyPropertyChanged(BR.optionOrderNo);
     }
 
 
@@ -73,4 +87,18 @@ public class CategoryListResponseData implements Comparable<CategoryListResponse
             return 0;
         }
     }
+
+    /*private ItemViewModelListener listener;
+
+    public CategoryListResponseData(ItemViewModelListener listener) {
+        this.listener = listener;
+    }
+
+    public void onClickItem(){
+        listener.onClickItem();
+    }
+
+    public interface ItemViewModelListener {
+        void onClickItem();
+    }*/
 }

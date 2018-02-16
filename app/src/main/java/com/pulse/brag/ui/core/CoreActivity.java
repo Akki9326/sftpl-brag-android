@@ -68,8 +68,6 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
         beforeLayoutSet();
         performDataBinding();
         afterLayoutSet();
-        //init fragmentstack here if required
-        //fragmentStack = new FragmentStack(this, getSupportFragmentManager());
     }
 
     private void performDependencyInjection() {
@@ -81,9 +79,6 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
         this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
-        if (bActivity instanceof OnToolbarSetupListener){
-            ((OnToolbarSetupListener) bActivity).setUpToolbar();
-        }
     }
 
     protected void showProgress(String msg) {
@@ -211,6 +206,14 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
         }
     }
 
+    public void setBagCount(int num) {
+        if (num == 0) {
+            mTxtBagCount.setVisibility(View.GONE);
+        } else {
+            mTxtBagCount.setVisibility(View.VISIBLE);
+            mTxtBagCount.setText(Utility.getBadgeNumber(num));
+        }
+    }
     public void showKeyboard(){
         View view = this.getCurrentFocus();
         Common.showKeyboard(this, view);

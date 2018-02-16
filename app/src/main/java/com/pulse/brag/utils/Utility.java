@@ -39,6 +39,7 @@ import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.squareup.picasso.Picasso;
@@ -467,7 +468,9 @@ public class Utility {
 //                .error(R.drawable.logo_placeholder_1)
 //                .into(imageView);
 
-        if (url.isEmpty()) {
+        if (url == null) {
+            url = String.valueOf(R.drawable.background);
+        } else if (url.isEmpty()) {
             url = String.valueOf(R.drawable.background);
         }
         Picasso.with(context)
@@ -627,6 +630,14 @@ public class Utility {
             return "" + num;
         } else {
             return "99+";
+        }
+    }
+
+    public static String getNotificationlabel(Activity activity) {
+        if (BragApp.NotificationNumber > 0) {
+            return activity.getString(R.string.toolbar_label_notification) + " (" + getBadgeNumber(BragApp.NotificationNumber) + ")";
+        } else {
+            return activity.getString(R.string.toolbar_label_notification);
         }
     }
 }

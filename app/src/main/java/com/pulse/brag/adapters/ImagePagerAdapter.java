@@ -9,6 +9,8 @@ package com.pulse.brag.adapters;
  */
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
@@ -53,13 +56,13 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_image_pager, container, false);
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-        Utility.imageSet(mContext, mPagerRespones.get(position).getUrl(), imageView);
-        container.addView(itemView);
 
-        return itemView;
+        ViewDataBinding dataBinding = DataBindingUtil.inflate(mLayoutInflater
+                , R.layout.item_image_pager, null, false);
+        dataBinding.setVariable(BR.viewModel, mPagerRespones.get(position));
+        container.addView(dataBinding.getRoot());
+        return dataBinding.getRoot();
     }
 
     @Override

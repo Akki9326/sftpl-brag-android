@@ -227,7 +227,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         moreListData.add(new MoreListData(MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
                 getString(R.string.label_my_order)));
         moreListData.add(new MoreListData(MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
-                ((BaseActivity) getActivity()).getNotificationlabel()));
+               Utility.getNotificationlabel(getActivity())));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new MoreListData(MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),

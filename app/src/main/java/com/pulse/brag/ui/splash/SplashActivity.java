@@ -22,7 +22,7 @@ import com.pulse.brag.ui.login.LogInFragment;
 import com.pulse.brag.ui.signup.complete.SignUpCompleteFragment;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.ui.activities.MainActivity;
+import com.pulse.brag.ui.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +158,7 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
         } else {
             super.onBackPressed();
         }
-        //if (manager.getBackStackEntryCount() == 3 || manager.findFragmentById(R.id.login_contrainer) instanceof SignUpCompleteFragment) {
+        //if (manager.getBackStackEntryCount() == 3 || manager.findFragmentById(R.id.login_contrainer) instanceof SignUpComplateFragment) {
         //manager.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         //} else {
         //super.onBackPressed();

@@ -64,6 +64,7 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         beforeViewCreated();
         mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         mRootView = mViewDataBinding.getRoot();
+
         return mRootView;
     }
 

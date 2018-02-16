@@ -8,16 +8,23 @@ package com.pulse.brag.pojo.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.pulse.brag.BR;
 
 /**
  * Created by nikhil.vadoliya on 29-09-2017.
  */
 
 
-public class ImagePagerResponse implements Parcelable {
+public class ImagePagerResponse extends BaseObservable implements Parcelable {
+
+    @Bindable
     String url;
+    @Bindable
     String id;
 
     public ImagePagerResponse(String url, String id) {
@@ -31,6 +38,7 @@ public class ImagePagerResponse implements Parcelable {
 
     public void setUrl(String url) {
         this.url = url;
+        notifyPropertyChanged(BR.url);
     }
 
     public String getId() {
@@ -39,6 +47,7 @@ public class ImagePagerResponse implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+        notifyPropertyChanged(BR.id);
     }
 
     @Override

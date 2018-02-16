@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:bind="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.pojo.response.ImagePagerResponse" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:transitionName="@string/transition_image" />
-</RelativeLayout>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/transition_image"
+            bind:imageUrl="@{viewModel.url}" />
+    </RelativeLayout>
+</layout>

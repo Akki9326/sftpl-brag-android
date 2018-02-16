@@ -13,6 +13,8 @@ public abstract class CoreViewModel<N> extends ViewModel {
     private N mNavigator;
     private final IDataManager mDataManager;
 
+
+
     public CoreViewModel(IDataManager dataManager) {
         this.mDataManager=dataManager;
     }

@@ -388,8 +388,8 @@ public class Utility {
                     alertDialog.dismiss();
                     if (isOktoBack) {
 
-                        if (mContext instanceof ChangePasswordOrMobileActivity) {
-                            ((ChangePasswordOrMobileActivity) mContext).onBackPressed();
+                        if (mContext instanceof UserProfileActivity) {
+                            ((UserProfileActivity) mContext).onBackPressed();
                         } else {
                             ((BaseActivity) mContext).onBackPressed();
                         }

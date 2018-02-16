@@ -3,7 +3,6 @@ package com.pulse.brag.ui.login;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
-import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.ui.core.CoreNavigator;
 
 /**

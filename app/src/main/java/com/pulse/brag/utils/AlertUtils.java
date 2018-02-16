@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.profile.UserProfileActivity;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -296,8 +296,8 @@ public class AlertUtils {
                     alertDialog.dismiss();
                     if (isOktoBack) {
 
-                        if (mContext instanceof ChangePasswordOrMobileActivity) {
-                            ((ChangePasswordOrMobileActivity) mContext).onBackPressed();
+                        if (mContext instanceof UserProfileActivity) {
+                            ((UserProfileActivity) mContext).onBackPressed();
                         } else {
                             ((BaseActivity) mContext).onBackPressed();
                         }

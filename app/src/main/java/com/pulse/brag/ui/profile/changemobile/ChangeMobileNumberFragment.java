@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.profile.changemobile;
 
 
 /**
@@ -14,44 +14,39 @@ import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
-import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.databinding.FragmentChangeMobileNumBinding;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.utils.PreferencesManager;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.GeneralResponse;
-import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import javax.inject.Inject;
 
 /**
  * Created by nikhil.vadoliya on 11-12-2017.
  */
 
 
-public class ChangeMobileNumberFragment extends BaseFragment implements BaseInterface {
+public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobileNumBinding, ChangeMobNumberViewModel> implements ChangeMobNumberNavigator/*extends BaseFragment implements BaseInterface*/ {
 
-    View mView;
+    @Inject
+    ChangeMobNumberViewModel mChangeMobNumberViewModel;
+    FragmentChangeMobileNumBinding mFragmentChangeMobileNumBinding;
+
+    /*View mView;
     TextView mTxtMobileNum;
     EditText mEdtPass;
     ImageView mImgToggle;
-    TextView mTxtDone;
+    TextView mTxtDone;*/
 
     String mobilenum;
 
@@ -64,7 +59,45 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
         return fragment;
     }
 
-    @Nullable
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mChangeMobNumberViewModel.setNavigator(this);
+    }
+
+    @Override
+    public void beforeViewCreated() {
+        mobilenum = getArguments().getString(Constants.BUNDLE_MOBILE);
+    }
+
+    @Override
+    public void afterViewCreated() {
+        mFragmentChangeMobileNumBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentChangeMobileNumBinding.baseLayout);
+        mChangeMobNumberViewModel.setNewMobileNumber(mobilenum);
+    }
+
+    @Override
+    public void setUpToolbar() {
+        ((UserProfileActivity) getActivity()).showToolBar("Change Mobile Number");
+    }
+
+    @Override
+    public ChangeMobNumberViewModel getViewModel() {
+        return mChangeMobNumberViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_change_mobile_num;
+    }
+
+    /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -85,7 +118,7 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
 
     @Override
     public void setToolbar() {
-//        ((ChangePasswordOrMobileActivity) getActivity()).showToolBar("Change Mobile Number");
+//        ((UserProfileActivity) getActivity()).showToolBar("Change Mobile Number");
     }
 
     @Override
@@ -137,7 +170,12 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
         });
     }
 
-    private void validationAndAPICall() {
+    @Override
+    public void showData() {
+
+    }*/
+
+    /*private void validationAndAPICall() {
         if (Validation.isEmpty(mEdtPass)) {
             //Utility.showAlertMessage(getActivity(), getString(R.string.error_pass));
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
@@ -145,13 +183,11 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
             ChangeMobileNumberAPICall();
         } else {
             //Utility.showAlertMessage(getActivity(), 0,null);
-            AlertUtils.showAlertMessage(getActivity(), 0,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
 
     private void ChangeMobileNumberAPICall() {
-
-
         // TODO: 13-12-2017 if you display mobile number in more Fragment than isStatus==true update mobile number display
         showProgressDialog();
         ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(mTxtMobileNum.getText().toString()
@@ -166,11 +202,11 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
                     GeneralResponse data = response.body();
                     if (data.isStatus()) {
                         PreferencesManager.getInstance().setUserData(new Gson().toJson(data.getData()));
-                        ((ChangePasswordOrMobileActivity) getActivity()).finish();
-                        ((ChangePasswordOrMobileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
+                        ((UserProfileActivity) getActivity()).finish();
+                        ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     } else {
                         //Utility.showAlertMessage(getActivity(), data.getErrorCode(),data.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), data.getErrorCode(),data.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), data.getErrorCode(), data.getMessage());
                     }
 
                 }
@@ -183,10 +219,58 @@ public class ChangeMobileNumberFragment extends BaseFragment implements BaseInte
                 AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
+    }*/
+
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
     }
 
     @Override
-    public void showData() {
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
 
+    @Override
+    public void done() {
+        if (Validation.isEmpty(mFragmentChangeMobileNumBinding.edittextPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
+        } else if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mChangeMobNumberViewModel.changeMobNumber(mFragmentChangeMobileNumBinding.textviewNewMobileNum.getText().toString()
+                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
+
+    @Override
+    public void hideUnhidePass() {
+        if (mFragmentChangeMobileNumBinding.imageviewPassVisible.isSelected()) {
+            mFragmentChangeMobileNumBinding.imageviewPassVisible.setSelected(false);
+            mFragmentChangeMobileNumBinding.edittextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            mFragmentChangeMobileNumBinding.edittextPassword.setSelection(mFragmentChangeMobileNumBinding.edittextPassword.getText().length());
+        } else {
+            mFragmentChangeMobileNumBinding.imageviewPassVisible.setSelected(true);
+            mFragmentChangeMobileNumBinding.edittextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            mFragmentChangeMobileNumBinding.edittextPassword.setSelection(mFragmentChangeMobileNumBinding.edittextPassword.getText().length());
+        }
+    }
+
+    @Override
+    public boolean onEditorActionPass(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            mFragmentChangeMobileNumBinding.textviewDone.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void finishActivity() {
+        ((UserProfileActivity) getActivity()).finish();
+        ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 }

@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.createnewpassord;
 
 
 /**
@@ -12,72 +12,108 @@ package com.pulse.brag.ui.fragments;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.databinding.FragmentCreateNewPasswordBinding;
+import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
-import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.requests.ChangePasswordRequest;
-import com.pulse.brag.pojo.response.ChangePasswordResponse;
-import com.pulse.brag.views.OnSingleClickListener;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import javax.inject.Inject;
 
 /**
  * Created by nikhil.vadoliya on 09-11-2017.
  */
 
 
-public class CreatePasswordFragment extends BaseFragment implements BaseInterface {
+public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPasswordBinding, CreateNewPasswordViewModel> implements CreateNewPasswordNavigator/*extends BaseFragment implements BaseInterface*/ {
 
-    View mView;
+    @Inject
+    CreateNewPasswordViewModel mCreateNewPasswordViewModel;
+    FragmentCreateNewPasswordBinding mFragmentCreateNewPasswordBinding;
+
+
+    /*View mView;
     private EditText mEdtOldPass;
     private TextView mTxtNewPass;
     private EditText mEdtNewPass;
     private EditText mEdtConfirmPass;
-    private TextView mTxtDone;
+    private TextView mTxtDone;*/
 
     boolean isFromChangePass;
     String mobile;
     String otp;
 
-    public static CreatePasswordFragment newInstance(String mobile, String otp) {
+    public static CreateNewPasswordFragment newInstance(String mobile, String otp) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_MOBILE, mobile);
         args.putString(Constants.BUNDLE_OTP, otp);
-        CreatePasswordFragment fragment = new CreatePasswordFragment();
+        CreateNewPasswordFragment fragment = new CreateNewPasswordFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCreateNewPasswordViewModel.setNavigator(this);
+    }
+
+    @Override
+    public void beforeViewCreated() {
+        mobile = getArguments().getString(Constants.BUNDLE_MOBILE);
+        otp = getArguments().getString(Constants.BUNDLE_OTP);
+    }
+
+    @Override
+    public void afterViewCreated() {
+        mFragmentCreateNewPasswordBinding = getViewDataBinding();
+    }
+
+    @Override
+    public void setUpToolbar() {
+
+    }
+
+    @Override
+    public CreateNewPasswordViewModel getViewModel() {
+        return mCreateNewPasswordViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_create_new_password;
+    }
+
+    /*
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_create_password, container, false);
+            mView = inflater.inflate(R.layout.fragment_create_new_password, container, false);
             initializeData();
             setListeners();
             showData();
         }
         return mView;
     }
-
     @Override
     public void setToolbar() {
 
@@ -108,7 +144,12 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
 
     }
 
-    private void validationAndAPI() {
+    @Override
+    public void showData() {
+
+    }*/
+
+    /*private void validationAndAPI() {
 
         if (isFromChangePass && Validation.isEmpty(mEdtOldPass)) {
             //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
@@ -128,10 +169,10 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
             //Utility.showAlertMessage(getActivity(), 0, null);
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
-    }
+    }*/
 
 
-    private void ChangePasswordAPI() {
+   /* private void ChangePasswordAPI() {
         showProgressDialog();
         ChangePasswordRequest resetPassword = new ChangePasswordRequest();
         resetPassword.setMobileNumber(mobile);
@@ -163,11 +204,9 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
                 AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
-    }
+    }*/
 
     private void showAlertMessage() {
-
-
         try {
             final Dialog alertDialog = new Dialog(getContext());
 
@@ -195,7 +234,35 @@ public class CreatePasswordFragment extends BaseFragment implements BaseInterfac
 
 
     @Override
-    public void showData() {
+    public void onApiSuccess() {
+        hideProgress();
 
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void done() {
+        if (Validation.isEmpty(mFragmentCreateNewPasswordBinding.edittextPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
+        } else if (Validation.isEmpty(mFragmentCreateNewPasswordBinding.edittextConfirmPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+        } else if (!(mFragmentCreateNewPasswordBinding.edittextPassword.getText().toString().equals(mFragmentCreateNewPasswordBinding.edittextConfirmPassword.getText().toString()))) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+        } else if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mCreateNewPasswordViewModel.changePassword(mobile, otp, mFragmentCreateNewPasswordBinding.edittextPassword.getText().toString());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
+
+    @Override
+    public void onChangePasswordSuccess() {
+        showAlertMessage();
     }
 }

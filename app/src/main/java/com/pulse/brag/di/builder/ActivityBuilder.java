@@ -1,7 +1,17 @@
 package com.pulse.brag.di.builder;
 
+import com.pulse.brag.ui.contactus.ContactUsProvider;
+import com.pulse.brag.ui.createnewpassord.CreateNewPasswordProvider;
+import com.pulse.brag.ui.profile.UserProfileModule;
+import com.pulse.brag.ui.profile.UserProfileActivity;
+import com.pulse.brag.ui.profile.changemobile.ChangeMobNumberProvider;
+import com.pulse.brag.ui.profile.changepassword.ChangePassProvider;
 import com.pulse.brag.ui.forgotpassword.ForgotPasswordProvider;
 import com.pulse.brag.ui.login.LoginFragmentProvider;
+import com.pulse.brag.ui.otp.OTPFragmentProvider;
+import com.pulse.brag.ui.profile.updateprofile.UpdateProfileProvider;
+import com.pulse.brag.ui.signup.SignUpFragmentProvider;
+import com.pulse.brag.ui.signup.complete.SignUpCompleteProvider;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.ui.splash.SplashActivityModule;
 
@@ -15,6 +25,9 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuilder {
 
-    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class, ForgotPasswordProvider.class})
+    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class, ForgotPasswordProvider.class, OTPFragmentProvider.class, SignUpFragmentProvider.class, SignUpCompleteProvider.class, CreateNewPasswordProvider.class, ContactUsProvider.class})
     abstract SplashActivity bindSplashActivity();
+
+    @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})
+    abstract UserProfileActivity bindChangePasswordOrMobileActivity();
 }

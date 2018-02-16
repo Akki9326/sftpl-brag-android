@@ -1,8 +1,5 @@
 package com.pulse.brag.ui.forgotpassword;
 
-import com.pulse.brag.ui.login.LogInFragment;
-import com.pulse.brag.ui.login.LoginFragmentModule;
-
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

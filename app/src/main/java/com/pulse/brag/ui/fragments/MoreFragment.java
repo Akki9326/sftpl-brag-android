@@ -34,8 +34,9 @@ import android.widget.TextView;
 
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
+import com.pulse.brag.enums.ProfileIsFrom;
 import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.adapters.MoreListAdapter;
 import com.pulse.brag.enums.MoreList;
@@ -114,6 +115,8 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         mListView = (ListView) mView.findViewById(R.id.listview);
         mTxtName = (TextView) mView.findViewById(R.id.textview_name);
 
+        mImgProfile.setVisibility(View.GONE);
+
         mUserData = PreferencesManager.getInstance().getUserData();
 
         Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
@@ -146,7 +149,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
@@ -178,12 +181,13 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                         dialogFragment.show(getChildFragmentManager(), "");
                         break;
                     case 4:
-                        intent = new Intent(getActivity(), ChangePasswordOrMobileActivity.class);
+                        intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
+                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, ProfileIsFrom.CHANGE_PASS.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
 //                        ((BaseActivity) getActivity()).pushFragments(
-//                                ChangePasswordFragment.newInstance(mUserData.getMobileNumber())
+//                                ChangePassFragment.newInstance(mUserData.getMobileNumber())
 //                                , true, true);
                         break;
                     case 5:
@@ -191,12 +195,21 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                         break;
 
                     case 6:
-                        intent = new Intent(getActivity(), ChangePasswordOrMobileActivity.class);
+                        intent = new Intent(getActivity(), UserProfileActivity.class);
+                        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
+                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, ProfileIsFrom.CHANGE_MOBILE.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
                     case 7:
                         ((BaseActivity) getActivity()).pushFragments(new NotificationListFragment(), true, true);
+                        break;
+                    case 8:
+                        intent = new Intent(getActivity(), UserProfileActivity.class);
+                        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
+                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, ProfileIsFrom.UPDATE_PROFILE.ordinal());
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
                 }
             }
@@ -225,8 +238,10 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 ""));
         moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
                 getString(R.string.label_change_pass)));
-//        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
-// getString(R.string.label_change_mobile_num)));
+        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+                getString(R.string.label_change_mobile_num)));
+        moreListData.add(new MoreListData(MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+                getString(R.string.label_update_profile)));
         moreListData.add(new MoreListData(MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
                 getString(R.string.label_logout)));
 

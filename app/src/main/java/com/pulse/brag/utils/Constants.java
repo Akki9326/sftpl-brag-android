@@ -36,14 +36,15 @@ public class Constants {
     public static final String BUNDLE_IMAGE_URL = "imageurl";
     public static final String BUNDLE_MOBILE = "bundlemobile";
     public static final String BUNDLE_EMAIL = "bundleemail";
+    public static final String BUNDLE_PROFILE_IS_FROM = "bundleProfileIsFrom";
     public static final String BUNDLE_IS_FROM_SIGNUP = "bundleisFromsignup";
     public static final String BUNDLE_IS_FROM_CHANGE_PASS = "bundleisfromchangepass";
-    public static final String BUNDLE_OTP ="bundleotp" ;
-    public static final String BUNDLE_PRODUCT_NAME ="bundleproductname" ;
-    public static final String BUNDLE_PRODUCT_IMG ="bundleproductImg" ;
-    public static final String BUNDLE_DEVICE_TOKEN ="devicetoken" ;
+    public static final String BUNDLE_OTP = "bundleotp";
+    public static final String BUNDLE_PRODUCT_NAME = "bundleproductname";
+    public static final String BUNDLE_PRODUCT_IMG = "bundleproductImg";
+    public static final String BUNDLE_DEVICE_TOKEN = "devicetoken";
     public static final String BUNDLE_NOTIFICATION_MODEL = "notificationModel";
-    public static final String BUNDLE_KEY_NOTIFICATION_ID ="notificationId" ;
+    public static final String BUNDLE_KEY_NOTIFICATION_ID = "notificationId";
 
 
     //header
@@ -59,11 +60,11 @@ public class Constants {
     public static final int SUCCESS_RESPONE = 200;
 
 
-    public static final String LOCALBROADCAST_UPDATE_NOTIFICATION ="localbrodUpdateNotification" ;
-    public static final String BUNDLE_TITLE ="bunbletitle" ;
-    public static final String BUNDLE_SUBTITLE ="bunblesubtitle" ;
+    public static final String LOCALBROADCAST_UPDATE_NOTIFICATION = "localbrodUpdateNotification";
+    public static final String BUNDLE_TITLE = "bunbletitle";
+    public static final String BUNDLE_SUBTITLE = "bunblesubtitle";
 
-    public interface ApiHelper{
+    public interface ApiHelper {
         String BASE_URL = "http://103.204.192.148/brag/api/";
         String API_VERSION = "v1/";
         String FULL_URL = BASE_URL + API_VERSION;
@@ -93,5 +94,9 @@ public class Constants {
         String OTHER_EXCEPTION = "We could not complete your request";
         String SOMETHING_WRONG_ERROR = "Something went wrong!!\nPlease try again later.";
         String TIME_OUT_CONNECTION = "We could not complete your request.\nPlease try again later.";
+    }
+
+    public interface IPermissionRequestCode {
+        int REQ_SMS_SEND_RECEIVED_READ = 1001;
     }
 }

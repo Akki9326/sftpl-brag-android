@@ -1,12 +1,12 @@
 package com.pulse.brag.ui.splash;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,9 +19,13 @@ import com.pulse.brag.R;
 import com.pulse.brag.databinding.ActivitySplashBinding;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.login.LogInFragment;
-import com.pulse.brag.ui.fragments.SignUpComplateFragment;
+import com.pulse.brag.ui.signup.complete.SignUpCompleteFragment;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.ui.activities.MainActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,7 +33,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBinding,SplashViewModel> implements SplashNavigator,HasSupportFragmentInjector,CoreActivity.OnToolbarSetupListener {
+public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashBinding, SplashViewModel> implements SplashNavigator, HasSupportFragmentInjector {
 
     @Inject
     SplashViewModel mSplashViewModel;
@@ -46,25 +50,9 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActiviSplashBinding=getViewDataBinding();
-        mSplashViewModel.setNavigator(this);
         //setContentView(R.layout.activity_splash);
-
-        Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) mActiviSplashBinding.baseLayout);
         //init();
         //setDeviceNameAndOS();
-        mSplashViewModel.setDeviceNameAndOS();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /*if (PreferencesManager.getInstance().isLogin()) {
-                    openMainActivity();
-                } else {
-                    animatedViewAndLogin();
-                }*/
-                mSplashViewModel.decideNextActivity();
-            }
-        }, 2000);
     }
 
 
@@ -106,7 +94,6 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
     }*/
 
 
-
     public void pushFragments(Fragment fragment, boolean shouldAnimate, boolean shouldAdd, String TAG) {
 
         manager = getSupportFragmentManager();
@@ -131,8 +118,33 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
             ft.commit();
         }
     }
+
+    private boolean checkAndRequestPermissions() {
+        boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);
+        boolean hasPermissionReceiveSMS = hasPermission(Manifest.permission.RECEIVE_MMS);
+        boolean hasPermissionReadSMS = hasPermission(Manifest.permission.READ_SMS);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (!hasPermissionSendMessage) {
+            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+        }
+        if (!hasPermissionReceiveSMS) {
+            listPermissionsNeeded.add(Manifest.permission.RECEIVE_MMS);
+        }
+        if (!hasPermissionReadSMS) {
+            listPermissionsNeeded.add(Manifest.permission.READ_SMS);
+        }
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constants.IPermissionRequestCode.REQ_SMS_SEND_RECEIVED_READ);
+            return false;
+        }
+        return true;
+    }
+
     public void openLoginFragment() {
         pushFragments(new LogInFragment(), true, false, "");
+        checkAndRequestPermissions();
     }
 
     public void popBackToLogin() {
@@ -141,24 +153,18 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
 
     @Override
     public void onBackPressed() {
-        if (manager.findFragmentById(R.id.fragment_container_login) instanceof SignUpComplateFragment) {
+        if (manager.findFragmentById(R.id.fragment_container_login) instanceof SignUpCompleteFragment) {
             return;
         } else {
             super.onBackPressed();
         }
-        //if (manager.getBackStackEntryCount() == 3 || manager.findFragmentById(R.id.login_contrainer) instanceof SignUpComplateFragment) {
+        //if (manager.getBackStackEntryCount() == 3 || manager.findFragmentById(R.id.login_contrainer) instanceof SignUpCompleteFragment) {
         //manager.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         //} else {
         //super.onBackPressed();
         //}
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
 
     @Override
     public void openMainActivity() {
@@ -216,12 +222,22 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentDispatchingAndroidInjector;
+    public void afterLayoutSet() {
+        mActiviSplashBinding = getViewDataBinding();
+        mSplashViewModel.setNavigator(this);
+
+        Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) mActiviSplashBinding.baseLayout);
+        mSplashViewModel.setDeviceNameAndOS();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSplashViewModel.decideNextActivity();
+            }
+        }, 2000);
     }
 
     @Override
-    public void setUpToolbar() {
-
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 }

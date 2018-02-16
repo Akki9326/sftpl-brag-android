@@ -82,6 +82,7 @@
     <string name="button_login">Login</string>
     <string name="label_or">OR</string>
     <string name="button_signup">Sign Up</string>
+    <string name="button_update">Update</string>
     <string name="label_firstname">First name</string>
     <string name="label_lastname">Last name</string>
     <string name="label_email">Email</string>
@@ -152,17 +153,19 @@
     <string name="error_code_block">Please update the application for better experience.</string>
     <string name="label_qty_s">Qty :</string>
     <string name="label_add_to_cart_small">Add to Cart</string>
-    <string name="msg_password_change_successfull">Your password successfully change.</string>
+    <string name="msg_password_change_successfull">Your password updated successfully.</string>
+    <string name="msg_profile_update_successfull">Your profile updated successfully.</string>
     <string name="btn_place_order">PLACE ORDER</string>
     <string name="btn_view_detail">VIEW DETAILS</string>
-    <string name="error_qty_not_empty">Please enter atleast one qty.</string>
+    <string name="error_qty_not_empty">Please enter at least one qty.</string>
     <string name="error_enter_qty">Please enter product qty.</string>
     <string name="error_valid_qty">Please enter valid qty.</string>
-    <string name="label_change_mobile_num">Change Moblie Number</string>
+    <string name="label_change_mobile_num">Change Mobile Number</string>
+    <string name="label_update_profile">Update Profile</string>
     <string name="label_new_mobile_no">New Mobile Number</string>
     <string name="hint_new_mobile_num"><font size="12">New Mobile Number</font></string>
     <string name="error_empty_new_mobile_num">Please Enter mobile Number.</string>
-    <string name="msg_mobile_num_change_success">Your mobile number change successfull.</string>
+    <string name="msg_mobile_num_change_success">Your mobile number change successfully.</string>
     <string name="hint_search_product">search product</string>
     <string name="label_notification">Notifications</string>
 
@@ -171,6 +174,7 @@
     <string name="toolbar_label_productlist">Product List</string>
     <string name="toolbar_label_product_detail">Product Detail</string>
     <string name="toolbar_label_change_password">Change Password</string>
+    <string name="toolbar_label_update_password">Update Profile</string>
     <string name="toolbar_label_change_mobile_num">Change Mobile Number</string>
 
     <string name="toolbar_label_quick_order">Quick Order</string>

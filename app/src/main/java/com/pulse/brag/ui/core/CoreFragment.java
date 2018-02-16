@@ -1,18 +1,27 @@
 package com.pulse.brag.ui.core;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.pulse.brag.utils.AppLogger;
 import com.pulse.brag.views.CustomProgressDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import dagger.android.support.AndroidSupportInjection;
 
@@ -84,6 +93,56 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         AndroidSupportInjection.inject(this);
     }
 
+
+   /* @TargetApi(Build.VERSION_CODES.M)
+    public void requestPermission(String[] permission, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permission, requestCode);
+        }
+    }*/
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean hasPermission(String permission) {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+                mActivity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    @Override
+    public  void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            onPermissionGranted(requestCode);
+        } else {
+            onPermissionDenied(requestCode);
+        }
+    }
+
+    public  void requestPermission(int request, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            List<String> needrequest = new ArrayList<>();
+            for (String permission : permissions) {
+                if (ContextCompat.checkSelfPermission(getActivity(), permission)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    needrequest.add(permission);
+                }
+            }
+            if (needrequest.size() > 0) {
+                requestPermissions(needrequest.toArray(new String[needrequest.size()]), request);
+                return;
+            }
+        }
+        onPermissionGranted(request);
+    }
+
+    public  void onPermissionGranted(int request) {
+    }
+
+    public  void onPermissionDenied(int request) {
+    }
+
+
     public void showProgress() {
         try {
             if (mProgressDialog != null) {
@@ -115,6 +174,7 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
     public boolean isNetworkConnected() {
         return mActivity != null && mActivity.isNetworkConnected();
     }
+
 
     public CoreActivity getBaseActivity() {
         return mActivity;

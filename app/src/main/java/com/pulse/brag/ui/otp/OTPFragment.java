@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.otp;
 
 
 /**
@@ -9,48 +9,59 @@ package com.pulse.brag.ui.fragments;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.databinding.FragmentOtpBinding;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.createnewpassord.CreateNewPasswordFragment;
+import com.pulse.brag.ui.otp.autoread.SmsListener;
+import com.pulse.brag.ui.otp.autoread.SmsReceiver;
+import com.pulse.brag.ui.profile.UserProfileActivity;
+import com.pulse.brag.ui.profile.changemobile.ChangeMobileNumberFragment;
+import com.pulse.brag.ui.signup.complete.SignUpCompleteFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
-import com.pulse.brag.enums.OTPValidationIsFrom;
-import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.AppLogger;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.GeneralResponse;
-import com.pulse.brag.pojo.response.OTPVerifyResponse;
-import com.pulse.brag.views.OnSingleClickListener;
-import com.pulse.brag.views.PinView;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by nikhil.vadoliya on 08-11-2017.
  */
 
 
-public class OTPFragment extends BaseFragment implements BaseInterface {
+public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> implements OTPNavigator/*BaseFragment implements BaseInterface*/ {
 
-    View mView;
+    @Inject
+    OTPViewModel mOTPViewModel;
+    FragmentOtpBinding mFragmentOtpBinding;
+
+    /*View mView;
     PinView mPinView;
     TextView mTxtVerify;
-    TextView mTxtEmailMsg, mTxtResend;
+    TextView mTxtEmailMsg, mTxtResend;*/
 
     String mobileNum;
     String emailAddress;
@@ -70,7 +81,7 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
     }
 
 
-    @Nullable
+    /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
@@ -80,9 +91,57 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
             showData();
         }
         return mView;
+    }*/
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mOTPViewModel.setNavigator(this);
+    }
+
+
+    @Override
+    public void beforeViewCreated() {
+        mobileNum = getArguments().getString(Constants.BUNDLE_MOBILE);
+        emailAddress = getArguments().getString(Constants.BUNDLE_EMAIL);
+        isFromScreen = getArguments().getInt(Constants.BUNDLE_IS_FROM_SIGNUP);
     }
 
     @Override
+    public void afterViewCreated() {
+        mFragmentOtpBinding = getViewDataBinding();
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+                AppLogger.e("Received Msg : "+messageText);
+            }
+        });
+    }
+
+
+
+
+    @Override
+    public void setUpToolbar() {
+
+    }
+
+    @Override
+    public OTPViewModel getViewModel() {
+        return mOTPViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_otp;
+    }
+
+    /*@Override
     public void setToolbar() {
 
     }
@@ -144,7 +203,12 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
         });
     }
 
-    private void ResendOTPAPI() {
+    @Override
+    public void showData() {
+        mTxtEmailMsg.setText(getString(R.string.msg_otp_label) + " " + emailAddress);
+    }*/
+
+    /*private void ResendOTPAPI() {
         showProgressDialog();
         Call<GeneralResponse> responeCall = ApiClient.getInstance(getActivity()).getApiResp().resendOtp(mobileNum);
         responeCall.enqueue(new Callback<GeneralResponse>() {
@@ -158,11 +222,11 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
 
                     } else {
                         //Utility.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(),respone.getErrorCode(), respone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
                     }
                 } else {
                     //Utility.showAlertMessage(getActivity(), 1,null);
-                    AlertUtils.showAlertMessage(getActivity(), 1,null);
+                    AlertUtils.showAlertMessage(getActivity(), 1, null);
                 }
             }
 
@@ -173,9 +237,9 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                 AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
-    }
+    }*/
 
-    private void OTPVerifyAPI(final String otp) {
+   /* private void OTPVerifyAPI(final String otp) {
         showProgressDialog();
 
         Call<OTPVerifyResponse> mOtpVerifyResponeCall = null;
@@ -203,27 +267,27 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                         switch (OTPValidationIsFrom.values()[isFromScreen]) {
                             case CHANGE_MOBILE:
 
-                                ((ChangePasswordOrMobileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
+                                ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
                                         , true, true, "");
                                 break;
                             case FORGET_PASS:
-                                ((SplashActivity) getActivity()).pushFragments(CreatePasswordFragment.newInstance(mobileNum, otp),
+                                ((SplashActivity) getActivity()).pushFragments(CreateNewPasswordFragment.newInstance(mobileNum, otp),
                                         true, true, "Create_Pass_Frag");
                                 break;
 
                             case SIGN_UP:
-                                ((SplashActivity) getActivity()).pushFragments(new SignUpComplateFragment(),
+                                ((SplashActivity) getActivity()).pushFragments(new SignUpCompleteFragment(),
                                         true, true, "Signup_Complete_Frag");
                                 break;
                         }
                     } else {
                         //Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
                     }
 
                 } else {
                     //Utility.showAlertMessage(getActivity(), 1,null);
-                    AlertUtils.showAlertMessage(getActivity(), 1,null);
+                    AlertUtils.showAlertMessage(getActivity(), 1, null);
                 }
             }
 
@@ -234,12 +298,8 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                 AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
-    }
+    }*/
 
-    @Override
-    public void showData() {
-        mTxtEmailMsg.setText(getString(R.string.msg_otp_label) + " " + emailAddress);
-    }
 
     private void showAlertMessage(String message) {
         try {
@@ -259,12 +319,73 @@ public class OTPFragment extends BaseFragment implements BaseInterface {
                 @Override
                 public void onClick(View v) {
                     alertDialog.dismiss();
-                    ((ChangePasswordOrMobileActivity) getActivity()).finish();
+                    ((UserProfileActivity) getActivity()).finish();
                 }
             });
             alertDialog.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void verifyOtp() {
+        if (mFragmentOtpBinding.pinView.getText().toString().length() < 6) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_otp));
+        } else if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mOTPViewModel.verifyOtp(mobileNum,mFragmentOtpBinding.pinView.getText().toString(),isFromScreen);
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
+
+    @Override
+    public void resendOtp() {
+        if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mOTPViewModel.resendOtp(mobileNum);
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+
+    }
+
+    @Override
+    public boolean onEditorActionPin(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            mFragmentOtpBinding.textviewVerify.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void pushChangeMobileFragment() {
+        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
+                , true, true, "");
+    }
+
+    @Override
+    public void pushCreatePasswordFragment() {
+        ((SplashActivity) getActivity()).pushFragments(CreateNewPasswordFragment.newInstance(mobileNum, mFragmentOtpBinding.pinView.getText().toString()),
+                true, true, "Create_Pass_Frag");
+    }
+
+    @Override
+    public void pushSignUpCompleteFragment() {
+        ((SplashActivity) getActivity()).pushFragments(new SignUpCompleteFragment(),
+                true, true, "Signup_Complete_Frag");
     }
 }

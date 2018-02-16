@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.signup;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -11,49 +11,50 @@ package com.pulse.brag.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.ui.splash.SplashActivity;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.databinding.FragmentSignUpBinding;
 import com.pulse.brag.enums.OTPValidationIsFrom;
-import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.otp.OTPFragment;
+import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.requests.SignInRequest;
-import com.pulse.brag.pojo.response.SignUpResponse;
-import com.pulse.brag.views.OnSingleClickListener;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import javax.inject.Inject;
 
 /**
  * Created by nikhil.vadoliya on 27-09-2017.
  */
 
 
-public class SignUpFragment extends BaseFragment implements BaseInterface {
+public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpViewModel> implements SignUpNavigator/*extends BaseFragment implements BaseInterface*/ {
 
+    @Inject
+    SignUpViewModel mSignUpViewModel;
+    FragmentSignUpBinding mFragmentSignUpBinding;
+
+
+
+
+    /*
     View mView;
-
     EditText mEdtFirstNam, mEdtLastNam, mEdtEmail, mEdtMobile, mEdtPass, mEdtConfirmPas;
     Button mBtnSignup, mBtnLogin;
     TextView mTxtSignup;
-    View mDummyView;
+    View mDummyView;*/
 
     int keyboardheight;
 
-    @Nullable
+    /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
@@ -63,16 +64,50 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
             showData();
         }
         return mView;
-    }
+    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mSignUpViewModel.setNavigator(this);
+    }
+
+
+    @Override
+    public void beforeViewCreated() {
 
     }
 
     @Override
+    public void afterViewCreated() {
+        mFragmentSignUpBinding = getViewDataBinding();
+        Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentSignUpBinding.baseLayout);
+    }
+
+    @Override
+    public void setUpToolbar() {
+
+    }
+
+    @Override
+    public SignUpViewModel getViewModel() {
+        return mSignUpViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_sign_up;
+    }
+
+
+
+   /* @Override
     public void setToolbar() {
 
     }
@@ -146,7 +181,7 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
             }
         });
 
-        /*KeyboardVisibilityEvent.setEventListener(
+        *//*KeyboardVisibilityEvent.setEventListener(
                 getActivity(),
                 new KeyboardVisibilityEventListener() {
                     @Override
@@ -175,11 +210,16 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
 
                 //boolean visible = heightDiff > screenHeight / 3;
             }
-        });*/
+        });*//*
     }
 
+    @Override
+    public void showData() {
 
-    private void SignInAPICall(final SignInRequest signInRequest) {
+    }*/
+
+
+    /*private void SignInAPICall(final SignInRequest signInRequest) {
         Utility.hideSoftkeyboard(getActivity());
         showProgressDialog();
         Call<SignUpResponse> mSignUpResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userSignIn(signInRequest);
@@ -214,17 +254,63 @@ public class SignUpFragment extends BaseFragment implements BaseInterface {
             }
         });
 
-    }
-
-    @Override
-    public void showData() {
-
-    }
+    }*/
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onApiSuccess() {
+        hideProgress();
+    }
 
+    @Override
+    public void onApiError(ApiError error) {
+        showProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void signUp() {
+        if (Validation.isEmpty(mFragmentSignUpBinding.edittextFirstname)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_enter_first_name));
+        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextEmail)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_email));
+        } else if (!Validation.isEmailValid(mFragmentSignUpBinding.edittextEmail)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
+        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextMobileNum)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+        } else if (!Validation.isValidMobileNum(mFragmentSignUpBinding.edittextMobileNum)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
+        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextConfirmPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+        } else if (!(mFragmentSignUpBinding.edittextPassword.getText().toString().trim().equals(mFragmentSignUpBinding.edittextConfirmPassword.getText().toString().trim()))) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+        } else if (Utility.isConnection(getActivity())) {
+            Utility.hideSoftkeyboard(getActivity());
+            // TODO: 2/15/2018 change title in api call it is backend issue
+            SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+                    mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString());
+            mSignUpViewModel.signUp(signInRequest);
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
+
+    @Override
+    public boolean onEditorActionConfirmPass(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            mFragmentSignUpBinding.textviewSignup.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void pushOtpFragment() {
+        ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentSignUpBinding.edittextMobileNum.getText().toString()
+                , mFragmentSignUpBinding.edittextEmail.getText().toString(), OTPValidationIsFrom.SIGN_UP.ordinal()),
+                true, true, "OTP_Frag");
     }
 }

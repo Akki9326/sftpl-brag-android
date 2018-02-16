@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.profile.changepassword;
 
 
 /**
@@ -13,59 +13,55 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
-import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.databinding.FragmentChangePasswordBinding;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.requests.ChangePasswordRequest;
-import com.pulse.brag.pojo.response.ChangePasswordResponse;
-import com.pulse.brag.views.OnSingleClickListener;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import javax.inject.Inject;
 
 /**
  * Created by nikhil.vadoliya on 13-11-2017.
  */
 
 
-public class ChangePasswordFragment extends BaseFragment implements BaseInterface {
+public class ChangePassFragment extends CoreFragment<FragmentChangePasswordBinding, ChangePassViewModel> implements ChangePassNavigator/*BaseFragment implements BaseInterface*/ {
 
-    View mView;
+    @Inject
+    ChangePassViewModel mChangePassViewModel;
+    FragmentChangePasswordBinding mChangePasswordBinding;
 
+
+    /*View mView;
     private EditText mEdtOldPass;
     private TextView mTxtNewPass;
     private EditText mEdtNewPass;
     private EditText mEdtConfirmPass;
-    private TextView mTxtDone;
+    private TextView mTxtDone;*/
 
     Context mContext;
     String mobile;
 
-    public static ChangePasswordFragment newInstance(String mobile) {
+    public static ChangePassFragment newInstance(String mobile) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_MOBILE, mobile);
-        ChangePasswordFragment fragment = new ChangePasswordFragment();
+        ChangePassFragment fragment = new ChangePassFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
 
-
-    @Nullable
+   /* @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
@@ -74,9 +70,45 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
             setListeners();
         }
         return mView;
+    }*/
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mChangePassViewModel.setNavigator(this);
     }
 
     @Override
+    public void beforeViewCreated() {
+        mobile = getArguments().getString(Constants.BUNDLE_MOBILE);
+    }
+
+    @Override
+    public void afterViewCreated() {
+        mChangePasswordBinding = getViewDataBinding();
+    }
+
+    @Override
+    public void setUpToolbar() {
+        ((UserProfileActivity) getActivity()).showToolBar(getString(R.string.toolbar_label_change_password));
+    }
+
+    @Override
+    public ChangePassViewModel getViewModel() {
+        return mChangePassViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_change_password;
+    }
+
+    /*@Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setToolbar();
@@ -84,7 +116,7 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void setToolbar() {
-        ((ChangePasswordOrMobileActivity) getActivity()).showToolBar(getString(R.string.toolbar_label_change_password));
+        ((UserProfileActivity) getActivity()).showToolBar(getString(R.string.toolbar_label_change_password));
     }
 
     @Override
@@ -121,7 +153,12 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
 
     }
 
-    private void validationAndAPI() {
+    @Override
+    public void showData() {
+
+    }*/
+
+    /*private void validationAndAPI() {
 
         if (Validation.isEmpty(mEdtOldPass)) {
             //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
@@ -139,11 +176,11 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
             ChangePasswordAPI();
         } else {
             //Utility.showAlertMessage(getActivity(), 0,null);
-            AlertUtils.showAlertMessage(getActivity(), 0,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
-    }
+    }*/
 
-    private void ChangePasswordAPI() {
+   /* private void ChangePasswordAPI() {
 
         showProgressDialog();
         ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
@@ -163,11 +200,11 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
                         AlertUtils.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
                     } else {
                         //Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
+                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
                     }
                 } else {
                     //Utility.showAlertMessage(getActivity(), 1,null);
-                    AlertUtils.showAlertMessage(getActivity(), 1,null);
+                    AlertUtils.showAlertMessage(getActivity(), 1, null);
                 }
             }
 
@@ -178,12 +215,50 @@ public class ChangePasswordFragment extends BaseFragment implements BaseInterfac
                 AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
+    }*/
+
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
     }
 
     @Override
-    public void showData() {
-
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
+    @Override
+    public void done() {
+        if (Validation.isEmpty(mChangePasswordBinding.edittextOldPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
+        } else if (Validation.isEmpty(mChangePasswordBinding.edittextPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
+        } else if (Validation.isEmpty(mChangePasswordBinding.edittextConfirmPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
+        } else if (!(mChangePasswordBinding.edittextPassword.getText().toString().equals(mChangePasswordBinding.edittextConfirmPassword.getText().toString()))) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+        } else if (Utility.isConnection(getActivity())) {
+            showProgress();
+            //ChangePasswordAPI();
+            mChangePassViewModel.changePassword(mobile, mChangePasswordBinding.edittextOldPassword.getText().toString(), mChangePasswordBinding.edittextPassword.getText().toString());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
 
+    @Override
+    public boolean onEditorActionConfirmPass(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            mChangePasswordBinding.textviewDone.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void showMsgPasswordChange() {
+        AlertUtils.showAlertMessage(getBaseActivity(), getString(R.string.msg_password_change_successfull), true);
+    }
 }

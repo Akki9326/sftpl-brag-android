@@ -8,7 +8,6 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.views.OnSingleClickListener;
 
 import okhttp3.Headers;
@@ -51,6 +50,7 @@ public class ForgotPasswordViewModel extends CoreViewModel<ForgotPasswordNavigat
             @Override
             public void onSuccess(GeneralResponse generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
+                    getNavigator().onApiSuccess();
                     getNavigator().pushOtpFragment();
                 } else {
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));

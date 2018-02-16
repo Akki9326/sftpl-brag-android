@@ -1,7 +1,6 @@
 package com.pulse.brag.ui.forgotpassword;
 
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.ui.login.LoginViewModel;
 
 import dagger.Module;
 import dagger.Provides;

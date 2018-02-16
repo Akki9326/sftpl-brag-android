@@ -1,0 +1,133 @@
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.profile.updateprofile.UpdateProfileViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/label_firstname"
+                android:textColor="@color/pink"
+                android:textSize="@dimen/text_size_very_small_12" />
+
+
+            <EditText
+                android:id="@+id/edittext_firstname"
+                style="@style/NormalEditText"
+                android:background="@null"
+                android:hint="@string/hint_first_name"
+                android:imeOptions="actionNext"
+                android:maxLength="@integer/max_length"
+                android:paddingBottom="5dp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/pink" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/label_lastname"
+                android:textColor="@color/pink"
+                android:textSize="@dimen/text_size_very_small_12" />
+
+            <EditText
+                android:id="@+id/edittext_lastname"
+                style="@style/NormalEditText"
+                android:background="@null"
+                android:hint="@string/hint_last_name"
+                android:imeOptions="actionNext"
+                android:maxLength="@integer/max_length"
+                android:paddingBottom="5dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/pink" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/label_email"
+                android:textColor="@color/pink"
+                android:textSize="@dimen/text_size_very_small_12" />
+
+            <EditText
+                android:id="@+id/edittext_email"
+                style="@style/NormalEditText"
+                android:background="@null"
+                android:hint="@string/hint_email_ast"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="@integer/max_length"
+                android:paddingBottom="5dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="3dp"
+                android:alpha=".5"
+                android:background="@color/pink" />
+
+
+            <TextView
+                android:id="@+id/textview_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/round_corner_solid_pink"
+                android:onClick="@{viewModel.onUpdateClick()}"
+                android:paddingBottom="10dp"
+                android:paddingLeft="70dp"
+                android:paddingRight="70dp"
+                android:paddingTop="10dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/button_update"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

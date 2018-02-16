@@ -14,20 +14,19 @@ import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentLoginBinding;
 import com.pulse.brag.ui.activities.MainActivity;
-import com.pulse.brag.R;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.fragments.ContactUsFragment;
 import com.pulse.brag.ui.forgotpassword.ForgetPasswordFragment;
-import com.pulse.brag.ui.fragments.SignUpFragment;
+import com.pulse.brag.ui.contactus.ContactUsFragment;
+import com.pulse.brag.ui.signup.SignUpFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
@@ -58,12 +57,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mLoginViewModel.setNavigator(this);
-    }
-
     /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,11 +72,17 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }*/
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }*/
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mLoginViewModel.setNavigator(this);
     }
 
     @Override
@@ -259,20 +258,15 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void login() {
         if (Validation.isEmpty(mFragmentLoginBinding.edittextMobileNum)) {
-            //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
         } else if (!Validation.isValidMobileNum(mFragmentLoginBinding.edittextMobileNum)) {
-            //Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
         } else if (Validation.isEmpty(mFragmentLoginBinding.edittextPassword)) {
-            //Utility.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
             AlertUtils.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
         } else if (Utility.isConnection(getActivity())) {
-            //LoginAPICall(mEdtNumber.getText().toString(), mEdtPassword.getText().toString());
             showProgress();
             mLoginViewModel.login(mFragmentLoginBinding.edittextMobileNum.getText().toString(), mFragmentLoginBinding.edittextPassword.getText().toString());
         } else {
-            //Utility.showAlertMessage(getActivity(), 0, null);
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }

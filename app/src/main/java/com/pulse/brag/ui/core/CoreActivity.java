@@ -67,7 +67,7 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
         super.onCreate(savedInstanceState);
         beforeLayoutSet();
         performDataBinding();
-
+        afterLayoutSet();
         //init fragmentstack here if required
         //fragmentStack = new FragmentStack(this, getSupportFragmentManager());
     }
@@ -81,19 +81,16 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
         this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
-
         if (bActivity instanceof OnToolbarSetupListener){
-
-            //((OnToolbarSetupListener) bActivity).setUpToolbar();
+            ((OnToolbarSetupListener) bActivity).setUpToolbar();
         }
+    }
+
+    protected void showProgress(String msg) {
 
     }
 
-    private void showProgress(String msg) {
-
-    }
-
-    private void hideProgress() {
+    protected void hideProgress() {
 
     }
 
@@ -262,6 +259,8 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
     int getLayoutId();
 
     public abstract void beforeLayoutSet();
+
+    public abstract void afterLayoutSet();
 
 
     @Override

@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.contactus;
 
 
 /**
@@ -17,26 +17,38 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.databinding.FragmentContactUsBinding;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.fragments.BaseFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.OnSingleClickListener;
 
+import javax.inject.Inject;
+
+import dagger.Module;
+
 /**
  * Created by nikhil.vadoliya on 30-01-2018.
  */
 
 
-public class ContactUsFragment extends BaseFragment implements BaseInterface {
+public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, ContactUsViewModel> implements ContactUsNavigator/*implements BaseInterface*/ {
 
+    @Inject
+    ContactUsViewModel mContactUsViewModel;
+    FragmentContactUsBinding mFragmentContactUsBinding;
 
-    View mView;
+    /*View mView;
     EditText mEdtName, mEdtEmail, mEdtMessage;
-    TextView mTxtSend;
+    TextView mTxtSend;*/
 
-    @Nullable
+    /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
@@ -46,9 +58,45 @@ public class ContactUsFragment extends BaseFragment implements BaseInterface {
             showData();
         }
         return mView;
+    }*/
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContactUsViewModel.setNavigator(this);
     }
 
     @Override
+    public void beforeViewCreated() {
+
+    }
+
+    @Override
+    public void afterViewCreated() {
+        mFragmentContactUsBinding = getViewDataBinding();
+    }
+
+    @Override
+    public void setUpToolbar() {
+
+    }
+
+    @Override
+    public ContactUsViewModel getViewModel() {
+        return mContactUsViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_contact_us;
+    }
+
+    /*@Override
     public void setToolbar() {
 
     }
@@ -96,5 +144,34 @@ public class ContactUsFragment extends BaseFragment implements BaseInterface {
     @Override
     public void showData() {
 
+    }*/
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void send() {
+        if (Validation.isEmpty(mFragmentContactUsBinding.edittextName)) {
+            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_empty_name));
+        } else if (Validation.isEmpty(mFragmentContactUsBinding.edittextEmail)) {
+            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_please_email));
+        } else if (!Validation.isEmailValid(mFragmentContactUsBinding.edittextEmail)) {
+            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_email_valid));
+        } else if (Validation.isEmpty(mFragmentContactUsBinding.edittextMessage)) {
+            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_empty_message));
+        } else if (Utility.isConnection(getContext())) {
+            //api call
+            getActivity().onBackPressed();
+        } else {
+            AlertUtils.showAlertMessage(getContext(), 0, null);
+        }
     }
 }

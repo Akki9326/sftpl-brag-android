@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,7 +29,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBinding,SplashViewModel> implements SplashNavigator,HasSupportFragmentInjector {
+public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBinding,SplashViewModel> implements SplashNavigator,HasSupportFragmentInjector,CoreActivity.OnToolbarSetupListener {
 
     @Inject
     SplashViewModel mSplashViewModel;
@@ -222,5 +223,10 @@ public class SplashActivity extends CoreActivity<SplashActivity,ActivitySplashBi
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
+    }
+
+    @Override
+    public void setUpToolbar() {
+
     }
 }

@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.forgotpassword;
 
 
 /**
@@ -17,8 +17,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.databinding.FragmentForgetPassBinding;
+import com.pulse.brag.databinding.FragmentLoginBinding;
+import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.fragments.BaseFragment;
+import com.pulse.brag.ui.fragments.OTPFragment;
+import com.pulse.brag.ui.login.LoginViewModel;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.data.remote.ApiClient;
@@ -30,6 +38,8 @@ import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.views.OnSingleClickListener;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,11 +49,16 @@ import retrofit2.Response;
  */
 
 
-public class ForgetPasswordFragment extends BaseFragment implements BaseInterface {
+public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBinding, ForgotPasswordViewModel>/*BaseFragment implements BaseInterface*/ implements ForgotPasswordNavigator {
 
-    View mView;
+
+    @Inject
+    ForgotPasswordViewModel mForgotPasswordViewModel;
+    FragmentForgetPassBinding mFragmentForgotPassBinding;
+
+    /*View mView;
     EditText mEdtMobile;
-    TextView mTxtSendOtp, mTxtMobileNum;
+    TextView mTxtSendOtp, mTxtMobileNum;*/
 
 
     public static ForgetPasswordFragment newInstance(String mobile) {
@@ -55,7 +70,7 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
         return fragment;
     }
 
-    @Nullable
+    /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
@@ -65,9 +80,69 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
             showData();
         }
         return mView;
+    }*/
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mForgotPasswordViewModel.setNavigator(this);
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    /**
+     * Get bundle data here
+     */
+    @Override
+    public void beforeViewCreated() {
+
+    }
+
+    @Override
+    public void afterViewCreated() {
+        mFragmentForgotPassBinding = getViewDataBinding();
+
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_MOBILE)) {
+            if (getArguments().getString(Constants.BUNDLE_MOBILE).trim().isEmpty()
+                    || getArguments().getString(Constants.BUNDLE_MOBILE).length() < 10) {
+                //mFragmentForgotPassBinding.edittextMobileNum.setText("");
+                mForgotPasswordViewModel.setMobileNumber("");
+            } else {
+                //mFragmentForgotPassBinding.edittextMobileNum.setText(getArguments().getString(Constants.BUNDLE_MOBILE));
+                mForgotPasswordViewModel.setMobileNumber(getArguments().getString(Constants.BUNDLE_MOBILE));
+            }
+        }
+        if (getActivity() instanceof ChangePasswordOrMobileActivity) {
+            mFragmentForgotPassBinding.edittextMobileNum.setHint(getString(R.string.hint_new_mobile_num));
+            mFragmentForgotPassBinding.textviewMobileNum.setText(getString(R.string.label_new_mobile_no));
+        }
+    }
+
+    @Override
+    public void setUpToolbar() {
+
+    }
+
+    @Override
+    public ForgotPasswordViewModel getViewModel() {
+        return mForgotPasswordViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_forget_pass;
+    }
+
+    /*Commented by alpesh on 14/02/18 to convert mvvm architecture*/
+    /*@Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setToolbar();
@@ -125,6 +200,11 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
         });
     }
 
+    @Override
+    public void showData() {
+
+    }
+
     private void ForgetPassAPI(String s) {
         showProgressDialog();
         ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
@@ -162,10 +242,57 @@ public class ForgetPasswordFragment extends BaseFragment implements BaseInterfac
                 AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
+    }*/
+    /*End comment*/
+
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
     }
 
     @Override
-    public void showData() {
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
 
+    @Override
+    public void sendOtp() {
+        if (Validation.isEmpty(mFragmentForgotPassBinding.edittextMobileNum)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+        } else if (!Validation.isValidMobileNum(mFragmentForgotPassBinding.edittextMobileNum)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+        } else if (Utility.isConnection(getActivity())) {
+            //ForgetPassAPI(mEdtMobile.getText().toString());
+            mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
+
+    @Override
+    public void pushOtpFragment() {
+        // TODO: 13-11-2017 email address pass for display in otp screen
+        if (getActivity() instanceof SplashActivity) {
+            pushFragmentOnSplash();
+        } else {
+            pushFragmentOnChangePassword();
+        }
+    }
+
+    @Override
+    public void pushFragmentOnSplash() {
+        ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
+                "email@email.com", OTPValidationIsFrom.FORGET_PASS.ordinal()),
+                true, true, "OTP_frag");
+
+    }
+
+    @Override
+    public void pushFragmentOnChangePassword() {
+        ((ChangePasswordOrMobileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
+                "email@email.com", OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
+                true, true, "OTP_frag");
     }
 }

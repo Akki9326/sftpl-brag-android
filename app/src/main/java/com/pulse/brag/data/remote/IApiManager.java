@@ -21,6 +21,7 @@ import retrofit2.Call;
 
 public interface IApiManager extends ApiInterface {
 
+    //Call<LoginResponse> userLogin(LoginRequest loginRequest);
 
     @Override
     Call<LoginResponse> userLogin(LoginRequest loginRequest);

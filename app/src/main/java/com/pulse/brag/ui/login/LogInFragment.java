@@ -26,7 +26,7 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.ContactUsFragment;
-import com.pulse.brag.ui.fragments.ForgetPasswordFragment;
+import com.pulse.brag.ui.forgotpassword.ForgetPasswordFragment;
 import com.pulse.brag.ui.fragments.SignUpFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
@@ -44,7 +44,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
 
     @Inject
     LoginViewModel mLoginViewModel;
-
     FragmentLoginBinding mFragmentLoginBinding;
 
    /* View mView;
@@ -85,6 +84,15 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void beforeViewCreated() {
+
+    }
+
+    @Override
+    public void afterViewCreated() {
         mFragmentLoginBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentLoginBinding.baseLayout);
     }
@@ -96,6 +104,11 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
 
     @Override
     public void afterViewCreated() {
+
+    }
+
+    @Override
+    public void setUpToolbar() {
 
     }
 

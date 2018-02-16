@@ -69,6 +69,8 @@
     <string name="error_code_39">Requested interaction time missing.</string>
     <string name="error_code_40">Sorry, you don\'t have permission.</string>
 
+    <string name="error_code_5001">We could not complete your request.</string>
+
 
     <string name="toolbar_title_home_screen">Brag</string>
     <string name="title_activity_home_screen_tab">HomeScreenTabActivity</string>

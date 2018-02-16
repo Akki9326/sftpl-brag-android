@@ -35,7 +35,7 @@ import android.widget.TextView;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.adapters.MoreListAdapter;
 import com.pulse.brag.enums.MoreList;

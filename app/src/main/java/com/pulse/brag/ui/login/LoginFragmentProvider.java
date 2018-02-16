@@ -11,5 +11,5 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class LoginFragmentProvider {
 
     @ContributesAndroidInjector(modules = LoginFragmentModule.class)
-    abstract LogInFragment provideAboutFragmentFactory();
+    abstract LogInFragment provideLoginFragmentFactory();
 }

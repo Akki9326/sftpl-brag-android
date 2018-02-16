@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
 import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;

@@ -1,42 +1,52 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-    android:layout_marginTop="30dp"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
 
-    <TextView
-        android:id="@+id/textview_mobile_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:tag="@string/font_opensans_regular_id"
-        android:text="@string/label_mobileno"
-        android:textColor="@color/pink"
-        android:textSize="@dimen/text_size_very_small_12" />
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.forgotpassword.ForgotPasswordViewModel" />
+    </data>
 
-    <EditText
-        android:id="@+id/edittext_mobile_num"
-        style="@style/NormalEditText"
-        android:background="@null"
-        android:hint="@string/hint_mobile_num"
-        android:imeOptions="actionNext"
-        android:inputType="number"
-        android:maxLength="10"
-        android:paddingBottom="5dp" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:alpha=".5"
-        android:background="@color/pink" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
 
+
+        <TextView
+            android:id="@+id/textview_mobile_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:tag="@string/font_opensans_regular_id"
+            android:text="@string/label_mobileno"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/text_size_very_small_12" />
+
+        <EditText
+            android:id="@+id/edittext_mobile_num"
+            style="@style/NormalEditText"
+            android:background="@null"
+            android:hint="@string/hint_mobile_num"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="10"
+            android:text="@{viewModel.mobileNumber}"
+            android:paddingBottom="5dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:alpha=".5"
+            android:background="@color/pink" />
 
 
         <TextView
@@ -44,15 +54,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingBottom="10dp"
             android:layout_marginTop="30dp"
+            android:background="@drawable/round_corner_solid_pink"
+            android:paddingBottom="10dp"
             android:paddingLeft="70dp"
             android:paddingRight="70dp"
-            android:background="@drawable/round_corner_solid_pink"
             android:paddingTop="10dp"
             android:tag="@string/font_opensans_regular_id"
+            android:onClick="@{viewModel.onSendOtpClick()}"
             android:text="@string/btn_send_otp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small" />
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

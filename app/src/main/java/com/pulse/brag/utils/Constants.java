@@ -66,6 +66,8 @@ public class Constants {
     public interface ApiHelper{
         String BASE_URL = "http://103.204.192.148/brag/api/";
         String API_VERSION = "v1/";
+        String FULL_URL = BASE_URL + API_VERSION;
+
         String OS = "Android";
 
         String MAP_KEY_ACCESS_TOKEN = "access-token";
@@ -77,11 +79,11 @@ public class Constants {
     }
 
     public interface IErrorCode {
-        int defaultErrorCode = 1001;
-        int notInternetConnErrorCode = 1002;
-        int ioExceptionCancelApiErrorCode = 1003;
-        int ioExceptionOtherErrorCode = 1004;
-        int socketTimeOutError = 1006;
+        int defaultErrorCode = 5001;
+        int notInternetConnErrorCode = 5002;
+        int ioExceptionCancelApiErrorCode = 5003;
+        int ioExceptionOtherErrorCode = 5004;
+        int socketTimeOutError = 5006;
     }
 
     public interface IErrorMessage {

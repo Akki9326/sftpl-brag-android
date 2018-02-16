@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.ChangePasswordOrMobileActivity;
+import com.pulse.brag.ui.changepasswordmobile.ChangePasswordOrMobileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.data.remote.ApiClient;

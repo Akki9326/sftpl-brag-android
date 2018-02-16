@@ -214,7 +214,6 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
             mTxtBagCount.setText(Utility.getBadgeNumber(num));
         }
     }
-
     public void showKeyboard(){
         View view = this.getCurrentFocus();
         Common.showKeyboard(this, view);
@@ -308,5 +307,4 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
     public interface OnDrawerStateListener {
         boolean manageDrawerOnBackPressed();
     }
-
 }

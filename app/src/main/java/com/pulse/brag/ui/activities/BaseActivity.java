@@ -158,8 +158,6 @@ public class BaseActivity extends AppCompatActivity {
             mRelText.setVisibility(View.VISIBLE);
             mImgLogo.setVisibility(View.GONE);
         }
-
-
     }
 
 

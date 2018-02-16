@@ -44,7 +44,7 @@
             android:name=".NotificationHandlerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.ChangePasswordOrMobileActivity"
+            android:name=".ui.changepasswordmobile.ChangePasswordOrMobileActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Dummey">
 

@@ -9,6 +9,7 @@ import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
 import com.pulse.brag.pojo.requests.LoginRequest;
 import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.pojo.response.CartListResponse;
 import com.pulse.brag.pojo.response.CategoryListResponse;
 import com.pulse.brag.pojo.response.ChangePasswordResponse;
 import com.pulse.brag.pojo.response.CollectionListResponse;
@@ -27,6 +28,7 @@ import retrofit2.Call;
 public class AppApiManager implements IApiManager {
 
     private final ApiInterface mApiInterface;
+
     @Inject
     public AppApiManager(Context context, ApiInterface apiInterface) {
         this.mApiInterface = apiInterface;
@@ -50,12 +52,12 @@ public class AppApiManager implements IApiManager {
 
     @Override
     public Call<OTPVerifyResponse> verifyOtp(String mobile, String otp) {
-        return mApiInterface.verifyOtp(mobile,otp);
+        return mApiInterface.verifyOtp(mobile, otp);
     }
 
     @Override
     public Call<OTPVerifyResponse> verifyOtpForgetPass(String mobile, String otp) {
-        return mApiInterface.verifyOtpForgetPass(mobile,otp);
+        return mApiInterface.verifyOtpForgetPass(mobile, otp);
     }
 
     @Override
@@ -91,5 +93,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<CollectionListResponse> getCollectionProduct(String url) {
         return mApiInterface.getCollectionProduct(url);
+    }
+
+    @Override
+    public Call<CartListResponse> getCartList(String url) {
+        return mApiInterface.getCartList(url);
     }
 }

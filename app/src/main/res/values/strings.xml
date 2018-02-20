@@ -157,9 +157,9 @@
     <string name="msg_profile_update_successfull">Your profile updated successfully.</string>
     <string name="btn_place_order">PLACE ORDER</string>
     <string name="btn_view_detail">VIEW DETAILS</string>
-    <string name="error_qty_not_empty">Please enter at least one qty.</string>
-    <string name="error_enter_qty">Please enter product qty.</string>
-    <string name="error_valid_qty">Please enter valid qty.</string>
+    <string name="error_qty_not_empty">Please enter at least one quantity.</string>
+    <string name="error_enter_qty">Please enter product quantity.</string>
+    <string name="error_valid_qty">Please enter valid quantity.</string>
     <string name="label_change_mobile_num">Change Mobile Number</string>
     <string name="label_update_profile">Update Profile</string>
     <string name="label_new_mobile_no">New Mobile Number</string>

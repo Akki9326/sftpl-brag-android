@@ -1,6 +1,8 @@
 package com.pulse.brag.di.builder;
 
+import com.pulse.brag.ui.cart.CartFragmentProvider;
 import com.pulse.brag.ui.category.CategoryFragmentProvider;
+import com.pulse.brag.ui.editquantity.EditQtytDialogProvider;
 import com.pulse.brag.ui.home.HomeFragmentModule;
 import com.pulse.brag.ui.home.HomeFragmentProvider;
 import com.pulse.brag.ui.main.MainActivity;
@@ -35,7 +37,7 @@ public abstract class ActivityBuilder {
     abstract SplashActivity bindSplashActivity();
 
     @ContributesAndroidInjector(modules = {MainActivityModule.class, HomeFragmentProvider.class
-            , CategoryFragmentProvider.class, SubCategoryFragmentProvider.class})
+            , CategoryFragmentProvider.class, SubCategoryFragmentProvider.class, CartFragmentProvider.class, EditQtytDialogProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})

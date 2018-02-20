@@ -1,15 +1,24 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/base_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/rounder_corner_solid_white"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+<layout xmlns:bind="http://schemas.android.com/tools">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nested_scroll"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.editquantity.EditQtyDialogViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/base_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounder_corner_solid_white"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <!-- <android.support.v4.widget.NestedScrollView
+             android:id="@+id/nested_scroll"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,10 +26,10 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
+    
                 <ImageView
                     android:id="@+id/imageview_product_img"
                     android:layout_width="90dp"
@@ -30,7 +39,7 @@
                     android:layout_margin="10dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/background" />
-
+    
                 <TextView
                     android:id="@+id/textview_product_name"
                     android:layout_width="match_parent"
@@ -40,7 +49,18 @@
                     android:tag="@string/font_opensans_regular_id"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_medium" />
-            </RelativeLayout>
+            </RelativeLayout>-->
+
+            <TextView
+                android:id="@+id/textview_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/app_name"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -70,12 +90,14 @@
                         android:id="@+id/edittext_qty"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{viewModel.afterTextChanged}"
                         android:background="@null"
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="3"
                         android:maxLines="1"
                         android:padding="5dp"
+                        bind:text="@{String.valueOf(viewModel.qty)}"
                         android:singleLine="true"
                         android:tag="@string/font_opensans_regular_id"
                         android:textColor="@color/text_black"
@@ -93,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:tag="@string/font_opensans_regular_id"
-                    android:text="(max. 50)"
+                    android:text="(available - 50)"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_very_small_12" />
             </LinearLayout>
@@ -108,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:onClick="@{viewModel.onDoneClick()}"
                 android:padding="10dp"
                 android:tag="@string/font_opensans_bold_id"
                 android:text="@string/button_done"
@@ -115,5 +138,6 @@
                 android:textSize="@dimen/text_size_medium" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+        <!--</android.support.v4.widget.NestedScrollView>-->
+    </LinearLayout>
+</layout>

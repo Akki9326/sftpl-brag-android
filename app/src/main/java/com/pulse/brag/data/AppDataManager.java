@@ -13,6 +13,7 @@ import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
 import com.pulse.brag.pojo.requests.LoginRequest;
 import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.pojo.response.CartListResponse;
 import com.pulse.brag.pojo.response.CategoryListResponse;
 import com.pulse.brag.pojo.response.ChangePasswordResponse;
 import com.pulse.brag.pojo.response.CollectionListResponse;
@@ -45,7 +46,7 @@ public class AppDataManager implements IDataManager {
     public AppDataManager(Context mContext, IPreferenceManager mPreferencesHelper, IApiManager mApiManager) {
         this.mContext = mContext;
         this.mPreferencesHelper = mPreferencesHelper;
-        this.mApiManager=mApiManager;
+        this.mApiManager = mApiManager;
     }
 
     @Override
@@ -131,6 +132,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<CollectionListResponse> getCollectionProduct(String url) {
         return mApiManager.getCollectionProduct(url);
+    }
+
+    @Override
+    public Call<CartListResponse> getCartList(String url) {
+        return mApiManager.getCartList(url);
     }
 
     @Override

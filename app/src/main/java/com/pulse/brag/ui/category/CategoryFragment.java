@@ -12,6 +12,7 @@ package com.pulse.brag.ui.category;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -92,6 +93,14 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
 
         checkInternet();
+        mFragmentCategoryBinding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
+        mFragmentCategoryBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkInternet();
+                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override

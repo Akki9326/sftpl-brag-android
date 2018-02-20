@@ -37,6 +37,7 @@ import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.BaseFragment;
 import com.pulse.brag.ui.fragments.ProductionListFragment;
+import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -63,16 +64,7 @@ import retrofit2.Response;
 
 public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, OnItemClickListener {
 
-    View mView;
-    ViewPager mViewPager;
-    CustomViewPagerIndicator mPagerIndicator;
-    RecyclerView mRecyclerView;
-    CoordinatorLayout mCoordinatorLayout;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    LinearLayout mLinearDetail;
 
-    CategoryListAdapter mCategoryAdapter;
-    ImagePagerAdapter mPagerAdapter;
     List<CategoryListResponseData> mCategoryList;
 
 
@@ -81,7 +73,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     FragmentSubCategoryBinding mFragmentSubCategoryBinding;
 
-    List<CategoryListResponseData> mCollection;
 
     public static SubCategoryFragment newInstance(String url, String title) {
 
@@ -300,7 +291,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void onItemClick(int position) {
-        ((BaseActivity) getActivity()).pushFragmentsAdd(new ProductionListFragment(), true, true);
+        ((MainActivity) getActivity()).pushFragments(new ProductionListFragment(), true, true);
 
     }
 
@@ -308,7 +299,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-//            setToolbar();
+         setUpToolbar();
         }
     }
 

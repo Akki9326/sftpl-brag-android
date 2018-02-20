@@ -31,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
+import com.pulse.brag.erecyclerview.loadmore.DefaultLoadMoreFooter;
+import com.pulse.brag.erecyclerview.loadmore.OnLoadMoreListener;
 import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.adapters.ColorListAdapter;
 import com.pulse.brag.adapters.ProductListAdapter;
@@ -38,6 +40,7 @@ import com.pulse.brag.adapters.SizeListAdapter;
 import com.pulse.brag.erecyclerview.ERecyclerView;
 import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -123,7 +126,7 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void setToolbar() {
-        ((BaseActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_productlist));
+        ((CoreActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_productlist));
     }
 
     @Override
@@ -152,30 +155,29 @@ public class ProductionListFragment extends BaseFragment implements BaseInterfac
 
     @Override
     public void setListeners() {
-//        mRecyclerView.loadMoreComplete(true);
 
-//        mRecyclerView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
-//        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        if (mSwipeRefreshLayout.isRefreshing()) {
-//                            return;
-//                        }
-//
-//                        if (mDummeyDataRespones.size() != productSize) {
-//                            ACTION = LOAD_MORE;
-//                            checkNetworkConnection(false);
-//                        } else {
-//                            mRecyclerView.loadMoreComplete(true);
-//                        }
-//                    }
-//                }, 500);
-//            }
-//        });
+        mRecyclerView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
+        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (mSwipeRefreshLayout.isRefreshing()) {
+                            return;
+                        }
+
+                        if (mDummeyDataRespones.size() != productSize) {
+                            ACTION = LOAD_MORE;
+                            checkNetworkConnection(false);
+                        } else {
+                            mRecyclerView.loadMoreComplete(true);
+                        }
+                    }
+                }, 500);
+            }
+        });
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

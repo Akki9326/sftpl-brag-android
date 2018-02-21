@@ -18,7 +18,7 @@ import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.views.CustomProgressDialog;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 public class WebViewActivity extends AppCompatActivity implements BaseInterface {
 

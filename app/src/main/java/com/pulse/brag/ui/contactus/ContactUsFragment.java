@@ -11,27 +11,17 @@ package com.pulse.brag.ui.contactus;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentContactUsBinding;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.fragments.BaseFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.views.OnSingleClickListener;
 
 import javax.inject.Inject;
-
-import dagger.Module;
 
 /**
  * Created by nikhil.vadoliya on 30-01-2018.

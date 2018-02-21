@@ -35,7 +35,7 @@ import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 /**
  * Created by nikhil.vadoliya on 26-12-2017.

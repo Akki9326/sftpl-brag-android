@@ -8,8 +8,6 @@ package com.pulse.brag.interfaces;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.adapters.ColorListAdapter;
-
 /**
  * Created by nikhil.vadoliya on 26-10-2017.
  */

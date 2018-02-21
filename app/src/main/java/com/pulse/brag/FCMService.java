@@ -24,7 +24,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
-import com.pulse.brag.enums.NotificationType;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.PreferencesManager;
 import com.pulse.brag.pojo.NotificationResponseData;
@@ -99,7 +98,7 @@ public class FCMService extends FirebaseMessagingService {
         Intent notificationIntent = null;
         PendingIntent simplePendingIntent = null;
 
-        switch (NotificationType.values()[ntype]) {
+        switch (Constants.NotificationType.values()[ntype]) {
 
             case TEXT:
                 notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -139,7 +138,7 @@ public class FCMService extends FirebaseMessagingService {
 
         Notification notification = null;
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        if (ntype != NotificationType.TEXT.ordinal()) {
+        if (ntype != Constants.NotificationType.TEXT.ordinal()) {
             stackBuilder.addNextIntent(new Intent(getApplicationContext(), MainActivity.class));
 //                stackBuilder.addParentStack(HomeScreenActivity.this);
         }

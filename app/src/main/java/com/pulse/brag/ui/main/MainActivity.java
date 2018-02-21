@@ -1,6 +1,7 @@
 package com.pulse.brag.ui.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +12,9 @@ import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.BragApp;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.databinding.ActivityMainBinding;
+import com.pulse.brag.pojo.requests.AddToCartRequest;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.cart.CartFragment;
 import com.pulse.brag.ui.home.HomeFragment;
@@ -19,7 +22,6 @@ import com.pulse.brag.R;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.views.OnSingleClickListener;
 
 import javax.inject.Inject;
 
@@ -71,7 +73,7 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         mMainActivyBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
         Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) mMainActivyBinding.baseLayout);
-// TODO: 16-02-2018 move to core activity
+        // TODO: 16-02-2018 move to core activity
         if (bActivity instanceof OnToolbarSetupListener) {
             ((OnToolbarSetupListener) bActivity).setUpToolbar();
         }
@@ -120,18 +122,16 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
     }
 
 
-  /*  public void addToCartAPI(AddToCartRequest addToCartRequest) {
-        showProgressDialog();
+    public void addToCartAPI(AddToCartRequest addToCartRequest) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                hideProgressDialog();
                 BragApp.CartNumber++;
                 setBagCount(BragApp.CartNumber);
             }
         }, 1000);
 
-    }*/
+    }
 
 
     @Override

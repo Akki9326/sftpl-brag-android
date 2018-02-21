@@ -11,13 +11,11 @@ package com.pulse.brag.ui.forgotpassword;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentForgetPassBinding;
-import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.otp.OTPFragment;
 import com.pulse.brag.ui.profile.UserProfileActivity;
@@ -265,7 +263,7 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public void pushFragmentOnSplash() {
         ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
-                "email@email.com", OTPValidationIsFrom.FORGET_PASS.ordinal()),
+                "email@email.com", Constants.OTPValidationIsFrom.FORGET_PASS.ordinal()),
                 true, true, "OTP_frag");
 
     }
@@ -273,7 +271,7 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public void pushFragmentOnChangePassword() {
         ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
-                "email@email.com", OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
+                "email@email.com", Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
                 true, true, "OTP_frag");
     }
 }

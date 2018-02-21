@@ -13,9 +13,9 @@ import android.databinding.ObservableField;
 import android.text.Editable;
 import android.view.View;
 
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.views.OnSingleClickListener;
 
 /**
  * Created by nikhil.vadoliya on 20-02-2018.

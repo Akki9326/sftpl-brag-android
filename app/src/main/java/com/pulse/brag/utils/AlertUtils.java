@@ -232,6 +232,18 @@ public class AlertUtils {
                 case 5001:
                     message = mContext.getResources().getString(R.string.error_code_5001);
                     break;
+                case 5002:
+                    message = mContext.getResources().getString(R.string.error_code_5002);
+                    break;
+                case 5003:
+                    message = mContext.getResources().getString(R.string.error_code_5003);
+                    break;
+                case 5004:
+                    message = mContext.getResources().getString(R.string.error_code_5004);
+                    break;
+                case 5006:
+                    message = mContext.getResources().getString(R.string.error_code_5006);
+                    break;
 
 
             }

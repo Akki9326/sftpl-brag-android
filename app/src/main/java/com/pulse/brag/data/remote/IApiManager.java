@@ -59,4 +59,7 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<CollectionListResponse> getCollectionProduct(String url);
+
+    @Override
+    Call<GeneralResponse> notifyMe(String productId, String color, String size);
 }

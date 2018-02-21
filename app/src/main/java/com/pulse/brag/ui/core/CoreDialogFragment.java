@@ -91,7 +91,7 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog= super.onCreateDialog(savedInstanceState);
-        return onCreteFragmentDialog(savedInstanceState,dialog);
+        return onCreateFragmentDialog(savedInstanceState,dialog);
     }
 
     @Override
@@ -210,7 +210,7 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
         return mViewDataBinding;
     }
 
-    public abstract Dialog onCreteFragmentDialog(Bundle savedInstanceState,Dialog dialog);
+    public abstract Dialog onCreateFragmentDialog(Bundle savedInstanceState,Dialog dialog);
 
     /**
      * To perform operation before view set like bundle data and other data initialization

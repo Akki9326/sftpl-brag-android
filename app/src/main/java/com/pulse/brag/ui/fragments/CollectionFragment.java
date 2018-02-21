@@ -27,6 +27,7 @@ import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.adapters.CollectionListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
@@ -191,6 +192,6 @@ public class CollectionFragment extends Fragment implements BaseInterface, OnIte
 
     @Override
     public void onItemClick(int position) {
-        ((BaseActivity) getActivity()).pushFragments(new ProductionListFragment(), true, true);
+        ((BaseActivity) getActivity()).pushFragments(new ProductListFragment(), true, true);
     }
 }

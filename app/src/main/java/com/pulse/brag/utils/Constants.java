@@ -32,6 +32,7 @@ public class Constants {
     public static final String BUNDLE_IMAGE_LIST = "bundleimageList";
     public static final String BUNDLE_POSITION = "bundleposition";
     public static final String BUNDLE_QTY = "bundleqty";
+    public static final String BUNDLE_PRODUCT_SORTING = "bundleProductSort";
     public static final String BUNDLE_SELETED_PRODUCT = "bundleselectedProduct";
     public static final String BUNDLE_IMAGE_URL = "imageurl";
     public static final String BUNDLE_MOBILE = "bundlemobile";
@@ -94,10 +95,66 @@ public class Constants {
         String NO_INTERNET_CONNECTION = "No internet connection.";
         String OTHER_EXCEPTION = "We could not complete your request";
         String SOMETHING_WRONG_ERROR = "Something went wrong!!\nPlease try again later.";
-        String TIME_OUT_CONNECTION = "We could not complete your request.\nPlease try again later.";
+        String TIME_OUT_CONNECTION = "Connection timeout.\nPlease try again later.";
     }
 
     public interface IPermissionRequestCode {
         int REQ_SMS_SEND_RECEIVED_READ = 1001;
+    }
+
+
+    public enum MoreList {
+        MY_ORDER(1),
+        PRIVACY_POLICY(2),
+        TERMS_AND(3),
+        CHANGE_PASS(4),
+        LOGOUT(5),
+        CHANGE_MOBILE(6),
+        NOTIFICATION(7),
+        USER_PROFILE(8);
+
+
+        MoreList(int i) {
+            this.type = i;
+        }
+
+        private int type;
+
+        public int getNumericType() {
+            return type;
+        }
+    }
+
+    public enum NotificationType {
+        TEXT,
+        OTHER,
+        LOGIN;
+    }
+
+    public enum OTPValidationIsFrom {
+        SIGN_UP,
+        FORGET_PASS,
+        CHANGE_MOBILE;
+    }
+
+    public enum ProfileIsFrom {
+        CHANGE_PASS,
+        CHANGE_MOBILE,
+        UPDATE_PROFILE
+
+    }
+
+    public enum VerificationStatus {
+        AWAITING_OTP_VALIDATION,
+        AWAITING_VERIFICATION,
+        APPROVED,
+        REJECTED,
+        AWAITING_FOR_PASSWORD_RESET;
+    }
+
+    public enum ProductSorting{
+        POPULARITY,
+        PRICE_LOW_TO_HEIGH,
+        PRICE_HEIGH_TO_LOW
     }
 }

@@ -20,12 +20,12 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentSignUpBinding;
-import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.pojo.requests.SignInRequest;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.otp.OTPFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
 
@@ -310,7 +310,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     @Override
     public void pushOtpFragment() {
         ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                , mFragmentSignUpBinding.edittextEmail.getText().toString(), OTPValidationIsFrom.SIGN_UP.ordinal()),
+                , mFragmentSignUpBinding.edittextEmail.getText().toString(), Constants.OTPValidationIsFrom.SIGN_UP.ordinal()),
                 true, true, "OTP_Frag");
     }
 }

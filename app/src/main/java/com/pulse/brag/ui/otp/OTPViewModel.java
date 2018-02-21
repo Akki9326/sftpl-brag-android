@@ -9,11 +9,11 @@ import android.widget.TextView;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.enums.OTPValidationIsFrom;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -53,7 +53,7 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
 
     public void verifyOtp(String mobileNum, String otp, final int formType){
         Call<OTPVerifyResponse> mOtpVerifyResponeCall = null;
-        switch (OTPValidationIsFrom.values()[formType]) {
+        switch (Constants.OTPValidationIsFrom.values()[formType]) {
             case SIGN_UP:
                 mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum,otp);
                 break;
@@ -70,7 +70,7 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
             public void onSuccess(OTPVerifyResponse otpVerifyResponse, Headers headers) {
                 if (otpVerifyResponse.isStatus()){
                     getNavigator().onApiSuccess();
-                    switch (OTPValidationIsFrom.values()[formType]) {
+                    switch (Constants.OTPValidationIsFrom.values()[formType]) {
                         case CHANGE_MOBILE:
                             getNavigator().pushChangeMobileFragment();
                             /*((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
@@ -90,7 +90,7 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
                     }
                 }else {
                     getNavigator().onApiSuccess();
-                    switch (OTPValidationIsFrom.values()[formType]) {
+                    switch (Constants.OTPValidationIsFrom.values()[formType]) {
                         case CHANGE_MOBILE:
                             getNavigator().pushChangeMobileFragment();
                             /*((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)

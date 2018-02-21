@@ -14,14 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemGridCategoryBinding;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,7 +22,6 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentLoginBinding;
-import com.pulse.brag.ui.activities.MainActivity;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.core.CoreFragment;

@@ -34,12 +34,10 @@ import android.widget.TextView;
 
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
-import com.pulse.brag.enums.ProfileIsFrom;
 import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.adapters.MoreListAdapter;
-import com.pulse.brag.enums.MoreList;
 import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
@@ -49,7 +47,7 @@ import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.datas.MoreListData;
 import com.pulse.brag.pojo.datas.UserData;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,7 +181,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     case 4:
                         intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
-                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, ProfileIsFrom.CHANGE_PASS.ordinal());
+                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_PASS.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
 //                        ((BaseActivity) getActivity()).pushFragments(
@@ -197,7 +195,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     case 6:
                         intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
-                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, ProfileIsFrom.CHANGE_MOBILE.ordinal());
+                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_MOBILE.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
@@ -207,7 +205,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                     case 8:
                         intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
-                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, ProfileIsFrom.UPDATE_PROFILE.ordinal());
+                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.UPDATE_PROFILE.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
@@ -224,25 +222,25 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         moreListData = new ArrayList<>();
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
+        moreListData.add(new MoreListData(Constants.MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
                 getString(R.string.label_my_order)));
-        moreListData.add(new MoreListData(MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
+        moreListData.add(new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
                Utility.getNotificationlabel(getActivity())));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
                 getString(R.string.label_pri_policy)));
-        moreListData.add(new MoreListData(MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
                 getString(R.string.label_terms_and)));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
+        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
                 getString(R.string.label_change_pass)));
-        moreListData.add(new MoreListData(MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
                 getString(R.string.label_change_mobile_num)));
-        moreListData.add(new MoreListData(MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
                 getString(R.string.label_update_profile)));
-        moreListData.add(new MoreListData(MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
+        moreListData.add(new MoreListData(Constants.MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
                 getString(R.string.label_logout)));
 
         moreListAdapter = new MoreListAdapter(getContext(), moreListData);
@@ -330,7 +328,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
     private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            moreListData.set(2, new MoreListData(MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((BaseActivity) getActivity()).getNotificationlabel()));
+            moreListData.set(2, new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((BaseActivity) getActivity()).getNotificationlabel()));
             moreListAdapter.notifyDataSetChanged();
         }
     };

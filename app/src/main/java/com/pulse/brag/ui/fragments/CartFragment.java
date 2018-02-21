@@ -35,7 +35,7 @@ import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.interfaces.OnQtyClickListener;
 import com.pulse.brag.pojo.datas.CartListResponeData;
 import com.pulse.brag.pojo.datas.PriceListData;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

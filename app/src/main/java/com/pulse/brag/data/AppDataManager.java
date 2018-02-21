@@ -134,6 +134,11 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
+    public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
+        return mApiManager.notifyMe(productId,color,size);
+    }
+
+    @Override
     public Call<LoginResponse> userLogin(LoginRequest loginRequest) {
         return mApiManager.userLogin(loginRequest);
     }

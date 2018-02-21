@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.NotificationListData;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

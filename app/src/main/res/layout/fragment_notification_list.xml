@@ -13,7 +13,7 @@
         android:visibility="gone"
         android:text="Notification Read" />
 
-    <com.pulse.brag.erecyclerview.ERecyclerView
+    <com.pulse.brag.views.erecyclerview.ERecyclerView
         android:id="@+id/recycleview_notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

@@ -9,17 +9,8 @@ package com.pulse.brag.ui.core;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import com.pulse.brag.views.OnSingleClickListener;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by nikhil.vadoliya on 14-02-2018.
@@ -29,22 +20,9 @@ import static android.content.ContentValues.TAG;
 * This class use in Recycleview implement by MVVM and this class provide ViewDataBinding obj.*/
 public abstract class CoreViewHolder extends RecyclerView.ViewHolder {
 
-    //ViewDataBinding it default class
-   // private ViewDataBinding mViewDataBinding;
-
-   /* public CoreViewHolder(View itemView) {
-        super(itemView);
-        mViewDataBinding= DataBindingUtil.bind(itemView);
-        mViewDataBinding.executePendingBindings();
-    }*/
-
     public CoreViewHolder(View itemView) {
         super(itemView);
     }
 
-   /* public ViewDataBinding getViewDataBinding() {
-        return mViewDataBinding;
-    }
-*/
     public abstract void onBind(int position);
 }

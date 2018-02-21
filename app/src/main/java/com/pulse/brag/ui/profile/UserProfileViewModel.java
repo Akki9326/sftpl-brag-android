@@ -4,9 +4,9 @@ import android.databinding.ObservableField;
 import android.view.View;
 
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.enums.ProfileIsFrom;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 /**
  * Created by alpesh.rathod on 2/15/2018.
@@ -38,7 +38,7 @@ public class UserProfileViewModel extends CoreViewModel<UserProfileNavigator> {
     }
 
     public void decideNextFragment(int type) {
-        switch (ProfileIsFrom.values()[type]){
+        switch (Constants.ProfileIsFrom.values()[type]){
             case CHANGE_MOBILE:
                 getNavigator().pushForgotPassFragment();
                 break;

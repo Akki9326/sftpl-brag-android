@@ -14,7 +14,7 @@ import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 import okhttp3.Headers;
 import retrofit2.Call;

@@ -93,10 +93,60 @@ public class Constants {
         String NO_INTERNET_CONNECTION = "No internet connection.";
         String OTHER_EXCEPTION = "We could not complete your request";
         String SOMETHING_WRONG_ERROR = "Something went wrong!!\nPlease try again later.";
-        String TIME_OUT_CONNECTION = "We could not complete your request.\nPlease try again later.";
+        String TIME_OUT_CONNECTION = "Connection timeout.\nPlease try again later.";
     }
 
     public interface IPermissionRequestCode {
         int REQ_SMS_SEND_RECEIVED_READ = 1001;
+    }
+
+
+    public enum MoreList {
+        MY_ORDER(1),
+        PRIVACY_POLICY(2),
+        TERMS_AND(3),
+        CHANGE_PASS(4),
+        LOGOUT(5),
+        CHANGE_MOBILE(6),
+        NOTIFICATION(7),
+        USER_PROFILE(8);
+
+
+        MoreList(int i) {
+            this.type = i;
+        }
+
+        private int type;
+
+        public int getNumericType() {
+            return type;
+        }
+    }
+
+    public enum NotificationType {
+        TEXT,
+        OTHER,
+        LOGIN;
+    }
+
+    public enum OTPValidationIsFrom {
+        SIGN_UP,
+        FORGET_PASS,
+        CHANGE_MOBILE;
+    }
+
+    public enum ProfileIsFrom {
+        CHANGE_PASS,
+        CHANGE_MOBILE,
+        UPDATE_PROFILE
+
+    }
+
+    public enum VerificationStatus {
+        AWAITING_OTP_VALIDATION,
+        AWAITING_VERIFICATION,
+        APPROVED,
+        REJECTED,
+        AWAITING_FOR_PASSWORD_RESET;
     }
 }

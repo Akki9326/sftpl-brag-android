@@ -72,4 +72,7 @@ public interface ApiInterface {
 
     @GET
     Call<CollectionListResponse> getCollectionProduct(@Url String url);
+
+    @GET("notifyMe")
+    Call<GeneralResponse> notifyMe(String productId, String color, String size);
 }

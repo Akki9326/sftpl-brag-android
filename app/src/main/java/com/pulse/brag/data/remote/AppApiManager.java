@@ -92,4 +92,9 @@ public class AppApiManager implements IApiManager {
     public Call<CollectionListResponse> getCollectionProduct(String url) {
         return mApiInterface.getCollectionProduct(url);
     }
+
+    @Override
+    public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
+        return mApiInterface.notifyMe(productId,color,size);
+    }
 }

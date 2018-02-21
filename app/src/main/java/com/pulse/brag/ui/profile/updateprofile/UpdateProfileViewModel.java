@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 /**
  * Created by alpesh.rathod on 2/15/2018.

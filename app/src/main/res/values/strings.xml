@@ -70,7 +70,10 @@
     <string name="error_code_40">Sorry, you don\'t have permission.</string>
 
     <string name="error_code_5001">We could not complete your request.</string>
-
+    <string name="error_code_5002">No internet connection.</string>
+    <string name="error_code_5003">We could not complete your request.\nPlease try again later.</string>
+    <string name="error_code_5004">We could not complete your request.\nPlease try again later.</string>
+    <string name="error_code_5006">Connection timeout.\nPlease try again later.</string>
 
     <string name="toolbar_title_home_screen">Brag</string>
     <string name="title_activity_home_screen_tab">HomeScreenTabActivity</string>
@@ -91,6 +94,7 @@
     <string name="label_color">Color:</string>
     <string name="label_size">Size:</string>
     <string name="label_add_to_cart">ADD TO CART</string>
+    <string name="label_notify_me">NOTIFY ME</string>
     <string name="label_qty">QTY :</string>
     <string name="msg_back_to_exit_app">Press back again to exit</string>
     <string name="error_something_want">Something went wrong.</string>

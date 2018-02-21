@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.adapters.MyOrderAdapter;
-import com.pulse.brag.erecyclerview.ERecyclerView;
+import com.pulse.brag.views.erecyclerview.ERecyclerView;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;

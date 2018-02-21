@@ -24,15 +24,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.adapters.ColorListAdapter;
-import com.pulse.brag.adapters.ProductListAdapter;
-import com.pulse.brag.adapters.SizeListAdapter;
-import com.pulse.brag.erecyclerview.ERecyclerView;
-import com.pulse.brag.erecyclerview.GridSpacingItemDecoration;
-import com.pulse.brag.erecyclerview.loadmore.DefaultLoadMoreFooter;
-import com.pulse.brag.erecyclerview.loadmore.OnLoadMoreListener;
+import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
+import com.pulse.brag.ui.home.product.list.adapter.ProductListAdapter;
+import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
+import com.pulse.brag.views.erecyclerview.ERecyclerView;
+import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
+import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
+import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.ui.home.product.quickadd.AddProductDialogFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -44,7 +44,7 @@ import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.DummeyRespone;
 import com.pulse.brag.pojo.response.ProductListResponse;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -283,7 +283,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
     public void OnAddListener(int position) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mDummeyDataRespones.get(position));
-        AddProductBottonDialogFragment mAddProductDialogFragment = new AddProductBottonDialogFragment();
+        AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
         mAddProductDialogFragment.setArguments(bundle);
         mAddProductDialogFragment.show(getChildFragmentManager(), "");
     }

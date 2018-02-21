@@ -12,12 +12,12 @@ package com.pulse.brag.ui.cart;
 import android.databinding.ObservableField;
 import android.view.View;
 
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.pojo.response.CartListResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.views.OnSingleClickListener;
 
 import okhttp3.Headers;
 import retrofit2.Call;

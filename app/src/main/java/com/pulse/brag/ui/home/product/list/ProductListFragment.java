@@ -15,6 +15,9 @@ package com.pulse.brag.ui.home.product.list;
 *  mRecyclerView.loadMoreComplete(true)- hide footer loader,complate load more
 * */
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -27,6 +30,7 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductListBinding;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
+import com.pulse.brag.ui.home.product.list.sorting.ProductSortingDialogFragment;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
@@ -58,7 +62,10 @@ import javax.inject.Inject;
 
 public class ProductListFragment extends CoreFragment<FragmentProductListBinding, ProductListViewModel> implements ProductListNavigator,
         OnItemClickListener, OnAddButtonClickListener, OnProductSizeSelectListener,
-        OnProductColorSelectListener /*BaseFragment implements BaseInterface,*/ {
+        OnProductColorSelectListener, ProductSortingDialogFragment.IOnSortListener/*BaseFragment implements BaseInterface,*/ {
+
+
+    public static final int REQ_SORTING = 2001;
 
     @Inject
     ProductListViewModel mProductListViewModel;
@@ -93,6 +100,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     int mSelectedQty;
     int productSize;
+    int mSorting;
 
     List<ProductListResponse> collectionListRespones;
     ProductListAdapter mProductListAdapter;
@@ -126,6 +134,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void beforeViewCreated() {
         collectionListRespones = new ArrayList<>();
         mDummeyDataRespones = new ArrayList<>();
+        mSorting = Constants.ProductSorting.POPULARITY.ordinal();
         mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mDummeyDataRespones);
     }
 
@@ -210,6 +219,13 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public int getLayoutId() {
         return R.layout.fragment_product_list;
     }
+
+    /*@Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_SORTING && resultCode == 2 && data != null) {
+            mSorting = data.getIntExtra(Constants.BUNDLE_PRODUCT_SORTING, Constants.ProductSorting.POPULARITY.ordinal());
+        }
+    }*/
 
    /* @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -425,15 +441,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     }
 
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == QTY_REQUEST && resultCode == Activity.RESULT_OK) {
-            mSelectedQty = data.getIntExtra(Constants.BUNDLE_QTY, 1);
-            mTxtQty.setText("" + data.getIntExtra(Constants.BUNDLE_QTY, 1));
-        }
-    }*/
-
 
     private void swithcher() {
         int position;
@@ -453,7 +460,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden)
-            //setToolbar();
             setUpToolbar();
     }
 
@@ -471,6 +477,13 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void sort() {
         //swithcher();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
+        ProductSortingDialogFragment mAddProductDialogFragment = new ProductSortingDialogFragment();
+        //mAddProductDialogFragment.setTargetFragment(this,REQ_SORTING);
+        mAddProductDialogFragment.setCancelable(true);
+        mAddProductDialogFragment.setArguments(bundle);
+        mAddProductDialogFragment.show(getChildFragmentManager(), "");
     }
 
     @Override
@@ -534,5 +547,10 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                 checkNetworkConnection(false);
             }
         }, 1000);
+    }
+
+    @Override
+    public void onSort(int type) {
+        mSorting=type;
     }
 }

@@ -9,8 +9,6 @@ package com.pulse.brag.ui.cart;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.ui.category.CategoryFragment;
-import com.pulse.brag.ui.category.CategoryFragmentModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

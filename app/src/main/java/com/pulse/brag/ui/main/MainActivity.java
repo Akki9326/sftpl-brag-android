@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.BragApp;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.databinding.ActivityMainBinding;
 import com.pulse.brag.pojo.requests.AddToCartRequest;
 import com.pulse.brag.ui.core.CoreActivity;
@@ -21,7 +22,6 @@ import com.pulse.brag.R;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.views.OnSingleClickListener;
 
 import javax.inject.Inject;
 

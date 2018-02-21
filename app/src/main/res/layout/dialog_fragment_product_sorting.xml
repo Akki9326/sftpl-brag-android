@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.home.product.list.sorting.ProductSortingDialogViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal|bottom"
+        android:onClick="@{viewModel.onDismissClick()}"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linear_dummey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/squre_corner_solid_white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:ellipsize="end"
+                android:padding="10dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="SORT BY"
+                android:textSize="@dimen/text_size_medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+            <RadioGroup
+                android:id="@+id/rg_sorting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{viewModel.onSortingChanged}"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:id="@+id/rb_popularity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/pink"
+                    android:tag="@string/font_opensans_bold"
+                    android:text="Popularity"
+                    android:textSize="@dimen/text_size_small" />
+
+                <RadioButton
+                    android:id="@+id/rb_price_low_to_high"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/pink"
+                    android:tag="@string/font_opensans_bold"
+                    android:text="Price -- Low to High"
+                    android:textSize="@dimen/text_size_small" />
+
+                <RadioButton
+                    android:id="@+id/rb_price_high_to_low"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/pink"
+                    android:tag="@string/font_opensans_bold"
+                    android:text="Price -- High to Low"
+                    android:textSize="@dimen/text_size_small" />
+
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

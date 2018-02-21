@@ -32,6 +32,7 @@ public class Constants {
     public static final String BUNDLE_IMAGE_LIST = "bundleimageList";
     public static final String BUNDLE_POSITION = "bundleposition";
     public static final String BUNDLE_QTY = "bundleqty";
+    public static final String BUNDLE_PRODUCT_SORTING = "bundleProductSort";
     public static final String BUNDLE_SELETED_PRODUCT = "bundleselectedProduct";
     public static final String BUNDLE_IMAGE_URL = "imageurl";
     public static final String BUNDLE_MOBILE = "bundlemobile";
@@ -148,5 +149,11 @@ public class Constants {
         APPROVED,
         REJECTED,
         AWAITING_FOR_PASSWORD_RESET;
+    }
+
+    public enum ProductSorting{
+        POPULARITY,
+        PRICE_LOW_TO_HEIGH,
+        PRICE_HEIGH_TO_LOW
     }
 }

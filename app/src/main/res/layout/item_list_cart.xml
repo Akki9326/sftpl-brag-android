@@ -1,147 +1,165 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/base_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <View
+    <data>
+
+        <variable
+            name="cartData"
+            type="com.pulse.brag.ui.cart.CartItemViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/base_layout"
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/imageview_product"
-            android:layout_width="90dp"
-            android:layout_height="130dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <TextView
-
-                android:id="@+id/textview_product_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:tag="@string/font_opensans_regular_id"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_size"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_very_small_12" />
-
-                <TextView
-                    android:id="@+id/textView_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:tag="@string/font_opensans_bold_id"
-                    android:text="M"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_very_small_12" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_color"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_very_small_12" />
-
-                <ImageView
-                    android:id="@+id/imageview_color"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="5dp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:tag="@string/font_opensans_bold_id"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_very_small_12" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="@string/font_opensans_bold_id"
-                    android:text="@string/label_qty_s"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_very_small_12" />
-
-                <TextView
-                    android:id="@+id/textview_qty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/rounder_corner_edge_gray"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="2dp"
-                    android:tag="@string/font_opensans_bold_id"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_very_small_12" />
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top">
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
-                android:id="@+id/imageview_delete"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_delete" />
-        </LinearLayout>
-    </LinearLayout>
+                android:id="@+id/imageview_product"
+                android:layout_width="90dp"
+                android:layout_height="130dp"
+                android:scaleType="centerCrop"
+                bind:imageUrl="@{cartData.product_image}" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp" />
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+
+                    android:id="@+id/textview_product_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@{cartData.product_name}"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_size"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:id="@+id/textView_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:tag="@string/font_opensans_bold_id"
+                        android:text="@{cartData.size}"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_color"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <ImageView
+                        android:id="@+id/imageview_color"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@{cartData.colorBitMap}" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:tag="@string/font_opensans_bold_id"
+                    android:text="@{cartData.priceWithSym}"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_very_small_12" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_bold_id"
+                        android:text="@string/label_qty_s"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:id="@+id/textview_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:onClick="@{cartData::onQtyClick}"
+                        android:background="@drawable/rounder_corner_edge_gray"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="2dp"
+                        android:tag="@string/font_opensans_bold_id"
+                        android:text="@{cartData.qty}"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top">
+
+                <ImageView
+                    android:id="@+id/imageview_delete"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:onClick="@{cartData::onDeleteItem}"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_delete" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+    </LinearLayout>
+</layout>

@@ -10,7 +10,9 @@ package com.pulse.brag.ui.core;
  */
 
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
 import android.support.design.widget.BottomNavigationView;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.pulse.brag.utils.Utility;
@@ -29,12 +31,21 @@ public class CoreBindingAdapter {
 
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(ImageView imageView, String url) {
-        Utility.imageSet(imageView.getContext(),url,imageView);
+        Utility.imageSet(imageView.getContext(), url, imageView);
     }
+
 
     @BindingAdapter("onNavigationItemSelected")
     public static void setOnNavigationItemSelectedListener(
             BottomNavigationView view, BottomNavigationView.OnNavigationItemSelectedListener listener) {
         view.setOnNavigationItemSelectedListener(listener);
+    }
+
+    @BindingAdapter("bind:text")
+    public static void bindEditText(EditText editText, CharSequence value) {
+        if (!editText.getText().toString().equals(value.toString())) {
+            editText.setText(value);
+//            editText.setSelection(2);
+        }
     }
 }

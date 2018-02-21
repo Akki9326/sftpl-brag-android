@@ -85,11 +85,11 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
 
         checkInternet();
-
         mFragmentCategoryBinding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
         mFragmentCategoryBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                checkInternet();
                 mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
             }
         });

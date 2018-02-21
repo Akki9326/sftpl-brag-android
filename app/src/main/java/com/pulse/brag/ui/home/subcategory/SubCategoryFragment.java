@@ -52,16 +52,7 @@ import javax.inject.Inject;
 
 public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, OnItemClickListener {
 
-    View mView;
-    ViewPager mViewPager;
-    CustomViewPagerIndicator mPagerIndicator;
-    RecyclerView mRecyclerView;
-    CoordinatorLayout mCoordinatorLayout;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    LinearLayout mLinearDetail;
 
-    CategoryListAdapter mCategoryAdapter;
-    ImagePagerAdapter mPagerAdapter;
     List<CategoryListResponseData> mCategoryList;
 
 
@@ -70,7 +61,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     FragmentSubCategoryBinding mFragmentSubCategoryBinding;
 
-    List<CategoryListResponseData> mCollection;
 
     public static SubCategoryFragment newInstance(String url, String title) {
 
@@ -297,7 +287,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            ((CoreActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_sub_category));
+         setUpToolbar();
         }
     }
 

@@ -1,7 +1,6 @@
 package com.pulse.brag.ui.core;
 
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -20,11 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-import com.pulse.brag.R;
 import com.pulse.brag.callback.IFragmentCallback;
 import com.pulse.brag.callback.IFragmentLoader;
-import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.ui.fragments.CartFragment;
 import com.pulse.brag.utils.Common;
 import com.pulse.brag.utils.NetworkUtils;
 import com.pulse.brag.utils.ToastUtils;
@@ -137,7 +133,7 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
         Utility.applyTypeFace(getApplicationContext(), toolbar);
 
 
-        /*mLinearCart.setOnClickListener(new View.OnClickListener() {
+       /* mLinearCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pushFragments(new CartFragment(), true, true);

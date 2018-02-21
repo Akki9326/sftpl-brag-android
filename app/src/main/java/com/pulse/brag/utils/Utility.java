@@ -493,6 +493,7 @@ public class Utility {
 
     }
 
+
     /*
     * Default animation in bottom navigation view remove
     * */
@@ -565,7 +566,8 @@ public class Utility {
             paint.setColor(Color.BLACK);
             paint.setStyle(Paint.Style.STROKE);
             float saveStrokeWidth = paint.getStrokeWidth();
-            paint.setAntiAlias(true);
+            paint.setAntiAlias(false);
+            paint.setDither(true);
             paint.setStrokeWidth(5);
             canvas.drawCircle(canvas.getWidth() / 2, canvas.getHeight() / 2, radius - (5 / 2), paint);
             paint.setStrokeWidth(saveStrokeWidth);

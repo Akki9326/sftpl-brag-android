@@ -9,105 +9,111 @@ package com.pulse.brag.adapters;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.interfaces.OnQtyClickListener;
+import com.pulse.brag.databinding.ItemListCartBinding;
 import com.pulse.brag.pojo.datas.CartListResponeData;
-import com.pulse.brag.views.OnSingleClickListener;
+import com.pulse.brag.ui.cart.CartItemViewModel;
+import com.pulse.brag.ui.core.CoreViewHolder;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by nikhil.vadoliya on 04-12-2017.
+ * Created by nikhil.vadoliya on 19-02-2018.
  */
 
 
-public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyViewHolder> {
+public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHolder> {
 
-    Context mContext;
-    List<CartListResponeData> mListRespones;
-    OnItemClickListener mOnItemClickListener;
-    OnQtyClickListener mOnQtyClickListener;
+    List<CartListResponeData> listRespones = Collections.emptyList();
+    OnItemClick onItemClick;
 
-    public CartListAdapter(Context mContext, List<CartListResponeData> mListRespones,
-                           OnItemClickListener onItemClickListener, OnQtyClickListener onQtyClickListener) {
-        this.mContext = mContext;
-        this.mListRespones = new ArrayList<>();
-        this.mListRespones = mListRespones;
-        mOnItemClickListener = onItemClickListener;
-        mOnQtyClickListener = onQtyClickListener;
+    public CartListAdapter(List<CartListResponeData> listRespones
+            , OnItemClick onItemClick) {
+        this.listRespones = listRespones;
+        this.onItemClick = onItemClick;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_cart, null);
-        MyViewHolder viewHolder1 = new MyViewHolder(view);
-        return viewHolder1;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ItemListCartBinding itemListCartBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext())
+                , R.layout.item_list_cart, parent, false);
+        return new ViewHolder(itemListCartBinding);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-
-        final CartListResponeData data = mListRespones.get(position);
-        Utility.imageSet(mContext, data.getProduct_image(), holder.mImgProduct);
-        holder.mTxtProductName.setText(data.getProduct_name());
-        holder.mTxtSize.setText(data.getSize());
-        holder.mTxtPrice.setText(data.getPriceWithSym());
-        holder.mImgColor.setImageBitmap(Utility.getRoundBitmap(data.getColor(), true));
-        holder.mTxtQty.setText("" + data.getQty());
-
-        holder.mImgDelete.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                mOnItemClickListener.onItemClick(position);
-            }
-        });
-        holder.mTxtQty.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                mOnQtyClickListener.onQtyClick(position);
-            }
-        });
-
-
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.bindCartData(position, listRespones.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mListRespones.size();
+        return listRespones.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout mBaseLayout;
-        private ImageView mImgProduct, mImgColor;
-        private TextView mTxtProductName, mTxtSize, mTxtPrice, mTxtQty;
-        private ImageView mImgDelete;
+    public void removeItem(CartListResponeData responeData) {
+        int pos = listRespones.indexOf(responeData);
+        listRespones.remove(responeData);
+        notifyItemRemoved(pos);
+        notifyItemRangeChanged(pos, listRespones.size());
 
-        public MyViewHolder(View itemView) {
-            super(itemView);
+    }
+    public void addAll(List<CartListResponeData> list){
+        listRespones.addAll(list);
+        notifyDataSetChanged();
+    }
 
-            mBaseLayout = (LinearLayout) itemView.findViewById(R.id.base_layout);
-            mImgProduct = (ImageView) itemView.findViewById(R.id.imageview_product);
-            mImgDelete = (ImageView) itemView.findViewById(R.id.imageview_delete);
-            mTxtProductName = (TextView) itemView.findViewById(R.id.textview_product_name);
-            mTxtPrice = (TextView) itemView.findViewById(R.id.textView_price);
-            mTxtSize = (TextView) itemView.findViewById(R.id.textView_size);
-            mImgColor = (ImageView) itemView.findViewById(R.id.imageview_color);
-            mTxtQty = (TextView) itemView.findViewById(R.id.textview_qty);
-            Utility.applyTypeFace(mContext, mBaseLayout);
+    public void qtyUpdate(int position, int qty) {
+        listRespones.get(position).setQty(qty);
+    }
 
+    public interface OnItemClick {
+        public void onDeleteItem(int position, CartListResponeData responeData);
+        public void onQtyClick(int position, CartListResponeData responeData);
+    }
+
+    public class ViewHolder extends CoreViewHolder implements CartItemViewModel.OnItemClick {
+
+        ItemListCartBinding itemBind;
+        int pos;
+
+        public ViewHolder(ItemListCartBinding itemView) {
+            super(itemView.getRoot());
+            this.itemBind = itemView;
+        }
+
+
+        void bindCartData(int position, CartListResponeData responeData) {
+            pos = position;
+            if (itemBind.getCartData() == null) {
+                itemBind.setCartData(new CartItemViewModel(itemView.getContext(), position, responeData, this));
+            } else {
+                itemBind.getCartData().setCartData(responeData);
+            }
+        }
+
+        @Override
+        public void onBind(int position) {
+//            CartListResponeData responeData = listRespones.get(position);
+//            itemBind.setViewModel(responeData);
+//            itemBind.executePendingBindings();
+        }
+
+
+        @Override
+        public void onDeleteItem(int position, CartListResponeData responeData) {
+            onItemClick.onDeleteItem(pos, responeData);
+        }
+
+        @Override
+        public void onQtyClick(int position, CartListResponeData responeData) {
+            onItemClick.onQtyClick(pos, responeData);
         }
     }
 }

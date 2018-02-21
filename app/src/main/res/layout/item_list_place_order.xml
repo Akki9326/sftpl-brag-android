@@ -1,0 +1,150 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="placeOrderData"
+            type="com.pulse.brag.ui.cart.placeorder.PlaceOrderItemViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageview_product"
+                android:layout_width="90dp"
+                android:layout_height="130dp"
+                android:scaleType="centerCrop"
+                bind:imageUrl="@{placeOrderData.product_image}" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/textview_product_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@{placeOrderData.product_name}"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_size"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:id="@+id/textView_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:tag="@string/font_opensans_bold_id"
+                        android:text="@{placeOrderData.size}"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_color"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <ImageView
+                        android:id="@+id/imageview_color"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@{placeOrderData.colorBitMap}" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:tag="@string/font_opensans_bold_id"
+                    android:text="@{String.valueOf(placeOrderData.PriceWithSym)}"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_very_small_12" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_bold_id"
+                        android:text="@string/label_qty_s"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:id="@+id/textview_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/rounder_corner_edge_gray"
+                        android:onClick="@{placeOrderData::onQtyClick}"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="2dp"
+                        android:tag="@string/font_opensans_bold_id"
+                        android:text="@{placeOrderData.qty}"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+    </LinearLayout>
+</layout>

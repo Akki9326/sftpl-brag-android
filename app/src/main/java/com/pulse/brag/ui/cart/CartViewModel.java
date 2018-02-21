@@ -33,7 +33,8 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
     ObservableField<String> total = new ObservableField<>();
     ObservableField<Integer> listNum = new ObservableField<>();
     ObservableField<Boolean> visibility=new ObservableField<>();
-
+    ObservableField<String> listSize = new ObservableField<>();
+    String itemsLable;
 
     public CartViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -97,5 +98,24 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
                 getNavigator().onPriceClick();
             }
         };
+    }
+
+
+
+    public void setListSize(int listSize) {
+        this.listSize.set(String.valueOf(listSize));
+        if (listSize > 1) {
+            itemsLable = "items";
+        } else {
+            itemsLable = "item";
+        }
+    }
+
+    public ObservableField<String> getListSize() {
+        return listSize;
+    }
+
+    public String getItemsLable() {
+        return itemsLable;
     }
 }

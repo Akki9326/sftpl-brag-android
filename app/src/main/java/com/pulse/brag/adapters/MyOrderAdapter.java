@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.pojo.datas.OrderListResponeData;
+import com.pulse.brag.pojo.datas.MyOrderListResponeData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +33,9 @@ import java.util.List;
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.OrderViewHolder> {
 
     Activity activity;
-    List<OrderListResponeData> mList;
+    List<MyOrderListResponeData> mList;
 
-    public MyOrderAdapter(Activity activity, List<OrderListResponeData> mList) {
+    public MyOrderAdapter(Activity activity, List<MyOrderListResponeData> mList) {
         this.activity = activity;
         this.mList = new ArrayList<>();
         this.mList = mList;
@@ -49,7 +49,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.OrderVie
 
     @Override
     public void onBindViewHolder(OrderViewHolder holder, int position) {
-        OrderListResponeData data = mList.get(position);
+        MyOrderListResponeData data = mList.get(position);
 
         holder.mTxtOrderId.setText(data.getOrder_id());
         holder.mTxtQty.setText(data.getProductQtyWithLabel(activity));

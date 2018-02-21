@@ -1,13 +1,14 @@
 package com.pulse.brag.di.builder;
 
 import com.pulse.brag.ui.cart.CartFragmentProvider;
+import com.pulse.brag.ui.cart.placeorder.PlaceOrderFragmentProvider;
 import com.pulse.brag.ui.category.CategoryFragmentProvider;
-import com.pulse.brag.ui.editquantity.EditQtytDialogProvider;
-import com.pulse.brag.ui.home.HomeFragmentModule;
+import com.pulse.brag.ui.cart.editquantity.EditQtytDialogProvider;
 import com.pulse.brag.ui.home.HomeFragmentProvider;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.contactus.ContactUsProvider;
 import com.pulse.brag.ui.createnewpassord.CreateNewPasswordProvider;
+import com.pulse.brag.ui.myorder.MyOrderFragmentProvider;
 import com.pulse.brag.ui.profile.UserProfileModule;
 import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.profile.changemobile.ChangeMobNumberProvider;
@@ -37,7 +38,8 @@ public abstract class ActivityBuilder {
     abstract SplashActivity bindSplashActivity();
 
     @ContributesAndroidInjector(modules = {MainActivityModule.class, HomeFragmentProvider.class
-            , CategoryFragmentProvider.class, SubCategoryFragmentProvider.class, CartFragmentProvider.class, EditQtytDialogProvider.class})
+            , CategoryFragmentProvider.class, SubCategoryFragmentProvider.class, CartFragmentProvider.class,
+            EditQtytDialogProvider.class, PlaceOrderFragmentProvider.class, MyOrderFragmentProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})

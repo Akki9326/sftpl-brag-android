@@ -63,6 +63,7 @@ public class Constants {
     public static final String LOCALBROADCAST_UPDATE_NOTIFICATION = "localbrodUpdateNotification";
     public static final String BUNDLE_TITLE = "bunbletitle";
     public static final String BUNDLE_SUBTITLE = "bunblesubtitle";
+    public static final String BUNDLE_CART_LIST = "bundlecartlist";
 
     public interface ApiHelper {
         String BASE_URL = "http://103.204.192.148/brag/api/";

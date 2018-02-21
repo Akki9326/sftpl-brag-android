@@ -9,6 +9,9 @@ package com.pulse.brag.pojo.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -16,7 +19,7 @@ import com.pulse.brag.utils.Utility;
  */
 
 
-public class CartListResponeData {
+public class CartListResponeData implements Parcelable {
 
 
     private String id;
@@ -96,4 +99,42 @@ public class CartListResponeData {
     public String getPriceWithSym() {
         return Utility.getIndianCurrencePriceFormate(price);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.product_image);
+        dest.writeString(this.product_name);
+        dest.writeString(this.size);
+        dest.writeString(this.color);
+        dest.writeInt(this.price);
+        dest.writeInt(this.qty);
+    }
+
+    protected CartListResponeData(Parcel in) {
+        this.id = in.readString();
+        this.product_image = in.readString();
+        this.product_name = in.readString();
+        this.size = in.readString();
+        this.color = in.readString();
+        this.price = in.readInt();
+        this.qty = in.readInt();
+    }
+
+    public static final Parcelable.Creator<CartListResponeData> CREATOR = new Parcelable.Creator<CartListResponeData>() {
+        @Override
+        public CartListResponeData createFromParcel(Parcel source) {
+            return new CartListResponeData(source);
+        }
+
+        @Override
+        public CartListResponeData[] newArray(int size) {
+            return new CartListResponeData[size];
+        }
+    };
 }

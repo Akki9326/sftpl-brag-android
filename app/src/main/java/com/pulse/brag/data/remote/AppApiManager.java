@@ -14,6 +14,7 @@ import com.pulse.brag.pojo.response.CategoryListResponse;
 import com.pulse.brag.pojo.response.ChangePasswordResponse;
 import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.LoginResponse;
+import com.pulse.brag.pojo.response.MyOrderListRespone;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
 import com.pulse.brag.pojo.response.SignUpResponse;
 
@@ -98,5 +99,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<CartListResponse> getCartList(String url) {
         return mApiInterface.getCartList(url);
+    }
+
+    @Override
+    public Call<MyOrderListRespone> getOrderList(String url) {
+        return mApiInterface.getOrderList(url);
     }
 }

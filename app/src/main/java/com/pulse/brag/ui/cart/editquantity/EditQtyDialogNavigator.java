@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.editquantity;
+package com.pulse.brag.ui.cart.editquantity;
 
 
 /**
@@ -9,17 +9,15 @@ package com.pulse.brag.ui.editquantity;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-
-import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
+import android.text.Editable;
 
 /**
  * Created by nikhil.vadoliya on 20-02-2018.
  */
 
 
-@Module
-public abstract class EditQtytDialogProvider {
-    @ContributesAndroidInjector(modules = EditQtytDialogModule.class)
-    abstract EditQtyDialogFragment provideEditQtyDialogFragmentFactory();
+public interface EditQtyDialogNavigator {
+
+    void onDoneClick();
+    void afterTextChanged(Editable s);
 }

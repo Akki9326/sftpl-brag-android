@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.editquantity.EditQtyDialogViewModel" />
+            type="com.pulse.brag.ui.cart.editquantity.EditQtyDialogViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -97,12 +97,12 @@
                         android:maxLength="3"
                         android:maxLines="1"
                         android:padding="5dp"
-                        bind:text="@{String.valueOf(viewModel.qty)}"
                         android:singleLine="true"
                         android:tag="@string/font_opensans_regular_id"
                         android:textColor="@color/text_black"
                         android:textCursorDrawable="@drawable/cursor"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"
+                        bind:text="@{String.valueOf(viewModel.qty)}" />
 
                     <View
                         android:layout_width="70dp"

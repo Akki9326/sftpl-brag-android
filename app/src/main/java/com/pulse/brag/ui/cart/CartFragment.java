@@ -18,14 +18,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.CartList1Adapter;
+import com.pulse.brag.adapters.CartListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentCartBinding;
+import com.pulse.brag.ui.cart.placeorder.PlaceOrderFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.editquantity.EditQtyDialogFragment;
+import com.pulse.brag.ui.cart.editquantity.EditQtyDialogFragment;
+import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -41,13 +44,13 @@ import javax.inject.Inject;
  */
 
 
-public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewModel> implements CartNavigator, CartList1Adapter.OnItemClick {
+public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewModel> implements CartNavigator, CartListAdapter.OnItemClick {
 
     public static final int REQUEST_QTY = 1;
     int positionQty;
 
 
-    CartList1Adapter mAdapter;
+    CartListAdapter mAdapter;
     List<CartListResponeData> mList;
 
     @Inject
@@ -155,7 +158,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                 "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 500, 1));
 
 
-        mAdapter = new CartList1Adapter(mList, this);
+        mAdapter = new CartListAdapter(mList, this);
         mFragmentCartBinding.recycleView.setAdapter(mAdapter);
         setTotalPrice();
         if (mList.isEmpty()) {
@@ -236,7 +239,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onPlaceOrderClick() {
-        Toast.makeText(getContext(), "PlaceOrder", Toast.LENGTH_SHORT).show();
+        ((MainActivity) getActivity()).pushFragments(PlaceOrderFragment.newInstance(mList), true, true);
     }
 
     @Override
@@ -269,5 +272,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             total += (mList.get(i).getQty()) * (mList.get(i).getPrice());
         }
         cartViewModel.setTotal(Utility.getIndianCurrencePriceFormate(total));
+        cartViewModel.setListNum(mList.size());
     }
 }

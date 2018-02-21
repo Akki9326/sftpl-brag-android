@@ -36,6 +36,8 @@ import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.pulse.brag.enums.ProfileIsFrom;
 import com.pulse.brag.ui.activities.BaseActivity;
+import com.pulse.brag.ui.main.MainActivity;
+import com.pulse.brag.ui.myorder.MyOrderFragment;
 import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.adapters.MoreListAdapter;
@@ -160,7 +162,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 WebviewDialogFragment dialogFragment;
                 switch (viewId) {
                     case 1:
-                        ((BaseActivity) getActivity()).pushFragments(new MyOrderFragment()
+                        ((MainActivity) getActivity()).pushFragments(new MyOrderFragment()
                                 , true, true);
                         break;
                     case 2:

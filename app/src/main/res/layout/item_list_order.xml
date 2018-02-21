@@ -1,120 +1,134 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/base_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark"
-    android:orientation="vertical">
+<layout xmlns:bind="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView
+    <data>
+        <variable
+            name="viewModle"
+            type="com.pulse.brag.ui.myorder.MyOrderItemViewModel"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="1dp">
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_order_id"
-                    android:textColor="@color/gray_transparent"
-                    android:textSize="@dimen/text_size_very_small" />
-
-                <TextView
-                    android:id="@+id/textview_order_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:textColor="@color/gray_transparent"
-                    android:textSize="@dimen/text_size_very_small" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray_transparent" />
+            android:layout_marginTop="5dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/textview_product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="2"
                         android:tag="@string/font_opensans_regular_id"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:text="@string/label_order_id"
+                        android:textColor="@color/gray_transparent"
+                        android:textSize="@dimen/text_size_very_small" />
 
                     <TextView
-                        android:id="@+id/textview_product_price"
+                        android:id="@+id/textview_order_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:tag="@string/font_opensans_bold_id"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:layout_marginLeft="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModle.order_id}"
+                        android:textColor="@color/gray_transparent"
+                        android:textSize="@dimen/text_size_very_small" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/gray_transparent" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/imageview_product"
-                        android:layout_width="60dp"
-                        android:layout_height="90dp"
-                        android:layout_margin="10dp"
-                        android:scaleType="fitXY" />
 
-                    <TextView
-                        android:id="@+id/textview_qty"
-                        android:layout_width="60dp"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/rounder_corner_edge_gray"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/textview_product_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:tag="@string/font_opensans_regular_id"
+                            android:text="@{viewModle.product_name}"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/textview_product_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:tag="@string/font_opensans_bold_id"
+                            android:text="@{viewModle.productPriceWithSym}"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_small" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="5dp"
-                        android:tag="@string/font_opensans_regular_id"
-                        android:textColor="@color/gray"
-                        android:textSize="10sp" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageview_product"
+                            android:layout_width="60dp"
+                            android:layout_height="90dp"
+                            android:layout_margin="10dp"
+                            bind:imageUrl="@{viewModle.product_image_url}"
+                            android:scaleType="fitXY" />
+
+                        <TextView
+                            android:id="@+id/textview_qty"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounder_corner_edge_gray"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:tag="@string/font_opensans_regular_id"
+                            android:text="@{viewModle.product_qty}"
+                            android:textColor="@color/gray"
+                            android:textSize="10sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/colorPrimaryDark" />
-</LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimaryDark" />
+    </LinearLayout>
+</layout>

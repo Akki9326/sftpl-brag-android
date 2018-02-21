@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.editquantity;
+package com.pulse.brag.ui.myorder;
 
 
 /**
@@ -9,15 +9,16 @@ package com.pulse.brag.ui.editquantity;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.text.Editable;
+import com.pulse.brag.data.model.ApiError;
 
 /**
- * Created by nikhil.vadoliya on 20-02-2018.
+ * Created by nikhil.vadoliya on 21-02-2018.
  */
 
 
-public interface EditQtyDialogNavigator {
+public interface MyOrderNavigator {
 
-    void onDoneClick();
-    void afterTextChanged(Editable s);
+    void onApiSuccess();
+
+    void onApiError(ApiError error);
 }

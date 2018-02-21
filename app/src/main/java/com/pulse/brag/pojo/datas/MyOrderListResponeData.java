@@ -19,7 +19,7 @@ import com.pulse.brag.utils.Utility;
  */
 
 
-public class OrderListResponeData {
+public class MyOrderListResponeData {
 
     private String id;
     private String order_id;
@@ -28,8 +28,8 @@ public class OrderListResponeData {
     private String product_qty;
     private String product_price;
 
-    public OrderListResponeData(String id, String order_id, String product_name,
-                                String product_image_url, String product_qty, String product_price) {
+    public MyOrderListResponeData(String id, String order_id, String product_name,
+                                  String product_image_url, String product_qty, String product_price) {
         this.id = id;
         this.order_id = order_id;
         this.product_name = product_name;

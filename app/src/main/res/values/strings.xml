@@ -206,4 +206,10 @@
     <string name="not_in_range">Given value is not in a range between %1$d and %2$d.</string>
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Error</string>
+    <string name="toolbar_label_place_order">Place Order</string>
+    <string name="label_place_details">PRICE DETAILS</string>
+    <string name="label_price">price</string>
+    <string name="label_delivery">Delivery</string>
+    <string name="label_amount_payable">Amount Payable</string>
+    <string name="btn_continues">CONTINUE</string>
 </resources>

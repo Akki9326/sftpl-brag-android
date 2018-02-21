@@ -19,6 +19,7 @@ import com.pulse.brag.pojo.response.CategoryListResponse;
 import com.pulse.brag.pojo.response.ChangePasswordResponse;
 import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.LoginResponse;
+import com.pulse.brag.pojo.response.MyOrderListRespone;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
 import com.pulse.brag.pojo.response.SignUpResponse;
 
@@ -76,4 +77,7 @@ public interface ApiInterface {
 
     @GET
     Call<CartListResponse> getCartList(@Url String url);
+
+    @GET
+    Call<MyOrderListRespone> getOrderList(@Url String url);
 }

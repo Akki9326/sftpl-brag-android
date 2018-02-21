@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.editquantity;
+package com.pulse.brag.ui.cart.editquantity;
 
 
 /**

@@ -9,8 +9,7 @@ package com.pulse.brag.pojo.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.pojo.datas.OrderListResponeData;
-import com.pulse.brag.pojo.datas.UserData;
+import com.pulse.brag.pojo.datas.MyOrderListResponeData;
 
 import java.util.List;
 
@@ -19,12 +18,12 @@ import java.util.List;
  */
 
 
-public class OrderListRespone {
+public class MyOrderListRespone {
 
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<OrderListResponeData> list;
+    private List<MyOrderListResponeData> list;
 
     public boolean isStatus() {
         return status;
@@ -50,11 +49,11 @@ public class OrderListRespone {
         this.message = message;
     }
 
-    public List<OrderListResponeData> getList() {
+    public List<MyOrderListResponeData> getList() {
         return list;
     }
 
-    public void setList(List<OrderListResponeData> list) {
+    public void setList(List<MyOrderListResponeData> list) {
         this.list = list;
     }
 }

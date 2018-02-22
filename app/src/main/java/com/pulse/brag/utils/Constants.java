@@ -8,6 +8,8 @@ package com.pulse.brag.utils;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.BuildConfig;
+
 /**
  * Created by nikhil.vadoliya on 25-09-2017.
  */
@@ -33,6 +35,9 @@ public class Constants {
     public static final String BUNDLE_POSITION = "bundleposition";
     public static final String BUNDLE_QTY = "bundleqty";
     public static final String BUNDLE_PRODUCT_SORTING = "bundleProductSort";
+    public static final String BUNDLE_PRODUCT_FILTER_COLOR = "bundleProductFilterColor";
+    public static final String BUNDLE_PRODUCT_FILTER_SIZE = "bundleProductFilterSize";
+    public static final String BUNDLE_PRODUCT_FILTER_APPLIED = "bundleProductFilterApplied";
     public static final String BUNDLE_SELETED_PRODUCT = "bundleselectedProduct";
     public static final String BUNDLE_IMAGE_URL = "imageurl";
     public static final String BUNDLE_MOBILE = "bundlemobile";
@@ -69,6 +74,7 @@ public class Constants {
     public interface ApiHelper {
         String BASE_URL = "http://103.204.192.148/brag/api/";
         String API_VERSION = "v1/";
+        String APP_VERSION = BuildConfig.VERSION_NAME;
         String FULL_URL = BASE_URL + API_VERSION;
 
         String OS = "Android";
@@ -76,7 +82,7 @@ public class Constants {
         String MAP_KEY_ACCESS_TOKEN = "access-token";
         String MAP_KEY_DEVICE_TOKEN = "device-token";
         String MAP_KEY_DEVICE_TYPE = "device-type";
-        String MAP_API_VERSION = "api-version";
+        String MAP_APP_VERSION = "app-version";
         String MAP_KEY_OSV = "os-version";
         String MAP_KEY_OS = "os";
     }
@@ -152,7 +158,7 @@ public class Constants {
         AWAITING_FOR_PASSWORD_RESET;
     }
 
-    public enum ProductSorting{
+    public enum ProductSorting {
         POPULARITY,
         PRICE_LOW_TO_HEIGH,
         PRICE_HEIGH_TO_LOW

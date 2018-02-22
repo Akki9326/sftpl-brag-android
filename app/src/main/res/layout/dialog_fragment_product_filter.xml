@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.home.product.list.filter.ProductFilterDialogViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:onClick="@{viewModel.onDismissClick()}"
+        android:gravity="center_horizontal|bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linear_dummey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/squre_corner_solid_white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:ellipsize="end"
+                android:padding="10dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/label_filter_caps"
+                android:textSize="@dimen/text_size_medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:ellipsize="end"
+                    android:padding="10dp"
+                    android:tag="@string/font_opensans_light_id"
+                    android:text="@string/label_color_caps"
+                    android:textSize="@dimen/text_size_small" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycleView_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorPrimaryDark" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:ellipsize="end"
+                    android:padding="10dp"
+                    android:tag="@string/font_opensans_light_id"
+                    android:text="@string/label_size_caps"
+                    android:textSize="@dimen/text_size_small" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycleView_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorPrimaryDark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/gray"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/label_reset_caps"
+                    android:onClick="@{viewModel.onResetClick()}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/label_apply_caps"
+                    android:onClick="@{viewModel.onApplyClick()}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

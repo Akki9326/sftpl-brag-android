@@ -55,9 +55,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return new MyViewHolder(itemGridProductBinding);
 
         /*View view;
-        MyViewHolder viewHolder1;
+        ItemViewHolder viewHolder1;
         view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
-        viewHolder1 = new MyViewHolder(view);
+        viewHolder1 = new ItemViewHolder(view);
         return viewHolder1;*/
 
 //        if (viewType == LIST_ITEM) {
@@ -65,7 +65,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 //        } else {
 //            view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
 //        }
-//        return new MyViewHolder(view);
+//        return new ItemViewHolder(view);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         LinearLayout mLinearLayout;
         LinearLayout mLinerAdd;
 
-        public MyViewHolder(View itemView) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
 

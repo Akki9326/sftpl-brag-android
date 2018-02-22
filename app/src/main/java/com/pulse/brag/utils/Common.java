@@ -3,6 +3,7 @@ package com.pulse.brag.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -74,6 +75,13 @@ public class Common {
 
     public static boolean isNotNullOrEmpty(String val) {
         return (val == null || "".equals(val.trim())) ? false : true;
+    }
+
+    public static int calculateNoOfColumns(Context context,int itemSize) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (dpWidth / itemSize);
+        return noOfColumns;
     }
 
 

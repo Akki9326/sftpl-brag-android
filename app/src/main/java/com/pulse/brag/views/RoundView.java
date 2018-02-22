@@ -45,6 +45,7 @@ public class RoundView extends View {
 
     private Paint paint;
     private int color;
+
     private Rect rectangle;
 
     public RoundView(Context context) {

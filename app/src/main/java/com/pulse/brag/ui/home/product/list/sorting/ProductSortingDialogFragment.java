@@ -1,8 +1,6 @@
 package com.pulse.brag.ui.home.product.list.sorting;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,9 +15,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.DialogFragmentProductSortingBinding;
-import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.ui.core.CoreDialogFragment;
-import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -32,7 +28,6 @@ import javax.inject.Inject;
 
 public class ProductSortingDialogFragment extends CoreDialogFragment<DialogFragmentProductSortingBinding, ProductSortingDialogViewModel> implements ProductSortingDialogNavigator {
 
-    private static final int RES_SORTING = 2;
 
     @Inject
     ProductSortingDialogViewModel mProductSortingDialogViewModel;

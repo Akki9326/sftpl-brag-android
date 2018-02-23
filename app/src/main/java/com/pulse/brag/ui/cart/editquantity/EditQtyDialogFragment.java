@@ -14,29 +14,25 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.BR;
 import com.pulse.brag.databinding.DialogFragmentEditQtyBinding;
 import com.pulse.brag.ui.core.CoreDialogFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
-import com.pulse.brag.callback.OnSingleClickListener;
 
 import javax.inject.Inject;
+
 
 /**
  * Created by nikhil.vadoliya on 05-12-2017.

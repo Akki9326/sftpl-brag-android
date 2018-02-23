@@ -93,8 +93,8 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
                     switch (ACTION) {
                         case LOAD_LIST:
 
-                            productSize = 0;
-                            productSize = respone.getTotal();
+                            productListSize = 0;
+                            productListSize = respone.getTotal();
                             mDummeyDataRespones.clear();
 
                             mDummeyDataRespones.add(new DummeyDataRespone(0,

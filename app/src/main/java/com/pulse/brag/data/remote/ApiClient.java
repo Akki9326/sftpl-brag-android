@@ -48,7 +48,7 @@ public class ApiClient {
     /*private String MAP_KEY_ACCESS_TOKEN = "access-token";
     private String MAP_KEY_DEVICE_TOKEN = "device-token";
     private String MAP_KEY_DEVICE_TYPE = "device-type";
-    private String MAP_API_VERSION = "api-version";
+    private String MAP_APP_VERSION = "api-version";
     private String MAP_KEY_OS = "os";
     private String MAP_KEY_OSV = "os-version";
     private String OS = "Android";*/
@@ -118,7 +118,7 @@ public class ApiClient {
                     }
 
                     builder.header(Constants.ApiHelper.MAP_KEY_OS, Constants.ApiHelper.OS);
-                    builder.header(Constants.ApiHelper.MAP_API_VERSION, Constants.ApiHelper.API_VERSION.replace("/", ""));
+                    builder.header(Constants.ApiHelper.MAP_APP_VERSION, Constants.ApiHelper.APP_VERSION);
                     return chain.proceed(builder.build());
                 }
             };

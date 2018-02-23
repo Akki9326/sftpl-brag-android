@@ -8,6 +8,8 @@ package com.pulse.brag.utils;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.BuildConfig;
+
 import android.content.Context;
 
 import com.pulse.brag.R;
@@ -21,6 +23,8 @@ public class Constants {
 
     // TODO: Release : Log and Base Url
     public static final boolean IS_LOG_ENABLED = true;
+//    public static final String BASE_URL = "http://139.162.1.39:8082/";
+    public static final  String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
 
     //font type
 //    public static final int FONT_SANS_ROUNDED = 1;
@@ -36,6 +40,9 @@ public class Constants {
     public static final String BUNDLE_POSITION = "bundleposition";
     public static final String BUNDLE_QTY = "bundleqty";
     public static final String BUNDLE_PRODUCT_SORTING = "bundleProductSort";
+    public static final String BUNDLE_PRODUCT_FILTER_COLOR = "bundleProductFilterColor";
+    public static final String BUNDLE_PRODUCT_FILTER_SIZE = "bundleProductFilterSize";
+    public static final String BUNDLE_PRODUCT_FILTER_APPLIED = "bundleProductFilterApplied";
     public static final String BUNDLE_SELETED_PRODUCT = "bundleselectedProduct";
     public static final String BUNDLE_IMAGE_URL = "imageurl";
     public static final String BUNDLE_MOBILE = "bundlemobile";
@@ -75,6 +82,7 @@ public class Constants {
         //        String BASE_URL = "http://103.204.192.148/brag/api/";
         String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
         String API_VERSION = "v1/";
+        String APP_VERSION = BuildConfig.VERSION_NAME;
         String FULL_URL = BASE_URL + API_VERSION;
 
         String OS = "Android";
@@ -82,7 +90,7 @@ public class Constants {
         String MAP_KEY_ACCESS_TOKEN = "access-token";
         String MAP_KEY_DEVICE_TOKEN = "device-token";
         String MAP_KEY_DEVICE_TYPE = "device-type";
-        String MAP_API_VERSION = "api-version";
+        String MAP_APP_VERSION = "app-version";
         String MAP_KEY_OSV = "os-version";
         String MAP_KEY_OS = "os";
     }

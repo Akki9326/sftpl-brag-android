@@ -1,0 +1,43 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="itemModel"
+            type="com.pulse.brag.ui.home.product.list.adapter.ItemColorFilterViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:onClick="@{itemModel::onColorClick}"
+        android:padding="5dp">
+
+        <com.pulse.brag.views.RoundView
+            android:id="@+id/roundview_selector"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center"
+            android:visibility="@{itemModel.selected ? View.VISIBLE : View.GONE}"
+            app:colorFilter="@{itemModel.filterColor}" />
+
+
+        <com.pulse.brag.views.RoundView
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            android:layout_gravity="center"
+            app:round_color="@color/white" />
+
+        <com.pulse.brag.views.RoundView
+            android:id="@+id/roundview_product_color"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            app:colorFilter="@{itemModel.filterColor}" />
+
+    </FrameLayout>
+</layout>

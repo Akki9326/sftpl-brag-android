@@ -7,7 +7,6 @@ import com.pulse.brag.data.AppDataManager;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
-import com.pulse.brag.data.remote.ApiClientNew;
 import com.pulse.brag.data.remote.ApiInterface;
 import com.pulse.brag.data.remote.AppApiManager;
 import com.pulse.brag.data.remote.IApiManager;
@@ -186,7 +185,7 @@ public class AppModule {
                 }
 
                 builder.header(Constants.ApiHelper.MAP_KEY_OS, os);
-                builder.header(Constants.ApiHelper.MAP_API_VERSION, Constants.ApiHelper.API_VERSION.replace("/", ""));
+                builder.header(Constants.ApiHelper.MAP_APP_VERSION, Constants.ApiHelper.APP_VERSION);
                 return chain.proceed(builder.build());
             }
         };

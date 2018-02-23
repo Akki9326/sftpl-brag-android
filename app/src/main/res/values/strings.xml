@@ -94,6 +94,8 @@
     <string name="label_color">Color:</string>
     <string name="label_size">Size:</string>
     <string name="label_add_to_cart">ADD TO CART</string>
+    <string name="label_apply_caps">APPLY</string>
+    <string name="label_reset_caps">RESET</string>
     <string name="label_notify_me">NOTIFY ME</string>
     <string name="label_qty">QTY :</string>
     <string name="msg_back_to_exit_app">Press back again to exit</string>
@@ -216,6 +218,9 @@
     <string name="label_delivery">Delivery</string>
     <string name="label_amount_payable">Amount Payable</string>
     <string name="btn_continues">CONTINUE</string>
+    <string name="label_filter_caps">FILTER</string>
+    <string name="label_size_caps">SIZE</string>
+    <string name="label_color_caps">COLOR</string>
     <string name="label_order_status_ordered">Ordered</string>
     <string name="label_order_status_packed">Packed</string>
     <string name="label_order_status_shipped">Shipped</string>

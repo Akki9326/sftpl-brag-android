@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="itemModel"
+            type="com.pulse.brag.ui.home.product.list.adapter.ItemSizeFilterViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/base_layout"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:onClick="@{itemModel::onSizeClick}"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{itemModel.selected ? @drawable/squre_corner_edge_gray : @drawable/squre_corner_edge_gray_transparent}"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/textView_size"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="3dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@{itemModel.filterSize}"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_very_small" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

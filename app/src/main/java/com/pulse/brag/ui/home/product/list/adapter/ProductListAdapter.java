@@ -18,6 +18,7 @@ import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.interfaces.OnAddButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
+import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +56,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return new MyViewHolder(itemGridProductBinding);
 
         /*View view;
-        MyViewHolder viewHolder1;
+        ItemViewHolder viewHolder1;
         view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
-        viewHolder1 = new MyViewHolder(view);
+        viewHolder1 = new ItemViewHolder(view);
         return viewHolder1;*/
 
 //        if (viewType == LIST_ITEM) {
@@ -65,7 +66,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 //        } else {
 //            view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
 //        }
-//        return new MyViewHolder(view);
+//        return new ItemViewHolder(view);
     }
 
     @Override
@@ -109,6 +110,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public MyViewHolder(ItemGridProductBinding itemGridProductBinding) {
             super(itemGridProductBinding.baseLayout);
             this.mItemProductBinding=itemGridProductBinding;
+            Utility.applyTypeFace(mContext, mItemProductBinding.baseLayout);
         }
 
         /*View mView;
@@ -117,7 +119,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         LinearLayout mLinearLayout;
         LinearLayout mLinerAdd;
 
-        public MyViewHolder(View itemView) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
 

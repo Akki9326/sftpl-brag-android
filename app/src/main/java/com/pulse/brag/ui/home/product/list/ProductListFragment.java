@@ -15,9 +15,6 @@ package com.pulse.brag.ui.home.product.list;
 *  mRecyclerView.loadMoreComplete(true)- hide footer loader,complate load more
 * */
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -28,27 +25,28 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductListBinding;
-import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
-import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
-import com.pulse.brag.ui.home.product.list.sorting.ProductSortingDialogFragment;
-import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
-import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
-import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
-import com.pulse.brag.ui.core.CoreActivity;
-import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.home.product.quickadd.AddProductDialogFragment;
-import com.pulse.brag.ui.home.product.details.ProductDetailFragment;
-import com.pulse.brag.ui.home.product.list.adapter.ProductListAdapter;
-import com.pulse.brag.ui.main.MainActivity;
-import com.pulse.brag.utils.AlertUtils;
-import com.pulse.brag.utils.Constants;
-import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.OnAddButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.response.ProductListResponse;
+import com.pulse.brag.ui.core.CoreActivity;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.home.product.details.ProductDetailFragment;
+import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
+import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
+import com.pulse.brag.ui.home.product.list.adapter.ProductListAdapter;
+import com.pulse.brag.ui.home.product.list.filter.ProductFilterDialogFragment;
+import com.pulse.brag.ui.home.product.list.sorting.ProductSortingDialogFragment;
+import com.pulse.brag.ui.home.product.quickadd.AddProductDialogFragment;
+import com.pulse.brag.ui.main.MainActivity;
+import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.Utility;
+import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
+import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
+import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +60,8 @@ import javax.inject.Inject;
 
 public class ProductListFragment extends CoreFragment<FragmentProductListBinding, ProductListViewModel> implements ProductListNavigator,
         OnItemClickListener, OnAddButtonClickListener, OnProductSizeSelectListener,
-        OnProductColorSelectListener, ProductSortingDialogFragment.IOnSortListener/*BaseFragment implements BaseInterface,*/ {
+        OnProductColorSelectListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener/*BaseFragment implements BaseInterface,*/ {
 
-
-    public static final int REQ_SORTING = 2001;
 
     @Inject
     ProductListViewModel mProductListViewModel;
@@ -98,10 +94,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     private int PAGE_NUM = 1;
     private static final int QTY_REQUEST = 1;
 
-    int mSelectedQty;
-    int productSize;
-    int mSorting;
-
     List<ProductListResponse> collectionListRespones;
     ProductListAdapter mProductListAdapter;
     ColorListAdapter mColorListAdapter;
@@ -109,6 +101,17 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     List<DummeyDataRespone> mDummeyDataRespones;
     boolean isViewWithCatalog = true;
+
+    int mSelectedQty;
+    int productListSize;
+
+    int mSorting;
+    boolean mFilterApplied;
+    String mFilterColor;
+    int mFilterColorPos;
+    String mFilterSize;
+    int mFilterSizePos;
+    boolean isClicked = false;
 
     /*@Nullable
     @Override
@@ -135,12 +138,14 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         collectionListRespones = new ArrayList<>();
         mDummeyDataRespones = new ArrayList<>();
         mSorting = Constants.ProductSorting.POPULARITY.ordinal();
+        mFilterApplied = false;
         mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mDummeyDataRespones);
     }
 
     @Override
     public void afterViewCreated() {
         mFragmentProductListBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), mFragmentProductListBinding.baseLayout);
 
         Utility.hideSoftkeyboard(getActivity());
         mFragmentProductListBinding.recycleView.setLayoutManager(mLayoutManager);
@@ -160,7 +165,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                             return;
                         }
 
-                        if (mDummeyDataRespones.size() != productSize) {
+                        if (mDummeyDataRespones.size() != productListSize) {
                             ACTION = LOAD_MORE;
                             checkNetworkConnection(false);
                         } else {
@@ -278,7 +283,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 //                            return;
 //                        }
 //
-//                        if (mDummeyDataRespones.size() != productSize) {
+//                        if (mDummeyDataRespones.size() != productListSize) {
 //                            ACTION = LOAD_MORE;
 //                            checkNetworkConnection(false);
 //                        } else {
@@ -328,6 +333,16 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     }*/
 
+    private void enabledClick() {
+        if (isClicked)
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isClicked = false;
+                }
+            }, 250);
+    }
+
 
     private void checkNetworkConnection(boolean isShowLoader) {
 
@@ -365,8 +380,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                     switch (ACTION) {
                         case LOAD_LIST:
 
-                            productSize = 0;
-                            productSize = respone.getTotal();
+                            productListSize = 0;
+                            productListSize = respone.getTotal();
                             mDummeyDataRespones.clear();
 
                             mDummeyDataRespones.add(new DummeyDataRespone(0,
@@ -412,12 +427,20 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
+        if (!isClicked) {
+            isClicked = true;
+            ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
+            enabledClick();
+        }
     }
 
     @Override
     public void OnAddListener(final int position) {
-        openDialogFragment(position);
+        if (!isClicked) {
+            isClicked = true;
+            openDialogFragment(position);
+            enabledClick();
+        }
     }
 
     private void openDialogFragment(int position) {
@@ -477,18 +500,32 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void sort() {
         //swithcher();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
-        ProductSortingDialogFragment mAddProductDialogFragment = new ProductSortingDialogFragment();
-        //mAddProductDialogFragment.setTargetFragment(this,REQ_SORTING);
-        mAddProductDialogFragment.setCancelable(true);
-        mAddProductDialogFragment.setArguments(bundle);
-        mAddProductDialogFragment.show(getChildFragmentManager(), "");
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
+            ProductSortingDialogFragment productSortingDialogFragment = new ProductSortingDialogFragment();
+            productSortingDialogFragment.setCancelable(true);
+            productSortingDialogFragment.setArguments(bundle);
+            productSortingDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
     }
 
     @Override
     public void filter() {
-
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(Constants.BUNDLE_PRODUCT_FILTER_APPLIED, mFilterApplied);
+            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_COLOR, mFilterColorPos);
+            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_SIZE, mFilterSizePos);
+            ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
+            productFilterDialogFragment.setCancelable(true);
+            productFilterDialogFragment.setArguments(bundle);
+            productFilterDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
     }
 
     @Override
@@ -496,8 +533,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         switch (ACTION) {
             case LOAD_LIST:
 
-                productSize = 0;
-                productSize = size;
+                productListSize = 0;
+                productListSize = size;
                 mDummeyDataRespones.clear();
 
                 mDummeyDataRespones.add(new DummeyDataRespone(0,
@@ -551,6 +588,15 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void onSort(int type) {
-        mSorting=type;
+        mSorting = type;
+    }
+
+    @Override
+    public void applyFilter(String color, int colorPos, String size, int sizePos) {
+        mFilterApplied = true;
+        mFilterColor = color;
+        mFilterColorPos = colorPos;
+        mFilterSize = size;
+        mFilterSizePos = sizePos;
     }
 }

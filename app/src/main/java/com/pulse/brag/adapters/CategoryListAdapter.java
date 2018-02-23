@@ -20,6 +20,7 @@ import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         public ViewHolder(ItemGridCategoryBinding itemView) {
             super(itemView.getRoot());
             this.itemBinding = itemView;
+            Utility.applyTypeFace(context,itemBinding.baseLayout);
             //itemBinding = getViewDataBinding();
         }
 

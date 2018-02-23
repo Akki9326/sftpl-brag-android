@@ -52,7 +52,7 @@ public class ItemColorFilterViewModel extends BaseObservable {
 
     @BindingAdapter({"bind:colorFilter"})
     public static void bindColor(RoundView view, String color) {
-        view.setColor(color);
+        view.setColorHex(color);
     }
 
     public interface ItemColorViewModelListener {

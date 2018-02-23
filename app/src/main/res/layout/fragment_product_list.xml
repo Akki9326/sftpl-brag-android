@@ -18,8 +18,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            android:paddingTop="60dp">
+            android:paddingTop="50dp"
+            android:orientation="vertical">
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
@@ -37,7 +37,6 @@
         <RelativeLayout
             android:id="@+id/relative_s"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content">
 
             <LinearLayout

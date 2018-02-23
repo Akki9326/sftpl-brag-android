@@ -150,18 +150,18 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
     @Override
     public void send() {
         if (Validation.isEmpty(mFragmentContactUsBinding.edittextName)) {
-            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_empty_name));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_name));
         } else if (Validation.isEmpty(mFragmentContactUsBinding.edittextEmail)) {
-            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_please_email));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_email));
         } else if (!Validation.isEmailValid(mFragmentContactUsBinding.edittextEmail)) {
-            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_email_valid));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
         } else if (Validation.isEmpty(mFragmentContactUsBinding.edittextMessage)) {
-            AlertUtils.showAlertMessage(getContext(), getString(R.string.error_empty_message));
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_message));
         } else if (Utility.isConnection(getContext())) {
             //api call
             getActivity().onBackPressed();
         } else {
-            AlertUtils.showAlertMessage(getContext(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
 }

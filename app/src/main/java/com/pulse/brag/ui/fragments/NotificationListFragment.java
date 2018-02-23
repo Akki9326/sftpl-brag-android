@@ -82,7 +82,7 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
             showData();
         } else {
             //Utility.showAlertMessage(getContext(), 0, null);
-            AlertUtils.showAlertMessage(getContext(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
             mRecyclerView.loadMoreComplete(false);
         }
     }

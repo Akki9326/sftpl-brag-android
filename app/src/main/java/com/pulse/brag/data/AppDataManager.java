@@ -8,6 +8,7 @@ import com.pulse.brag.data.local.IPreferenceManager;
 import com.pulse.brag.data.remote.IApiManager;
 import com.pulse.brag.pojo.DummeyRespone;
 import com.pulse.brag.pojo.GeneralResponse;
+import com.pulse.brag.pojo.datas.OrderDetailResponeData;
 import com.pulse.brag.pojo.datas.UserData;
 import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.pojo.requests.ChangePasswordRequest;
@@ -20,6 +21,7 @@ import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.LoginResponse;
 import com.pulse.brag.pojo.response.MyOrderListRespone;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
+import com.pulse.brag.pojo.response.OrderDetailResponse;
 import com.pulse.brag.pojo.response.SignUpResponse;
 
 import javax.inject.Inject;
@@ -148,6 +150,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<MyOrderListRespone> getOrderList(String url) {
         return mApiManager.getOrderList(url);
+    }
+
+    @Override
+    public Call<OrderDetailResponse> getOrderDetail(String url) {
+        return mApiManager.getOrderDetail(url);
     }
 
     @Override

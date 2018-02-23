@@ -9,6 +9,8 @@ package com.pulse.brag.ui.myorder;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.databinding.ObservableField;
+
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
@@ -24,6 +26,9 @@ import retrofit2.Call;
 
 
 public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
+
+    private final ObservableField<Boolean> visibility = new ObservableField<>();
+
     public MyOrderViewModel(IDataManager dataManager) {
         super(dataManager);
 
@@ -46,5 +51,13 @@ public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
                 getNavigator().onApiError(t);
             }
         });
+    }
+
+    public ObservableField<Boolean> getListVisibility() {
+        return visibility;
+    }
+
+    public void setListVisibility(boolean visibility) {
+        this.visibility.set(visibility);
     }
 }

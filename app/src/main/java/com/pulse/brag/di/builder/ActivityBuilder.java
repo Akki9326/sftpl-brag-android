@@ -3,9 +3,7 @@ package com.pulse.brag.di.builder;
 import com.pulse.brag.ui.home.category.CategoryFragmentProvider;
 import com.pulse.brag.ui.cart.CartFragmentProvider;
 import com.pulse.brag.ui.cart.placeorder.PlaceOrderFragmentProvider;
-import com.pulse.brag.ui.category.CategoryFragmentProvider;
 import com.pulse.brag.ui.cart.editquantity.EditQtytDialogProvider;
-import com.pulse.brag.ui.editquantity.EditQtytDialogProvider;
 import com.pulse.brag.ui.home.HomeFragmentModule;
 import com.pulse.brag.ui.home.HomeFragmentProvider;
 import com.pulse.brag.ui.home.product.details.ProductDetailProvider;
@@ -17,6 +15,7 @@ import com.pulse.brag.ui.contactus.ContactUsProvider;
 import com.pulse.brag.ui.createnewpassord.CreateNewPasswordProvider;
 import com.pulse.brag.ui.myorder.MyOrderFragmentProvider;
 import com.pulse.brag.ui.myorder.MyOrderFragmentProvider;
+import com.pulse.brag.ui.myorder.orderdetail.OrderDetailFragmentProvider;
 import com.pulse.brag.ui.profile.UserProfileModule;
 import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.profile.changemobile.ChangeMobNumberProvider;
@@ -42,11 +41,15 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuilder {
 
-    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class, ForgotPasswordProvider.class, OTPFragmentProvider.class, SignUpFragmentProvider.class, SignUpCompleteProvider.class, CreateNewPasswordProvider.class, ContactUsProvider.class,ProductSortingDialogProvider.class})
+    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class, ForgotPasswordProvider.class, OTPFragmentProvider.class, SignUpFragmentProvider.class, SignUpCompleteProvider.class, CreateNewPasswordProvider.class, ContactUsProvider.class, ProductSortingDialogProvider.class})
     abstract SplashActivity bindSplashActivity();
 
     @ContributesAndroidInjector(modules = {MainActivityModule.class, HomeFragmentProvider.class
-            , CategoryFragmentProvider.class, SubCategoryFragmentProvider.class, CartFragmentProvider.class, EditQtytDialogProvider.class, PlaceOrderFragmentProvider.class, MyOrderFragmentProvider.class})
+            , CategoryFragmentProvider.class, SubCategoryFragmentProvider.class, ProductDetailProvider.class
+            , AddProductDialogProvider.class,
+            ProductListProvider.class, ProductSortingDialogProvider.class,
+            CartFragmentProvider.class, EditQtytDialogProvider.class,
+            PlaceOrderFragmentProvider.class, MyOrderFragmentProvider.class, OrderDetailFragmentProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})

@@ -65,10 +65,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     BottomNavigationMenuView bottomNavigationMenuView;
     BottomNavigationItemView itemView;
-    FrameLayout mFrameLayoutCategory;
-    FrameLayout mFrameLayoutCollection;
-    FrameLayout mFrameLayoutOrder;
-    FrameLayout mFrameLayoutMore;
 
     //badge
     TextView txtBadge;
@@ -76,20 +72,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     boolean isAddedCategory, isAddedCollection, isAddedOrder, isAddedMore;
 
-    /* @Nullable
-     @Override
-     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         super.onCreateView(inflater, container, savedInstanceState);
-         if (mView == null) {
-             mView = inflater.inflate(R.layout.fragment_home, container, false);
-             initializeData();
-             setListeners();
-             setNotificationBadge();
-             showData();
-         }
-         return mView;
-     }
- */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

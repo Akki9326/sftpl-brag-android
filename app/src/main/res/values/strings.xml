@@ -216,4 +216,15 @@
     <string name="label_delivery">Delivery</string>
     <string name="label_amount_payable">Amount Payable</string>
     <string name="btn_continues">CONTINUE</string>
+    <string name="label_order_status_ordered">Ordered</string>
+    <string name="label_order_status_packed">Packed</string>
+    <string name="label_order_status_shipped">Shipped</string>
+    <string name="label_order_status_delivered">Delivered</string>
+    <string name="label_order_status_cancalled">Cancalled</string>
+    <string name="toolbar_label_order_detail">Order Detail</string>
+    <string name="label_shipping_details">SHIPPING DETAILS</string>
+    <string name="label_email_invoice">Email Invoice</string>
+    <string name="label_download_invoice">Download Invoice</string>
+    <string name="label_reorder">Reorder</string>
+    <string name="label_order_status_approved">Approved</string>
 </resources>

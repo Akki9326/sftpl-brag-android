@@ -72,7 +72,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
     }
 
     @Override
-    public Dialog onCreteFragmentDialog(Bundle savedInstanceState, Dialog dialog) {
+    public Dialog onCreateFragmentDialog(Bundle savedInstanceState, Dialog dialog) {
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);

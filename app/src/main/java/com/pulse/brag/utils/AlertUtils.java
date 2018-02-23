@@ -1,5 +1,6 @@
 package com.pulse.brag.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.ui.profile.UserProfileActivity;
+import com.pulse.brag.ui.splash.SplashActivity;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -76,198 +78,205 @@ public class AlertUtils {
 
     public static Dialog alertDialog;
 
-    public static void showAlertMessage(final Context mContext, Integer code, String errormessage) {
+    public static void showAlertMessage(final Activity activity, Integer code, String errormessage) {
 
         if (code != null) {
             String message = "";
             switch (code) {
 
                 case 0:
-                    message = mContext.getResources().getString(R.string.error_internet);
+                    message = activity.getResources().getString(R.string.error_internet);
                     break;
 
                 case 1:
-                    message = mContext.getResources().getString(R.string.error_code_1);
+                    message = activity.getResources().getString(R.string.error_code_1);
                     break;
 
                 case 2:
-                    message = mContext.getResources().getString(R.string.error_code_2);
+                    message = activity.getResources().getString(R.string.error_code_2);
                     break;
 
                 case 3:
-                    message = mContext.getResources().getString(R.string.error_code_3);
+                    message = activity.getResources().getString(R.string.error_code_3);
                     break;
 
                 case 4:
-                    message = mContext.getResources().getString(R.string.error_code_4);
+                    message = activity.getResources().getString(R.string.error_code_4);
                     break;
 
                 case 5:
-                    message = mContext.getResources().getString(R.string.error_code_5);
+                    message = activity.getResources().getString(R.string.error_code_5);
                     break;
 
                 case 6:
-                    message = mContext.getResources().getString(R.string.error_code_6);
+                    message = activity.getResources().getString(R.string.error_code_6);
                     break;
 
                 case 7:
-                    message = mContext.getResources().getString(R.string.error_code_7);
+                    message = activity.getResources().getString(R.string.error_code_7);
                     break;
 
                 case 8:
-                    message = mContext.getResources().getString(R.string.error_code_8);
+                    message = activity.getResources().getString(R.string.error_code_8);
                     break;
 
                 case 9:
-                    message = mContext.getResources().getString(R.string.error_code_9);
+                    message = activity.getResources().getString(R.string.error_code_9);
                     break;
 
                 case 10:
-                    message = mContext.getResources().getString(R.string.error_code_10);
+                    message = activity.getResources().getString(R.string.error_code_10);
                     break;
 
                 case 11:
-                    message = mContext.getResources().getString(R.string.error_code_11);
+                    message = activity.getResources().getString(R.string.error_code_11);
                     break;
 
                 case 12:
-                    message = mContext.getResources().getString(R.string.error_code_12);
+                    message = activity.getResources().getString(R.string.error_code_12);
                     break;
 
                 case 13:
-                    message = mContext.getResources().getString(R.string.error_code_13);
+                    message = activity.getResources().getString(R.string.error_code_13);
                     break;
 
                 case 14:
-                    message = mContext.getResources().getString(R.string.error_code_14);
+                    message = activity.getResources().getString(R.string.error_code_14);
                     break;
 
                 case 15:
-                    message = mContext.getResources().getString(R.string.error_code_15);
+                    message = activity.getResources().getString(R.string.error_code_15);
                     break;
 
                 case 16:
-                    message = mContext.getResources().getString(R.string.error_code_16);
+                    message = activity.getResources().getString(R.string.error_code_16);
                     break;
 
                 case 17:
-                    message = mContext.getResources().getString(R.string.error_code_17);
+                    message = activity.getResources().getString(R.string.error_code_17);
                     break;
 
                 case 18:
-                    message = mContext.getResources().getString(R.string.error_code_18);
+                    message = activity.getResources().getString(R.string.error_code_18);
                     break;
 
                 case 19:
-                    message = mContext.getResources().getString(R.string.error_code_19);
+                    message = activity.getResources().getString(R.string.error_code_19);
                     break;
 
                 case 20:
-                    message = mContext.getResources().getString(R.string.error_code_20);
+                    message = activity.getResources().getString(R.string.error_code_20);
                     break;
 
                 case 21:
-                    message = mContext.getResources().getString(R.string.error_code_21);
+                    message = activity.getResources().getString(R.string.error_code_21);
                     break;
                 case 22:
-                    message = mContext.getResources().getString(R.string.error_code_22);
+                    message = activity.getResources().getString(R.string.error_code_22);
                     break;
                 case 23:
-                    message = mContext.getResources().getString(R.string.error_code_23);
+                    message = activity.getResources().getString(R.string.error_code_23);
                     break;
                 case 24:
-                    message = mContext.getResources().getString(R.string.error_code_24);
+                    message = activity.getResources().getString(R.string.error_code_24);
                     break;
                 case 25:
-                    message = mContext.getResources().getString(R.string.error_code_25);
+                    message = activity.getResources().getString(R.string.error_code_25);
                     break;
                 case 26:
-                    message = mContext.getResources().getString(R.string.error_code_26);
+                    message = activity.getResources().getString(R.string.error_code_26);
                     break;
                 case 27:
-                    message = mContext.getResources().getString(R.string.error_code_27);
+                    message = activity.getResources().getString(R.string.error_code_27);
                     break;
                 case 28:
-                    message = mContext.getResources().getString(R.string.error_code_28);
+                    message = activity.getResources().getString(R.string.error_code_28);
                     break;
                 case 29:
-                    message = mContext.getResources().getString(R.string.error_code_29);
+                    message = activity.getResources().getString(R.string.error_code_29);
                     break;
                 case 30:
-                    message = mContext.getResources().getString(R.string.error_code_30);
+                    message = activity.getResources().getString(R.string.error_code_30);
                     break;
                 case 31:
-                    message = mContext.getResources().getString(R.string.error_code_31);
+                    message = activity.getResources().getString(R.string.error_code_31);
                     break;
                 case 32:
-                    message = mContext.getResources().getString(R.string.error_code_32);
+                    message = activity.getResources().getString(R.string.error_code_32);
                     break;
                 case 33:
-                    message = mContext.getResources().getString(R.string.error_code_33);
+                    message = activity.getResources().getString(R.string.error_code_33);
                     break;
                 case 34:
-                    message = mContext.getResources().getString(R.string.error_code_34);
+                    message = activity.getResources().getString(R.string.error_code_34);
                     break;
                 case 35:
-                    message = mContext.getResources().getString(R.string.error_code_35);
+                    message = activity.getResources().getString(R.string.error_code_35);
                     break;
                 case 36:
-                    message = mContext.getResources().getString(R.string.error_code_36);
+                    message = activity.getResources().getString(R.string.error_code_36);
                     break;
                 case 37:
-                    message = mContext.getResources().getString(R.string.error_code_37);
+                    message = activity.getResources().getString(R.string.error_code_37);
                     break;
                 case 38:
-                    message = mContext.getResources().getString(R.string.error_code_38);
+                    message = activity.getResources().getString(R.string.error_code_38);
                     break;
                 case 39:
-                    message = mContext.getResources().getString(R.string.error_code_38);
+                    message = activity.getResources().getString(R.string.error_code_38);
                     break;
                 case 40:
-                    message = mContext.getResources().getString(R.string.error_code_40);
+                    message = activity.getResources().getString(R.string.error_code_40);
                     break;
                 case 1011:
-                    blockApplicationAlert(mContext, mContext.getResources().getString(R.string.error_code_block));
+                    blockApplicationAlert(activity, activity.getResources().getString(R.string.error_code_block));
                     return;
                 case 5001:
-                    message = mContext.getResources().getString(R.string.error_code_5001);
+                    message = activity.getResources().getString(R.string.error_code_5001);
                     break;
                 case 5002:
-                    message = mContext.getResources().getString(R.string.error_code_5002);
+                    message = activity.getResources().getString(R.string.error_code_5002);
                     break;
                 case 5003:
-                    message = mContext.getResources().getString(R.string.error_code_5003);
+                    message = activity.getResources().getString(R.string.error_code_5003);
                     break;
                 case 5004:
-                    message = mContext.getResources().getString(R.string.error_code_5004);
+                    message = activity.getResources().getString(R.string.error_code_5004);
                     break;
                 case 5006:
-                    message = mContext.getResources().getString(R.string.error_code_5006);
+                    message = activity.getResources().getString(R.string.error_code_5006);
                     break;
+
+                default:
+                    message = activity.getString(R.string.error_code_1);
 
 
             }
-            showAlertMessage(mContext, message);
+            if (code == 7) {
+                showAlertMessageOkToLogin(activity, message);
+            } else {
+                showAlertMessage(activity, message);
+            }
         } else if (errormessage != null && !errormessage.isEmpty()) {
-            showAlertMessage(mContext, errormessage);
+            showAlertMessage(activity, errormessage);
         } else {
-            showAlertMessage(mContext, 1, null);
+            showAlertMessage(activity, 1, null);
         }
 
 
     }
 
 
-    public static void showAlertMessage(final Context mContext, String s) {
+    public static void showAlertMessage(final Activity activity, String s) {
 
 
         try {
             dissmissDialog();
-            alertDialog = new Dialog(mContext);
+            alertDialog = new Dialog(activity);
 
             alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             alertDialog.setContentView(R.layout.dialog_one_button);
-            Utility.applyTypeFace(mContext, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            Utility.applyTypeFace(activity, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
             alertDialog.setCancelable(false);
 
             TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
@@ -286,16 +295,16 @@ public class AlertUtils {
         }
     }
 
-    public static void showAlertMessage(final Context mContext, String s, final boolean isOktoBack) {
+    public static void showAlertMessage(final Activity activity, String s, final boolean isOktoBack) {
 
 
         try {
             dissmissDialog();
-            alertDialog = new Dialog(mContext);
+            alertDialog = new Dialog(activity);
 
             alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             alertDialog.setContentView(R.layout.dialog_one_button);
-            Utility.applyTypeFace(mContext, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            Utility.applyTypeFace(activity, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
             alertDialog.setCancelable(false);
 
             TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
@@ -308,10 +317,10 @@ public class AlertUtils {
                     alertDialog.dismiss();
                     if (isOktoBack) {
 
-                        if (mContext instanceof UserProfileActivity) {
-                            ((UserProfileActivity) mContext).onBackPressed();
+                        if (activity instanceof UserProfileActivity) {
+                            ((UserProfileActivity) activity).onBackPressed();
                         } else {
-                            ((BaseActivity) mContext).onBackPressed();
+                            ((BaseActivity) activity).onBackPressed();
                         }
                     }
                 }
@@ -322,19 +331,54 @@ public class AlertUtils {
         }
     }
 
+    public static void showAlertMessageOkToLogin(final Activity activity, String s) {
 
-    public static void showAlertMessage(final Context mContext, Throwable throwable) {
+
+        try {
+            dissmissDialog();
+            alertDialog = new Dialog(activity);
+
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.setContentView(R.layout.dialog_one_button);
+            Utility.applyTypeFace(activity, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            alertDialog.setCancelable(false);
+
+            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
+            txt.setText(s);
+
+            Button dialogButton = (Button) alertDialog.findViewById(R.id.button_ok_alert_btn);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                    PreferencesManager.getInstance().logout();
+                    Intent intent = new Intent(activity, SplashActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    activity.startActivity(intent);
+                    activity.finish();
+
+
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void showAlertMessage(final Activity activity, Throwable throwable) {
 
 
         if (throwable instanceof TimeoutException || throwable instanceof SocketTimeoutException) {
-            showAlertMessage(mContext, mContext.getResources().getString(R.string.error_retrofit_request_timeout));
+            showAlertMessage(activity, activity.getResources().getString(R.string.error_retrofit_request_timeout));
         } else if (throwable instanceof NetworkOnMainThreadException) {
-            showAlertMessage(mContext, mContext.getResources().getString(R.string.error_retrofit_network_error));
+            showAlertMessage(activity, activity.getResources().getString(R.string.error_retrofit_network_error));
         } else if (throwable instanceof ConnectException) {
-            showAlertMessage(mContext, mContext.getResources().getString(R.string.error_retrofit_connection));
+            showAlertMessage(activity, activity.getResources().getString(R.string.error_retrofit_connection));
         } else {
             throwable.printStackTrace();
-            showAlertMessage(mContext, 1, null);
+            showAlertMessage(activity, 1, null);
         }
     }
 

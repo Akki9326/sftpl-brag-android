@@ -13,6 +13,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -22,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:visibility="@{viewModel.listVisibility?View.VISIBLE:View.GONE}">
+            android:visibility="@{viewModel.listVisibility ? View.VISIBLE :View.GONE}">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -35,29 +36,25 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!--<android.support.v4.widget.NestedScrollView
-                        android:id="@+id/nested_scroll"
+
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">-->
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-
-                        <LinearLayout
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycleView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/recycleView"
-                                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:paddingBottom="60dp" />
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:paddingBottom="60dp"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-                        </LinearLayout>
-                   <!-- </android.support.v4.widget.NestedScrollView>-->
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -143,7 +140,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="@{viewModel.listVisibility?View.GONE:View.VISIBLE, default=gone}">
+            android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
 
             <ImageView
                 android:layout_width="150dp"

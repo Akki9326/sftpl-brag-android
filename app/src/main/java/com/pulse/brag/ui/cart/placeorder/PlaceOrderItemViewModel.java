@@ -86,6 +86,6 @@ public class PlaceOrderItemViewModel extends BaseObservable {
     }
 
     public interface OnItemClick {
-        public void onQtyClick(int position, CartListResponeData responeData);
+        void onQtyClick(int position, CartListResponeData responeData);
     }
 }

@@ -8,6 +8,10 @@ package com.pulse.brag.utils;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Context;
+
+import com.pulse.brag.R;
+
 /**
  * Created by nikhil.vadoliya on 25-09-2017.
  */
@@ -17,7 +21,6 @@ public class Constants {
 
     // TODO: Release : Log and Base Url
     public static final boolean IS_LOG_ENABLED = true;
-    public static final String BASE_URL = "http://139.162.1.39:8082/";
 
     //font type
 //    public static final int FONT_SANS_ROUNDED = 1;
@@ -65,9 +68,12 @@ public class Constants {
     public static final String BUNDLE_TITLE = "bunbletitle";
     public static final String BUNDLE_SUBTITLE = "bunblesubtitle";
     public static final String BUNDLE_CART_LIST = "bundlecartlist";
+    public static final String BUNDLE_ORDER_ID = "bundleorderId";
+    public static final String BUNDLE_ORDER_DATA = "bundleorderData";
 
     public interface ApiHelper {
-        String BASE_URL = "http://103.204.192.148/brag/api/";
+        //        String BASE_URL = "http://103.204.192.148/brag/api/";
+        String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
         String API_VERSION = "v1/";
         String FULL_URL = BASE_URL + API_VERSION;
 
@@ -152,9 +158,63 @@ public class Constants {
         AWAITING_FOR_PASSWORD_RESET;
     }
 
-    public enum ProductSorting{
+    public enum ProductSorting {
         POPULARITY,
         PRICE_LOW_TO_HEIGH,
         PRICE_HEIGH_TO_LOW
     }
+
+    public enum OrderStatus {
+        ORDERED(1),
+        APPROVED(2),
+        PACKED(3),
+        SHIPPED(4),
+        DELIVERED(5),
+        CANCALLED(6);
+
+        OrderStatus(int i) {
+            this.type = i;
+        }
+
+        private int type;
+
+        public int getNumericType() {
+            return type;
+        }
+
+        public static OrderStatus fromId(int number) {
+            try {
+                for (OrderStatus e : OrderStatus.values()) {
+                    if (e.getNumericType() == number) {
+                        return e;
+                    }
+                }
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        public static String getOrderStatusLabel(Context context, int i) {
+            switch (OrderStatus.values()[i]) {
+                case ORDERED:
+                    return context.getString(R.string.label_order_status_ordered);
+                case APPROVED:
+                    return context.getString(R.string.label_order_status_approved);
+                case SHIPPED:
+                    return context.getString(R.string.label_order_status_shipped);
+                case PACKED:
+                    return context.getString(R.string.label_order_status_packed);
+                case DELIVERED:
+                    return context.getString(R.string.label_order_status_delivered);
+                case CANCALLED:
+                    return context.getString(R.string.label_order_status_cancalled);
+                default:
+                    return "";
+            }
+        }
+    }
+
+
 }

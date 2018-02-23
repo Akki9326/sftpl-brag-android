@@ -9,6 +9,7 @@ package com.pulse.brag.adapters;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.pulse.brag.databinding.ItemListCartBinding;
 import com.pulse.brag.pojo.datas.CartListResponeData;
 import com.pulse.brag.ui.cart.CartItemViewModel;
 import com.pulse.brag.ui.core.CoreViewHolder;
+import com.pulse.brag.utils.Utility;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,10 +34,12 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
     List<CartListResponeData> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
+    Activity activity;
 
-    public CartListAdapter(List<CartListResponeData> listRespones
+    public CartListAdapter(Activity activity, List<CartListResponeData> listRespones
             , OnItemClick onItemClick) {
         this.listRespones = listRespones;
+        this.activity = activity;
         this.onItemClick = onItemClick;
     }
 
@@ -64,7 +68,8 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         notifyItemRangeChanged(pos, listRespones.size());
 
     }
-    public void addAll(List<CartListResponeData> list){
+
+    public void addAll(List<CartListResponeData> list) {
         listRespones.addAll(list);
         notifyDataSetChanged();
     }
@@ -75,6 +80,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
     public interface OnItemClick {
         public void onDeleteItem(int position, CartListResponeData responeData);
+
         public void onQtyClick(int position, CartListResponeData responeData);
     }
 
@@ -86,6 +92,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         public ViewHolder(ItemListCartBinding itemView) {
             super(itemView.getRoot());
             this.itemBind = itemView;
+            Utility.applyTypeFace(activity, itemBind.baseLayout);
         }
 
 
@@ -100,9 +107,6 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
         @Override
         public void onBind(int position) {
-//            CartListResponeData responeData = listRespones.get(position);
-//            itemBind.setViewModel(responeData);
-//            itemBind.executePendingBindings();
         }
 
 

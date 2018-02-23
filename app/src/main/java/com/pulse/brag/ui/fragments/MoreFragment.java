@@ -202,7 +202,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
                     case 7:
-                        ((BaseActivity) getActivity()).pushFragments(new NotificationListFragment(), true, true);
+                        ((MainActivity) getActivity()).pushFragments(new NotificationListFragment(), true, true);
                         break;
                     case 8:
                         intent = new Intent(getActivity(), UserProfileActivity.class);

@@ -9,6 +9,7 @@ package com.pulse.brag.views;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -18,6 +19,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -46,6 +48,7 @@ public class RoundView extends View {
     private Paint paint;
     private int color;
     private Rect rectangle;
+    Context context;
 
     public RoundView(Context context) {
         super(context);
@@ -64,10 +67,12 @@ public class RoundView extends View {
 
     public void init(Context context, AttributeSet attrs) {
 
+        this.context = context;
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.RoundView, 0, 0);
         try {
             color = a.getColor(R.styleable.RoundView_round_color, Color.WHITE);
+//            color = a.getInteger(R.styleable.RoundView_round_color, Color.WHITE);
         } finally {
             a.recycle();
         }
@@ -88,8 +93,13 @@ public class RoundView extends View {
     }
 
 
-    public void setColor(String color) {
+    public void setColorHex(String color) {
         paint.setColor(Color.parseColor(color));
+        invalidate();
+    }
+
+    public void setColorFromResource(int color) {
+        paint.setColor(ContextCompat.getColor(context, color));
         invalidate();
     }
 

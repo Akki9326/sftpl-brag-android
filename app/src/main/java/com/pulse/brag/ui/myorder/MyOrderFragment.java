@@ -9,26 +9,24 @@ package com.pulse.brag.ui.myorder;
  */
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.pulse.brag.BR;
+
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.MyOrderAdapter;
-import com.pulse.brag.adapters.MyOrderList1Adapter;
+import com.pulse.brag.adapters.MyOrderListAdapter;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.BR;
 import com.pulse.brag.databinding.FragmentMyOrderBinding;
-import com.pulse.brag.erecyclerview.ERecyclerView;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.fragments.BaseFragment;
 import com.pulse.brag.ui.main.MainActivity;
+import com.pulse.brag.ui.myorder.orderdetail.OrderDetailFragment;
 import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
 import com.pulse.brag.pojo.datas.MyOrderListResponeData;
 
 import java.util.ArrayList;
@@ -41,25 +39,13 @@ import javax.inject.Inject;
  */
 
 
-public class MyOrderFragment extends CoreFragment<FragmentMyOrderBinding, MyOrderViewModel> implements MyOrderNavigator, MyOrderList1Adapter.OnItemClick {
+public class MyOrderFragment extends CoreFragment<FragmentMyOrderBinding, MyOrderViewModel> implements MyOrderNavigator, MyOrderListAdapter.OnItemClick {
 
 
     List<MyOrderListResponeData> mList;
     @Inject
     MyOrderViewModel mMyOrderViewModel;
     FragmentMyOrderBinding mFragmentMyOrderBinding;
-
-   /* @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_my_order, container, false);
-            initializeData();
-            checkInternet();
-        }
-        return mView;
-    }*/
 
 
     @Override
@@ -72,7 +58,12 @@ public class MyOrderFragment extends CoreFragment<FragmentMyOrderBinding, MyOrde
 
         if (Utility.isConnection(getActivity())) {
             showProgress();
-            mMyOrderViewModel.getOrderData();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMyOrderViewModel.getOrderData();
+                }
+            }, 500);
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
@@ -93,7 +84,7 @@ public class MyOrderFragment extends CoreFragment<FragmentMyOrderBinding, MyOrde
 
     @Override
     public void setUpToolbar() {
-        ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_my_order));
+        ((MainActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_my_order));
     }
 
     @Override
@@ -119,6 +110,7 @@ public class MyOrderFragment extends CoreFragment<FragmentMyOrderBinding, MyOrde
         mFragmentMyOrderBinding.recycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
         Utility.applyTypeFace(getActivity(), mFragmentMyOrderBinding.baseLayout);
 
+        mFragmentMyOrderBinding.linearEmpty.setVisibility(View.GONE);
 
     }
 
@@ -127,46 +119,43 @@ public class MyOrderFragment extends CoreFragment<FragmentMyOrderBinding, MyOrde
         mList = new ArrayList<>();
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "" + getString(R.string.text_s),
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500"));
+                "1", "500", Constants.OrderStatus.ORDERED.ordinal(),1519117468));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "10", "5000"));
+                "10", "5000", Constants.OrderStatus.CANCALLED.ordinal(),1519031068));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "100", "5000"));
+                "100", "5000", Constants.OrderStatus.DELIVERED.ordinal(),1518944668));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "100", "50000"));
+                "100", "50000", Constants.OrderStatus.PACKED.ordinal(),1518933716));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256",
-                "1", "500"));
+                "1", "500", Constants.OrderStatus.SHIPPED.ordinal(),1518588116));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500"));
+                "1", "500", Constants.OrderStatus.APPROVED.ordinal(),1519117468));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500"));
+                "1", "500", Constants.OrderStatus.ORDERED.ordinal()));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500"));
+                "1", "500", Constants.OrderStatus.ORDERED.ordinal()));
         mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
                 "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500"));
+                "1", "500", Constants.OrderStatus.ORDERED.ordinal()));
 
 
-        mFragmentMyOrderBinding.recycleview.setAdapter(new MyOrderList1Adapter(mList, this));
+        mFragmentMyOrderBinding.recycleview.setAdapter(new MyOrderListAdapter(getActivity(), mList, this));
 
-        if (mList.isEmpty()) {
-            mFragmentMyOrderBinding.linearEmpty.setVisibility(View.VISIBLE);
-            mFragmentMyOrderBinding.linearOrderList.setVisibility(View.GONE);
-        } else {
-            mFragmentMyOrderBinding.linearOrderList.setVisibility(View.VISIBLE);
-            mFragmentMyOrderBinding.linearEmpty.setVisibility(View.GONE);
-        }
+
+        mMyOrderViewModel.setListVisibility(mList.isEmpty() ? false : true);
+
     }
 
     @Override
     public void onItemClick(int position, MyOrderListResponeData responeData) {
+        ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(responeData.getOrder_id(), responeData), true, true);
 
     }
 

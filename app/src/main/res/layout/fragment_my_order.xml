@@ -3,27 +3,33 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.myorder.MyOrderViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linear_order_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.pulse.brag.views.erecyclerview.ERecyclerView
-            android:id="@+id/recycleview"
+        <LinearLayout
+            android:id="@+id/linear_order_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.listVisibility ? View.VISIBLE : View.GONE}">
+
+            <com.pulse.brag.views.erecyclerview.ERecyclerView
+                android:id="@+id/recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linear_empty"
@@ -32,7 +38,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
 
             <ImageView
                 android:layout_width="150dp"

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.pulse.brag.utils.Utility;
+import com.pulse.brag.views.RoundView;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -47,5 +48,10 @@ public class CoreBindingAdapter {
             editText.setText(value);
 //            editText.setSelection(2);
         }
+    }
+
+    @BindingAdapter("bind:roundColor")
+    public static void roundColor(RoundView imageView, int color) {
+        imageView.setColorFromResource(color);
     }
 }

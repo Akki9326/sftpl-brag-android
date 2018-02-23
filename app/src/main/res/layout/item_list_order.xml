@@ -1,13 +1,16 @@
-<layout xmlns:bind="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
+
         <variable
-            name="viewModle"
-            type="com.pulse.brag.ui.myorder.MyOrderItemViewModel"/>
+            name="viewModel"
+            type="com.pulse.brag.ui.myorder.MyOrderItemViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,18 +25,20 @@
             app:cardCornerRadius="0dp"
             app:cardElevation="1dp">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:onClick="@{viewModel::onItemListClick}"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -49,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:tag="@string/font_opensans_regular_id"
-                        android:text="@{viewModle.order_id}"
+                        android:text="@{viewModel.order_id}"
                         android:textColor="@color/gray_transparent"
                         android:textSize="@dimen/text_size_very_small" />
                 </LinearLayout>
@@ -57,12 +62,13 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/gray_transparent" />
+                    android:background="@color/gray_transparent"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
 
@@ -71,7 +77,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:padding="5dp">
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp">
 
                         <TextView
                             android:id="@+id/textview_product_name"
@@ -80,7 +89,7 @@
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@{viewModle.product_name}"
+                            android:text="@{viewModel.product_name}"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_small" />
 
@@ -90,39 +99,59 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:tag="@string/font_opensans_bold_id"
-                            android:text="@{viewModle.productPriceWithSym}"
+                            android:text="@{viewModel.productPriceWithSym}"
                             android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_small" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageview_product"
-                            android:layout_width="60dp"
-                            android:layout_height="90dp"
-                            android:layout_margin="10dp"
-                            bind:imageUrl="@{viewModle.product_image_url}"
-                            android:scaleType="fitXY" />
+                            android:textSize="@dimen/text_size_very_small" />
 
                         <TextView
                             android:id="@+id/textview_qty"
-                            android:layout_width="60dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rounder_corner_edge_gray"
+                            android:layout_marginTop="3dp"
                             android:gravity="center"
-                            android:padding="5dp"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@{viewModle.product_qty}"
-                            android:textColor="@color/gray"
-                            android:textSize="10sp" />
+                            android:text="@{`Qty: `+viewModel.product_qty}"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_very_small" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <com.pulse.brag.views.RoundView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                bind:roundColor="@{viewModel.statusColor}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:tag="@string/font_opensans_regular_id"
+                                android:text="@{viewModel.statusLableWithDate}"
+                                android:textColor="@color/gray_transparent"
+                                android:textSize="10sp" />
+                        </LinearLayout>
                     </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/imageview_product"
+                        android:layout_width="60dp"
+                        android:layout_height="90dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:scaleType="centerCrop"
+                        bind:imageUrl="@{viewModel.product_image_url}" />
+
+
                 </LinearLayout>
             </LinearLayout>
+
+
         </android.support.v7.widget.CardView>
 
         <View

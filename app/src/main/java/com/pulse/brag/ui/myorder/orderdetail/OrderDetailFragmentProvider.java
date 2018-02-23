@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.cart.placeorder;
+package com.pulse.brag.ui.myorder.orderdetail;
 
 
 /**
@@ -13,11 +13,11 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 /**
- * Created by nikhil.vadoliya on 21-02-2018.
+ * Created by nikhil.vadoliya on 22-02-2018.
  */
 
 @Module
-public abstract  class PlaceOrderFragmentProvider {
-    @ContributesAndroidInjector(modules = PlaceOrderFragmentModule.class)
-    abstract PlaceOrderFragment provideAboutFragmentFactory();
+public abstract class OrderDetailFragmentProvider {
+    @ContributesAndroidInjector(modules = OrderDetailFragmentModule.class)
+    abstract OrderDetailFragment provideOrderDdetailFragmentFactory();
 }

@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.cart.placeorder;
+package com.pulse.brag.ui.myorder.orderdetail;
 
 
 /**
@@ -9,15 +9,16 @@ package com.pulse.brag.ui.cart.placeorder;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
+import com.pulse.brag.data.model.ApiError;
 
 /**
- * Created by nikhil.vadoliya on 21-02-2018.
+ * Created by nikhil.vadoliya on 22-02-2018.
  */
 
-@Module
-public abstract  class PlaceOrderFragmentProvider {
-    @ContributesAndroidInjector(modules = PlaceOrderFragmentModule.class)
-    abstract PlaceOrderFragment provideAboutFragmentFactory();
+
+public interface OrderDetailNavigator {
+
+    void onApiSuccess();
+
+    void onApiError(ApiError error);
 }

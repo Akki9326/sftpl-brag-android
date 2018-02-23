@@ -86,7 +86,7 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
             public void onSuccess(LoginResponse loginResponse, Headers headers) {
                 if (loginResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getDataManager().setAccessToken(headers.get("access_token"));
+                    getDataManager().setAccessToken(headers.get("access-token"));
                     getDataManager().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
                     getDataManager().setIsLogin(true);
                     getDataManager().setUserData(new Gson().toJson(loginResponse.getData()));

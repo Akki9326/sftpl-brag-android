@@ -76,8 +76,8 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         } else {
             holder.mRoundSelector.setVisibility(View.INVISIBLE);
         }
-        holder.mRoundSelector.setColor(mList.get(position));
-        holder.mRoundColor.setColor(mList.get(position));
+        holder.mRoundSelector.setColorHex(mList.get(position));
+        holder.mRoundColor.setColorHex(mList.get(position));
     }
 
     @Override

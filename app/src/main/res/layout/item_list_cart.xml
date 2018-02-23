@@ -112,13 +112,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tag="@string/font_opensans_bold_id"
+                        android:gravity="center"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@string/label_qty_s"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_very_small_12" />
@@ -128,8 +128,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:onClick="@{cartData::onQtyClick}"
                         android:background="@drawable/rounder_corner_edge_gray"
+                        android:onClick="@{cartData::onQtyClick}"
                         android:paddingBottom="2dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"

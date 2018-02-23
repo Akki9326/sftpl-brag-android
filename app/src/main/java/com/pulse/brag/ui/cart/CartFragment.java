@@ -16,9 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.CartListAdapter;
@@ -158,7 +156,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                 "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 500, 1));
 
 
-        mAdapter = new CartListAdapter(mList, this);
+        mAdapter = new CartListAdapter(getActivity(),mList, this);
         mFragmentCartBinding.recycleView.setAdapter(mAdapter);
         setTotalPrice();
         if (mList.isEmpty()) {
@@ -244,7 +242,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onPriceClick() {
-        mFragmentCartBinding.recycleView.scrollToPosition(mList.size() - 1);
+//        mFragmentCartBinding.recycleView.scrollToPosition(mList.size() - 1);
     }
 
 

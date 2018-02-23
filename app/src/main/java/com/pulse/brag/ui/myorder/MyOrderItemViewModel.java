@@ -11,8 +11,12 @@ package com.pulse.brag.ui.myorder;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.graphics.Color;
+import android.view.View;
 
+import com.pulse.brag.R;
 import com.pulse.brag.pojo.datas.MyOrderListResponeData;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -44,12 +48,12 @@ public class MyOrderItemViewModel extends BaseObservable {
 
     }
 
-    public void OnItemClick() {
+    public void onItemListClick(View view) {
         onItemClick.onItemClick(position, responeData);
     }
 
     public interface OnItemClick {
-        public void onItemClick(int position, MyOrderListResponeData responeData);
+        void onItemClick(int position, MyOrderListResponeData responeData);
 
     }
 
@@ -80,4 +84,24 @@ public class MyOrderItemViewModel extends BaseObservable {
     public String getProductPriceWithSym() {
         return Utility.getIndianCurrencePriceFormate(Integer.parseInt(responeData.getProduct_price()));
     }
+
+    public String getStatusLable() {
+        return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus());
+    }
+
+    public String getStatusLableWithDate() {
+        return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus()) + " " + responeData.getDateFromTimestamp();
+    }
+
+    public int getStatus() {
+        return responeData.getStatus();
+    }
+
+    public int getStatusColor() {
+        if (responeData.getStatus() == Constants.OrderStatus.CANCALLED.ordinal())
+            return R.color.order_status_red;
+        else
+            return R.color.order_status_green;
+    }
+
 }

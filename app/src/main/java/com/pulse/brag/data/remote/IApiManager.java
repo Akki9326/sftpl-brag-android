@@ -55,8 +55,6 @@ public interface IApiManager extends ApiInterface {
     @Override
     Call<CategoryListResponse> getCategoryProduct(String url);
 
-
-
     @Override
     Call<CollectionListResponse> getCollectionProduct(String url);
 

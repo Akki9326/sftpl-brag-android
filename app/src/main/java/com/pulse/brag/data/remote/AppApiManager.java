@@ -16,6 +16,7 @@ import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.LoginResponse;
 import com.pulse.brag.pojo.response.MyOrderListRespone;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
+import com.pulse.brag.pojo.response.OrderDetailResponse;
 import com.pulse.brag.pojo.response.SignUpResponse;
 
 import javax.inject.Inject;
@@ -53,12 +54,12 @@ public class AppApiManager implements IApiManager {
 
     @Override
     public Call<OTPVerifyResponse> verifyOtp(String mobile, String otp) {
-        return mApiInterface.verifyOtp(mobile,otp);
+        return mApiInterface.verifyOtp(mobile, otp);
     }
 
     @Override
     public Call<OTPVerifyResponse> verifyOtpForgetPass(String mobile, String otp) {
-        return mApiInterface.verifyOtpForgetPass(mobile,otp);
+        return mApiInterface.verifyOtpForgetPass(mobile, otp);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class AppApiManager implements IApiManager {
 
     @Override
     public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
-        return mApiInterface.notifyMe(productId,color,size);
+        return mApiInterface.notifyMe(productId, color, size);
     }
 
     @Override
@@ -109,5 +110,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<MyOrderListRespone> getOrderList(String url) {
         return mApiInterface.getOrderList(url);
+    }
+
+    @Override
+    public Call<OrderDetailResponse> getOrderDetail(String url) {
+        return mApiInterface.getOrderDetail(url);
     }
 }

@@ -266,8 +266,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
             @Override
             public void onFailure(Call<DummeyRespone> call, Throwable t) {
                 hideProgressDialog();
-                //Utility.showAlertMessage(getContext(), t);
-                AlertUtils.showAlertMessage(getContext(), t);
+                AlertUtils.showAlertMessage(getActivity(), t);
             }
         });
     }

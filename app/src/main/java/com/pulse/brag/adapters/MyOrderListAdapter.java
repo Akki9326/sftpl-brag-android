@@ -9,10 +9,10 @@ package com.pulse.brag.adapters;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.pulse.brag.R;
@@ -20,6 +20,7 @@ import com.pulse.brag.databinding.ItemListOrderBinding;
 import com.pulse.brag.pojo.datas.MyOrderListResponeData;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.myorder.MyOrderItemViewModel;
+import com.pulse.brag.utils.Utility;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,28 +30,31 @@ import java.util.List;
  */
 
 
-public class MyOrderList1Adapter extends RecyclerView.Adapter<MyOrderList1Adapter.ViewHolder> {
+public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.ViewHolder> {
 
     List<MyOrderListResponeData> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
+    Activity activity;
 
-    public MyOrderList1Adapter(List<MyOrderListResponeData> listRespones
+    public MyOrderListAdapter(Activity activity, List<MyOrderListResponeData> listRespones
             , OnItemClick onItemClick) {
         this.listRespones = listRespones;
+        this.activity = activity;
         this.onItemClick = onItemClick;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemListOrderBinding itemListCartBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext())
+        ItemListOrderBinding itemListOrderBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext())
                 , R.layout.item_list_order, parent, false);
-        return new ViewHolder(itemListCartBinding);
+        return new ViewHolder(itemListOrderBinding);
 
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bindCartData(position, listRespones.get(position));
+
     }
 
     @Override
@@ -71,15 +75,16 @@ public class MyOrderList1Adapter extends RecyclerView.Adapter<MyOrderList1Adapte
         public ViewHolder(ItemListOrderBinding itemView) {
             super(itemView.getRoot());
             this.itemBind = itemView;
+            Utility.applyTypeFace(activity, itemBind.baseLayout);
         }
 
 
         void bindCartData(int position, MyOrderListResponeData responeData) {
             pos = position;
-            if (itemBind.getViewModle() == null) {
-                itemBind.setViewModle(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this));
+            if (itemBind.getViewModel() == null) {
+                itemBind.setViewModel(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this));
             } else {
-                itemBind.getViewModle().setMyOrderData(responeData);
+                itemBind.getViewModel().setMyOrderData(responeData);
             }
         }
 
@@ -90,7 +95,7 @@ public class MyOrderList1Adapter extends RecyclerView.Adapter<MyOrderList1Adapte
 
         @Override
         public void onItemClick(int position, MyOrderListResponeData responeData) {
-
+            onItemClick.onItemClick(position, responeData);
         }
     }
 }

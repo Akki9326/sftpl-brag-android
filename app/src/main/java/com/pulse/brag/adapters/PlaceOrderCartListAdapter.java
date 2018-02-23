@@ -9,6 +9,7 @@ package com.pulse.brag.adapters;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.pulse.brag.databinding.ItemListPlaceOrderBinding;
 import com.pulse.brag.pojo.datas.CartListResponeData;
 import com.pulse.brag.ui.cart.placeorder.PlaceOrderItemViewModel;
 import com.pulse.brag.ui.core.CoreViewHolder;
+import com.pulse.brag.utils.Utility;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,9 +34,11 @@ public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCa
 
     List<CartListResponeData> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
+    Activity activity;
 
-    public PlaceOrderCartListAdapter(List<CartListResponeData> listRespones, OnItemClick onItemClick) {
+    public PlaceOrderCartListAdapter(Activity activity, List<CartListResponeData> listRespones, OnItemClick onItemClick) {
         this.listRespones = listRespones;
+        this.activity = activity;
         this.onItemClick = onItemClick;
     }
 
@@ -42,6 +46,7 @@ public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCa
     public void qtyUpdate(int position, int qty) {
         listRespones.get(position).setQty(qty);
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemListPlaceOrderBinding itemListPlaceOrder = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext())
@@ -71,6 +76,7 @@ public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCa
         public ViewHolder(ItemListPlaceOrderBinding itemView) {
             super(itemView.getRoot());
             this.itemBind = itemView;
+            Utility.applyTypeFace(activity, itemBind.baseLayout);
         }
 
 

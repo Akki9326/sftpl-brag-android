@@ -5,7 +5,7 @@
     android:background="@color/colorPrimaryDark"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="50dp">
+    android:padding="30dp">
 
     <ImageView
         android:layout_width="wrap_content"

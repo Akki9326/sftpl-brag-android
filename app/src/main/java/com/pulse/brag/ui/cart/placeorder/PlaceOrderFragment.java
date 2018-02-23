@@ -16,28 +16,21 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.CartListAdapter;
 import com.pulse.brag.adapters.PlaceOrderCartListAdapter;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.databinding.FragmentCartBinding;
 import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
 import com.pulse.brag.pojo.datas.CartListResponeData;
-import com.pulse.brag.ui.cart.CartViewModel;
-import com.pulse.brag.ui.cart.editquantity.EditQtyDialogFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.views.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,7 +163,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     public void showData() {
 
-        mAdapter = new PlaceOrderCartListAdapter(mList, this);
+        mAdapter = new PlaceOrderCartListAdapter(getActivity(),mList, this);
         mFragmentPlaceOrderBinding.recycleview.setAdapter(mAdapter);
         setTotalPrice();
 

@@ -12,9 +12,9 @@ package com.pulse.brag.ui.cart.placeorder;
 import android.databinding.ObservableField;
 import android.view.View;
 
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.views.OnSingleClickListener;
 
 /**
  * Created by nikhil.vadoliya on 21-02-2018.

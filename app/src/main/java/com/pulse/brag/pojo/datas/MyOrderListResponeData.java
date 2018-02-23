@@ -10,8 +10,12 @@ package com.pulse.brag.pojo.datas;
  */
 
 import android.app.Activity;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.format.DateUtils;
 
 import com.pulse.brag.R;
+import com.pulse.brag.utils.DateFormatter;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -19,7 +23,7 @@ import com.pulse.brag.utils.Utility;
  */
 
 
-public class MyOrderListResponeData {
+public class MyOrderListResponeData implements Parcelable {
 
     private String id;
     private String order_id;
@@ -27,15 +31,30 @@ public class MyOrderListResponeData {
     private String product_image_url;
     private String product_qty;
     private String product_price;
+    private int status;
+    private long date;
+
 
     public MyOrderListResponeData(String id, String order_id, String product_name,
-                                  String product_image_url, String product_qty, String product_price) {
+                                  String product_image_url, String product_qty, String product_price, int status, long date) {
         this.id = id;
         this.order_id = order_id;
         this.product_name = product_name;
         this.product_image_url = product_image_url;
         this.product_qty = product_qty;
         this.product_price = product_price;
+        this.status = status;
+        this.date = date;
+    }
+
+    public MyOrderListResponeData(String id, String order_id, String product_name, String product_image_url, String product_qty, String product_price, int status) {
+        this.id = id;
+        this.order_id = order_id;
+        this.product_name = product_name;
+        this.product_image_url = product_image_url;
+        this.product_qty = product_qty;
+        this.product_price = product_price;
+        this.status = status;
     }
 
     public String getId() {
@@ -94,5 +113,63 @@ public class MyOrderListResponeData {
         this.product_price = product_price;
     }
 
+    public int getStatus() {
+        return status;
+    }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
+
+    public String getDateFromTimestamp() {
+        return DateFormatter.convertMillisToStringDate(getDate()*1000, DateFormatter.dd_MMM_YYYY);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.order_id);
+        dest.writeString(this.product_name);
+        dest.writeString(this.product_image_url);
+        dest.writeString(this.product_qty);
+        dest.writeString(this.product_price);
+        dest.writeInt(this.status);
+        dest.writeLong(this.date);
+    }
+
+    protected MyOrderListResponeData(Parcel in) {
+        this.id = in.readString();
+        this.order_id = in.readString();
+        this.product_name = in.readString();
+        this.product_image_url = in.readString();
+        this.product_qty = in.readString();
+        this.product_price = in.readString();
+        this.status = in.readInt();
+        this.date = in.readLong();
+    }
+
+    public static final Parcelable.Creator<MyOrderListResponeData> CREATOR = new Parcelable.Creator<MyOrderListResponeData>() {
+        @Override
+        public MyOrderListResponeData createFromParcel(Parcel source) {
+            return new MyOrderListResponeData(source);
+        }
+
+        @Override
+        public MyOrderListResponeData[] newArray(int size) {
+            return new MyOrderListResponeData[size];
+        }
+    };
 }

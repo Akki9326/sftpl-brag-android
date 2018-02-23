@@ -21,6 +21,7 @@ import com.pulse.brag.pojo.response.CollectionListResponse;
 import com.pulse.brag.pojo.response.LoginResponse;
 import com.pulse.brag.pojo.response.MyOrderListRespone;
 import com.pulse.brag.pojo.response.OTPVerifyResponse;
+import com.pulse.brag.pojo.response.OrderDetailResponse;
 import com.pulse.brag.pojo.response.SignUpResponse;
 
 import retrofit2.Call;
@@ -83,4 +84,7 @@ public interface ApiInterface {
 
     @GET
     Call<MyOrderListRespone> getOrderList(@Url String url);
+
+    @GET
+    Call<OrderDetailResponse> getOrderDetail(@Url String url);
 }

@@ -46,6 +46,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -623,8 +624,12 @@ public class Utility {
         } else {
             return totalprice;
         }
+    }
 
-
+    public static String getIndianCurrencyPriceFormat(int price) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        String strPrice = df.format(price);
+        return "\u20B9" + strPrice;
     }
 
     public static String getBadgeNumber(int num) {

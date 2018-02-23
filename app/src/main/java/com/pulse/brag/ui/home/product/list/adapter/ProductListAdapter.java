@@ -18,6 +18,7 @@ import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.interfaces.OnAddButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
+import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +110,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public MyViewHolder(ItemGridProductBinding itemGridProductBinding) {
             super(itemGridProductBinding.baseLayout);
             this.mItemProductBinding=itemGridProductBinding;
+            Utility.applyTypeFace(mContext, mItemProductBinding.baseLayout);
         }
 
         /*View mView;

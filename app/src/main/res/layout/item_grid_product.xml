@@ -1,11 +1,12 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.product.list.adapter.ItemProductViewModel"/>
+            type="com.pulse.brag.ui.home.product.list.adapter.ItemProductViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,9 +16,9 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:clickable="true"
-        android:onClick="@{viewModel::OnListItemClick}"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{viewModel::OnListItemClick}"
         android:padding="5dp">
 
         <LinearLayout
@@ -26,79 +27,76 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_gravity="right"
-                android:id="@+id/imageView_cart"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="2dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_cart" />
 
             <ImageView
                 android:id="@+id/imageView_product"
-                android:layout_width="70dp"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                tools:imageUrl="@{viewModel.thumbImg}"
-                android:src="@drawable/background" />
+                android:src="@drawable/background"
+                tools:imageUrl="@{viewModel.thumbImg}" />
 
             <TextView
                 android:id="@+id/textview_product_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="2"
-                android:minHeight="45dp"
-                android:padding="5dp"
+                android:gravity="left|start"
+                android:maxLines="1"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@{viewModel.firstName}"
-                android:tag="@string/font_opensans_regular_id"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_very_small" />
 
-            <TextView
-                android:id="@+id/textView_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:tag="@string/font_opensans_regular_id"
-                android:text="@{viewModel.price}"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_very_small_12" />
 
             <LinearLayout
                 android:id="@+id/linear_add"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/round_corner_solid_gray"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="5dp"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
+                android:gravity="left|start|center_vertical"
                 android:onClick="@{viewModel::onAddClick}"
-                android:paddingTop="5dp">
-
-                <ImageView
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_add" />
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
 
                 <TextView
+                    android:id="@+id/textView_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLength="7"
+                    android:maxLines="1"
+                    android:tag="@string/font_opensans_bold"
+                    android:text="@{viewModel.price}"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_very_small" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_add_product" />
+
+                <ImageView
+                    android:id="@+id/imageView_cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_cart_added" />
+
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@string/btn_add"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    android:textSize="@dimen/text_size_very_small_12" />-->
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

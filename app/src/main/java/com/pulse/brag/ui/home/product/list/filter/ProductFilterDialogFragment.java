@@ -51,6 +51,9 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
 
     DialogFragmentProductFilterBinding mDialogFragmentProductFilterBinding;
 
+    List<ColorModel> colorModels;
+    List<SizeModel> sizeModels;
+
     ColorFilterAdapter mColorAdapter;
     SizeFilterAdapter mSizeAdapter;
 
@@ -78,7 +81,8 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
 
     @Override
     public void beforeViewCreated() {
-
+        colorModels = new ArrayList<>();
+        sizeModels = new ArrayList<>();
     }
 
     @Override
@@ -117,29 +121,14 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
 
     public void showData() {
 
-        List<ColorModel> colorModels = new ArrayList<>();
-        colorModels.add(new ColorModel("#F44336", false));
-        colorModels.add(new ColorModel("#E91E63", false));
-        colorModels.add(new ColorModel("#9C27B0", false));
-        colorModels.add(new ColorModel("#2196F3", false));
-        colorModels.add(new ColorModel("#FF9800", false));
-        colorModels.add(new ColorModel("#FF5722", false));
-        colorModels.add(new ColorModel("#3F51B5", false));
-        colorModels.add(new ColorModel("#B5C1B5", false));
-        colorModels.add(new ColorModel("#BF5DD5", false));
-        colorModels.add(new ColorModel("#DD126F", false));
+        colorModels = mProductFilterDialogViewModel.buildColorList();
         mColorAdapter = new ColorFilterAdapter(getActivity(), colorModels, this);
         mDialogFragmentProductFilterBinding.recycleViewColor.setAdapter(mColorAdapter);
         mDialogFragmentProductFilterBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
 
-        List<SizeModel> mStringList = new ArrayList<>();
-        mStringList.add(new SizeModel("S", false));
-        mStringList.add(new SizeModel("M", false));
-        mStringList.add(new SizeModel("X", false));
-        mStringList.add(new SizeModel("XL", false));
-        mStringList.add(new SizeModel("XXL", false));
-        mStringList.add(new SizeModel("XXXL", false));
-        mSizeAdapter = new SizeFilterAdapter(getActivity(), mStringList, this);
+
+        sizeModels = mProductFilterDialogViewModel.buildSizeList();
+        mSizeAdapter = new SizeFilterAdapter(getActivity(), sizeModels, this);
         mDialogFragmentProductFilterBinding.recycleViewSize.setAdapter(mSizeAdapter);
         mDialogFragmentProductFilterBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
 
@@ -178,6 +167,11 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
 
     @Override
     public void resetFilter() {
+        // TODO: 2/23/2018 Handle through boolean like already reset than no need to reset again
+
+        mColorAdapter.resetList(mProductFilterDialogViewModel.buildColorList());
+        mSizeAdapter.resetSize(mProductFilterDialogViewModel.buildSizeList());
+
 
     }
 

@@ -111,6 +111,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     int mFilterColorPos;
     String mFilterSize;
     int mFilterSizePos;
+    boolean isClicked = false;
 
     /*@Nullable
     @Override
@@ -144,6 +145,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void afterViewCreated() {
         mFragmentProductListBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), mFragmentProductListBinding.baseLayout);
 
         Utility.hideSoftkeyboard(getActivity());
         mFragmentProductListBinding.recycleView.setLayoutManager(mLayoutManager);
@@ -331,6 +333,16 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     }*/
 
+    private void enabledClick() {
+        if (isClicked)
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isClicked = false;
+                }
+            }, 250);
+    }
+
 
     private void checkNetworkConnection(boolean isShowLoader) {
 
@@ -415,12 +427,20 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
+        if (!isClicked) {
+            isClicked = true;
+            ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
+            enabledClick();
+        }
     }
 
     @Override
     public void OnAddListener(final int position) {
-        openDialogFragment(position);
+        if (!isClicked) {
+            isClicked = true;
+            openDialogFragment(position);
+            enabledClick();
+        }
     }
 
     private void openDialogFragment(int position) {
@@ -480,24 +500,32 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void sort() {
         //swithcher();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
-        ProductSortingDialogFragment productSortingDialogFragment = new ProductSortingDialogFragment();
-        productSortingDialogFragment.setCancelable(true);
-        productSortingDialogFragment.setArguments(bundle);
-        productSortingDialogFragment.show(getChildFragmentManager(), "");
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
+            ProductSortingDialogFragment productSortingDialogFragment = new ProductSortingDialogFragment();
+            productSortingDialogFragment.setCancelable(true);
+            productSortingDialogFragment.setArguments(bundle);
+            productSortingDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
     }
 
     @Override
     public void filter() {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(Constants.BUNDLE_PRODUCT_FILTER_APPLIED, mFilterApplied);
-        bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_COLOR, mFilterColorPos);
-        bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_SIZE, mFilterSizePos);
-        ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
-        productFilterDialogFragment.setCancelable(true);
-        productFilterDialogFragment.setArguments(bundle);
-        productFilterDialogFragment.show(getChildFragmentManager(), "");
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(Constants.BUNDLE_PRODUCT_FILTER_APPLIED, mFilterApplied);
+            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_COLOR, mFilterColorPos);
+            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_SIZE, mFilterSizePos);
+            ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
+            productFilterDialogFragment.setCancelable(true);
+            productFilterDialogFragment.setArguments(bundle);
+            productFilterDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
     }
 
     @Override

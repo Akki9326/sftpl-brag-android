@@ -15,7 +15,6 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:onClick="@{itemModel::onColorClick}"
-        android:background="@drawable/squre_corner_edge_gray_transparent"
         android:padding="5dp">
 
         <com.pulse.brag.views.RoundView

@@ -40,10 +40,6 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        /*View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_list_size_filter, null);
-        ItemViewHolder viewHolder1 = new ItemViewHolder(view1);
-        return viewHolder1;*/
-
         ItemListSizeFilterBinding itemListSizeFilterBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext())
                 , R.layout.item_list_size_filter, parent, false);
         return new SizeFilterAdapter.ItemViewHolder(itemListSizeFilterBinding);
@@ -51,17 +47,7 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, final int position) {
-        holder.bindSizeData(position,mListSize.get(position));
-
-        /*holder.mTxtSize.setText(mListSize.get(position));
-        holder.mView.setSelected(mSeletedList.get(position));
-        Utility.applyTypeFace(mActivity, holder.mBaseLayout);
-        holder.mView.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                mOnProductSizeSelectListener.OnSelectedSize(position);
-            }
-        });*/
+        holder.bindSizeData(position, mListSize.get(position));
     }
 
     @Override
@@ -69,21 +55,15 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
         return mListSize.size();
     }
 
+    public void resetSize(List<SizeModel> list) {
+        if (mListSize != null && mListSize.size() > 0)
+            mListSize.clear();
 
+        mListSize.addAll(list);
+        notifyDataSetChanged();
+    }
 
     public class ItemViewHolder extends CoreViewHolder implements ItemSizeFilterViewModel.ItemSizeViewModelListener {
-        /*TextView mTxtSize;
-        View mView;
-        LinearLayout mBaseLayout;
-
-        public ItemViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-
-            mBaseLayout = (LinearLayout) itemView.findViewById(R.id.base_layout);
-            Utility.applyTypeFace(mActivity, mBaseLayout);
-            mTxtSize = (TextView) itemView.findViewById(R.id.textView_size);
-        }*/
 
         ItemListSizeFilterBinding itemBinding;
         int pos;

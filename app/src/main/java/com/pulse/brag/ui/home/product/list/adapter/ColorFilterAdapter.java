@@ -51,6 +51,14 @@ public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.
         return mList.size();
     }
 
+    public void resetList(List<ColorModel> list) {
+        if (mList != null && mList.size() > 0)
+            mList.clear();
+
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
     public class ItemViewHolder extends CoreViewHolder implements ItemColorFilterViewModel.ItemColorViewModelListener {
 
         ItemListColorFilterBinding itemBinding;

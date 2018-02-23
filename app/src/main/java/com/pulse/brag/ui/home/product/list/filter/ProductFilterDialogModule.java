@@ -31,6 +31,6 @@ public class ProductFilterDialogModule {
     @Provides
     @Named("sizeFilter")
     GridLayoutManager provideSizeFilterLinearLayoutManager(ProductFilterDialogFragment fragment) {
-        return new GridLayoutManager(fragment.getActivity(), Common.calculateNoOfColumns(fragment.getActivity(), 50));
+        return new GridLayoutManager(fragment.getActivity(), Common.calculateNoOfColumns(fragment.getActivity(), 60));
     }
 }

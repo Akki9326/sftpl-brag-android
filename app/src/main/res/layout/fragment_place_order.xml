@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -24,42 +24,62 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/linear_address"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="1dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/linear_address"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:tag="@string/font_opensans_bold_id"
-                        android:text="@{viewModel.fullName}"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical"
+                        android:padding="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:tag="@string/font_opensans_regular_id"
-                        android:text="@string/text_s"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_size_very_small_12" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:tag="@string/font_opensans_bold_id"
+                            android:text="@{viewModel.fullName}"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_medium" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:tag="@string/font_opensans_regular_id"
-                        android:text="@{viewModel.mobileNum}"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_size_very_small_12" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:tag="@string/font_opensans_regular_id"
+                            android:text="@string/text_v_s"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_very_small_12" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:tag="@string/font_opensans_regular_id"
+                            android:text="@{viewModel.mobileNum}"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_very_small_12" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/pink"
+                            android:padding="10dp"
+                            android:onClick="@{viewModel.onEditAddress()}"
+                            android:textSize="@dimen/text_size_very_small_12"
+                            android:tag="@string/font_opensans_regular_id"
+                            android:text="@string/label_edit_address"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
                 <LinearLayout
                     android:id="@+id/linear_cart_list"
@@ -73,90 +93,98 @@
                         android:layout_height="match_parent" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/linear_price_detail"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="6dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="6dp"
-                        android:tag="@string/font_opensans_bold_id"
-                        android:text="@string/label_place_details"
-                        android:textColor="@color/semi_transparent"
-                        android:textSize="@dimen/text_size_very_small" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/gray_10" />
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="1dp">
 
                     <LinearLayout
+                        android:id="@+id/linear_price_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="5dp"
-                            android:tag="@string/font_opensans_regular_id"
-                            android:text="@{`Price (`+viewModel.listSize +` `+viewModel.itemsLable+`)`}"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small" />
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="6dp"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@{viewModel.totalPrice}"
-                            android:textColor="@color/text_black"
+                            android:text="@string/label_place_details"
+                            android:textColor="@color/semi_transparent"
                             android:textSize="@dimen/text_size_very_small" />
-                    </LinearLayout>
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/gray_10" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@color/gray_10" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="5dp"
-                            android:tag="@string/font_opensans_bold_id"
-                            android:text="@string/label_amount_payable"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp"
+                                android:tag="@string/font_opensans_regular_id"
+                                android:text="@{`Price (`+viewModel.listSize +` `+viewModel.itemsLable+`)`}"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/text_size_very_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:tag="@string/font_opensans_regular_id"
+                                android:text="@{viewModel.totalPrice}"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/text_size_very_small" />
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/gray_10" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:tag="@string/font_opensans_bold_id"
-                            android:text="@{viewModel.totalPrice}"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp"
+                                android:tag="@string/font_opensans_bold_id"
+                                android:text="@string/label_amount_payable"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/text_size_very_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:tag="@string/font_opensans_bold_id"
+                                android:text="@{viewModel.totalPrice}"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/text_size_very_small" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
+                </android.support.v7.widget.CardView>
 
                 <View
+                    android:id="@+id/view_dummy"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"></View>
             </LinearLayout>
@@ -188,6 +216,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="@{viewModel.onPriceLabelClick()}"
                     android:orientation="vertical"
                     android:padding="5dp">
 
@@ -204,6 +233,7 @@
                         android:id="@+id/textview_view_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@string/btn_view_detail"
                         android:textColor="@color/pink"
                         android:textSize="10dp" />

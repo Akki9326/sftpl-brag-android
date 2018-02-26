@@ -32,7 +32,7 @@ public class MyOrderListResponeData implements Parcelable {
     private String product_qty;
     private String product_price;
     private int status;
-    private long date;
+    private Long date;
 
 
     public MyOrderListResponeData(String id, String order_id, String product_name,
@@ -121,11 +121,11 @@ public class MyOrderListResponeData implements Parcelable {
         this.status = status;
     }
 
-    public long getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

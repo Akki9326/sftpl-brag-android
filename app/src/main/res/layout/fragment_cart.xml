@@ -13,8 +13,8 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryDark"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
 
@@ -37,8 +37,6 @@
                     android:orientation="vertical">
 
 
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -48,10 +46,8 @@
                             android:id="@+id/recycleView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:paddingBottom="60dp"
-                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+                            android:paddingBottom="65dp" />
 
 
                     </LinearLayout>

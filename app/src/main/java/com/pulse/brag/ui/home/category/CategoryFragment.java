@@ -56,17 +56,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         categoryViewModel.setNavigator(this);
     }
 
-  /*  @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }*/
 
     @Override
     public void beforeViewCreated() {
@@ -85,14 +74,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
 
         checkInternet();
-        mFragmentCategoryBinding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
-        mFragmentCategoryBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                checkInternet();
-                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+
     }
 
     @Override
@@ -104,9 +86,11 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     private void checkInternet() {
 
         if (Utility.isConnection(getContext())) {
-            showProgress();
+            if (!mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing())
+                showProgress();
             categoryViewModel.getCategoryData();
         } else {
+            hideProgressBar();
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
 
@@ -130,7 +114,9 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void onApiSuccess() {
-        hideProgress();
+
+        hideProgressBar();
+
         List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
@@ -152,8 +138,14 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void onApiError(ApiError error) {
-        hideProgress();
+        hideProgressBar();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void swipeRefresh() {
+        mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(true);
+        checkInternet();
     }
 
 
@@ -161,5 +153,13 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     public void onItemClick(int position) {
         ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getOptionName()), true, true);
 
+    }
+
+    public void hideProgressBar() {
+        if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+        }
     }
 }

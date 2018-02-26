@@ -77,7 +77,7 @@ public class PlaceOrderItemViewModel extends BaseObservable {
     }
 
     public Drawable getColorBitMap() {
-        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap(responeData.getColor(), true));
+        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap(responeData.getColor(),true));
 
 
     }

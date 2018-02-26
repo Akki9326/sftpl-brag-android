@@ -72,17 +72,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         return fragment;
     }
 
-    /*@Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_sub_category, container, false);
-            initializeData();
-            setListeners();
-            checkInternet();
-        }
-        return mView;
-    }*/
 
 
     @Override
@@ -100,18 +89,16 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     private void checkInternet() {
 
         if (Utility.isConnection(getActivity())) {
+            if (!mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing())
+                showProgress();
             categoryViewModel.getSubCategoryData();
         } else {
+            hideProgressBar();
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
 
     }
 
-    /*@Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar();
-    }*/
 
     @Override
     public void beforeViewCreated() {
@@ -127,19 +114,11 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         mFragmentSubCategoryBinding.recycleView.setHasFixedSize(true);
         mFragmentSubCategoryBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentSubCategoryBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
-        mFragmentSubCategoryBinding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
 
         Utility.applyTypeFace(getContext(), mFragmentSubCategoryBinding.baseLayout);
 
         mCategoryList = new ArrayList<>();
 
-        mFragmentSubCategoryBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                checkInternet();
-                mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-            }
-        });
 
         checkInternet();
     }
@@ -287,15 +266,15 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-         setUpToolbar();
+            setUpToolbar();
         }
     }
 
 
     @Override
     public void onApiSuccess() {
-        hideProgress();
-
+        hideProgressBar();
+        mCategoryList = new ArrayList<>();
         List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
         if (getArguments().containsKey(Constants.BUNDLE_IMAGE_URL)) {
             imagePagerResponeList.add(new ImagePagerResponse(getArguments().getString(Constants.BUNDLE_IMAGE_URL), ""));
@@ -331,7 +310,21 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void onApiError(ApiError error) {
-        hideProgress();
+        hideProgressBar();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void swipeRefresh() {
+        mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(true);
+        checkInternet();
+    }
+
+    public void hideProgressBar() {
+        if (mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+        }
     }
 }

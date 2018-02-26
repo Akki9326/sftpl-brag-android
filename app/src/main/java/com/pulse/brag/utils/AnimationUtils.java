@@ -9,6 +9,7 @@ package com.pulse.brag.utils;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,9 +25,16 @@ public class AnimationUtils {
         throw new Error("Do not need instantiate!");
     }
 
-    public static void setHolderAnimation(View view) {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", -150, 150);
-        ;
+    public static void setHolderAnimation(View view, boolean b) {
+        AnimatorSet animatorSet=new AnimatorSet();
+        ObjectAnimator animatorSlide = ObjectAnimator.ofFloat(view, "translationY", b ? 150 :-150, 1f);
+        animatorSlide.setDuration(500);
+        animatorSlide.start();
+        ObjectAnimator animatorFabe = ObjectAnimator.ofFloat(view, "alpha", b ? 0 : 1, 1f);
+        animatorFabe.setDuration(500);
+        animatorFabe.start();
+        animatorSet.playTogether(animatorFabe,animatorSlide);
+        animatorSet.start();
     }
 
 

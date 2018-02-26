@@ -144,6 +144,24 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
         Log.i(TAG, "setUpToolbar: " + mFragmentHomeBinding.bottomNavigation.getSelectedItemId());
         ((CoreActivity) getActivity()).showToolbar(false, true, true);
+        switch (mFragmentHomeBinding.bottomNavigation.getSelectedItemId()){
+            case R.id.bottombar_item_categoty:
+                setToolbarCategory();
+                Log.i(TAG, "setUpToolbar:  category");
+                break;
+            case R.id.bottombar_item_collection:
+                setToolbarCollection();
+                Log.i(TAG, "setUpToolbar:  collection");
+                break;
+            case R.id.bottombar_item_order:
+                setToolbarQuickOrder();
+                Log.i(TAG, "setUpToolbar:  order");
+                break;
+            case R.id.bottombar_item_more:
+                setToolbarMore();
+                Log.i(TAG, "setUpToolbar:  more");
+                break;
+        }
 
     }
 
@@ -218,6 +236,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         if (!hidden)
             // TODO: 16-02-2018 set toolbar by bottomsheet selected
             setUpToolbar();
+
     }
 
     @Override
@@ -291,4 +310,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     public void setToolbarMore() {
         ((CoreActivity) (getActivity())).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
     }
+
+
 }

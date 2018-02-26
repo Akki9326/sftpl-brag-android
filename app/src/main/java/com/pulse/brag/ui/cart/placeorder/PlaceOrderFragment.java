@@ -100,7 +100,17 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
     }
 
-    
+    @Override
+    public void onEditAddress() {
+        Toast.makeText(getActivity(), "Edit or Add Address", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPriceLabelClick() {
+        mFragmentPlaceOrderBinding.nestedScroll.smoothScrollTo(0, (mFragmentPlaceOrderBinding.viewDummy).getTop());
+
+    }
+
 
     @Override
     public void beforeViewCreated() {
@@ -152,13 +162,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         mList = new ArrayList<>();
         mList = getArguments().getParcelableArrayList(Constants.BUNDLE_CART_LIST);
 
-        mFragmentPlaceOrderBinding.linearPrice
-                .setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                mFragmentPlaceOrderBinding.nestedScroll.smoothScrollTo(0, (mFragmentPlaceOrderBinding.linearPriceDetail).getTop());
-            }
-        });
+
     }
 
     public void showData() {

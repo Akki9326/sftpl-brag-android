@@ -4,10 +4,11 @@
 
     <data>
 
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.myorder.MyOrderItemViewModel" />
+            type="com.pulse.brag.ui.order.MyOrderItemViewModel" />
     </data>
 
     <LinearLayout
@@ -131,7 +132,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.statusLableWithDate}"
+                                android:text="@{viewModel.date != null ?viewModel.statusLableWithDate : viewModel.statusLable}"
                                 android:textColor="@color/gray_transparent"
                                 android:textSize="10sp" />
                         </LinearLayout>

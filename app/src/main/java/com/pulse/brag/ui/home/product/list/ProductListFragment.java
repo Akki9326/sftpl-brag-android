@@ -495,6 +495,9 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onApiError(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

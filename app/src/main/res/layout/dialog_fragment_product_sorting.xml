@@ -54,7 +54,7 @@
                     android:id="@+id/rb_popularity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/pink"
+                    android:theme="@style/RadioButtonTheme"
                     android:tag="@string/font_opensans_bold"
                     android:text="Popularity"
                     android:textSize="@dimen/text_size_small" />
@@ -63,18 +63,18 @@
                     android:id="@+id/rb_price_low_to_high"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/pink"
                     android:tag="@string/font_opensans_bold"
                     android:text="Price -- Low to High"
+                    android:theme="@style/RadioButtonTheme"
                     android:textSize="@dimen/text_size_small" />
 
                 <RadioButton
                     android:id="@+id/rb_price_high_to_low"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/pink"
                     android:tag="@string/font_opensans_bold"
                     android:text="Price -- High to Low"
+                    android:theme="@style/RadioButtonTheme"
                     android:textSize="@dimen/text_size_small" />
 
             </RadioGroup>

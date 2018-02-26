@@ -11,6 +11,7 @@ package com.pulse.brag;
 import android.app.Activity;
 import android.app.Application;
 
+import com.google.firebase.FirebaseApp;
 import com.pulse.brag.di.component.DaggerAppComponent;
 import com.pulse.brag.utils.PreferencesManager;
 
@@ -42,6 +43,9 @@ public class BragApp extends Application implements HasActivityInjector{
         DaggerAppComponent.builder().application(this).build().inject(this);
         mInstance = this;
         PreferencesManager.initializeInstance(mInstance);
+
+        FirebaseApp.initializeApp(this);
+
     }
 
     public static synchronized BragApp getInstance() {

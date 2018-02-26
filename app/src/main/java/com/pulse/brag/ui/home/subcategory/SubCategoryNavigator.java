@@ -21,4 +21,6 @@ public interface SubCategoryNavigator extends CoreNavigator {
 
     void onApiSuccess();
     void onApiError(ApiError error);
+
+    void swipeRefresh();
 }

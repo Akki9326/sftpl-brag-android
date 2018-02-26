@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.myorder;
+package com.pulse.brag.ui.order;
 
 
 /**

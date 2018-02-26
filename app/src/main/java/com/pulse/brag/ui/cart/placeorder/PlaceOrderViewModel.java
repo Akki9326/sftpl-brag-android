@@ -72,4 +72,22 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
             }
         };
     }
+
+    public View.OnClickListener onEditAddress(){
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onEditAddress();
+            }
+        };
+    }
+
+    public View.OnClickListener onPriceLabelClick(){
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onPriceLabelClick();
+            }
+        };
+    }
 }

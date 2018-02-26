@@ -25,6 +25,8 @@ import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.adapters.NotificationListAdapter;
+import com.pulse.brag.ui.core.CoreActivity;
+import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.views.erecyclerview.ERecyclerView;
 import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
@@ -53,7 +55,7 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
     View mView;
     ERecyclerView mRecyclerView;
     TextView mTxtRead;
-    BaseActivity mActivity;
+    CoreActivity mActivity;
 
     NotificationListAdapter mListAdapter;
     List<NotificationListData> mListData;
@@ -91,9 +93,9 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
     public void setToolbar() {
         if (BragApp.NotificationNumber > 0) {
             mActivity.showToolbar(true, false,
-                    mActivity.getNotificationlabel(), getString(R.string.toolbar_label_right_read_all));
+                    Utility.getNotificationlabel(getActivity()), getString(R.string.toolbar_label_right_read_all));
         } else {
-            mActivity.showToolbar(true, false, false, mActivity.getNotificationlabel());
+            mActivity.showToolbar(true, false, false, Utility.getNotificationlabel(getActivity()));
         }
     }
 
@@ -111,7 +113,7 @@ public class NotificationListFragment extends BaseFragment implements BaseInterf
         mTxtRead = mView.findViewById(R.id.textview_read);
         mListData = new ArrayList<>();
 
-        mActivity = ((BaseActivity) getActivity());
+        mActivity = ((CoreActivity) getActivity());
 
     }
 

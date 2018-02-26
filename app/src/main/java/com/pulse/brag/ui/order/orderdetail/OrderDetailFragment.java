@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.myorder.orderdetail;
+package com.pulse.brag.ui.order.orderdetail;
 
 
 /**
@@ -12,6 +12,7 @@ package com.pulse.brag.ui.myorder.orderdetail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
@@ -40,6 +41,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     OrderDetailViewModel orderDetailViewModel;
     FragmentOrderDetailBinding mFragmentOrderDetailBinding;
 
+    int downloadIdOne;
 
     public static OrderDetailFragment newInstance(String id, MyOrderListResponeData data) {
 
@@ -108,6 +110,26 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     public void onApiError(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void onDownloadInvoice() {
+        if(Utility.isConnection(getContext())){
+            mFragmentOrderDetailBinding.progressBarDownload.setVisibility(View.VISIBLE);
+            downloadFile();
+        }else {
+            AlertUtils.showAlertMessage(getActivity(),0,null);
+        }
+
+        Toast.makeText(getActivity(), "On Download Invoice", Toast.LENGTH_SHORT).show();
+    }
+
+    private void downloadFile() {
+    }
+
+    @Override
+    public void onReorderClick() {
+        Toast.makeText(getActivity(), "Reorder", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.myorder;
+package com.pulse.brag.ui.order;
 
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 
 import com.pulse.brag.R;
@@ -23,7 +22,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.databinding.FragmentMyOrderBinding;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
-import com.pulse.brag.ui.myorder.orderdetail.OrderDetailFragment;
+import com.pulse.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;

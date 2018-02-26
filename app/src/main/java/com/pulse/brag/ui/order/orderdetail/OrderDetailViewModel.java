@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.myorder.orderdetail;
+package com.pulse.brag.ui.order.orderdetail;
 
 
 /**
@@ -10,7 +10,9 @@ package com.pulse.brag.ui.myorder.orderdetail;
  */
 
 import android.databinding.ObservableField;
+import android.view.View;
 
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
@@ -151,5 +153,27 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
     public String getFullName() {
         return getDataManager().getUserData().getFullName();
+    }
+
+    public View.OnClickListener onDownloadInvoice() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onDownloadInvoice();
+            }
+        };
+    }
+
+    public View.OnClickListener onReorder() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onReorderClick();
+            }
+        };
+    }
+
+    public String getInvoiveUrl(){
+        return "http://www2.sdfi.edu.cn/netclass/jiaoan/englit/download/Harry%20Potter%20and%20the%20Sorcerer's%20Stone.pdf";
     }
 }

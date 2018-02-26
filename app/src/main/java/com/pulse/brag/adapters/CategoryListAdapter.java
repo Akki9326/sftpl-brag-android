@@ -20,6 +20,7 @@ import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.utils.AnimationUtils;
 import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     List<CategoryListResponseData> listRespones = new ArrayList<>();
     Context context;
     OnItemClickListener onItemClickListener;
-
     public CategoryListAdapter(Context context, List<CategoryListResponseData> listRespones
             , OnItemClickListener onItemClickListener) {
         this.listRespones = listRespones;
@@ -56,6 +56,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.onBind(position);
+
+
     }
 
     @Override
@@ -71,8 +73,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         public ViewHolder(ItemGridCategoryBinding itemView) {
             super(itemView.getRoot());
             this.itemBinding = itemView;
-            Utility.applyTypeFace(context,itemBinding.baseLayout);
-            //itemBinding = getViewDataBinding();
+
+            Utility.applyTypeFace(context, itemBinding.baseLayout);
         }
 
         @Override
@@ -90,16 +92,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             });
         }
 
-        /*@Override
-        public void onClickItem() {
-            onClickListener.onClickItem();
-        }*/
 
     }
 
-    public interface AdapterListener {
-        void onClickItem();
-    }
+
 
 
 }

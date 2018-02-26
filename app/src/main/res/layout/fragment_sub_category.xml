@@ -22,6 +22,8 @@
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
+                app:onRefreshListener="@{viewModel.getOnRefreshListener}"
+                app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                 android:layout_height="match_parent">
 
                 <LinearLayout

@@ -20,6 +20,7 @@ import com.pulse.brag.databinding.ItemListCartBinding;
 import com.pulse.brag.pojo.datas.CartListResponeData;
 import com.pulse.brag.ui.cart.CartItemViewModel;
 import com.pulse.brag.ui.core.CoreViewHolder;
+import com.pulse.brag.utils.AnimationUtils;
 import com.pulse.brag.utils.Utility;
 
 import java.util.Collections;
@@ -92,6 +93,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         public ViewHolder(ItemListCartBinding itemView) {
             super(itemView.getRoot());
             this.itemBind = itemView;
+//            AnimationUtils.setHolderAnimatcateion(itemView.getRoot());
             Utility.applyTypeFace(activity, itemBind.baseLayout);
         }
 

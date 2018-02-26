@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.myorder.orderdetail;
+package com.pulse.brag.ui.order.orderdetail;
 
 
 /**
@@ -21,4 +21,8 @@ public interface OrderDetailNavigator {
     void onApiSuccess();
 
     void onApiError(ApiError error);
+
+    void onDownloadInvoice();
+
+    void onReorderClick();
 }

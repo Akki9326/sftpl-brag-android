@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.myorder.orderdetail;
+package com.pulse.brag.ui.order.orderdetail;
 
 
 /**
@@ -9,19 +9,15 @@ package com.pulse.brag.ui.myorder.orderdetail;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.IDataManager;
-
 import dagger.Module;
-import dagger.Provides;
+import dagger.android.ContributesAndroidInjector;
 
 /**
  * Created by nikhil.vadoliya on 22-02-2018.
  */
 
 @Module
-public class OrderDetailFragmentModule {
-    @Provides
-    OrderDetailViewModel provideOrderDetailViewModel(IDataManager dataManager) {
-        return new OrderDetailViewModel(dataManager);
-    }
+public abstract class OrderDetailFragmentProvider {
+    @ContributesAndroidInjector(modules = OrderDetailFragmentModule.class)
+    abstract OrderDetailFragment provideOrderDdetailFragmentFactory();
 }

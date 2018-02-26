@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.myorder;
+package com.pulse.brag.ui.order;
 
 
 /**
@@ -11,7 +11,6 @@ package com.pulse.brag.ui.myorder;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.graphics.Color;
 import android.view.View;
 
 import com.pulse.brag.R;
@@ -89,6 +88,9 @@ public class MyOrderItemViewModel extends BaseObservable {
         return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus());
     }
 
+    public Long getDate(){
+        return responeData.getDate();
+    }
     public String getStatusLableWithDate() {
         return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus()) + " " + responeData.getDateFromTimestamp();
     }

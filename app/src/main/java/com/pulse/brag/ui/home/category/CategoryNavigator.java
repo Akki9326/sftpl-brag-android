@@ -22,5 +22,5 @@ public interface CategoryNavigator {
 
     void onApiSuccess();
     void onApiError(ApiError error);
-
+    void swipeRefresh();
 }

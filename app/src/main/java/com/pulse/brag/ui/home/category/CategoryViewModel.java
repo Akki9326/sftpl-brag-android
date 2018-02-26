@@ -9,6 +9,9 @@ package com.pulse.brag.ui.home.category;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
+import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
@@ -49,5 +52,18 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         });
     }
 
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().swipeRefresh();
+            }
+        };
+    }
 
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
+    }
 }

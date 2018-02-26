@@ -80,6 +80,7 @@ public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPas
     @Override
     public void afterViewCreated() {
         mFragmentCreateNewPasswordBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentCreateNewPasswordBinding.baseLayout);
     }
 
     @Override

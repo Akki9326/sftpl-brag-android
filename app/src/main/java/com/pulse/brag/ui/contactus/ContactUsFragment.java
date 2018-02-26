@@ -11,6 +11,7 @@ package com.pulse.brag.ui.contactus;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
@@ -64,6 +65,7 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
     @Override
     public void afterViewCreated() {
         mFragmentContactUsBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentContactUsBinding.baseLayout);
     }
 
     @Override

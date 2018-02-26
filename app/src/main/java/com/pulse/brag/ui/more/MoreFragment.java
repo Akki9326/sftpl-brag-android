@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.more;
 
 
 /**
@@ -23,36 +23,42 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
+import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.databinding.FragmentMoreBinding;
+import com.pulse.brag.pojo.GeneralResponse;
+import com.pulse.brag.pojo.datas.MoreListData;
+import com.pulse.brag.pojo.datas.UserData;
 import com.pulse.brag.ui.activities.BaseActivity;
+import com.pulse.brag.ui.core.CoreActivity;
+import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.fragments.FullScreenImageDialogFragment;
+import com.pulse.brag.ui.fragments.NotificationListFragment;
+import com.pulse.brag.ui.fragments.WebviewDialogFragment;
 import com.pulse.brag.ui.main.MainActivity;
+import com.pulse.brag.ui.more.adapter.MoreListAdapter;
 import com.pulse.brag.ui.myorder.MyOrderFragment;
 import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
-import com.pulse.brag.adapters.MoreListAdapter;
-import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.PreferencesManager;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.pojo.GeneralResponse;
-import com.pulse.brag.pojo.datas.MoreListData;
-import com.pulse.brag.pojo.datas.UserData;
-import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,12 +69,13 @@ import retrofit2.Response;
  */
 
 
-public class MoreFragment extends BaseFragment implements BaseInterface {
+public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewModel> implements MoreNavigator {
 
-    View mView;
-    ImageView mImgProfile;
-    ListView mListView;
-    TextView mTxtName;
+    @Inject
+    MoreViewModel mMoreViewModel;
+
+    FragmentMoreBinding mFragmentMoreBinding;
+
 
     UserData mUserData;
     MoreListAdapter moreListAdapter;
@@ -78,74 +85,33 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
 
     private long mLastClickTime = 0;
 
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_more, container, false);
-            initializeData();
-            setListeners();
-            showData();
-        }
-        return mView;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMoreViewModel.setNavigator(this);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotification,
                 new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
     }
 
     @Override
-    public void setToolbar() {
-//        ((BaseActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
+    public void beforeViewCreated() {
+        mUserData = mMoreViewModel.getDataManager().getUserData();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar();
-    }
+    public void afterViewCreated() {
+        mFragmentMoreBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), mFragmentMoreBinding.baseLayout);
 
-    @Override
-    public void initializeData() {
-        mImgProfile = (ImageView) mView.findViewById(R.id.imageview_profile);
-        mListView = (ListView) mView.findViewById(R.id.listview);
-        mTxtName = (TextView) mView.findViewById(R.id.textview_name);
-
-        mImgProfile.setVisibility(View.GONE);
-
-        mUserData = PreferencesManager.getInstance().getUserData();
-
-        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
+        mFragmentMoreBinding.imageviewProfile.setVisibility(View.GONE);
 
         //footer (version name)
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_more_list, null, false);
         ((TextView) footerView.findViewById(R.id.textview_version)).setText(getString(R.string.label_version) + " " + BuildConfig.VERSION_NAME);
         Utility.applyTypeFace(getActivity(), (LinearLayout) footerView.findViewById(R.id.base_layout));
-        mListView.addFooterView(footerView, null, false);
-    }
+        mFragmentMoreBinding.listview.addFooterView(footerView, null, false);
 
-    @Override
-    public void setListeners() {
-
-        mImgProfile.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-
-                Bundle args = new Bundle();
-                args.putString(Constants.BUNDLE_IMAGE_URL, "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature1.jpg?9636438770338163967");
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
-                mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
-                mDialogFragmentImage.setArguments(args);
-                mDialogFragmentImage.show(fm, "");
-            }
-        });
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mFragmentMoreBinding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -214,12 +180,9 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 }
             }
         });
-    }
 
-    @Override
-    public void showData() {
-
-        mTxtName.setText(mUserData.getFullName());
+        //mTxtName.setText(mUserData.getFullName());
+        mMoreViewModel.setFullName(mUserData.getFullName());
 
         moreListData = new ArrayList<>();
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
@@ -227,7 +190,7 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         moreListData.add(new MoreListData(Constants.MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
                 getString(R.string.label_my_order)));
         moreListData.add(new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
-               Utility.getNotificationlabel(getActivity())));
+                Utility.getNotificationlabel(getActivity())));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new MoreListData(Constants.MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
@@ -246,11 +209,32 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 getString(R.string.label_logout)));
 
         moreListAdapter = new MoreListAdapter(getContext(), moreListData);
-        mListView.setAdapter(moreListAdapter);
+        mFragmentMoreBinding.listview.setAdapter(moreListAdapter);
 
-        Utility.setListViewHeightBasedOnChildren(mListView);
+        Utility.setListViewHeightBasedOnChildren(mFragmentMoreBinding.listview);
 
     }
+
+    @Override
+    public void setUpToolbar() {
+        ((CoreActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
+    }
+
+    @Override
+    public MoreViewModel getViewModel() {
+        return mMoreViewModel;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_more;
+    }
+
 
     private void showAlertMessageLogOut(final Context mContext, String s) {
 
@@ -279,9 +263,10 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
                 public void onSingleClick(View v) {
                     alertDialog.dismiss();
                     if (Utility.isConnection(getActivity())) {
-                        LogOutAPI();
+                        showProgress();
+                        mMoreViewModel.logout();
+                        //LogOutAPI();
                     } else {
-                        //Utility.showAlertMessage(getActivity(), 0, null);
                         AlertUtils.showAlertMessage(getActivity(), 0, null);
                     }
                 }
@@ -290,41 +275,6 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void LogOutAPI() {
-        showProgressDialog();
-        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<GeneralResponse> responeCall = ApiClient.getInstance(getActivity()).getApiResp().logoutCall();
-        responeCall.enqueue(new Callback<GeneralResponse>() {
-            @Override
-            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    GeneralResponse respone = response.body();
-                    if (respone.isStatus()) {
-                        alertDialog.dismiss();
-                        PreferencesManager.getInstance().logout();
-                        Intent intent = new Intent(getActivity(), SplashActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        getActivity().finish();
-                    }
-                } else {
-                    alertDialog.dismiss();
-                    //Utility.showAlertMessage(getActivity(), 1, null);
-                    AlertUtils.showAlertMessage(getActivity(), 1, null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GeneralResponse> call, Throwable t) {
-                hideProgressDialog();
-                alertDialog.dismiss();
-                //Utility.showAlertMessage(getActivity(), t);
-                AlertUtils.showAlertMessage(getActivity(), t);
-            }
-        });
     }
 
     private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
@@ -340,5 +290,40 @@ public class MoreFragment extends BaseFragment implements BaseInterface {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
 
+    }
+
+    @Override
+    public void onApiSuccess() {
+
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+
+    }
+
+    @Override
+    public void profile() {
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_IMAGE_URL, "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature1.jpg?9636438770338163967");
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
+        mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
+        mDialogFragmentImage.setArguments(args);
+        mDialogFragmentImage.show(fm, "");
+    }
+
+    @Override
+    public void logout() {
+        Intent intent = new Intent(getActivity(), SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+    @Override
+    public void dismissAlert() {
+        alertDialog.dismiss();
     }
 }

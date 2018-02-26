@@ -14,6 +14,7 @@ import com.pulse.brag.ui.home.product.quickadd.AddProductDialogProvider;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.contactus.ContactUsProvider;
 import com.pulse.brag.ui.createnewpassord.CreateNewPasswordProvider;
+import com.pulse.brag.ui.more.MoreProvider;
 import com.pulse.brag.ui.myorder.MyOrderFragmentProvider;
 import com.pulse.brag.ui.myorder.MyOrderFragmentProvider;
 import com.pulse.brag.ui.myorder.orderdetail.OrderDetailFragmentProvider;
@@ -42,7 +43,7 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuilder {
 
-    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class, ForgotPasswordProvider.class, OTPFragmentProvider.class, SignUpFragmentProvider.class, SignUpCompleteProvider.class, CreateNewPasswordProvider.class, ContactUsProvider.class,ProductSortingDialogProvider.class})
+    @ContributesAndroidInjector(modules = {SplashActivityModule.class, LoginFragmentProvider.class, ForgotPasswordProvider.class, OTPFragmentProvider.class, SignUpFragmentProvider.class, SignUpCompleteProvider.class, CreateNewPasswordProvider.class, ContactUsProvider.class, ProductSortingDialogProvider.class})
     abstract SplashActivity bindSplashActivity();
 
     @ContributesAndroidInjector(modules = {MainActivityModule.class, HomeFragmentProvider.class
@@ -50,9 +51,9 @@ public abstract class ActivityBuilder {
             , CartFragmentProvider.class, EditQtytDialogProvider.class
             , ProductListProvider.class, ProductDetailProvider.class, AddProductDialogProvider.class
             , ProductSortingDialogProvider.class, ProductFilterDialogProvider.class
-            ,OrderDetailFragmentProvider.class
+            , OrderDetailFragmentProvider.class
             , PlaceOrderFragmentProvider.class
-            , MyOrderFragmentProvider.class})
+            , MyOrderFragmentProvider.class, MoreProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})

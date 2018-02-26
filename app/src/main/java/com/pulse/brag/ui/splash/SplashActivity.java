@@ -119,32 +119,10 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
         }
     }
 
-    private boolean checkAndRequestPermissions() {
-        boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);
-        boolean hasPermissionReceiveSMS = hasPermission(Manifest.permission.RECEIVE_MMS);
-        boolean hasPermissionReadSMS = hasPermission(Manifest.permission.READ_SMS);
-        List<String> listPermissionsNeeded = new ArrayList<>();
 
-        if (!hasPermissionSendMessage) {
-            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
-        }
-        if (!hasPermissionReceiveSMS) {
-            listPermissionsNeeded.add(Manifest.permission.RECEIVE_MMS);
-        }
-        if (!hasPermissionReadSMS) {
-            listPermissionsNeeded.add(Manifest.permission.READ_SMS);
-        }
-
-        if (!listPermissionsNeeded.isEmpty()) {
-            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constants.IPermissionRequestCode.REQ_SMS_SEND_RECEIVED_READ);
-            return false;
-        }
-        return true;
-    }
 
     public void openLoginFragment() {
         pushFragments(new LogInFragment(), true, false, "");
-        checkAndRequestPermissions();
     }
 
     public void popBackToLogin() {

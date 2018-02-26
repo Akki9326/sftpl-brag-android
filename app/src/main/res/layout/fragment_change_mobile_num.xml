@@ -75,6 +75,7 @@
                 android:imeActionLabel="@string/button_login"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
+                android:tag="@string/font_opensans_regular_id"
                 android:maxLength="@integer/max_length"
                 android:onEditorAction="@{viewModel.onEditorActionPass}"
                 android:paddingBottom="5dp" />

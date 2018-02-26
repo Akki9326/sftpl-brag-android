@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.BR;
@@ -86,6 +87,7 @@ public class ChangePassFragment extends CoreFragment<FragmentChangePasswordBindi
     @Override
     public void afterViewCreated() {
         mChangePasswordBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mChangePasswordBinding.baseLayout);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.pulse.brag.ui.signup;
 
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.pulse.brag.ui.core.CoreNavigator;
@@ -10,6 +11,8 @@ import com.pulse.brag.ui.core.CoreNavigator;
  */
 
 public interface SignUpNavigator extends CoreNavigator {
+
+    void typeDropdown(View view);
 
     void signUp();
 

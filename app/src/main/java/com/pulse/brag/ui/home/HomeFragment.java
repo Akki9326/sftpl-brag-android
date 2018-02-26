@@ -29,7 +29,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.BR;
@@ -40,7 +39,7 @@ import com.pulse.brag.ui.home.category.CategoryFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.CollectionFragment;
-import com.pulse.brag.ui.fragments.MoreFragment;
+import com.pulse.brag.ui.more.MoreFragment;
 import com.pulse.brag.ui.fragments.QuickOrderFragment;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;

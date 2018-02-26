@@ -13,6 +13,7 @@ package com.pulse.brag.interfaces;
  */
 
 
-public interface OnAddButtonClickListener {
-    public void OnAddListener(int position);
+public interface OnProductButtonClickListener {
+    void OnAddListener(int position);
+    void OnCartClick(int position);
 }

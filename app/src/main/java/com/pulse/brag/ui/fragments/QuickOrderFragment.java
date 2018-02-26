@@ -37,7 +37,7 @@ import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.interfaces.OnAddButtonClickListener;
+import com.pulse.brag.interfaces.OnProductButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
@@ -59,7 +59,7 @@ import retrofit2.Response;
 
 
 public class QuickOrderFragment extends BaseFragment implements BaseInterface
-        , OnItemClickListener, OnAddButtonClickListener, OnProductColorSelectListener
+        , OnItemClickListener, OnProductButtonClickListener, OnProductColorSelectListener
         , OnProductSizeSelectListener {
 
     View mView;
@@ -285,6 +285,11 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
         AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
         mAddProductDialogFragment.setArguments(bundle);
         mAddProductDialogFragment.show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void OnCartClick(int position) {
+
     }
 
     @Override

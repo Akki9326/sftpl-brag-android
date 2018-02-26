@@ -1,4 +1,4 @@
-package com.pulse.brag.adapters;
+package com.pulse.brag.ui.more.adapter;
 
 
 /**

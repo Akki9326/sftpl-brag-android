@@ -27,6 +27,15 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
         super(dataManager);
     }
 
+    public View.OnClickListener onTypeDropdownClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().typeDropdown(v);
+            }
+        };
+    }
+
     public View.OnClickListener onSignUpClick() {
         return new OnSingleClickListener() {
             @Override

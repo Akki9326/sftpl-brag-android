@@ -25,11 +25,12 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductListBinding;
-import com.pulse.brag.interfaces.OnAddButtonClickListener;
+import com.pulse.brag.interfaces.OnProductButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.interfaces.OnProductColorSelectListener;
 import com.pulse.brag.interfaces.OnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
+import com.pulse.brag.pojo.requests.AddToCartRequest;
 import com.pulse.brag.pojo.response.ProductListResponse;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
@@ -59,7 +60,7 @@ import javax.inject.Inject;
 
 
 public class ProductListFragment extends CoreFragment<FragmentProductListBinding, ProductListViewModel> implements ProductListNavigator,
-        OnItemClickListener, OnAddButtonClickListener, OnProductSizeSelectListener,
+        OnItemClickListener, OnProductButtonClickListener, OnProductSizeSelectListener,
         OnProductColorSelectListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener/*BaseFragment implements BaseInterface,*/ {
 
 
@@ -439,6 +440,15 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         if (!isClicked) {
             isClicked = true;
             openDialogFragment(position);
+            enabledClick();
+        }
+    }
+
+    @Override
+    public void OnCartClick(int position) {
+        if (!isClicked) {
+            isClicked = true;
+            ((MainActivity) getBaseActivity()).addToCartAPI(new AddToCartRequest());
             enabledClick();
         }
     }

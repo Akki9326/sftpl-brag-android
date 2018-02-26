@@ -71,6 +71,7 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
         public ItemViewHolder(ItemListSizeFilterBinding itemView) {
             super(itemView.getRoot());
             this.itemBinding = itemView;
+            Utility.applyTypeFace(this.itemView.getContext(), itemBinding.baseLayout);
         }
 
         void bindSizeData(int pos, SizeModel sizeModel) {

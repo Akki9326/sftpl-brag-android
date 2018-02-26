@@ -118,7 +118,7 @@
     <string name="label_my_order">My Order</string>
     <string name="label_pri_policy">Privacy Policy</string>
     <string name="label_terms_and"><![CDATA[Terms & Conditions]]></string>
-    <string name="label_version">version :</string>
+    <string name="label_version">version </string>
     <string name="label_logout">LogOut</string>
     <string name="msg_logout">Are you sure want to logout?</string>
     <string name="btn_yes">YES</string>
@@ -232,4 +232,5 @@
     <string name="label_download_invoice">Download Invoice</string>
     <string name="label_reorder">Reorder</string>
     <string name="label_order_status_approved">Approved</string>
+    <string name="label_type">Type</string>
 </resources>

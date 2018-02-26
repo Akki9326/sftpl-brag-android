@@ -9,8 +9,10 @@ package com.pulse.brag.ui.forgotpassword;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
@@ -25,7 +27,12 @@ import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
+
+import static com.pulse.brag.utils.Constants.IPermissionRequestCode.REQ_SMS_SEND_RECEIVED_READ;
 
 /**
  * Created by nikhil.vadoliya on 09-11-2017.
@@ -81,6 +88,7 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public void afterViewCreated() {
         mFragmentForgotPassBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentForgotPassBinding.baseLayout);
 
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_MOBILE)) {
             if (getArguments().getString(Constants.BUNDLE_MOBILE).trim().isEmpty()
@@ -118,6 +126,20 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public int getLayoutId() {
         return R.layout.fragment_forget_pass;
+    }
+
+    @Override
+    public void onPermissionGranted(int request) {
+        super.onPermissionGranted(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ)
+            mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+    }
+
+    @Override
+    public void onPermissionDenied(int request) {
+        super.onPermissionDenied(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ)
+            mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
     }
 
     /*Commented by alpesh on 14/02/18 to convert mvvm architecture*/
@@ -224,6 +246,29 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     }*/
     /*End comment*/
 
+    private boolean checkAndRequestPermissions() {
+        boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);
+        boolean hasPermissionReceiveSMS = hasPermission(Manifest.permission.RECEIVE_MMS);
+        boolean hasPermissionReadSMS = hasPermission(Manifest.permission.READ_SMS);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (!hasPermissionSendMessage) {
+            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+        }
+        if (!hasPermissionReceiveSMS) {
+            listPermissionsNeeded.add(Manifest.permission.RECEIVE_MMS);
+        }
+        if (!hasPermissionReadSMS) {
+            listPermissionsNeeded.add(Manifest.permission.READ_SMS);
+        }
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQ_SMS_SEND_RECEIVED_READ);
+            return false;
+        }
+        return true;
+    }
+
 
     @Override
     public void onApiSuccess() {
@@ -243,8 +288,12 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         } else if (!Validation.isValidMobileNum(mFragmentForgotPassBinding.edittextMobileNum)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
         } else if (Utility.isConnection(getActivity())) {
-            //ForgetPassAPI(mEdtMobile.getText().toString());
-            mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+            // TODO: 2/26/2018 Add sms permission
+            if (checkAndRequestPermissions()) {
+                mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+            }
+
+
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }

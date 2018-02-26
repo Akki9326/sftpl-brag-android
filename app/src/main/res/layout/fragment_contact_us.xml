@@ -1,13 +1,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.contactus.ContactUsViewModel"/>
+            type="com.pulse.brag.ui.contactus.ContactUsViewModel" />
     </data>
 
 
     <LinearLayout
+        android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -122,12 +124,12 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/round_corner_solid_pink"
+                android:onClick="@{viewModel.onSendClick()}"
                 android:paddingBottom="10dp"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
                 android:paddingTop="10dp"
                 android:tag="@string/font_opensans_regular_id"
-                android:onClick="@{viewModel.onSendClick()}"
                 android:text="@string/button_send"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_small" />

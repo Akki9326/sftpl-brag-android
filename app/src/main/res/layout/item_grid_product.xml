@@ -28,10 +28,10 @@
             android:orientation="vertical">
 
 
-            <ImageView
+            <com.pulse.brag.views.SquareImageView
                 android:id="@+id/imageView_product"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
@@ -48,6 +48,7 @@
                 android:maxLines="1"
                 android:tag="@string/font_opensans_regular_id"
                 android:text="@{viewModel.firstName}"
+                android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_very_small" />
 
 
@@ -58,7 +59,6 @@
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="2dp"
                 android:gravity="left|start|center_vertical"
-                android:onClick="@{viewModel::onAddClick}"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp">
 
@@ -71,7 +71,7 @@
                     android:maxLines="1"
                     android:tag="@string/font_opensans_bold"
                     android:text="@{viewModel.price}"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_very_small" />
 
                 <ImageView
@@ -79,14 +79,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:adjustViewBounds="true"
+                    android:onClick="@{viewModel::onAddClick}"
                     android:src="@drawable/ic_add_product" />
 
                 <ImageView
                     android:id="@+id/imageView_cart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
                     android:adjustViewBounds="true"
+                    android:onClick="@{viewModel::onCartClick}"
                     android:src="@drawable/ic_cart_added" />
 
                 <!--<TextView

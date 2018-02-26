@@ -9,6 +9,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="30dp"
@@ -37,8 +38,9 @@
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="10"
-            android:text="@{viewModel.mobileNumber}"
-            android:paddingBottom="5dp" />
+            android:paddingBottom="5dp"
+            android:tag="@string/font_opensans_regular_id"
+            android:text="@{viewModel.mobileNumber}" />
 
         <View
             android:layout_width="match_parent"
@@ -56,12 +58,12 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:background="@drawable/round_corner_solid_pink"
+            android:onClick="@{viewModel.onSendOtpClick()}"
             android:paddingBottom="10dp"
             android:paddingLeft="70dp"
             android:paddingRight="70dp"
             android:paddingTop="10dp"
             android:tag="@string/font_opensans_regular_id"
-            android:onClick="@{viewModel.onSendOtpClick()}"
             android:text="@string/btn_send_otp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small" />

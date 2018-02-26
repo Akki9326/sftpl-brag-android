@@ -8,9 +8,11 @@ package com.pulse.brag.ui.signup;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
@@ -25,11 +27,20 @@ import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.otp.OTPFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.AppLogger;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
+import com.pulse.brag.views.dropdown.DropdownItem;
+import com.pulse.brag.views.dropdown.DropdownUtils;
+import com.pulse.brag.views.dropdown.IOnDropDownItemClick;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.pulse.brag.utils.Constants.IPermissionRequestCode.REQ_SMS_SEND_RECEIVED_READ;
 
 /**
  * Created by nikhil.vadoliya on 27-09-2017.
@@ -42,6 +53,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     SignUpViewModel mSignUpViewModel;
     FragmentSignUpBinding mFragmentSignUpBinding;
 
+    ArrayList<DropdownItem> userType;
 
 
 
@@ -76,13 +88,17 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
     @Override
     public void beforeViewCreated() {
-
+        userType = new ArrayList<>();
     }
 
     @Override
     public void afterViewCreated() {
         mFragmentSignUpBinding = getViewDataBinding();
         Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentSignUpBinding.baseLayout);
+
+        userType.add(new DropdownItem("Retailer", 0));
+        userType.add(new DropdownItem("Distributor", 1));
+        mFragmentSignUpBinding.textviewUserType.setText(userType.get(0).getValue());
     }
 
     @Override
@@ -105,9 +121,30 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         return R.layout.fragment_sign_up;
     }
 
+    @Override
+    public void onPermissionDenied(int request) {
+        super.onPermissionDenied(request);
 
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+                    mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString());
+            mSignUpViewModel.signUp(signInRequest);
+        }
+    }
 
-   /* @Override
+    @Override
+    public void onPermissionGranted(int request) {
+        super.onPermissionGranted(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+                    mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString());
+            mSignUpViewModel.signUp(signInRequest);
+        }
+    }
+
+    /* @Override
     public void setToolbar() {
 
     }
@@ -256,6 +293,29 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
     }*/
 
+    private boolean checkAndRequestPermissions() {
+        boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);
+        boolean hasPermissionReceiveSMS = hasPermission(Manifest.permission.RECEIVE_MMS);
+        boolean hasPermissionReadSMS = hasPermission(Manifest.permission.READ_SMS);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (!hasPermissionSendMessage) {
+            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+        }
+        if (!hasPermissionReceiveSMS) {
+            listPermissionsNeeded.add(Manifest.permission.RECEIVE_MMS);
+        }
+        if (!hasPermissionReadSMS) {
+            listPermissionsNeeded.add(Manifest.permission.READ_SMS);
+        }
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQ_SMS_SEND_RECEIVED_READ);
+            return false;
+        }
+        return true;
+    }
+
 
     @Override
     public void onApiSuccess() {
@@ -264,8 +324,23 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
     @Override
     public void onApiError(ApiError error) {
-        showProgress();
+        hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void typeDropdown(View view) {
+        try {
+            DropdownUtils.DropDownSpinner(getActivity(), userType, view, new IOnDropDownItemClick() {
+                @Override
+                public void onItemClick(String str, int i) {
+
+                }
+            });
+        } catch (Exception e) {
+            AppLogger.e(e.getMessage());
+        }
+
     }
 
     @Override
@@ -289,10 +364,14 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         } else if (Utility.isConnection(getActivity())) {
             Utility.hideSoftkeyboard(getActivity());
             // TODO: 2/15/2018 change title in api call it is backend issue
-            SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
-                    mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString());
-            mSignUpViewModel.signUp(signInRequest);
+            //// TODO: 2/26/2018 add sms permission
+
+            if (checkAndRequestPermissions()) {
+                SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+                        mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
+                        , mFragmentSignUpBinding.edittextPassword.getText().toString());
+                mSignUpViewModel.signUp(signInRequest);
+            }
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }

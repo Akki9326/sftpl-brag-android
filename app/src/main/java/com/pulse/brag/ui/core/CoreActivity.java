@@ -8,6 +8,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,7 @@ import dagger.android.AndroidInjection;
  * Created by alpesh.rathod on 2/1/2018.
  */
 
-public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBinding, V extends CoreViewModel> extends AppCompatActivity implements IFragmentLoader, IFragmentCallback {
+public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBinding, V extends CoreViewModel> extends AppCompatActivity implements IFragmentLoader, IFragmentCallback {
 
     // TODO
     // this can probably depend on isLoading variable of CoreViewModel,
@@ -50,7 +51,7 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
     CustomProgressDialog mProgressDialog;
     RelativeLayout mRelText;
 
-    protected B bActivity = (B)this;
+    protected B bActivity = (B) this;
     private T mViewDataBinding;
     private V mViewModel;
 
@@ -91,19 +92,36 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
     }
 
     @TargetApi(Build.VERSION_CODES.M)
+    public boolean hasPermission(String permission) {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+                checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
     public void requestPermission(String[] permission, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(permission, requestCode);
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
-    public boolean hasPermission(String permission) {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
-                checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            onPermissionGranted(requestCode);
+        } else {
+            onPermissionDenied(requestCode);
+        }
     }
 
-    public void setUpToolbar(Toolbar toolbar,TextView toolbarTitle, ImageView back, ImageView logo, LinearLayout linearCart, TextView bagCount, RelativeLayout relText, TextView textReadAll){
+    public void onPermissionGranted(int request) {
+    }
+
+    public void onPermissionDenied(int request) {
+    }
+
+    public void setUpToolbar(Toolbar toolbar, TextView toolbarTitle, ImageView back, ImageView logo, LinearLayout linearCart, TextView bagCount, RelativeLayout relText, TextView textReadAll) {
 
         mToolbar = toolbar;
         setSupportActionBar(mToolbar);
@@ -210,7 +228,8 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
             mTxtBagCount.setText(Utility.getBadgeNumber(num));
         }
     }
-    public void showKeyboard(){
+
+    public void showKeyboard() {
         View view = this.getCurrentFocus();
         Common.showKeyboard(this, view);
     }
@@ -225,7 +244,7 @@ public abstract class CoreActivity<B extends CoreActivity,T extends ViewDataBind
     }
 
     public void showToast(String msg) {
-        ToastUtils.show(this,msg);
+        ToastUtils.show(this, msg);
     }
 
     public B getActivityInstance() {

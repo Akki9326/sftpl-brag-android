@@ -94,23 +94,35 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         AndroidSupportInjection.inject(this);
     }
 
-
-   /* @TargetApi(Build.VERSION_CODES.M)
-    public void requestPermission(String[] permission, int requestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(permission, requestCode);
-        }
-    }*/
-
     @TargetApi(Build.VERSION_CODES.M)
     public boolean hasPermission(String permission) {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
                 mActivity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
+    public void requestPermission(String[] permissions, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permissions, requestCode);
+        }
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            List<String> needrequest = new ArrayList<>();
+            for (String permission : permissions) {
+                if (ContextCompat.checkSelfPermission(getActivity(), permission)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    needrequest.add(permission);
+                }
+            }
+            if (needrequest.size() > 0) {
+                requestPermissions(needrequest.toArray(new String[needrequest.size()]), requestCode);
+                return;
+            }
+        }
+        onPermissionGranted(requestCode);*/
+    }
+
 
     @Override
-    public  void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -120,27 +132,11 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         }
     }
 
-    public  void requestPermission(int request, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            List<String> needrequest = new ArrayList<>();
-            for (String permission : permissions) {
-                if (ContextCompat.checkSelfPermission(getActivity(), permission)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    needrequest.add(permission);
-                }
-            }
-            if (needrequest.size() > 0) {
-                requestPermissions(needrequest.toArray(new String[needrequest.size()]), request);
-                return;
-            }
-        }
-        onPermissionGranted(request);
+
+    public void onPermissionGranted(int request) {
     }
 
-    public  void onPermissionGranted(int request) {
-    }
-
-    public  void onPermissionDenied(int request) {
+    public void onPermissionDenied(int request) {
     }
 
 

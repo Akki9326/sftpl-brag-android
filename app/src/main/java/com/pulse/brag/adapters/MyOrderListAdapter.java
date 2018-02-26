@@ -64,7 +64,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
 
     public interface OnItemClick {
-        public void onItemClick(int position, MyOrderListResponeData responeData);
+        void onItemClick(int position, MyOrderListResponeData responeData);
     }
 
     public class ViewHolder extends CoreViewHolder implements MyOrderItemViewModel.OnItemClick {

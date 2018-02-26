@@ -11,6 +11,7 @@ package com.pulse.brag.ui.signup.complete;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
@@ -18,6 +19,7 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentSignupComplateBinding;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
+import com.pulse.brag.utils.Utility;
 
 import javax.inject.Inject;
 
@@ -92,6 +94,7 @@ public class SignUpCompleteFragment extends CoreFragment<FragmentSignupComplateB
     @Override
     public void afterViewCreated() {
         mFragmentSignupComplateBinding = getViewDataBinding();
+        Utility.applyTypeFace(getBaseActivity(), mFragmentSignupComplateBinding.baseLayout);
     }
 
     @Override

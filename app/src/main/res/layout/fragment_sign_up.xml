@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-        name="viewModel"
-        type="com.pulse.brag.ui.signup.SignUpViewModel" /></data>
+            name="viewModel"
+            type="com.pulse.brag.ui.signup.SignUpViewModel" />
+    </data>
 
     <LinearLayout
         android:id="@+id/base_layout"
@@ -182,11 +184,38 @@
                     style="@style/NormalEditText"
                     android:background="@null"
                     android:hint="@string/hint_confirm_password_ast"
-                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
-                    android:onEditorAction="@{viewModel.onEditorActionConfirmPass}"
                     android:maxLength="@integer/max_length"
-                    android:paddingBottom="5dp" />
+                    android:paddingBottom="5dp"
+                    android:tag="@string/font_opensans_regular_id" />
+                <!--android:imeOptions="actionDone"
+                android:onEditorAction="@{viewModel.onEditorActionConfirmPass}"-->
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/pink" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/label_type"
+                    android:textColor="@color/pink"
+                    android:textSize="@dimen/text_size_very_small_12" />
+
+                <TextView
+                    android:id="@+id/textview_user_type"
+                    style="@style/NormalEditText"
+                    android:background="@null"
+                    android:onClick="@{viewModel.onTypeDropdownClick()}"
+                    android:paddingBottom="5dp"
+                    android:tag="@string/font_opensans_regular_id" />
 
                 <View
                     android:layout_width="match_parent"
@@ -204,12 +233,12 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/round_corner_solid_pink"
+                    android:onClick="@{viewModel.onSignUpClick()}"
                     android:paddingBottom="10dp"
                     android:paddingLeft="70dp"
                     android:paddingRight="70dp"
                     android:paddingTop="10dp"
                     android:tag="@string/font_opensans_regular_id"
-                    android:onClick="@{viewModel.onSignUpClick()}"
                     android:text="@string/button_signup"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small" />

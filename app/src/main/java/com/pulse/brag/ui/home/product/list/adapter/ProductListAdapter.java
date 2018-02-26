@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.databinding.ItemGridProductBinding;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.interfaces.OnAddButtonClickListener;
+import com.pulse.brag.interfaces.OnProductButtonClickListener;
 import com.pulse.brag.interfaces.OnItemClickListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.utils.Utility;
@@ -34,14 +34,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     Context mContext;
     List<DummeyDataRespone> mListRespones;
     private OnItemClickListener mOnItemClickListener;
-    private OnAddButtonClickListener mAddButtonClickListener;
+    private OnProductButtonClickListener mAddButtonClickListener;
 
     private static final int LIST_ITEM = 0;
     private static final int GRID_ITEM = 1;
     boolean isSwitchView = true;
 
 
-    public ProductListAdapter(Context mContext, OnItemClickListener mOnItemClickListener, OnAddButtonClickListener mAddButtonClickListener, List<DummeyDataRespone> mListRespones) {
+    public ProductListAdapter(Context mContext, OnItemClickListener mOnItemClickListener, OnProductButtonClickListener mAddButtonClickListener, List<DummeyDataRespone> mListRespones) {
         this.mContext = mContext;
         this.mOnItemClickListener = mOnItemClickListener;
         this.mListRespones = new ArrayList<>();
@@ -52,7 +52,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemGridProductBinding itemGridProductBinding = ItemGridProductBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        ItemGridProductBinding itemGridProductBinding = ItemGridProductBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new MyViewHolder(itemGridProductBinding);
 
         /*View view;
@@ -71,7 +71,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.bindProduct(position,mListRespones.get(position));
+        holder.bindProduct(position, mListRespones.get(position));
 
         /*DummeyDataRespone data = mListRespones.get(position);
 
@@ -109,7 +109,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         public MyViewHolder(ItemGridProductBinding itemGridProductBinding) {
             super(itemGridProductBinding.baseLayout);
-            this.mItemProductBinding=itemGridProductBinding;
+            this.mItemProductBinding = itemGridProductBinding;
             Utility.applyTypeFace(mContext, mItemProductBinding.baseLayout);
         }
 
@@ -130,11 +130,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             mLinerAdd = (LinearLayout) itemView.findViewById(R.id.linear_add);
         }*/
 
-        void bindProduct(int posistion,DummeyDataRespone product){
-            if(mItemProductBinding.getViewModel() == null){
-                mItemProductBinding.setViewModel(new ItemProductViewModel(itemView.getContext(),product,posistion,this));
+        void bindProduct(int posistion, DummeyDataRespone product) {
+            if (mItemProductBinding.getViewModel() == null) {
+                mItemProductBinding.setViewModel(new ItemProductViewModel(itemView.getContext(), product, posistion, this));
                 mItemProductBinding.executePendingBindings();
-            }else {
+            } else {
                 mItemProductBinding.getViewModel().setProduct(product);
             }
         }
@@ -147,6 +147,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         @Override
         public void OnAddClick(int position, DummeyDataRespone product) {
             mAddButtonClickListener.OnAddListener(position);
+        }
+
+        @Override
+        public void OnCartClick(int position, DummeyDataRespone product) {
+            mAddButtonClickListener.OnCartClick(position);
         }
 
         @Override

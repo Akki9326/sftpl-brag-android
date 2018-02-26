@@ -47,7 +47,7 @@ import com.pulse.brag.ui.fragments.NotificationListFragment;
 import com.pulse.brag.ui.fragments.WebviewDialogFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.more.adapter.MoreListAdapter;
-import com.pulse.brag.ui.myorder.MyOrderFragment;
+import com.pulse.brag.ui.order.MyOrderFragment;
 import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;

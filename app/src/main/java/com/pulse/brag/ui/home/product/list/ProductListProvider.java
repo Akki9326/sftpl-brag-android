@@ -1,8 +1,5 @@
 package com.pulse.brag.ui.home.product.list;
 
-import com.pulse.brag.ui.login.LogInFragment;
-import com.pulse.brag.ui.login.LoginFragmentModule;
-
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

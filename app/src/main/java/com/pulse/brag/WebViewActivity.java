@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
+import com.pulse.brag.callback.BaseInterface;
 import com.pulse.brag.views.CustomProgressDialog;
 import com.pulse.brag.callback.OnSingleClickListener;
 

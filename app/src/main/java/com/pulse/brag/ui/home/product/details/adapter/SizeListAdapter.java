@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnProductSizeSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
@@ -33,10 +33,10 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
     Activity mActivity;
     List<String> mListSize;
     List<Boolean> mSeletedList;
-    OnProductSizeSelectListener mOnProductSizeSelectListener;
+    IOnProductSizeSelectListener mOnProductSizeSelectListener;
     int mSeletedPos;
 
-    public SizeListAdapter(Activity mActivity, List<String> mListSize, int mSeletedPos, OnProductSizeSelectListener onProductSizeSelectListener) {
+    public SizeListAdapter(Activity mActivity, List<String> mListSize, int mSeletedPos, IOnProductSizeSelectListener onProductSizeSelectListener) {
         this.mActivity = mActivity;
         this.mListSize = mListSize;
         mOnProductSizeSelectListener = onProductSizeSelectListener;

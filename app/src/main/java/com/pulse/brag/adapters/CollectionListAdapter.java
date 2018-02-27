@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.pojo.datas.CollectionListResponeData;
 
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 
     Activity mActivity;
     List<CollectionListResponeData> mListResponses;
-    OnItemClickListener mItemClickListener;
+    IOnItemClickListener mItemClickListener;
 
-    public CollectionListAdapter(Activity activity, List<CollectionListResponeData> mListResponses, OnItemClickListener mItemClickListener) {
+    public CollectionListAdapter(Activity activity, List<CollectionListResponeData> mListResponses, IOnItemClickListener mItemClickListener) {
         this.mActivity = activity;
         this.mListResponses = new ArrayList<>();
         this.mListResponses = mListResponses;

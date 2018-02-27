@@ -12,7 +12,6 @@ package com.pulse.brag.ui.home.category;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.pulse.brag.BR;
@@ -22,7 +21,7 @@ import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentCategoryBinding;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
-import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.ui.core.CoreFragment;
@@ -41,7 +40,7 @@ import javax.inject.Inject;
  */
 
 
-public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, CategoryViewModel> implements CategoryNavigator, OnItemClickListener {
+public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, CategoryViewModel> implements CategoryNavigator, IOnItemClickListener {
 
     @Inject
     CategoryViewModel categoryViewModel;

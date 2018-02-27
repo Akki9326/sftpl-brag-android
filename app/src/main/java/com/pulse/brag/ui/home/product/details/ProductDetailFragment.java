@@ -18,7 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.widget.RelativeLayout;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductDetailBinding;
@@ -33,9 +33,9 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
-import com.pulse.brag.interfaces.OnProductSizeSelectListener;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
@@ -51,7 +51,7 @@ import javax.inject.Named;
  */
 
 
-public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements OnItemClickListener, OnProductSizeSelectListener, OnProductColorSelectListener, ProductDetailNavigator /*BaseInterface,*/ {
+public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements IOnItemClickListener, IOnProductSizeSelectListener, IOnProductColorSelectListener, ProductDetailNavigator /*BaseInterface,*/ {
 
     @Inject
     ProductDetailViewModel mProductDetailViewModel;
@@ -155,7 +155,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public int getBindingVariable() {
-        return BR.viewModel;
+        return com.pulse.brag.BR.viewModel;
     }
 
     @Override
@@ -401,7 +401,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void addToCart() {
-        ((MainActivity)getBaseActivity()).addToCartAPI(new AddToCartRequest());
+        ((MainActivity) getBaseActivity()).addToCartAPI(new AddToCartRequest());
     }
 
     @Override

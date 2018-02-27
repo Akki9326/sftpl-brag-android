@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 
 import java.util.ArrayList;
@@ -34,9 +34,9 @@ public class ProductDetailImagePagerAdapter extends PagerAdapter {
     Activity mContext;
     LayoutInflater mLayoutInflater;
     List<ImagePagerResponse> mPagerRespones;
-    OnItemClickListener mItemClickListener;
+    IOnItemClickListener mItemClickListener;
 
-    public ProductDetailImagePagerAdapter(Activity context, List<ImagePagerResponse> mPagerRespones, OnItemClickListener mOnItemClickListener) {
+    public ProductDetailImagePagerAdapter(Activity context, List<ImagePagerResponse> mPagerRespones, IOnItemClickListener mOnItemClickListener) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mPagerRespones = new ArrayList<>();

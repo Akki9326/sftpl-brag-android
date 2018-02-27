@@ -16,11 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pulse.brag.databinding.ItemGridCategoryBinding;
-import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.callback.OnSingleClickListener;
-import com.pulse.brag.utils.AnimationUtils;
 import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
@@ -35,9 +34,9 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     List<CategoryListResponseData> listRespones = new ArrayList<>();
     Context context;
-    OnItemClickListener onItemClickListener;
+    IOnItemClickListener onItemClickListener;
     public CategoryListAdapter(Context context, List<CategoryListResponseData> listRespones
-            , OnItemClickListener onItemClickListener) {
+            , IOnItemClickListener onItemClickListener) {
         this.listRespones = listRespones;
         this.context = context;
         this.onItemClickListener = onItemClickListener;

@@ -23,6 +23,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pulse.brag.ui.main.MainActivity;
+import com.pulse.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.PreferencesManager;
@@ -112,13 +113,13 @@ public class FCMService extends FirebaseMessagingService {
 
             case LOGIN:
 
-                    notificationIntent = new Intent(getApplicationContext(), SplashActivity.class);
-                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
-                    notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
-                    simplePendingIntent =
-                            PendingIntent.getActivity(getApplicationContext(), mNotificationId,
-                                    notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                notificationIntent = new Intent(getApplicationContext(), SplashActivity.class);
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
+                notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
+                simplePendingIntent =
+                        PendingIntent.getActivity(getApplicationContext(), mNotificationId,
+                                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
                 break;

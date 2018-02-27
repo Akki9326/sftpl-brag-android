@@ -1,15 +1,19 @@
 package com.pulse.brag.callback;
 
 /**
- * Created by alpesh.rathod on 2/1/2018.
+ * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
+ * This software is the confidential and proprietary information
+ * (Confidential Information) of Sailfin Technologies, Pvt. Ltd.  You shall not
+ * disclose or use Confidential Information without the express written
+ * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-public interface IOnItemClickListener<V> {
+/**
+ * Created by nikhil.vadoliya on 03-10-2017.
+ */
 
-    /**
-     *
-     * @param pos represent item position
-     * @param v represent item view
-     */
-    void onItemClick(int pos, V v);
+
+public interface IOnItemClickListener {
+
+    public void onItemClick(int position);
 }

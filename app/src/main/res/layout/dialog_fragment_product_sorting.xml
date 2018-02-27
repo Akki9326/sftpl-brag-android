@@ -33,8 +33,9 @@
                 android:clickable="false"
                 android:ellipsize="end"
                 android:padding="10dp"
-                android:tag="@string/font_opensans_regular_id"
-                android:text="SORT BY"
+                android:tag="@string/font_opensans_semi_bold_id"
+                android:text="@string/label_sort_by_camel"
+                android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_medium" />
 
             <View
@@ -54,28 +55,31 @@
                     android:id="@+id/rb_popularity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/RadioButtonTheme"
                     android:tag="@string/font_opensans_bold"
-                    android:text="Popularity"
-                    android:textSize="@dimen/text_size_small" />
+                    android:text="@string/label_sorting_popularity"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small"
+                    android:theme="@style/RadioButtonTheme" />
 
                 <RadioButton
                     android:id="@+id/rb_price_low_to_high"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:tag="@string/font_opensans_bold"
-                    android:text="Price -- Low to High"
-                    android:theme="@style/RadioButtonTheme"
-                    android:textSize="@dimen/text_size_small" />
+                    android:text="@string/label_sorting_price_low_to_high"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small"
+                    android:theme="@style/RadioButtonTheme" />
 
                 <RadioButton
                     android:id="@+id/rb_price_high_to_low"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:tag="@string/font_opensans_bold"
-                    android:text="Price -- High to Low"
-                    android:theme="@style/RadioButtonTheme"
-                    android:textSize="@dimen/text_size_small" />
+                    android:text="@string/label_sorting_price_high_to_low"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small"
+                    android:theme="@style/RadioButtonTheme" />
 
             </RadioGroup>
         </LinearLayout>

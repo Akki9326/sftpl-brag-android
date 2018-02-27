@@ -10,7 +10,6 @@ package com.pulse.brag.ui.home;
  */
 
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.ui.login.LoginViewModel;
 
 import dagger.Module;
 import dagger.Provides;

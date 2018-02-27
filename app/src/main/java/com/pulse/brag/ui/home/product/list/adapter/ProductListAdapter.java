@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.databinding.ItemGridProductBinding;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.interfaces.OnProductButtonClickListener;
-import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.callback.IOnProductButtonClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.utils.Utility;
 
@@ -33,15 +33,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     Context mContext;
     List<DummeyDataRespone> mListRespones;
-    private OnItemClickListener mOnItemClickListener;
-    private OnProductButtonClickListener mAddButtonClickListener;
+    private IOnItemClickListener mOnItemClickListener;
+    private IOnProductButtonClickListener mAddButtonClickListener;
 
     private static final int LIST_ITEM = 0;
     private static final int GRID_ITEM = 1;
     boolean isSwitchView = true;
 
 
-    public ProductListAdapter(Context mContext, OnItemClickListener mOnItemClickListener, OnProductButtonClickListener mAddButtonClickListener, List<DummeyDataRespone> mListRespones) {
+    public ProductListAdapter(Context mContext, IOnItemClickListener mOnItemClickListener, IOnProductButtonClickListener mAddButtonClickListener, List<DummeyDataRespone> mListRespones) {
         this.mContext = mContext;
         this.mOnItemClickListener = mOnItemClickListener;
         this.mListRespones = new ArrayList<>();

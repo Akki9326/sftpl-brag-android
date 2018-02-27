@@ -36,8 +36,8 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
-import com.pulse.brag.interfaces.OnProductSizeSelectListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
@@ -52,8 +52,8 @@ import javax.inject.Inject;
  */
 
 
-public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentAddProductBinding, AddProductDialogViewModel> implements AddProductDialogNavigator, OnProductSizeSelectListener,
-        OnProductColorSelectListener/*, BaseInterface */ {
+public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentAddProductBinding, AddProductDialogViewModel> implements AddProductDialogNavigator, IOnProductSizeSelectListener,
+        IOnProductColorSelectListener/*, BaseInterface */ {
 
     @Inject
     AddProductDialogViewModel mAddProductDialogViewModel;

@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.otp.OTPViewModel"/>
+            type="com.pulse.brag.ui.authentication.otp.OTPViewModel" />
     </data>
 
 
@@ -26,6 +27,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:inputType="number"
+            android:onEditorAction="@{viewModel.onEditorActionPin}"
             android:padding="2dp"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_medium"
@@ -35,7 +37,6 @@
             app:itemRadius="1dp"
             app:itemSpacing="10dp"
             app:itemWidth="30dp"
-            android:onEditorAction="@{viewModel.onEditorActionPin}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,10 +67,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
+            android:onClick="@{viewModel.onResendOtpClick()}"
             android:text="Resend OTP"
             android:textColor="@color/pink"
             android:textSize="14dp"
-            android:onClick="@{viewModel.onResendOtpClick()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,13 +85,13 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/round_corner_solid_pink"
+            android:onClick="@{viewModel.onVerifyOtpClick()}"
             android:paddingBottom="10dp"
             android:paddingLeft="70dp"
             android:paddingRight="70dp"
             android:paddingTop="10dp"
             android:tag="@string/font_opensans_regular_id"
             android:text="@string/button_verify"
-            android:onClick="@{viewModel.onVerifyOtpClick()}"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintEnd_toEndOf="@+id/pinView"
@@ -108,7 +109,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Please type OTP sentds to Email"
+            android:text="@string/label_send_otp_to_mobile"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintEnd_toEndOf="parent"

@@ -12,5 +12,4 @@ public interface MoreNavigator extends CoreNavigator {
 
     void logout();
 
-    void dismissAlert();
 }

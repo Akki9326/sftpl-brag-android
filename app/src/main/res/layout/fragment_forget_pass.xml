@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.forgotpassword.ForgotPasswordViewModel" />
+            type="com.pulse.brag.ui.authentication.forgotpassword.ForgotPasswordViewModel" />
     </data>
 
     <LinearLayout

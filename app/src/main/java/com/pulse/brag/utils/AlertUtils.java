@@ -16,8 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.BaseActivity;
-import com.pulse.brag.ui.profile.UserProfileActivity;
+import com.pulse.brag.ui.core.CoreActivity;
+import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 
 import java.net.ConnectException;
@@ -320,7 +320,7 @@ public class AlertUtils {
                         if (activity instanceof UserProfileActivity) {
                             ((UserProfileActivity) activity).onBackPressed();
                         } else {
-                            ((BaseActivity) activity).onBackPressed();
+                            ((CoreActivity) activity).onBackPressed();
                         }
                     }
                 }
@@ -333,6 +333,7 @@ public class AlertUtils {
 
     public static void showAlertMessageOkToLogin(final Activity activity, String s) {
 
+// TODO: 2/27/2018 move to core class because of preference clear issue
 
         try {
             dissmissDialog();

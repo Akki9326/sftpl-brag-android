@@ -1,7 +1,5 @@
 package com.pulse.brag.ui.more;
 
-import com.pulse.brag.ui.myorder.MyOrderFragment;
-import com.pulse.brag.ui.myorder.MyOrderFragmentModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

@@ -1,7 +1,6 @@
 package com.pulse.brag.ui.more;
 
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.ui.myorder.MyOrderViewModel;
 
 import dagger.Module;
 import dagger.Provides;

@@ -34,35 +34,27 @@ import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.databinding.FragmentMoreBinding;
-import com.pulse.brag.pojo.GeneralResponse;
 import com.pulse.brag.pojo.datas.MoreListData;
 import com.pulse.brag.pojo.datas.UserData;
-import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.FullScreenImageDialogFragment;
-import com.pulse.brag.ui.fragments.NotificationListFragment;
+import com.pulse.brag.ui.notification.NotificationListFragment;
 import com.pulse.brag.ui.fragments.WebviewDialogFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.more.adapter.MoreListAdapter;
 import com.pulse.brag.ui.order.MyOrderFragment;
-import com.pulse.brag.ui.profile.UserProfileActivity;
+import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.utils.PreferencesManager;
 import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 07-11-2017.
@@ -280,7 +272,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            moreListData.set(2, new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((BaseActivity) getActivity()).getNotificationlabel()));
+            moreListData.set(2, new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((CoreActivity) getActivity()).getNotificationlabel()));
             moreListAdapter.notifyDataSetChanged();
         }
     };
@@ -294,12 +286,13 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
 
     @Override
     public void onApiSuccess() {
-
+        hideProgress();
     }
 
     @Override
     public void onApiError(ApiError error) {
-
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
@@ -320,10 +313,5 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         getActivity().finish();
-    }
-
-    @Override
-    public void dismissAlert() {
-        alertDialog.dismiss();
     }
 }

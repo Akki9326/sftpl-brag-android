@@ -11,15 +11,10 @@ package com.pulse.brag.ui.home.subcategory;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
@@ -35,10 +30,9 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnItemClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.pojo.datas.CategoryListResponseData;
 import com.pulse.brag.pojo.response.ImagePagerResponse;
-import com.pulse.brag.views.CustomViewPagerIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +44,7 @@ import javax.inject.Inject;
  */
 
 
-public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, OnItemClickListener {
+public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, IOnItemClickListener {
 
 
     List<CategoryListResponseData> mCategoryList;

@@ -23,19 +23,18 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.adapters.CollectionListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.callback.BaseInterface;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.pojo.datas.CollectionListResponeData;
+import com.pulse.brag.pojo.response.CollectionListResponse;
+import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.datas.CollectionListResponeData;
-import com.pulse.brag.pojo.response.CollectionListResponse;
-import com.pulse.brag.pojo.response.ImagePagerResponse;
 import com.pulse.brag.views.CustomViewPagerIndicator;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ import retrofit2.Response;
  */
 
 
-public class CollectionFragment extends Fragment implements BaseInterface, OnItemClickListener {
+public class CollectionFragment extends Fragment implements BaseInterface, IOnItemClickListener {
 
     View mView;
     ViewPager mViewPager;

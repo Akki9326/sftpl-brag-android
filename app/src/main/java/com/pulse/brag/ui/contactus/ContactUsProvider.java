@@ -1,8 +1,5 @@
 package com.pulse.brag.ui.contactus;
 
-import com.pulse.brag.ui.createnewpassord.CreateNewPasswordFragment;
-import com.pulse.brag.ui.createnewpassord.CreateNewPasswordModule;
-
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

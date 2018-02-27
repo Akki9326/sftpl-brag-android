@@ -9,10 +9,6 @@ package com.pulse.brag.ui.home;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.ui.login.LogInFragment;
-import com.pulse.brag.ui.login.LoginFragmentModule;
-
-import dagger.Component;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

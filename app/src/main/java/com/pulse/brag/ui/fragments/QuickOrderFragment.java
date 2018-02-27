@@ -36,11 +36,11 @@ import com.pulse.brag.ui.home.product.quickadd.AddProductDialogFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.interfaces.OnProductButtonClickListener;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
-import com.pulse.brag.interfaces.OnProductSizeSelectListener;
+import com.pulse.brag.callback.BaseInterface;
+import com.pulse.brag.callback.IOnProductButtonClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.pojo.DummeyDataRespone;
 import com.pulse.brag.pojo.DummeyRespone;
 import com.pulse.brag.pojo.response.ProductListResponse;
@@ -59,8 +59,8 @@ import retrofit2.Response;
 
 
 public class QuickOrderFragment extends BaseFragment implements BaseInterface
-        , OnItemClickListener, OnProductButtonClickListener, OnProductColorSelectListener
-        , OnProductSizeSelectListener {
+        , IOnItemClickListener, IOnProductButtonClickListener, IOnProductColorSelectListener
+        , IOnProductSizeSelectListener {
 
     View mView;
     ERecyclerView mRecyclerView;

@@ -4,7 +4,6 @@ import com.pulse.brag.ui.home.category.CategoryFragmentProvider;
 import com.pulse.brag.ui.cart.CartFragmentProvider;
 import com.pulse.brag.ui.cart.placeorder.PlaceOrderFragmentProvider;
 import com.pulse.brag.ui.cart.editquantity.EditQtytDialogProvider;
-import com.pulse.brag.ui.home.HomeFragmentModule;
 import com.pulse.brag.ui.home.HomeFragmentProvider;
 import com.pulse.brag.ui.home.product.details.ProductDetailProvider;
 import com.pulse.brag.ui.home.product.list.ProductListProvider;
@@ -13,20 +12,23 @@ import com.pulse.brag.ui.home.product.list.sorting.ProductSortingDialogProvider;
 import com.pulse.brag.ui.home.product.quickadd.AddProductDialogProvider;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.contactus.ContactUsProvider;
-import com.pulse.brag.ui.createnewpassord.CreateNewPasswordProvider;
+import com.pulse.brag.ui.authentication.createnewpassord.CreateNewPasswordProvider;
 import com.pulse.brag.ui.more.MoreProvider;
+import com.pulse.brag.ui.notification.NotificationListProvider;
+import com.pulse.brag.ui.notification.handler.NotificationHandlerActivity;
+import com.pulse.brag.ui.notification.handler.NotificationHandlerModule;
 import com.pulse.brag.ui.order.MyOrderFragmentProvider;
 import com.pulse.brag.ui.order.orderdetail.OrderDetailFragmentProvider;
-import com.pulse.brag.ui.profile.UserProfileModule;
-import com.pulse.brag.ui.profile.UserProfileActivity;
-import com.pulse.brag.ui.profile.changemobile.ChangeMobNumberProvider;
-import com.pulse.brag.ui.profile.changepassword.ChangePassProvider;
-import com.pulse.brag.ui.forgotpassword.ForgotPasswordProvider;
-import com.pulse.brag.ui.login.LoginFragmentProvider;
-import com.pulse.brag.ui.otp.OTPFragmentProvider;
-import com.pulse.brag.ui.profile.updateprofile.UpdateProfileProvider;
-import com.pulse.brag.ui.signup.SignUpFragmentProvider;
-import com.pulse.brag.ui.signup.complete.SignUpCompleteProvider;
+import com.pulse.brag.ui.authentication.profile.UserProfileModule;
+import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
+import com.pulse.brag.ui.authentication.profile.changemobile.ChangeMobNumberProvider;
+import com.pulse.brag.ui.authentication.profile.changepassword.ChangePassProvider;
+import com.pulse.brag.ui.authentication.forgotpassword.ForgotPasswordProvider;
+import com.pulse.brag.ui.authentication.login.LoginFragmentProvider;
+import com.pulse.brag.ui.authentication.otp.OTPFragmentProvider;
+import com.pulse.brag.ui.authentication.profile.updateprofile.UpdateProfileProvider;
+import com.pulse.brag.ui.authentication.signup.SignUpFragmentProvider;
+import com.pulse.brag.ui.authentication.signup.complete.SignUpCompleteProvider;
 import com.pulse.brag.ui.main.MainActivityModule;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.ui.splash.SplashActivityModule;
@@ -52,9 +54,12 @@ public abstract class ActivityBuilder {
             , ProductSortingDialogProvider.class, ProductFilterDialogProvider.class
             , OrderDetailFragmentProvider.class
             , PlaceOrderFragmentProvider.class
-            , MyOrderFragmentProvider.class, MoreProvider.class})
+            , MyOrderFragmentProvider.class, MoreProvider.class, NotificationListProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})
     abstract UserProfileActivity bindChangePasswordOrMobileActivity();
+
+    @ContributesAndroidInjector(modules = {NotificationHandlerModule.class})
+    abstract NotificationHandlerActivity bindNotificationHandlerActivity();
 }

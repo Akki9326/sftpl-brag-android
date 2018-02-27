@@ -15,8 +15,8 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.DialogFragmentProductFilterBinding;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
-import com.pulse.brag.interfaces.OnProductSizeSelectListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.ui.core.CoreDialogFragment;
 import com.pulse.brag.ui.home.product.list.adapter.ColorFilterAdapter;
 import com.pulse.brag.ui.home.product.list.adapter.model.ColorModel;
@@ -36,7 +36,7 @@ import javax.inject.Named;
  * Created by alpesh.rathod on 2/22/2018.
  */
 
-public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragmentProductFilterBinding, ProductFilterDialogViewModel> implements ProductFilterDialogNavigator, OnProductColorSelectListener, OnProductSizeSelectListener {
+public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragmentProductFilterBinding, ProductFilterDialogViewModel> implements ProductFilterDialogNavigator, IOnProductColorSelectListener, IOnProductSizeSelectListener {
 
     @Inject
     ProductFilterDialogViewModel mProductFilterDialogViewModel;

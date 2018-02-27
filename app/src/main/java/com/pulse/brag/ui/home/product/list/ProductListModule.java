@@ -3,7 +3,6 @@ package com.pulse.brag.ui.home.product.list;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.ui.login.LoginViewModel;
 
 import dagger.Module;
 import dagger.Provides;

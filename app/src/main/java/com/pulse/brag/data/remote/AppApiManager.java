@@ -2,22 +2,21 @@ package com.pulse.brag.data.remote;
 
 import android.content.Context;
 
-import com.pulse.brag.di.PreferenceInfo;
-import com.pulse.brag.pojo.DummeyRespone;
-import com.pulse.brag.pojo.GeneralResponse;
-import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
-import com.pulse.brag.pojo.requests.ChangePasswordRequest;
-import com.pulse.brag.pojo.requests.LoginRequest;
-import com.pulse.brag.pojo.requests.SignInRequest;
-import com.pulse.brag.pojo.response.CartListResponse;
-import com.pulse.brag.pojo.response.CategoryListResponse;
-import com.pulse.brag.pojo.response.ChangePasswordResponse;
-import com.pulse.brag.pojo.response.CollectionListResponse;
-import com.pulse.brag.pojo.response.LoginResponse;
-import com.pulse.brag.pojo.response.MyOrderListRespone;
-import com.pulse.brag.pojo.response.OTPVerifyResponse;
-import com.pulse.brag.pojo.response.OrderDetailResponse;
-import com.pulse.brag.pojo.response.SignUpResponse;
+import com.pulse.brag.data.model.DummeyRespone;
+import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
+import com.pulse.brag.data.model.requests.ChangePasswordRequest;
+import com.pulse.brag.data.model.requests.LoginRequest;
+import com.pulse.brag.data.model.requests.SignInRequest;
+import com.pulse.brag.data.model.response.CartListResponse;
+import com.pulse.brag.data.model.response.CategoryListResponse;
+import com.pulse.brag.data.model.response.ChangePasswordResponse;
+import com.pulse.brag.data.model.response.CollectionListResponse;
+import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.model.response.MyOrderListRespone;
+import com.pulse.brag.data.model.response.OTPVerifyResponse;
+import com.pulse.brag.data.model.response.OrderDetailResponse;
+import com.pulse.brag.data.model.response.SignUpResponse;
 
 import javax.inject.Inject;
 

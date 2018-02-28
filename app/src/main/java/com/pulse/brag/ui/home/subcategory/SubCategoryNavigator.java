@@ -10,7 +10,10 @@ package com.pulse.brag.ui.home.subcategory;
  */
 
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
 import com.pulse.brag.ui.core.CoreNavigator;
+
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 16-02-2018.
@@ -20,7 +23,10 @@ import com.pulse.brag.ui.core.CoreNavigator;
 public interface SubCategoryNavigator extends CoreNavigator {
 
     void onApiSuccess();
+
     void onApiError(ApiError error);
 
     void swipeRefresh();
+
+    void OnSuccessPullToRefresh(List<CategoryListResponseData> list);
 }

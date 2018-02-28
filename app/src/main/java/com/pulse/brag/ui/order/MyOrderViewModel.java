@@ -10,11 +10,13 @@ package com.pulse.brag.ui.order;
  */
 
 import android.databinding.ObservableField;
+import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.response.MyOrderListRespone;
+import com.pulse.brag.data.model.response.MyOrderListRespone;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -60,4 +62,20 @@ public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
     public void setListVisibility(boolean visibility) {
         this.visibility.set(visibility);
     }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().swipeRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
+    }
+
 }

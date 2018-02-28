@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.R;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.views.RoundView;
 
@@ -33,13 +33,13 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
 
     Activity mActivity;
     List<String> mList;
-    OnProductColorSelectListener colorSelectListener;
+    IOnProductColorSelectListener colorSelectListener;
     int mSeletedPos;
     List<Boolean> mBooleanList;
 
     MyViewHolder mViewHolder;
 
-    public ColorListAdapter(Activity mActivity, List<String> mList, int mSeletedPos, OnProductColorSelectListener colorSelectListener) {
+    public ColorListAdapter(Activity mActivity, List<String> mList, int mSeletedPos, IOnProductColorSelectListener colorSelectListener) {
         this.mActivity = mActivity;
         this.mList = new ArrayList<>();
         this.mList = mList;

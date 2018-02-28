@@ -20,5 +20,5 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class MyOrderFragmentProvider {
     @ContributesAndroidInjector(modules = MyOrderFragmentModule.class)
-    abstract MyOrderFragment provideMyOrderFragmentFactory();
+    abstract MyOrderListFragment provideMyOrderFragmentFactory();
 }

@@ -14,9 +14,8 @@ import android.databinding.BaseObservable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.Toast;
 
-import com.pulse.brag.pojo.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartListResponeData;
 import com.pulse.brag.utils.Utility;
 
 /**

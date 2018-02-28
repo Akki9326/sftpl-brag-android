@@ -10,13 +10,15 @@ package com.pulse.brag.ui.cart;
  */
 
 import android.databinding.ObservableField;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
+import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.response.CartListResponse;
+import com.pulse.brag.data.model.response.CartListResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -47,6 +49,7 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
             public void onSuccess(CartListResponse cartListResponse, Headers headers) {
                 if (cartListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
+                    getNavigator().getCartList(cartListResponse.getData());
                 } else {
                     getNavigator().onApiError(new ApiError(cartListResponse.getErrorCode(), cartListResponse.getMessage()));
                 }
@@ -117,5 +120,20 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
 
     public String getItemsLable() {
         return itemsLable;
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().swipeRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
     }
 }

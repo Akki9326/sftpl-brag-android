@@ -3,10 +3,10 @@ package com.pulse.brag.ui.profile;
 import android.databinding.ObservableField;
 import android.view.View;
 
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.callback.OnSingleClickListener;
 
 /**
  * Created by alpesh.rathod on 2/15/2018.

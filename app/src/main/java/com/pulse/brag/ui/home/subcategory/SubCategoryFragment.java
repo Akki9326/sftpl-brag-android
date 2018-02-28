@@ -10,23 +10,18 @@ package com.pulse.brag.ui.home.subcategory;
  */
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.CategoryListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentSubCategoryBinding;
-import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
@@ -35,12 +30,12 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.datas.CategoryListResponseData;
-import com.pulse.brag.pojo.response.ImagePagerResponse;
-import com.pulse.brag.views.CustomViewPagerIndicator;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,11 +45,13 @@ import javax.inject.Inject;
  */
 
 
-public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, OnItemClickListener {
+public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, IOnItemClickListener {
 
 
     List<CategoryListResponseData> mCategoryList;
+    List<ImagePagerResponse> imagePagerResponeList;
 
+    CategoryListAdapter adapter;
 
     @Inject
     SubCategoryViewModel categoryViewModel;
@@ -62,16 +59,15 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     FragmentSubCategoryBinding mFragmentSubCategoryBinding;
 
 
-    public static SubCategoryFragment newInstance(String url, String title) {
+    public static SubCategoryFragment newInstance(String url, List<CategoryListResponseData> list) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_IMAGE_URL, url);
-        args.putString(Constants.BUNDLE_PRODUCT_NAME, title);
+        args.putParcelableArrayList(Constants.BUNDLE_CATEGORY_LIST, (ArrayList<? extends Parcelable>) list);
         SubCategoryFragment fragment = new SubCategoryFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
 
 
     @Override
@@ -89,8 +85,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     private void checkInternet() {
 
         if (Utility.isConnection(getActivity())) {
-            if (!mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing())
-                showProgress();
             categoryViewModel.getSubCategoryData();
         } else {
             hideProgressBar();
@@ -102,6 +96,15 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void beforeViewCreated() {
+
+        mCategoryList = Collections.emptyList();
+        imagePagerResponeList = Collections.emptyList();
+        if (getArguments().containsKey(Constants.BUNDLE_CATEGORY_LIST)) {
+            mCategoryList = getArguments().getParcelableArrayList(Constants.BUNDLE_CATEGORY_LIST);
+        }
+        if (getArguments().containsKey(Constants.BUNDLE_IMAGE_URL)) {
+            categoryViewModel.setProductImg(getArguments().getString(Constants.BUNDLE_IMAGE_URL));
+        }
 
     }
 
@@ -116,11 +119,15 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         mFragmentSubCategoryBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
 
         Utility.applyTypeFace(getContext(), mFragmentSubCategoryBinding.baseLayout);
+        showData();
+    }
 
-        mCategoryList = new ArrayList<>();
+    private void showData() {
 
 
-        checkInternet();
+        adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
+        mFragmentSubCategoryBinding.recycleView.setAdapter(adapter);
+        mFragmentSubCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -144,118 +151,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         return R.layout.fragment_sub_category;
     }
 
-   /* @Override
-    public void setToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_sub_category));
-
-    }*/
-
-   /* @Override
-    public void initializeData() {
-        mCoordinatorLayout = mView.findViewById(R.id.base_layout);
-        mViewPager = mView.findViewById(R.id.view_pager);
-        mPagerIndicator = mView.findViewById(R.id.pager_view);
-        mRecyclerView = mView.findViewById(R.id.recycleView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setMotionEventSplittingEnabled(false);
-        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
-        mSwipeRefreshLayout = mView.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
-
-        Utility.applyTypeFace(getContext(), mFragmentCategoryBinding.baseLayout);
-
-        mCategoryList = new ArrayList<>();
-    }*/
-
-    /*@Override
-    public void setListeners() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                checkInternet();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }*/
-
-  /*  @Override
-    public void showData() {
-
-        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
-        if (getArguments().containsKey(Constants.BUNDLE_IMAGE_URL)) {
-            imagePagerResponeList.add(new ImagePagerResponse(getArguments().getString(Constants.BUNDLE_IMAGE_URL), ""));
-        }
-
-
-        if ((getArguments().getString(Constants.BUNDLE_PRODUCT_NAME)).equalsIgnoreCase("BRALETTES")) {
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature1.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "CAGE BACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature2.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "RACE BACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "MESH RACEBACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature4.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "TRIANGLE MESH BACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature5.jpg", 0));
-        }
-
-        if ((getArguments().getString(Constants.BUNDLE_PRODUCT_NAME)).equalsIgnoreCase("SPORTS BRA")) {
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC CROSS BACK SPORTS", "http://cdn.shopify.com/s/files/1/1629/9535/products/SBD02BU01-side_large.jpg?v=1516609951", 0));
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC RACERBACK", "http://cdn.shopify.com/s/files/1/1629/9535/products/SBD07PK02-style_large.jpg?v=1516609953", 0));
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC RACERBACK YOGA BRA", "http://cdn.shopify.com/s/files/1/1629/9535/products/BLC07BU01-front_large.jpg?v=1516609950", 0));
-            mCategoryList.add(new CategoryListResponseData("", "PLUNGE NECK MESH BACK", "http://cdn.shopify.com/s/files/1/1629/9535/products/SBD05BU01-front_large.jpg?v=1516609952", 0));
-        }
-        if ((getArguments().getString(Constants.BUNDLE_PRODUCT_NAME)).equalsIgnoreCase("PANTIES"))
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC BIKINI PANTY", "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0211_63ad3b1f-040d-460a-887e-211248bd58a0_large.jpg?v=1516609959", 0));
-
-
-//        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
-        mPagerAdapter = new ImagePagerAdapter(getActivity(), imagePagerResponeList);
-        mViewPager.setAdapter(mPagerAdapter);
-        mPagerIndicator.setViewPager(mViewPager);
-
-        CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
-        mRecyclerView.setAdapter(mCategoryAdapter);
-
-        mRecyclerView.setNestedScrollingEnabled(false);
-    }*/
-
-   /* private void GetCategoryAPI() {
-        showProgressDialog();
-        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<CategoryListResponse> getCategoryList = ApiClient.getInstance(getContext()).getApiResp().getCategoryProduct("home/get/1");
-        getCategoryList.enqueue(new Callback<CategoryListResponse>() {
-            @Override
-            public void onResponse(Call<CategoryListResponse> call, Response<CategoryListResponse> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-
-                    CategoryListResponse data = response.body();
-                    if (data.isStatus()) {
-                        mCategoryList = new ArrayList<>();
-
-
-//                        mCategoryList.addAll(data.getData());
-//                        mCategoryList.remove(0);
-//                        mCategoryList.remove(1);
-//                        Collections.sort(mCategoryList);
-                        showData();
-//                        } else {
-//                            Utility.showAlertMessage(getContext(), data.getErrorCode(), data.getMessage());
-//                        }
-                    } else {
-                        //Utility.showAlertMessage(getContext(), 1, null);
-                        AlertUtils.showAlertMessage(getContext(), 1, null);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CategoryListResponse> call, Throwable t) {
-                hideProgressDialog();
-                //Utility.showAlertMessage(getContext(), t);
-                AlertUtils.showAlertMessage(getContext(), t);
-            }
-        });
-    }*/
-
     @Override
     public void onItemClick(int position) {
         ((MainActivity) getActivity()).pushFragments(new ProductListFragment(), true, true);
@@ -274,38 +169,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     @Override
     public void onApiSuccess() {
         hideProgressBar();
-        mCategoryList = new ArrayList<>();
-        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
-        if (getArguments().containsKey(Constants.BUNDLE_IMAGE_URL)) {
-            imagePagerResponeList.add(new ImagePagerResponse(getArguments().getString(Constants.BUNDLE_IMAGE_URL), ""));
-        }
-
-
-        if ((getArguments().getString(Constants.BUNDLE_PRODUCT_NAME)).equalsIgnoreCase("BRALETTES")) {
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature1.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "CAGE BACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature2.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "RACE BACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature3.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "MESH RACEBACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature4.jpg", 0));
-            mCategoryList.add(new CategoryListResponseData("", "TRIANGLE MESH BACK", "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature5.jpg", 0));
-        }
-
-        if ((getArguments().getString(Constants.BUNDLE_PRODUCT_NAME)).equalsIgnoreCase("SPORTS BRA")) {
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC CROSS BACK SPORTS", "http://cdn.shopify.com/s/files/1/1629/9535/products/SBD02BU01-side_large.jpg?v=1516609951", 0));
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC RACERBACK", "http://cdn.shopify.com/s/files/1/1629/9535/products/SBD07PK02-style_large.jpg?v=1516609953", 0));
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC RACERBACK YOGA BRA", "http://cdn.shopify.com/s/files/1/1629/9535/products/BLC07BU01-front_large.jpg?v=1516609950", 0));
-            mCategoryList.add(new CategoryListResponseData("", "PLUNGE NECK MESH BACK", "http://cdn.shopify.com/s/files/1/1629/9535/products/SBD05BU01-front_large.jpg?v=1516609952", 0));
-        }
-        if ((getArguments().getString(Constants.BUNDLE_PRODUCT_NAME)).equalsIgnoreCase("PANTIES"))
-            mCategoryList.add(new CategoryListResponseData("", "CLASSIC BIKINI PANTY", "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0211_63ad3b1f-040d-460a-887e-211248bd58a0_large.jpg?v=1516609959", 0));
-
-
-        mFragmentSubCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
-        mFragmentSubCategoryBinding.pagerView.setViewPager(mFragmentSubCategoryBinding.viewPager);
-
-        CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
-        mFragmentSubCategoryBinding.recycleView.setAdapter(adapter);
-
-        mFragmentSubCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -318,6 +181,13 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     public void swipeRefresh() {
         mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(true);
         checkInternet();
+    }
+
+    @Override
+    public void OnSuccessPullToRefresh(List<CategoryListResponseData> list) {
+        mCategoryList.clear();
+        mCategoryList.addAll(list);
+        showData();
     }
 
     public void hideProgressBar() {

@@ -15,8 +15,12 @@ import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.response.CategoryListResponse;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
+
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -27,6 +31,8 @@ import retrofit2.Call;
 
 
 public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
+
+    public List<CategoryListResponseData> mList = Collections.emptyList();
 
     public CategoryViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -40,6 +46,7 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
             public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
+                    getNavigator().getCategoryList(categoryListResponse.getData());
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));
                 }
@@ -65,5 +72,13 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         return new int[]{
                 R.color.pink,
         };
+    }
+
+    public List<CategoryListResponseData> getListOfCategory() {
+        return mList;
+    }
+
+    public void setListOfCategory(List<CategoryListResponseData> list) {
+        mList.addAll(list);
     }
 }

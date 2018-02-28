@@ -2,9 +2,9 @@ package com.pulse.brag.ui.signup.complete;
 
 import android.view.View;
 
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.callback.OnSingleClickListener;
 
 /**
  * Created by alpesh.rathod on 2/16/2018.

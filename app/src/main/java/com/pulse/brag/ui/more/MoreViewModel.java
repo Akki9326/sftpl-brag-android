@@ -1,24 +1,17 @@
 package com.pulse.brag.ui.more;
 
-import android.content.Intent;
 import android.databinding.ObservableField;
 import android.view.View;
 
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.GeneralResponse;
+import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.ui.splash.SplashActivity;
-import com.pulse.brag.utils.AlertUtils;
-import com.pulse.brag.utils.PreferencesManager;
 
 import okhttp3.Headers;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by alpesh.rathod on 2/26/2018.

@@ -12,15 +12,13 @@ package com.pulse.brag.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.pulse.brag.databinding.ItemGridCategoryBinding;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.datas.CategoryListResponseData;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.callback.OnSingleClickListener;
-import com.pulse.brag.utils.AnimationUtils;
+import com.pulse.brag.ui.home.category.CategoryItemViewModel;
 import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
@@ -35,9 +33,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     List<CategoryListResponseData> listRespones = new ArrayList<>();
     Context context;
-    OnItemClickListener onItemClickListener;
+    IOnItemClickListener onItemClickListener;
+
     public CategoryListAdapter(Context context, List<CategoryListResponseData> listRespones
-            , OnItemClickListener onItemClickListener) {
+            , IOnItemClickListener onItemClickListener) {
         this.listRespones = listRespones;
         this.context = context;
         this.onItemClickListener = onItemClickListener;
@@ -55,8 +54,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.onBind(position);
-
+        holder.onBind(position,listRespones.get(position));
 
     }
 
@@ -66,7 +64,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     }
 
 
-    public class ViewHolder extends CoreViewHolder /*implements CategoryListResponseData.ItemViewModelListener */ {
+    public class ViewHolder extends CoreViewHolder implements CategoryItemViewModel.OnItemClickListener {
 
         ItemGridCategoryBinding itemBinding;
 
@@ -77,25 +75,24 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             Utility.applyTypeFace(context, itemBinding.baseLayout);
         }
 
+        public void onBind(int position, CategoryListResponseData responseData) {
+            if(itemBinding.getViewModel()==null){
+                itemBinding.setViewModel(new CategoryItemViewModel(itemView.getContext(),position,responseData,this));
+            }else {
+                itemBinding.getViewModel().setResponeData(responseData);
+            }
+        }
+
         @Override
         public void onBind(final int position) {
-            //new CategoryListResponseData(this);
-            CategoryListResponseData listResponseData = listRespones.get(position);
-            itemBinding.setViewModel(listResponseData);
-            //itemBinding.setViewModel(listRespones.get(position));
-            itemBinding.executePendingBindings();
-            itemBinding.baseLayout.setOnClickListener(new OnSingleClickListener() {
-                @Override
-                public void onSingleClick(View v) {
-                    onItemClickListener.onItemClick(position);
-                }
-            });
         }
 
 
+        @Override
+        public void onItemClick(int position, CategoryListResponseData responeData) {
+            onItemClickListener.onItemClick(position);
+        }
     }
-
-
 
 
 }

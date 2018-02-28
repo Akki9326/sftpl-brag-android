@@ -34,11 +34,9 @@ import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.databinding.FragmentMoreBinding;
-import com.pulse.brag.pojo.GeneralResponse;
-import com.pulse.brag.pojo.datas.MoreListData;
-import com.pulse.brag.pojo.datas.UserData;
+import com.pulse.brag.data.model.datas.MoreListData;
+import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
@@ -47,22 +45,17 @@ import com.pulse.brag.ui.fragments.NotificationListFragment;
 import com.pulse.brag.ui.fragments.WebviewDialogFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.more.adapter.MoreListAdapter;
-import com.pulse.brag.ui.order.MyOrderFragment;
+import com.pulse.brag.ui.order.MyOrderListFragment;
 import com.pulse.brag.ui.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.utils.PreferencesManager;
 import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 07-11-2017.
@@ -126,7 +119,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                 WebviewDialogFragment dialogFragment;
                 switch (viewId) {
                     case 1:
-                        ((MainActivity) getActivity()).pushFragments(new MyOrderFragment()
+                        ((MainActivity) getActivity()).pushFragments(new MyOrderListFragment()
                                 , true, true);
                         break;
                     case 2:
@@ -299,7 +292,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
 
     @Override
     public void onApiError(ApiError error) {
-
+        hideProgress();
     }
 
     @Override

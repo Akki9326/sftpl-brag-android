@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.FullScreenImagePagerAdaper;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.pojo.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
 
 import java.util.ArrayList;
 import java.util.List;

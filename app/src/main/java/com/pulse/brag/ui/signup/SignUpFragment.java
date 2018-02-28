@@ -22,7 +22,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentSignUpBinding;
-import com.pulse.brag.pojo.requests.SignInRequest;
+import com.pulse.brag.data.model.requests.SignInRequest;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.otp.OTPFragment;
 import com.pulse.brag.ui.splash.SplashActivity;

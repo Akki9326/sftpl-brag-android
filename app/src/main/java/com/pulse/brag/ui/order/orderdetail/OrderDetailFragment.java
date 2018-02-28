@@ -9,7 +9,10 @@ package com.pulse.brag.ui.order.orderdetail;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
@@ -18,12 +21,16 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentOrderDetailBinding;
-import com.pulse.brag.pojo.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.MyOrderListResponeData;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.AppPermission;
 import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.FileUtils;
 import com.pulse.brag.utils.Utility;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -36,6 +43,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     String orderId;
     MyOrderListResponeData mData;
+
+    final int REQUEST_PERMISSION = 01;
 
     @Inject
     OrderDetailViewModel orderDetailViewModel;
@@ -114,17 +123,45 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void onDownloadInvoice() {
-        if(Utility.isConnection(getContext())){
-            mFragmentOrderDetailBinding.progressBarDownload.setVisibility(View.VISIBLE);
-            downloadFile();
-        }else {
-            AlertUtils.showAlertMessage(getActivity(),0,null);
+        if (Utility.isConnection(getContext())) {
+            if (!AppPermission.isPermissionRequestRequired(getActivity()
+                    , new String[]{"android.permission.READ_EXTERNAL_STORAGE"}
+                    , REQUEST_PERMISSION)) {
+                downloadFile();
+            }
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
 
         Toast.makeText(getActivity(), "On Download Invoice", Toast.LENGTH_SHORT).show();
     }
 
     private void downloadFile() {
+
+        String folderPath;
+        if (FileUtils.isSdCardPresent()) {
+            folderPath = Environment.getExternalStorageDirectory().toString()
+                    + "/" + getString(R.string.app_name);
+
+            if (FileUtils.isFolderExist(folderPath)) {
+                if (FileUtils.isFileExist(folderPath + "/" + "12313")) {
+                    //open file
+                } else {
+                    //download
+                }
+            } else {
+                FileUtils.makeFolders(folderPath);
+                //download
+            }
+
+        } else {
+            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+            File folder = new File(extStorageDirectory, "Brag");
+            folder.mkdir();
+        }
+
+
+
     }
 
     @Override
@@ -154,5 +191,25 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         super.onHiddenChanged(hidden);
         if (!hidden)
             setUpToolbar();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_PERMISSION:
+                for (int i = 0; i < permissions.length; i++) {
+                    String permission = permissions[i];
+                    int grantResult = grantResults[i];
+                    switch (permission) {
+                        case "android.permission.READ_EXTERNAL_STORAGE":
+                            if (PackageManager.PERMISSION_GRANTED == grantResult) {
+                                downloadFile();
+                            }
+                            break;
+                    }
+                }
+                break;
+        }
     }
 }

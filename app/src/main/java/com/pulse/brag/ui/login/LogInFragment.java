@@ -132,7 +132,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
         mEdtNumber = mView.findViewById(R.id.edittext_mobile_num);
         mTxtForget = mView.findViewById(R.id.textview_forget);
         mTxtContactUs = mView.findViewById(R.id.textview_contact);
-        // TODO: 08-11-2017 Login username and password
         //mEdtNumber.setText("7874487853");
         //mEdtPassword.setText("sailfin*123");
     }

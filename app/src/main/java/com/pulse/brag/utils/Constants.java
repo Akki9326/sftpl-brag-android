@@ -23,8 +23,8 @@ public class Constants {
 
     // TODO: Release : Log and Base Url
     public static final boolean IS_LOG_ENABLED = true;
-//    public static final String BASE_URL = "http://139.162.1.39:8082/";
-    public static final  String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
+    //    public static final String BASE_URL = "http://139.162.1.39:8082/";
+    public static final String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
 
     //font type
 //    public static final int FONT_SANS_ROUNDED = 1;
@@ -77,10 +77,11 @@ public class Constants {
     public static final String BUNDLE_CART_LIST = "bundlecartlist";
     public static final String BUNDLE_ORDER_ID = "bundleorderId";
     public static final String BUNDLE_ORDER_DATA = "bundleorderData";
+    public static final String BUNDLE_CATEGORY_LIST = "bundlecategorylist";
 
     public interface ApiHelper {
-        //        String BASE_URL = "http://103.204.192.148/brag/api/";
-        String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
+        String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip
+//        String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;
         String FULL_URL = BASE_URL + API_VERSION;

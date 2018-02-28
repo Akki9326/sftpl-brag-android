@@ -14,7 +14,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.pulse.brag.R;
-import com.pulse.brag.pojo.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.MyOrderListResponeData;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 

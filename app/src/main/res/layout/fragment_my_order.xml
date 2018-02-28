@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,26 +11,35 @@
             type="com.pulse.brag.ui.order.MyOrderViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/linear_order_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:visibility="@{viewModel.listVisibility ? View.VISIBLE : View.GONE}">
+            android:layout_height="wrap_content"
+            app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+            app:onRefreshListener="@{viewModel.getOnRefreshListener}">
 
-            <com.pulse.brag.views.erecyclerview.ERecyclerView
-                android:id="@+id/recycleview"
+            <LinearLayout
+                android:id="@+id/linear_order_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.listVisibility ? View.VISIBLE : View.GONE}">
+
+
+                <com.pulse.brag.views.erecyclerview.ERecyclerView
+                    android:id="@+id/recycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/linear_empty"

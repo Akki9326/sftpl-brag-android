@@ -16,16 +16,14 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.PlaceOrderCartListAdapter;
-import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
-import com.pulse.brag.pojo.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartListResponeData;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.utils.AlertUtils;

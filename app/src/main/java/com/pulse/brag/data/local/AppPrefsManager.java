@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.pulse.brag.di.PreferenceInfo;
-import com.pulse.brag.pojo.datas.UserData;
+import com.pulse.brag.data.model.datas.UserData;
 
 import javax.inject.Inject;
 

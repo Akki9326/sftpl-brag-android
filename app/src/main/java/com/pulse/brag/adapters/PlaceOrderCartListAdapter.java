@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListPlaceOrderBinding;
-import com.pulse.brag.pojo.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartListResponeData;
 import com.pulse.brag.ui.cart.placeorder.PlaceOrderItemViewModel;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.utils.Utility;

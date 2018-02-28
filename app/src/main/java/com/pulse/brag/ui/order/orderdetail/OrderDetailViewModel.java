@@ -16,8 +16,8 @@ import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.datas.OrderDetailResponeData;
-import com.pulse.brag.pojo.response.OrderDetailResponse;
+import com.pulse.brag.data.model.datas.OrderDetailResponeData;
+import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;

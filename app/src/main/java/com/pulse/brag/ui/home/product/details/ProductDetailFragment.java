@@ -23,7 +23,7 @@ import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductDetailBinding;
 import com.pulse.brag.adapters.ProductDetailImagePagerAdapter;
-import com.pulse.brag.pojo.requests.AddToCartRequest;
+import com.pulse.brag.data.model.requests.AddToCartRequest;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.FullScreenImageDialogFragment;
 import com.pulse.brag.ui.fragments.WebviewDialogFragment;
@@ -33,11 +33,11 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
-import com.pulse.brag.interfaces.OnProductSizeSelectListener;
-import com.pulse.brag.pojo.DummeyDataRespone;
-import com.pulse.brag.pojo.response.ImagePagerResponse;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
+import com.pulse.brag.data.model.DummeyDataRespone;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ import javax.inject.Named;
  */
 
 
-public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements OnItemClickListener, OnProductSizeSelectListener, OnProductColorSelectListener, ProductDetailNavigator /*BaseInterface,*/ {
+public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements IOnItemClickListener, IOnProductSizeSelectListener, IOnProductColorSelectListener, ProductDetailNavigator /*BaseInterface,*/ {
 
     @Inject
     ProductDetailViewModel mProductDetailViewModel;

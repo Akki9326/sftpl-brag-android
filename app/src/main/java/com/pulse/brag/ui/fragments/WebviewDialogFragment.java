@@ -31,11 +31,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.callback.BaseInterface;
 
 /**
  * Created by nikhil.vadoliya on 26-12-2017.

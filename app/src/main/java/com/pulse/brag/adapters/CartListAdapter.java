@@ -17,10 +17,9 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListCartBinding;
-import com.pulse.brag.pojo.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartListResponeData;
 import com.pulse.brag.ui.cart.CartItemViewModel;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.utils.AnimationUtils;
 import com.pulse.brag.utils.Utility;
 
 import java.util.Collections;

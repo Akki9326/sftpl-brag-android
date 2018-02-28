@@ -4,9 +4,6 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.view.View;
 
-import com.pulse.brag.pojo.DummeyDataRespone;
-import com.pulse.brag.ui.home.product.list.adapter.ItemProductViewModel;
-
 /**
  * Created by alpesh.rathod on 2/20/2018.
  */

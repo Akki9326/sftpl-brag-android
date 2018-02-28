@@ -21,4 +21,6 @@ public interface MyOrderNavigator {
     void onApiSuccess();
 
     void onApiError(ApiError error);
+
+    void swipeRefresh();
 }

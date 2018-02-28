@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListOrderBinding;
-import com.pulse.brag.pojo.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.MyOrderListResponeData;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.order.MyOrderItemViewModel;
 import com.pulse.brag.utils.Utility;

@@ -25,13 +25,13 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductListBinding;
-import com.pulse.brag.interfaces.OnProductButtonClickListener;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
-import com.pulse.brag.interfaces.OnProductSizeSelectListener;
-import com.pulse.brag.pojo.DummeyDataRespone;
-import com.pulse.brag.pojo.requests.AddToCartRequest;
-import com.pulse.brag.pojo.response.ProductListResponse;
+import com.pulse.brag.callback.IOnProductButtonClickListener;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
+import com.pulse.brag.data.model.DummeyDataRespone;
+import com.pulse.brag.data.model.requests.AddToCartRequest;
+import com.pulse.brag.data.model.response.ProductListResponse;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.home.product.details.ProductDetailFragment;
@@ -60,8 +60,8 @@ import javax.inject.Inject;
 
 
 public class ProductListFragment extends CoreFragment<FragmentProductListBinding, ProductListViewModel> implements ProductListNavigator,
-        OnItemClickListener, OnProductButtonClickListener, OnProductSizeSelectListener,
-        OnProductColorSelectListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener/*BaseFragment implements BaseInterface,*/ {
+        IOnItemClickListener, IOnProductButtonClickListener, IOnProductSizeSelectListener,
+        IOnProductColorSelectListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener/*BaseFragment implements BaseInterface,*/ {
 
 
     @Inject

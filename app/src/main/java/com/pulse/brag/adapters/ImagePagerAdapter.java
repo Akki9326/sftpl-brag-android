@@ -15,13 +15,11 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.utils.Utility;
-import com.pulse.brag.pojo.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
 
 import java.util.ArrayList;
 import java.util.List;

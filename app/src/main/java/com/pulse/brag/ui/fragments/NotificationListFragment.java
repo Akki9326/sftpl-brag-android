@@ -23,20 +23,18 @@ import android.widget.TextView;
 
 import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
-import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.adapters.NotificationListAdapter;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.ui.core.CoreActivity;
-import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.views.erecyclerview.ERecyclerView;
 import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.interfaces.BaseInterface;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.datas.NotificationListData;
-import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.callback.BaseInterface;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.data.model.datas.NotificationListData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +44,7 @@ import java.util.List;
  */
 
 
-public class NotificationListFragment extends BaseFragment implements BaseInterface, OnItemClickListener {
+public class NotificationListFragment extends BaseFragment implements BaseInterface, IOnItemClickListener {
 
     static int ACTION = 0;
     static final int LOAD_MORE = 2;

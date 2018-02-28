@@ -26,7 +26,7 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.PreferencesManager;
-import com.pulse.brag.pojo.NotificationResponseData;
+import com.pulse.brag.data.model.NotificationResponseData;
 
 import static android.content.ContentValues.TAG;
 

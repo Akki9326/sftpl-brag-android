@@ -6,7 +6,7 @@ import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.pulse.brag.pojo.DummeyDataRespone;
+import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.utils.Utility;
 
 /**

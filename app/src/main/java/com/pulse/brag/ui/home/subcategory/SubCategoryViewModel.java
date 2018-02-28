@@ -9,13 +9,14 @@ package com.pulse.brag.ui.home.subcategory;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.response.CategoryListResponse;
+import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -27,6 +28,9 @@ import retrofit2.Call;
 
 
 public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
+
+    ObservableField<String> productImg = new ObservableField<>();
+
     public SubCategoryViewModel(IDataManager dataManager) {
         super(dataManager);
     }
@@ -38,6 +42,8 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
             public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
+                    // TODO: 27-02-2018 :onSwiptoRefresh
+//                    getNavigator().OnSuccessPullToRefresh(categoryListResponse.getData());
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));
                 }
@@ -63,5 +69,14 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
         return new int[]{
                 R.color.pink,
         };
+    }
+
+
+    public void setProductImg(String url) {
+        productImg.set(url);
+    }
+
+    public ObservableField<String> getProductImg() {
+        return productImg;
     }
 }

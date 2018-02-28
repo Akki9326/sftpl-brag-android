@@ -14,12 +14,11 @@ import com.pulse.brag.BR;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.databinding.ActivityMainBinding;
-import com.pulse.brag.pojo.requests.AddToCartRequest;
+import com.pulse.brag.data.model.requests.AddToCartRequest;
 import com.pulse.brag.ui.cart.CartFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.home.HomeFragment;
 import com.pulse.brag.R;
-import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 
@@ -155,11 +154,9 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         mMainActivyBinding.toolbar.linearCard.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if (Utility.isConnection(MainActivity.this)) {
+
                     pushFragments(new CartFragment(), true, true);
-                } else {
-                    AlertUtils.showAlertMessage(MainActivity.this, 0, null);
-                }
+
 
             }
         });

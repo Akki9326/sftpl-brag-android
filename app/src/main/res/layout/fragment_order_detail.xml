@@ -229,7 +229,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:onClick="@{viewModel.onDownloadInvoice()}"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="1dp">
@@ -239,15 +238,33 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:padding="10dp"
-                            android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/label_download_invoice"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="left"
+                                android:padding="10dp"
+                                android:tag="@string/font_opensans_regular_id"
+                                android:text="@string/label_download_invoice"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/text_size_very_small" />
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginRight="10dp"
+                                android:onClick="@{viewModel.onDownloadInvoice()}"
+                                android:layout_marginTop="5dp"
+                                android:src="@drawable/ic_download"
+                                android:tint="@color/gray" />
+                        </LinearLayout>
 
                         <ProgressBar
                             android:id="@+id/progressBarDownload"
@@ -255,10 +272,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:visibility="gone"
                             android:layout_marginBottom="-3dp"
                             android:layout_marginTop="-3dp"
-                            android:progressTint="@color/pink" />
+                            android:progressTint="@color/pink"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 

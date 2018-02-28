@@ -1,6 +1,6 @@
 package com.pulse.brag.data.local;
 
-import com.pulse.brag.pojo.datas.UserData;
+import com.pulse.brag.data.model.datas.UserData;
 
 /**
  * Created by alpesh.rathod on 2/8/2018.

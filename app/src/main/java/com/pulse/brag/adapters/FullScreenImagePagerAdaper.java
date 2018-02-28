@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.pojo.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
 import com.pulse.brag.views.pinchtozoom.PinchToZoom;
 
 import java.util.ArrayList;

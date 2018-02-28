@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.GeneralResponse;
-import com.pulse.brag.pojo.requests.ChangeMobileNumberRequest;
+import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.callback.OnSingleClickListener;
 

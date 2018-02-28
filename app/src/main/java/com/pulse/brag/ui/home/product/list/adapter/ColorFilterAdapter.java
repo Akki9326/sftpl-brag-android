@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListColorFilterBinding;
-import com.pulse.brag.interfaces.OnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.home.product.list.adapter.model.ColorModel;
 
@@ -23,11 +23,11 @@ public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.
 
     Activity mActivity;
     List<ColorModel> mList;
-    OnProductColorSelectListener colorSelectListener;
+    IOnProductColorSelectListener colorSelectListener;
 
     ItemViewHolder mViewHolder;
 
-    public ColorFilterAdapter(Activity mActivity, List<ColorModel> mList, OnProductColorSelectListener colorSelectListener) {
+    public ColorFilterAdapter(Activity mActivity, List<ColorModel> mList, IOnProductColorSelectListener colorSelectListener) {
         this.mActivity = mActivity;
         this.mList = new ArrayList<>();
         this.mList = mList;

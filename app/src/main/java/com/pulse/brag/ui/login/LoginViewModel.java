@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.pojo.requests.LoginRequest;
-import com.pulse.brag.pojo.response.LoginResponse;
+import com.pulse.brag.data.model.requests.LoginRequest;
+import com.pulse.brag.data.model.response.LoginResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.callback.OnSingleClickListener;
 

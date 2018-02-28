@@ -15,8 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.pulse.brag.pojo.datas.CartListResponeData;
-import com.pulse.brag.ui.cart.CartItemViewModel;
+import com.pulse.brag.data.model.datas.CartListResponeData;
 import com.pulse.brag.utils.Utility;
 
 /**

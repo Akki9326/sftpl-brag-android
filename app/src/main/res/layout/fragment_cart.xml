@@ -16,7 +16,12 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
-
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+            app:onRefreshListener="@{viewModel.getOnRefreshListener}">
 
         <LinearLayout
             android:id="@+id/linear_cart"
@@ -46,7 +51,6 @@
                             android:id="@+id/recycleView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-
                             android:paddingBottom="65dp" />
 
 
@@ -128,7 +132,7 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-
+        </android.support.v4.widget.SwipeRefreshLayout>
         <LinearLayout
             android:id="@+id/linear_no_cart"
             android:layout_width="match_parent"

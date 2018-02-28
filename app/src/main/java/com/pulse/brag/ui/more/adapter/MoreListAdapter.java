@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.pojo.datas.MoreListData;
+import com.pulse.brag.data.model.datas.MoreListData;
 
 import java.util.List;
 

@@ -30,7 +30,7 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.pojo.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartListResponeData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,8 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     private void checkInternet() {
         if (Utility.isConnection(getActivity())) {
-            showProgress();
+            if (!mFragmentCartBinding.swipeRefreshLayout.isRefreshing())
+                showProgress();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -73,6 +74,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                 }
             }, 500);
         } else {
+            hideLoader();
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
@@ -80,7 +82,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void beforeViewCreated() {
-        mList = new ArrayList<>();
+
 
 
     }
@@ -117,53 +119,12 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         defaultItemAnimator.setRemoveDuration(200);
         mFragmentCartBinding.recycleView.setItemAnimator(defaultItemAnimator);
         mFragmentCartBinding.linearNoCart.setVisibility(View.GONE);
+
+        mList = new ArrayList<>();
     }
 
     public void showData() {
 
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "" + getString(R.string.text_s), "S", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "P", "M", "#F44336", 100, 50));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256",
-                "l", "XL", "#9C27B0", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/yellow-caged_front_large.jpg?v=1480569528",
-                "u", "XXL", "#2196F3", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/pink-printed-cage_front_large.jpg?v=1482476302",
-                "n", "XXXL", "#FF5722", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Product Name", "XXXXXXL", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "g", "L", "#F44336", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Name", "L", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "Back", "L", "#F44336", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Pe", "L", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 500, 1));
-
-
-        mAdapter = new CartListAdapter(getActivity(),mList, this);
-        mFragmentCartBinding.recycleView.setAdapter(mAdapter);
-        setTotalPrice();
-        if (mList.isEmpty()) {
-            cartViewModel.setListVisibility(false);
-        } else {
-            cartViewModel.setListVisibility(true);
-        }
 
     }
 
@@ -226,13 +187,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onApiSuccess() {
-        hideProgress();
+        hideLoader();
         showData();
     }
 
     @Override
     public void onApiError(ApiError error) {
-        hideProgress();
+        hideLoader();
     }
 
     @Override
@@ -243,6 +204,58 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onPriceClick() {
 //        mFragmentCartBinding.recycleView.scrollToPosition(mList.size() - 1);
+    }
+
+    @Override
+    public void swipeRefresh() {
+        mFragmentCartBinding.swipeRefreshLayout.setRefreshing(true);
+        checkInternet();
+    }
+
+    @Override
+    public void getCartList(List<CartListResponeData> list) {
+
+        mList.clear();
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
+                "" + getString(R.string.text_s), "S", "#ffffff", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
+                "P", "M", "#F44336", 100, 50));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256",
+                "l", "XL", "#9C27B0", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/yellow-caged_front_large.jpg?v=1480569528",
+                "u", "XXL", "#2196F3", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/pink-printed-cage_front_large.jpg?v=1482476302",
+                "n", "XXXL", "#FF5722", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
+                "Product Name", "XXXXXXL", "#ffffff", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
+                "g", "L", "#F44336", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
+                "Name", "L", "#ffffff", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
+                "Back", "L", "#F44336", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
+                "Pe", "L", "#ffffff", 500, 1));
+        mList.add(new CartListResponeData("1",
+                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
+                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 500, 1));
+
+
+        mAdapter = new CartListAdapter(getActivity(), mList, this);
+        mFragmentCartBinding.recycleView.setAdapter(mAdapter);
+        setTotalPrice();
+        cartViewModel.setListVisibility(mList.isEmpty() ? false : true);
+
     }
 
 
@@ -271,5 +284,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         }
         cartViewModel.setTotal(Utility.getIndianCurrencePriceFormate(total));
         cartViewModel.setListNum(mList.size());
+    }
+
+    public void hideLoader() {
+        if (mFragmentCartBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentCartBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+        }
     }
 }

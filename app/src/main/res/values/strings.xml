@@ -234,4 +234,5 @@
     <string name="label_reorder">Reorder</string>
     <string name="label_order_status_approved">Approved</string>
     <string name="label_type">Type</string>
+    <string name="label_edit_address">Edit Address</string>
 </resources>

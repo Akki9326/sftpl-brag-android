@@ -9,9 +9,10 @@ package com.pulse.brag.ui.home.category;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.view.View;
-
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
+
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 14-02-2018.
@@ -23,4 +24,6 @@ public interface CategoryNavigator {
     void onApiSuccess();
     void onApiError(ApiError error);
     void swipeRefresh();
+
+    void getCategoryList(List<CategoryListResponseData> list);
 }

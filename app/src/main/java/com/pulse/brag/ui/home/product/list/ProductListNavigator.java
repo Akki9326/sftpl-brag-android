@@ -1,6 +1,6 @@
 package com.pulse.brag.ui.home.product.list;
 
-import com.pulse.brag.pojo.DummeyDataRespone;
+import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.ui.core.CoreNavigator;
 
 import java.util.List;

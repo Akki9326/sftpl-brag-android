@@ -10,6 +10,9 @@ package com.pulse.brag.ui.cart;
  */
 
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.CartListResponeData;
+
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 19-02-2018.
@@ -25,4 +28,8 @@ public interface CartNavigator {
     void onPlaceOrderClick();
 
     void onPriceClick();
+
+    void swipeRefresh();
+
+    void getCartList(List<CartListResponeData> list);
 }

@@ -12,7 +12,6 @@ package com.pulse.brag.ui.home.category;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.pulse.brag.BR;
@@ -22,9 +21,9 @@ import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentCategoryBinding;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
-import com.pulse.brag.interfaces.OnItemClickListener;
-import com.pulse.brag.pojo.datas.CategoryListResponseData;
-import com.pulse.brag.pojo.response.ImagePagerResponse;
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.home.subcategory.SubCategoryFragment;
@@ -41,7 +40,7 @@ import javax.inject.Inject;
  */
 
 
-public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, CategoryViewModel> implements CategoryNavigator, OnItemClickListener {
+public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, CategoryViewModel> implements CategoryNavigator, IOnItemClickListener {
 
     @Inject
     CategoryViewModel categoryViewModel;
@@ -121,19 +120,10 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
 
-        mCategoryList = new ArrayList<>();
-        mCategoryList.add(new CategoryListResponseData("", "BRALETTES", "https://cdn.shopify.com/s/files/1/1629/9535/products/Chandini_SLIDE_Pattern_B_BRAG-Optical59961_grande.jpg?v=1516609967", 0));
-        mCategoryList.add(new CategoryListResponseData("", "SPORTS BRA", "https://cdn.shopify.com/s/files/1/1629/9535/files/Sport-Inside-Banner.jpg?17088418355138553923", 0));
-        mCategoryList.add(new CategoryListResponseData("", "PANTIES", "http://cdn.shopify.com/s/files/1/1629/9535/products/2_front_7b6ad7b4-2320-420b-badd-07087487111f_large.jpg?v=1516609968", 0));
-
-
         mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), imagePagerResponeList));
         mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
 
-        CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
 
-        mFragmentCategoryBinding.recycleView.setAdapter(adapter);
-        mFragmentCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -148,10 +138,20 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         checkInternet();
     }
 
+    @Override
+    public void getCategoryList(List<CategoryListResponseData> list) {
+        mCategoryList = new ArrayList<>();
+        mCategoryList.addAll(list);
+        CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
+
+        mFragmentCategoryBinding.recycleView.setAdapter(adapter);
+        mFragmentCategoryBinding.recycleView.setNestedScrollingEnabled(false);
+    }
+
 
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getOptionName()), true, true);
+        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
 
     }
 

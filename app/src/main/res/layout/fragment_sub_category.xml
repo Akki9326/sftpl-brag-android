@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.pulse.brag.ui.home.subcategory.SubCategoryViewModel" />
@@ -22,9 +23,9 @@
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
-                app:onRefreshListener="@{viewModel.getOnRefreshListener}"
+                android:layout_height="match_parent"
                 app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                android:layout_height="match_parent">
+                app:onRefreshListener="@{viewModel.getOnRefreshListener}">
 
                 <LinearLayout
                     android:id="@+id/linear_detail"
@@ -47,26 +48,12 @@
                             android:focusableInTouchMode="true"
                             android:orientation="vertical">
 
-                            <FrameLayout
+
+                            <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp">
-
-                                <android.support.v4.view.ViewPager
-                                    android:id="@+id/view_pager"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent" />
-
-                                <com.pulse.brag.views.CustomViewPagerIndicator
-                                    android:id="@+id/pager_view"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_gravity="bottom"
-                                    android:padding="10dip"
-                                    app:currentPageIndicatorColor="@color/pink"
-                                    app:dotDiameter="6dp"
-                                    app:dotGap="6dp" />
-                            </FrameLayout>
+                                android:layout_height="200dp"
+                                bind:imageUrl="@{viewModel.productImg}"
+                                android:scaleType="centerCrop" />
 
 
                             <android.support.v7.widget.RecyclerView

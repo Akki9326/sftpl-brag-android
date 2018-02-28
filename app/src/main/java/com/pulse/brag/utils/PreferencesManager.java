@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.pulse.brag.pojo.datas.UserData;
+import com.pulse.brag.data.model.datas.UserData;
 
 
 public class PreferencesManager {

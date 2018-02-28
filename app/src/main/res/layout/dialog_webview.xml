@@ -1,46 +1,57 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/base_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
-    android:background="@drawable/rounder_corner_solid_white">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <WebView
-        android:id="@+id/webview"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.views.webview.WebviewDialogViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="52dp" />
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounder_corner_solid_white">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <include
-            android:id="@+id/toolbar_webview"
-            layout="@layout/toolbar_webview"
+        <WebView
+            android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="52dp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <View
+            <include
+                android:id="@+id/toolbar_webview"
+                layout="@layout/toolbar_webview"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@drawable/dropshadow_toolbar" />
+                android:layout_height="?attr/actionBarSize"
+                android:viewModel="@{viewModel}" />
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-8dp"
-                android:layout_marginTop="-6dp"
-                android:max="100" />
-        </RelativeLayout>
-    </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/dropshadow_toolbar" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-8dp"
+                    android:layout_marginTop="-6dp"
+                    android:max="100" />
+            </RelativeLayout>
+        </LinearLayout>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

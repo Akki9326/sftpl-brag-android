@@ -18,15 +18,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.widget.RelativeLayout;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductDetailBinding;
 import com.pulse.brag.adapters.ProductDetailImagePagerAdapter;
 import com.pulse.brag.data.model.requests.AddToCartRequest;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.fragments.FullScreenImageDialogFragment;
-import com.pulse.brag.ui.fragments.WebviewDialogFragment;
+import com.pulse.brag.views.FullScreenImageDialogFragment;
+import com.pulse.brag.views.webview.WebviewDialogFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
 import com.pulse.brag.ui.main.MainActivity;
@@ -155,7 +155,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public int getBindingVariable() {
-        return com.pulse.brag.BR.viewModel;
+        return BR.viewModel;
     }
 
     @Override

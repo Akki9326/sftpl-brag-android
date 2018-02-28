@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.core;
 
 import android.app.Activity;
 import android.os.Bundle;

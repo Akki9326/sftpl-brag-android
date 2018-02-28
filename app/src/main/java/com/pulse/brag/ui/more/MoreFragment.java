@@ -39,12 +39,13 @@ import com.pulse.brag.data.model.datas.MoreListData;
 import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.fragments.FullScreenImageDialogFragment;
+import com.pulse.brag.views.FullScreenImageDialogFragment;
 import com.pulse.brag.ui.notification.NotificationListFragment;
-import com.pulse.brag.ui.fragments.WebviewDialogFragment;
+import com.pulse.brag.views.webview.WebviewDialogFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.more.adapter.MoreListAdapter;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
+import com.pulse.brag.ui.order.MyOrderListFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
@@ -314,8 +315,4 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         getActivity().finish();
     }
 
-    @Override
-    public void dismissAlert() {
-        alertDialog.dismiss();
-    }
 }

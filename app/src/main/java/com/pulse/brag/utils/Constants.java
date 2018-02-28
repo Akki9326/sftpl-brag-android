@@ -57,6 +57,7 @@ public class Constants {
     public static final String BUNDLE_DEVICE_TOKEN = "devicetoken";
     public static final String BUNDLE_NOTIFICATION_MODEL = "notificationModel";
     public static final String BUNDLE_KEY_NOTIFICATION_ID = "notificationId";
+    public static final String BUNDLE_KEY_PRODUCT_LIST_TITLE= "bundleProductListTitle";
 
 
     //header
@@ -81,8 +82,10 @@ public class Constants {
     public static final String BUNDLE_CATEGORY_LIST = "bundlecategorylist";
 
     public interface ApiHelper {
-        String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip
+        //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip
 //        String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
+
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;
         String FULL_URL = BASE_URL + API_VERSION;

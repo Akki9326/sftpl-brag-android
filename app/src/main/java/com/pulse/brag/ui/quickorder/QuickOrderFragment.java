@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.fragments;
+package com.pulse.brag.ui.quickorder;
 
 
 /**
@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.ui.core.BaseFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.list.adapter.ProductListAdapter;
 import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;

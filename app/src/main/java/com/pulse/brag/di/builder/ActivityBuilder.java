@@ -1,5 +1,6 @@
 package com.pulse.brag.di.builder;
 
+import com.pulse.brag.ui.collection.CollectionProvider;
 import com.pulse.brag.ui.home.category.CategoryFragmentProvider;
 import com.pulse.brag.ui.cart.CartFragmentProvider;
 import com.pulse.brag.ui.cart.placeorder.PlaceOrderFragmentProvider;
@@ -33,6 +34,7 @@ import com.pulse.brag.ui.main.MainActivityModule;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.ui.splash.SplashActivityModule;
 import com.pulse.brag.ui.home.subcategory.SubCategoryFragmentProvider;
+import com.pulse.brag.views.webview.WebviewDailogProvider;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -54,7 +56,7 @@ public abstract class ActivityBuilder {
             , ProductSortingDialogProvider.class, ProductFilterDialogProvider.class
             , OrderDetailFragmentProvider.class
             , PlaceOrderFragmentProvider.class
-            , MyOrderFragmentProvider.class, MoreProvider.class, NotificationListProvider.class})
+            , MyOrderFragmentProvider.class, MoreProvider.class, NotificationListProvider.class, CollectionProvider.class, WebviewDailogProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})

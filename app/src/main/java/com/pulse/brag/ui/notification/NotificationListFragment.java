@@ -22,6 +22,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.NotificationListData;
 import com.pulse.brag.databinding.FragmentNotificationListBinding;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.notification.adapter.NotificationListAdapter;
@@ -31,7 +32,6 @@ import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.pojo.datas.NotificationListData;
 import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;

@@ -26,6 +26,8 @@ import com.pulse.brag.R;
 import com.pulse.brag.adapters.CollectionListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.callback.BaseInterface;
+import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;

@@ -120,6 +120,8 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
 
+
+
         mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), imagePagerResponeList));
         mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
 

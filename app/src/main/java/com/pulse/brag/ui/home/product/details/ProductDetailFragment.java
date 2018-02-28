@@ -155,7 +155,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public int getBindingVariable() {
-        return BR.viewModel;
+        return com.pulse.brag.BR.viewModel;
     }
 
     @Override
@@ -401,7 +401,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void addToCart() {
-        ((MainActivity)getBaseActivity()).addToCartAPI(new AddToCartRequest());
+        ((MainActivity) getBaseActivity()).addToCartAPI(new AddToCartRequest());
     }
 
     @Override

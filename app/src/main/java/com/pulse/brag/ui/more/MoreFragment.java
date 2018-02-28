@@ -37,16 +37,14 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentMoreBinding;
 import com.pulse.brag.data.model.datas.MoreListData;
 import com.pulse.brag.data.model.datas.UserData;
-import com.pulse.brag.ui.activities.BaseActivity;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.fragments.FullScreenImageDialogFragment;
-import com.pulse.brag.ui.fragments.NotificationListFragment;
+import com.pulse.brag.ui.notification.NotificationListFragment;
 import com.pulse.brag.ui.fragments.WebviewDialogFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.more.adapter.MoreListAdapter;
-import com.pulse.brag.ui.order.MyOrderListFragment;
-import com.pulse.brag.ui.profile.UserProfileActivity;
+import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
@@ -273,7 +271,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            moreListData.set(2, new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((BaseActivity) getActivity()).getNotificationlabel()));
+            moreListData.set(2, new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((CoreActivity) getActivity()).getNotificationlabel()));
             moreListAdapter.notifyDataSetChanged();
         }
     };
@@ -287,12 +285,13 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
 
     @Override
     public void onApiSuccess() {
-
+        hideProgress();
     }
 
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override

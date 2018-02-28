@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textview_collection_label2"
@@ -19,8 +19,7 @@
         android:tag="@string/font_opensans_regular_id"
         android:text="@{mymodel.optionName}"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_very_small"
-        />
+        android:textSize="@dimen/text_size_very_small" />
 
     <com.pulse.brag.views.SquareImageView
         android:id="@+id/imageview_category"
@@ -30,6 +29,5 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
-       />
+        android:scaleType="centerCrop" />
 </RelativeLayout>

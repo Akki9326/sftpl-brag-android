@@ -1,7 +1,6 @@
 package com.pulse.brag.ui.contactus;
 
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.ui.createnewpassord.CreateNewPasswordViewModel;
 
 import dagger.Module;
 import dagger.Provides;

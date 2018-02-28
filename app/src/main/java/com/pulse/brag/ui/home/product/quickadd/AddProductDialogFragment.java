@@ -40,6 +40,8 @@ import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 
 import java.util.ArrayList;

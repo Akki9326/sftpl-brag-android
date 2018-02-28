@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".ui.otp.autoread.SmsReceiver" >
+        <receiver android:name=".ui.authentication.otp.autoread.SmsReceiver" >
             <intent-filter android:priority="999" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -55,10 +55,10 @@
         </service>
         <!-- FCM -->
         <activity
-            android:name=".NotificationHandlerActivity"
+            android:name=".ui.notification.handler.NotificationHandlerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.profile.UserProfileActivity"
+            android:name=".ui.authentication.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Dummey">
 

@@ -48,19 +48,16 @@ public class MoreViewModel extends CoreViewModel<MoreNavigator> {
             @Override
             public void onSuccess(GeneralResponse generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
-                    getNavigator().dismissAlert();
                     getNavigator().onApiSuccess();
                     getDataManager().logout();
                     getNavigator().logout();
                 } else {
-                    getNavigator().dismissAlert();
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
             }
 
             @Override
             public void onError(ApiError t) {
-                getNavigator().dismissAlert();
                 getNavigator().onApiError(t);
             }
         });

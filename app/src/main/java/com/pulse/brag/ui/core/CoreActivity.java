@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.pulse.brag.BragApp;
+import com.pulse.brag.R;
 import com.pulse.brag.callback.IFragmentCallback;
 import com.pulse.brag.callback.IFragmentLoader;
 import com.pulse.brag.utils.Common;
@@ -226,6 +228,14 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         } else {
             mTxtBagCount.setVisibility(View.VISIBLE);
             mTxtBagCount.setText(Utility.getBadgeNumber(num));
+        }
+    }
+
+    public String getNotificationlabel() {
+        if (BragApp.NotificationNumber > 0) {
+            return getString(R.string.toolbar_label_notification) + " (" + Utility.getBadgeNumber(BragApp.NotificationNumber) + ")";
+        } else {
+            return getString(R.string.toolbar_label_notification);
         }
     }
 

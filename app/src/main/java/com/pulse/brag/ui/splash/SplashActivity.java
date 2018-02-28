@@ -1,6 +1,5 @@
 package com.pulse.brag.ui.splash;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,14 +17,10 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ActivitySplashBinding;
 import com.pulse.brag.ui.core.CoreActivity;
-import com.pulse.brag.ui.login.LogInFragment;
-import com.pulse.brag.ui.signup.complete.SignUpCompleteFragment;
-import com.pulse.brag.utils.Constants;
+import com.pulse.brag.ui.authentication.login.LogInFragment;
+import com.pulse.brag.ui.authentication.signup.complete.SignUpCompleteFragment;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.ui.main.MainActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 

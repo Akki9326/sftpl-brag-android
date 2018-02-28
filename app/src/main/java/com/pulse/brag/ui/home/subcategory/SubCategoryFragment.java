@@ -85,6 +85,8 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     private void checkInternet() {
 
         if (Utility.isConnection(getActivity())) {
+            if (!mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing())
+                showProgress();
             categoryViewModel.getSubCategoryData();
         } else {
             hideProgressBar();
@@ -122,14 +124,12 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         showData();
     }
 
+
     private void showData() {
-
-
         adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
         mFragmentSubCategoryBinding.recycleView.setAdapter(adapter);
         mFragmentSubCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
-
     @Override
     public void setUpToolbar() {
         ((CoreActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_sub_category));

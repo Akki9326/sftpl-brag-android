@@ -31,6 +31,7 @@ public class Constants {
     public static final int FONT_OPENSANS_REGULAR = 1;
     public static final int FONT_OPENSANS_LIGHT = 2;
     public static final int FONT_OPENSANS_BOLD = 3;
+    public static final int FONT_OPENSANS_SEMI_BOLD = 4;
 
     public static final int EXIT_LEFT = 1;
     public static final int EXIT_BOTTOM = 2;

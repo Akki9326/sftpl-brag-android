@@ -16,7 +16,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.pulse.brag.ui.main.MainActivity
 import com.pulse.brag.utils.PreferencesManager
 import com.pulse.brag.utils.Utility
-import com.pulse.brag.interfaces.BaseInterface
+import com.pulse.brag.callback.BaseInterface
 import kotlinx.android.synthetic.main.activity_splash.*
 
 

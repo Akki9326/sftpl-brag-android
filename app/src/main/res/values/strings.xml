@@ -17,6 +17,9 @@
     <string name="font_opensans_bold_id">3</string>
     <string name="font_opensans_bold">opensans_bold.ttf</string>
 
+    <string name="font_opensans_semi_bold_id">4</string>
+    <string name="font_opensans_semi_bold">opensans_semi_bold.ttf</string>
+
 
     <string name="text_s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique odio vel enim imperdiet, sit amet sagittis nisl lobortis. Proin sit amet condimentum libero, vel placerat orci. </string>
     <string name="text_v_s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique odio vel enim imperdiet</string>
@@ -70,8 +73,9 @@
     <string name="error_code_39">Requested interaction time missing.</string>
     <string name="error_code_40">Sorry, you don\'t have permission.</string>
 
+
     <string name="error_code_5001">We could not complete your request.</string>
-    <string name="error_code_5002">No internet connection.</string>
+    <string name="error_code_5002">Your internet connection appears to be offline.</string>
     <string name="error_code_5003">We could not complete your request.\nPlease try again later.</string>
     <string name="error_code_5004">We could not complete your request.\nPlease try again later.</string>
     <string name="error_code_5006">Connection timeout.\nPlease try again later.</string>
@@ -220,8 +224,11 @@
     <string name="label_amount_payable">Amount Payable</string>
     <string name="btn_continues">CONTINUE</string>
     <string name="label_filter_caps">FILTER</string>
+    <string name="label_filter_camel">Filter</string>
     <string name="label_size_caps">SIZE</string>
+    <string name="label_size_came">Size</string>
     <string name="label_color_caps">COLOR</string>
+    <string name="label_color_camel">Color</string>
     <string name="label_order_status_ordered">Ordered</string>
     <string name="label_order_status_packed">Packed</string>
     <string name="label_order_status_shipped">Shipped</string>
@@ -234,5 +241,11 @@
     <string name="label_reorder">Reorder</string>
     <string name="label_order_status_approved">Approved</string>
     <string name="label_type">Type</string>
+    <string name="label_notification_read">Notification Read</string>
+    <string name="label_send_otp_to_mobile">Please type OTP send to your mobile number.</string>
+    <string name="label_sorting_popularity">Popularity</string>
+    <string name="label_sorting_price_low_to_high">Price -- Low to High</string>
+    <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
+    <string name="label_sort_by_camel">Sort By</string>
     <string name="label_edit_address">Edit Address</string>
 </resources>

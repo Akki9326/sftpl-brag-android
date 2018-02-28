@@ -34,8 +34,9 @@
                 android:ellipsize="end"
                 android:onClick="@{viewModel.overrideClick()}"
                 android:padding="10dp"
-                android:tag="@string/font_opensans_regular_id"
-                android:text="@string/label_filter_caps"
+                android:tag="@string/font_opensans_semi_bold_id"
+                android:text="@string/label_filter_camel"
+                android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_medium" />
 
             <View
@@ -56,8 +57,9 @@
                     android:ellipsize="end"
                     android:onClick="@{viewModel.overrideClick()}"
                     android:padding="10dp"
-                    android:tag="@string/font_opensans_light_id"
-                    android:text="@string/label_color_caps"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/label_color_camel"
+                    android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_small" />
 
                 <View
@@ -86,8 +88,9 @@
                     android:ellipsize="end"
                     android:onClick="@{viewModel.overrideClick()}"
                     android:padding="10dp"
-                    android:tag="@string/font_opensans_light_id"
-                    android:text="@string/label_size_caps"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/label_size_came"
+                    android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_small" />
 
                 <View

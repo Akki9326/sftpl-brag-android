@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.signup.SignUpViewModel" />
+            type="com.pulse.brag.ui.authentication.signup.SignUpViewModel" />
     </data>
 
     <LinearLayout

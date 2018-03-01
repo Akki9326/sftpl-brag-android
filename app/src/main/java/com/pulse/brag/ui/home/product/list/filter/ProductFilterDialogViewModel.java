@@ -1,5 +1,6 @@
 package com.pulse.brag.ui.home.product.list.filter;
 
+import android.databinding.ObservableField;
 import android.view.View;
 
 import com.pulse.brag.callback.OnSingleClickListener;
@@ -16,6 +17,9 @@ import java.util.List;
  */
 
 public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDialogNavigator> {
+
+    private final ObservableField<String> title = new ObservableField<>();
+
     public ProductFilterDialogViewModel(IDataManager dataManager) {
         super(dataManager);
     }
@@ -27,6 +31,14 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
                 getNavigator().dismissFragment();
             }
         };
+    }
+
+    public ObservableField<String> getTitle() {
+        return title;
+    }
+
+    public void updateTitle(String title) {
+        this.title.set(title);
     }
 
     public View.OnClickListener onApplyClick() {
@@ -67,12 +79,43 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
         list.add(new ColorModel("#B5C1B5", false));
         list.add(new ColorModel("#BF5DD5", false));
         list.add(new ColorModel("#DD126F", false));
+        list.add(new ColorModel("#F44336", false));
+        list.add(new ColorModel("#E91E63", false));
+        list.add(new ColorModel("#9C27B0", false));
+        list.add(new ColorModel("#2196F3", false));
+        list.add(new ColorModel("#FF9800", false));
+        list.add(new ColorModel("#FF5722", false));
+        list.add(new ColorModel("#3F51B5", false));
+        list.add(new ColorModel("#B5C1B5", false));
+        list.add(new ColorModel("#BF5DD5", false));
+        list.add(new ColorModel("#DD126F", false));
+        list.add(new ColorModel("#E91E63", false));
+        list.add(new ColorModel("#9C27B0", false));
+        list.add(new ColorModel("#2196F3", false));
+        list.add(new ColorModel("#FF9800", false));
+        list.add(new ColorModel("#FF5722", false));
+        list.add(new ColorModel("#3F51B5", false));
+        list.add(new ColorModel("#B5C1B5", false));
+        list.add(new ColorModel("#BF5DD5", false));
+        list.add(new ColorModel("#DD126F", false));
         return list;
     }
 
-    public List<SizeModel> buildSizeList(){
+    public List<SizeModel> buildSizeList() {
         List<SizeModel> list = new ArrayList<>();
 
+        list.add(new SizeModel("S", false));
+        list.add(new SizeModel("M", false));
+        list.add(new SizeModel("X", false));
+        list.add(new SizeModel("XL", false));
+        list.add(new SizeModel("XXL", false));
+        list.add(new SizeModel("XXXL", false));
+        list.add(new SizeModel("S", false));
+        list.add(new SizeModel("M", false));
+        list.add(new SizeModel("X", false));
+        list.add(new SizeModel("XL", false));
+        list.add(new SizeModel("XXL", false));
+        list.add(new SizeModel("XXXL", false));
         list.add(new SizeModel("S", false));
         list.add(new SizeModel("M", false));
         list.add(new SizeModel("X", false));

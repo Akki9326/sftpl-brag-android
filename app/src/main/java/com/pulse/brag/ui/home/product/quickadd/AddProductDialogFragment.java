@@ -40,8 +40,6 @@ import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
-import com.pulse.brag.callback.IOnProductColorSelectListener;
-import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 
 import java.util.ArrayList;
@@ -55,7 +53,7 @@ import javax.inject.Inject;
 
 
 public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentAddProductBinding, AddProductDialogViewModel> implements AddProductDialogNavigator, IOnProductSizeSelectListener,
-        IOnProductColorSelectListener/*, BaseInterface */ {
+        IOnProductColorSelectListener, ImagePagerAdapter.IOnImagePageClickListener/*, BaseInterface */ {
 
     @Inject
     AddProductDialogViewModel mAddProductDialogViewModel;
@@ -292,7 +290,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
-        mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
+        mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
         mDialogFragmentAddProductBinding.pagerView.setViewPager(mDialogFragmentAddProductBinding.viewPager);
     }
 
@@ -462,5 +460,10 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     public void notifyMe() {
         // TODO: 2/20/2018 check for new parameter
         mAddProductDialogViewModel.notifyMe("", "", "");
+    }
+
+    @Override
+    public void onImagePageClick(int pos, ImagePagerResponse item) {
+
     }
 }

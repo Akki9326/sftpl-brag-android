@@ -10,25 +10,15 @@ package com.pulse.brag.ui.collection;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.CollectionListAdapter;
+import com.pulse.brag.ui.collection.adapter.CollectionListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.remote.ApiClient;
-import com.pulse.brag.callback.BaseInterface;
 import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.databinding.FragmentCollectionBinding;
 import com.pulse.brag.ui.core.CoreFragment;
@@ -37,25 +27,19 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.data.model.datas.CollectionListResponeData;
-import com.pulse.brag.data.model.response.CollectionListResponse;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
-import com.pulse.brag.views.CustomViewPagerIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  * Created by nikhil.vadoliya on 26-09-2017.
  */
 
 
-public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, CollectionViewModel> implements CollectionNavigator, IOnItemClickListener {
+public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, CollectionViewModel> implements CollectionNavigator, IOnItemClickListener, ImagePagerAdapter.IOnImagePageClickListener {
 
     @Inject
     CollectionViewModel mCollectionViewModel;
@@ -240,7 +224,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/15871545_1859312094353423_2712560930954384886_n_726da0e0-cc2f-4c97-bf23-edb240420e7b_grande.jpg?v=1492607373", ""));
 
-        mFragmentCollectionBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList));
+        mFragmentCollectionBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
         mFragmentCollectionBinding.pagerView.setViewPager(mFragmentCollectionBinding.viewPager);
     }
 
@@ -297,5 +281,10 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         mCollectionList.addAll(list);
         mAdapter.notifyDataSetChanged();
         showData();
+    }
+
+    @Override
+    public void onImagePageClick(int pos, ImagePagerResponse item) {
+
     }
 }

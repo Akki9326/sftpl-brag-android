@@ -130,7 +130,8 @@ public class Constants {
         LOGOUT(5),
         CHANGE_MOBILE(6),
         NOTIFICATION(7),
-        USER_PROFILE(8);
+        USER_PROFILE(8),
+        CHANGE_ADDRESS(9);
 
 
         MoreList(int i) {

@@ -10,16 +10,15 @@ package com.pulse.brag.adapters;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.databinding.ItemImagePagerBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,17 +28,19 @@ import java.util.List;
  */
 
 
-public class ImagePagerAdapter extends PagerAdapter {
+public class ImagePagerAdapter extends PagerAdapter implements ImagePagerItem.ItemImageClickListener {
 
     Context mContext;
     LayoutInflater mLayoutInflater;
     List<ImagePagerResponse> mPagerRespones;
+    IOnImagePageClickListener mListener;
 
-    public ImagePagerAdapter(Context context, List<ImagePagerResponse> mPagerRespones) {
+    public ImagePagerAdapter(Context context, List<ImagePagerResponse> mPagerRespones, IOnImagePageClickListener listener) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mPagerRespones = new ArrayList<>();
         this.mPagerRespones.addAll(mPagerRespones);
+        mListener = listener;
     }
 
     @Override
@@ -56,9 +57,10 @@ public class ImagePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
 
 
-        ViewDataBinding dataBinding = DataBindingUtil.inflate(mLayoutInflater
+        ItemImagePagerBinding dataBinding = DataBindingUtil.inflate(mLayoutInflater
                 , R.layout.item_image_pager, null, false);
-        dataBinding.setVariable(BR.viewModel, mPagerRespones.get(position));
+        dataBinding.setViewModel(new ImagePagerItem(mPagerRespones.get(position), mContext, position, this));
+        //dataBinding.setVariable(BR.viewModel, mPagerRespones.get(position));
         container.addView(dataBinding.getRoot());
         return dataBinding.getRoot();
     }
@@ -66,5 +68,15 @@ public class ImagePagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((RelativeLayout) object);
+    }
+
+
+    @Override
+    public void onItemClick(int position, ImagePagerResponse item) {
+        mListener.onImagePageClick(position, item);
+    }
+
+    public interface IOnImagePageClickListener {
+        void onImagePageClick(int pos, ImagePagerResponse item);
     }
 }

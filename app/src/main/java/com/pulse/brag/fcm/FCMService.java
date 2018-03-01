@@ -1,4 +1,4 @@
-package com.pulse.brag;
+package com.pulse.brag.fcm;
 
 
 /**
@@ -22,6 +22,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.pulse.brag.utils.NotificationUtils;
+import com.pulse.brag.R;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
@@ -191,7 +193,7 @@ public class FCMService extends FirebaseMessagingService {
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
             // play notification sound
-            NotificationUtils notificationUtils = new com.pulse.brag.NotificationUtils(getApplicationContext());
+            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
             notificationUtils.playNotificationSound();
         } else {
             // If the app is in background, firebase itself handles the notification

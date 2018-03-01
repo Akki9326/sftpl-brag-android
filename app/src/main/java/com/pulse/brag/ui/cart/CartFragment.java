@@ -19,7 +19,7 @@ import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.CartListAdapter;
+import com.pulse.brag.ui.cart.adapter.CartListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentCartBinding;
 import com.pulse.brag.ui.cart.placeorder.PlaceOrderFragment;

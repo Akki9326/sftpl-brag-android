@@ -1,4 +1,4 @@
-package com.pulse.brag; /**
+package com.pulse.brag.utils; /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
  * (Confidential Information) of Sailfin Technologies, Pvt. Ltd.  You shall not
@@ -24,6 +24,8 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
+
+import com.pulse.brag.R;
 
 import java.io.IOException;
 import java.io.InputStream;

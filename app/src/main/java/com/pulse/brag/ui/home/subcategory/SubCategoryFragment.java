@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.CategoryListAdapter;
+import com.pulse.brag.ui.home.adapter.CategoryListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentSubCategoryBinding;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;

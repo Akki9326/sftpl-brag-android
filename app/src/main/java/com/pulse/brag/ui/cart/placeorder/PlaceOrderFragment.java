@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.PlaceOrderCartListAdapter;
+import com.pulse.brag.ui.cart.adapter.PlaceOrderCartListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
 import com.pulse.brag.data.model.datas.CartListResponeData;

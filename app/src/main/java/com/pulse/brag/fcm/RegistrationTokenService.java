@@ -1,4 +1,4 @@
-package com.pulse.brag; /**
+package com.pulse.brag.fcm; /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
  * (Confidential Information) of Sailfin Technologies, Pvt. Ltd.  You shall not

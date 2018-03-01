@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:gravity="center"
-    android:layout_height="match_parent">
+<layout xmlns:bind="http://schemas.android.com/tools">
 
-    <com.pulse.brag.views.pinchtozoom.PinchToZoom
-        android:id="@+id/imageView"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.adapters.ImagePagerItem" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:transitionName="profile"
         android:layout_height="match_parent"
-        android:scaleType="fitCenter" />
-</RelativeLayout>
+        android:gravity="center">
+
+        <com.pulse.brag.views.pinchtozoom.PinchToZoom
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:transitionName="profile"
+            bind:imageUrl="@{viewModel.url}" />
+    </RelativeLayout>
+</layout>

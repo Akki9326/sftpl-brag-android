@@ -16,7 +16,7 @@ import android.support.v7.widget.GridLayoutManager;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.CategoryListAdapter;
+import com.pulse.brag.ui.home.adapter.CategoryListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentCategoryBinding;
@@ -40,7 +40,7 @@ import javax.inject.Inject;
  */
 
 
-public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, CategoryViewModel> implements CategoryNavigator, IOnItemClickListener {
+public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, CategoryViewModel> implements CategoryNavigator, IOnItemClickListener, ImagePagerAdapter.IOnImagePageClickListener {
 
     @Inject
     CategoryViewModel categoryViewModel;
@@ -122,7 +122,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
 
 
-        mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), imagePagerResponeList));
+        mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), imagePagerResponeList,this));
         mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
 
 
@@ -163,5 +163,10 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         } else {
             hideProgress();
         }
+    }
+
+    @Override
+    public void onImagePageClick(int pos, ImagePagerResponse item) {
+        //((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
     }
 }

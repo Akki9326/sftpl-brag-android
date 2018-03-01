@@ -169,6 +169,10 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
+
+                    case 9:
+                        // TODO: 3/1/2018 add change address activity
+                        break;
                 }
             }
         });
@@ -185,17 +189,19 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                 Utility.getNotificationlabel(getActivity())));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(Constants.MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_privacy_policy),
                 getString(R.string.label_pri_policy)));
-        moreListData.add(new MoreListData(Constants.MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_terms_conditions),
                 getString(R.string.label_terms_and)));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
+        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
+                getString(R.string.label_change_address)));
         moreListData.add(new MoreListData(Constants.MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
                 getString(R.string.label_change_pass)));
-        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_change_mob_num),
                 getString(R.string.label_change_mobile_num)));
-        moreListData.add(new MoreListData(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new MoreListData(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_update_profile),
                 getString(R.string.label_update_profile)));
         moreListData.add(new MoreListData(Constants.MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
                 getString(R.string.label_logout)));

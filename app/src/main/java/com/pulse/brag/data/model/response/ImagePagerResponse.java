@@ -12,8 +12,10 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.callback.OnSingleClickListener;
 
 /**
  * Created by nikhil.vadoliya on 29-09-2017.
@@ -77,4 +79,5 @@ public class ImagePagerResponse extends BaseObservable implements Parcelable {
             return new ImagePagerResponse[size];
         }
     };
+
 }

@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 
-public class FullScreenImageDialogFragment extends DialogFragment {
+public class FullScreenImageDialogFragment extends DialogFragment implements FullScreenImagePagerAdaper.IOnFullImagePageClickListener {
 
     ViewPager mViewPager;
     List<ImagePagerResponse> mPagerRespones;
@@ -60,7 +60,7 @@ public class FullScreenImageDialogFragment extends DialogFragment {
         });
         mViewPager = v.findViewById(R.id.view_pager);
 //        mViewPager.setPageTransformer(false, new Transformer());
-        mViewPager.setAdapter(new FullScreenImagePagerAdaper(getActivity(), mPagerRespones));
+        mViewPager.setAdapter(new FullScreenImagePagerAdaper(getActivity(), mPagerRespones, this));
         mViewPager.setCurrentItem(pos);
         return v;
     }
@@ -70,5 +70,10 @@ public class FullScreenImageDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow()
                 .getAttributes().windowAnimations = R.style.DialogAnimation;
+    }
+
+    @Override
+    public void onFullImagePageClick(int pos, ImagePagerResponse item) {
+
     }
 }

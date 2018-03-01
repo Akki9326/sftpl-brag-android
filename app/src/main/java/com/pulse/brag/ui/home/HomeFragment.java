@@ -38,9 +38,10 @@ import com.pulse.brag.databinding.FragmentHomeBinding;
 import com.pulse.brag.ui.home.category.CategoryFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.fragments.CollectionFragment;
+import com.pulse.brag.ui.collection.CollectionFragment;
+import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.ui.more.MoreFragment;
-import com.pulse.brag.ui.fragments.QuickOrderFragment;
+import com.pulse.brag.ui.quickorder.QuickOrderFragment;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.views.CustomTypefaceSpan;
@@ -48,6 +49,7 @@ import com.pulse.brag.views.CustomTypefaceSpan;
 import javax.inject.Inject;
 
 import static android.content.ContentValues.TAG;
+import static com.pulse.brag.utils.Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE;
 
 /**
  * Created by nikhil.vadoliya on 03-10-2017.
@@ -143,7 +145,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
         Log.i(TAG, "setUpToolbar: " + mFragmentHomeBinding.bottomNavigation.getSelectedItemId());
         ((CoreActivity) getActivity()).showToolbar(false, true, true);
-        switch (mFragmentHomeBinding.bottomNavigation.getSelectedItemId()){
+        switch (mFragmentHomeBinding.bottomNavigation.getSelectedItemId()) {
             case R.id.bottombar_item_categoty:
                 setToolbarCategory();
                 Log.i(TAG, "setUpToolbar:  category");
@@ -264,8 +266,19 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     public void openQuickOrderFragement() {
         if (!isAddedOrder) {
             isAddedOrder = true;
-            FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
+
+            // TODO: 2/28/2018 if not work properly then create QuickOrderFragment
+            /*FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
             transactionTwo.replace(R.id.fragment_container_order, new QuickOrderFragment(), "Quick_Order_Tag");
+            transactionTwo.commit();*/
+
+            FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
+
+            Bundle bundle = new Bundle();
+            bundle.putString(BUNDLE_KEY_PRODUCT_LIST_TITLE, getString(R.string.label_quick_order));
+            ProductListFragment fragment = new ProductListFragment();
+            fragment.setArguments(bundle);
+            transactionTwo.replace(R.id.fragment_container_order, fragment, "Quick_Order_Tag");
             transactionTwo.commit();
         }
         mFragmentHomeBinding.fragmentContainerCategory.setVisibility(View.GONE);

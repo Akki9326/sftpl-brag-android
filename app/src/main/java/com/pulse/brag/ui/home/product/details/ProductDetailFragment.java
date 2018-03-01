@@ -18,26 +18,26 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.widget.RelativeLayout;
 
+import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.databinding.FragmentProductDetailBinding;
-import com.pulse.brag.adapters.ProductDetailImagePagerAdapter;
+import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.data.model.requests.AddToCartRequest;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.databinding.FragmentProductDetailBinding;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.fragments.FullScreenImageDialogFragment;
-import com.pulse.brag.ui.fragments.WebviewDialogFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.callback.IOnProductColorSelectListener;
-import com.pulse.brag.callback.IOnProductSizeSelectListener;
-import com.pulse.brag.data.model.DummeyDataRespone;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.views.FullScreenImageDialogFragment;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
+import com.pulse.brag.adapters.ImagePagerAdapter;
+import com.pulse.brag.views.webview.WebviewDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ import javax.inject.Named;
  */
 
 
-public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements IOnItemClickListener, IOnProductSizeSelectListener, IOnProductColorSelectListener, ProductDetailNavigator /*BaseInterface,*/ {
+public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements /*IOnItemClickListener,*/ IOnProductSizeSelectListener, IOnProductColorSelectListener, ProductDetailNavigator, ImagePagerAdapter.IOnImagePageClickListener /*BaseInterface,*/ {
 
     @Inject
     ProductDetailViewModel mProductDetailViewModel;
@@ -74,7 +74,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
-    ProductDetailImagePagerAdapter mDetailImagePagerAdapter;
+    //ProductDetailImagePagerAdapter mDetailImagePagerAdapter;
     List<String> mIntegerList;
     List<String> mStringList;
     List<ImagePagerResponse> imagePagerResponeList;
@@ -154,7 +154,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public int getBindingVariable() {
-        return com.pulse.brag.BR.viewModel;
+        return BR.viewModel;
     }
 
     @Override
@@ -288,8 +288,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
 
-        mDetailImagePagerAdapter = new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this);
-        mFragmentProductDetailBinding.viewPager.setAdapter(mDetailImagePagerAdapter);
+        /*mDetailImagePagerAdapter = new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this);
+        mFragmentProductDetailBinding.viewPager.setAdapter(mDetailImagePagerAdapter);*/
+        mFragmentProductDetailBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
         mFragmentProductDetailBinding.pagerIndicator.setViewPager(mFragmentProductDetailBinding.viewPager);
 
 
@@ -337,7 +338,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         dialogFragment.show(getChildFragmentManager(), "");
     }
 
-    @Override
+    /*@Override
     public void onItemClick(int position) {
 
         Bundle args = new Bundle();
@@ -350,7 +351,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mDialogFragmentImage.setArguments(args);
         mDialogFragmentImage.show(fm, "");
 
-    }
+    }*/
 
 
     @Override
@@ -407,5 +408,18 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     public void notifyMe() {
         // TODO: 2/20/2018 check for new parameter
         mProductDetailViewModel.notifyMe("", "", "");
+    }
+
+    @Override
+    public void onImagePageClick(int pos, ImagePagerResponse item) {
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(Constants.BUNDLE_IMAGE_LIST, (ArrayList<? extends Parcelable>) imagePagerResponeList);
+        args.putInt(Constants.BUNDLE_POSITION, pos);
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
+        mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
+        mDialogFragmentImage.setArguments(args);
+        mDialogFragmentImage.show(fm, "");
     }
 }

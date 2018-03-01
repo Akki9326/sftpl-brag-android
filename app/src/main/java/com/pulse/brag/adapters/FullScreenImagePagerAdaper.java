@@ -9,6 +9,7 @@ package com.pulse.brag.adapters;
  */
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.pulse.brag.R;
-import com.pulse.brag.utils.Utility;
+import com.pulse.brag.databinding.ItemFullImageBinding;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
-import com.pulse.brag.views.pinchtozoom.PinchToZoom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +28,18 @@ import java.util.List;
  */
 
 
-public class FullScreenImagePagerAdaper extends PagerAdapter {
+public class FullScreenImagePagerAdaper extends PagerAdapter implements ImagePagerItem.ItemImageClickListener {
     Context mContext;
     LayoutInflater mLayoutInflater;
     List<ImagePagerResponse> mPagerRespones;
+    IOnFullImagePageClickListener mListener;
 
-    public FullScreenImagePagerAdaper(Context context, List<ImagePagerResponse> mPagerRespones) {
+    public FullScreenImagePagerAdaper(Context context, List<ImagePagerResponse> mPagerRespones, IOnFullImagePageClickListener listener) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mPagerRespones = new ArrayList<>();
         this.mPagerRespones.addAll(mPagerRespones);
+        this.mListener = listener;
     }
 
     @Override
@@ -52,17 +54,33 @@ public class FullScreenImagePagerAdaper extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_full_image, container, false);
+        /*View itemView = mLayoutInflater.inflate(R.layout.item_full_image, container, false);
 
         PinchToZoom imageView = (PinchToZoom) itemView.findViewById(R.id.imageView);
         Utility.imageSet(mContext, mPagerRespones.get(position).getUrl(), imageView);
         container.addView(itemView);
-        return itemView;
+        return itemView;*/
+
+        ItemFullImageBinding dataBinding = DataBindingUtil.inflate(mLayoutInflater
+                , R.layout.item_full_image, null, false);
+        dataBinding.setViewModel(new ImagePagerItem(mPagerRespones.get(position), mContext, position, this));
+        //dataBinding.setVariable(BR.viewModel, mPagerRespones.get(position));
+        container.addView(dataBinding.getRoot());
+        return dataBinding.getRoot();
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((RelativeLayout) object);
+    }
+
+    @Override
+    public void onItemClick(int position, ImagePagerResponse item) {
+        mListener.onFullImagePageClick(position, item);
+    }
+
+    public interface IOnFullImagePageClickListener {
+        void onFullImagePageClick(int pos, ImagePagerResponse item);
     }
 
 }

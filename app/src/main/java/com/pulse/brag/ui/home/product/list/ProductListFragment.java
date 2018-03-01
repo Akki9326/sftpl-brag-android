@@ -54,6 +54,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.pulse.brag.utils.Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE;
+
 /**
  * Created by nikhil.vadoliya on 27-09-2017.
  */
@@ -106,6 +108,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     int mSelectedQty;
     int productListSize;
 
+    String mTitle;
     int mSorting;
     boolean mFilterApplied;
     String mFilterColor;
@@ -136,6 +139,11 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void beforeViewCreated() {
+        if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_PRODUCT_LIST_TITLE))
+            mTitle = getArguments().getString(BUNDLE_KEY_PRODUCT_LIST_TITLE);
+        else
+            mTitle = getString(R.string.toolbar_label_productlist);
+
         collectionListRespones = new ArrayList<>();
         mDummeyDataRespones = new ArrayList<>();
         mSorting = Constants.ProductSorting.POPULARITY.ordinal();
@@ -208,7 +216,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void setUpToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_productlist));
+        ((CoreActivity) getActivity()).showToolbar(true, false, true, mTitle);
     }
 
     @Override

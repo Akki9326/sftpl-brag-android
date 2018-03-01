@@ -17,7 +17,7 @@ import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.adapters.MyOrderListAdapter;
+import com.pulse.brag.ui.order.adapter.MyOrderListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentMyOrderBinding;
 import com.pulse.brag.ui.core.CoreFragment;

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
@@ -66,16 +67,10 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
 
     @Override
     public Dialog onCreateFragmentDialog(Bundle savedInstanceState, Dialog dialog) {
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        dialog.getWindow().setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        Drawable d = new ColorDrawable(Color.BLACK);
-        d.setAlpha(130);
-        dialog.getWindow().setBackgroundDrawable(d);
-
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounder_corner_solid_white);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return dialog;
     }
 
@@ -101,7 +96,7 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
 
     @Override
     public void setUpToolbar() {
-
+        mProductFilterDialogViewModel.updateTitle(getString(R.string.label_filter_camel));
     }
 
     @Override

@@ -54,12 +54,12 @@
             android:windowSoftInputMode="adjustResize" />
 
         <!-- FCM -->
-        <service android:name=".FCMService">
+        <service android:name=".fcm.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FCMInstanceIDService">
+        <service android:name=".fcm.FCMInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -80,8 +80,6 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".WebViewActivity" />
-        <activity android:name=".SpActivity" />
     </application>
 
 </manifest>

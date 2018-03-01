@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true">
-        <shape>
-            <solid android:color="@color/semi_pink"></solid>
-        </shape>
-    </item>
-    <item android:state_focused="true">
-        <shape>
-            <solid android:color="@color/semi_pink"></solid>
-        </shape>
-    </item>
-    <item android:state_pressed="false">
-        <shape>
-            <solid android:color="@color/white"></solid>
-        </shape>
-    </item>
+    <item android:state_pressed="true" android:drawable="@drawable/rounder_corner_solid_pink"/>
+    <item android:drawable="@drawable/rounder_corner_solid_pink"/>
 </selector>

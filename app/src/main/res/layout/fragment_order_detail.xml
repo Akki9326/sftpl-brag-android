@@ -254,28 +254,37 @@
                                 android:textColor="@color/text_black"
                                 android:textSize="@dimen/text_size_very_small" />
 
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="5dp"
                                 android:layout_marginRight="10dp"
-                                android:onClick="@{viewModel.onDownloadInvoice()}"
-                                android:layout_marginTop="5dp"
-                                android:src="@drawable/ic_download"
-                                android:tint="@color/gray" />
+                                android:gravity="center"
+                                android:visibility="gone"
+                                android:onClick="@{viewModel.onDownloadInvoice()}">
+
+                                <ImageSwitcher
+                                    android:id="@+id/imageview_download"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_download" />
+
+                                <ProgressBar
+                                    android:id="@+id/progressBarDownload"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/circle_shape"
+                                    android:indeterminate="false"
+                                    android:max="100"
+                                    android:progressDrawable="@drawable/circular_progress_bar" />
+                            </RelativeLayout>
+
                         </LinearLayout>
 
-                        <ProgressBar
-                            android:id="@+id/progressBarDownload"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginBottom="-3dp"
-                            android:layout_marginTop="-3dp"
-                            android:progressTint="@color/pink"
-                            android:visibility="gone" />
+
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 

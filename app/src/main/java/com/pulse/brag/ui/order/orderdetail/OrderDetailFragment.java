@@ -9,14 +9,28 @@ package com.pulse.brag.ui.order.orderdetail;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.downloader.Error;
+import com.downloader.OnCancelListener;
+import com.downloader.OnDownloadListener;
+import com.downloader.OnPauseListener;
+import com.downloader.OnProgressListener;
+import com.downloader.OnStartOrResumeListener;
+import com.downloader.PRDownloader;
+import com.downloader.Progress;
+import com.downloader.Status;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
@@ -29,6 +43,7 @@ import com.pulse.brag.utils.AppPermission;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.FileUtils;
 import com.pulse.brag.utils.Utility;
+
 
 import java.io.File;
 
@@ -80,6 +95,12 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     public void afterViewCreated() {
         mFragmentOrderDetailBinding = getViewDataBinding();
         Utility.applyTypeFace(getContext(), mFragmentOrderDetailBinding.baseLayout);
+
+        Animation up = AnimationUtils.loadAnimation(getContext(), R.anim.right_out);
+        Animation down = AnimationUtils.loadAnimation(getContext(), R.anim.left_in);
+        mFragmentOrderDetailBinding.imageviewDownload.setInAnimation(up);
+        mFragmentOrderDetailBinding.imageviewDownload.setOutAnimation(down);
+        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
 //        checkInternet();
         showData();
 
@@ -127,42 +148,96 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             if (!AppPermission.isPermissionRequestRequired(getActivity()
                     , new String[]{"android.permission.READ_EXTERNAL_STORAGE"}
                     , REQUEST_PERMISSION)) {
-                downloadFile();
+
+                downloadOrOpenFile();
             }
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
 
-        Toast.makeText(getActivity(), "On Download Invoice", Toast.LENGTH_SHORT).show();
+
     }
 
-    private void downloadFile() {
+    private void downloadOrOpenFile() {
 
-        String folderPath;
-        if (FileUtils.isSdCardPresent()) {
-            folderPath = Environment.getExternalStorageDirectory().toString()
-                    + "/" + getString(R.string.app_name);
 
-            if (FileUtils.isFolderExist(folderPath)) {
-                if (FileUtils.isFileExist(folderPath + "/" + "12313")) {
-                    //open file
-                } else {
-                    //download
-                }
-            } else {
-                FileUtils.makeFolders(folderPath);
-                //download
-            }
+        String path = Environment.getExternalStorageDirectory().toString();
+        String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
 
+        //make Brag folder
+        Utility.makeFolder(path, getString(R.string.app_name));
+
+
+        if (FileUtils.isFileExist(pathWithFolder + "/" + "example.pdf")) {
+            //open file
+            Utility.fileIntentHandle(getActivity(), new File(pathWithFolder + "/" + "example.pdf"));
         } else {
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-            File folder = new File(extStorageDirectory, "Brag");
-            folder.mkdir();
+            //download file
+            downloadfileFromPRDownloader(pathWithFolder);
+        }
+    }
+
+    private void downloadfileFromPRDownloader(String path) {
+
+        if (Status.RUNNING == PRDownloader.getStatus(downloadIdOne)) {
+            PRDownloader.pause(downloadIdOne);
+            return;
         }
 
+        mFragmentOrderDetailBinding.imageviewDownload.setEnabled(false);
 
 
+        if (Status.PAUSED == PRDownloader.getStatus(downloadIdOne)) {
+            PRDownloader.resume(downloadIdOne);
+            return;
+        }
+
+        downloadIdOne = PRDownloader.download(orderDetailViewModel.getInvoiveUrl(), path, "example.pdf")
+                .build()
+                .setOnStartOrResumeListener(new OnStartOrResumeListener() {
+                    @Override
+                    public void onStartOrResume() {
+                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download_close);
+                    }
+                })
+                .setOnPauseListener(new OnPauseListener() {
+                    @Override
+                    public void onPause() {
+                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
+                    }
+                })
+                .setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel() {
+                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
+                        mFragmentOrderDetailBinding.progressBarDownload.setProgress(0);
+                        downloadIdOne = 0;
+                    }
+                })
+                .setOnProgressListener(new OnProgressListener() {
+                    @Override
+                    public void onProgress(Progress progress) {
+                        long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
+                        mFragmentOrderDetailBinding.progressBarDownload.setProgress((int) progressPercent);
+                    }
+                })
+                .start(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
+                        Toast.makeText(getContext(), getString(R.string.msg_download_complate), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
+                        Toast.makeText(getContext(), getString(R.string.error_download_file), Toast.LENGTH_SHORT).show();
+                        mFragmentOrderDetailBinding.progressBarDownload.setProgress(0);
+                        downloadIdOne = 0;
+                    }
+                });
     }
+
 
     @Override
     public void onReorderClick() {
@@ -204,7 +279,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                     switch (permission) {
                         case "android.permission.READ_EXTERNAL_STORAGE":
                             if (PackageManager.PERMISSION_GRANTED == grantResult) {
-                                downloadFile();
+                                downloadOrOpenFile();
                             }
                             break;
                     }

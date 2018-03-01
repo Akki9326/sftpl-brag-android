@@ -543,13 +543,5 @@ public class FileUtils {
         return file.delete();
     }
 
-    public static boolean isSdCardPresent() {
-        Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-        Boolean isSDSupportedDevice = Environment.isExternalStorageRemovable();
-        if (isSDSupportedDevice && isSDPresent) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 }

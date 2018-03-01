@@ -131,10 +131,15 @@
     <string name="hint_mobile_num"><font size="12">Mobile number</font></string>
     <string name="hint_password"><font size="12">Password</font></string>
     <string name="hint_first_name"><font size="12">First name*</font></string>
+    <string name="hint_address"><font size="12">Address*</font></string>
     <string name="hint_last_name"><font size="12">Last name</font></string>
+    <string name="hint_landmark"><font size="12">Landmark</font></string>
     <string name="hint_mobile_num_ast"><font size="12">Mobile number*</font></string>
+    <string name="hint_state_ast"><font size="12">State*</font></string>
     <string name="hint_email_ast"><font size="12">Email*</font></string>
+    <string name="hint_city_ast"><font size="12">City*</font></string>
     <string name="hint_password_ast"><font size="12">Password*</font></string>
+    <string name="hint_pincode_ast"><font size="12">Pincode*</font></string>
     <string name="label_confirm_password">Confirm Password</string>
     <string name="hint_confirm_password_ast"><font size="12">Confirm Password*</font></string>
     <string name="error_password_not_match">Entered password not match with confirm password.</string>
@@ -248,4 +253,12 @@
     <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
     <string name="label_sort_by_camel">Sort By</string>
     <string name="label_edit_address">Edit Address</string>
+    <string name="error_app_not_found">In your device,app not found to open this file.</string>
+    <string name="msg_download_complate">Downlaod complete</string>
+    <string name="error_download_file">Error in downlaod file</string>
+    <string name="label_address">Address</string>
+    <string name="label_landmark">Landmark</string>
+    <string name="label_city">City</string>
+    <string name="label_state">State</string>
+    <string name="label_pincode">Pincode</string>
 </resources>

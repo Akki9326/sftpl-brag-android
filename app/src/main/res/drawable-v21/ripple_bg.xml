@@ -2,5 +2,5 @@
     android:color="@color/semi_pink">
     <item
         android:id="@android:id/mask"
-        android:drawable="@color/white" />
+        android:drawable="@drawable/rounder_corner_solid_pink" />
 </ripple>

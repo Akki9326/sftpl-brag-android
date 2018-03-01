@@ -12,7 +12,9 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,15 +22,19 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -44,6 +50,7 @@ import com.pulse.brag.BuildConfig;
 import com.pulse.brag.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -649,4 +656,48 @@ public class Utility {
             return activity.getString(R.string.toolbar_label_notification);
         }
     }
+
+
+    public static void makeFolder(String path, String folderName) {
+        String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+        File file = new File(path, folderName);
+        if (!file.exists() && !file.isDirectory())
+            file.mkdir();
+    }
+
+    public static String getProgressDisplayLine(long currentBytes, long totalBytes) {
+        return getBytesToMBString(currentBytes) + "/" + getBytesToMBString(totalBytes);
+    }
+
+    private static String getBytesToMBString(long bytes){
+        return String.format(Locale.ENGLISH, "%.2fMb", bytes / (1024.00 * 1024.00));
+    }
+
+    public static void fileIntentHandle(Activity activity, File file) {
+
+        if (file.getAbsolutePath().length() != 0) {
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+            String type = mime.getMimeTypeFromExtension(ext);
+            try {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    Uri uri = FileProvider.getUriForFile(activity,
+                            activity.getApplicationContext().getPackageName() + ".provider", file);
+                    intent.setDataAndType(uri, type);
+                } else {
+                    intent.setDataAndType(Uri.fromFile(file), type);
+                }
+                activity.startActivity(intent);
+            } catch (ActivityNotFoundException anfe) {
+                AlertUtils.showAlertMessage(activity, activity.getResources().getString(R.string.error_app_not_found));
+            }
+
+        } else {
+            AlertUtils.showAlertMessage(activity,1,null);
+        }
+    }
+
 }

@@ -16,12 +16,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-            app:onRefreshListener="@{viewModel.getOnRefreshListener}">
+
 
         <LinearLayout
             android:id="@+id/linear_cart"
@@ -33,30 +28,42 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimaryDark"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+                    app:onRefreshListener="@{viewModel.getOnRefreshListener}">
 
-
+                    <android.support.v4.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recycleView"
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingBottom="65dp" />
+                            android:orientation="vertical">
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recycleView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="65dp" />
+
+
+                        </LinearLayout>
 
 
                     </LinearLayout>
-
-                </LinearLayout>
+                    </android.support.v4.widget.NestedScrollView>
+                </android.support.v4.widget.SwipeRefreshLayout>
 
 
                 <LinearLayout
@@ -117,6 +124,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/rounder_corner_solid_pink"
+                            android:clickable="true"
                             android:gravity="center"
                             android:onClick="@{viewModel.onPlaceOrder()}"
                             android:paddingBottom="12dp"
@@ -132,7 +140,7 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-        </android.support.v4.widget.SwipeRefreshLayout>
+
         <LinearLayout
             android:id="@+id/linear_no_cart"
             android:layout_width="match_parent"

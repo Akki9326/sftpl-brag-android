@@ -18,7 +18,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.widget.RelativeLayout;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentProductDetailBinding;

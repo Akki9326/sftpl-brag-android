@@ -45,6 +45,7 @@ import com.pulse.brag.ui.fragments.WebviewDialogFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.more.adapter.MoreListAdapter;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
+import com.pulse.brag.ui.order.MyOrderListFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
@@ -314,8 +315,5 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         getActivity().finish();
     }
 
-    @Override
-    public void dismissAlert() {
-        alertDialog.dismiss();
-    }
+    
 }

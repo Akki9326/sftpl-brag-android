@@ -12,6 +12,10 @@ package com.pulse.brag.ui.authentication.forgotpassword;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
@@ -88,7 +92,7 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public void afterViewCreated() {
         mFragmentForgotPassBinding = getViewDataBinding();
-        Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentForgotPassBinding.baseLayout);
+        Utility.applyTypeFace(getBaseActivity(), mFragmentForgotPassBinding.baseLayout);
 
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_MOBILE)) {
             if (getArguments().getString(Constants.BUNDLE_MOBILE).trim().isEmpty()
@@ -101,8 +105,11 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
             }
         }
         if (getActivity() instanceof UserProfileActivity) {
-            mFragmentForgotPassBinding.edittextMobileNum.setHint(getString(R.string.label_new_mobile_no));
+            mFragmentForgotPassBinding.edittextMobileNum.setHint(
+                    Html.fromHtml("<small><small>" + getString(R.string.hint_new_mobile_num) + "</small></small>"));
             mFragmentForgotPassBinding.textviewMobileNum.setText(getString(R.string.label_new_mobile_no));
+
+
         }
     }
 

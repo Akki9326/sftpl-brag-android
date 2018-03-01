@@ -10,6 +10,7 @@ package com.pulse.brag.ui.authentication.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -29,8 +30,11 @@ import com.pulse.brag.ui.contactus.ContactUsFragment;
 import com.pulse.brag.ui.authentication.signup.SignUpFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.FileUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -326,4 +330,14 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     }
 
 
+
+    public String getSDCardDirectory() {
+        String SdcardPath = Environment.getExternalStorageDirectory().toString();
+        String dir = SdcardPath.substring(SdcardPath.lastIndexOf('/') + 1);
+        System.out.println(dir);
+        String[] trimmed = SdcardPath.split(dir);
+        String sdcardPath = trimmed[0];
+        System.out.println(sdcardPath);
+        return sdcardPath;
+    }
 }

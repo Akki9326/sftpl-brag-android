@@ -174,6 +174,6 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     }
 
     public String getInvoiveUrl(){
-        return "http://www2.sdfi.edu.cn/netclass/jiaoan/englit/download/Harry%20Potter%20and%20the%20Sorcerer's%20Stone.pdf";
+        return "https://www.tutorialspoint.com/android/android_tutorial.pdf";
     }
 }

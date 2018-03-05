@@ -35,22 +35,6 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
     ContactUsViewModel mContactUsViewModel;
     FragmentContactUsBinding mFragmentContactUsBinding;
 
-    /*View mView;
-    EditText mEdtName, mEdtEmail, mEdtMessage;
-    TextView mTxtSend;*/
-
-    /*@Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_contact_us, container, false);
-            initializeData();
-            setListeners();
-            showData();
-        }
-        return mView;
-    }*/
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,56 +71,6 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
     public int getLayoutId() {
         return R.layout.fragment_contact_us;
     }
-
-    /*@Override
-    public void setToolbar() {
-
-    }
-
-    @Override
-    public void initializeData() {
-
-        mEdtEmail = mView.findViewById(R.id.edittext_email);
-        mEdtMessage = mView.findViewById(R.id.edittext_message);
-        mEdtName = mView.findViewById(R.id.edittext_name);
-
-        mTxtSend = mView.findViewById(R.id.textview_send);
-    }
-
-    @Override
-    public void setListeners() {
-
-        mTxtSend.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                if (Validation.isEmpty(mEdtName)){
-                    //Utility.showAlertMessage(getContext(),getString(R.string.error_empty_name));
-                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_empty_name));
-                }else  if(Validation.isEmpty(mEdtEmail)){
-                    //Utility.showAlertMessage(getContext(),getString(R.string.error_please_email));
-                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_please_email));
-                }else if(!Validation.isEmailValid(mEdtEmail)){
-                    //Utility.showAlertMessage(getContext(),getString(R.string.error_email_valid));
-                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_email_valid));
-                }else if(Validation.isEmpty(mEdtMessage)){
-                    //Utility.showAlertMessage(getContext(),getString(R.string.error_empty_message));
-                    AlertUtils.showAlertMessage(getContext(),getString(R.string.error_empty_message));
-                }else if(Utility.isConnection(getContext())){
-                    //api call
-                    getActivity().onBackPressed();
-                }else {
-                    //Utility.showAlertMessage(getContext(),0,null);
-                    AlertUtils.showAlertMessage(getContext(),0,null);
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public void showData() {
-
-    }*/
 
     @Override
     public void onApiSuccess() {

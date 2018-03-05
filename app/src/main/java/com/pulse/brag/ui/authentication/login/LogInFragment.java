@@ -49,39 +49,12 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     LoginViewModel mLoginViewModel;
     FragmentLoginBinding mFragmentLoginBinding;
 
-   /* View mView;
-    TextView mTxtLogin, mTxtSignUp, mTxtForget, mTxtContactUs;
-    ImageView mImgPass;*/
-    //EditText mEdtNumber, mEdtPassword;
-
     public static LogInFragment newInstance() {
         Bundle args = new Bundle();
         LogInFragment fragment = new LogInFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
-    /*@Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_login, container, false);
-            //initializeData();
-            //setListeners();
-            //showData();
-        }
-        return mView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,144 +92,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     public int getLayoutId() {
         return R.layout.fragment_login;
     }
-
-
-
-   /* @Override
-    public void setToolbar() {
-    }
-
-    @Override
-    public void initializeData() {
-        mTxtLogin = mView.findViewById(R.id.textview_login);
-        mTxtSignUp = mView.findViewById(R.id.textview_signup);
-        mImgPass = mView.findViewById(R.id.imageview_pass_visible);
-        mEdtPassword = mView.findViewById(R.id.edittext_password);
-        mEdtNumber = mView.findViewById(R.id.edittext_mobile_num);
-        mTxtForget = mView.findViewById(R.id.textview_forget);
-        mTxtContactUs = mView.findViewById(R.id.textview_contact);
-        //mEdtNumber.setText("7874487853");
-        //mEdtPassword.setText("sailfin*123");
-    }
-
-    @Override
-    public void setListeners() {
-
-        mTxtLogin.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-
-                if (Validation.isEmpty(mEdtNumber)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-                } else if (!Validation.isValidMobileNum(mEdtNumber)) {
-                    Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-                } else if (Validation.isEmpty(mEdtPassword)) {
-                    Utility.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
-                } else if (Utility.isConnection(getActivity())) {
-                    LoginAPICall(mEdtNumber.getText().toString(), mEdtPassword.getText().toString());
-                } else {
-                    Utility.showAlertMessage(getActivity(), 0, null);
-                }
-            }
-        });
-
-        mTxtSignUp.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                ((SplashActivity) getActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
-            }
-        });
-        mTxtContactUs.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                ((SplashActivity) getActivity()).pushFragments(new ContactUsFragment(), true, true, "Signup_Frag");
-
-            }
-        });
-
-        mEdtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    mTxtLogin.performClick();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        mImgPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mImgPass.isSelected()) {
-                    mImgPass.setSelected(false);
-                    mEdtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    mEdtPassword.setSelection(mEdtPassword.getText().length());
-                } else {
-                    mImgPass.setSelected(true);
-                    mEdtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    mEdtPassword.setSelection(mEdtPassword.getText().length());
-                }
-            }
-        });
-        mTxtForget.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-
-                ((SplashActivity) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mEdtNumber.getText().toString()), true, true, "Forget_Frag");
-
-            }
-        });
-    }
-
-    @Override
-    public void showData() {
-        Utility.applyTypeFace(getActivity(), (LinearLayout) mView.findViewById(R.id.base_layout));
-    }**/
-
-
-   /* private void LoginAPICall(String mobile, String password) {
-
-        showProgressDialog();
-        LoginRequest loginRequest = new LoginRequest(mobile, password);
-        Call<LoginResponse> mLoginResponeCall = ApiClient.getInstance(getActivity()).getApiResp().userLogin(loginRequest);
-        mLoginResponeCall.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    LoginResponse respone = response.body();
-                    okhttp3.Headers headers = response.headers();
-                    if (respone.isStatus()) {
-
-                        setHeaderInPref(headers);
-                        PreferencesManager.getInstance().setIsLogin(true);
-                        PreferencesManager.getInstance().setUserData(new Gson().toJson(respone.getData()));
-                        startActivity(new Intent(getActivity(), MainActivity.class));
-                        getActivity().finish();
-                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                    } else {
-                        Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                    }
-                } else {
-                    Utility.showAlertMessage(getActivity(), 1, null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                hideProgressDialog();
-                Utility.showAlertMessage(getActivity(), t);
-            }
-        });
-    }
-
-
-    private void setHeaderInPref(okhttp3.Headers headers) {
-        PreferencesManager.getInstance().setAccessToken(headers.get("access_token"));
-        PreferencesManager.getInstance().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
-
-    }*/
 
     @Override
     public void login() {
@@ -328,7 +163,6 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
         getActivity().finish();
         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
-
 
 
     public String getSDCardDirectory() {

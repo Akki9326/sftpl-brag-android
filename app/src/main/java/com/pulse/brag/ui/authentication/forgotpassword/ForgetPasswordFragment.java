@@ -49,11 +49,6 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     ForgotPasswordViewModel mForgotPasswordViewModel;
     FragmentForgetPassBinding mFragmentForgotPassBinding;
 
-    /*View mView;
-    EditText mEdtMobile;
-    TextView mTxtSendOtp, mTxtMobileNum;*/
-
-
     public static ForgetPasswordFragment newInstance(String mobile) {
 
         Bundle args = new Bundle();
@@ -62,18 +57,6 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         fragment.setArguments(args);
         return fragment;
     }
-
-    /*@Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_forget_pass, container, false);
-            initializeData();
-            setListeners();
-            showData();
-        }
-        return mView;
-    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,110 +131,6 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         if (request == REQ_SMS_SEND_RECEIVED_READ)
             mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
     }
-
-    /*Commented by alpesh on 14/02/18 to convert mvvm architecture*/
-    /*@Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar();
-    }
-
-    @Override
-    public void setToolbar() {
-        if (getActivity() instanceof UserProfileActivity) {
-            ((UserProfileActivity) getActivity()).showToolBar(getString(R.string.toolbar_label_change_mobile_num));
-        }
-    }
-
-    @Override
-    public void initializeData() {
-
-        mEdtMobile = (EditText) mView.findViewById(R.id.edittext_mobile_num);
-        mTxtSendOtp = (TextView) mView.findViewById(R.id.textview_send_otp);
-        mTxtMobileNum = (TextView) mView.findViewById(R.id.textview_mobile_num);
-
-        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_MOBILE)) {
-            if (getArguments().getString(Constants.BUNDLE_MOBILE).trim().isEmpty()
-                    || getArguments().getString(Constants.BUNDLE_MOBILE).length() < 10) {
-                mEdtMobile.setText("");
-            } else {
-                mEdtMobile.setText(getArguments().getString(Constants.BUNDLE_MOBILE));
-            }
-        }
-        if (getActivity() instanceof UserProfileActivity) {
-            mEdtMobile.setHint(getString(R.string.hint_new_mobile_num));
-            mTxtMobileNum.setText(getString(R.string.label_new_mobile_no));
-        }
-
-    }
-
-    @Override
-    public void setListeners() {
-
-        mTxtSendOtp.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-
-                if (Validation.isEmpty(mEdtMobile)) {
-                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-                } else if (!Validation.isValidMobileNum(mEdtMobile)) {
-                    //Utility.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-                    AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-                } else if (Utility.isConnection(getActivity())) {
-                    ForgetPassAPI(mEdtMobile.getText().toString());
-                } else {
-                    //Utility.showAlertMessage(getActivity(), 0, null);
-                    AlertUtils.showAlertMessage(getActivity(), 0, null);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void showData() {
-
-    }
-
-    private void ForgetPassAPI(String s) {
-        showProgressDialog();
-        ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<GeneralResponse> responeCall = ApiClient.getInstance(getActivity()).getApiResp().resendOtp(s);
-        responeCall.enqueue(new Callback<GeneralResponse>() {
-            @Override
-            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    GeneralResponse respone = response.body();
-                    if (respone.isStatus()) {
-                        // TODO: 13-11-2017 email address pass for display in otp screen
-                        if (getActivity() instanceof SplashActivity) {
-                            ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mEdtMobile.getText().toString(),
-                                    "email@email.com", OTPValidationIsFrom.FORGET_PASS.ordinal()),
-                                    true, true, "OTP_frag");
-                        } else {
-                            ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mEdtMobile.getText().toString(),
-                                    "email@email.com", OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
-                                    true, true, "OTP_frag");
-                        }
-
-                    } else {
-                        //Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GeneralResponse> call, Throwable t) {
-                hideProgressDialog();
-                //Utility.showAlertMessage(getActivity(), t);
-                AlertUtils.showAlertMessage(getActivity(), t);
-            }
-        });
-    }*/
-    /*End comment*/
 
     private boolean checkAndRequestPermissions() {
         boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);

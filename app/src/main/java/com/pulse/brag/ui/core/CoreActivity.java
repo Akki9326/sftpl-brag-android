@@ -57,9 +57,6 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
     private T mViewDataBinding;
     private V mViewModel;
 
-    //private List<Fragment> fragmentList = new ArrayList<>();
-    //private FragmentStack fragmentStack;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         performDependencyInjection();
@@ -78,14 +75,6 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
-    }
-
-    protected void showProgress(String msg) {
-
-    }
-
-    protected void hideProgress() {
-
     }
 
     @Override
@@ -123,20 +112,45 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
     public void onPermissionDenied(int request) {
     }
 
+    protected void showProgress() {
+    }
+
+    protected void hideProgress() {
+    }
+
+
+    public void showKeyboard() {
+        View view = this.getCurrentFocus();
+        Common.showKeyboard(this, view);
+    }
+
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        Common.hideKeyboard(this, view);
+    }
+
+    public boolean isNetworkConnected() {
+        return NetworkUtils.isNetworkConnected(getApplicationContext());
+    }
+
+    public void showToast(String msg) {
+        ToastUtils.show(this, msg);
+    }
+
+    public B getActivityInstance() {
+        return bActivity;
+    }
+
+    public T getViewDataBinding() {
+        return mViewDataBinding;
+    }
+
     public void setUpToolbar(Toolbar toolbar, TextView toolbarTitle, ImageView back, ImageView logo, LinearLayout linearCart, TextView bagCount, RelativeLayout relText, TextView textReadAll) {
 
         mToolbar = toolbar;
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-        /*mToolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
-        mImgBack = (ImageView) mToolbar.findViewById(R.id.imageView_back);
-        mImgLogo = (ImageView) mToolbar.findViewById(R.id.imageView_logo);
-        mLinearCart = (LinearLayout) mToolbar.findViewById(R.id.linear_card);
-        mTxtBagCount = (TextView) mToolbar.findViewById(R.id.badge_tv_toolbar);
-        mRelText = (RelativeLayout) mToolbar.findViewById(R.id.relative_text);
-        mTxtReadAll = mToolbar.findViewById(R.id.textview_read_all);*/
 
         mToolbarTitle = toolbarTitle;
         mImgBack = back;
@@ -153,12 +167,6 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         Utility.applyTypeFace(getApplicationContext(), toolbar);
 
 
-       /* mLinearCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pushFragments(new CartFragment(), true, true);
-            }
-        });*/
         mImgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,32 +247,6 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         }
     }
 
-    public void showKeyboard() {
-        View view = this.getCurrentFocus();
-        Common.showKeyboard(this, view);
-    }
-
-    public void hideKeyboard() {
-        View view = this.getCurrentFocus();
-        Common.hideKeyboard(this, view);
-    }
-
-    public boolean isNetworkConnected() {
-        return NetworkUtils.isNetworkConnected(getApplicationContext());
-    }
-
-    public void showToast(String msg) {
-        ToastUtils.show(this, msg);
-    }
-
-    public B getActivityInstance() {
-        return bActivity;
-    }
-
-    public T getViewDataBinding() {
-        return mViewDataBinding;
-    }
-
     /**
      * Override for set view model
      *
@@ -324,6 +306,7 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
     public void onFragmentDetached(String tag) {
 
     }
+
 
     public interface OnToolbarSetupListener {
         void setUpToolbar();

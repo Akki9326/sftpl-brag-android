@@ -68,7 +68,7 @@
                     android:ellipsize="end"
                     android:maxLength="7"
                     android:maxLines="1"
-                    android:tag="@string/font_opensans_bold"
+                    android:tag="@string/font_opensans_bold_id"
                     android:text="@{viewModel.price}"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_very_small" />

@@ -101,7 +101,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         mFragmentOrderDetailBinding.imageviewDownload.setInAnimation(up);
         mFragmentOrderDetailBinding.imageviewDownload.setOutAnimation(down);
         mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
-//        checkInternet();
+        //checkInternet();
         showData();
 
     }

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pulse.brag.utils.AppLogger;
+import com.pulse.brag.utils.Common;
 import com.pulse.brag.views.CustomProgressDialog;
 
 import java.util.ArrayList;
@@ -161,6 +162,13 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
             AppLogger.e(e.getMessage(), e.getCause());
         }
     }
+
+    public void showKeyboard() {
+        if (mActivity != null) {
+            mActivity.showKeyboard();
+        }
+    }
+
 
     public void hideKeyboard() {
         if (mActivity != null) {

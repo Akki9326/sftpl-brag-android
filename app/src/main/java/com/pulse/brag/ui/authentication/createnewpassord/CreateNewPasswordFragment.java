@@ -42,14 +42,6 @@ public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPas
     CreateNewPasswordViewModel mCreateNewPasswordViewModel;
     FragmentCreateNewPasswordBinding mFragmentCreateNewPasswordBinding;
 
-
-    /*View mView;
-    private EditText mEdtOldPass;
-    private TextView mTxtNewPass;
-    private EditText mEdtNewPass;
-    private EditText mEdtConfirmPass;
-    private TextView mTxtDone;*/
-
     boolean isFromChangePass;
     String mobile;
     String otp;
@@ -102,110 +94,6 @@ public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPas
     public int getLayoutId() {
         return R.layout.fragment_create_new_password;
     }
-
-    /*
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_create_new_password, container, false);
-            initializeData();
-            setListeners();
-            showData();
-        }
-        return mView;
-    }
-    @Override
-    public void setToolbar() {
-
-    }
-
-    @Override
-    public void initializeData() {
-        mTxtNewPass = (TextView) mView.findViewById(R.id.textview_new_pass);
-        mEdtNewPass = (EditText) mView.findViewById(R.id.edittext_password);
-        mEdtConfirmPass = (EditText) mView.findViewById(R.id.edittext_confirm_password);
-        mTxtDone = (TextView) mView.findViewById(R.id.textview_done);
-        mobile = getArguments().getString(Constants.BUNDLE_MOBILE);
-        otp = getArguments().getString(Constants.BUNDLE_OTP);
-
-    }
-
-    @Override
-    public void setListeners() {
-
-        mTxtDone.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-
-                validationAndAPI();
-            }
-        });
-
-
-    }
-
-    @Override
-    public void showData() {
-
-    }*/
-
-    /*private void validationAndAPI() {
-
-        if (isFromChangePass && Validation.isEmpty(mEdtOldPass)) {
-            //Utility.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
-        } else if (Validation.isEmpty(mEdtNewPass)) {
-            //Utility.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
-        } else if (Validation.isEmpty(mEdtConfirmPass)) {
-            //Utility.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
-        } else if (!(mEdtNewPass.getText().toString().equals(mEdtConfirmPass.getText().toString()))) {
-            //Utility.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
-        } else if (Utility.isConnection(getActivity())) {
-            ChangePasswordAPI();
-        } else {
-            //Utility.showAlertMessage(getActivity(), 0, null);
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
-        }
-    }*/
-
-
-   /* private void ChangePasswordAPI() {
-        showProgressDialog();
-        ChangePasswordRequest resetPassword = new ChangePasswordRequest();
-        resetPassword.setMobileNumber(mobile);
-        resetPassword.setOtp(Integer.parseInt(otp));
-        resetPassword.setPassword(mEdtNewPass.getText().toString());
-        Call<ChangePasswordResponse> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().resetPassword(resetPassword);
-        mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordResponse>() {
-            @Override
-            public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    ChangePasswordResponse respone = response.body();
-                    if (respone.isStatus()) {
-                        showAlertMessage();
-                    } else {
-                        //Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                    }
-                } else {
-                    //Utility.showAlertMessage(getActivity(), 1, null);
-                    AlertUtils.showAlertMessage(getActivity(), 1, null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
-                hideProgressDialog();
-                //Utility.showAlertMessage(getActivity(), t);
-                AlertUtils.showAlertMessage(getActivity(), t);
-            }
-        });
-    }*/
 
     private void showAlertMessage() {
         try {

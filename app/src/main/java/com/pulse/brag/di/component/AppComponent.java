@@ -5,6 +5,8 @@ import android.app.Application;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.di.builder.ActivityBuilder;
 import com.pulse.brag.di.module.AppModule;
+import com.pulse.brag.fcm.FCMService;
+import com.pulse.brag.fcm.RegistrationTokenService;
 
 import javax.inject.Singleton;
 
@@ -30,4 +32,8 @@ public interface AppComponent {
     }
 
     void inject(BragApp app);
+
+    void inject(RegistrationTokenService registrationTokenService);
+
+    void inject(FCMService fcmService);
 }

@@ -10,8 +10,12 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import com.pulse.brag.BragApp;
+import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.PreferencesManager;
+
+import javax.inject.Inject;
 
 /**
  * Created by nikhil.vadoliya on 15-11-2017.
@@ -19,6 +23,10 @@ import com.pulse.brag.utils.PreferencesManager;
 
 
 public class RegistrationTokenService extends IntentService {
+
+    @Inject
+    IDataManager mDataManager;
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
@@ -26,6 +34,12 @@ public class RegistrationTokenService extends IntentService {
      */
     public RegistrationTokenService(String name) {
         super(name);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ((BragApp) getApplication()).getAppComponent().inject(this);
     }
 
     @Override

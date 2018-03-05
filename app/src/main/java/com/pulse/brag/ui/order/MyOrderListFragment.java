@@ -53,23 +53,6 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
         mMyOrderViewModel.setNavigator(this);
     }
 
-    private void checkInternet() {
-
-        if (Utility.isConnection(getActivity())) {
-            if (!mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing())
-                showProgress();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mMyOrderViewModel.getOrderData();
-                }
-            }, 500);
-        } else {
-            hideLoader();
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
-        }
-    }
-
     @Override
     public void beforeViewCreated() {
 
@@ -102,6 +85,23 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public int getLayoutId() {
         return R.layout.fragment_my_order;
+    }
+
+    private void checkInternet() {
+
+        if (Utility.isConnection(getActivity())) {
+            if (!mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing())
+                showProgress();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMyOrderViewModel.getOrderData();
+                }
+            }, 500);
+        } else {
+            hideLoader();
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
     }
 
     public void initializeData() {

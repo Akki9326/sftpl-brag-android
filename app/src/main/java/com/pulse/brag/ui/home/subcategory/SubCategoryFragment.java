@@ -112,15 +112,15 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void afterViewCreated() {
-
         mFragmentSubCategoryBinding = getViewDataBinding();
+        Utility.applyTypeFace(getContext(), mFragmentSubCategoryBinding.baseLayout);
 
         mFragmentSubCategoryBinding.recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mFragmentSubCategoryBinding.recycleView.setHasFixedSize(true);
         mFragmentSubCategoryBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentSubCategoryBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
 
-        Utility.applyTypeFace(getContext(), mFragmentSubCategoryBinding.baseLayout);
+
         showData();
     }
 
@@ -130,6 +130,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         mFragmentSubCategoryBinding.recycleView.setAdapter(adapter);
         mFragmentSubCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
+
     @Override
     public void setUpToolbar() {
         ((CoreActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_sub_category));

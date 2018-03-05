@@ -14,6 +14,7 @@ import android.app.Application;
 import com.downloader.PRDownloader;
 import com.downloader.PRDownloaderConfig;
 import com.google.firebase.FirebaseApp;
+import com.pulse.brag.di.component.AppComponent;
 import com.pulse.brag.di.component.DaggerAppComponent;
 import com.pulse.brag.utils.PreferencesManager;
 
@@ -27,7 +28,7 @@ import dagger.android.HasActivityInjector;
  */
 
 
-public class BragApp extends Application implements HasActivityInjector{
+public class BragApp extends Application implements HasActivityInjector {
 
     static BragApp mInstance;
     public static int CartNumber = 0;
@@ -50,7 +51,7 @@ public class BragApp extends Application implements HasActivityInjector{
         PRDownloaderConfig config = PRDownloaderConfig.newBuilder()
                 .setDatabaseEnabled(true)
                 .build();
-        PRDownloader.initialize(getApplicationContext(),config);
+        PRDownloader.initialize(getApplicationContext(), config);
 
         FirebaseApp.initializeApp(this);
 
@@ -67,6 +68,10 @@ public class BragApp extends Application implements HasActivityInjector{
         } else {
             return "99+";
         }
+    }
+
+    public AppComponent getAppComponent() {
+        return DaggerAppComponent.builder().application(this).build();
     }
 
     @Override

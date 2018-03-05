@@ -59,22 +59,12 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     ActivityUserProfileBinding mActivityUserProfileBinding;
-
-
-    /*private Toolbar mToolbar;
-    private ImageView mImgBack;
-    private TextView mTxtToolbarTitle;*/
-
     FragmentManager fragmentManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_user_profile);
-        //init();
-        //setListener();
-        //Utility.applyTypeFace(getApplicationContext(), (LinearLayout) findViewById(R.id.base_layout));
     }
 
     @Override
@@ -107,26 +97,6 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
         mChangePassMobViewModel.decideNextFragment(getIntent().getIntExtra(Constants.BUNDLE_PROFILE_IS_FROM, 0));
     }
 
-    /*private void setListener() {
-
-        mImgBack.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                onBackPressed();
-            }
-        });
-    }
-
-
-    private void init() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_change_pass);
-        mImgBack = (ImageView) mToolbar.findViewById(R.id.imageView_back);
-        mTxtToolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
-
-        fragmentManager = getSupportFragmentManager();
-        Utility.applyTypeFace(getApplicationContext(), (LinearLayout) findViewById(R.id.base_layout));
-    }*/
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -135,7 +105,6 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
 
 
     public void showToolBar(String title) {
-        //mTxtToolbarTitle.setText(title);
         mChangePassMobViewModel.updateToolbarTitle(title);
     }
 

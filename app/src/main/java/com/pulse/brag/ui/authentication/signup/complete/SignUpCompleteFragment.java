@@ -34,51 +34,6 @@ public class SignUpCompleteFragment extends CoreFragment<FragmentSignupComplateB
 
     FragmentSignupComplateBinding mFragmentSignupComplateBinding;
 
-    /*View mView;
-    TextView mTxtLogin;*/
-
-    /*@Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_signup_complate, container, false);
-            initializeData();
-            setListeners();
-
-        }
-        return mView;
-    }
-
-    private void init() {
-    }
-
-    @Override
-    public void setToolbar() {
-
-    }
-
-    @Override
-    public void initializeData() {
-        mTxtLogin = (TextView) mView.findViewById(R.id.textview_login);
-    }
-
-    @Override
-    public void setListeners() {
-        mTxtLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ((SplashActivity) getActivity()).popBackToLogin();
-            }
-        });
-    }
-
-    @Override
-    public void showData() {
-
-    }*/
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -163,7 +163,6 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
     @Override
     public void resetFilter() {
         // TODO: 2/23/2018 Handle through boolean like already reset than no need to reset again
-
         mColorAdapter.resetList(mProductFilterDialogViewModel.buildColorList());
         mSizeAdapter.resetSize(mProductFilterDialogViewModel.buildSizeList());
 

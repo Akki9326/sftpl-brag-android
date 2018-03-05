@@ -47,69 +47,56 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
     }
 
     public boolean onEditorActionPin(@NonNull final TextView textView, final int actionId,
-                                      @Nullable final KeyEvent keyEvent) {
+                                     @Nullable final KeyEvent keyEvent) {
         return getNavigator().onEditorActionPin(textView, actionId, keyEvent);
     }
 
-    public void verifyOtp(String mobileNum, String otp, final int formType){
+    public void verifyOtp(String mobileNum, String otp, final int formType) {
         Call<OTPVerifyResponse> mOtpVerifyResponeCall = null;
         switch (Constants.OTPValidationIsFrom.values()[formType]) {
             case SIGN_UP:
-                mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum,otp);
+                mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum, otp);
                 break;
             case FORGET_PASS:
-                mOtpVerifyResponeCall = getDataManager().verifyOtpForgetPass(mobileNum,otp);
+                mOtpVerifyResponeCall = getDataManager().verifyOtpForgetPass(mobileNum, otp);
                 break;
             case CHANGE_MOBILE:
-                mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum,otp);
+                mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum, otp);
                 break;
         }
 
         mOtpVerifyResponeCall.enqueue(new ApiResponse<OTPVerifyResponse>() {
             @Override
             public void onSuccess(OTPVerifyResponse otpVerifyResponse, Headers headers) {
-                if (otpVerifyResponse.isStatus()){
+                if (otpVerifyResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     switch (Constants.OTPValidationIsFrom.values()[formType]) {
                         case CHANGE_MOBILE:
                             getNavigator().pushChangeMobileFragment();
-                            /*((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
-                                    , true, true, "");*/
                             break;
                         case FORGET_PASS:
                             getNavigator().pushCreatePasswordFragment();
-                            /*((SplashActivity) getActivity()).pushFragments(CreateNewPasswordFragment.newInstance(mobileNum, otp),
-                                    true, true, "Create_Pass_Frag");*/
                             break;
 
                         case SIGN_UP:
                             getNavigator().pushSignUpCompleteFragment();
-                            /*((SplashActivity) getActivity()).pushFragments(new SignUpCompleteFragment(),
-                                    true, true, "Signup_Complete_Frag");*/
                             break;
                     }
                 }else {
+                    // TODO: 3/5/2018 Display invalid msg
                     getNavigator().onApiSuccess();
                     switch (Constants.OTPValidationIsFrom.values()[formType]) {
                         case CHANGE_MOBILE:
                             getNavigator().pushChangeMobileFragment();
-                            /*((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
-                                    , true, true, "");*/
                             break;
                         case FORGET_PASS:
                             getNavigator().pushCreatePasswordFragment();
-                            /*((SplashActivity) getActivity()).pushFragments(CreateNewPasswordFragment.newInstance(mobileNum, otp),
-                                    true, true, "Create_Pass_Frag");*/
                             break;
 
                         case SIGN_UP:
                             getNavigator().pushSignUpCompleteFragment();
-                            /*((SplashActivity) getActivity()).pushFragments(new SignUpCompleteFragment(),
-                                    true, true, "Signup_Complete_Frag");*/
                             break;
                     }
-
-                    //getNavigator().onApiError(new ApiError(otpVerifyResponse.getErrorCode(), otpVerifyResponse.getMessage()));
                 }
             }
 
@@ -120,14 +107,14 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
         });
     }
 
-    public void resendOtp(String mobileNumber){
+    public void resendOtp(String mobileNumber) {
         Call<GeneralResponse> responeCall = getDataManager().resendOtp(mobileNumber);
         responeCall.enqueue(new ApiResponse<GeneralResponse>() {
             @Override
             public void onSuccess(GeneralResponse generalResponse, Headers headers) {
-                if (generalResponse.isStatus()){
+                if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                }else {
+                } else {
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
             }

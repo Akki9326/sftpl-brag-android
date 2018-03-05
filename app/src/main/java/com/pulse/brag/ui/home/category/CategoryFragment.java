@@ -70,10 +70,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         mFragmentCategoryBinding.recycleView.setHasFixedSize(true);
         mFragmentCategoryBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentCategoryBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
-
-
         checkInternet();
-
     }
 
     @Override
@@ -83,7 +80,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
 
     private void checkInternet() {
-
         if (Utility.isConnection(getContext())) {
             if (!mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing())
                 showProgress();
@@ -92,8 +88,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             hideProgressBar();
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
-
-
     }
 
     @Override
@@ -113,19 +107,13 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void onApiSuccess() {
-
         hideProgressBar();
 
         List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
         imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-
-
-
-        mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), imagePagerResponeList,this));
+        mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), imagePagerResponeList, this));
         mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
-
-
     }
 
     @Override

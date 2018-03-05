@@ -82,9 +82,9 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        homeViewModel.setNavigator(this);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotification,
                 new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
-        homeViewModel.setNavigator(this);
 
     }
 

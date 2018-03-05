@@ -22,6 +22,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.pulse.brag.BragApp;
+import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.utils.NotificationUtils;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.main.MainActivity;
@@ -31,6 +33,8 @@ import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.PreferencesManager;
 import com.pulse.brag.data.model.NotificationResponseData;
 
+import javax.inject.Inject;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -39,6 +43,9 @@ import static android.content.ContentValues.TAG;
 
 
 public class FCMService extends FirebaseMessagingService {
+
+    @Inject
+    IDataManager mDataManager;
 
 
     private NotificationUtils notificationUtils;
@@ -50,6 +57,12 @@ public class FCMService extends FirebaseMessagingService {
     private String WHAT_ID = "whatId";
     private String N_ID = "notificationId";
     private int mNotificationId;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ((BragApp) getApplication()).getAppComponent().inject(this);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -105,7 +118,7 @@ public class FCMService extends FirebaseMessagingService {
 
             case TEXT:
                 notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
-//                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
                 notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
                 simplePendingIntent =
@@ -129,7 +142,7 @@ public class FCMService extends FirebaseMessagingService {
             case OTHER:
 
                 notificationIntent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);
-//                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
                 notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
                 simplePendingIntent =
@@ -143,7 +156,7 @@ public class FCMService extends FirebaseMessagingService {
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         if (ntype != Constants.NotificationType.TEXT.ordinal()) {
             stackBuilder.addNextIntent(new Intent(getApplicationContext(), MainActivity.class));
-//                stackBuilder.addParentStack(HomeScreenActivity.this);
+            //stackBuilder.addParentStack(HomeScreenActivity.this);
         }
         stackBuilder.addNextIntent(notificationIntent);
 
@@ -173,8 +186,8 @@ public class FCMService extends FirebaseMessagingService {
         // Vibrate if vibrate is enabled
         notification.defaults |= Notification.DEFAULT_VIBRATE;
 
-//        final PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(2, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(resultPendingIntent);
+        //final PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(2, PendingIntent.FLAG_UPDATE_CURRENT);
+        //builder.setContentIntent(resultPendingIntent);
         final NotificationManager mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notification.contentIntent = simplePendingIntent;

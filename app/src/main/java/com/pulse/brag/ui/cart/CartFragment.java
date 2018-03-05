@@ -82,9 +82,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void beforeViewCreated() {
-
-
-
     }
 
     @Override
@@ -93,7 +90,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         Utility.applyTypeFace(getBaseActivity(), mFragmentCartBinding.baseLayout);
         initializeData();
         checkInternet();
-
     }
 
     @Override
@@ -124,8 +120,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     public void showData() {
-
-
     }
 
 
@@ -146,8 +140,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                     }
                 }, 1000);
             }
-
-
         }
     }
 
@@ -255,7 +247,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         mFragmentCartBinding.recycleView.setAdapter(mAdapter);
         setTotalPrice();
         cartViewModel.setListVisibility(mList.isEmpty() ? false : true);
-
     }
 
 

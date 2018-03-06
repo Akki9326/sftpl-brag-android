@@ -43,8 +43,8 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
         });
 
         /*ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<CollectionListResponse> getCategoryList = ApiClient.getInstance(getContext()).getApiResp().getCollectionProduct("home/get/2");
-        getCategoryList.enqueue(new Callback<CollectionListResponse>() {
+        Call<CollectionListResponse> setCategoryList = ApiClient.getInstance(getContext()).getApiResp().getCollectionProduct("home/get/2");
+        setCategoryList.enqueue(new Callback<CollectionListResponse>() {
             @Override
             public void onResponse(Call<CollectionListResponse> call, Response<CollectionListResponse> response) {
                 if (response.isSuccessful()) {

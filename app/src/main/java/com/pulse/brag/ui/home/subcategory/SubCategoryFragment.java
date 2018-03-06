@@ -48,7 +48,7 @@ import javax.inject.Inject;
 public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, IOnItemClickListener {
 
 
-    List<CategoryListResponseData> mCategoryList;
+    List<CategoryListResponseData.CategoryList> mCategoryList;
     List<ImagePagerResponse> imagePagerResponeList;
 
     CategoryListAdapter adapter;
@@ -59,7 +59,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     FragmentSubCategoryBinding mFragmentSubCategoryBinding;
 
 
-    public static SubCategoryFragment newInstance(String url, List<CategoryListResponseData> list) {
+    public static SubCategoryFragment newInstance(String url, List<CategoryListResponseData.CategoryList> list) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_IMAGE_URL, url);
@@ -98,7 +98,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void beforeViewCreated() {
-
         mCategoryList = Collections.emptyList();
         imagePagerResponeList = Collections.emptyList();
         if (getArguments().containsKey(Constants.BUNDLE_CATEGORY_LIST)) {
@@ -185,9 +184,9 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     }
 
     @Override
-    public void OnSuccessPullToRefresh(List<CategoryListResponseData> list) {
+    public void onSuccessPullToRefresh(CategoryListResponseData data) {
         mCategoryList.clear();
-        mCategoryList.addAll(list);
+        mCategoryList.addAll(data.getCategories());
         showData();
     }
 

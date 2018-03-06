@@ -9,6 +9,7 @@ package com.pulse.brag.ui.home.category;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.pulse.brag.R;
@@ -32,12 +33,19 @@ import retrofit2.Call;
 
 public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
 
-    public List<CategoryListResponseData> mList = Collections.emptyList();
+    private final ObservableField<Boolean> isBannerAvail = new ObservableField<>();
 
     public CategoryViewModel(IDataManager dataManager) {
         super(dataManager);
     }
 
+    public ObservableField<Boolean> getIsBannerAvail() {
+        return isBannerAvail;
+    }
+
+    public void setIsBannerAvail(boolean avail) {
+        isBannerAvail.set(avail);
+    }
 
     public void getCategoryData() {
         Call<CategoryListResponse> mCategoryRespone = getDataManager().getCategoryProduct("home/get/1");
@@ -46,7 +54,8 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
             public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getNavigator().getCategoryList(categoryListResponse.getData());
+                    getNavigator().setBanner(categoryListResponse.getData().getBanners());
+                    getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));
                 }
@@ -74,11 +83,4 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         };
     }
 
-    public List<CategoryListResponseData> getListOfCategory() {
-        return mList;
-    }
-
-    public void setListOfCategory(List<CategoryListResponseData> list) {
-        mList.addAll(list);
-    }
 }

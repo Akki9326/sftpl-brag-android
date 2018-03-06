@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data >
+    <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.category.CategoryViewModel"/>
+            type="com.pulse.brag.ui.home.category.CategoryViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,10 +24,10 @@
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
-                app:onRefreshListener="@{viewModel.getOnRefreshListener}"
-                app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+                app:onRefreshListener="@{viewModel.getOnRefreshListener}">
 
                 <LinearLayout
                     android:id="@+id/linear_detail"
@@ -50,7 +52,8 @@
 
                             <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp">
+                                android:layout_height="200dp"
+                                android:visibility="@{viewModel.isBannerAvail ? View.VISIBLE : View.GONE}">
 
                                 <android.support.v4.view.ViewPager
                                     android:id="@+id/view_pager"

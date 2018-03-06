@@ -22,8 +22,7 @@ public class CategoryListResponse {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<CategoryListResponseData> data;
-    private List<ImagePagerResponse> imageSlide;
+    private CategoryListResponseData data;
 
     public boolean isStatus() {
         return status;
@@ -49,19 +48,13 @@ public class CategoryListResponse {
         this.message = message;
     }
 
-    public List<CategoryListResponseData> getData() {
+    public CategoryListResponseData getData() {
         return data;
     }
 
-    public void setData(List<CategoryListResponseData> data) {
+    public void setData(CategoryListResponseData data) {
         this.data = data;
     }
 
-    public List<ImagePagerResponse> getImageSlide() {
-        return imageSlide;
-    }
 
-    public void setImageSlide(List<ImagePagerResponse> imageSlide) {
-        this.imageSlide = imageSlide;
-    }
 }

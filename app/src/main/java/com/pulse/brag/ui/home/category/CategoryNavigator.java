@@ -22,8 +22,12 @@ import java.util.List;
 public interface CategoryNavigator {
 
     void onApiSuccess();
+
     void onApiError(ApiError error);
+
     void swipeRefresh();
 
-    void getCategoryList(List<CategoryListResponseData> list);
+    void setCategoryList(List<CategoryListResponseData.CategoryList> list);
+
+    void setBanner(List<CategoryListResponseData.BannerList> list);
 }

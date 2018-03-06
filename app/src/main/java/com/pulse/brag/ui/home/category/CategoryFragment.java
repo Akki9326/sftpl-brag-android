@@ -47,7 +47,9 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     FragmentCategoryBinding mFragmentCategoryBinding;
 
-    List<CategoryListResponseData> mCategoryList;
+    List<CategoryListResponseData.CategoryList> mCategoryList;
+    List<ImagePagerResponse> mBannerList;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,12 +110,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     @Override
     public void onApiSuccess() {
         hideProgressBar();
-
-        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), imagePagerResponeList, this));
-        mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
     }
 
     @Override
@@ -129,7 +125,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
     @Override
-    public void getCategoryList(List<CategoryListResponseData> list) {
+    public void setCategoryList(List<CategoryListResponseData.CategoryList> list) {
         mCategoryList = new ArrayList<>();
         mCategoryList.addAll(list);
         CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
@@ -138,11 +134,24 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         mFragmentCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
 
+    @Override
+    public void setBanner(List<CategoryListResponseData.BannerList> list) {
+        if (list != null && list.size() > 0) {
+            mBannerList = new ArrayList<>();
+            mBannerList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
+            mBannerList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
+            categoryViewModel.setIsBannerAvail(true);
+            mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), mBannerList, this));
+            mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
+        } else {
+            categoryViewModel.setIsBannerAvail(false);
+        }
+    }
+
 
     @Override
     public void onItemClick(int position) {
         ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
-
     }
 
     public void hideProgressBar() {

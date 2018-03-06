@@ -262,4 +262,12 @@
     <string name="label_city">City</string>
     <string name="label_state">State</string>
     <string name="label_pincode">Pincode</string>
+    <string name="toolbar_label_address">Address</string>
+    <string name="button_add">Add</string>
+    <string name="error_empty_address">Please enter address</string>
+    <string name="error_empty_state">Please enter state</string>
+    <string name="error_empty_city">Please enter city.</string>
+    <string name="error_empty_pincode">Please enter pincode.</string>
+    <string name="label_faq">FAQs</string>
+    <string name="label_about_us">About us</string>
 </resources>

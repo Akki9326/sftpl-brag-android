@@ -128,7 +128,9 @@ public class Constants {
         CHANGE_MOBILE(6),
         NOTIFICATION(7),
         USER_PROFILE(8),
-        CHANGE_ADDRESS(9);
+        CHANGE_ADDRESS(9),
+        FAQ(10),
+        ABOUT_US(11);
 
 
         MoreList(int i) {

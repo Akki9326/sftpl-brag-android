@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data></data>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.addeditaddress.AddEditViewModel" />
+    </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -33,6 +38,7 @@
                     android:textSize="@dimen/text_size_very_small_12" />
 
                 <EditText
+                    android:id="@+id/edittext_address"
                     style="@style/NormalEditText"
                     android:background="@null"
                     android:hint="@string/hint_address"
@@ -89,6 +95,7 @@
                 <EditText
                     style="@style/NormalEditText"
                     android:background="@null"
+                    android:id="@+id/edittext_city"
                     android:hint="@string/hint_city_ast"
                     android:imeOptions="actionNext"
                     android:maxLength="@integer/max_length"
@@ -116,6 +123,7 @@
                     style="@style/NormalEditText"
                     android:background="@null"
                     android:hint="@string/hint_state_ast"
+                    android:id="@+id/edittext_state"
                     android:imeOptions="actionNext"
                     android:paddingBottom="5dp" />
 
@@ -141,8 +149,10 @@
                     style="@style/NormalEditText"
                     android:background="@null"
                     android:hint="@string/hint_pincode_ast"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
+                    android:onEditorAction="@{viewModel.onEditorActionPincode}"
                     android:inputType="number"
+                    android:id="@+id/edittext_pincode"
                     android:maxLength="6"
                     android:paddingBottom="5dp" />
 
@@ -152,6 +162,29 @@
                     android:layout_marginBottom="3dp"
                     android:layout_marginTop="3dp"
                     android:background="@color/pink" />
+
+                <TextView
+                    android:id="@+id/textview_signup"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_corner_solid_pink"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:onClick="@{viewModel.onAddOrUpdate()}"
+                    android:paddingTop="10dp"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/button_add"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view_dummy"/>
 
             </LinearLayout>
         </ScrollView>

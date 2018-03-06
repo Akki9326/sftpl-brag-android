@@ -37,6 +37,7 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentMoreBinding;
 import com.pulse.brag.data.model.datas.MoreListData;
 import com.pulse.brag.data.model.datas.UserData;
+import com.pulse.brag.ui.addeditaddress.AddEditAddressFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.views.FullScreenImageDialogFragment;
@@ -144,9 +145,6 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_PASS.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
-//                        ((BaseActivity) getActivity()).pushFragments(
-//                                ChangePassFragment.newInstance(mUserData.getMobileNumber())
-//                                , true, true);
                         break;
                     case 5:
                         showAlertMessageLogOut(getActivity(), getString(R.string.msg_logout));
@@ -171,7 +169,25 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         break;
 
                     case 9:
-                        // TODO: 3/1/2018 add change address activity
+                        ((MainActivity) getActivity()).pushFragments(new AddEditAddressFragment()
+                                , true, true);
+                        break;
+
+                    case 10:
+                        bundle = new Bundle();
+                        bundle.putString(Constants.BUNDLE_TITLE, "FAQs");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/refund-cancellations");
+                        dialogFragment = new WebviewDialogFragment();
+                        dialogFragment.setArguments(bundle);
+                        dialogFragment.show(getChildFragmentManager(), "");
+                        break;
+                    case 11:
+                        bundle = new Bundle();
+                        bundle.putString(Constants.BUNDLE_TITLE, "About us");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/about-us");
+                        dialogFragment = new WebviewDialogFragment();
+                        dialogFragment.setArguments(bundle);
+                        dialogFragment.show(getChildFragmentManager(), "");
                         break;
                 }
             }
@@ -193,6 +209,10 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                 getString(R.string.label_pri_policy)));
         moreListData.add(new MoreListData(Constants.MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_terms_conditions),
                 getString(R.string.label_terms_and)));
+        moreListData.add(new MoreListData(Constants.MoreList.FAQ.getNumericType(), getResources().getDrawable(R.drawable.ic_faq),
+                getString(R.string.label_faq)));
+        moreListData.add(new MoreListData(Constants.MoreList.ABOUT_US.getNumericType(), getResources().getDrawable(R.drawable.ic_about_us),
+                getString(R.string.label_about_us)));
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new MoreListData(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),

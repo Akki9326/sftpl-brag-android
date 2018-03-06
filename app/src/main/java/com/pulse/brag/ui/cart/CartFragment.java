@@ -89,7 +89,8 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         mFragmentCartBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentCartBinding.baseLayout);
         initializeData();
-        checkInternet();
+//        checkInternet();
+        showData();
     }
 
     @Override
@@ -120,6 +121,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     public void showData() {
+        getCartList(null);
     }
 
 

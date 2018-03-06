@@ -33,18 +33,39 @@ import retrofit2.Call;
 
 public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
 
+    private final ObservableField<Boolean> noInternet = new ObservableField<>();
+
+    private final ObservableField<Boolean> noResult = new ObservableField<>();
+
     private final ObservableField<Boolean> isBannerAvail = new ObservableField<>();
+
 
     public CategoryViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
+    }
+
+    public ObservableField<Boolean> getNoResult() {
+        return noResult;
+    }
+
+    public void setNoResult(boolean noResult) {
+        this.noResult.set(noResult);
     }
 
     public ObservableField<Boolean> getIsBannerAvail() {
         return isBannerAvail;
     }
 
-    public void setIsBannerAvail(boolean avail) {
-        isBannerAvail.set(avail);
+    public void setIsBannerAvail(boolean isBannerAvail){
+        this.isBannerAvail.set(isBannerAvail);
     }
 
     public void getCategoryData() {
@@ -54,8 +75,12 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
             public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getNavigator().setBanner(categoryListResponse.getData().getBanners());
-                    getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
+                    if (categoryListResponse.getData() == null) {
+                        getNavigator().onNoData();
+                    } else {
+                        getNavigator().setBanner(categoryListResponse.getData().getBanners());
+                        getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
+                    }
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));
                 }

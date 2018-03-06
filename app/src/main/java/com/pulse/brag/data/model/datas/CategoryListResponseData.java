@@ -141,13 +141,106 @@ public class CategoryListResponseData {
 
     }
 
-    public static class BannerList implements Comparable<CategoryList>, Parcelable {
+    public static class BannerList implements Parcelable {
 
-        protected BannerList(Parcel in) {
+        private String id;
+        private String purpose;
+        private String url;
+        private String createdBy;
+        private long createdDate;
+        private String lastModifiedBy;
+        private long lastModifiedDate;
+        private boolean isActive;
+        private boolean isDeleted;
+        private int tabType;
+        private List<CategoryListResponseData.BannerList> childs = Collections.emptyList();
+
+        public String getId() {
+            return id;
         }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getPurpose() {
+            return purpose;
+        }
+
+        public void setPurpose(String purpose) {
+            this.purpose = purpose;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getCreatedBy() {
+            return createdBy;
+        }
+
+        public void setCreatedBy(String createdBy) {
+            this.createdBy = createdBy;
+        }
+
+        public long getCreatedDate() {
+            return createdDate;
+        }
+
+        public void setCreatedDate(long createdDate) {
+            this.createdDate = createdDate;
+        }
+
+        public String getLastModifiedBy() {
+            return lastModifiedBy;
+        }
+
+        public void setLastModifiedBy(String lastModifiedBy) {
+            this.lastModifiedBy = lastModifiedBy;
+        }
+
+        public long getLastModifiedDate() {
+            return lastModifiedDate;
+        }
+
+        public void setLastModifiedDate(long lastModifiedDate) {
+            this.lastModifiedDate = lastModifiedDate;
+        }
+
+        public boolean isActive() {
+            return isActive;
+        }
+
+        public void setActive(boolean active) {
+            isActive = active;
+        }
+
+        public boolean isDeleted() {
+            return isDeleted;
+        }
+
+        public void setDeleted(boolean deleted) {
+            isDeleted = deleted;
+        }
+
+        public int getTabType() {
+            return tabType;
+        }
+
+        public void setTabType(int tabType) {
+            this.tabType = tabType;
+        }
+
+        public List<CategoryListResponseData.BannerList> getChilds() {
+            return childs;
+        }
+
+        public void setChilds(List<CategoryListResponseData.BannerList> childs) {
+            this.childs = childs;
         }
 
         @Override
@@ -155,10 +248,43 @@ public class CategoryListResponseData {
             return 0;
         }
 
-        public static final Creator<BannerList> CREATOR = new Creator<BannerList>() {
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.id);
+            dest.writeString(this.purpose);
+            dest.writeString(this.url);
+            dest.writeString(this.createdBy);
+            dest.writeLong(this.createdDate);
+            dest.writeString(this.lastModifiedBy);
+            dest.writeLong(this.lastModifiedDate);
+            dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
+            dest.writeByte(this.isDeleted ? (byte) 1 : (byte) 0);
+            dest.writeInt(this.tabType);
+            dest.writeList(this.childs);
+        }
+
+        public BannerList() {
+        }
+
+        protected BannerList(Parcel in) {
+            this.id = in.readString();
+            this.purpose = in.readString();
+            this.url = in.readString();
+            this.createdBy = in.readString();
+            this.createdDate = in.readLong();
+            this.lastModifiedBy = in.readString();
+            this.lastModifiedDate = in.readLong();
+            this.isActive = in.readByte() != 0;
+            this.isDeleted = in.readByte() != 0;
+            this.tabType = in.readInt();
+            this.childs = new ArrayList<CategoryListResponseData.BannerList>();
+            in.readList(this.childs, CategoryListResponseData.BannerList.class.getClassLoader());
+        }
+
+        public static final Parcelable.Creator<BannerList> CREATOR = new Parcelable.Creator<BannerList>() {
             @Override
-            public BannerList createFromParcel(Parcel in) {
-                return new BannerList(in);
+            public BannerList createFromParcel(Parcel source) {
+                return new BannerList(source);
             }
 
             @Override
@@ -167,10 +293,7 @@ public class CategoryListResponseData {
             }
         };
 
-        @Override
-        public int compareTo(@NonNull CategoryList categoryList) {
-            return 0;
-        }
+
     }
 
 }

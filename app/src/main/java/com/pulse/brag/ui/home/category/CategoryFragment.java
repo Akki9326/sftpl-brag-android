@@ -13,13 +13,16 @@ package com.pulse.brag.ui.home.category;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.ui.home.adapter.CategoryListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentCategoryBinding;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.data.model.datas.CategoryListResponseData;
@@ -68,11 +71,22 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         mFragmentCategoryBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentCategoryBinding.baseLayout);
 
+        categoryViewModel.setNoResult(false);
+        categoryViewModel.setNoInternet(false);
+        categoryViewModel.setIsBannerAvail(true);
+
         mFragmentCategoryBinding.recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mFragmentCategoryBinding.recycleView.setHasFixedSize(true);
         mFragmentCategoryBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentCategoryBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
-        checkInternet();
+        mFragmentCategoryBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkInternet(true);
+            }
+        });
+
+        checkInternet(true);
     }
 
     @Override
@@ -81,14 +95,15 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
 
-    private void checkInternet() {
+    private void checkInternet(boolean showProgress) {
         if (Utility.isConnection(getContext())) {
-            if (!mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing())
+            categoryViewModel.setNoInternet(false);
+            if (showProgress)
                 showProgress();
             categoryViewModel.getCategoryData();
         } else {
+            categoryViewModel.setNoInternet(true);
             hideProgressBar();
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
 
@@ -115,13 +130,23 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     @Override
     public void onApiError(ApiError error) {
         hideProgressBar();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            categoryViewModel.setNoInternet(true);
+            return;
+        }
+        categoryViewModel.setNoInternet(false);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
     public void swipeRefresh() {
         mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet();
+        checkInternet(false);
+    }
+
+    @Override
+    public void onNoData() {
+        categoryViewModel.setNoResult(true);
     }
 
     @Override
@@ -137,10 +162,11 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     @Override
     public void setBanner(List<CategoryListResponseData.BannerList> list) {
         if (list != null && list.size() > 0) {
-            mBannerList = new ArrayList<>();
-            mBannerList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", ""));
-            mBannerList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
             categoryViewModel.setIsBannerAvail(true);
+            mBannerList = new ArrayList<>();
+            for (CategoryListResponseData.BannerList item : list) {
+                mBannerList.add(new ImagePagerResponse(item.getUrl(), item.getId()));
+            }
             mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), mBannerList, this));
             mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
         } else {

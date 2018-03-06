@@ -27,6 +27,8 @@ public interface CategoryNavigator {
 
     void swipeRefresh();
 
+    void onNoData();
+
     void setCategoryList(List<CategoryListResponseData.CategoryList> list);
 
     void setBanner(List<CategoryListResponseData.BannerList> list);

@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.pulse.brag.ui.home.subcategory.SubCategoryViewModel" />
@@ -28,41 +30,68 @@
                 app:onRefreshListener="@{viewModel.getOnRefreshListener}">
 
                 <LinearLayout
-                    android:id="@+id/linear_detail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/scrollview"
+                    android:orientation="vertical">
+                    <!--Main screen-->
+                    <LinearLayout
+                        android:id="@+id/linear_detail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fillViewport="true"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.noInternet ? View.GONE : View.VISIBLE}">
 
-                        <LinearLayout
+                        <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/scrollview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:focusableInTouchMode="true"
-                            android:orientation="vertical">
+                            android:fillViewport="true"
+                            android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-                            <ImageView
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                bind:imageUrl="@{viewModel.productImg}"
-                                android:scaleType="centerCrop" />
+                                android:layout_height="match_parent"
+                                android:focusableInTouchMode="true"
+                                android:orientation="vertical">
 
+                                <!--<ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    bind:imageUrl="@{viewModel.productImg}"
+                                    android:scaleType="centerCrop" />-->
 
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/recycleView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/recycleView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
 
-                        </LinearLayout>
-                    </android.support.v4.widget.NestedScrollView>
+                            </LinearLayout>
+                        </android.support.v4.widget.NestedScrollView>
+
+                        <include
+                            android:id="@+id/layout_result"
+                            layout="@layout/layout_result_no_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}" />
+                    </LinearLayout>
+
+                    <!--No internet screen-->
+                    <LinearLayout
+                        android:id="@+id/linear_no_internet"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.noInternet ? View.VISIBLE : View.GONE}">
+
+                        <include
+                            android:id="@+id/layout_no_internet"
+                            layout="@layout/layout_no_internet"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
                 </LinearLayout>
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>

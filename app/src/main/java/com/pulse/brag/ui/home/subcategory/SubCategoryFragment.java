@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.ui.home.adapter.CategoryListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentSubCategoryBinding;
@@ -48,7 +49,7 @@ import javax.inject.Inject;
 public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, IOnItemClickListener {
 
 
-    List<CategoryListResponseData> mCategoryList;
+    List<CategoryListResponseData.CategoryList> mCategoryList;
     List<ImagePagerResponse> imagePagerResponeList;
 
     CategoryListAdapter adapter;
@@ -59,7 +60,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     FragmentSubCategoryBinding mFragmentSubCategoryBinding;
 
 
-    public static SubCategoryFragment newInstance(String url, List<CategoryListResponseData> list) {
+    public static SubCategoryFragment newInstance(String url, List<CategoryListResponseData.CategoryList> list) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_IMAGE_URL, url);
@@ -76,29 +77,8 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         categoryViewModel.setNavigator(this);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    private void checkInternet() {
-
-        if (Utility.isConnection(getActivity())) {
-            if (!mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing())
-                showProgress();
-            categoryViewModel.getSubCategoryData();
-        } else {
-            hideProgressBar();
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
-        }
-
-    }
-
-
     @Override
     public void beforeViewCreated() {
-
         mCategoryList = Collections.emptyList();
         imagePagerResponeList = Collections.emptyList();
         if (getArguments().containsKey(Constants.BUNDLE_CATEGORY_LIST)) {
@@ -115,20 +95,22 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         mFragmentSubCategoryBinding = getViewDataBinding();
         Utility.applyTypeFace(getContext(), mFragmentSubCategoryBinding.baseLayout);
 
+        categoryViewModel.setNoResult(false);
+        categoryViewModel.setNoInternet(false);
+
         mFragmentSubCategoryBinding.recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mFragmentSubCategoryBinding.recycleView.setHasFixedSize(true);
         mFragmentSubCategoryBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentSubCategoryBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 0, false));
+        mFragmentSubCategoryBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkInternet(true);
+            }
+        });
 
 
         showData();
-    }
-
-
-    private void showData() {
-        adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
-        mFragmentSubCategoryBinding.recycleView.setAdapter(adapter);
-        mFragmentSubCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -166,6 +148,27 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         }
     }
 
+    private void checkInternet(boolean showProgress) {
+
+        if (Utility.isConnection(getActivity())) {
+            categoryViewModel.setNoInternet(false);
+            if (showProgress)
+                showProgress();
+            categoryViewModel.getSubCategoryData();
+        } else {
+            categoryViewModel.setNoInternet(true);
+            hideProgressBar();
+        }
+
+    }
+
+
+    private void showData() {
+        adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
+        mFragmentSubCategoryBinding.recycleView.setAdapter(adapter);
+        mFragmentSubCategoryBinding.recycleView.setNestedScrollingEnabled(false);
+    }
+
 
     @Override
     public void onApiSuccess() {
@@ -175,20 +178,37 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     @Override
     public void onApiError(ApiError error) {
         hideProgressBar();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            categoryViewModel.setNoInternet(true);
+            return;
+        }
+        categoryViewModel.setNoInternet(false);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
     public void swipeRefresh() {
         mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet();
+        checkInternet(false);
     }
 
     @Override
-    public void OnSuccessPullToRefresh(List<CategoryListResponseData> list) {
-        mCategoryList.clear();
-        mCategoryList.addAll(list);
-        showData();
+    public void setCategoryList(List<CategoryListResponseData.CategoryList> list) {
+
+        if (list != null && list.size() > 0) {
+            categoryViewModel.setNoResult(false);
+            mCategoryList.clear();
+            mCategoryList.addAll(list);
+            showData();
+        } else {
+            categoryViewModel.setNoResult(true);
+        }
+
+    }
+
+    @Override
+    public void onNoData() {
+        categoryViewModel.setNoResult(true);
     }
 
     public void hideProgressBar() {

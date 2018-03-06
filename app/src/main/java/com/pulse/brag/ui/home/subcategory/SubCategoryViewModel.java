@@ -28,11 +28,30 @@ import retrofit2.Call;
 
 
 public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
+    private final ObservableField<Boolean> noInternet = new ObservableField<>();
+
+    private final ObservableField<Boolean> noResult = new ObservableField<>();
 
     ObservableField<String> productImg = new ObservableField<>();
 
     public SubCategoryViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
+    }
+
+    public ObservableField<Boolean> getNoResult() {
+        return noResult;
+    }
+
+    public void setNoResult(boolean noResult) {
+        this.noResult.set(noResult);
     }
 
     public void getSubCategoryData() {
@@ -44,6 +63,13 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
                     getNavigator().onApiSuccess();
                     // TODO: 27-02-2018 :onSwiptoRefresh
 //                    getNavigator().OnSuccessPullToRefresh(categoryListResponse.getData());
+
+                    if (categoryListResponse.getData() == null) {
+                        getNavigator().onNoData();
+                    } else {
+                        getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
+                    }
+
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));
                 }

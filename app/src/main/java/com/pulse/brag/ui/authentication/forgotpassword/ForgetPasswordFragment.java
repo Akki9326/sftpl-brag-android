@@ -12,16 +12,13 @@ package com.pulse.brag.ui.authentication.forgotpassword;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
-import android.util.TypedValue;
-import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentForgetPassBinding;
+import com.pulse.brag.ui.authentication.profile.changemobile.ChangeMobileNumberFragment;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.authentication.otp.OTPFragment;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
@@ -80,10 +77,8 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_MOBILE)) {
             if (getArguments().getString(Constants.BUNDLE_MOBILE).trim().isEmpty()
                     || getArguments().getString(Constants.BUNDLE_MOBILE).length() < 10) {
-                //mFragmentForgotPassBinding.edittextMobileNum.setText("");
                 mForgotPasswordViewModel.setMobileNumber("");
             } else {
-                //mFragmentForgotPassBinding.edittextMobileNum.setText(getArguments().getString(Constants.BUNDLE_MOBILE));
                 mForgotPasswordViewModel.setMobileNumber(getArguments().getString(Constants.BUNDLE_MOBILE));
             }
         }
@@ -121,15 +116,19 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public void onPermissionGranted(int request) {
         super.onPermissionGranted(request);
-        if (request == REQ_SMS_SEND_RECEIVED_READ)
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
             mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+        }
     }
 
     @Override
     public void onPermissionDenied(int request) {
         super.onPermissionDenied(request);
-        if (request == REQ_SMS_SEND_RECEIVED_READ)
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
             mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+        }
     }
 
     private boolean checkAndRequestPermissions() {
@@ -186,28 +185,36 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         }
     }
 
-    @Override
+    /*@Override
     public void pushOtpFragment() {
         // TODO: 13-11-2017 email address pass for display in otp screen
         if (getActivity() instanceof SplashActivity) {
-            pushFragmentOnSplash();
+            pushOTPFragmentOnSplashActivity();
         } else {
-            pushFragmentOnChangePassword();
+            pushOTPFragmentOnUserProfileActivity();
         }
     }
 
     @Override
-    public void pushFragmentOnSplash() {
+    public void pushOTPFragmentOnUserProfileActivity() {
+        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
+                "email@email.com", Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
+                true, true, "OTP_frag");
+    }*/
+
+    /*@Override
+    public void pushChangeMobileNumberFragment() {
+        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString())
+                , true, true, "");
+    }*/
+
+    @Override
+    public void pushOTPFragmentOnSplashActivity() {
         ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
                 "email@email.com", Constants.OTPValidationIsFrom.FORGET_PASS.ordinal()),
                 true, true, "OTP_frag");
 
     }
 
-    @Override
-    public void pushFragmentOnChangePassword() {
-        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
-                "email@email.com", Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
-                true, true, "OTP_frag");
-    }
+
 }

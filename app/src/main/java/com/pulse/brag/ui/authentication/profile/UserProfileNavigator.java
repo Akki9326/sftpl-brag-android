@@ -12,7 +12,9 @@ public interface UserProfileNavigator extends CoreNavigator{
 
     void pushChangePassFragment();
 
-    void pushForgotPassFragment();
+    void pushChangeMobileNoFragment();
 
     void pushUserProfileFragment();
+
+    void pushOtpFragment();
 }

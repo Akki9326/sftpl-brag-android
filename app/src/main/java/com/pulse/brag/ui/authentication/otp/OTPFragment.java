@@ -186,10 +186,18 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
         return false;
     }
 
-    @Override
+
+
+    /*@Override
     public void pushChangeMobileFragment() {
         ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
                 , true, true, "");
+    }*/
+
+    @Override
+    public void finishUserProfileActivity() {
+        ((UserProfileActivity) getActivity()).finish();
+        ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 
     @Override

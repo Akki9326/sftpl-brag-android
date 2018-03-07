@@ -167,7 +167,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             for (CategoryListResponseData.BannerList item : list) {
                 mBannerList.add(new ImagePagerResponse(item.getUrl(), item.getId()));
             }
-            mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getBaseActivity(), mBannerList, this));
+            mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), mBannerList, this));
             mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
         } else {
             categoryViewModel.setIsBannerAvail(false);

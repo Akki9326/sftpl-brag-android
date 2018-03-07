@@ -82,6 +82,12 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
+    public Call<GeneralResponse> generateOTPForMobileChange(ChangeMobileNumberRequest changeMobileNumberRequest) {
+        return mApiInterface.generateOTPForMobileChange(changeMobileNumberRequest);
+    }
+
+
+    @Override
     public Call<GeneralResponse> changeMobileNum(ChangeMobileNumberRequest changeMobileNumberRequest) {
         return mApiInterface.changeMobileNum(changeMobileNumberRequest);
     }

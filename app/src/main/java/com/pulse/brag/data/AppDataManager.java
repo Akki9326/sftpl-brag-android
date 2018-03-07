@@ -200,4 +200,10 @@ public class AppDataManager implements IDataManager {
     public Call<GeneralResponse> logoutCall() {
         return mApiManager.logoutCall();
     }
+
+    @Override
+    public Call<GeneralResponse> generateOTPForMobileChange(ChangeMobileNumberRequest changeMobileNumberRequest) {
+        return mApiManager.generateOTPForMobileChange(changeMobileNumberRequest);
+    }
+
 }

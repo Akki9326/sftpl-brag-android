@@ -63,7 +63,7 @@ public abstract class ActivityBuilder {
             WebviewDailogProvider.class})
     abstract MainActivity bindMainActivity();
 
-    @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class})
+    @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class, UpdateProfileProvider.class, ChangeMobNumberProvider.class, OTPFragmentProvider.class})
     abstract UserProfileActivity bindChangePasswordOrMobileActivity();
 
     @ContributesAndroidInjector(modules = {NotificationHandlerModule.class})

@@ -66,6 +66,9 @@ public interface ApiInterface {
     @GET("logout")
     Call<GeneralResponse> logoutCall();
 
+    @POST("generateOTPForMobileChange")
+    Call<GeneralResponse> generateOTPForMobileChange(@Body ChangeMobileNumberRequest changeMobileNumberRequest);
+
     @POST("changeMobileNumber")
     Call<GeneralResponse> changeMobileNum(@Body ChangeMobileNumberRequest changeMobileNumberRequest);
 

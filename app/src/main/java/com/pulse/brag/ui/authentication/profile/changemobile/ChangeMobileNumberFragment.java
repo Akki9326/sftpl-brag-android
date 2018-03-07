@@ -9,6 +9,7 @@ package com.pulse.brag.ui.authentication.profile.changemobile;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
@@ -22,14 +23,21 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentChangeMobileNumBinding;
+import com.pulse.brag.ui.authentication.otp.OTPFragment;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
+import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
+
+import static com.pulse.brag.utils.Constants.IPermissionRequestCode.REQ_SMS_SEND_RECEIVED_READ;
 
 /**
  * Created by nikhil.vadoliya on 11-12-2017.
@@ -42,14 +50,9 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
     ChangeMobNumberViewModel mChangeMobNumberViewModel;
     FragmentChangeMobileNumBinding mFragmentChangeMobileNumBinding;
 
-    String mobilenum;
 
-    public static ChangeMobileNumberFragment newInstance(String mobilenum) {
-
-        Bundle args = new Bundle();
-        args.putString(Constants.BUNDLE_MOBILE, mobilenum);
+    public static ChangeMobileNumberFragment newInstance() {
         ChangeMobileNumberFragment fragment = new ChangeMobileNumberFragment();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -61,19 +64,17 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
 
     @Override
     public void beforeViewCreated() {
-        mobilenum = getArguments().getString(Constants.BUNDLE_MOBILE);
     }
 
     @Override
     public void afterViewCreated() {
         mFragmentChangeMobileNumBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), (LinearLayout) mFragmentChangeMobileNumBinding.baseLayout);
-        mChangeMobNumberViewModel.setNewMobileNumber(mobilenum);
     }
 
     @Override
     public void setUpToolbar() {
-        ((UserProfileActivity) getActivity()).showToolBar("Change Mobile Number");
+        ((UserProfileActivity) getActivity()).showToolBar(getString(R.string.label_title_change_mob_no));
     }
 
     @Override
@@ -91,6 +92,49 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
         return R.layout.fragment_change_mobile_num;
     }
 
+    @Override
+    public void onPermissionGranted(int request) {
+        super.onPermissionGranted(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
+            mChangeMobNumberViewModel.sendOtpForMobileNoChange(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
+        }
+    }
+
+    @Override
+    public void onPermissionDenied(int request) {
+        super.onPermissionDenied(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
+            mChangeMobNumberViewModel.sendOtpForMobileNoChange(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
+        }
+    }
+
+    private boolean checkAndRequestPermissions() {
+        boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);
+        boolean hasPermissionReceiveSMS = hasPermission(Manifest.permission.RECEIVE_MMS);
+        boolean hasPermissionReadSMS = hasPermission(Manifest.permission.READ_SMS);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (!hasPermissionSendMessage) {
+            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+        }
+        if (!hasPermissionReceiveSMS) {
+            listPermissionsNeeded.add(Manifest.permission.RECEIVE_MMS);
+        }
+        if (!hasPermissionReadSMS) {
+            listPermissionsNeeded.add(Manifest.permission.READ_SMS);
+        }
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQ_SMS_SEND_RECEIVED_READ);
+            return false;
+        }
+        return true;
+    }
+
 
     @Override
     public void onApiSuccess() {
@@ -105,12 +149,19 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
 
     @Override
     public void done() {
-        if (Validation.isEmpty(mFragmentChangeMobileNumBinding.edittextPassword)) {
+        if (Validation.isEmpty(mFragmentChangeMobileNumBinding.edittextMobileNum)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
+        } else if (!Validation.isValidMobileNum(mFragmentChangeMobileNumBinding.edittextMobileNum)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
+        } else if (Validation.isEmpty(mFragmentChangeMobileNumBinding.edittextPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
         } else if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mChangeMobNumberViewModel.changeMobNumber(mFragmentChangeMobileNumBinding.textviewNewMobileNum.getText().toString()
-                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
+            // TODO: 2/26/2018 Add sms permission
+            if (checkAndRequestPermissions()) {
+                showProgress();
+                mChangeMobNumberViewModel.sendOtpForMobileNoChange(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+                        , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
+            }
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
@@ -139,8 +190,17 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
     }
 
     @Override
+    public void pushOTPFragment() {
+        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString(),
+                "email@email.com", Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
+                true, true, "OTP_frag");
+    }
+
+    @Override
     public void finishActivity() {
         ((UserProfileActivity) getActivity()).finish();
         ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
+
+
 }

@@ -159,7 +159,8 @@ public class Constants {
     public enum ProfileIsFrom {
         CHANGE_PASS,
         CHANGE_MOBILE,
-        UPDATE_PROFILE
+        UPDATE_PROFILE,
+        ADD_EDIT_ADDRESS
 
     }
 

@@ -37,7 +37,7 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentMoreBinding;
 import com.pulse.brag.data.model.datas.MoreListData;
 import com.pulse.brag.data.model.datas.UserData;
-import com.pulse.brag.ui.addeditaddress.AddEditAddressFragment;
+import com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.views.FullScreenImageDialogFragment;
@@ -169,8 +169,10 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         break;
 
                     case 9:
-                        ((MainActivity) getActivity()).pushFragments(new AddEditAddressFragment()
-                                , true, true);
+                        intent = new Intent(getActivity(), UserProfileActivity.class);
+                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
 
                     case 10:

@@ -97,7 +97,7 @@ public class CartListResponeData implements Parcelable {
     }
 
     public String getPriceWithSym() {
-        return Utility.getIndianCurrencePriceFormate(price);
+        return Utility.getIndianCurrencyPriceFormat(price);
     }
 
     @Override

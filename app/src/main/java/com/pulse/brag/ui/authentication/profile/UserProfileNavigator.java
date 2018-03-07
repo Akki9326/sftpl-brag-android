@@ -6,7 +6,7 @@ import com.pulse.brag.ui.core.CoreNavigator;
  * Created by alpesh.rathod on 2/15/2018.
  */
 
-public interface UserProfileNavigator extends CoreNavigator{
+public interface UserProfileNavigator extends CoreNavigator {
 
     void backPress();
 
@@ -15,4 +15,6 @@ public interface UserProfileNavigator extends CoreNavigator{
     void pushForgotPassFragment();
 
     void pushUserProfileFragment();
+
+    void pushAddEditAddress();
 }

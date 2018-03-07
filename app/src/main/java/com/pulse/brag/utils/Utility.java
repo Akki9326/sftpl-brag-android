@@ -622,16 +622,15 @@ public class Utility {
         listView.requestLayout();
     }
 
-    public static String getIndianCurrencePriceFormate(int price) {
+    public static String getIndianCurrencyPriceFormatWithComma(int price) {
 
         String rupeessymbol;
         String totalprice = NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(new Integer(price));
         if (totalprice.contains("Rs.")) {
-//            String pricewithoutRs = totalprice.substring(3, totalprice.length()).trim();
-            rupeessymbol = "\u20B9 " + totalprice.substring(3, totalprice.length()).trim();
+            rupeessymbol = "\u20B9"+ totalprice.substring(3, totalprice.length()).trim();
             return rupeessymbol;
         } else {
-            return totalprice;
+            return totalprice.replace(" ","");
         }
     }
 

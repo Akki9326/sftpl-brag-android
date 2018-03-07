@@ -11,18 +11,19 @@
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounder_corner_solid_white">
+        android:layout_marginTop="10dp">
 
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="52dp" />
+            android:layout_marginTop="52dp"
+            android:background="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/text_black"
             android:orientation="vertical">
 
             <include
@@ -34,7 +35,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
                 <View
                     android:layout_width="match_parent"

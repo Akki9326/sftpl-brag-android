@@ -5,12 +5,14 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.addeditaddress.AddEditViewModel" />
+            type="com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="-25dp"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <ScrollView
@@ -23,10 +25,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textview_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -92,14 +94,18 @@
                     android:textColor="@color/pink"
                     android:textSize="@dimen/text_size_very_small_12" />
 
-                <EditText
-                    style="@style/NormalEditText"
+                <TextView
+                    android:id="@+id/textview_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@null"
-                    android:id="@+id/edittext_city"
                     android:hint="@string/hint_city_ast"
-                    android:imeOptions="actionNext"
                     android:maxLength="@integer/max_length"
-                    android:paddingBottom="5dp" />
+                    android:onClick="@{viewModel.onCityClick()}"
+                    android:paddingBottom="5dp"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -119,13 +125,17 @@
                     android:textColor="@color/pink"
                     android:textSize="@dimen/text_size_very_small_12" />
 
-                <EditText
-                    style="@style/NormalEditText"
+                <TextView
+                    android:id="@+id/textview_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@string/hint_state_ast"
-                    android:id="@+id/edittext_state"
                     android:imeOptions="actionNext"
-                    android:paddingBottom="5dp" />
+                    android:onClick="@{viewModel.onStateClick()}"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -146,14 +156,14 @@
                     android:textSize="@dimen/text_size_very_small_12" />
 
                 <EditText
+                    android:id="@+id/edittext_pincode"
                     style="@style/NormalEditText"
                     android:background="@null"
                     android:hint="@string/hint_pincode_ast"
                     android:imeOptions="actionDone"
-                    android:onEditorAction="@{viewModel.onEditorActionPincode}"
                     android:inputType="number"
-                    android:id="@+id/edittext_pincode"
                     android:maxLength="6"
+                    android:onEditorAction="@{viewModel.onEditorActionPincode}"
                     android:paddingBottom="5dp" />
 
                 <View
@@ -172,19 +182,14 @@
                     android:layout_marginTop="30dp"
                     android:background="@drawable/round_corner_solid_pink"
                     android:gravity="center"
-                    android:paddingBottom="10dp"
                     android:onClick="@{viewModel.onAddOrUpdate()}"
+                    android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@string/button_add"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small" />
 
-                <View
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/view_dummy"/>
 
             </LinearLayout>
         </ScrollView>

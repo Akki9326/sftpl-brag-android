@@ -85,7 +85,7 @@ public class OrderDetailResponeData {
     }
 
     public String getProductPriceWithSym() {
-        return Utility.getIndianCurrencePriceFormate(Integer.parseInt(getProduct_price()));
+        return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(getProduct_price()));
     }
 
     public AddressRespones getAddress() {

@@ -81,7 +81,7 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public String getProductPriceWithSym() {
-        return Utility.getIndianCurrencePriceFormate(Integer.parseInt(responeData.getProduct_price()));
+        return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(responeData.getProduct_price()));
     }
 
     public String getStatusLable() {

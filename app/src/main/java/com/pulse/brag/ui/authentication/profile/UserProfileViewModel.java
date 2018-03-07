@@ -48,6 +48,10 @@ public class UserProfileViewModel extends CoreViewModel<UserProfileNavigator> {
             case UPDATE_PROFILE:
                 getNavigator().pushUserProfileFragment();
                 break;
+            case ADD_EDIT_ADDRESS:
+                getNavigator().pushAddEditAddress();
+                break;
+
         }
 
     }

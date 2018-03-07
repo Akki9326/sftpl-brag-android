@@ -71,7 +71,7 @@ public class CartItemViewModel extends BaseObservable {
     }
 
     public String getPriceWithSym() {
-        return Utility.getIndianCurrencePriceFormate(getPrice());
+        return Utility.getIndianCurrencyPriceFormat(getPrice());
     }
 
     public Drawable getColorBitMap() {

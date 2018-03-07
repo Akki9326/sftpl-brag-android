@@ -275,7 +275,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         for (int i = 0; i < mList.size(); i++) {
             total += (mList.get(i).getQty()) * (mList.get(i).getPrice());
         }
-        cartViewModel.setTotal(Utility.getIndianCurrencePriceFormate(total));
+        cartViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(total));
         cartViewModel.setListNum(mList.size());
     }
 

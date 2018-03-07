@@ -70,7 +70,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
-                            android:background="@color/pink"
+                            android:background="@drawable/rounder_corner_solid_pink"
                             android:padding="10dp"
                             android:onClick="@{viewModel.onEditAddress()}"
                             android:textSize="@dimen/text_size_very_small_12"

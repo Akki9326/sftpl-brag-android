@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.addeditaddress;
+package com.pulse.brag.ui.authentication.profile.addeditaddress;
 
 
 /**
@@ -17,7 +17,7 @@ import dagger.android.ContributesAndroidInjector;
  */
 
 @Module
-public abstract class AddEditFragmentProvider {
-    @ContributesAndroidInjector(modules = AddEditFragmetnModule.class)
+public abstract class AddEditAddresstProvider {
+    @ContributesAndroidInjector(modules = AddEditAddressModule.class)
     abstract AddEditAddressFragment provideAddEditAddressFactory();
 }

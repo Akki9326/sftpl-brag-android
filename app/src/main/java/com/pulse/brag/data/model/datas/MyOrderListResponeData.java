@@ -105,7 +105,7 @@ public class MyOrderListResponeData implements Parcelable {
     }
 
     public String getProductPriceWithSym() {
-        return Utility.getIndianCurrencePriceFormate(Integer.parseInt(product_price));
+        return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(product_price));
     }
 
     public void setProduct_price(String product_price) {

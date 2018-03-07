@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.addeditaddress;
+package com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog;
 
 
 /**
@@ -9,20 +9,12 @@ package com.pulse.brag.ui.addeditaddress;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.IDataManager;
-
-import dagger.Module;
-import dagger.Provides;
+import com.pulse.brag.ui.core.CoreNavigator;
 
 /**
- * Created by nikhil.vadoliya on 06-03-2018.
+ * Created by nikhil.vadoliya on 07-03-2018.
  */
 
-@Module
-public class AddEditFragmetnModule {
-    @Provides
-    AddEditViewModel provideAddEditAddressViewModel(IDataManager dataManager){
-        return new AddEditViewModel(dataManager);
-    }
 
+public interface StateDialogNavigator extends CoreNavigator {
 }

@@ -154,7 +154,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             DummeyDataRespone dataRespone = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
             mProductDetailViewModel.updateProductName(dataRespone.getFirst_name());
         }
-        mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencePriceFormate(500));
+        mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencyPriceFormat(500));
 
         String mShortDetail = " Lucille Curtis |Juana Hanson |Lila Flores |Kevin Rodriguez |Ebony Norman |Celia Rodriquez |Jake Morales |Jane Farmer |Willie tRivera |Freeman";
         mProductDetailViewModel.updateProductProShortDetail(Html.fromHtml(Utility.getTextWithBullet(mShortDetail)).toString());
@@ -262,5 +262,12 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
         mDialogFragmentImage.setArguments(args);
         mDialogFragmentImage.show(fm, "");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
     }
 }

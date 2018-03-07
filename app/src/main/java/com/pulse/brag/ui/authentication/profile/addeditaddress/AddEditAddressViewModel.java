@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.addeditaddress;
+package com.pulse.brag.ui.authentication.profile.addeditaddress;
 
 
 /**
@@ -24,9 +24,9 @@ import com.pulse.brag.ui.core.CoreViewModel;
  */
 
 
-public class AddEditViewModel extends CoreViewModel<AddEditNavigator> {
+public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigator> {
 
-    public AddEditViewModel(IDataManager dataManager) {
+    public AddEditAddressViewModel(IDataManager dataManager) {
         super(dataManager);
     }
 
@@ -42,5 +42,23 @@ public class AddEditViewModel extends CoreViewModel<AddEditNavigator> {
     public boolean onEditorActionPincode(@NonNull final TextView textView, final int actionId,
                                              @Nullable final KeyEvent keyEvent) {
         return getNavigator().onEditorActionPincode(textView, actionId, keyEvent);
+    }
+
+    public View.OnClickListener onStateClick(){
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onOpenStateListDialog();
+            }
+        };
+    }
+
+    public View.OnClickListener onCityClick(){
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onOpenCityListDialog();
+            }
+        };
     }
 }

@@ -20,12 +20,15 @@ import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
+import com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressFragment;
 import com.pulse.brag.ui.cart.adapter.PlaceOrderCartListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
 import com.pulse.brag.data.model.datas.CartListResponeData;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -100,7 +103,10 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void onEditAddress() {
-        Toast.makeText(getActivity(), "Edit or Add Address", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override
@@ -165,7 +171,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     public void showData() {
 
-        mAdapter = new PlaceOrderCartListAdapter(getActivity(),mList, this);
+        mAdapter = new PlaceOrderCartListAdapter(getActivity(), mList, this);
         mFragmentPlaceOrderBinding.recycleview.setAdapter(mAdapter);
         setTotalPrice();
 
@@ -194,7 +200,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         for (int i = 0; i < mList.size(); i++) {
             total += (mList.get(i).getQty()) * (mList.get(i).getPrice());
         }
-        mPlaceOrderViewModel.setTotal(Utility.getIndianCurrencePriceFormate(total));
+        mPlaceOrderViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(total));
         mPlaceOrderViewModel.setListSize(mList.size());
     }
 

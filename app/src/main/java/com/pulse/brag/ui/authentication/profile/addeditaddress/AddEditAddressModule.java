@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.addeditaddress;
+package com.pulse.brag.ui.authentication.profile.addeditaddress;
 
 
 /**
@@ -9,19 +9,20 @@ package com.pulse.brag.ui.addeditaddress;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.view.KeyEvent;
-import android.widget.TextView;
+import com.pulse.brag.data.IDataManager;
 
-import com.pulse.brag.ui.core.CoreNavigator;
+import dagger.Module;
+import dagger.Provides;
 
 /**
  * Created by nikhil.vadoliya on 06-03-2018.
  */
 
+@Module
+public class AddEditAddressModule {
+    @Provides
+    AddEditAddressViewModel provideAddEditAddressViewModel(IDataManager dataManager){
+        return new AddEditAddressViewModel(dataManager);
+    }
 
-public interface AddEditNavigator extends CoreNavigator {
-
-    void onAddOrUpdateAddress();
-
-    boolean onEditorActionPincode(TextView textView, int i, KeyEvent keyEvent);
 }

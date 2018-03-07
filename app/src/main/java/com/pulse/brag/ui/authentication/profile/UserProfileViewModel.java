@@ -40,7 +40,7 @@ public class UserProfileViewModel extends CoreViewModel<UserProfileNavigator> {
     public void decideNextFragment(int type) {
         switch (Constants.ProfileIsFrom.values()[type]){
             case CHANGE_MOBILE:
-                getNavigator().pushForgotPassFragment();
+                getNavigator().pushChangeMobileNoFragment();
                 break;
             case CHANGE_PASS:
                 getNavigator().pushChangePassFragment();

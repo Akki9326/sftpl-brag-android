@@ -27,7 +27,7 @@
             android:textColor="@color/pink"
             android:textSize="@dimen/text_size_very_small_12" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/textview_new_mobile_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,19 @@
             android:paddingTop="5dp"
             android:tag="@string/font_opensans_regular_id"
             android:text="@{viewModel.newMobileNumber}"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium" />-->
+
+        <EditText
+            android:id="@+id/edittext_mobile_num"
+            style="@style/NormalEditText"
+            android:background="@null"
+            android:hint="@string/hint_mobile_num"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="10"
+            android:paddingBottom="5dp"
+            android:tag="@string/font_opensans_regular_id"
+            android:text="@{viewModel.newMobileNumber}" />
 
 
         <View
@@ -75,10 +87,10 @@
                 android:imeActionLabel="@string/button_login"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:tag="@string/font_opensans_regular_id"
                 android:maxLength="@integer/max_length"
                 android:onEditorAction="@{viewModel.onEditorActionPass}"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5dp"
+                android:tag="@string/font_opensans_regular_id" />
 
             <ImageView
                 android:id="@+id/imageview_pass_visible"
@@ -110,7 +122,7 @@
             android:paddingRight="70dp"
             android:paddingTop="10dp"
             android:tag="@string/font_opensans_regular_id"
-            android:text="@string/button_done"
+            android:text="@string/btn_send_otp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small" />
     </LinearLayout>

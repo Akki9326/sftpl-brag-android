@@ -25,14 +25,13 @@ public class ForgotPasswordViewModel extends CoreViewModel<ForgotPasswordNavigat
         super(dataManager);
     }
 
-    public void setMobileNumber(String mobileNumber){
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber.set(mobileNumber);
     }
 
     public ObservableField<String> getMobileNumber() {
         return mobileNumber;
     }
-
 
 
     public View.OnClickListener onSendOtpClick() {
@@ -44,14 +43,15 @@ public class ForgotPasswordViewModel extends CoreViewModel<ForgotPasswordNavigat
         };
     }
 
-    public void sendOtp(String mobileNumber){
+    public void sendOtp(String mobileNumber) {
         Call<GeneralResponse> responeCall = getDataManager().resendOtp(mobileNumber);
         responeCall.enqueue(new ApiResponse<GeneralResponse>() {
             @Override
             public void onSuccess(GeneralResponse generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getNavigator().pushOtpFragment();
+                    //getNavigator().pushOtpFragment();
+                    getNavigator().pushOTPFragmentOnSplashActivity();
                 } else {
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
@@ -63,4 +63,6 @@ public class ForgotPasswordViewModel extends CoreViewModel<ForgotPasswordNavigat
             }
         });
     }
+
+
 }

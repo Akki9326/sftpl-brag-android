@@ -10,7 +10,9 @@ public interface ForgotPasswordNavigator extends CoreNavigator{
 
     void sendOtp();
 
-    void pushOtpFragment();
-    void pushFragmentOnSplash();
-    void pushFragmentOnChangePassword();
+    /*void pushOtpFragment();
+    void pushOTPFragmentOnUserProfileActivity();*/
+
+    void pushOTPFragmentOnSplashActivity();
+    //void pushChangeMobileNumberFragment();
 }

@@ -18,4 +18,6 @@ public interface ChangeMobNumberNavigator extends CoreNavigator {
     boolean onEditorActionPass(TextView textView, int i, KeyEvent keyEvent);
 
     void finishActivity();
+
+    void pushOTPFragment();
 }

@@ -20,6 +20,7 @@ import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.ActivityUserProfileBinding;
 import com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressFragment;
+import com.pulse.brag.ui.authentication.profile.changemobile.ChangeMobileNumberFragment;
 import com.pulse.brag.ui.authentication.profile.changepassword.ChangePassFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.authentication.forgotpassword.ForgetPasswordFragment;
@@ -152,8 +153,9 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
     }
 
     @Override
-    public void pushForgotPassFragment() {
-        pushFragmentInChangeContainer(new ForgetPasswordFragment(), false, false, "Change_Mobile");
+    public void pushChangeMobileNoFragment() {
+        //pushFragmentInChangeContainer(new ForgetPasswordFragment(), false, false, "Change_Mobile");
+        pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(), false, false, "Change_Mobile");
     }
 
     @Override
@@ -166,6 +168,11 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
     public void pushAddEditAddress() {
         pushFragmentInChangeContainer(new AddEditAddressFragment()
                 , false, false, "Update_Profile");
+    }
+
+    @Override
+    public void pushOtpFragment() {
+
     }
 
     @Override

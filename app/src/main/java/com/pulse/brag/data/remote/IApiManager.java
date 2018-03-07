@@ -6,11 +6,14 @@ import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
 import com.pulse.brag.data.model.requests.SignInRequest;
+import com.pulse.brag.data.model.response.CartListResponse;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
 import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.model.response.MyOrderListRespone;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
+import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import retrofit2.Call;
@@ -47,6 +50,18 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<GeneralResponse> logoutCall();
+
+    @Override
+    Call<GeneralResponse> generateOTPForMobileChange(ChangeMobileNumberRequest changeMobileNumberRequest);
+
+    @Override
+    Call<CartListResponse> getCartList(String url);
+
+    @Override
+    Call<MyOrderListRespone> getOrderList(String url);
+
+    @Override
+    Call<OrderDetailResponse> getOrderDetail(String url);
 
     @Override
     Call<GeneralResponse> changeMobileNum(ChangeMobileNumberRequest changeMobileNumberRequest);

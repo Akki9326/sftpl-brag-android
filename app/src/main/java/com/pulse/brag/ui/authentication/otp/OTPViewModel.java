@@ -72,7 +72,7 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
                     getNavigator().onApiSuccess();
                     switch (Constants.OTPValidationIsFrom.values()[formType]) {
                         case CHANGE_MOBILE:
-                            getNavigator().pushChangeMobileFragment();
+                            getNavigator().finishUserProfileActivity();
                             break;
                         case FORGET_PASS:
                             getNavigator().pushCreatePasswordFragment();
@@ -87,7 +87,7 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
                     getNavigator().onApiSuccess();
                     switch (Constants.OTPValidationIsFrom.values()[formType]) {
                         case CHANGE_MOBILE:
-                            getNavigator().pushChangeMobileFragment();
+                            getNavigator().finishUserProfileActivity();
                             break;
                         case FORGET_PASS:
                             getNavigator().pushCreatePasswordFragment();

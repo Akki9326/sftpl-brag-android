@@ -35,10 +35,9 @@ public class ChangeMobNumberViewModel extends CoreViewModel<ChangeMobNumberNavig
         return newMobileNumber;
     }
 
-    public void setNewMobileNumber(String mobileNumber){
+    public void setNewMobileNumber(String mobileNumber) {
         newMobileNumber.set(mobileNumber);
     }
-
 
 
     public View.OnClickListener onDoneClick() {
@@ -64,9 +63,30 @@ public class ChangeMobNumberViewModel extends CoreViewModel<ChangeMobNumberNavig
         return getNavigator().onEditorActionPass(textView, actionId, keyEvent);
     }
 
-    public void changeMobNumber(String mobile, String password){
+    public void sendOtpForMobileNoChange(String newMobileNumber, String password) {
+        ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(newMobileNumber, password);
+        Call<GeneralResponse> responeCall = getDataManager().generateOTPForMobileChange(changeMobileNumberRequest);
+        responeCall.enqueue(new ApiResponse<GeneralResponse>() {
+            @Override
+            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+                if (generalResponse.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    getNavigator().pushOTPFragment();
+                } else {
+                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    public void changeMobNumber(String mobile, String password) {
         // TODO: 13-12-2017 if you display mobile number in more Fragment than isStatus==true update mobile number display
-        ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(mobile,password);
+        ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(mobile, password);
         Call<GeneralResponse> mResponeCall = getDataManager().changeMobileNum(changeMobileNumberRequest);
         mResponeCall.enqueue(new ApiResponse<GeneralResponse>() {
             @Override

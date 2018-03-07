@@ -17,7 +17,9 @@ public interface OTPNavigator extends CoreNavigator {
 
     boolean onEditorActionPin(TextView textView, int i, KeyEvent keyEvent);
 
-    void pushChangeMobileFragment();
+    //void pushChangeMobileFragment();
+
+    void finishUserProfileActivity();
 
     void pushCreatePasswordFragment();
 

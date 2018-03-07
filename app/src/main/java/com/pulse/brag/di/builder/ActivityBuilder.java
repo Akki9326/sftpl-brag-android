@@ -64,7 +64,8 @@ public abstract class ActivityBuilder {
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class,
-            UpdateProfileProvider.class, ChangeMobNumberProvider.class
+            UpdateProfileProvider.class, ChangeMobNumberProvider.class,
+            OTPFragmentProvider.class
             , AddEditAddresstProvider.class, StateDialogProvider.class})
     abstract UserProfileActivity bindChangePasswordOrMobileActivity();
 

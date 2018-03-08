@@ -3,6 +3,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.StateDialogViewModel" />
     </data>
 
     <RelativeLayout
@@ -29,6 +32,7 @@
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
                     android:padding="5dp"
+                    android:onClick="@{viewModel.onClose()}"
                     android:src="@drawable/ic_close"
                     android:tint="@color/colorAccent" />
 
@@ -37,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:tag="@string/font_opensans_semi_bold_id"
-                    android:text="@string/label_select_city"
+                    android:text="@string/label_select_state"
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
@@ -57,6 +61,7 @@
                     android:tint="@color/gray" />
 
                 <EditText
+                    android:id="@+id/edittext_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

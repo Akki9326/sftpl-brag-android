@@ -77,6 +77,7 @@ public class Constants {
     public static final int SUCCESS_RESPONE = 200;
 
     public static final int EXIT_TIME_INTERVAL = 2000;
+    public static final String BUNDLE_KEY_STATE ="bundlestate" ;
 
     public interface ApiHelper {
         //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip

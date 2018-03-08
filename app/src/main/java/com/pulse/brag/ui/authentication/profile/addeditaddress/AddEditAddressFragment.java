@@ -9,33 +9,26 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.res.TypedArray;
-import android.graphics.Rect;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.StateListResponeData;
 import com.pulse.brag.databinding.FragmentAddEditAddressBinding;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
-import com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.StateDialogFragement;
-import com.pulse.brag.ui.core.CoreActivity;
+import com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.StateDialogFragment;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.utils.AlertUtils;
-import com.pulse.brag.utils.Common;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
-import com.pulse.brag.views.keyboardvisibilityevent.KeyboardVisibilityEvent;
-import com.pulse.brag.views.keyboardvisibilityevent.KeyboardVisibilityEventListener;
-import com.pulse.brag.views.webview.WebviewDialogFragment;
 
 import javax.inject.Inject;
 
@@ -52,6 +45,9 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
 
     FragmentAddEditAddressBinding mAddEditAddressBinding;
 
+    private String stateId;
+
+    public int REQUEST_STATE = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +65,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     @Override
     public void afterViewCreated() {
         mAddEditAddressBinding = getViewDataBinding();
+        Utility.applyTypeFace(getContext(),mAddEditAddressBinding.baseLayout);
 
     }
 
@@ -128,22 +125,33 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     @Override
     public void onOpenStateListDialog() {
         Bundle bundle = new Bundle();
-        StateDialogFragement dialogFragment = new StateDialogFragement();
+        StateDialogFragment dialogFragment = new StateDialogFragment();
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(getChildFragmentManager(), "");
+        dialogFragment.setTargetFragment(this, REQUEST_STATE);
+        dialogFragment.show(getFragmentManager(), "");
     }
 
     @Override
     public void onOpenCityListDialog() {
-        Bundle bundle = new Bundle();
-        StateDialogFragement dialogFragment = new StateDialogFragement();
-        dialogFragment.setArguments(bundle);
-        dialogFragment.show(getChildFragmentManager(), "");
+
     }
 
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == REQUEST_STATE) {
+            StateListResponeData responeData = data.getParcelableExtra(Constants.BUNDLE_KEY_STATE);
+            mAddEditViewModel.updateState(responeData.getText());
+
+
+            stateId = responeData.getId();
+            Toast.makeText(mActivity, "" + data.getStringExtra(Constants.BUNDLE_PRODUCT_NAME), Toast.LENGTH_SHORT).show();
+        }
     }
 }

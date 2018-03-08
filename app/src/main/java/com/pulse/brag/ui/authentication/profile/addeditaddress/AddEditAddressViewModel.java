@@ -9,6 +9,7 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -26,11 +27,13 @@ import com.pulse.brag.ui.core.CoreViewModel;
 
 public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigator> {
 
+    ObservableField<String> state = new ObservableField<>();
+
     public AddEditAddressViewModel(IDataManager dataManager) {
         super(dataManager);
     }
 
-    public View.OnClickListener onAddOrUpdate(){
+    public View.OnClickListener onAddOrUpdate() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -40,11 +43,11 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
     }
 
     public boolean onEditorActionPincode(@NonNull final TextView textView, final int actionId,
-                                             @Nullable final KeyEvent keyEvent) {
+                                         @Nullable final KeyEvent keyEvent) {
         return getNavigator().onEditorActionPincode(textView, actionId, keyEvent);
     }
 
-    public View.OnClickListener onStateClick(){
+    public View.OnClickListener onStateClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -53,12 +56,21 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
         };
     }
 
-    public View.OnClickListener onCityClick(){
+    public View.OnClickListener onCityClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 getNavigator().onOpenCityListDialog();
             }
         };
+    }
+
+    public void updateState(String state) {
+        this.state.set(state);
+    }
+
+    public ObservableField<String> getState() {
+        return state;
+
     }
 }

@@ -19,5 +19,5 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract  class StateDialogProvider {
     @ContributesAndroidInjector(modules = StateDialogModule.class)
-    abstract StateDialogFragement provideStateDialogFactory();
+    abstract StateDialogFragment provideStateDialogFactory();
 }

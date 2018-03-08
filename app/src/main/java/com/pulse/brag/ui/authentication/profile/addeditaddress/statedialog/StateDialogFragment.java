@@ -10,19 +10,27 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog;
  */
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ListView;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.StateListRespone;
+import com.pulse.brag.data.model.datas.StateListResponeData;
 import com.pulse.brag.databinding.DialogFragmentListSelectorBinding;
+import com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressFragment;
 import com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.adapter.StateListAdapter;
 import com.pulse.brag.ui.core.CoreDialogFragment;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
@@ -35,7 +43,7 @@ import javax.inject.Inject;
  */
 
 
-public class StateDialogFragement extends CoreDialogFragment<DialogFragmentListSelectorBinding, StateDialogViewModel>
+public class StateDialogFragment extends CoreDialogFragment<DialogFragmentListSelectorBinding, StateDialogViewModel>
         implements StateDialogNavigator {
 
 
@@ -44,7 +52,7 @@ public class StateDialogFragement extends CoreDialogFragment<DialogFragmentListS
 
     DialogFragmentListSelectorBinding mDialogListSelectorBinding;
 
-
+    StateListAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,11 +81,41 @@ public class StateDialogFragement extends CoreDialogFragment<DialogFragmentListS
         Utility.applyTypeFace(getContext(), mDialogListSelectorBinding.baseLayout);
 
 
-        List<StateListRespone> mList = new ArrayList<>();
+        List<StateListResponeData> mList = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
-            mList.add(new StateListRespone("Id " + i, "State " + i));
+            mList.add(new StateListResponeData("Id " + i, "State " + i));
         }
-        mDialogListSelectorBinding.listview.setAdapter(new StateListAdapter(getContext(), mList));
+
+        adapter = new StateListAdapter(getContext(), mList);
+        mDialogListSelectorBinding.listview.setAdapter(adapter);
+
+        mDialogListSelectorBinding.edittextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adapter.getFilter().filter(s.toString());
+            }
+        });
+
+        mDialogListSelectorBinding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                StateListResponeData responeData = (StateListResponeData) parent.getItemAtPosition(position);
+                onStateSelet(responeData);
+
+
+            }
+        });
 
     }
 
@@ -110,4 +148,19 @@ public class StateDialogFragement extends CoreDialogFragment<DialogFragmentListS
     public int getLayoutId() {
         return R.layout.dialog_fragment_list_selector;
     }
+
+    @Override
+    public void onClose() {
+        dismiss();
+    }
+
+    @Override
+    public void onStateSelet(StateListResponeData data) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BUNDLE_KEY_STATE, (Parcelable) data);
+        getTargetFragment().onActivityResult(1, 1, intent);
+        dismiss();
+    }
+
+
 }

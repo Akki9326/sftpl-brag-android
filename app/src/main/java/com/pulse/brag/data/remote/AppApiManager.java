@@ -7,6 +7,9 @@ import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
+import com.pulse.brag.data.model.requests.QAddToCart;
+import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.SignInRequest;
 import com.pulse.brag.data.model.response.CartListResponse;
 import com.pulse.brag.data.model.response.CategoryListResponse;
@@ -16,6 +19,8 @@ import com.pulse.brag.data.model.response.LoginResponse;
 import com.pulse.brag.data.model.response.MyOrderListRespone;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
+import com.pulse.brag.data.model.response.RAddToCart;
+import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import javax.inject.Inject;
@@ -42,8 +47,8 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<DummeyRespone> getProductionList(int page) {
-        return mApiInterface.getProductionList(page);
+    public Call<RProductList> getProductionList(int page, QProductList body) {
+        return mApiInterface.getProductionList(page, body);
     }
 
     @Override
@@ -82,8 +87,8 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<GeneralResponse> generateOTPForMobileChange(ChangeMobileNumberRequest changeMobileNumberRequest) {
-        return mApiInterface.generateOTPForMobileChange(changeMobileNumberRequest);
+    public Call<GeneralResponse> generateOTPForMobileChange(QGenerateOtpForChangeMobile generateOtpForChangeMobile) {
+        return mApiInterface.generateOTPForMobileChange(generateOtpForChangeMobile);
     }
 
 
@@ -105,6 +110,11 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
         return mApiInterface.notifyMe(productId, color, size);
+    }
+
+    @Override
+    public Call<RAddToCart> addToCart(QAddToCart addToCart) {
+        return mApiInterface.addToCart(addToCart);
     }
 
     @Override

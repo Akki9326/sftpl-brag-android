@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 
@@ -31,16 +32,16 @@ import java.util.List;
 
 public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyViewHolder> {
     Activity mActivity;
-    List<String> mListSize;
+    List<DataProductList.Size> mListSize;
     List<Boolean> mSeletedList;
     IOnProductSizeSelectListener mOnProductSizeSelectListener;
     int mSeletedPos;
 
-    public SizeListAdapter(Activity mActivity, List<String> mListSize, int mSeletedPos, IOnProductSizeSelectListener onProductSizeSelectListener) {
+    public SizeListAdapter(Activity mActivity, List<DataProductList.Size> mListSize, int selectedPos, IOnProductSizeSelectListener onProductSizeSelectListener) {
         this.mActivity = mActivity;
         this.mListSize = mListSize;
+        this.mSeletedPos = selectedPos;
         mOnProductSizeSelectListener = onProductSizeSelectListener;
-        this.mSeletedPos = mSeletedPos;
 
         int pos = 0;
         mSeletedList = new ArrayList<>();
@@ -60,13 +61,14 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
-        holder.mTxtSize.setText(mListSize.get(position));
+        holder.mTxtSize.setText(mListSize.get(position).getSizeCode());
         holder.mView.setSelected(mSeletedList.get(position));
         Utility.applyTypeFace(mActivity, holder.mBaseLayout);
         holder.mView.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                mOnProductSizeSelectListener.OnSelectedSize(position);
+
+                mOnProductSizeSelectListener.OnSelectedSize(mSeletedPos,position,mListSize.get(position));
             }
         });
     }
@@ -78,12 +80,10 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
 
 
     public void setSelectedItem(int pos) {
-        if (mSeletedPos != pos) {
             mSeletedList.set(pos, Boolean.TRUE);
             mSeletedList.set(mSeletedPos, Boolean.FALSE);
             mSeletedPos = pos;
             notifyDataSetChanged();
-        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

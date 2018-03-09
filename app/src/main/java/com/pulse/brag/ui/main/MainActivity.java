@@ -13,8 +13,8 @@ import android.widget.Toast;
 import com.pulse.brag.BR;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.databinding.ActivityMainBinding;
-import com.pulse.brag.data.model.requests.AddToCartRequest;
 import com.pulse.brag.ui.cart.CartFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.home.HomeFragment;
@@ -77,8 +77,9 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
             ((OnToolbarSetupListener) bActivity).setUpToolbar();
         }
         BragApp.NotificationNumber = 1;
-        BragApp.CartNumber=2;
-        setBagCount(BragApp.CartNumber);
+        //// TODO: 3/9/2018 get cart details
+        /*BragApp.CartNumber = 2;
+        setBagCount(BragApp.CartNumber);*/
         pushFragments(new HomeFragment(), false, false);
     }
 
@@ -122,11 +123,11 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
     }
 
 
-    public void addToCartAPI(AddToCartRequest addToCartRequest) {
+    public void addToCartAPI(final int i) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                BragApp.CartNumber++;
+                BragApp.CartNumber = i;
                 setBagCount(BragApp.CartNumber);
             }
         }, 1000);
@@ -156,7 +157,7 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
             @Override
             public void onSingleClick(View v) {
 
-                    pushFragments(new CartFragment(), true, true);
+                pushFragments(new CartFragment(), true, true);
 
 
             }

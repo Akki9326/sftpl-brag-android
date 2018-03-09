@@ -185,33 +185,10 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         }
     }
 
-    /*@Override
-    public void pushOtpFragment() {
-        // TODO: 13-11-2017 email address pass for display in otp screen
-        if (getActivity() instanceof SplashActivity) {
-            pushOTPFragmentOnSplashActivity();
-        } else {
-            pushOTPFragmentOnUserProfileActivity();
-        }
-    }
-
-    @Override
-    public void pushOTPFragmentOnUserProfileActivity() {
-        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
-                "email@email.com", Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
-                true, true, "OTP_frag");
-    }*/
-
-    /*@Override
-    public void pushChangeMobileNumberFragment() {
-        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString())
-                , true, true, "");
-    }*/
-
     @Override
     public void pushOTPFragmentOnSplashActivity() {
         ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
-                "email@email.com", Constants.OTPValidationIsFrom.FORGET_PASS.ordinal()),
+                Constants.OTPValidationIsFrom.FORGET_PASS.ordinal()),
                 true, true, "OTP_frag");
 
     }

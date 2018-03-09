@@ -52,16 +52,6 @@
                 android:padding="10dp">
 
                 <RadioButton
-                    android:id="@+id/rb_popularity"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:tag="@string/font_opensans_bold"
-                    android:text="@string/label_sorting_popularity"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_small"
-                    android:theme="@style/RadioButtonTheme" />
-
-                <RadioButton
                     android:id="@+id/rb_price_low_to_high"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -80,6 +70,27 @@
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_small"
                     android:theme="@style/RadioButtonTheme" />
+
+                <RadioButton
+                    android:id="@+id/rb_date_asc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:tag="@string/font_opensans_bold"
+                    android:text="@string/label_sorting_date_asc"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small"
+                    android:theme="@style/RadioButtonTheme" />
+
+                <RadioButton
+                    android:id="@+id/rb_date_desc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:tag="@string/font_opensans_bold"
+                    android:text="@string/label_sorting_date_desc"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small"
+                    android:theme="@style/RadioButtonTheme" />
+
 
             </RadioGroup>
         </LinearLayout>

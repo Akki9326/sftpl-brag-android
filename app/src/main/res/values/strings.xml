@@ -75,10 +75,10 @@
     <string name="error_code_40">Sorry, you don\'t have permission.</string>
 
 
-    <string name="error_code_5001">We could not complete your request.</string>
+    <string name="error_code_5001">Something went wrong!\nPlease try again later.</string>
     <string name="error_code_5002">Your internet connection appears to be offline.</string>
-    <string name="error_code_5003">We could not complete your request.\nPlease try again later.</string>
-    <string name="error_code_5004">We could not complete your request.\nPlease try again later.</string>
+    <string name="error_code_5003">Something went wrong!\nPlease try again later.</string>
+    <string name="error_code_5004">Something went wrong!\nPlease try again later.</string>
     <string name="error_code_5006">Connection timeout.\nPlease try again later.</string>
 
     <string name="toolbar_title_home_screen">Brag</string>
@@ -91,7 +91,7 @@
     <string name="button_login">Login</string>
     <string name="button_retry">Retry</string>
     <string name="label_or">OR</string>
-    <string name="button_signup">Sign up</string>
+    <string name="button_signup">Signup</string>
     <string name="button_update">Update</string>
     <string name="label_firstname">First name</string>
     <string name="label_lastname">Last name</string>
@@ -126,7 +126,7 @@
     <string name="label_pri_policy">Privacy Policy</string>
     <string name="label_terms_and"><![CDATA[Terms & Conditions]]></string>
     <string name="label_version">version </string>
-    <string name="label_logout">LogOut</string>
+    <string name="label_logout">Logout</string>
     <string name="msg_logout">Are you sure want to logout?</string>
     <string name="btn_yes">YES</string>
     <string name="btn_no">NO</string>
@@ -142,8 +142,8 @@
     <string name="hint_city_ast"><font size="12">City*</font></string>
     <string name="hint_password_ast"><font size="12">Password*</font></string>
     <string name="hint_pincode_ast"><font size="12">Pincode*</font></string>
-    <string name="label_confirm_password">Confirm Password</string>
-    <string name="hint_confirm_password_ast"><font size="12">Confirm Password*</font></string>
+    <string name="label_confirm_password">Confirm password</string>
+    <string name="hint_confirm_password_ast"><font size="12">Confirm password*</font></string>
     <string name="error_password_not_match">Entered password not match with confirm password.</string>
     <string name="error_please_enter_first_name">Please Enter your first name.</string>
     <string name="error_please_email">Please enter your email address.</string>
@@ -158,16 +158,16 @@
     <string name="label_signup_complate">Signup Complete !</string>
     <string name="label_awesome">Awesome !</string>
     <string name="label_text_signup">Sit back and relax.We will get \n  back to you within 24 hours.</string>
-    <string name="label_or_click_to_login">Or click here to Log in</string>
+    <string name="label_or_click_to_login">OR click here to Login</string>
     <string name="btn_send_otp">Send OTP</string>
     <string name="button_done">Done</string>
     <string name="button_next">Next</string>
-    <string name="label_old_pass">Old Password</string>
-    <string name="hint_old_password_ast"><font size="12">Old Password*</font></string>
+    <string name="label_old_pass">Old password</string>
+    <string name="hint_old_password_ast"><font size="12">Old password*</font></string>
     <string name="error_enter_old_pass">Please enter old password.</string>
     <string name="error_new_pass">Please enter new Password</string>
-    <string name="label_new_password">New Password</string>
-    <string name="hint_new_password_ast"><font size="12">New Password*</font></string>
+    <string name="label_new_password">New password</string>
+    <string name="hint_new_password_ast"><font size="12">New password*</font></string>
     <string name="label_change_pass">Change Password</string>
     <string name="label_change_address">Change Address</string>
     <string name="error_code_block">Please update the application for better experience.</string>
@@ -182,7 +182,7 @@
     <string name="error_valid_qty">Please enter valid quantity.</string>
     <string name="label_change_mobile_num">Change Mobile Number</string>
     <string name="label_update_profile">Update Profile</string>
-    <string name="label_new_mobile_no">New Mobile Number</string>
+    <string name="label_new_mobile_no">New mobile number</string>
     <string name="hint_new_mobile_num"><font size="12">New Mobile Number</font></string>
     <string name="error_empty_new_mobile_num">Please Enter mobile Number.</string>
     <string name="msg_mobile_num_change_success">Your mobile number change successfully.</string>
@@ -252,10 +252,7 @@
     <string name="label_type">Type</string>
     <string name="label_notification_read">Notification Read</string>
     <string name="label_send_otp_to_mobile">Please type OTP sent to your mobile number.</string>
-    <string name="label_sorting_popularity">Popularity</string>
-    <string name="label_sorting_price_low_to_high">Price -- Low to High</string>
-    <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
-    <string name="label_sort_by_camel">Sort By</string>
+
     <string name="label_edit_address">Edit Address</string>
     <string name="error_app_not_found">In your device,app not found to open this file.</string>
     <string name="msg_download_complate">Downlaod complete</string>
@@ -276,4 +273,13 @@
     <string name="label_select_city">Select City</string>
     <string name="hint_search_state">Search state</string>
     <string name="label_title_change_mob_no">Change Mobile Number</string>
+    <string name="label_title_verify_otp">Verify OTP</string>
+    <string name="label_didn_t_receive_otp">Didn\'t receive OTP ?</string>
+
+    <string name="label_sorting_date_asc">Date Asc</string>
+    <string name="label_sorting_date_desc">Date Desc</string>
+    <string name="label_sorting_price_low_to_high">Price -- Low to High</string>
+    <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
+    <string name="label_sort_by_camel">Sort By</string>
+    <string name="label_avail_qty">Avail. %s</string>
 </resources>

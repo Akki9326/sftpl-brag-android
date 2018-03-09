@@ -31,11 +31,11 @@ import java.util.List;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
-    List<CategoryListResponseData.CategoryList> listRespones = new ArrayList<>();
+    List<CategoryListResponseData.Category> listRespones = new ArrayList<>();
     Context context;
     IOnItemClickListener onItemClickListener;
 
-    public CategoryListAdapter(Context context, List<CategoryListResponseData.CategoryList> listRespones
+    public CategoryListAdapter(Context context, List<CategoryListResponseData.Category> listRespones
             , IOnItemClickListener onItemClickListener) {
         this.listRespones = listRespones;
         this.context = context;
@@ -75,7 +75,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             Utility.applyTypeFace(context, itemBinding.baseLayout);
         }
 
-        public void onBind(int position, CategoryListResponseData.CategoryList responseData) {
+        public void onBind(int position, CategoryListResponseData.Category responseData) {
             if(itemBinding.getViewModel()==null){
                 itemBinding.setViewModel(new CategoryItemViewModel(itemView.getContext(),position,responseData,this));
             }else {
@@ -89,7 +89,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
 
         @Override
-        public void onItemClick(int position, CategoryListResponseData.CategoryList responeData) {
+        public void onItemClick(int position, CategoryListResponseData.Category responeData) {
             onItemClickListener.onItemClick(position);
         }
     }

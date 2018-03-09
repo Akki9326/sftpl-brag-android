@@ -25,34 +25,34 @@ import java.util.List;
 
 public class CategoryListResponseData {
 
-    private List<CategoryList> categories;
-    private List<BannerList> banners;
+    private List<Category> categories;
+    private List<Banners> banners;
 
 
-    public List<CategoryList> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public List<BannerList> getBanners() {
+    public List<Banners> getBanners() {
         return banners;
     }
 
-    public static class CategoryList implements Comparable<CategoryList>, Parcelable {
+    public static class Category implements Comparable<Category>, Parcelable {
         private String id;
         private String optionName;
         private String url;
         private int optionOrderNo;
-        private List<CategoryList> childs = Collections.emptyList();
+        private List<Category> childs = Collections.emptyList();
 
-        public List<CategoryList> getChild() {
+        public List<Category> getChild() {
             return childs;
         }
 
-        public void setChild(List<CategoryList> child) {
+        public void setChild(List<Category> child) {
             this.childs = child;
         }
 
-        public CategoryList(String id, String optionName, String url, int optionOrderNo) {
+        public Category(String id, String optionName, String url, int optionOrderNo) {
             this.id = id;
             this.optionName = optionName;
             this.url = url;
@@ -94,7 +94,7 @@ public class CategoryListResponseData {
 
 
         @Override
-        public int compareTo(@NonNull CategoryList o) {
+        public int compareTo(@NonNull Category o) {
             if (optionOrderNo > o.getOptionOrderNo()) {
                 return 1;
             } else if (optionOrderNo < o.getOptionOrderNo()) {
@@ -118,30 +118,30 @@ public class CategoryListResponseData {
             dest.writeList(this.childs);
         }
 
-        protected CategoryList(Parcel in) {
+        protected Category(Parcel in) {
             this.id = in.readString();
             this.optionName = in.readString();
             this.url = in.readString();
             this.optionOrderNo = in.readInt();
-            this.childs = new ArrayList<CategoryList>();
+            this.childs = new ArrayList<Category>();
             in.readList(this.childs, CategoryListResponseData.class.getClassLoader());
         }
 
-        public static final Parcelable.Creator<CategoryList> CREATOR = new Parcelable.Creator<CategoryList>() {
+        public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
             @Override
-            public CategoryList createFromParcel(Parcel source) {
-                return new CategoryList(source);
+            public Category createFromParcel(Parcel source) {
+                return new Category(source);
             }
 
             @Override
-            public CategoryList[] newArray(int size) {
-                return new CategoryList[size];
+            public Category[] newArray(int size) {
+                return new Category[size];
             }
         };
 
     }
 
-    public static class BannerList implements Parcelable {
+    public static class Banners implements Parcelable {
 
         private String id;
         private String purpose;
@@ -153,7 +153,7 @@ public class CategoryListResponseData {
         private boolean isActive;
         private boolean isDeleted;
         private int tabType;
-        private List<CategoryListResponseData.BannerList> childs = Collections.emptyList();
+        private List<Banners> childs = Collections.emptyList();
 
         public String getId() {
             return id;
@@ -235,11 +235,11 @@ public class CategoryListResponseData {
             this.tabType = tabType;
         }
 
-        public List<CategoryListResponseData.BannerList> getChilds() {
+        public List<Banners> getChilds() {
             return childs;
         }
 
-        public void setChilds(List<CategoryListResponseData.BannerList> childs) {
+        public void setChilds(List<Banners> childs) {
             this.childs = childs;
         }
 
@@ -263,10 +263,10 @@ public class CategoryListResponseData {
             dest.writeList(this.childs);
         }
 
-        public BannerList() {
+        public Banners() {
         }
 
-        protected BannerList(Parcel in) {
+        protected Banners(Parcel in) {
             this.id = in.readString();
             this.purpose = in.readString();
             this.url = in.readString();
@@ -277,19 +277,19 @@ public class CategoryListResponseData {
             this.isActive = in.readByte() != 0;
             this.isDeleted = in.readByte() != 0;
             this.tabType = in.readInt();
-            this.childs = new ArrayList<CategoryListResponseData.BannerList>();
-            in.readList(this.childs, CategoryListResponseData.BannerList.class.getClassLoader());
+            this.childs = new ArrayList<Banners>();
+            in.readList(this.childs, Banners.class.getClassLoader());
         }
 
-        public static final Parcelable.Creator<BannerList> CREATOR = new Parcelable.Creator<BannerList>() {
+        public static final Parcelable.Creator<Banners> CREATOR = new Parcelable.Creator<Banners>() {
             @Override
-            public BannerList createFromParcel(Parcel source) {
-                return new BannerList(source);
+            public Banners createFromParcel(Parcel source) {
+                return new Banners(source);
             }
 
             @Override
-            public BannerList[] newArray(int size) {
-                return new BannerList[size];
+            public Banners[] newArray(int size) {
+                return new Banners[size];
             }
         };
 

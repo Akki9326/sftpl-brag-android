@@ -640,6 +640,12 @@ public class Utility {
         return "\u20B9" + strPrice;
     }
 
+    public static String getIndianCurrencyPriceFormat(double price) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        String strPrice = df.format(price);
+        return "\u20B9" + strPrice;
+    }
+
     public static String getBadgeNumber(int num) {
         if (num > 0 && num <= 99) {
             return "" + num;

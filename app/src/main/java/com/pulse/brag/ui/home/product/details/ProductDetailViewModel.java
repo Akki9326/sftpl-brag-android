@@ -6,9 +6,12 @@ import android.view.View;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.requests.QAddToCart;
+import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
+import com.pulse.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -19,23 +22,14 @@ import retrofit2.Call;
 
 public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator> {
 
-    private final ObservableField<String> productName = new ObservableField<>();
     private final ObservableField<String> qty = new ObservableField<>();
     private final ObservableField<String> productProPrice = new ObservableField<>();
     private final ObservableField<String> productProDetail = new ObservableField<>();
     private final ObservableField<String> productProShortDetail = new ObservableField<>();
-    private final ObservableField<Boolean> notify=new ObservableField<>();
+    private final ObservableField<Boolean> notify = new ObservableField<>();
 
     public ProductDetailViewModel(IDataManager dataManager) {
         super(dataManager);
-    }
-
-    public ObservableField<String> getProductName() {
-        return productName;
-    }
-
-    public void updateProductName(String productName) {
-        this.productName.set(productName);
     }
 
     public ObservableField<String> getQty() {
@@ -74,7 +68,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         return notify;
     }
 
-    public void updateNotifyMe(boolean notify){
+    public void updateNotifyMe(boolean notify) {
         this.notify.set(notify);
     }
 
@@ -121,6 +115,31 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
                 getNavigator().notifyMe();
             }
         };
+    }
+
+    public void addToCart(String itemId, int qty) {
+        Call<RAddToCart> callAddToCart = getDataManager().addToCart(new QAddToCart(itemId,qty));
+        callAddToCart.enqueue(new ApiResponse<RAddToCart>() {
+            @Override
+            public void onSuccess(RAddToCart rAddToCart, Headers headers) {
+                if (rAddToCart.isStatus()) {
+                    if (rAddToCart.getData() == null) {
+                        getNavigator().onApiError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
+                    } else {
+                        getNavigator().onApiSuccess();
+                        getNavigator().onAddedToCart(rAddToCart.getData());
+                    }
+
+                } else {
+                    getNavigator().onApiError(new ApiError(rAddToCart.getErrorCode(), rAddToCart.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
     }
 
     public void notifyMe(String productId, String color, String size) {

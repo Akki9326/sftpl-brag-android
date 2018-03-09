@@ -9,8 +9,8 @@ package com.pulse.brag.ui.home.category;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.ui.core.CoreNavigator;
 
 import java.util.List;
 
@@ -19,17 +19,14 @@ import java.util.List;
  */
 
 
-public interface CategoryNavigator {
+public interface CategoryNavigator extends CoreNavigator {
 
-    void onApiSuccess();
-
-    void onApiError(ApiError error);
 
     void swipeRefresh();
 
     void onNoData();
 
-    void setCategoryList(List<CategoryListResponseData.CategoryList> list);
+    void setCategoryList(List<CategoryListResponseData.Category> list);
 
-    void setBanner(List<CategoryListResponseData.BannerList> list);
+    void setBanner(List<CategoryListResponseData.Banners> list);
 }

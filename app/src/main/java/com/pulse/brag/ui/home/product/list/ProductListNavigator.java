@@ -1,6 +1,7 @@
 package com.pulse.brag.ui.home.product.list;
 
 import com.pulse.brag.data.model.DummeyDataRespone;
+import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.ui.core.CoreNavigator;
 
 import java.util.List;
@@ -11,8 +12,15 @@ import java.util.List;
 
 public interface ProductListNavigator extends CoreNavigator {
 
-    void sort();
-    void filter();
-    void showList(int prodcutSize,List<DummeyDataRespone> dataList);
     void swipeRefresh();
+
+    void onNoData();
+
+    void setProductList(int prodcutSize, List<DataProductList.Products> dataList);
+
+    void setFilter(DataProductList.Filter filter);
+
+    void openSortDialog();
+
+    void openFilter();
 }

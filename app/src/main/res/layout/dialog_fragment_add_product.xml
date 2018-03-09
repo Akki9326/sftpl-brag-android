@@ -142,14 +142,13 @@
                             android:inputType="number"
                             android:maxLength="2"
                             android:maxWidth="120dp"
-
                             android:onClick="@{viewModel.onEditQtyClick()}"
                             android:paddingBottom="2dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:paddingTop="2dp"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@{viewModel.maxQty}"
+                            android:text="@{viewModel.qty}"
                             android:textSize="@dimen/text_size_medium" />
 
                         <TextView
@@ -158,7 +157,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="(max. 50)"
+                            android:text="@{@string/label_avail_qty(viewModel.maxQty)}"
                             android:textSize="@dimen/text_size_very_small_12" />
 
 

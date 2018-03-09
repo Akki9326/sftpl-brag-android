@@ -8,11 +8,13 @@ package com.pulse.brag.callback;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.data.model.datas.DataProductList;
+
 /**
  * Created by nikhil.vadoliya on 25-10-2017.
  */
 
 
 public interface IOnProductSizeSelectListener {
-    public void OnSelectedSize(int pos);
+    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item);
 }

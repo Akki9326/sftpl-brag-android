@@ -28,7 +28,7 @@ public interface SubCategoryNavigator extends CoreNavigator {
 
     void swipeRefresh();
 
-    void setCategoryList(List<CategoryListResponseData.CategoryList> list);
+    void setCategoryList(List<CategoryListResponseData.Category> list);
 
     void onNoData();
 }

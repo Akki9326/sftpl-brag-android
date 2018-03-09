@@ -53,7 +53,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
-            android:text="Don't receiver OTP ?"
+            android:text="@string/label_didn_t_receive_otp"
             android:textColor="@color/text_black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

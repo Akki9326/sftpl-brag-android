@@ -24,8 +24,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/white"
                         android:orientation="vertical"
                         android:padding="10dp">
@@ -73,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@{viewModel.productName}"
+                            android:text="@{viewModel.productProDetail}"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_medium" />
 
@@ -108,7 +108,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/white"
                         android:orientation="vertical"
                         android:padding="10dp">
@@ -155,15 +155,14 @@
                         android:orientation="vertical"
                         android:padding="10dp">
 
-                        <TextView
+                        <!--<TextView
                             android:id="@+id/textView_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/text_s"
+                            android:text="@{viewModel.productProDetail}"
                             android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small" />
-                        <!--android:text="@{viewModel.productProDetail}"-->
+                            android:textSize="@dimen/text_size_very_small" />-->
 
                         <TextView
                             android:id="@+id/textView_short_des"

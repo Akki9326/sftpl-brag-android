@@ -25,21 +25,21 @@ import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.adapters.ImagePagerAdapter;
+import com.pulse.brag.callback.IOnProductColorSelectListener;
+import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.DataAddToCart;
+import com.pulse.brag.data.model.datas.DataProductList;
+import com.pulse.brag.data.model.response.ImagePagerResponse;
 import com.pulse.brag.databinding.DialogFragmentAddProductBinding;
-import com.pulse.brag.data.model.requests.AddToCartRequest;
 import com.pulse.brag.ui.core.CoreDialogFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
-import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.callback.IOnProductColorSelectListener;
-import com.pulse.brag.callback.IOnProductSizeSelectListener;
-import com.pulse.brag.data.model.DummeyDataRespone;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 
 import java.util.ArrayList;
@@ -62,48 +62,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
 
-    DummeyDataRespone data;
-
-
-    public void showData() {
-
-        // TODO: 15-12-2017 Qty max lenght
-        mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
-        mDialogFragmentAddProductBinding.textviewProductName.setText(data.getFirst_name() + " " + data.getLast_name());
-
-        List<String> mIntegerList = new ArrayList<>();
-        mIntegerList.add("#F44336");
-        mIntegerList.add("#E91E63");
-        mIntegerList.add("#9C27B0");
-        mIntegerList.add("#2196F3");
-        mIntegerList.add("#FF9800");
-        mIntegerList.add("#FF5722");
-        mIntegerList.add("#3F51B5");
-        mColorListAdapter = new ColorListAdapter(getActivity(), mIntegerList, 0, this);
-        mDialogFragmentAddProductBinding.recycleViewColor.setAdapter(mColorListAdapter);
-        mDialogFragmentAddProductBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
-
-        List<String> mStringList = new ArrayList<>();
-        mStringList.add("S");
-        mStringList.add("M");
-        mStringList.add("X");
-        mStringList.add("XL");
-        mStringList.add("XXL");
-        mStringList.add("XXXL");
-        mSizeListAdapter = new SizeListAdapter(getActivity(), mStringList, 0, this);
-        mDialogFragmentAddProductBinding.recycleViewSize.setAdapter(mSizeListAdapter);
-        mDialogFragmentAddProductBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
-
-        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", "CLASSIC BIKINI"));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
-
-        mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
-        mDialogFragmentAddProductBinding.pagerView.setViewPager(mDialogFragmentAddProductBinding.viewPager);
-    }
+    DataProductList.Products mProduct;
 
     private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -119,7 +78,6 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         }
     };
     private boolean keyboardListenersAttached = false;
-    //private ViewGroup rootLayout;
 
     protected void attachKeyboardListeners() {
         if (keyboardListenersAttached) {
@@ -166,8 +124,9 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void beforeViewCreated() {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        //setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_DialogWhenLarge_NoActionBar);
-        data = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
+            mProduct = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
+        }
     }
 
     @Override
@@ -181,11 +140,16 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         mDialogFragmentAddProductBinding.recycleViewSize.setHasFixedSize(true);
         mDialogFragmentAddProductBinding.recycleViewSize.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        mAddProductDialogViewModel.updateMaxQty(String.valueOf(1));
-        mAddProductDialogViewModel.updateNotifyMe(false);
 
         attachKeyboardListeners();
-        showData();
+
+        if (mProduct != null) {
+            mAddProductDialogViewModel.updateMaxQty(String.valueOf(mProduct.getStockData()));
+            mAddProductDialogViewModel.updateProductName(mProduct.getDescription());
+            if (mProduct.getStockData() > 0)
+                mAddProductDialogViewModel.updateQty(String.valueOf(1));
+            showData();
+        }
     }
 
     @Override
@@ -208,6 +172,47 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         return R.layout.dialog_fragment_add_product;
     }
 
+    public void showData() {
+
+        mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(String.valueOf(mProduct.getStockData()).length())});
+
+        List<String> mIntegerList = new ArrayList<>();
+        mIntegerList.add("#F44336");
+        mIntegerList.add("#E91E63");
+        mIntegerList.add("#9C27B0");
+        mIntegerList.add("#2196F3");
+        mIntegerList.add("#FF9800");
+        mIntegerList.add("#FF5722");
+        mIntegerList.add("#3F51B5");
+        mColorListAdapter = new ColorListAdapter(getActivity(), mIntegerList, 0, this);
+        mDialogFragmentAddProductBinding.recycleViewColor.setAdapter(mColorListAdapter);
+        mDialogFragmentAddProductBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+
+        List<DataProductList.Size> sizeList = new ArrayList<>();
+        int pos = 0;
+        int selectedPos = 0;
+        for (DataProductList.Size size : mProduct.getSizes()) {
+            if (size.isIsDefault()) {
+                selectedPos = pos;
+            }
+            pos++;
+            sizeList.add(size);
+        }
+        mSizeListAdapter = new SizeListAdapter(getActivity(), sizeList, selectedPos, this);
+        mDialogFragmentAddProductBinding.recycleViewSize.setAdapter(mSizeListAdapter);
+        mDialogFragmentAddProductBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
+
+        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
+        for (DataProductList.Size size : mProduct.getSizes()) {
+            if (size.getImages().size() > 0) {
+                imagePagerResponeList.add(new ImagePagerResponse(size.getImages().get(0), ""));
+            }
+        }
+
+        mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
+        mDialogFragmentAddProductBinding.pagerView.setViewPager(mDialogFragmentAddProductBinding.viewPager);
+    }
+
     @Override
     public void onSeleteColor(int pos) {
         mColorListAdapter.setSelectorItem(pos);
@@ -215,9 +220,10 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     }
 
     @Override
-    public void OnSelectedSize(int pos) {
-        mSizeListAdapter.setSelectedItem(pos);
-        mAddProductDialogViewModel.updateNotifyMe(false);
+    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
+        if (prevPos != pos) {
+            mSizeListAdapter.setSelectedItem(pos);
+        }
     }
 
 
@@ -244,7 +250,17 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
     @Override
     public void addToCart() {
-        ((MainActivity) getBaseActivity()).addToCartAPI(new AddToCartRequest());
+        if (Utility.isConnection(getActivity())) {
+            mAddProductDialogViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mDialogFragmentAddProductBinding.edittextQty.getText().toString()));
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+
+    }
+
+    @Override
+    public void onAddedToCart(List<DataAddToCart> data) {
+        ((MainActivity) getBaseActivity()).addToCartAPI(data.size());
         dismissDialog("");
     }
 
@@ -255,7 +271,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
                 mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
                 mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
                 mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
-            } else if (new Integer(s.toString()).intValue() > 50) {
+            } else if (new Integer(s.toString()).intValue() > mProduct.getStockData()) {
                 mDialogFragmentAddProductBinding.textviewMax.setTextColor(Color.RED);
                 mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
                 mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);

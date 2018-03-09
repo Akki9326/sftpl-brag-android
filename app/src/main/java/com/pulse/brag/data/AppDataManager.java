@@ -5,6 +5,11 @@ import android.content.Context;
 
 import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
+import com.pulse.brag.data.model.requests.QAddToCart;
+import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QProductList;
+import com.pulse.brag.data.model.response.RAddToCart;
+import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.remote.IApiManager;
 import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.GeneralResponse;
@@ -48,7 +53,7 @@ public class AppDataManager implements IDataManager {
     public AppDataManager(Context mContext, IPreferenceManager mPreferencesHelper, IApiManager mApiManager) {
         this.mContext = mContext;
         this.mPreferencesHelper = mPreferencesHelper;
-        this.mApiManager=mApiManager;
+        this.mApiManager = mApiManager;
     }
 
     @Override
@@ -138,7 +143,12 @@ public class AppDataManager implements IDataManager {
 
     @Override
     public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
-        return mApiManager.notifyMe(productId,color,size);
+        return mApiManager.notifyMe(productId, color, size);
+    }
+
+    @Override
+    public Call<RAddToCart> addToCart(QAddToCart addToCart) {
+        return mApiManager.addToCart(addToCart);
     }
 
     @Override
@@ -162,8 +172,8 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<DummeyRespone> getProductionList(int page) {
-        return mApiManager.getProductionList(page);
+    public Call<RProductList> getProductionList(int page, QProductList body) {
+        return mApiManager.getProductionList(page, body);
     }
 
     @Override
@@ -202,8 +212,8 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<GeneralResponse> generateOTPForMobileChange(ChangeMobileNumberRequest changeMobileNumberRequest) {
-        return mApiManager.generateOTPForMobileChange(changeMobileNumberRequest);
+    public Call<GeneralResponse> generateOTPForMobileChange(QGenerateOtpForChangeMobile generateOtpForChangeMobile) {
+        return mApiManager.generateOTPForMobileChange(generateOtpForChangeMobile);
     }
 
 }

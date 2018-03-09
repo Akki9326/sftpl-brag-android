@@ -6,9 +6,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
@@ -51,62 +53,6 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
         return getNavigator().onEditorActionPin(textView, actionId, keyEvent);
     }
 
-    public void verifyOtp(String mobileNum, String otp, final int formType) {
-        Call<OTPVerifyResponse> mOtpVerifyResponeCall = null;
-        switch (Constants.OTPValidationIsFrom.values()[formType]) {
-            case SIGN_UP:
-                mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum, otp);
-                break;
-            case FORGET_PASS:
-                mOtpVerifyResponeCall = getDataManager().verifyOtpForgetPass(mobileNum, otp);
-                break;
-            case CHANGE_MOBILE:
-                mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum, otp);
-                break;
-        }
-
-        mOtpVerifyResponeCall.enqueue(new ApiResponse<OTPVerifyResponse>() {
-            @Override
-            public void onSuccess(OTPVerifyResponse otpVerifyResponse, Headers headers) {
-                if (otpVerifyResponse.isStatus()) {
-                    getNavigator().onApiSuccess();
-                    switch (Constants.OTPValidationIsFrom.values()[formType]) {
-                        case CHANGE_MOBILE:
-                            getNavigator().finishUserProfileActivity();
-                            break;
-                        case FORGET_PASS:
-                            getNavigator().pushCreatePasswordFragment();
-                            break;
-
-                        case SIGN_UP:
-                            getNavigator().pushSignUpCompleteFragment();
-                            break;
-                    }
-                }else {
-                    // TODO: 3/5/2018 Display invalid msg
-                    getNavigator().onApiSuccess();
-                    switch (Constants.OTPValidationIsFrom.values()[formType]) {
-                        case CHANGE_MOBILE:
-                            getNavigator().finishUserProfileActivity();
-                            break;
-                        case FORGET_PASS:
-                            getNavigator().pushCreatePasswordFragment();
-                            break;
-
-                        case SIGN_UP:
-                            getNavigator().pushSignUpCompleteFragment();
-                            break;
-                    }
-                }
-            }
-
-            @Override
-            public void onError(ApiError t) {
-                getNavigator().onApiError(t);
-            }
-        });
-    }
-
     public void resendOtp(String mobileNumber) {
         Call<GeneralResponse> responeCall = getDataManager().resendOtp(mobileNumber);
         responeCall.enqueue(new ApiResponse<GeneralResponse>() {
@@ -124,5 +70,73 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
                 getNavigator().onApiError(t);
             }
         });
+    }
+
+    public void verifyOtp(String mobileNum, String otp, final int formType) {
+        Call<OTPVerifyResponse> mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum, otp);
+
+        mOtpVerifyResponeCall.enqueue(new ApiResponse<OTPVerifyResponse>() {
+            @Override
+            public void onSuccess(OTPVerifyResponse otpVerifyResponse, Headers headers) {
+                if (otpVerifyResponse.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    getNavigator().pushSignUpCompleteFragment();
+                } else {
+                    // TODO: 3/5/2018 Display invalid msg
+                    getNavigator().onApiError(new ApiError(otpVerifyResponse.getErrorCode(), otpVerifyResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    public void verifyOtpForForgotPass(String mobileNum, String otp, final int formType) {
+        Call<OTPVerifyResponse> mOtpVerifyResponeCall = getDataManager().verifyOtpForgetPass(mobileNum, otp);
+
+        mOtpVerifyResponeCall.enqueue(new ApiResponse<OTPVerifyResponse>() {
+            @Override
+            public void onSuccess(OTPVerifyResponse otpVerifyResponse, Headers headers) {
+                if (otpVerifyResponse.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    getNavigator().pushCreatePasswordFragment();
+                } else {
+                    // TODO: 3/5/2018 Display invalid msg
+                    getNavigator().onApiError(new ApiError(otpVerifyResponse.getErrorCode(), otpVerifyResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    public void verifyOtpForChangeMob(String mobile, String password, String otp) {
+        // TODO: 13-12-2017 if you display mobile number in more Fragment than isStatus==true update mobile number display
+        ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(mobile, password, otp);
+        Call<GeneralResponse> mResponeCall = getDataManager().changeMobileNum(changeMobileNumberRequest);
+        mResponeCall.enqueue(new ApiResponse<GeneralResponse>() {
+            @Override
+            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+                if (generalResponse.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    getDataManager().setUserData(new Gson().toJson(generalResponse.getData()));
+                    getNavigator().finishUserProfileActivity();
+                } else {
+                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+
     }
 }

@@ -1,5 +1,9 @@
 package com.pulse.brag.ui.collection;
 
+import android.databinding.ObservableField;
+import android.support.v4.widget.SwipeRefreshLayout;
+
+import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.response.CollectionListResponse;
@@ -18,8 +22,53 @@ import retrofit2.Response;
  */
 
 public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
+    private final ObservableField<Boolean> noInternet = new ObservableField<>();
+
+    private final ObservableField<Boolean> noResult = new ObservableField<>();
+
+    private final ObservableField<Boolean> isBannerAvail = new ObservableField<>();
+
     public CollectionViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
+    }
+
+    public ObservableField<Boolean> getNoResult() {
+        return noResult;
+    }
+
+    public void setNoResult(boolean noResult) {
+        this.noResult.set(noResult);
+    }
+
+    public ObservableField<Boolean> getIsBannerAvail() {
+        return isBannerAvail;
+    }
+
+    public void setIsBannerAvail(boolean isBannerAvail) {
+        this.isBannerAvail.set(isBannerAvail);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().swipeRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
     }
 
     public void getCollectionList() {
@@ -30,7 +79,12 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
             public void onSuccess(CollectionListResponse collectionListResponse, Headers headers) {
                 if (collectionListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getNavigator().collectionResponse(collectionListResponse.getData());
+                    if (collectionListResponse.getData() == null) {
+                        getNavigator().onNoData();
+                    } else {
+                        getNavigator().setCategoryList(collectionListResponse.getData().getCategories());
+                        getNavigator().setBanner(collectionListResponse.getData().getBanners());
+                    }
                 } else {
                     getNavigator().onApiError(new ApiError(collectionListResponse.getErrorCode(), collectionListResponse.getMessage()));
                 }
@@ -41,34 +95,5 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
                 getNavigator().onApiError(t);
             }
         });
-
-        /*ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<CollectionListResponse> setCategoryList = ApiClient.getInstance(getContext()).getApiResp().getCollectionProduct("home/get/2");
-        setCategoryList.enqueue(new Callback<CollectionListResponse>() {
-            @Override
-            public void onResponse(Call<CollectionListResponse> call, Response<CollectionListResponse> response) {
-                if (response.isSuccessful()) {
-                    CollectionListResponse data = response.body();
-                    if (data.isStatus()) {
-
-                        mCollectionList.addAll(data.getData());
-//                        Collections.sort(mCollectionList);
-                        showData();
-                    } else {
-                        //Utility.showAlertMessage(getContext(), data.getErrorCode(), data.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), data.getErrorCode(), data.getMessage());
-                    }
-                } else {
-                    //Utility.showAlertMessage(getContext(), 1, null);
-                    AlertUtils.showAlertMessage(getActivity(), 1, null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CollectionListResponse> call, Throwable t) {
-                //Utility.showAlertMessage(getContext(), t);
-                AlertUtils.showAlertMessage(getActivity(), t);
-            }
-        });*/
     }
 }

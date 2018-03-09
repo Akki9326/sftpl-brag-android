@@ -117,17 +117,17 @@ public class ProductSortingDialogFragment extends CoreDialogFragment<DialogFragm
 
         if (!isFirst && prveCheckedId != id) {
             prveCheckedId = id;
-            if (id == mFragmentProductSortingBinding.rbPopularity.getId()) {
-                //mSortingListener.onSorting(Constants.ProductSorting.POPULARITY.ordinal());
-                listener.onSort(Constants.ProductSorting.POPULARITY.ordinal());
-                dismissDialog("");
-            } else if (id == mFragmentProductSortingBinding.rbPriceLowToHigh.getId()) {
-                //mSortingListener.onSorting(Constants.ProductSorting.PRICE_LOW_TO_HEIGH.ordinal());
-                listener.onSort(Constants.ProductSorting.PRICE_LOW_TO_HEIGH.ordinal());
+            if (id == mFragmentProductSortingBinding.rbPriceLowToHigh.getId()) {
+                listener.onSort(Constants.SortBy.PRICE_ASC.ordinal());
                 dismissDialog("");
             } else if (id == mFragmentProductSortingBinding.rbPriceHighToLow.getId()) {
-                //mSortingListener.onSorting(Constants.ProductSorting.PRICE_HEIGH_TO_LOW.ordinal());
-                listener.onSort(Constants.ProductSorting.PRICE_HEIGH_TO_LOW.ordinal());
+                listener.onSort(Constants.SortBy.PRICE_DESC.ordinal());
+                dismissDialog("");
+            }else if (id == mFragmentProductSortingBinding.rbDateAsc.getId()) {
+                listener.onSort(Constants.SortBy.DATE_ASC.ordinal());
+                dismissDialog("");
+            } else if (id == mFragmentProductSortingBinding.rbDateDesc.getId()) {
+                listener.onSort(Constants.SortBy.DATE_DESC.ordinal());
                 dismissDialog("");
             }
 
@@ -138,18 +138,22 @@ public class ProductSortingDialogFragment extends CoreDialogFragment<DialogFragm
     int prveCheckedId;
 
     private void checkRadio(int sorting) {
-        switch (Constants.ProductSorting.values()[sorting]) {
-            case POPULARITY:
-                prveCheckedId =mFragmentProductSortingBinding.rbPopularity.getId();
-                mFragmentProductSortingBinding.rgSorting.check(mFragmentProductSortingBinding.rbPopularity.getId());
-                break;
-            case PRICE_LOW_TO_HEIGH:
+        switch (Constants.SortBy.values()[sorting]) {
+            case PRICE_ASC:
                 prveCheckedId =mFragmentProductSortingBinding.rbPriceLowToHigh.getId();
                 mFragmentProductSortingBinding.rgSorting.check(mFragmentProductSortingBinding.rbPriceLowToHigh.getId());
                 break;
-            case PRICE_HEIGH_TO_LOW:
+            case PRICE_DESC:
                 prveCheckedId =mFragmentProductSortingBinding.rbPriceHighToLow.getId();
                 mFragmentProductSortingBinding.rgSorting.check(mFragmentProductSortingBinding.rbPriceHighToLow.getId());
+                break;
+            case DATE_ASC:
+                prveCheckedId =mFragmentProductSortingBinding.rbDateAsc.getId();
+                mFragmentProductSortingBinding.rgSorting.check(mFragmentProductSortingBinding.rbDateAsc.getId());
+                break;
+            case DATE_DESC:
+                prveCheckedId =mFragmentProductSortingBinding.rbDateDesc.getId();
+                mFragmentProductSortingBinding.rgSorting.check(mFragmentProductSortingBinding.rbDateDesc.getId());
                 break;
         }
 

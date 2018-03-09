@@ -22,19 +22,19 @@ import com.pulse.brag.data.model.datas.CategoryListResponseData;
 public class CategoryItemViewModel {
 
     Context context;
-    CategoryListResponseData.CategoryList responeData;
+    CategoryListResponseData.Category responeData;
     OnItemClickListener onItemClick;
     int position;
 
 
-    public CategoryItemViewModel(Context context, int position, CategoryListResponseData.CategoryList responeData, OnItemClickListener onItemClick) {
+    public CategoryItemViewModel(Context context, int position, CategoryListResponseData.Category responeData, OnItemClickListener onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
         this.position = position;
     }
 
-    public void setResponeData(CategoryListResponseData.CategoryList responeData) {
+    public void setResponeData(CategoryListResponseData.Category responeData) {
         this.responeData = responeData;
         notifyAll();
     }
@@ -57,6 +57,6 @@ public class CategoryItemViewModel {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, CategoryListResponseData.CategoryList responeData);
+        void onItemClick(int position, CategoryListResponseData.Category responeData);
     }
 }

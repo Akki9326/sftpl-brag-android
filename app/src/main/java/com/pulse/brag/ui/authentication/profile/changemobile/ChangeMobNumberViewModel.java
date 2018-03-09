@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
@@ -63,9 +64,9 @@ public class ChangeMobNumberViewModel extends CoreViewModel<ChangeMobNumberNavig
         return getNavigator().onEditorActionPass(textView, actionId, keyEvent);
     }
 
-    public void sendOtpForMobileNoChange(String newMobileNumber, String password) {
-        ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(newMobileNumber, password);
-        Call<GeneralResponse> responeCall = getDataManager().generateOTPForMobileChange(changeMobileNumberRequest);
+    public void sendOtpForChangeMob(String newMobileNumber, String password) {
+        QGenerateOtpForChangeMobile generateOtpForChangeMobile = new QGenerateOtpForChangeMobile(newMobileNumber, password);
+        Call<GeneralResponse> responeCall = getDataManager().generateOTPForMobileChange(generateOtpForChangeMobile);
         responeCall.enqueue(new ApiResponse<GeneralResponse>() {
             @Override
             public void onSuccess(GeneralResponse generalResponse, Headers headers) {
@@ -84,55 +85,5 @@ public class ChangeMobNumberViewModel extends CoreViewModel<ChangeMobNumberNavig
         });
     }
 
-    public void changeMobNumber(String mobile, String password) {
-        // TODO: 13-12-2017 if you display mobile number in more Fragment than isStatus==true update mobile number display
-        ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(mobile, password);
-        Call<GeneralResponse> mResponeCall = getDataManager().changeMobileNum(changeMobileNumberRequest);
-        mResponeCall.enqueue(new ApiResponse<GeneralResponse>() {
-            @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
-                if (generalResponse.isStatus()) {
-                    getNavigator().onApiSuccess();
-                    getDataManager().setUserData(new Gson().toJson(generalResponse.getData()));
-                    getNavigator().finishActivity();
-                } else {
-                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
-                }
-            }
 
-            @Override
-            public void onError(ApiError t) {
-                getNavigator().onApiError(t);
-
-            }
-        });
-
-       /* ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<GeneralResponse> mResponeCall = ApiClient.getInstance(getActivity()).getApiResp().changeMobileNum(changeMobileNumberRequest);
-        mResponeCall.enqueue(new Callback<GeneralResponse>() {
-            @Override
-            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    GeneralResponse data = response.body();
-                    if (data.isStatus()) {
-                        PreferencesManager.getInstance().setUserData(new Gson().toJson(data.getData()));
-                        ((UserProfileActivity) getActivity()).finish();
-                        ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
-                    } else {
-                        //Utility.showAlertMessage(getActivity(), data.getErrorCode(),data.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), data.getErrorCode(), data.getMessage());
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GeneralResponse> call, Throwable t) {
-                hideProgressDialog();
-                //Utility.showAlertMessage(getActivity(), t);
-                AlertUtils.showAlertMessage(getActivity(), t);
-            }
-        });*/
-    }
 }

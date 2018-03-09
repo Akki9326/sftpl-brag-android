@@ -1,15 +1,16 @@
 package com.pulse.brag.ui.home.product.list;
 
-import android.content.Context;
+import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.data.model.datas.DataProductList;
+import com.pulse.brag.data.model.requests.QProductList;
+import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.callback.OnSingleClickListener;
 
@@ -22,6 +23,28 @@ import retrofit2.Call;
 
 public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
 
+    private final ObservableField<Boolean> noInternet = new ObservableField<>();
+
+    private final ObservableField<Boolean> noResult = new ObservableField<>();
+
+    ObservableField<String> productImg = new ObservableField<>();
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
+    }
+
+    public ObservableField<Boolean> getNoResult() {
+        return noResult;
+    }
+
+    public void setNoResult(boolean noResult) {
+        this.noResult.set(noResult);
+    }
+
 
     public ProductListViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -32,7 +55,7 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().sort();
+                getNavigator().openSortDialog();
             }
         };
     }
@@ -41,7 +64,7 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().filter();
+                getNavigator().openFilter();
             }
         };
     }
@@ -61,18 +84,30 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
         };
     }
 
-    public void getProductList(Context context, int page) {
-
-        //Call<DummeyRespone> mDataResponeCall = getDataManager().getProductionList(page);
-
-        // TODO: 2/19/2018  replace below 2 line with above one line and check url in ApiInterface class
-        ApiClient.changeApiBaseUrl("https://reqres.in/api/");
-        Call<DummeyRespone> mDataResponeCall = ApiClient.getInstance(context).getApiResp().getProductionList(page);
-        mDataResponeCall.enqueue(new ApiResponse<DummeyRespone>() {
+    public void getProductList(int page, String category, String subCategory, int sorting, DataProductList.Filter filter) {
+        QProductList query = new QProductList();
+        query.setCategory(category);
+        query.setSubCategory(subCategory);
+        query.setSeasonCode(null);
+        query.setOrderByEnum(sorting);
+        query.setFilter(filter);
+        Call<RProductList> getProductList = getDataManager().getProductionList(page, query);
+        getProductList.enqueue(new ApiResponse<RProductList>() {
             @Override
-            public void onSuccess(DummeyRespone dummeyRespone, Headers headers) {
-                getNavigator().onApiSuccess();
-                getNavigator().showList(dummeyRespone.getTotal(), dummeyRespone.getData());
+            public void onSuccess(RProductList rProductList, Headers headers) {
+                if (rProductList.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    if (rProductList.getData() != null && rProductList.getData().getObjects() != null && rProductList.getData().getObjects().size() > 0) {
+                        //display data
+                        getNavigator().setProductList(rProductList.getData().getCount(), rProductList.getData().getObjects());
+                        getNavigator().setFilter(rProductList.getData().getFilter());
+                    } else {
+                        getNavigator().onNoData();
+                    }
+                } else {
+                    getNavigator().onApiError(new ApiError(rProductList.getErrorCode(), rProductList.getMessage()));
+                }
+
             }
 
             @Override
@@ -81,59 +116,6 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
             }
         });
 
-        /*ApiClient.changeApiBaseUrl("https://reqres.in/api/");
-        Call<DummeyRespone> mDataResponeCall = ApiClient.getInstance(getActivity()).getApiResp().getProductionList(PAGE_NUM);
 
-        mDataResponeCall.enqueue(new Callback<DummeyRespone>() {
-            @Override
-            public void onResponse(Call<DummeyRespone> call, Response<DummeyRespone> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    DummeyRespone respone = response.body();
-                    switch (ACTION) {
-                        case LOAD_LIST:
-
-                            productListSize = 0;
-                            productListSize = respone.getTotal();
-                            mDummeyDataRespones.clear();
-
-                            mDummeyDataRespones.add(new DummeyDataRespone(0,
-                                    "Classic Pullover T-shirt Bralette - Black Solid body with Black trims",
-                                    "",
-                                    "http://cdn.shopify.com/s/files/1/1629/9535/products/Chandini_SLIDE_Pattern_B_BRAG-Optical59961_large.jpg?v=1516609967"));
-
-                            mDummeyDataRespones.add(new DummeyDataRespone(0,
-                                    "Classic Pullover T-shirt Bralette - White with Black Print & Black trims",
-                                    "",
-                                    "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG-Optical60283_large.jpg?v=1516609966"));
-
-                            mDummeyDataRespones.add(new DummeyDataRespone(0,
-                                    "Classic Pullover T-shirt Bralette - White with Black Print & Black trims",
-                                    "",
-                                    "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG-Optical59472_large.jpg?v=1516609967"));
-
-
-//                            mDummeyDataRespones.addAll(respone.getData());
-                            showData();
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            break;
-                        case LOAD_MORE:
-
-                            mDummeyDataRespones.addAll(respone.getData());
-                            mProductListAdapter.notifyDataSetChanged();
-                            mRecyclerView.loadMoreComplete(false);
-                            break;
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DummeyRespone> call, Throwable t) {
-                hideProgressDialog();
-                //Utility.showAlertMessage(getContext(), t);
-                AlertUtils.showAlertMessage(getContext(), t);
-            }
-        });*/
     }
 }

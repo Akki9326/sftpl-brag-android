@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.ui.core.BaseFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.list.adapter.ProductListAdapter;
@@ -219,12 +220,10 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
     public void showData() {
 
 
-        mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mDummeyDataRespones);
+        /*mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mDummeyDataRespones);
         mRecyclerView.setPageSize(3);
         mRecyclerView.setAdapter(mProductListAdapter);
-
-//        mSwipeRefreshLayout.setRefreshing(false);
-        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setNestedScrollingEnabled(false);*/
 
 
     }
@@ -232,8 +231,10 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
 
     private void GetProductListAPICall(boolean isshowloader) {
 
-        if (isshowloader)
+        /*if (isshowloader)
             showProgressDialog();
+
+
 
         ApiClient.changeApiBaseUrl("https://reqres.in/api/");
         Call<DummeyRespone> mDataResponeCall = ApiClient.getInstance(getActivity()).getApiResp().getProductionList(PAGE_NUM);
@@ -269,14 +270,13 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
                 hideProgressDialog();
                 AlertUtils.showAlertMessage(getActivity(), t);
             }
-        });
+        });*/
     }
 
 
     @Override
     public void onItemClick(int position) {
 //        ((BaseActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
-
     }
 
     @Override
@@ -294,7 +294,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
     }
 
     @Override
-    public void OnSelectedSize(int pos) {
+    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
         mSizeListAdapter.setSelectedItem(pos);
     }
 
@@ -303,4 +303,6 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
         mColorListAdapter.setSelectorItem(pos);
 
     }
+
+
 }

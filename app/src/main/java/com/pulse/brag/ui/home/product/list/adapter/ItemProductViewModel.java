@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.pulse.brag.data.model.DummeyDataRespone;
+import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -15,38 +16,42 @@ import com.pulse.brag.utils.Utility;
 
 public class ItemProductViewModel extends BaseObservable {
 
-    private DummeyDataRespone mProduct;
+    private DataProductList.Products mProduct;
     private int posistion;
     private Context mContext;
     private ItemProductViewModelListener mListener;
 
     private String productPrice;
 
-    public ItemProductViewModel(Context mContext, DummeyDataRespone mProduct, int posistion, ItemProductViewModelListener listener) {
+    public ItemProductViewModel(Context mContext, DataProductList.Products mProduct, int posistion, ItemProductViewModelListener listener) {
         this.mProduct = mProduct;
         this.posistion = posistion;
         this.mContext = mContext;
         this.mListener = listener;
     }
 
-    public int getProductId() {
-        return mProduct.getId();
+    public String getNo() {
+        return mProduct.getNo();
     }
 
-    public String getFirstName() {
-        return mProduct.getFirst_name() + " " + mProduct.getLast_name();
+    public boolean isAlreadyInCart() {
+        return mProduct.isAlreadyInCart();
     }
 
-    public String getLastName() {
-        return mProduct.getLast_name();
+    public String getDescription() {
+        return mProduct.getDescription();
     }
 
-    public String getThumbImg() {
-        return mProduct.getAvatar();
+
+    public String getImage() {
+        /*if (mProduct.getImages() != null && mProduct.getImages().size() > 0)
+            return mProduct.getImages().get(0);
+        else return null;*/
+        return "https://www.dropbox.com/s/wefvp2rsqjv3gxj/black-printed-cage_front.jpg?dl=3";
     }
 
     public String getPrice() {
-        return Utility.getIndianCurrencyPriceFormat(999);
+        return Utility.getIndianCurrencyPriceFormat(mProduct.getUnitPrice());
     }
 
     // Loading Image using Glide Library.
@@ -55,7 +60,7 @@ public class ItemProductViewModel extends BaseObservable {
         Utility.imageSet(imageView.getContext(), url, imageView);
     }
 
-    public void setProduct(DummeyDataRespone product) {
+    public void setProduct(DataProductList.Products product) {
         this.mProduct = product;
         notifyChange();
     }
@@ -64,8 +69,8 @@ public class ItemProductViewModel extends BaseObservable {
         mListener.OnAddClick(posistion, mProduct);
     }
 
-    public void onCartClick(View v){
-        mListener.OnCartClick(posistion,mProduct);
+    public void onCartClick(View v) {
+        mListener.OnCartClick(posistion, mProduct);
     }
 
     public void OnListItemClick(View v) {
@@ -73,10 +78,10 @@ public class ItemProductViewModel extends BaseObservable {
     }
 
     public interface ItemProductViewModelListener {
-        void OnAddClick(int position, DummeyDataRespone product);
+        void OnAddClick(int position, DataProductList.Products product);
 
-        void OnCartClick(int position, DummeyDataRespone product);
+        void OnCartClick(int position, DataProductList.Products product);
 
-        void OnListItemClick(int position, DummeyDataRespone product);
+        void OnListItemClick(int position, DataProductList.Products product);
     }
 }

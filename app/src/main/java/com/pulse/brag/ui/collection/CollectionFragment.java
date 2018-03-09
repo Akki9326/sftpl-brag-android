@@ -13,9 +13,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
 import com.pulse.brag.ui.collection.adapter.CollectionListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
@@ -25,8 +28,8 @@ import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
+import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.data.model.datas.CollectionListResponeData;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
 
 import java.util.ArrayList;
@@ -46,7 +49,9 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     FragmentCollectionBinding mFragmentCollectionBinding;
 
-    List<CollectionListResponeData> mCollectionList;
+    List<CategoryListResponseData.Category> mCollectionList;
+    List<ImagePagerResponse> mBannerList;
+
     CollectionListAdapter mAdapter;
 
     public static CollectionFragment newInstance() {
@@ -72,6 +77,17 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     public void afterViewCreated() {
         mFragmentCollectionBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentCollectionBinding.baseLayout);
+
+        mCollectionViewModel.setNoResult(false);
+        mCollectionViewModel.setNoInternet(false);
+        mCollectionViewModel.setIsBannerAvail(true);
+
+        mFragmentCollectionBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkInternet(true);
+            }
+        });
 
         mFragmentCollectionBinding.recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFragmentCollectionBinding.recycleView.setHasFixedSize(true);
@@ -115,25 +131,15 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     private void checkInternet(boolean showProgress) {
         if (Utility.isConnection(getActivity())) {
+            mCollectionViewModel.setNoInternet(false);
             if (showProgress)
                 showProgress();
             mCollectionViewModel.getCollectionList();
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            mCollectionViewModel.setNoInternet(true);
+            hideProgressBar();
         }
 
-    }
-
-    public void showData() {
-        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Blog-BBF_grande.jpg?v=1511844043", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/15871545_1859312094353423_2712560930954384886_n_726da0e0-cc2f-4c97-bf23-edb240420e7b_grande.jpg?v=1492607373", ""));
-
-        mFragmentCollectionBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
-        mFragmentCollectionBinding.pagerView.setViewPager(mFragmentCollectionBinding.viewPager);
     }
 
     @Override
@@ -142,26 +148,64 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     }
 
     @Override
+    public void onImagePageClick(int pos, ImagePagerResponse item) {
+
+    }
+
+    @Override
     public void onApiSuccess() {
-        hideProgress();
+        hideProgressBar();
     }
 
     @Override
     public void onApiError(ApiError error) {
-        hideProgress();
+        hideProgressBar();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            mCollectionViewModel.setNoInternet(true);
+            return;
+        }
+        mCollectionViewModel.setNoInternet(false);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
-    public void collectionResponse(List<CollectionListResponeData> list) {
-        mCollectionList.clear();
-        mCollectionList.addAll(list);
-        mAdapter.notifyDataSetChanged();
-        showData();
+    public void swipeRefresh() {
+        mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(true);
+        checkInternet(false);
     }
 
     @Override
-    public void onImagePageClick(int pos, ImagePagerResponse item) {
+    public void onNoData() {
+        mCollectionViewModel.setNoResult(true);
+    }
 
+    @Override
+    public void setCategoryList(List<CategoryListResponseData.Category> list) {
+        mCollectionList.clear();
+        mCollectionList.addAll(list);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setBanner(List<CategoryListResponseData.Banners> list) {
+        if (list != null && list.size() > 0) {
+            mCollectionViewModel.setIsBannerAvail(true);
+            mBannerList = new ArrayList<>();
+            for (CategoryListResponseData.Banners item : list) {
+                mBannerList.add(new ImagePagerResponse(item.getUrl(), item.getId()));
+            }
+            mFragmentCollectionBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), mBannerList, this));
+            mFragmentCollectionBinding.pagerView.setViewPager(mFragmentCollectionBinding.viewPager);
+        } else {
+            mCollectionViewModel.setIsBannerAvail(false);
+        }
+    }
+
+    public void hideProgressBar() {
+        if (mFragmentCollectionBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+        }
     }
 }

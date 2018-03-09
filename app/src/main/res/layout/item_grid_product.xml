@@ -36,7 +36,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/background"
-                tools:imageUrl="@{viewModel.thumbImg}" />
+                tools:imageUrl="@{viewModel.image}" />
 
             <TextView
                 android:id="@+id/textview_product_name"
@@ -47,7 +47,7 @@
                 android:gravity="left|start"
                 android:maxLines="1"
                 android:tag="@string/font_opensans_regular_id"
-                android:text="@{viewModel.firstName}"
+                android:text="@{viewModel.description}"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_very_small" />
 
@@ -87,7 +87,8 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:onClick="@{viewModel::onCartClick}"
-                    android:src="@drawable/ic_cart_added" />
+                    android:src="@drawable/ic_cart_added"
+                    android:visibility="@{viewModel.alreadyInCart?View.VISIBLE:View.GONE}" />
 
                 <!--<TextView
                     android:layout_width="wrap_content"

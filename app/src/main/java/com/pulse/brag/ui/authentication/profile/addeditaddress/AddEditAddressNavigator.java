@@ -12,7 +12,11 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.StateData;
 import com.pulse.brag.ui.core.CoreNavigator;
+
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 06-03-2018.
@@ -27,5 +31,9 @@ public interface AddEditAddressNavigator extends CoreNavigator {
 
     void onOpenStateListDialog();
 
-    void onOpenCityListDialog();
+    void onApiSuccessState(List<StateData> data);
+
+    void onApiErrorState(ApiError error);
+
+
 }

@@ -78,6 +78,7 @@ public class Constants {
 
     public static final int EXIT_TIME_INTERVAL = 2000;
     public static final String BUNDLE_KEY_STATE ="bundlestate" ;
+    public static final String BUNDLE_KEY_STATE_LIST = "bundlestatelist";
 
     public interface ApiHelper {
         //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip

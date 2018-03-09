@@ -486,7 +486,7 @@ public class Utility {
         Picasso.with(context)
                 .load(url)
                 .centerInside()
-                .resize(500, 500)
+                .resize(1000, 1000)
                 .placeholder(R.drawable.place_holder)
                 .error(R.drawable.place_holder)
                 .into(imageView);

@@ -6,7 +6,7 @@ import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
 import com.pulse.brag.data.model.requests.SignInRequest;
-import com.pulse.brag.data.model.response.CartListResponse;
+import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
@@ -55,7 +55,7 @@ public interface IApiManager extends ApiInterface {
     Call<GeneralResponse> generateOTPForMobileChange(ChangeMobileNumberRequest changeMobileNumberRequest);
 
     @Override
-    Call<CartListResponse> getCartList(String url);
+    Call<RCartList> getCartList(String url);
 
     @Override
     Call<MyOrderListRespone> getOrderList(String url);
@@ -74,4 +74,6 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<GeneralResponse> notifyMe(String productId, String color, String size);
+
+
 }

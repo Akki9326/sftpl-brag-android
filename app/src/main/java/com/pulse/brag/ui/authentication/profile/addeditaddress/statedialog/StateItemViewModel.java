@@ -12,7 +12,7 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
 
-import com.pulse.brag.data.model.datas.StateListResponeData;
+import com.pulse.brag.data.model.datas.StateData;
 
 /**
  * Created by nikhil.vadoliya on 08-03-2018.
@@ -23,16 +23,16 @@ public class StateItemViewModel extends BaseObservable{
 
     Context context;
     int position;
-    StateListResponeData responeData;
+    StateData responeData;
 
-    public StateItemViewModel(Context context, StateListResponeData responeData) {
+    public StateItemViewModel(Context context, StateData responeData) {
         this.context = context;
-        this.responeData=new StateListResponeData();
+        this.responeData=new StateData();
         this.responeData=responeData;
         notifyChange();
     }
 
-    public void setResponeData(StateListResponeData responeData){
+    public void setResponeData(StateData responeData){
         this.responeData=responeData;
         notifyChange();
     }

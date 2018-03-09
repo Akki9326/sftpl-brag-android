@@ -17,14 +17,14 @@ import android.os.Parcelable;
  */
 
 
-public class StateListResponeData implements Parcelable {
+public class StateData implements Parcelable {
     private String id;
     private String text;
 
-    public StateListResponeData() {
+    public StateData() {
     }
 
-    public StateListResponeData(String id, String text) {
+    public StateData(String id, String text) {
         this.id = id;
         this.text = text;
     }
@@ -56,20 +56,20 @@ public class StateListResponeData implements Parcelable {
         dest.writeString(this.text);
     }
 
-    protected StateListResponeData(Parcel in) {
+    protected StateData(Parcel in) {
         this.id = in.readString();
         this.text = in.readString();
     }
 
-    public static final Parcelable.Creator<StateListResponeData> CREATOR = new Parcelable.Creator<StateListResponeData>() {
+    public static final Parcelable.Creator<StateData> CREATOR = new Parcelable.Creator<StateData>() {
         @Override
-        public StateListResponeData createFromParcel(Parcel source) {
-            return new StateListResponeData(source);
+        public StateData createFromParcel(Parcel source) {
+            return new StateData(source);
         }
 
         @Override
-        public StateListResponeData[] newArray(int size) {
-            return new StateListResponeData[size];
+        public StateData[] newArray(int size) {
+            return new StateData[size];
         }
     };
 }

@@ -1,6 +1,9 @@
 package com.pulse.brag.data.remote;
 
 
+import android.util.Log;
+
+import com.google.gson.JsonSyntaxException;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.AppLogger;
@@ -28,7 +31,7 @@ public abstract class ApiResponse<T> implements Callback<T> {
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
-            onSuccess(response.body(),response.headers());
+            onSuccess(response.body(), response.headers());
         } else {
             onError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
         }
@@ -42,6 +45,11 @@ public abstract class ApiResponse<T> implements Callback<T> {
 
         if (Common.isNotNullOrEmpty(val))
             AppLogger.e("Response Error : " + val);
+
+        // TODO: 09-03-2018 only for developer mode
+        if (th instanceof JsonSyntaxException) {
+            Log.i("JsonSyntaxException", "onFailure: onJsonParsing error" + th.getMessage());
+        }
 
         if (th instanceof UnknownHostException) {
             onError(new ApiError(Constants.IErrorCode.notInternetConnErrorCode, Constants.IErrorMessage.NO_INTERNET_CONNECTION));

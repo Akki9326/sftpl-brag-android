@@ -9,7 +9,7 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartData;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ import java.util.List;
  */
 
 
-public class CartListResponse {
+public class RCartList {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<CartListResponeData> data;
+    private List<CartData> data;
 
     public boolean isStatus() {
         return status;
@@ -48,11 +48,11 @@ public class CartListResponse {
         this.message = message;
     }
 
-    public List<CartListResponeData> getData() {
+    public List<CartData> getData() {
         return data;
     }
 
-    public void setData(List<CartListResponeData> data) {
+    public void setData(List<CartData> data) {
         this.data = data;
     }
 }

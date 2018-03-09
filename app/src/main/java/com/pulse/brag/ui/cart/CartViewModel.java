@@ -18,7 +18,7 @@ import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.response.CartListResponse;
+import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -31,10 +31,10 @@ import retrofit2.Call;
 
 public class CartViewModel extends CoreViewModel<CartNavigator> {
 
-    CartListResponse response;
+    RCartList response;
     ObservableField<String> total = new ObservableField<>();
     ObservableField<Integer> listNum = new ObservableField<>();
-    ObservableField<Boolean> visibility=new ObservableField<>();
+    ObservableField<Boolean> visibility = new ObservableField<>();
     ObservableField<String> listSize = new ObservableField<>();
     String itemsLable;
 
@@ -43,10 +43,10 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
     }
 
     public void getCartData() {
-        Call<CartListResponse> cartListResponseCall = getDataManager().getCartList("home/get/1");
-        cartListResponseCall.enqueue(new ApiResponse<CartListResponse>() {
+        Call<RCartList> cartListResponseCall = getDataManager().getCartList("item/getCart");
+        cartListResponseCall.enqueue(new ApiResponse<RCartList>() {
             @Override
-            public void onSuccess(CartListResponse cartListResponse, Headers headers) {
+            public void onSuccess(RCartList cartListResponse, Headers headers) {
                 if (cartListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().getCartList(cartListResponse.getData());
@@ -70,10 +70,9 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
         return visibility;
     }
 
-    public void setListVisibility(boolean visibility){
+    public void setListVisibility(boolean visibility) {
         this.visibility.set(visibility);
     }
-
 
 
     public void setTotal(String total) {
@@ -102,7 +101,6 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
             }
         };
     }
-
 
 
     public void setListSize(int listSize) {

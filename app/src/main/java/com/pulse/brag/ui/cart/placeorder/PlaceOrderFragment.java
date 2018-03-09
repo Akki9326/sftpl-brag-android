@@ -21,14 +21,12 @@ import android.widget.Toast;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
-import com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressFragment;
 import com.pulse.brag.ui.cart.adapter.PlaceOrderCartListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
-import com.pulse.brag.data.model.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartData;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
-import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -55,9 +53,9 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     FragmentPlaceOrderBinding mFragmentPlaceOrderBinding;
 
     PlaceOrderCartListAdapter mAdapter;
-    List<CartListResponeData> mList;
+    List<CartData> mList;
 
-    public static PlaceOrderFragment newInstance(List<CartListResponeData> cartList) {
+    public static PlaceOrderFragment newInstance(List<CartData> cartList) {
 
         Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.BUNDLE_CART_LIST, (ArrayList<? extends Parcelable>) cartList);
@@ -179,7 +177,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     }
 
     @Override
-    public void onQtyClick(int position, CartListResponeData responeData) {
+    public void onQtyClick(int position, CartData responeData) {
 
         // TODO: 05-12-2017 limit qty (max)
        /* positionQty = mList.indexOf(responeData);
@@ -198,7 +196,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
         int total = 0;
         for (int i = 0; i < mList.size(); i++) {
-            total += (mList.get(i).getQty()) * (mList.get(i).getPrice());
+            total += (mList.get(i).getQuantity()) * (mList.get(i).getItem().getUnitPrice());
         }
         mPlaceOrderViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(total));
         mPlaceOrderViewModel.setListSize(mList.size());
@@ -216,7 +214,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         if (requestCode == REQUEST_QTY && resultCode == 2 && data != null) {
             int qty = data.getIntExtra(Constants.BUNDLE_QTY, 0);
             //if old and new qty not same
-            if (qty != mList.get(positionQty).getQty()) {
+            if (qty != mList.get(positionQty).getQuantity()) {
                 showProgress();
                 mAdapter.qtyUpdate(positionQty, qty);
                 new Handler().postDelayed(new Runnable() {

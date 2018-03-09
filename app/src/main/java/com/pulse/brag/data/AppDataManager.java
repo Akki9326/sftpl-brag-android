@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
+import com.pulse.brag.data.model.requests.QAddAddress;
+import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.remote.IApiManager;
 import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.GeneralResponse;
@@ -13,7 +15,7 @@ import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
 import com.pulse.brag.data.model.requests.SignInRequest;
-import com.pulse.brag.data.model.response.CartListResponse;
+import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
@@ -142,7 +144,7 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<CartListResponse> getCartList(String url) {
+    public Call<RCartList> getCartList(String url) {
         return mApiManager.getCartList(url);
     }
 
@@ -154,6 +156,16 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<OrderDetailResponse> getOrderDetail(String url) {
         return mApiManager.getOrderDetail(url);
+    }
+
+    @Override
+    public Call<GeneralResponse> addAddress(QAddAddress addAddress) {
+        return mApiManager.addAddress(addAddress);
+    }
+
+    @Override
+    public Call<RStateList> getStateList(String url) {
+        return mApiManager.getStateList(url);
     }
 
     @Override

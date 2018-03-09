@@ -13,8 +13,9 @@ import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
+import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.SignInRequest;
-import com.pulse.brag.data.model.response.CartListResponse;
+import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
@@ -22,6 +23,7 @@ import com.pulse.brag.data.model.response.LoginResponse;
 import com.pulse.brag.data.model.response.MyOrderListRespone;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
+import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import retrofit2.Call;
@@ -82,11 +84,17 @@ public interface ApiInterface {
     Call<GeneralResponse> notifyMe(String productId, String color, String size);
 
     @GET
-    Call<CartListResponse> getCartList(@Url String url);
+    Call<RCartList> getCartList(@Url String url);
 
     @GET
     Call<MyOrderListRespone> getOrderList(@Url String url);
 
     @GET
     Call<OrderDetailResponse> getOrderDetail(@Url String url);
+
+    @POST("user/addAddress")
+    Call<GeneralResponse> addAddress(@Body QAddAddress addAddress);
+
+    @GET
+    Call<RStateList> getStateList(@Url String url);
 }

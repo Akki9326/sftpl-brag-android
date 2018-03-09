@@ -10,7 +10,7 @@ package com.pulse.brag.ui.cart;
  */
 
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartData;
 
 import java.util.List;
 
@@ -31,5 +31,5 @@ public interface CartNavigator {
 
     void swipeRefresh();
 
-    void getCartList(List<CartListResponeData> list);
+    void getCartList(List<CartData> list);
 }

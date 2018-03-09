@@ -9,7 +9,6 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.adap
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
@@ -18,11 +17,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.pulse.brag.R;
-import com.pulse.brag.data.model.datas.StateListResponeData;
+import com.pulse.brag.data.model.datas.StateData;
 import com.pulse.brag.databinding.ItemListStateBinding;
 import com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.StateItemViewModel;
 import com.pulse.brag.utils.Utility;
@@ -39,12 +36,12 @@ import java.util.List;
 public class StateListAdapter extends BaseAdapter implements Filterable {
 
     Context mContext;
-    List<StateListResponeData> mList = Collections.emptyList();
+    List<StateData> mList = Collections.emptyList();
     LayoutInflater inflater;
-    List<StateListResponeData> mFilterList;
+    List<StateData> mFilterList;
     ValueFilter valueFilter;
 
-    public StateListAdapter(Context context, List<StateListResponeData> mList) {
+    public StateListAdapter(Context context, List<StateData> mList) {
         this.mList = mList;
         mContext = context;
         mFilterList = this.mList;
@@ -104,12 +101,12 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
             FilterResults results = new FilterResults();
 
             if (constraint != null && constraint.length() > 0) {
-                List<StateListResponeData> filterList = new ArrayList<>();
+                List<StateData> filterList = new ArrayList<>();
                 for (int i = 0; i < mFilterList.size(); i++) {
                     if ((mFilterList.get(i).getText().toUpperCase())
                             .contains(constraint.toString().toUpperCase())) {
 
-                        StateListResponeData data = new StateListResponeData(mFilterList.get(i)
+                        StateData data = new StateData(mFilterList.get(i)
                                 .getId(), mFilterList.get(i)
                                 .getText());
                         filterList.add(data);
@@ -128,7 +125,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            mList = (ArrayList<StateListResponeData>) results.values;
+            mList = (ArrayList<StateData>) results.values;
             notifyDataSetChanged();
         }
 

@@ -8,6 +8,8 @@ package com.pulse.brag.data.model.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import java.util.List;
+
 /**
  * Created by nikhil.vadoliya on 03-11-2017.
  */
@@ -28,6 +30,7 @@ public class UserData {
     private Long lastModifiedDate;
     private Boolean isActive;
     private Boolean isDeleted;
+    private List<UserAddress> addresses;
 
     public String getId() {
         return id;
@@ -135,5 +138,13 @@ public class UserData {
 
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    public List<UserAddress> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<UserAddress> addresses) {
+        this.addresses = addresses;
     }
 }

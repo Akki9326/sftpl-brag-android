@@ -218,7 +218,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new MoreListData(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
-                getString(R.string.label_change_address)));
+                getString(R.string.label_add_update_address)));
         moreListData.add(new MoreListData(Constants.MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
                 getString(R.string.label_change_pass)));
         moreListData.add(new MoreListData(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_change_mob_num),

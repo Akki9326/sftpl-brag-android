@@ -9,7 +9,7 @@ import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.SignInRequest;
-import com.pulse.brag.data.model.response.CartListResponse;
+import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
@@ -60,7 +60,7 @@ public interface IApiManager extends ApiInterface {
     Call<GeneralResponse> generateOTPForMobileChange(QGenerateOtpForChangeMobile generateOtpForChangeMobile);
 
     @Override
-    Call<CartListResponse> getCartList(String url);
+    Call<RCartList> getCartList(String url);
 
     @Override
     Call<MyOrderListRespone> getOrderList(String url);
@@ -82,4 +82,6 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<RAddToCart> addToCart(QAddToCart addToCart);
+
+
 }

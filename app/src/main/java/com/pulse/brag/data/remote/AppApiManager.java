@@ -10,8 +10,9 @@ import com.pulse.brag.data.model.requests.LoginRequest;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.pulse.brag.data.model.requests.QProductList;
+import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.SignInRequest;
-import com.pulse.brag.data.model.response.CartListResponse;
+import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
@@ -21,6 +22,7 @@ import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.model.response.RProductList;
+import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import javax.inject.Inject;
@@ -118,7 +120,7 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<CartListResponse> getCartList(String url) {
+    public Call<RCartList> getCartList(String url) {
         return mApiInterface.getCartList(url);
     }
 
@@ -130,5 +132,15 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<OrderDetailResponse> getOrderDetail(String url) {
         return mApiInterface.getOrderDetail(url);
+    }
+
+    @Override
+    public Call<GeneralResponse> addAddress(QAddAddress addAddress) {
+        return mApiInterface.addAddress(addAddress);
+    }
+
+    @Override
+    public Call<RStateList> getStateList(String url) {
+        return mApiInterface.getStateList(url);
     }
 }

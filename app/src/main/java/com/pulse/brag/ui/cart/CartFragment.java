@@ -30,7 +30,7 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.data.model.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
 
     CartListAdapter mAdapter;
-    List<CartListResponeData> mList;
+    List<CartData> mList;
 
     @Inject
     CartViewModel cartViewModel;
@@ -89,8 +89,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         mFragmentCartBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentCartBinding.baseLayout);
         initializeData();
-//        checkInternet();
-        showData();
+        checkInternet();
     }
 
     @Override
@@ -115,13 +114,14 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         defaultItemAnimator.setRemoveDuration(200);
         mFragmentCartBinding.recycleView.setItemAnimator(defaultItemAnimator);
+
+        //it's do for swipe to refersh issue
         mFragmentCartBinding.linearNoCart.setVisibility(View.GONE);
-
+        mFragmentCartBinding.linearCart.setVisibility(View.VISIBLE);
+        mFragmentCartBinding.linearBasePrice.setVisibility(View.GONE);
         mList = new ArrayList<>();
-    }
 
-    public void showData() {
-        getCartList(null);
+
     }
 
 
@@ -130,7 +130,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         if (requestCode == REQUEST_QTY && resultCode == 2 && data != null) {
             int qty = data.getIntExtra(Constants.BUNDLE_QTY, 0);
             //if old and new qty not same
-            if (qty != mList.get(positionQty).getQty()) {
+            if (qty != mList.get(positionQty).getQuantity()) {
                 showProgress();
                 mAdapter.qtyUpdate(positionQty, qty);
                 new Handler().postDelayed(new Runnable() {
@@ -147,7 +147,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
 
     @Override
-    public void onDeleteItem(final int position, final CartListResponeData responeData) {
+    public void onDeleteItem(final int position, final CartData responeData) {
         showProgress();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -164,13 +164,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     @Override
-    public void onQtyClick(int position, CartListResponeData responeData) {
+    public void onQtyClick(int position, CartData responeData) {
         // TODO: 05-12-2017 limit qty (max)
         positionQty = mList.indexOf(responeData);
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_PRODUCT_NAME, mList.get(positionQty).getProduct_name());
-        bundle.putInt(Constants.BUNDLE_QTY, mList.get(positionQty).getQty());
-        bundle.putString(Constants.BUNDLE_PRODUCT_IMG, mList.get(positionQty).getProduct_image());
+//        bundle.putString(Constants.BUNDLE_PRODUCT_NAME, mList.get(positionQty).getProduct_name());
+        bundle.putInt(Constants.BUNDLE_QTY, mList.get(positionQty).getQuantity());
+//        bundle.putString(Constants.BUNDLE_PRODUCT_IMG, mList.get(positionQty).getProduct_image());
 
         EditQtyDialogFragment dialogFragment = new EditQtyDialogFragment();
         dialogFragment.setTargetFragment(this, REQUEST_QTY);
@@ -182,12 +182,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onApiSuccess() {
         hideLoader();
-        showData();
+        mFragmentCartBinding.linearBasePrice.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
@@ -207,44 +208,9 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     @Override
-    public void getCartList(List<CartListResponeData> list) {
+    public void getCartList(List<CartData> list) {
 
-        mList.clear();
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "" + getString(R.string.text_s), "S", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "P", "M", "#F44336", 100, 50));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256",
-                "l", "XL", "#9C27B0", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/yellow-caged_front_large.jpg?v=1480569528",
-                "u", "XXL", "#2196F3", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/pink-printed-cage_front_large.jpg?v=1482476302",
-                "n", "XXXL", "#FF5722", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Product Name", "XXXXXXL", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "g", "L", "#F44336", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Name", "L", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "Back", "L", "#F44336", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "Pe", "L", "#ffffff", 500, 1));
-        mList.add(new CartListResponeData("1",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0041_large.jpg?v=1495696894",
-                "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims", "L", "#F44336", 500, 1));
-
-
+        mList.addAll(list);
         mAdapter = new CartListAdapter(getActivity(), mList, this);
         mFragmentCartBinding.recycleView.setAdapter(mAdapter);
         setTotalPrice();
@@ -273,7 +239,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
         int total = 0;
         for (int i = 0; i < mList.size(); i++) {
-            total += (mList.get(i).getQty()) * (mList.get(i).getPrice());
+            total += (mList.get(i).getQuantity()) * (mList.get(i).getItem().getUnitPrice());
         }
         cartViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(total));
         cartViewModel.setListNum(mList.size());

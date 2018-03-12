@@ -169,7 +169,7 @@
     <string name="label_new_password">New password</string>
     <string name="hint_new_password_ast"><font size="12">New password*</font></string>
     <string name="label_change_pass">Change Password</string>
-    <string name="label_change_address">Change Address</string>
+    <string name="label_add_update_address">Add/Update Address</string>
     <string name="error_code_block">Please update the application for better experience.</string>
     <string name="label_qty_s">Qty :</string>
     <string name="label_add_to_cart_small">Add to Cart</string>
@@ -282,4 +282,5 @@
     <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
     <string name="label_sort_by_camel">Sort By</string>
     <string name="label_avail_qty">Avail. %s</string>
+    <string name="label_select_state">Select State</string>
 </resources>

@@ -15,7 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.pulse.brag.data.model.datas.CartListResponeData;
+import com.pulse.brag.data.model.datas.CartData;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -26,18 +26,18 @@ import com.pulse.brag.utils.Utility;
 public class CartItemViewModel extends BaseObservable {
 
     Context context;
-    CartListResponeData responeData;
+    CartData responeData;
     OnItemClick onItemClick;
     int position;
 
-    public CartItemViewModel(Context context, int position, CartListResponeData responeData, OnItemClick onItemClick) {
+    public CartItemViewModel(Context context, int position, CartData responeData, OnItemClick onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
         this.position = position;
     }
 
-    public void setCartData(CartListResponeData responeData) {
+    public void setCartData(CartData responeData) {
         this.responeData = responeData;
         notifyChange();
     }
@@ -47,27 +47,29 @@ public class CartItemViewModel extends BaseObservable {
     }
 
     public String getProduct_image() {
-        return responeData.getProduct_image();
+        return responeData.getItem().getImages().get(0);
     }
 
     public String getProduct_name() {
-        return responeData.getProduct_name();
+        return responeData.getItem().getDescription();
     }
 
     public String getSize() {
-        return responeData.getSize();
+        return responeData.getItem().getSizeCode();
     }
 
     public String getColor() {
-        return responeData.getColor();
+        // TODO: 09-03-2018 color hex or color label
+        return "#F44336";
+//        return responeData.getColor();
     }
 
     public int getPrice() {
-        return responeData.getPrice();
+        return responeData.getItem().getUnitPrice();
     }
 
     public String getQty() {
-        return String.valueOf(responeData.getQty());
+        return String.valueOf(responeData.getQuantity());
     }
 
     public String getPriceWithSym() {
@@ -75,7 +77,10 @@ public class CartItemViewModel extends BaseObservable {
     }
 
     public Drawable getColorBitMap() {
-        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap(responeData.getColor(), true));
+
+        // TODO: 09-03-2018 color hex or label
+        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap("#F44336", true));
+//        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap(responeData.getItem().getColorCode(), true));
 
 
     }
@@ -89,7 +94,8 @@ public class CartItemViewModel extends BaseObservable {
     }
 
     public interface OnItemClick {
-        public void onDeleteItem(int position, CartListResponeData responeData);
-        public void onQtyClick(int position, CartListResponeData responeData);
+        public void onDeleteItem(int position, CartData responeData);
+
+        public void onQtyClick(int position, CartData responeData);
     }
 }

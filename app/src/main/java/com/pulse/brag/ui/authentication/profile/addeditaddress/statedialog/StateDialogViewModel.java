@@ -9,6 +9,9 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.view.View;
+
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.ui.core.CoreViewModel;
 
@@ -21,5 +24,14 @@ public class StateDialogViewModel extends CoreViewModel<StateDialogNavigator> {
 
     public StateDialogViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public View.OnClickListener onClose() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onClose();
+            }
+        };
     }
 }

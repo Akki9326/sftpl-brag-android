@@ -11,6 +11,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/base_layout"
         android:layout_marginTop="-25dp"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
@@ -68,6 +69,7 @@
                     android:textSize="@dimen/text_size_very_small_12" />
 
                 <EditText
+                    android:id="@+id/edittext_landmark"
                     style="@style/NormalEditText"
                     android:background="@null"
                     android:hint="@string/hint_landmark"
@@ -94,14 +96,14 @@
                     android:textColor="@color/pink"
                     android:textSize="@dimen/text_size_very_small_12" />
 
-                <TextView
-                    android:id="@+id/textview_city"
+                <EditText
+                    android:id="@+id/edittext_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    style="@style/NormalEditText"
                     android:hint="@string/hint_city_ast"
                     android:maxLength="@integer/max_length"
-                    android:onClick="@{viewModel.onCityClick()}"
                     android:paddingBottom="5dp"
                     android:tag="@string/font_opensans_regular_id"
                     android:textColor="@color/text_black"
@@ -132,8 +134,10 @@
                     android:background="@null"
                     android:hint="@string/hint_state_ast"
                     android:imeOptions="actionNext"
+                    android:text="@{viewModel.state}"
+                    android:tag="@string/font_opensans_regular_id"
                     android:onClick="@{viewModel.onStateClick()}"
-                    android:paddingBottom="5dp"
+                    android:paddingBottom="2dp"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_medium" />
 

@@ -91,7 +91,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
 
-    //List<DummeyDataRespone> mDummeyDataRespones;
     List<DataProductList.Products> mProductList;
     boolean isViewWithCatalog = true;
 

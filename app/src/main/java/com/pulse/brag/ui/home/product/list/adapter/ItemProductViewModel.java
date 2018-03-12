@@ -44,10 +44,10 @@ public class ItemProductViewModel extends BaseObservable {
 
 
     public String getImage() {
-        /*if (mProduct.getImages() != null && mProduct.getImages().size() > 0)
+        if (mProduct.getImages() != null && mProduct.getImages().size() > 0)
             return mProduct.getImages().get(0);
-        else return null;*/
-        return "https://www.dropbox.com/s/wefvp2rsqjv3gxj/black-printed-cage_front.jpg?dl=3";
+        else return null;
+        //return "https://www.dropbox.com/s/wefvp2rsqjv3gxj/black-printed-cage_front.jpg?dl=3";
     }
 
     public String getPrice() {

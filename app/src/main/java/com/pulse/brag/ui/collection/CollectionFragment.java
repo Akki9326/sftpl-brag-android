@@ -95,17 +95,6 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         mFragmentCollectionBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentCollectionBinding.recycleView.setAdapter(mAdapter);
         mFragmentCollectionBinding.recycleView.setNestedScrollingEnabled(false);
-
-        mFragmentCollectionBinding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.pink));
-        mFragmentCollectionBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                checkInternet(false);
-                mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
         checkInternet(true);
     }
 

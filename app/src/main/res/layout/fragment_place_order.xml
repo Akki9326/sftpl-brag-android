@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/text_v_s"
+                            android:text="@{viewModel.fullAddress}"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_very_small_12" />
 
@@ -71,12 +71,12 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/rounder_corner_solid_pink"
+                            android:onClick="@{viewModel.IsAddressAvaliable()?viewModel.onEditAddress():viewModel.onAddAddress()}"
                             android:padding="10dp"
-                            android:onClick="@{viewModel.onEditAddress()}"
-                            android:textSize="@dimen/text_size_very_small_12"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/label_edit_address"
-                            android:textColor="@color/white" />
+                            android:text="@{viewModel.IsAddressAvaliable()?  (@string/label_edit_address):(@string/label_add_address)}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_very_small_12" />
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>

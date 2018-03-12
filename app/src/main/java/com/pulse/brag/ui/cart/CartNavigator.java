@@ -36,4 +36,8 @@ public interface CartNavigator {
     void onSuccessDeleteFromAPI();
 
     void onErrorDeleteFromAPI(ApiError error);
+
+    void onSuccessEditQtyFromAPI();
+
+    void onErrorEditQtyFromAPI(ApiError error);
 }

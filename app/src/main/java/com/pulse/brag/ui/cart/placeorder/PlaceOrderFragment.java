@@ -76,7 +76,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                   /* mPlaceOrderViewModel.getCartData();*/
+                    mPlaceOrderViewModel.getUserProfile();
                 }
             }, 500);
         } else {
@@ -86,12 +86,13 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void onApiSuccess() {
-
+        hideProgress();
     }
 
     @Override
     public void onApiError(ApiError error) {
-
+        hideKeyboard();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
@@ -99,8 +100,18 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
 
     }
+
     @Override
     public void onEditAddress() {
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
+        intent.putExtra(Constants.BUNDLE_ADDRESS, mPlaceOrderViewModel.getUserAddress());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void onAddAddress() {
         Intent intent = new Intent(getActivity(), UserProfileActivity.class);
         intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
         startActivity(intent);
@@ -125,7 +136,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         Utility.applyTypeFace(getBaseActivity(), mFragmentPlaceOrderBinding.baseLayout);
         initializeData();
         showData();
-//        checkInternet();
+        checkInternet();
     }
 
     @Override

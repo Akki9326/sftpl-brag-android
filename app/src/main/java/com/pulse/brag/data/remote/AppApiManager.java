@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
@@ -140,6 +141,11 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
+    public Call<GeneralResponse> updateAddress(UserData userData) {
+        return mApiInterface.updateAddress(userData);
+    }
+
+    @Override
     public Call<RStateList> getStateList(String url) {
         return mApiInterface.getStateList(url);
     }
@@ -147,5 +153,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<GeneralResponse> removeFromCart(String id) {
         return mApiInterface.removeFromCart(id);
+    }
+
+    @Override
+    public Call<LoginResponse> getUserProfile(String s) {
+        return mApiInterface.getUserProfile(s);
     }
 }

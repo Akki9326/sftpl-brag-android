@@ -147,4 +147,16 @@ public class UserData {
     public void setAddresses(List<UserAddress> addresses) {
         this.addresses = addresses;
     }
+
+    public String getFullAddress() {
+        if (getAddresses() != null && !getAddresses().isEmpty()) {
+            UserAddress address = getAddresses().get(0);
+            return address.getAddress() + " " + address.getLandmark() + "\n"
+                    + address.getCity() + "-" + address.getPincode() + "\n"
+                    + address.getState().getText();
+        } else {
+            return "";
+        }
+
+    }
 }

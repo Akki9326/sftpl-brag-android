@@ -83,6 +83,7 @@ public class Constants {
     public static final String BUNDLE_KEY_STATE = "bundlestate";
     public static final String BUNDLE_KEY_STATE_LIST = "bundlestatelist";
     public static final String BUNDLE_NUM_STOCK = "bundlenumstock";
+    public static final String BUNDLE_ADDRESS ="bundleaddress" ;
 
     public interface ApiHelper {
         //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip

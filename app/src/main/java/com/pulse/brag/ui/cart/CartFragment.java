@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.ui.cart.adapter.CartListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentCartBinding;
@@ -55,7 +56,10 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     CartViewModel cartViewModel;
 
     FragmentCartBinding mFragmentCartBinding;
-    CartData mCartItemDelete;
+    CartData mCartItemDeleteData;
+    String mEditQtyItemNo;
+    String mEditQtyItemId;
+    int updateItemQtyNum;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,8 +70,11 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     private void checkInternet() {
         if (Utility.isConnection(getActivity())) {
-            if (!mFragmentCartBinding.swipeRefreshLayout.isRefreshing())
+            //if it is not swipe to refresh
+            if (!mFragmentCartBinding.swipeRefreshLayout.isRefreshing()) {
                 showProgress();
+                cartViewModel.setNoInternet(false);
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -75,8 +82,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                 }
             }, 500);
         } else {
-            hideLoader();
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            //if it is not swipe to refresh
+            if (!mFragmentCartBinding.swipeRefreshLayout.isRefreshing()) {
+                cartViewModel.setNoInternet(true);
+            } else {
+                hideLoader();
+                AlertUtils.showAlertMessage(getActivity(), 0, null);
+            }
         }
     }
 
@@ -89,8 +101,17 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     public void afterViewCreated() {
         mFragmentCartBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentCartBinding.baseLayout);
+        cartViewModel.setNoInternet(false);
         initializeData();
         checkInternet();
+
+        mFragmentCartBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkInternet();
+            }
+        });
+
     }
 
     @Override
@@ -129,19 +150,15 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_QTY && resultCode == 2 && data != null) {
-            int qty = data.getIntExtra(Constants.BUNDLE_QTY, 0);
+            updateItemQtyNum = data.getIntExtra(Constants.BUNDLE_QTY, 0);
             //if old and new qty not same
-            if (qty != mList.get(positionQty).getQuantity()) {
-                showProgress();
-                mAdapter.qtyUpdate(positionQty, qty);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideProgress();
-                        mAdapter.notifyItemChanged(positionQty);
-                        setTotalPrice();
-                    }
-                }, 1000);
+            if (updateItemQtyNum != mList.get(positionQty).getQuantity()) {
+                if (Utility.isConnection(getActivity())) {
+                    showProgress();
+                    cartViewModel.editQty(mEditQtyItemId, mEditQtyItemNo, updateItemQtyNum);
+                } else {
+                    AlertUtils.showAlertMessage(getActivity(), 0, null);
+                }
             }
         }
     }
@@ -152,7 +169,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
         if (Utility.isConnection(getActivity())) {
             showProgress();
-            mCartItemDelete = responeData;
+            mCartItemDeleteData = responeData;
             cartViewModel.removeFromCart(responeData.getItemId());
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
@@ -163,11 +180,11 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     public void onQtyClick(int position, CartData responeData) {
         // TODO: 05-12-2017 limit qty (max)
         positionQty = mList.indexOf(responeData);
+        mEditQtyItemNo = mList.get(positionQty).getItemId();
+        mEditQtyItemId = mList.get(positionQty).getId();
         Bundle bundle = new Bundle();
-//        bundle.putString(Constants.BUNDLE_PRODUCT_NAME, mList.get(positionQty).getProduct_name());
         bundle.putInt(Constants.BUNDLE_QTY, mList.get(positionQty).getQuantity());
-//        bundle.putString(Constants.BUNDLE_PRODUCT_IMG, mList.get(positionQty).getProduct_image());
-        bundle.putInt(Constants.BUNDLE_NUM_STOCK, mList.get(position).getItem().getStockData());
+        bundle.putInt(Constants.BUNDLE_NUM_STOCK, mList.get(positionQty).getItem().getStockData());
         EditQtyDialogFragment dialogFragment = new EditQtyDialogFragment();
         dialogFragment.setTargetFragment(this, REQUEST_QTY);
         dialogFragment.setArguments(bundle);
@@ -221,7 +238,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             @Override
             public void run() {
                 hideProgress();
-                mAdapter.removeItem(mCartItemDelete);
+                mAdapter.removeItem(mCartItemDeleteData);
                 setTotalPrice();
                 if (mAdapter.getItemCount() == 0) {
                     cartViewModel.setListVisibility(false);
@@ -232,6 +249,25 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onErrorDeleteFromAPI(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void onSuccessEditQtyFromAPI() {
+        mAdapter.qtyUpdate(positionQty, updateItemQtyNum);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideProgress();
+                mAdapter.notifyItemChanged(positionQty);
+                setTotalPrice();
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onErrorEditQtyFromAPI(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }

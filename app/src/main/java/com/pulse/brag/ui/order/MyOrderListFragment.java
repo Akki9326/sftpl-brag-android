@@ -27,6 +27,7 @@ import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.data.model.datas.MyOrderListResponeData;
+import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,38 @@ import javax.inject.Inject;
 
 public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, MyOrderViewModel> implements MyOrderNavigator, MyOrderListAdapter.OnItemClick {
 
+    private int ACTION = 0;
+    private static final int LOAD_LIST = 1;
+    private static final int LOAD_MORE = 5;
+    int totalCartItem;
 
-    List<MyOrderListResponeData> mList;
     @Inject
     MyOrderViewModel mMyOrderViewModel;
     FragmentMyOrderBinding mFragmentMyOrderBinding;
+
+    List<MyOrderListResponeData> mList;
+
+    private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
+                        return;
+                    }
+
+                    if (mList.size() != totalCartItem) {
+                        ACTION = LOAD_MORE;
+                        checkInternet(false);
+                    } else {
+                        mFragmentMyOrderBinding.recycleview.loadMoreComplete(true);
+                    }
+                }
+            }, 500);
+        }
+    };
 
 
     @Override
@@ -62,7 +90,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     public void afterViewCreated() {
         mFragmentMyOrderBinding = getViewDataBinding();
         initializeData();
-        checkInternet();
+        checkInternet(true);
 
     }
 
@@ -87,10 +115,10 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
         return R.layout.fragment_my_order;
     }
 
-    private void checkInternet() {
+    private void checkInternet(boolean isShowLoader) {
 
         if (Utility.isConnection(getActivity())) {
-            if (!mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing())
+            if (isShowLoader)
                 showProgress();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -182,7 +210,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void swipeRefresh() {
         mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet();
+        checkInternet(true);
     }
 
     public void hideLoader() {

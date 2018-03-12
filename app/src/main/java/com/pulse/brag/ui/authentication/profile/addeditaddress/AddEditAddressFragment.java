@@ -20,6 +20,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.datas.StateData;
+import com.pulse.brag.data.model.datas.UserAddress;
 import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.databinding.FragmentAddEditAddressBinding;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
@@ -52,6 +53,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     private List<StateData> mStateList;
     StateData selectedState;
     public int REQUEST_STATE = 1;
+    private String mAddressId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +74,21 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
         mStateList = new ArrayList<>();
         Utility.applyTypeFace(getContext(), mAddEditAddressBinding.baseLayout);
 
+        checkInternet();
+
+        if (mAddEditViewModel.getDataManager().getUserData().getAddresses() != null
+                && mAddEditViewModel.getDataManager().getUserData().getAddresses().isEmpty()) {
+            selectedState = new StateData(mAddEditViewModel.getStateId(), mAddEditViewModel.getStateText());
+            mAddressId = mAddEditViewModel.getDataManager().getUserData().getAddresses().get(0).getId();
+        }
+
+
+    }
+
+    private void checkInternet() {
+        if (Utility.isConnection(getActivity())) {
+            mAddEditViewModel.getUserProfile();
+        }
     }
 
     @Override
@@ -108,9 +125,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     }
 
     @Override
-    public void onAddOrUpdateAddress() {
-
-
+    public void onAddAddress() {
         if (Validation.isEmpty(mAddEditAddressBinding.edittextAddress)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_address));
         } else if (Validation.isEmpty(mAddEditAddressBinding.edittextCity)) {
@@ -128,7 +143,33 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             qAddAddress.setPincode(Integer.valueOf(mAddEditAddressBinding.edittextPincode.getText().toString()));
             qAddAddress.setState(selectedState);
             showProgress();
-            mAddEditViewModel.AddorUpdateAddress(qAddAddress);
+            mAddEditViewModel.AddAddress(qAddAddress);
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
+
+    @Override
+    public void onUpdateAddress() {
+        if (Validation.isEmpty(mAddEditAddressBinding.edittextAddress)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_address));
+        } else if (Validation.isEmpty(mAddEditAddressBinding.edittextCity)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_city));
+        } else if (mAddEditAddressBinding.textviewState.getText().toString().isEmpty()) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_state));
+        } else if (Validation.isEmpty(mAddEditAddressBinding.edittextPincode)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_pincode));
+        } else if (Utility.isConnection(getContext())) {
+
+            UserAddress userAddress = new UserAddress();
+            userAddress.setId(mAddressId);
+            userAddress.setAddress(mAddEditAddressBinding.edittextAddress.getText().toString());
+            userAddress.setCity(mAddEditAddressBinding.edittextCity.getText().toString());
+            userAddress.setLandmark(mAddEditAddressBinding.edittextLandmark.getText().toString());
+            userAddress.setPincode(Integer.valueOf(mAddEditAddressBinding.edittextPincode.getText().toString()));
+            userAddress.setState(selectedState);
+            showProgress();
+            mAddEditViewModel.UpdateAddress(userAddress);
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
@@ -136,7 +177,11 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
 
     @Override
     public boolean onEditorActionPincode(TextView textView, int i, KeyEvent keyEvent) {
-        onAddOrUpdateAddress();
+        if (mAddEditViewModel.isAddressAvaliable.get()) {
+            onUpdateAddress();
+        } else {
+            onAddAddress();
+        }
         return false;
     }
 
@@ -170,6 +215,26 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     public void onApiErrorState(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+    }
+
+    @Override
+    public void onApiSuccessUserProfile() {
+        hideProgress();
+        if (mAddEditViewModel.isAddressAvaliable.get()) {
+            UserAddress userAddress = mAddEditViewModel.getUserAddress();
+            mAddEditAddressBinding.edittextAddress.setText(userAddress.getAddress());
+            mAddEditAddressBinding.edittextCity.setText(userAddress.getCity());
+            mAddEditAddressBinding.edittextLandmark.setText(userAddress.getLandmark());
+            mAddEditAddressBinding.edittextPincode.setText(String.valueOf(userAddress.getPincode()));
+            mAddEditAddressBinding.textviewState.setText(userAddress.getState().getText());
+        } else {
+
+        }
+    }
+
+    @Override
+    public void onApiErrorUserProfile(ApiError error) {
+        hideProgress();
     }
 
 

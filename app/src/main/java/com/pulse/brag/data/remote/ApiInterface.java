@@ -10,6 +10,7 @@ package com.pulse.brag.data.remote;
 
 import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
@@ -106,9 +107,15 @@ public interface ApiInterface {
     @POST("user/addAddress")
     Call<GeneralResponse> addAddress(@Body QAddAddress addAddress);
 
+    @POST("user/updateProfile")
+    Call<GeneralResponse> updateAddress(@Body UserData userData);
+
     @GET
     Call<RStateList> getStateList(@Url String url);
 
-    @GET()
+    @GET
     Call<GeneralResponse> removeFromCart(@Url String id);
+
+    @GET
+    Call<LoginResponse> getUserProfile(@Url String s);
 }

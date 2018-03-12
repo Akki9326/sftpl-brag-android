@@ -20,7 +20,7 @@ import com.pulse.brag.ui.more.MoreProvider;
 import com.pulse.brag.ui.notification.NotificationListProvider;
 import com.pulse.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.pulse.brag.ui.notification.handler.NotificationHandlerModule;
-import com.pulse.brag.ui.order.MyOrderFragmentProvider;
+import com.pulse.brag.ui.order.MyOrderProvider;
 import com.pulse.brag.ui.order.orderdetail.OrderDetailFragmentProvider;
 import com.pulse.brag.ui.authentication.profile.UserProfileModule;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
@@ -58,7 +58,7 @@ public abstract class ActivityBuilder {
             , ProductSortingDialogProvider.class, ProductFilterDialogProvider.class
             , OrderDetailFragmentProvider.class
             , PlaceOrderFragmentProvider.class
-            , MyOrderFragmentProvider.class, MoreProvider.class,
+            , MyOrderProvider.class, MoreProvider.class,
             NotificationListProvider.class, CollectionProvider.class,
             WebviewDailogProvider.class})
     abstract MainActivity bindMainActivity();

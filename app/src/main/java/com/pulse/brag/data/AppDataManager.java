@@ -174,6 +174,11 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
+    public Call<GeneralResponse> updateAddress(UserData userData) {
+        return mApiManager.updateAddress(userData);
+    }
+
+    @Override
     public Call<RStateList> getStateList(String url) {
         return mApiManager.getStateList(url);
     }
@@ -181,6 +186,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<GeneralResponse> removeFromCart(String id) {
         return mApiManager.removeFromCart(id);
+    }
+
+    @Override
+    public Call<LoginResponse> getUserProfile(String s) {
+        return mApiManager.getUserProfile(s);
     }
 
     @Override

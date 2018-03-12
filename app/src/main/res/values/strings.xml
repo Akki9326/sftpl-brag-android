@@ -254,6 +254,7 @@
     <string name="label_send_otp_to_mobile">Please type OTP sent to your mobile number.</string>
 
     <string name="label_edit_address">Edit Address</string>
+    <string name="label_add_address">Add Address</string>
     <string name="error_app_not_found">In your device,app not found to open this file.</string>
     <string name="msg_download_complate">Downlaod complete</string>
     <string name="error_download_file">Error in downlaod file</string>

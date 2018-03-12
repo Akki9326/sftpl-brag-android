@@ -14,7 +14,14 @@ import android.view.View;
 
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.UserAddress;
+import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
+
+import okhttp3.Headers;
+import retrofit2.Call;
 
 /**
  * Created by nikhil.vadoliya on 21-02-2018.
@@ -25,7 +32,10 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
 
     ObservableField<String> total = new ObservableField<>();
     ObservableField<String> listSize = new ObservableField<>();
+    ObservableField<String> address = new ObservableField<>();
+    ObservableField<Boolean> isAddressAvaliable = new ObservableField<>();
     String itemsLable;
+    UserAddress userAddress;
 
     public PlaceOrderViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -73,7 +83,7 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         };
     }
 
-    public View.OnClickListener onEditAddress(){
+    public View.OnClickListener onEditAddress() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -82,12 +92,71 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         };
     }
 
-    public View.OnClickListener onPriceLabelClick(){
+    public View.OnClickListener onAddAddress() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onAddAddress();
+            }
+        };
+    }
+
+    public View.OnClickListener onPriceLabelClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 getNavigator().onPriceLabelClick();
             }
         };
+    }
+
+    public void getUserProfile() {
+        Call<LoginResponse> responseCall = getDataManager().getUserProfile("user/getProfile");
+        responseCall.enqueue(new ApiResponse<LoginResponse>() {
+            @Override
+            public void onSuccess(LoginResponse loginResponse, Headers headers) {
+                if (loginResponse.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    setAddress(loginResponse.getData().getFullAddress());
+                    if (loginResponse.getData().getAddresses() == null || loginResponse.getData().getAddresses().isEmpty()) {
+                        setIsAddressAvaliable(false);
+                    } else {
+                        setIsAddressAvaliable(true);
+                        setUserAddress(loginResponse.getData().getAddresses().get(0));
+                    }
+                } else {
+                    getNavigator().onApiError(new ApiError(loginResponse.getErrorCode(), loginResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(new ApiError(t.getHttpCode(), t.getMessage()));
+            }
+        });
+    }
+
+    public ObservableField<String> getFullAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address.set(address);
+    }
+
+    public ObservableField<Boolean> IsAddressAvaliable() {
+        return isAddressAvaliable;
+    }
+
+    public void setIsAddressAvaliable(boolean isAddressAvaliable) {
+        this.isAddressAvaliable.set(isAddressAvaliable);
+    }
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
     }
 }

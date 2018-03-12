@@ -24,7 +24,9 @@ public interface PlaceOrderNavigator {
 
     void onPlaceOrder();
 
-    void  onEditAddress();
+    void onEditAddress();
+
+    void onAddAddress();
 
     void onPriceLabelClick();
 }

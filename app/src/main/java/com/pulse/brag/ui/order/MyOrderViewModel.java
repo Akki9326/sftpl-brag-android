@@ -30,6 +30,7 @@ import retrofit2.Call;
 public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
 
     private final ObservableField<Boolean> visibility = new ObservableField<>();
+    ObservableField<Boolean> noInternet = new ObservableField<>();
 
     public MyOrderViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -76,6 +77,14 @@ public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
         return new int[]{
                 R.color.pink,
         };
+    }
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
     }
 
 }

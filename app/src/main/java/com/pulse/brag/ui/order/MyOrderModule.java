@@ -19,7 +19,7 @@ import dagger.Provides;
  */
 
 @Module
-public class MyOrderFragmentModule {
+public class MyOrderModule {
     @Provides
     MyOrderViewModel provideMyOrderViewModel(IDataManager dataManager) {
         return new MyOrderViewModel(dataManager);

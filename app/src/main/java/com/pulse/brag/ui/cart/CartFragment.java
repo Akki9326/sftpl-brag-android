@@ -55,6 +55,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     CartViewModel cartViewModel;
 
     FragmentCartBinding mFragmentCartBinding;
+    CartData mCartItemDelete;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,19 +149,14 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onDeleteItem(final int position, final CartData responeData) {
-        showProgress();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgress();
-                mAdapter.removeItem(responeData);
-                setTotalPrice();
-                if (mAdapter.getItemCount() == 0) {
-                    cartViewModel.setListVisibility(false);
-                }
 
-            }
-        }, 500);
+        if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mCartItemDelete = responeData;
+            cartViewModel.removeFromCart(responeData.getItemId());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
     }
 
     @Override
@@ -171,7 +167,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 //        bundle.putString(Constants.BUNDLE_PRODUCT_NAME, mList.get(positionQty).getProduct_name());
         bundle.putInt(Constants.BUNDLE_QTY, mList.get(positionQty).getQuantity());
 //        bundle.putString(Constants.BUNDLE_PRODUCT_IMG, mList.get(positionQty).getProduct_image());
-
+        bundle.putInt(Constants.BUNDLE_NUM_STOCK, mList.get(position).getItem().getStockData());
         EditQtyDialogFragment dialogFragment = new EditQtyDialogFragment();
         dialogFragment.setTargetFragment(this, REQUEST_QTY);
         dialogFragment.setArguments(bundle);
@@ -192,8 +188,9 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     @Override
-    public void onPlaceOrderClick() {
+    public void onContinuesClick() {
         ((MainActivity) getActivity()).pushFragments(PlaceOrderFragment.newInstance(mList), true, true);
+
     }
 
     @Override
@@ -210,11 +207,33 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void getCartList(List<CartData> list) {
 
+        mList = new ArrayList<>();
         mList.addAll(list);
         mAdapter = new CartListAdapter(getActivity(), mList, this);
         mFragmentCartBinding.recycleView.setAdapter(mAdapter);
         setTotalPrice();
         cartViewModel.setListVisibility(mList.isEmpty() ? false : true);
+    }
+
+    @Override
+    public void onSuccessDeleteFromAPI() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideProgress();
+                mAdapter.removeItem(mCartItemDelete);
+                setTotalPrice();
+                if (mAdapter.getItemCount() == 0) {
+                    cartViewModel.setListVisibility(false);
+                }
+            }
+        }, 500);
+    }
+
+    @Override
+    public void onErrorDeleteFromAPI(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
 

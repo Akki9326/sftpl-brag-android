@@ -133,4 +133,9 @@ public class AppApiManager implements IApiManager {
     public Call<RStateList> getStateList(String url) {
         return mApiInterface.getStateList(url);
     }
+
+    @Override
+    public Call<GeneralResponse> removeFromCart(String id) {
+        return mApiInterface.removeFromCart(id);
+    }
 }

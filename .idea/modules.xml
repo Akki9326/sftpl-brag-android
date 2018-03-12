@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\Android\Workspaces\Projects\Brag-Android\Brag.iml" filepath="D:\Android\Workspaces\Projects\Brag-Android\Brag.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Brag.iml" filepath="$PROJECT_DIR$/Brag.iml" />
       <module fileurl="file://D:\Alpesh\Android\Workspaces\Projects\Brag-Android\Brag.iml" filepath="D:\Alpesh\Android\Workspaces\Projects\Brag-Android\Brag.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Brag-Android.iml" filepath="$PROJECT_DIR$/Brag-Android.iml" />
+      <module fileurl="file://D:\Android\Workspaces\Projects\Brag-Android\Brag.iml" filepath="D:\Android\Workspaces\Projects\Brag-Android\Brag.iml" />
       <module fileurl="file://D:\Android\Project\Brag\Brag-Android.iml" filepath="D:\Android\Project\Brag\Brag-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

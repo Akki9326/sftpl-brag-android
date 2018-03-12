@@ -627,10 +627,10 @@ public class Utility {
         String rupeessymbol;
         String totalprice = NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(new Integer(price));
         if (totalprice.contains("Rs.")) {
-            rupeessymbol = "\u20B9"+ totalprice.substring(3, totalprice.length()).trim();
+            rupeessymbol = "\u20B9" + totalprice.substring(3, totalprice.length()).trim();
             return rupeessymbol;
         } else {
-            return totalprice.replace(" ","");
+            return totalprice.replace(" ", "");
         }
     }
 
@@ -668,7 +668,7 @@ public class Utility {
         return getBytesToMBString(currentBytes) + "/" + getBytesToMBString(totalBytes);
     }
 
-    private static String getBytesToMBString(long bytes){
+    private static String getBytesToMBString(long bytes) {
         return String.format(Locale.ENGLISH, "%.2fMb", bytes / (1024.00 * 1024.00));
     }
 
@@ -695,8 +695,17 @@ public class Utility {
             }
 
         } else {
-            AlertUtils.showAlertMessage(activity,1,null);
+            AlertUtils.showAlertMessage(activity, 1, null);
         }
     }
 
+
+    public static int numLengthFromInt(int n) {
+        if (n == 0) return 1;
+        int l;
+        n = Math.abs(n);
+        for (l = 0; n > 0; ++l)
+            n /= 10;
+        return l;
+    }
 }

@@ -22,7 +22,7 @@ public interface PlaceOrderNavigator {
 
     void onApiError(ApiError error);
 
-    void onContinueClick();
+    void onPlaceOrder();
 
     void  onEditAddress();
 

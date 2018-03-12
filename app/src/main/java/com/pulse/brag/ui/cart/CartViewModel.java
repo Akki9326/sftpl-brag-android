@@ -17,6 +17,7 @@ import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.ui.core.CoreViewModel;
@@ -62,6 +63,26 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
         });
     }
 
+    public void removeFromCart(String itemId) {
+        Call<GeneralResponse> cartListResponseCall = getDataManager().removeFromCart("item/removeFromCart/" + itemId);
+        cartListResponseCall.enqueue(new ApiResponse<GeneralResponse>() {
+            @Override
+            public void onSuccess(GeneralResponse cartListResponse, Headers headers) {
+                if (cartListResponse.isStatus()) {
+                    getNavigator().onSuccessDeleteFromAPI();
+
+                } else {
+                    getNavigator().onErrorDeleteFromAPI(new ApiError(cartListResponse.getErrorCode(), cartListResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onErrorDeleteFromAPI(t);
+            }
+        });
+    }
+
     public ObservableField<String> getTotalPrice() {
         return total;
     }
@@ -84,11 +105,11 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
     }
 
 
-    public View.OnClickListener onPlaceOrder() {
+    public View.OnClickListener onContinues() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onPlaceOrderClick();
+                getNavigator().onContinuesClick();
             }
         };
     }

@@ -51,6 +51,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
 
 
     int qty;
+    int numProductStock = 0;
     boolean isValidQty;
 
 
@@ -78,8 +79,14 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
     @Override
     public void beforeViewCreated() {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        if (getArguments().containsKey(Constants.BUNDLE_QTY))
-            qty = getArguments().getInt(Constants.BUNDLE_QTY);
+
+        if (getArguments() != null) {
+            if (getArguments().containsKey(Constants.BUNDLE_QTY))
+                qty = getArguments().getInt(Constants.BUNDLE_QTY);
+            if (getArguments().containsKey(Constants.BUNDLE_NUM_STOCK)) {
+                numProductStock = getArguments().getInt(Constants.BUNDLE_NUM_STOCK);
+            }
+        }
     }
 
     @Override
@@ -90,6 +97,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
         Utility.applyTypeFace(getActivity(), mDialogFragmentEditQtyBinding.baseLayout);
 
         mEditQtyDialogViewModel.setQty(qty);
+        mEditQtyDialogViewModel.setAvailableStock(numProductStock);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -98,8 +106,8 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
             }
         }, 200);
 
-        // TODO: 07-12-2017 max length of qty
-        mDialogFragmentEditQtyBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
+        mDialogFragmentEditQtyBinding.edittextQty.setFilters(
+                new InputFilter[]{new InputFilter.LengthFilter(Utility.numLengthFromInt(numProductStock))});
     }
 
     @Override
@@ -150,7 +158,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
                 mDialogFragmentEditQtyBinding.textviewDone.setTextColor(getResources().getColor(R.color.gray_transparent));
                 isValidQty = false;
                 mDialogFragmentEditQtyBinding.textviewDone.setEnabled(false);
-            } else if (new Integer(s.toString()).intValue() > 50) {
+            } else if (new Integer(s.toString()).intValue() > numProductStock) {
                 mDialogFragmentEditQtyBinding.textviewMax.setTextColor(Color.RED);
                 mDialogFragmentEditQtyBinding.textviewDone.setTextColor(getResources().getColor(R.color.gray_transparent));
                 isValidQty = false;

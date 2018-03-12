@@ -95,10 +95,10 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     }
 
     @Override
-    public void onContinueClick() {
+    public void onPlaceOrder() {
         Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
-    }
 
+    }
     @Override
     public void onEditAddress() {
         Intent intent = new Intent(getActivity(), UserProfileActivity.class);

@@ -97,4 +97,7 @@ public interface ApiInterface {
 
     @GET
     Call<RStateList> getStateList(@Url String url);
+
+    @GET()
+    Call<GeneralResponse> removeFromCart(@Url String id);
 }

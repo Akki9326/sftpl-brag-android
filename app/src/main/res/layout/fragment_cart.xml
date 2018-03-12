@@ -113,7 +113,7 @@
 
 
                         <TextView
-                            android:id="@+id/textview_place_order"
+                            android:id="@+id/textview_cpntinues"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
@@ -124,14 +124,14 @@
                             android:background="@drawable/rounder_corner_solid_pink"
                             android:clickable="true"
                             android:gravity="center"
-                            android:onClick="@{viewModel.onPlaceOrder()}"
+                            android:onClick="@{viewModel.onContinues()}"
                             android:paddingBottom="12dp"
                             android:paddingLeft="26dp"
                             android:paddingRight="26dp"
                             android:paddingTop="12dp"
                             android:singleLine="true"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/btn_place_order"
+                            android:text="@string/btn_continues"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_very_small" />
                     </LinearLayout>

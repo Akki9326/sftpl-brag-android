@@ -50,7 +50,7 @@ public class AppDataManager implements IDataManager {
     public AppDataManager(Context mContext, IPreferenceManager mPreferencesHelper, IApiManager mApiManager) {
         this.mContext = mContext;
         this.mPreferencesHelper = mPreferencesHelper;
-        this.mApiManager=mApiManager;
+        this.mApiManager = mApiManager;
     }
 
     @Override
@@ -140,7 +140,7 @@ public class AppDataManager implements IDataManager {
 
     @Override
     public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
-        return mApiManager.notifyMe(productId,color,size);
+        return mApiManager.notifyMe(productId, color, size);
     }
 
     @Override
@@ -166,6 +166,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<RStateList> getStateList(String url) {
         return mApiManager.getStateList(url);
+    }
+
+    @Override
+    public Call<GeneralResponse> removeFromCart(String id) {
+        return mApiManager.removeFromCart(id);
     }
 
     @Override

@@ -64,11 +64,11 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         return itemsLable;
     }
 
-    public View.OnClickListener onContinueClick() {
+    public View.OnClickListener onPlaceOrder() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onContinueClick();
+                getNavigator().onPlaceOrder();
             }
         };
     }

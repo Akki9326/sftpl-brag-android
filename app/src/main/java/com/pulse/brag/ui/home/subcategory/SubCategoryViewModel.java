@@ -64,11 +64,12 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
                     // TODO: 27-02-2018 :onSwiptoRefresh
 //                    getNavigator().OnSuccessPullToRefresh(categoryListResponse.getData());
 
-                    if (categoryListResponse.getData() == null) {
-                        getNavigator().onNoData();
-                    } else {
+                    if (categoryListResponse.getData() != null && categoryListResponse.getData().getCategories() != null && categoryListResponse.getData().getCategories().size() > 0) {
                         getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
+                    } else {
+                        getNavigator().onNoData();
                     }
+
 
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));

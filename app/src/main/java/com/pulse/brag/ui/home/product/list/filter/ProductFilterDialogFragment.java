@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.databinding.DialogFragmentProductFilterBinding;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
@@ -145,10 +146,6 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
 
     }
 
-    @Override
-    public void OnSelectedSize(int pos) {
-
-    }
 
     @Override
     public void dismissFragment() {
@@ -166,6 +163,11 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
         mColorAdapter.resetList(mProductFilterDialogViewModel.buildColorList());
         mSizeAdapter.resetSize(mProductFilterDialogViewModel.buildSizeList());
 
+
+    }
+
+    @Override
+    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
 
     }
 

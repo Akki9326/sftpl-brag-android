@@ -19,9 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.data.model.datas.CollectionListResponeData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,10 @@ import java.util.List;
 public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter.MyViewHolder> {
 
     Activity mActivity;
-    List<CollectionListResponeData> mListResponses;
+    List<CategoryListResponseData.Category> mListResponses;
     IOnItemClickListener mItemClickListener;
 
-    public CollectionListAdapter(Activity activity, List<CollectionListResponeData> mListResponses, IOnItemClickListener mItemClickListener) {
+    public CollectionListAdapter(Activity activity, List<CategoryListResponseData.Category> mListResponses, IOnItemClickListener mItemClickListener) {
         this.mActivity = activity;
         this.mListResponses = new ArrayList<>();
         this.mListResponses = mListResponses;

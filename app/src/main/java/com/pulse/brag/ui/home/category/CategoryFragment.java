@@ -50,7 +50,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     FragmentCategoryBinding mFragmentCategoryBinding;
 
-    List<CategoryListResponseData.CategoryList> mCategoryList;
+    List<CategoryListResponseData.Category> mCategoryList;
     List<ImagePagerResponse> mBannerList;
 
 
@@ -123,6 +123,16 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
     @Override
+    public void onItemClick(int position) {
+        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getOptionName(), mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
+    }
+
+    @Override
+    public void onImagePageClick(int pos, ImagePagerResponse item) {
+        //((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
+    }
+
+    @Override
     public void onApiSuccess() {
         hideProgressBar();
     }
@@ -150,7 +160,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
     @Override
-    public void setCategoryList(List<CategoryListResponseData.CategoryList> list) {
+    public void setCategoryList(List<CategoryListResponseData.Category> list) {
         mCategoryList = new ArrayList<>();
         mCategoryList.addAll(list);
         CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
@@ -160,11 +170,11 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
     @Override
-    public void setBanner(List<CategoryListResponseData.BannerList> list) {
+    public void setBanner(List<CategoryListResponseData.Banners> list) {
         if (list != null && list.size() > 0) {
             categoryViewModel.setIsBannerAvail(true);
             mBannerList = new ArrayList<>();
-            for (CategoryListResponseData.BannerList item : list) {
+            for (CategoryListResponseData.Banners item : list) {
                 mBannerList.add(new ImagePagerResponse(item.getUrl(), item.getId()));
             }
             mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), mBannerList, this));
@@ -175,11 +185,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
 
-    @Override
-    public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
-    }
-
     public void hideProgressBar() {
         if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
             mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
@@ -188,8 +193,5 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         }
     }
 
-    @Override
-    public void onImagePageClick(int pos, ImagePagerResponse item) {
-        //((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
-    }
+
 }

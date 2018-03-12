@@ -19,19 +19,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
-import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.databinding.FragmentProductListBinding;
-import com.pulse.brag.callback.IOnProductButtonClickListener;
 import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.callback.IOnProductButtonClickListener;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
-import com.pulse.brag.data.model.DummeyDataRespone;
-import com.pulse.brag.data.model.requests.AddToCartRequest;
-import com.pulse.brag.data.model.response.ProductListResponse;
+import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.DataProductList;
+import com.pulse.brag.databinding.FragmentProductListBinding;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.home.product.details.ProductDetailFragment;
@@ -50,6 +49,7 @@ import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -87,12 +87,11 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     private int PAGE_NUM = 1;
     private static final int QTY_REQUEST = 1;
 
-    List<ProductListResponse> collectionListRespones;
     ProductListAdapter mProductListAdapter;
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
 
-    List<DummeyDataRespone> mDummeyDataRespones;
+    List<DataProductList.Products> mProductList;
     boolean isViewWithCatalog = true;
 
     int mSelectedQty;
@@ -100,12 +99,51 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     String mTitle;
     int mSorting;
+    DataProductList.Filter mFilter;
+
     boolean mFilterApplied;
     String mFilterColor;
     int mFilterColorPos;
     String mFilterSize;
     int mFilterSizePos;
     boolean isClicked = false;
+
+    String mCategoryName;
+    String mSubCategoryName;
+
+    HashMap<String, String> mColorFilter;
+    HashMap<String, String> mSizeFilter;
+
+    private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+                        return;
+                    }
+
+                    if (mProductList.size() != productListSize) {
+                        ACTION = LOAD_MORE;
+                        checkNetworkConnection(false);
+                    } else {
+                        mFragmentProductListBinding.recycleView.loadMoreComplete(true);
+                    }
+                }
+            }, 500);
+        }
+    };
+
+    public static ProductListFragment newInstance(String categoryId, String subCategoryId) {
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_CATEGORY_NAME, categoryId);
+        args.putString(Constants.BUNDLE_SUB_CATEGORY_NAME, subCategoryId);
+        ProductListFragment fragment = new ProductListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,57 +153,53 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void beforeViewCreated() {
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_CATEGORY_NAME))
+            mCategoryName = getArguments().getString(Constants.BUNDLE_CATEGORY_NAME);
+
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SUB_CATEGORY_NAME))
+            mSubCategoryName = getArguments().getString(Constants.BUNDLE_SUB_CATEGORY_NAME);
+
         if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_PRODUCT_LIST_TITLE))
             mTitle = getArguments().getString(BUNDLE_KEY_PRODUCT_LIST_TITLE);
         else
-            mTitle = getString(R.string.toolbar_label_productlist);
+            mTitle = mSubCategoryName == null ? getString(R.string.toolbar_label_productlist) : mSubCategoryName;
 
-        collectionListRespones = new ArrayList<>();
-        mDummeyDataRespones = new ArrayList<>();
-        mSorting = Constants.ProductSorting.POPULARITY.ordinal();
+
+        mSorting = Constants.SortBy.PRICE_ASC.ordinal();
+        mFilter = null;
         mFilterApplied = false;
-        mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mDummeyDataRespones);
+
+        mProductList = new ArrayList<>();
+        mColorFilter = new HashMap<>();
+        mSizeFilter = new HashMap<>();
     }
 
     @Override
     public void afterViewCreated() {
         mFragmentProductListBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentProductListBinding.baseLayout);
-
         Utility.hideSoftkeyboard(getActivity());
+
+        mProductListViewModel.setNoResult(false);
+        mProductListViewModel.setNoInternet(false);
+
+        mFragmentProductListBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkNetworkConnection(true);
+            }
+        });
+
+
         mFragmentProductListBinding.recycleView.setLayoutManager(mLayoutManager);
         mFragmentProductListBinding.recycleView.setHasFixedSize(true);
         mFragmentProductListBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentProductListBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 20, false));
         mFragmentProductListBinding.recycleView.loadMoreComplete(true);
         mFragmentProductListBinding.recycleView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
-        mFragmentProductListBinding.recycleView.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
-                            return;
-                        }
-
-                        if (mDummeyDataRespones.size() != productListSize) {
-                            ACTION = LOAD_MORE;
-                            checkNetworkConnection(false);
-                        } else {
-                            mFragmentProductListBinding.recycleView.loadMoreComplete(true);
-                        }
-                    }
-                }, 500);
-            }
-        });
-        mFragmentProductListBinding.recycleView.setPageSize(3);
-        mFragmentProductListBinding.recycleView.setNestedScrollingEnabled(false);
-        mFragmentProductListBinding.recycleView.setAdapter(mProductListAdapter);
+        mFragmentProductListBinding.recycleView.setOnLoadMoreListener(mOnLoadMoreListener);
 
         ACTION = LOAD_LIST;
-
         checkNetworkConnection(true);
     }
 
@@ -203,19 +237,24 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     private void checkNetworkConnection(boolean isShowLoader) {
 
         if (Utility.isConnection(getActivity())) {
-
+            mProductListViewModel.setNoInternet(false);
             if (ACTION == LOAD_MORE) {
                 PAGE_NUM++;
             }
             if (isShowLoader)
                 showProgress();
-            mProductListViewModel.getProductList(getBaseActivity(), PAGE_NUM);
+            mProductListViewModel.getProductList(PAGE_NUM, mCategoryName, mSubCategoryName, mSorting, mFilter);
         } else {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mProductListViewModel.setNoInternet(true);
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(getActivity(), 0, null);
+                    break;
+            }
             mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
-            //mProductListViewModel.setSwipeLoading(false);
             mFragmentProductListBinding.recycleView.loadMoreComplete(false);
-            //Utility.showAlertMessage(getActivity(), 0, null);
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
 
@@ -224,7 +263,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onItemClick(int position) {
         if (!isClicked) {
             isClicked = true;
-            ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mDummeyDataRespones.get(position)), true, true);
+            ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mProductList.get(position)), true, true);
             enabledClick();
         }
     }
@@ -242,7 +281,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void OnCartClick(int position) {
         if (!isClicked) {
             isClicked = true;
-            ((MainActivity) getBaseActivity()).addToCartAPI(new AddToCartRequest());
+            ((MainActivity) getBaseActivity()).addToCartAPI(0);
             enabledClick();
         }
     }
@@ -250,7 +289,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     private void openDialogFragment(int position) {
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mDummeyDataRespones.get(position));
+        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mProductList.get(position));
         AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
         mAddProductDialogFragment.setCancelable(true);
         mAddProductDialogFragment.setArguments(bundle);
@@ -262,25 +301,10 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         mColorListAdapter.setSelectorItem(pos);
     }
 
+
     @Override
-    public void OnSelectedSize(int pos) {
+    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
         mSizeListAdapter.setSelectedItem(pos);
-
-    }
-
-
-    private void swithcher() {
-        int position;
-        if (mProductListAdapter.getItemViewType(0) == 0) {
-            position = ((LinearLayoutManager) mFragmentProductListBinding.recycleView.getLayoutManager()).findFirstVisibleItemPosition();
-        } else {
-            position = ((GridLayoutManager) mFragmentProductListBinding.recycleView.getLayoutManager()).findFirstVisibleItemPosition();
-        }
-        boolean isSwitched = mProductListAdapter.toggleItemViewType();
-        mFragmentProductListBinding.recycleView.setLayoutManager(isSwitched ? new LinearLayoutManager(getActivity()) : new GridLayoutManager(getActivity(), 2));
-        mProductListAdapter.notifyDataSetChanged();
-        mFragmentProductListBinding.recycleView.scrollToPosition(position);
-
     }
 
     @Override
@@ -298,86 +322,24 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+
         if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
             mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    @Override
-    public void sort() {
-        //swithcher();
-        if (!isClicked) {
-            isClicked = true;
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
-            ProductSortingDialogFragment productSortingDialogFragment = new ProductSortingDialogFragment();
-            productSortingDialogFragment.setCancelable(true);
-            productSortingDialogFragment.setArguments(bundle);
-            productSortingDialogFragment.show(getChildFragmentManager(), "");
-            enabledClick();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mProductListViewModel.setNoInternet(true);
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(getActivity(), 0, null);
+                    break;
+            }
+            return;
         }
-    }
+        mProductListViewModel.setNoInternet(false);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
 
-    @Override
-    public void filter() {
-        if (!isClicked) {
-            isClicked = true;
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(Constants.BUNDLE_PRODUCT_FILTER_APPLIED, mFilterApplied);
-            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_COLOR, mFilterColorPos);
-            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_SIZE, mFilterSizePos);
-            ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
-            productFilterDialogFragment.setCancelable(true);
-            productFilterDialogFragment.setArguments(bundle);
-            productFilterDialogFragment.show(getChildFragmentManager(), "");
-            enabledClick();
-        }
-    }
-
-    @Override
-    public void showList(int size, List<DummeyDataRespone> dataList) {
-        switch (ACTION) {
-            case LOAD_LIST:
-
-                productListSize = 0;
-                productListSize = size;
-                mDummeyDataRespones.clear();
-
-                mDummeyDataRespones.add(new DummeyDataRespone(0,
-                        "Classic Pullover T-shirt Bralette - Black Solid body with Black trims",
-                        "",
-                        "http://cdn.shopify.com/s/files/1/1629/9535/products/Chandini_SLIDE_Pattern_B_BRAG-Optical59961_large.jpg?v=1516609967"));
-
-                mDummeyDataRespones.add(new DummeyDataRespone(0,
-                        "Classic Pullover T-shirt Bralette - White with Black Print & Black trims",
-                        "",
-                        "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG-Optical60283_large.jpg?v=1516609966"));
-
-                mDummeyDataRespones.add(new DummeyDataRespone(0,
-                        "Classic Pullover T-shirt Bralette - White with Black Print & Black trims",
-                        "",
-                        "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG-Optical59472_large.jpg?v=1516609967"));
-
-
-                mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mDummeyDataRespones);
-                mFragmentProductListBinding.recycleView.setPageSize(3);
-                mFragmentProductListBinding.recycleView.setAdapter(mProductListAdapter);
-                mFragmentProductListBinding.recycleView.setNestedScrollingEnabled(false);
-                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
-                //mProductListViewModel.setSwipeLoading(false);
-                break;
-            case LOAD_MORE:
-
-                mDummeyDataRespones.addAll(dataList);
-                mProductListAdapter.notifyDataSetChanged();
-                mFragmentProductListBinding.recycleView.loadMoreComplete(false);
-
-                /*to solved issue of move to bottom when load more*/
-                //mFragmentProductListBinding.recycleView.scrollToPosition(mProductListAdapter.getItemCount()-1);
-
-                break;
-        }
     }
 
     @Override
@@ -394,8 +356,84 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     }
 
     @Override
+    public void onNoData() {
+        switch (ACTION) {
+            case LOAD_LIST:
+                mProductListViewModel.setNoResult(true);
+                break;
+            case LOAD_MORE:
+                mProductListViewModel.setNoResult(false);
+                break;
+        }
+    }
+
+    @Override
+    public void setProductList(int size, List<DataProductList.Products> dataList) {
+        mProductListViewModel.setNoResult(false);
+        switch (ACTION) {
+            case LOAD_LIST:
+                productListSize = size;
+                mProductList.clear();
+                mProductList = dataList;
+
+                mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mProductList);
+                mFragmentProductListBinding.recycleView.setPageSize(20);
+                mFragmentProductListBinding.recycleView.setAdapter(mProductListAdapter);
+                mFragmentProductListBinding.recycleView.setNestedScrollingEnabled(false);
+                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+                if (size <= 20)
+                    mFragmentProductListBinding.recycleView.setIsLoadingMore(false);
+                break;
+            case LOAD_MORE:
+                mProductListAdapter.addList(dataList);
+                mFragmentProductListBinding.recycleView.loadMoreComplete(false);
+                break;
+        }
+    }
+
+    @Override
+    public void setFilter(DataProductList.Filter filter) {
+        this.mFilter = filter;
+    }
+
+    @Override
+    public void openSortDialog() {
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
+            ProductSortingDialogFragment productSortingDialogFragment = new ProductSortingDialogFragment();
+            productSortingDialogFragment.setCancelable(true);
+            productSortingDialogFragment.setArguments(bundle);
+            productSortingDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
+    }
+
+    @Override
+    public void openFilter() {
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(Constants.BUNDLE_PRODUCT_FILTER_APPLIED, mFilterApplied);
+            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_COLOR, mFilterColorPos);
+            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_SIZE, mFilterSizePos);
+            ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
+            productFilterDialogFragment.setCancelable(true);
+            productFilterDialogFragment.setArguments(bundle);
+            productFilterDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
+    }
+
+    @Override
     public void onSort(int type) {
         mSorting = type;
+
+        ACTION = LOAD_LIST;
+        PAGE_NUM = 1;
+        mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+        checkNetworkConnection(true);
     }
 
     @Override
@@ -406,4 +444,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         mFilterSize = size;
         mFilterSizePos = sizePos;
     }
+
+
 }

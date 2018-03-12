@@ -39,6 +39,9 @@ import com.pulse.brag.utils.Utility;
 
 import javax.inject.Inject;
 
+import static com.pulse.brag.utils.Constants.OTPValidationIsFrom.CHANGE_MOBILE;
+import static com.pulse.brag.utils.Constants.OTPValidationIsFrom.FORGET_PASS;
+
 /**
  * Created by nikhil.vadoliya on 08-11-2017.
  */
@@ -51,22 +54,30 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     FragmentOtpBinding mFragmentOtpBinding;
 
     String mobileNum;
-    String emailAddress;
+    String password;
 
     //is from signup or forget pass
     int isFromScreen;
 
-    public static OTPFragment newInstance(String mobilenum, String email, int isFromScreen) {
-
+    public static OTPFragment newInstance(String mobilenum, int isFromScreen) {
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_MOBILE, mobilenum);
-        args.putString(Constants.BUNDLE_EMAIL, email);
         args.putInt(Constants.BUNDLE_IS_FROM_SIGNUP, isFromScreen);
         OTPFragment fragment = new OTPFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
+    public static OTPFragment newInstanceForChangeMobile(String newMobileNumber, String password, int isFromScreen) {
+
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_MOBILE, newMobileNumber);
+        args.putInt(Constants.BUNDLE_IS_FROM_SIGNUP, isFromScreen);
+        args.putString(Constants.BUNDLE_PASSWORD, password);
+        OTPFragment fragment = new OTPFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,8 +89,11 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     @Override
     public void beforeViewCreated() {
         mobileNum = getArguments().getString(Constants.BUNDLE_MOBILE);
-        emailAddress = getArguments().getString(Constants.BUNDLE_EMAIL);
         isFromScreen = getArguments().getInt(Constants.BUNDLE_IS_FROM_SIGNUP);
+
+        if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
+            password = getArguments().getString(Constants.BUNDLE_PASSWORD);
+
     }
 
     @Override
@@ -97,7 +111,8 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
 
     @Override
     public void setUpToolbar() {
-
+        if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
+            ((UserProfileActivity) getActivity()).showToolBar(getString(R.string.label_title_verify_otp));
     }
 
     @Override
@@ -116,7 +131,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     }
 
 
-    private void showAlertMessage(String message) {
+   /* private void showAlertMessage(String message) {
         try {
 
             final Dialog alertDialog = new Dialog(getActivity());
@@ -141,7 +156,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
     public void onApiSuccess() {
@@ -160,7 +175,12 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_otp));
         } else if (Utility.isConnection(getActivity())) {
             showProgress();
-            mOTPViewModel.verifyOtp(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
+            if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
+                mOTPViewModel.verifyOtpForChangeMob(mobileNum, password, mFragmentOtpBinding.pinView.getText().toString());
+            else if ((Constants.OTPValidationIsFrom.values()[isFromScreen] == FORGET_PASS))
+                mOTPViewModel.verifyOtpForForgotPass(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
+            else
+                mOTPViewModel.verifyOtp(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
@@ -186,13 +206,6 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
         return false;
     }
 
-
-
-    /*@Override
-    public void pushChangeMobileFragment() {
-        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(mobileNum)
-                , true, true, "");
-    }*/
 
     @Override
     public void finishUserProfileActivity() {

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.databinding.ItemGridProductBinding;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.callback.IOnProductButtonClickListener;
@@ -32,7 +33,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 
     Context mContext;
-    List<DummeyDataRespone> mListRespones;
+    List<DataProductList.Products> mListRespones;
     private IOnItemClickListener mOnItemClickListener;
     private IOnProductButtonClickListener mAddButtonClickListener;
 
@@ -41,7 +42,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     boolean isSwitchView = true;
 
 
-    public ProductListAdapter(Context mContext, IOnItemClickListener mOnItemClickListener, IOnProductButtonClickListener mAddButtonClickListener, List<DummeyDataRespone> mListRespones) {
+    public ProductListAdapter(Context mContext, IOnItemClickListener mOnItemClickListener, IOnProductButtonClickListener mAddButtonClickListener, List<DataProductList.Products> mListRespones) {
         this.mContext = mContext;
         this.mOnItemClickListener = mOnItemClickListener;
         this.mListRespones = new ArrayList<>();
@@ -54,53 +55,27 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemGridProductBinding itemGridProductBinding = ItemGridProductBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new MyViewHolder(itemGridProductBinding);
-
-        /*View view;
-        ItemViewHolder viewHolder1;
-        view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
-        viewHolder1 = new ItemViewHolder(view);
-        return viewHolder1;*/
-
-//        if (viewType == LIST_ITEM) {
-//            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_product, null);
-//        } else {
-//            view = LayoutInflater.from(mContext).inflate(R.layout.item_grid_product, null);
-//        }
-//        return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.bindProduct(position, mListRespones.get(position));
-
-        /*DummeyDataRespone data = mListRespones.get(position);
-
-        Utility.applyTypeFace(mContext, holder.mLinearLayout);
-        Utility.imageSet(mContext, data.getAvatar(), holder.mImageView);
-        holder.mTxtProdName.setText(data.getFirst_name() + " " + data.getLast_name());
-        holder.mTxtProdPrice.setText("Rs 500.00");
-//        holder.mTxtProdPrice.setText(data.getPriceWithSym(mContext));
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mOnItemClickListener.onItemClick(position);
-            }
-        });
-
-        holder.mLinerAdd.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                mAddButtonClickListener.OnAddListener(position);
-
-            }
-        });*/
     }
-
 
     @Override
     public int getItemCount() {
         return mListRespones.size();
+    }
+
+    public void reset() {
+        if (mListRespones != null)
+            mListRespones.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addList(List<DataProductList.Products> dataList) {
+        mListRespones.addAll(dataList);
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends CoreViewHolder implements ItemProductViewModel.ItemProductViewModelListener {
@@ -113,24 +88,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             Utility.applyTypeFace(mContext, mItemProductBinding.baseLayout);
         }
 
-        /*View mView;
-        ImageView mImageView;
-        TextView mTxtProdName, mTxtProdPrice;
-        LinearLayout mLinearLayout;
-        LinearLayout mLinerAdd;
 
-        public ItemViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-
-            mImageView = (ImageView) itemView.findViewById(R.id.imageView_product);
-            mTxtProdName = (TextView) itemView.findViewById(R.id.textview_product_name);
-            mTxtProdPrice = (TextView) itemView.findViewById(R.id.textView_price);
-            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.base_layout);
-            mLinerAdd = (LinearLayout) itemView.findViewById(R.id.linear_add);
-        }*/
-
-        void bindProduct(int posistion, DummeyDataRespone product) {
+        void bindProduct(int posistion, DataProductList.Products product) {
             if (mItemProductBinding.getViewModel() == null) {
                 mItemProductBinding.setViewModel(new ItemProductViewModel(itemView.getContext(), product, posistion, this));
                 mItemProductBinding.executePendingBindings();
@@ -145,17 +104,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         }
 
         @Override
-        public void OnAddClick(int position, DummeyDataRespone product) {
+        public void OnAddClick(int position, DataProductList.Products product) {
             mAddButtonClickListener.OnAddListener(position);
         }
 
         @Override
-        public void OnCartClick(int position, DummeyDataRespone product) {
+        public void OnCartClick(int position, DataProductList.Products product) {
             mAddButtonClickListener.OnCartClick(position);
         }
 
         @Override
-        public void OnListItemClick(int position, DummeyDataRespone product) {
+        public void OnListItemClick(int position, DataProductList.Products product) {
             mOnItemClickListener.onItemClick(position);
         }
     }

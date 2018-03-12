@@ -8,6 +8,7 @@ package com.pulse.brag.ui.home.product.details;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -15,16 +16,16 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Html;
 import android.widget.RelativeLayout;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.DummeyDataRespone;
-import com.pulse.brag.data.model.requests.AddToCartRequest;
+import com.pulse.brag.data.model.datas.DataAddToCart;
+import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
 import com.pulse.brag.databinding.FragmentProductDetailBinding;
 import com.pulse.brag.ui.core.CoreFragment;
@@ -36,9 +37,9 @@ import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.views.FullScreenImageDialogFragment;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
-import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.views.webview.WebviewDialogFragment;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,15 +66,14 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
-    //ProductDetailImagePagerAdapter mDetailImagePagerAdapter;
-    List<String> mIntegerList;
-    List<String> mStringList;
+    DataProductList.Products mProductDetails;
+    DataProductList.Size mProduct;
+
     List<ImagePagerResponse> imagePagerResponeList;
     int mQuality;
 
 
-    public static ProductDetailFragment newInstance(DummeyDataRespone dataRespone) {
-
+    public static ProductDetailFragment newInstance(DataProductList.Products dataRespone) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, dataRespone);
         ProductDetailFragment fragment = new ProductDetailFragment();
@@ -89,8 +89,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void beforeViewCreated() {
-        mIntegerList = new ArrayList<>();
-        mStringList = new ArrayList<>();
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
+            mProductDetails = null;
+            mProductDetails = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
+        }
+        imagePagerResponeList = new ArrayList<>();
     }
 
     @Override
@@ -103,15 +106,32 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mFragmentProductDetailBinding.recycleViewSize.setHasFixedSize(true);
         mFragmentProductDetailBinding.recycleViewSize.setLayoutManager(mSizeLayoutManager);
 
-        mProductDetailViewModel.updateQty(String.valueOf(1));
-        //mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
-        mQuality = 1;
+        if (mProductDetails != null) {
+            List<String> colorList = new ArrayList<>();
+            colorList.add("#000000");
+            mColorListAdapter = new ColorListAdapter(getActivity(), colorList, 0, this);
+            mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
+            mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
 
-        mProductDetailViewModel.updateProductName(getString(R.string.text_s));
-        mProductDetailViewModel.updateProductProShortDetail(getString(R.string.text_s));
-        mProductDetailViewModel.updateNotifyMe(false);
 
-        showData();
+            List<DataProductList.Size> sizeList = new ArrayList<>();
+            int pos = 0;
+            int selectedPos = 0;
+            for (DataProductList.Size size : mProductDetails.getSizes()) {
+                if (size.isIsDefault()) {
+                    selectedPos = pos;
+                    mProduct = size;
+                }
+                pos++;
+                sizeList.add(size);
+            }
+
+            mSizeListAdapter = new SizeListAdapter(getActivity(), sizeList, selectedPos, this);
+            mFragmentProductDetailBinding.recycleViewSize.setAdapter(mSizeListAdapter);
+            mFragmentProductDetailBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
+
+            showData(mProduct.getDescription(), mProduct.getDescription2(), mProduct.getStockData(), mProduct.getUnitPrice(), mProduct.getImages());
+        }
     }
 
     @Override
@@ -135,51 +155,26 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
 
-    public void showData() {
-        imagePagerResponeList = new ArrayList<>();
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/files/tripper-collection-landing-banner.jpg?17997587327459325", "CLASSIC BIKINI"));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/IMG_9739_grande.jpg?v=1499673727", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/neon-post-classic_grande.jpg?v=1492607080", ""));
-        imagePagerResponeList.add(new ImagePagerResponse("http://cdn.shopify.com/s/files/1/1629/9535/articles/Banner-image_grande.jpg?v=1494221088", ""));
+    public void showData(String description, String description2, int stockData, double unitPrice, List<String> bannerImages) {
 
-        /*mDetailImagePagerAdapter = new ProductDetailImagePagerAdapter(getActivity(), imagePagerResponeList, this);
-        mFragmentProductDetailBinding.viewPager.setAdapter(mDetailImagePagerAdapter);*/
+        if (stockData > 0) {
+            mProductDetailViewModel.updateQty(String.valueOf(1));
+            mQuality = 1;
+        }
+        mProductDetailViewModel.updateProductProDetail(description);
+        mProductDetailViewModel.updateProductProShortDetail(description2);
+        mProductDetailViewModel.updateNotifyMe(stockData <= 0);
+        mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencyPriceFormat(unitPrice));
+
+        imagePagerResponeList.clear();
+        for (String url : bannerImages) {
+            imagePagerResponeList.add(new ImagePagerResponse(url, ""));
+        }
+
         mFragmentProductDetailBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
         mFragmentProductDetailBinding.pagerIndicator.setViewPager(mFragmentProductDetailBinding.viewPager);
 
 
-        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
-            DummeyDataRespone dataRespone = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
-            mProductDetailViewModel.updateProductName(dataRespone.getFirst_name());
-        }
-        mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencyPriceFormat(500));
-
-        String mShortDetail = " Lucille Curtis |Juana Hanson |Lila Flores |Kevin Rodriguez |Ebony Norman |Celia Rodriquez |Jake Morales |Jane Farmer |Willie tRivera |Freeman";
-        mProductDetailViewModel.updateProductProShortDetail(Html.fromHtml(Utility.getTextWithBullet(mShortDetail)).toString());
-
-
-        mIntegerList.add("#000000");
-
-        mColorListAdapter = new ColorListAdapter(getActivity(), mIntegerList, 0, this);
-        mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
-        mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
-
-
-        List<String> mStringList = new ArrayList<>();
-        mStringList.add("XS");
-        mStringList.add("S");
-        mStringList.add("M");
-        mStringList.add("L");
-        //mStringList.add("X");
-        //mStringList.add("XL");
-        //mStringList.add("XXL");
-        //mStringList.add("XXL");
-
-        mSizeListAdapter = new SizeListAdapter(getActivity(), mStringList, 0, this);
-        mFragmentProductDetailBinding.recycleViewSize.setAdapter(mSizeListAdapter);
-        mFragmentProductDetailBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
     }
 
     private void pushSizeGuideFragment() {
@@ -196,16 +191,17 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
 
     @Override
-    public void OnSelectedSize(int pos) {
-        mSizeListAdapter.setSelectedItem(pos);
-        mProductDetailViewModel.updateNotifyMe(false);
+    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
+        if (prevPos != pos) {
+            mSizeListAdapter.setSelectedItem(pos);
+            mProduct = item;
+            showData(item.getDescription(), item.getDescription2(), item.getStockData(), item.getUnitPrice(), item.getImages());
+        }
     }
 
     @Override
     public void onSeleteColor(int pos) {
         mColorListAdapter.setSelectorItem(pos);
-        mProductDetailViewModel.updateNotifyMe(true);
-
     }
 
     @Override
@@ -227,8 +223,12 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void plus() {
-        mQuality++;
-        mProductDetailViewModel.updateQty(String.valueOf(mQuality));
+        if (mQuality < mProduct.getStockData()) {
+            mQuality++;
+            mProductDetailViewModel.updateQty(String.valueOf(mQuality));
+        } else {
+            // TODO: 3/9/2018 display toast no qty available
+        }
     }
 
     @Override
@@ -242,12 +242,21 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void addToCart() {
-        ((MainActivity) getBaseActivity()).addToCartAPI(new AddToCartRequest());
+        if (Utility.isConnection(getActivity())) {
+            mProductDetailViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()));
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+        }
+    }
+
+    @Override
+    public void onAddedToCart(List<DataAddToCart> data) {
+        ((MainActivity) getBaseActivity()).addToCartAPI(data.size());
     }
 
     @Override
     public void notifyMe() {
-        // TODO: 2/20/2018 check for new parameter
+        // TODO: 2/20/2018 check for new parameter && internet check
         mProductDetailViewModel.notifyMe("", "", "");
     }
 

@@ -26,7 +26,6 @@ import com.pulse.brag.databinding.FragmentChangeMobileNumBinding;
 import com.pulse.brag.ui.authentication.otp.OTPFragment;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
-import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -97,7 +96,7 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
         super.onPermissionGranted(request);
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
             showProgress();
-            mChangeMobNumberViewModel.sendOtpForMobileNoChange(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+            mChangeMobNumberViewModel.sendOtpForChangeMob(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
                     , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
         }
     }
@@ -107,7 +106,7 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
         super.onPermissionDenied(request);
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
             showProgress();
-            mChangeMobNumberViewModel.sendOtpForMobileNoChange(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+            mChangeMobNumberViewModel.sendOtpForChangeMob(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
                     , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
         }
     }
@@ -159,7 +158,7 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
             // TODO: 2/26/2018 Add sms permission
             if (checkAndRequestPermissions()) {
                 showProgress();
-                mChangeMobNumberViewModel.sendOtpForMobileNoChange(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+                mChangeMobNumberViewModel.sendOtpForChangeMob(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
                         , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
             }
         } else {
@@ -191,8 +190,8 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
 
     @Override
     public void pushOTPFragment() {
-        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstance(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString(),
-                "email@email.com", Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
+        ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstanceForChangeMobile(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString(),
+                mFragmentChangeMobileNumBinding.edittextPassword.getText().toString(), Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
                 true, true, "OTP_frag");
     }
 

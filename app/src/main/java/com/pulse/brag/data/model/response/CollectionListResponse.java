@@ -1,6 +1,5 @@
 package com.pulse.brag.data.model.response;
 
-
 /**
  * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
  * This software is the confidential and proprietary information
@@ -9,6 +8,7 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.data.model.datas.CategoryListResponseData;
 import com.pulse.brag.data.model.datas.CollectionListResponeData;
 
 import java.util.List;
@@ -19,10 +19,11 @@ import java.util.List;
 
 
 public class CollectionListResponse {
+
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<CollectionListResponeData> data;
+    private CollectionListResponeData data;
 
     public boolean isStatus() {
         return status;
@@ -48,11 +49,11 @@ public class CollectionListResponse {
         this.message = message;
     }
 
-    public List<CollectionListResponeData> getData() {
+    public CollectionListResponeData getData() {
         return data;
     }
 
-    public void setData(List<CollectionListResponeData> data) {
+    public void setData(CollectionListResponeData data) {
         this.data = data;
     }
 }

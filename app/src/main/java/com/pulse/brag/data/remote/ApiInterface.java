@@ -14,6 +14,10 @@ import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
 import com.pulse.brag.data.model.requests.QAddAddress;
+import com.pulse.brag.data.model.requests.QAddToCart;
+import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QProductList;
+import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.SignInRequest;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
@@ -24,12 +28,16 @@ import com.pulse.brag.data.model.response.MyOrderListRespone;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.RStateList;
+import com.pulse.brag.data.model.response.RAddToCart;
+import com.pulse.brag.data.model.response.RProductList;
+import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -40,9 +48,6 @@ import retrofit2.http.Url;
 
 public interface ApiInterface {
 
-
-    @GET("users")
-    Call<DummeyRespone> getProductionList(@Query("pages") int page);
 
     @POST("login")
     Call<LoginResponse> userLogin(@Body LoginRequest loginRequest);
@@ -69,7 +74,7 @@ public interface ApiInterface {
     Call<GeneralResponse> logoutCall();
 
     @POST("generateOTPForMobileChange")
-    Call<GeneralResponse> generateOTPForMobileChange(@Body ChangeMobileNumberRequest changeMobileNumberRequest);
+    Call<GeneralResponse> generateOTPForMobileChange(@Body QGenerateOtpForChangeMobile generateOtpForChangeMobile);
 
     @POST("changeMobileNumber")
     Call<GeneralResponse> changeMobileNum(@Body ChangeMobileNumberRequest changeMobileNumberRequest);
@@ -77,8 +82,14 @@ public interface ApiInterface {
     @GET
     Call<CategoryListResponse> getCategoryProduct(@Url String url);
 
+    @POST("item/list/{pages}")
+    Call<RProductList> getProductionList(@Path("pages") int page, @Body QProductList body);
+
     @GET
     Call<CollectionListResponse> getCollectionProduct(@Url String url);
+
+    @POST("item/addToCart")
+    Call<RAddToCart> addToCart(@Body QAddToCart addToCart);
 
     @GET("notifyMe")
     Call<GeneralResponse> notifyMe(String productId, String color, String size);

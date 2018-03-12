@@ -64,8 +64,23 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         return isBannerAvail;
     }
 
-    public void setIsBannerAvail(boolean isBannerAvail){
+    public void setIsBannerAvail(boolean isBannerAvail) {
         this.isBannerAvail.set(isBannerAvail);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().swipeRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
     }
 
     public void getCategoryData() {
@@ -93,19 +108,5 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         });
     }
 
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getNavigator().swipeRefresh();
-            }
-        };
-    }
-
-    public int[] getColorSchemeResources() {
-        return new int[]{
-                R.color.pink,
-        };
-    }
 
 }

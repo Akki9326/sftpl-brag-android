@@ -73,12 +73,12 @@
             android:screenOrientation="portrait" />
         <activity android:name=".Dummey">
 
-            <!-- <intent-filter> -->
+            <!-- <intopenFilterlter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            <!-- </intopenFilterlter> -->
         </activity>
     </application>
 

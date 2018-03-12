@@ -9,15 +9,27 @@ package com.pulse.brag.data.model.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.support.annotation.NonNull;
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 16-01-2018.
  */
 
 
-public class CollectionListResponeData implements Comparable<CollectionListResponeData> {
-    private String id;
+public class CollectionListResponeData {
+    private List<CategoryListResponseData.Category> categories;
+    private List<CategoryListResponseData.Banners> banners;
+
+
+    public List<CategoryListResponseData.Category> getCategories() {
+        return categories;
+    }
+
+    public List<CategoryListResponseData.Banners> getBanners() {
+        return banners;
+    }
+
+    /* private String id;
     private String optionName;
     private String url;
     private int optionOrderNo;
@@ -63,5 +75,5 @@ public class CollectionListResponeData implements Comparable<CollectionListRespo
         } else {
             return 0;
         }
-    }
+    }*/
 }

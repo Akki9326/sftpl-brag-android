@@ -17,9 +17,11 @@ package com.pulse.brag.data.model.requests;
 public class ChangeMobileNumberRequest {
     private String mobileNumber;
     private String password;
+    private String otp;
 
-    public ChangeMobileNumberRequest(String mobileNumber, String password) {
+    public ChangeMobileNumberRequest(String mobileNumber, String password, String otp) {
         this.mobileNumber = mobileNumber;
         this.password = password;
+        this.otp = otp;
     }
 }

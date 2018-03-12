@@ -1,8 +1,12 @@
 package com.pulse.brag.data.model.datas;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +21,9 @@ public class DataProductList {
     @SerializedName("objects")
     @Expose
     private List<Products> objects = null;
+    @SerializedName("filter")
+    @Expose
+    private Filter filter;
     @SerializedName("count")
     @Expose
     private int count;
@@ -35,6 +42,13 @@ public class DataProductList {
     @SerializedName("orderBy")
     @Expose
     private String orderBy;
+    @SerializedName("alreadyInCart")
+    @Expose
+    private boolean alreadyInCart;
+
+    public Filter getFilter() {
+        return filter;
+    }
 
     public String getQ() {
         return q;
@@ -100,7 +114,22 @@ public class DataProductList {
         this.orderBy = orderBy;
     }
 
-    public static class Products {
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
+    public boolean isAlreadyInCart() {
+        return alreadyInCart;
+    }
+
+    public void setAlreadyInCart(boolean alreadyInCart) {
+        this.alreadyInCart = alreadyInCart;
+    }
+
+    public static class Products implements Parcelable {
+        @SerializedName("no")
+        @Expose
+        private String no;
         @SerializedName("sizes")
         @Expose
         private List<Size> sizes = null;
@@ -110,6 +139,9 @@ public class DataProductList {
         @SerializedName("brandCode")
         @Expose
         private String brandCode;
+        @SerializedName("description")
+        @Expose
+        private String description;
         @SerializedName("description2")
         @Expose
         private String description2;
@@ -128,6 +160,40 @@ public class DataProductList {
         @SerializedName("seasonCode")
         @Expose
         private String seasonCode;
+        @SerializedName("sizeCode")
+        @Expose
+        private String sizeCode;
+        @SerializedName("unitOfMeasure")
+        @Expose
+        private String unitOfMeasure;
+        @SerializedName("unitPrice")
+        @Expose
+        private double unitPrice;
+        @SerializedName("stockData")
+        @Expose
+        private int stockData;
+        @SerializedName("images")
+        @Expose
+        private List<String> images = null;
+        @SerializedName("alreadyInCart")
+        @Expose
+        private boolean alreadyInCart;
+
+        public double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public void setUnitPrice(double unitPrice) {
+            this.unitPrice = unitPrice;
+        }
+
+        public String getNo() {
+            return no;
+        }
+
+        public void setNo(String no) {
+            this.no = no;
+        }
 
         public List<Size> getSizes() {
             return sizes;
@@ -200,6 +266,117 @@ public class DataProductList {
         public void setSeasonCode(String seasonCode) {
             this.seasonCode = seasonCode;
         }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getSizeCode() {
+            return sizeCode;
+        }
+
+        public void setSizeCode(String sizeCode) {
+            this.sizeCode = sizeCode;
+        }
+
+        public String getUnitOfMeasure() {
+            return unitOfMeasure;
+        }
+
+        public void setUnitOfMeasure(String unitOfMeasure) {
+            this.unitOfMeasure = unitOfMeasure;
+        }
+
+
+        public int getStockData() {
+            return stockData;
+        }
+
+        public void setStockData(int stockData) {
+            this.stockData = stockData;
+        }
+
+        public List<String> getImages() {
+            return images;
+        }
+
+        public void setImages(List<String> images) {
+            this.images = images;
+        }
+
+        public boolean isAlreadyInCart() {
+            return alreadyInCart;
+        }
+
+        public void setAlreadyInCart(boolean alreadyInCart) {
+            this.alreadyInCart = alreadyInCart;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.no);
+            dest.writeList(this.sizes);
+            dest.writeString(this.itemCategoryCode);
+            dest.writeString(this.brandCode);
+            dest.writeString(this.description);
+            dest.writeString(this.description2);
+            dest.writeString(this.productGroupCode);
+            dest.writeString(this.petStyleCode);
+            dest.writeString(this.colorCode);
+            dest.writeString(this.colorFamily);
+            dest.writeString(this.seasonCode);
+            dest.writeString(this.sizeCode);
+            dest.writeString(this.unitOfMeasure);
+            dest.writeDouble(this.unitPrice);
+            dest.writeInt(this.stockData);
+            dest.writeStringList(this.images);
+            dest.writeByte(this.alreadyInCart ? (byte) 1 : (byte) 0);
+        }
+
+        public Products() {
+        }
+
+        protected Products(Parcel in) {
+            this.no = in.readString();
+            this.sizes = new ArrayList<Size>();
+            in.readList(this.sizes, Size.class.getClassLoader());
+            this.itemCategoryCode = in.readString();
+            this.brandCode = in.readString();
+            this.description = in.readString();
+            this.description2 = in.readString();
+            this.productGroupCode = in.readString();
+            this.petStyleCode = in.readString();
+            this.colorCode = in.readString();
+            this.colorFamily = in.readString();
+            this.seasonCode = in.readString();
+            this.sizeCode = in.readString();
+            this.unitOfMeasure = in.readString();
+            this.unitPrice = in.readDouble();
+            this.stockData = in.readInt();
+            this.images = in.createStringArrayList();
+            this.alreadyInCart = in.readByte() != 0;
+        }
+
+        public static final Parcelable.Creator<Products> CREATOR = new Parcelable.Creator<Products>() {
+            @Override
+            public Products createFromParcel(Parcel source) {
+                return new Products(source);
+            }
+
+            @Override
+            public Products[] newArray(int size) {
+                return new Products[size];
+            }
+        };
     }
 
     public static class Size {
@@ -230,6 +407,7 @@ public class DataProductList {
         @SerializedName("images")
         @Expose
         private List<String> images = null;
+
 
         public String getNo() {
             return no;
@@ -302,5 +480,32 @@ public class DataProductList {
         public void setImages(List<String> images) {
             this.images = images;
         }
+    }
+
+    public static class Filter {
+
+        @SerializedName("colorCodes")
+        @Expose
+        private List<String> colorCodes = null;
+        @SerializedName("sizeCodes")
+        @Expose
+        private List<String> sizeCodes = null;
+
+        public List<String> getColorCodes() {
+            return colorCodes;
+        }
+
+        public void setColorCodes(List<String> colorCodes) {
+            this.colorCodes = colorCodes;
+        }
+
+        public List<String> getSizeCodes() {
+            return sizeCodes;
+        }
+
+        public void setSizeCodes(List<String> sizeCodes) {
+            this.sizeCodes = sizeCodes;
+        }
+
     }
 }

@@ -220,7 +220,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     @Override
     public void pushOtpFragment() {
         ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                , mFragmentSignUpBinding.edittextEmail.getText().toString(), Constants.OTPValidationIsFrom.SIGN_UP.ordinal()),
+                , Constants.OTPValidationIsFrom.SIGN_UP.ordinal()),
                 true, true, "OTP_Frag");
     }
 }

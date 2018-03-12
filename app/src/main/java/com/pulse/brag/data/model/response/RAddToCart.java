@@ -1,17 +1,20 @@
 package com.pulse.brag.data.model.response;
 
+import com.pulse.brag.data.model.datas.DataAddToCart;
 import com.pulse.brag.data.model.datas.DataProductList;
 
+import java.util.List;
+
 /**
- * Created by alpesh.rathod on 3/7/2018.
+ * Created by alpesh.rathod on 3/9/2018.
  */
 
-public class RProductList {
+public class RAddToCart {
 
     private boolean status;
     private Integer errorCode;
     private String message;
-    private DataProductList data;
+    private List<DataAddToCart> data;
 
     public boolean isStatus() {
         return status;
@@ -25,7 +28,7 @@ public class RProductList {
         return message;
     }
 
-    public DataProductList getData() {
+    public List<DataAddToCart> getData() {
         return data;
     }
 }

@@ -13,9 +13,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
@@ -48,21 +46,21 @@ import javax.inject.Inject;
 
 public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding, SubCategoryViewModel> implements SubCategoryNavigator, IOnItemClickListener {
 
+    @Inject
+    SubCategoryViewModel categoryViewModel;
+    FragmentSubCategoryBinding mFragmentSubCategoryBinding;
 
-    List<CategoryListResponseData.CategoryList> mCategoryList;
+    List<CategoryListResponseData.Category> mCategoryList;
     List<ImagePagerResponse> imagePagerResponeList;
+    String mCategory;
 
     CategoryListAdapter adapter;
 
-    @Inject
-    SubCategoryViewModel categoryViewModel;
 
-    FragmentSubCategoryBinding mFragmentSubCategoryBinding;
-
-
-    public static SubCategoryFragment newInstance(String url, List<CategoryListResponseData.CategoryList> list) {
+    public static SubCategoryFragment newInstance(String category, String url, List<CategoryListResponseData.Category> list) {
 
         Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_CATEGORY_NAME, category);
         args.putString(Constants.BUNDLE_IMAGE_URL, url);
         args.putParcelableArrayList(Constants.BUNDLE_CATEGORY_LIST, (ArrayList<? extends Parcelable>) list);
         SubCategoryFragment fragment = new SubCategoryFragment();
@@ -86,6 +84,9 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         }
         if (getArguments().containsKey(Constants.BUNDLE_IMAGE_URL)) {
             categoryViewModel.setProductImg(getArguments().getString(Constants.BUNDLE_IMAGE_URL));
+        }
+        if (getArguments().containsKey(Constants.BUNDLE_CATEGORY_NAME)) {
+            mCategory = getArguments().getString(Constants.BUNDLE_CATEGORY_NAME);
         }
 
     }
@@ -115,7 +116,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void setUpToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_sub_category));
+        ((CoreActivity) getActivity()).showToolbar(true, false, true, mCategory == null ? getString(R.string.toolbar_label_sub_category) : mCategory);
 
     }
 
@@ -136,7 +137,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(new ProductListFragment(), true, true);
+        ((MainActivity) getActivity()).pushFragments(ProductListFragment.newInstance(mCategory, mCategoryList.get(position).getOptionName()), true, true);
 
     }
 
@@ -193,22 +194,16 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     }
 
     @Override
-    public void setCategoryList(List<CategoryListResponseData.CategoryList> list) {
-
-        if (list != null && list.size() > 0) {
-            categoryViewModel.setNoResult(false);
-            mCategoryList.clear();
-            mCategoryList.addAll(list);
-            showData();
-        } else {
-            categoryViewModel.setNoResult(true);
-        }
-
+    public void onNoData() {
+        categoryViewModel.setNoResult(true);
     }
 
     @Override
-    public void onNoData() {
-        categoryViewModel.setNoResult(true);
+    public void setCategoryList(List<CategoryListResponseData.Category> list) {
+        categoryViewModel.setNoResult(false);
+        mCategoryList.clear();
+        mCategoryList.addAll(list);
+        showData();
     }
 
     public void hideProgressBar() {

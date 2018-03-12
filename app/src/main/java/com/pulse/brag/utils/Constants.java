@@ -48,6 +48,7 @@ public class Constants {
     public static final String BUNDLE_IMAGE_URL = "imageurl";
     public static final String BUNDLE_MOBILE = "bundlemobile";
     public static final String BUNDLE_EMAIL = "bundleemail";
+    public static final String BUNDLE_PASSWORD = "bundlePassword";
     public static final String BUNDLE_PROFILE_IS_FROM = "bundleProfileIsFrom";
     public static final String BUNDLE_IS_FROM_SIGNUP = "bundleisFromsignup";
     public static final String BUNDLE_IS_FROM_CHANGE_PASS = "bundleisfromchangepass";
@@ -65,6 +66,8 @@ public class Constants {
     public static final String BUNDLE_ORDER_ID = "bundleorderId";
     public static final String BUNDLE_ORDER_DATA = "bundleorderData";
     public static final String BUNDLE_CATEGORY_LIST = "bundlecategorylist";
+    public static final String BUNDLE_CATEGORY_NAME = "bundleCategoryId";
+    public static final String BUNDLE_SUB_CATEGORY_NAME = "bundleSubCategoryId";
 
 
     //header
@@ -175,11 +178,6 @@ public class Constants {
         AWAITING_FOR_PASSWORD_RESET;
     }
 
-    public enum ProductSorting {
-        POPULARITY,
-        PRICE_LOW_TO_HEIGH,
-        PRICE_HEIGH_TO_LOW
-    }
 
     public enum OrderStatus {
         ORDERED(1),
@@ -231,6 +229,13 @@ public class Constants {
                     return "";
             }
         }
+    }
+
+    public enum SortBy {
+        PRICE_ASC,
+        PRICE_DESC,
+        DATE_ASC,
+        DATE_DESC;
     }
 
 

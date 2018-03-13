@@ -8,6 +8,9 @@ package com.pulse.brag.data.model.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -15,7 +18,7 @@ import java.util.List;
  */
 
 
-public class UserData {
+public class UserData implements Parcelable {
 
     private String id;
     private String title;
@@ -23,7 +26,7 @@ public class UserData {
     private String lastName;
     private String mobileNumber;
     private String email;
-    private Object password;
+    private String password;
     private Long approvalStatus;
     private Long createdDate;
     private String lastModifiedBy;
@@ -49,7 +52,7 @@ public class UserData {
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstName == null ? "" : firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -57,7 +60,7 @@ public class UserData {
     }
 
     public String getLastName() {
-        return lastName;
+        return lastName == null ? "" : lastName;
     }
 
     public void setLastName(String lastName) {
@@ -73,7 +76,7 @@ public class UserData {
     }
 
     public String getEmail() {
-        return email;
+        return email == null ? "" : email;
     }
 
     public void setEmail(String email) {
@@ -84,7 +87,7 @@ public class UserData {
         return password;
     }
 
-    public void setPassword(Object password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -148,15 +151,82 @@ public class UserData {
         this.addresses = addresses;
     }
 
-    public String getFullAddress() {
+    public String getFullAddressWithNewLine() {
         if (getAddresses() != null && !getAddresses().isEmpty()) {
             UserAddress address = getAddresses().get(0);
-            return address.getAddress() + " " + address.getLandmark() + "\n"
-                    + address.getCity() + "-" + address.getPincode() + "\n"
-                    + address.getState().getText();
+            return address.getAddress() + " , " + address.getLandmark() + " , "
+                    + address.getCity() + "\n"
+                    + address.getState().getText() + "-" + address.getPincode();
         } else {
             return "";
         }
 
     }
+
+    public String getFullAddress() {
+        if (getAddresses() != null && !getAddresses().isEmpty()) {
+            UserAddress address = getAddresses().get(0);
+            return address.getAddress() + " , " + address.getLandmark() + " , "
+                    + address.getCity() + " , " + address.getState().getText() + " - "
+                    + address.getPincode();
+        } else {
+            return "";
+        }
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.firstName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.mobileNumber);
+        dest.writeString(this.email);
+        dest.writeString(this.password);
+        dest.writeValue(this.approvalStatus);
+        dest.writeValue(this.createdDate);
+        dest.writeString(this.lastModifiedBy);
+        dest.writeValue(this.lastModifiedDate);
+        dest.writeValue(this.isActive);
+        dest.writeValue(this.isDeleted);
+        dest.writeTypedList(this.addresses);
+    }
+
+    public UserData() {
+    }
+
+    protected UserData(Parcel in) {
+        this.id = in.readString();
+        this.title = in.readString();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.mobileNumber = in.readString();
+        this.email = in.readString();
+        this.password = in.readString();
+        this.approvalStatus = (Long) in.readValue(Long.class.getClassLoader());
+        this.createdDate = (Long) in.readValue(Long.class.getClassLoader());
+        this.lastModifiedBy = in.readString();
+        this.lastModifiedDate = (Long) in.readValue(Long.class.getClassLoader());
+        this.isActive = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.isDeleted = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.addresses = in.createTypedArrayList(UserAddress.CREATOR);
+    }
+
+    public static final Parcelable.Creator<UserData> CREATOR = new Parcelable.Creator<UserData>() {
+        @Override
+        public UserData createFromParcel(Parcel source) {
+            return new UserData(source);
+        }
+
+        @Override
+        public UserData[] newArray(int size) {
+            return new UserData[size];
+        }
+    };
 }

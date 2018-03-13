@@ -7,13 +7,15 @@ import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.response.RAddToCart;
+import com.pulse.brag.data.model.response.RMyOrder;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.response.RStateList;
+import com.pulse.brag.data.model.response.RUserAddress;
 import com.pulse.brag.data.remote.IApiManager;
-import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
@@ -25,7 +27,7 @@ import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
 import com.pulse.brag.data.model.response.LoginResponse;
-import com.pulse.brag.data.model.response.MyOrderListRespone;
+import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.SignUpResponse;
@@ -55,7 +57,7 @@ public class AppDataManager implements IDataManager {
     public AppDataManager(Context mContext, IPreferenceManager mPreferencesHelper, IApiManager mApiManager) {
         this.mContext = mContext;
         this.mPreferencesHelper = mPreferencesHelper;
-        this.mApiManager=mApiManager;
+        this.mApiManager = mApiManager;
     }
 
     @Override
@@ -159,9 +161,10 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<MyOrderListRespone> getOrderList(String url) {
-        return mApiManager.getOrderList(url);
+    public Call<RMyOrder> getOrderList(int page) {
+        return mApiManager.getOrderList(page);
     }
+
 
     @Override
     public Call<OrderDetailResponse> getOrderDetail(String url) {
@@ -169,13 +172,13 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<GeneralResponse> addAddress(QAddAddress addAddress) {
+    public Call<RUserAddress> addAddress(QAddAddress addAddress) {
         return mApiManager.addAddress(addAddress);
     }
 
     @Override
-    public Call<GeneralResponse> updateAddress(UserData userData) {
-        return mApiManager.updateAddress(userData);
+    public Call<LoginResponse> updateProfile(UserData userData) {
+        return mApiManager.updateProfile(userData);
     }
 
     @Override
@@ -191,6 +194,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<LoginResponse> getUserProfile(String s) {
         return mApiManager.getUserProfile(s);
+    }
+
+    @Override
+    public Call<GeneralResponse> placeOrder(QPlaceOrder placeOrder) {
+        return mApiManager.placeOrder(placeOrder);
     }
 
     @Override

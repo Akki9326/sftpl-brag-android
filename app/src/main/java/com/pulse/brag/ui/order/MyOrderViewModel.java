@@ -15,8 +15,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.response.RMyOrder;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.response.MyOrderListRespone;
+import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -37,13 +38,14 @@ public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
 
     }
 
-    public void getOrderData() {
-        Call<MyOrderListRespone> mOrderList = getDataManager().getOrderList("home/get/1");
-        mOrderList.enqueue(new ApiResponse<MyOrderListRespone>() {
+    public void getOrderData(int page) {
+        Call<RMyOrder> mOrderList = getDataManager().getOrderList(page);
+        mOrderList.enqueue(new ApiResponse<RMyOrder>() {
             @Override
-            public void onSuccess(MyOrderListRespone myOrderListRespone, Headers headers) {
+            public void onSuccess(RMyOrder myOrderListRespone, Headers headers) {
                 if (myOrderListRespone.isStatus()) {
                     getNavigator().onApiSuccess();
+                    getNavigator().getOrderList(myOrderListRespone.getData(),myOrderListRespone.getData().getObjects());
                 } else {
                     getNavigator().onApiError(new ApiError(myOrderListRespone.getErrorCode(), myOrderListRespone.getMessage()));
                 }

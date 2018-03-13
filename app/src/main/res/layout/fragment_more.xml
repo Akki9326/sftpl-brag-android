@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.pulse.brag.ui.more.MoreViewModel" />
@@ -68,9 +70,10 @@
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/text_s"
+                            android:text="@{viewModel.fullAddress}"
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/text_size_very_small_12" />
+                            android:textSize="@dimen/text_size_very_small_12"
+                            android:visibility="@{viewModel.isEmptyAddress?View.GONE:View.VISIBLE}" />
                     </LinearLayout>
                 </LinearLayout>
 

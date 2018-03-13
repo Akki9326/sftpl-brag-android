@@ -15,7 +15,9 @@ import android.view.View;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.datas.UserAddress;
+import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.response.LoginResponse;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
@@ -117,7 +119,7 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
             public void onSuccess(LoginResponse loginResponse, Headers headers) {
                 if (loginResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    setAddress(loginResponse.getData().getFullAddress());
+                    setAddress(loginResponse.getData().getFullAddressWithNewLine());
                     if (loginResponse.getData().getAddresses() == null || loginResponse.getData().getAddresses().isEmpty()) {
                         setIsAddressAvaliable(false);
                     } else {
@@ -142,6 +144,25 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
 
     public void setAddress(String address) {
         this.address.set(address);
+    }
+
+    public void placeOrderAPI(QPlaceOrder placeOrder) {
+        Call<GeneralResponse> responseCall = getDataManager().placeOrder(placeOrder);
+        responseCall.enqueue(new ApiResponse<GeneralResponse>() {
+            @Override
+            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+                if (generalResponse.isStatus()) {
+                    getNavigator().onApiSuccessPlaceOrder();
+                } else {
+                    getNavigator().onApiErrorPlaceOrder(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiErrorPlaceOrder(t);
+            }
+        });
     }
 
     public ObservableField<Boolean> IsAddressAvaliable() {

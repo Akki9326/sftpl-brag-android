@@ -1,6 +1,5 @@
 package com.pulse.brag.data.remote;
 
-import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
@@ -14,7 +13,8 @@ import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
 import com.pulse.brag.data.model.response.LoginResponse;
-import com.pulse.brag.data.model.response.MyOrderListRespone;
+import com.pulse.brag.data.model.response.RMyOrder;
+import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.RAddToCart;
@@ -61,9 +61,6 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<RCartList> getCartList(String url);
-
-    @Override
-    Call<MyOrderListRespone> getOrderList(String url);
 
     @Override
     Call<OrderDetailResponse> getOrderDetail(String url);

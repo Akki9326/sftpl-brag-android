@@ -14,7 +14,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.pulse.brag.R;
-import com.pulse.brag.data.model.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.MyOrderData;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 
@@ -26,23 +26,23 @@ import com.pulse.brag.utils.Utility;
 public class MyOrderItemViewModel extends BaseObservable {
 
     Context context;
-    MyOrderListResponeData responeData;
+    MyOrderData responeData;
     OnItemClick onItemClick;
     int position;
 
-    public MyOrderItemViewModel(Context context, int position, MyOrderListResponeData responeData, OnItemClick onItemClick) {
+    public MyOrderItemViewModel(Context context, int position, MyOrderData responeData, OnItemClick onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
         this.position = position;
     }
 
-    public void setMyOrderData(MyOrderListResponeData responeData) {
+    public void setMyOrderData(MyOrderData responeData) {
         this.responeData = responeData;
         notifyChange();
     }
 
-    public MyOrderListResponeData getMyOrderData() {
+    public MyOrderData getMyOrderData() {
         return responeData;
 
     }
@@ -52,7 +52,7 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public interface OnItemClick {
-        void onItemClick(int position, MyOrderListResponeData responeData);
+        void onItemClick(int position, MyOrderData responeData);
 
     }
 
@@ -61,38 +61,45 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public String getOrder_id() {
-        return responeData.getOrder_id();
+        return responeData.getOrderNumber();
     }
 
     public String getProduct_name() {
-        return responeData.getProduct_name();
+//        return responeData.getProduct_name();
+        return "Product Name";
     }
 
     public String getProduct_image_url() {
-        return responeData.getProduct_image_url();
+//        return responeData.getProduct_image_url();
+        return "";
     }
 
     public String getProduct_qty() {
-        return responeData.getProduct_qty();
+//        return responeData.getProduct_qty();
+        return "";
     }
 
     public String getProduct_price() {
-        return responeData.getProduct_price();
+//        return responeData.getProduct_price();
+        return "";
     }
 
     public String getProductPriceWithSym() {
-        return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(responeData.getProduct_price()));
+//        return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(responeData.getProduct_price()));
+        return Utility.getIndianCurrencyPriceFormat(10);
     }
 
     public String getStatusLable() {
         return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus());
     }
 
-    public Long getDate(){
-        return responeData.getDate();
+    public Long getDate() {
+//        return responeData.getDate();
+        return responeData.getCreatedDate();
     }
+
     public String getStatusLableWithDate() {
-        return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus()) + " " + responeData.getDateFromTimestamp();
+        return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus()) + " " + responeData.getCreatedDate();
     }
 
     public int getStatus() {
@@ -100,7 +107,8 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public int getStatusColor() {
-        if (responeData.getStatus() == Constants.OrderStatus.CANCALLED.ordinal())
+        if (responeData.getStatus() == Constants.OrderStatus.CANCELED.ordinal()
+                || responeData.getStatus() == Constants.OrderStatus.REJECTED.ordinal())
             return R.color.order_status_red;
         else
             return R.color.order_status_green;

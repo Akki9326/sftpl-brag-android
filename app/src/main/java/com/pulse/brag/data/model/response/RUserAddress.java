@@ -9,21 +9,21 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.UserAddress;
+import com.pulse.brag.data.model.datas.UserData;
 
 import java.util.List;
 
 /**
- * Created by nikhil.vadoliya on 02-01-2018.
+ * Created by nikhil.vadoliya on 13-03-2018.
  */
 
 
-public class MyOrderListRespone {
-
+public class RUserAddress {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<MyOrderListResponeData> list;
+    private List<UserAddress> addresses;
 
     public boolean isStatus() {
         return status;
@@ -49,11 +49,11 @@ public class MyOrderListRespone {
         this.message = message;
     }
 
-    public List<MyOrderListResponeData> getList() {
-        return list;
+    public List<UserAddress> getAddresses() {
+        return addresses;
     }
 
-    public void setList(List<MyOrderListResponeData> list) {
-        this.list = list;
+    public void setAddresses(List<UserAddress> addresses) {
+        this.addresses = addresses;
     }
 }

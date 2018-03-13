@@ -29,4 +29,8 @@ public interface PlaceOrderNavigator {
     void onAddAddress();
 
     void onPriceLabelClick();
+
+    void onApiSuccessPlaceOrder();
+
+    void onApiErrorPlaceOrder(ApiError error);
 }

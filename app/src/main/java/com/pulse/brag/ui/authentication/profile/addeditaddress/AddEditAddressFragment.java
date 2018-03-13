@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
@@ -77,9 +78,10 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
         checkInternet();
 
         if (mAddEditViewModel.getDataManager().getUserData().getAddresses() != null
-                && mAddEditViewModel.getDataManager().getUserData().getAddresses().isEmpty()) {
+                && !mAddEditViewModel.getDataManager().getUserData().getAddresses().isEmpty()) {
             selectedState = new StateData(mAddEditViewModel.getStateId(), mAddEditViewModel.getStateText());
             mAddressId = mAddEditViewModel.getDataManager().getUserData().getAddresses().get(0).getId();
+            mAddEditViewModel.updateState(mAddEditViewModel.getDataManager().getUserData().getAddresses().get(0).getState().getText());
         }
 
 
@@ -114,6 +116,9 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     @Override
     public void onApiSuccess() {
         hideProgress();
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_PROFILE);
+        intent.putExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE, true);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         getActivity().onBackPressed();
 
     }
@@ -134,6 +139,8 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_state));
         } else if (Validation.isEmpty(mAddEditAddressBinding.edittextPincode)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_pincode));
+        } else if (mAddEditAddressBinding.edittextPincode.getText().toString().length() < 6) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pincode_valid));
         } else if (Utility.isConnection(getContext())) {
 
             QAddAddress qAddAddress = new QAddAddress();
@@ -159,6 +166,8 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_state));
         } else if (Validation.isEmpty(mAddEditAddressBinding.edittextPincode)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_pincode));
+        } else if (mAddEditAddressBinding.edittextPincode.getText().toString().length() < 6) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pincode_valid));
         } else if (Utility.isConnection(getContext())) {
 
             UserAddress userAddress = new UserAddress();
@@ -189,8 +198,12 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     public void onOpenStateListDialog() {
 
         if (mStateList.isEmpty()) {
-            showProgress();
-            mAddEditViewModel.getStateListAPI();
+            if (Utility.isConnection(getActivity())) {
+                showProgress();
+                mAddEditViewModel.getStateListAPI();
+            } else {
+                AlertUtils.showAlertMessage(getActivity(), 0, null);
+            }
         } else {
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(Constants.BUNDLE_KEY_STATE_LIST, (ArrayList<? extends Parcelable>) mStateList);
@@ -222,13 +235,15 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
         hideProgress();
         if (mAddEditViewModel.isAddressAvaliable.get()) {
             UserAddress userAddress = mAddEditViewModel.getUserAddress();
+
+            selectedState = new StateData(userAddress.getState().getId(), userAddress.getState().getText());
+            mAddressId = userAddress.getId();
+
             mAddEditAddressBinding.edittextAddress.setText(userAddress.getAddress());
             mAddEditAddressBinding.edittextCity.setText(userAddress.getCity());
             mAddEditAddressBinding.edittextLandmark.setText(userAddress.getLandmark());
             mAddEditAddressBinding.edittextPincode.setText(String.valueOf(userAddress.getPincode()));
             mAddEditAddressBinding.textviewState.setText(userAddress.getState().getText());
-        } else {
-
         }
     }
 

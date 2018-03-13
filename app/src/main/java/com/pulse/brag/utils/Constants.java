@@ -84,6 +84,8 @@ public class Constants {
     public static final String BUNDLE_KEY_STATE_LIST = "bundlestatelist";
     public static final String BUNDLE_NUM_STOCK = "bundlenumstock";
     public static final String BUNDLE_ADDRESS ="bundleaddress" ;
+    public static final String LOCALBROADCAST_UPDATE_PROFILE = "localbroadcastupdateprofile";
+    public static final String BUNDLE_IS_ADDRESS_UPDATE ="bundleupdateaddress" ;
 
     public interface ApiHelper {
         //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip
@@ -181,12 +183,12 @@ public class Constants {
 
 
     public enum OrderStatus {
-        ORDERED(1),
-        APPROVED(2),
-        PACKED(3),
-        SHIPPED(4),
-        DELIVERED(5),
-        CANCALLED(6);
+        PLACED(0),
+        APPROVED(1),
+        REJECTED(2),
+        CANCELED(3),
+        DISPATCHED(4),
+        DELIVERED(5);
 
         OrderStatus(int i) {
             this.type = i;
@@ -214,18 +216,18 @@ public class Constants {
 
         public static String getOrderStatusLabel(Context context, int i) {
             switch (OrderStatus.values()[i]) {
-                case ORDERED:
-                    return context.getString(R.string.label_order_status_ordered);
+                case PLACED:
+                    return context.getString(R.string.label_order_status_placed);
                 case APPROVED:
                     return context.getString(R.string.label_order_status_approved);
-                case SHIPPED:
-                    return context.getString(R.string.label_order_status_shipped);
-                case PACKED:
-                    return context.getString(R.string.label_order_status_packed);
+                case REJECTED:
+                    return context.getString(R.string.label_order_status_rejected);
+                case CANCELED:
+                    return context.getString(R.string.label_order_status_cancalled);
+                case DISPATCHED:
+                    return context.getString(R.string.label_order_status_dispatched);
                 case DELIVERED:
                     return context.getString(R.string.label_order_status_delivered);
-                case CANCALLED:
-                    return context.getString(R.string.label_order_status_cancalled);
                 default:
                     return "";
             }

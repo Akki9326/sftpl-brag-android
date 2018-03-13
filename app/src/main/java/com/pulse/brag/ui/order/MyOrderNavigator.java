@@ -10,6 +10,10 @@ package com.pulse.brag.ui.order;
  */
 
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.MyOrderData;
+import com.pulse.brag.data.model.response.RMyOrderList;
+
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 21-02-2018.
@@ -23,4 +27,6 @@ public interface MyOrderNavigator {
     void onApiError(ApiError error);
 
     void swipeRefresh();
+
+    void getOrderList(RMyOrderList orderList, List<MyOrderData> listRespones);
 }

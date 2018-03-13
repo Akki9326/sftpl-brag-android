@@ -17,9 +17,13 @@ import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.requests.QAddToCart;
+import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.ui.core.CoreViewModel;
+import com.pulse.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -36,6 +40,7 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
     ObservableField<Integer> listNum = new ObservableField<>();
     ObservableField<Boolean> visibility = new ObservableField<>();
     ObservableField<String> listSize = new ObservableField<>();
+    ObservableField<Boolean> noInternet = new ObservableField<>();
     String itemsLable;
 
     public CartViewModel(IDataManager dataManager) {
@@ -62,6 +67,26 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
         });
     }
 
+    public void removeFromCart(String itemId) {
+        Call<GeneralResponse> cartListResponseCall = getDataManager().removeFromCart("item/removeFromCart/" + itemId);
+        cartListResponseCall.enqueue(new ApiResponse<GeneralResponse>() {
+            @Override
+            public void onSuccess(GeneralResponse cartListResponse, Headers headers) {
+                if (cartListResponse.isStatus()) {
+                    getNavigator().onSuccessDeleteFromAPI();
+
+                } else {
+                    getNavigator().onErrorDeleteFromAPI(new ApiError(cartListResponse.getErrorCode(), cartListResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onErrorDeleteFromAPI(t);
+            }
+        });
+    }
+
     public ObservableField<String> getTotalPrice() {
         return total;
     }
@@ -84,11 +109,11 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
     }
 
 
-    public View.OnClickListener onPlaceOrder() {
+    public View.OnClickListener onContinues() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onPlaceOrderClick();
+                getNavigator().onContinuesClick();
             }
         };
     }
@@ -133,5 +158,38 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
         return new int[]{
                 R.color.pink,
         };
+    }
+
+
+    public void editQty(String id, String itemId, int qty) {
+        Call<RAddToCart> callAddToCart = getDataManager().addToCart(new QAddToCart(id, itemId, qty));
+        callAddToCart.enqueue(new ApiResponse<RAddToCart>() {
+            @Override
+            public void onSuccess(RAddToCart rAddToCart, Headers headers) {
+                if (rAddToCart.isStatus()) {
+                    if (rAddToCart.getData() == null) {
+                        getNavigator().onErrorEditQtyFromAPI(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
+                    } else {
+                        getNavigator().onSuccessEditQtyFromAPI();
+                    }
+
+                } else {
+                    getNavigator().onErrorEditQtyFromAPI(new ApiError(rAddToCart.getErrorCode(), rAddToCart.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onErrorEditQtyFromAPI(t);
+            }
+        });
+    }
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
     }
 }

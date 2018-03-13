@@ -8,7 +8,6 @@ package com.pulse.brag.data.remote;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
@@ -17,22 +16,23 @@ import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.pulse.brag.data.model.requests.QGetFilter;
+import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
-import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.SignInRequest;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
 import com.pulse.brag.data.model.response.LoginResponse;
-import com.pulse.brag.data.model.response.MyOrderListRespone;
+import com.pulse.brag.data.model.response.RMyOrder;
+import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.model.response.RProductList;
-import com.pulse.brag.data.model.response.RStateList;
+import com.pulse.brag.data.model.response.RUserAddress;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import retrofit2.Call;
@@ -103,15 +103,27 @@ public interface ApiInterface {
     @GET
     Call<RCartList> getCartList(@Url String url);
 
-    @GET
-    Call<MyOrderListRespone> getOrderList(@Url String url);
+    @POST("order/list/{pages}")
+    Call<RMyOrder> getOrderList(@Path("pages") int page);
 
-    @GET
+    @POST("order/list/{pages}")
     Call<OrderDetailResponse> getOrderDetail(@Url String url);
 
     @POST("user/addAddress")
-    Call<GeneralResponse> addAddress(@Body QAddAddress addAddress);
+    Call<RUserAddress> addAddress(@Body QAddAddress addAddress);
+
+    @POST("user/updateProfile")
+    Call<LoginResponse> updateProfile(@Body UserData userData);
 
     @GET
     Call<RStateList> getStateList(@Url String url);
+
+    @GET
+    Call<GeneralResponse> removeFromCart(@Url String id);
+
+    @GET
+    Call<LoginResponse> getUserProfile(@Url String s);
+
+    @POST("order/add")
+    Call<GeneralResponse> placeOrder(@Body QPlaceOrder  placeOrder);
 }

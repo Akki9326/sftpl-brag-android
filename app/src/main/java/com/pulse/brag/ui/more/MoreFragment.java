@@ -37,7 +37,6 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentMoreBinding;
 import com.pulse.brag.data.model.datas.MoreListData;
 import com.pulse.brag.data.model.datas.UserData;
-import com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressFragment;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.views.FullScreenImageDialogFragment;
@@ -84,6 +83,8 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         mMoreViewModel.setNavigator(this);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotification,
                 new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                mUpdateProfile, new IntentFilter(Constants.LOCALBROADCAST_UPDATE_PROFILE));
     }
 
     @Override
@@ -195,9 +196,8 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
             }
         });
 
-        //mTxtName.setText(mUserData.getFullName());
         mMoreViewModel.setFullName(mUserData.getFullName());
-
+        mMoreViewModel.setFullAddress(mUserData.getFullAddress());
         moreListData = new ArrayList<>();
         moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
@@ -305,10 +305,24 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         }
     };
 
+    private BroadcastReceiver mUpdateProfile = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
+                if (intent.getBooleanExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE,true)) {
+                    mMoreViewModel.setFullAddress(mMoreViewModel.getDataManager().getUserData().getFullAddress());
+                } else {
+                    mMoreViewModel.setFullName(mMoreViewModel.getDataManager().getUserData().getFullName());
+                }
+            }
+        }
+    };
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateProfile);
 
     }
 

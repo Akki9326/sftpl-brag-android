@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.ui.order.adapter.MyOrderListAdapter;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentMyOrderBinding;
@@ -24,9 +25,10 @@ import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.pulse.brag.utils.AlertUtils;
-import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.data.model.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.MyOrderData;
+import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
+import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +42,39 @@ import javax.inject.Inject;
 
 public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, MyOrderViewModel> implements MyOrderNavigator, MyOrderListAdapter.OnItemClick {
 
+    private int ACTION = 0;
+    private static final int LOAD_LIST = 1;
+    private static final int LOAD_MORE = 5;
+    private int PAGE_NUM = 1;
+    int totalOrderList;
 
-    List<MyOrderListResponeData> mList;
     @Inject
     MyOrderViewModel mMyOrderViewModel;
     FragmentMyOrderBinding mFragmentMyOrderBinding;
+
+    List<MyOrderData> mList;
+
+    private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
+                        return;
+                    }
+
+                    if (mList.size() != totalOrderList) {
+                        ACTION = LOAD_MORE;
+                        checkInternet(false);
+                    } else {
+                        mFragmentMyOrderBinding.recycleview.loadMoreComplete(true);
+                    }
+                }
+            }, 500);
+        }
+    };
 
 
     @Override
@@ -61,8 +91,11 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void afterViewCreated() {
         mFragmentMyOrderBinding = getViewDataBinding();
+
+
         initializeData();
-        checkInternet();
+        ACTION = LOAD_LIST;
+        checkInternet(true);
 
     }
 
@@ -87,15 +120,20 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
         return R.layout.fragment_my_order;
     }
 
-    private void checkInternet() {
+    private void checkInternet(boolean isShowLoader) {
 
         if (Utility.isConnection(getActivity())) {
-            if (!mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing())
+            if (ACTION == LOAD_MORE) {
+                PAGE_NUM++;
+            } else {
+                //for pull to refresh
                 showProgress();
+                PAGE_NUM = 1;
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mMyOrderViewModel.getOrderData();
+                    mMyOrderViewModel.getOrderData(PAGE_NUM);
                 }
             }, 500);
         } else {
@@ -109,54 +147,22 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
         mFragmentMyOrderBinding.recycleview.setHasFixedSize(true);
         mFragmentMyOrderBinding.recycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mFragmentMyOrderBinding.recycleview.setMotionEventSplittingEnabled(false);
+        mFragmentMyOrderBinding.recycleview.loadMoreComplete(true);
+        mFragmentMyOrderBinding.recycleview.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
+        mFragmentMyOrderBinding.recycleview.setOnLoadMoreListener(mOnLoadMoreListener);
+        mFragmentMyOrderBinding.recycleview.setPageSize(20);
+
         Utility.applyTypeFace(getActivity(), mFragmentMyOrderBinding.baseLayout);
 
         mFragmentMyOrderBinding.linearEmpty.setVisibility(View.GONE);
 
-    }
-
-    public void showData() {
-
         mList = new ArrayList<>();
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "" + getString(R.string.text_s),
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500", Constants.OrderStatus.ORDERED.ordinal(), 1519117468));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "10", "5000", Constants.OrderStatus.CANCALLED.ordinal(), 1519031068));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "100", "5000", Constants.OrderStatus.DELIVERED.ordinal(), 1518944668));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "100", "50000", Constants.OrderStatus.PACKED.ordinal(), 1518933716));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/IMG_0135_2_large.jpg?v=1495697256",
-                "1", "500", Constants.OrderStatus.SHIPPED.ordinal(), 1518588116));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500", Constants.OrderStatus.APPROVED.ordinal(), 1519117468));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500", Constants.OrderStatus.ORDERED.ordinal()));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500", Constants.OrderStatus.ORDERED.ordinal()));
-        mList.add(new MyOrderListResponeData("1", "" + Utility.randomString(10), "Plunge Neck Cage Back T-shirt Bralette - White with Black Print & Black trims",
-                "http://cdn.shopify.com/s/files/1/1629/9535/products/BRAG_NEON60459_large.jpg?v=1497980654",
-                "1", "500", Constants.OrderStatus.ORDERED.ordinal()));
-
-
-        mFragmentMyOrderBinding.recycleview.setAdapter(new MyOrderListAdapter(getActivity(), mList, this));
-
-
-        mMyOrderViewModel.setListVisibility(mList.isEmpty() ? false : true);
-
     }
 
     @Override
-    public void onItemClick(int position, MyOrderListResponeData responeData) {
-        ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(responeData.getOrder_id(), responeData), true, true);
+    public void onItemClick(int position, MyOrderData responeData) {
+        ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(responeData.getOrderNumber(), responeData), true, true);
 
     }
 
@@ -170,7 +176,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void onApiSuccess() {
         hideLoader();
-        showData();
+
     }
 
     @Override
@@ -182,14 +188,45 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void swipeRefresh() {
         mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet();
+        ACTION = LOAD_MORE;
+        checkInternet(false);
     }
+
+    @Override
+    public void getOrderList(RMyOrderList orderList, List<MyOrderData> listRespones) {
+
+        switch (ACTION) {
+            case LOAD_LIST:
+
+                totalOrderList = orderList.getCount();
+                mList.clear();
+                mList.addAll(listRespones);
+                mFragmentMyOrderBinding.recycleview.setAdapter(new MyOrderListAdapter(getActivity(), mList, this));
+                mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(false);
+
+                //issue of space in bottom of recycleview in last item when total item size small than 20;
+                if (totalOrderList <= 20)
+                    mFragmentMyOrderBinding.recycleview.setIsLoadingMore(false);
+
+                break;
+            case LOAD_MORE:
+
+                mList.addAll(listRespones);
+                mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
+
+                break;
+        }
+
+        mMyOrderViewModel.setListVisibility(mList.isEmpty() ? false : true);
+    }
+
 
     public void hideLoader() {
         if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
             mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(false);
         } else {
             hideProgress();
+            mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
         }
     }
 }

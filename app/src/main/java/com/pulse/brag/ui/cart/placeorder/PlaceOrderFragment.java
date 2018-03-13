@@ -9,17 +9,22 @@ package com.pulse.brag.ui.cart.placeorder;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
 import com.pulse.brag.ui.cart.adapter.PlaceOrderCartListAdapter;
 import com.pulse.brag.data.model.ApiError;
@@ -68,6 +73,8 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPlaceOrderViewModel.setNavigator(this);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                mUpdateProfile, new IntentFilter(Constants.LOCALBROADCAST_UPDATE_PROFILE));
     }
 
     private void checkInternet() {
@@ -76,7 +83,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                   /* mPlaceOrderViewModel.getCartData();*/
+                    mPlaceOrderViewModel.getUserProfile();
                 }
             }, 500);
         } else {
@@ -86,21 +93,41 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void onApiSuccess() {
-
+        hideProgress();
     }
 
     @Override
     public void onApiError(ApiError error) {
-
+        hideKeyboard();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
     }
 
     @Override
-    public void onContinueClick() {
-        Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+    public void onPlaceOrder() {
+        if (mPlaceOrderViewModel.getDataManager().getUserData().getAddresses() == null
+                || mPlaceOrderViewModel.getDataManager().getUserData().getAddresses().isEmpty()) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
+        } else if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mPlaceOrderViewModel.placeOrderAPI(new QPlaceOrder());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null);
+
+        }
+
     }
 
     @Override
     public void onEditAddress() {
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
+        intent.putExtra(Constants.BUNDLE_ADDRESS, mPlaceOrderViewModel.getUserAddress());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void onAddAddress() {
         Intent intent = new Intent(getActivity(), UserProfileActivity.class);
         intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
         startActivity(intent);
@@ -111,6 +138,17 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     public void onPriceLabelClick() {
         mFragmentPlaceOrderBinding.nestedScroll.smoothScrollTo(0, (mFragmentPlaceOrderBinding.viewDummy).getTop());
 
+    }
+
+    @Override
+    public void onApiSuccessPlaceOrder() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiErrorPlaceOrder(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
 
@@ -125,7 +163,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         Utility.applyTypeFace(getBaseActivity(), mFragmentPlaceOrderBinding.baseLayout);
         initializeData();
         showData();
-//        checkInternet();
+        checkInternet();
     }
 
     @Override
@@ -229,5 +267,23 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
 
         }
+    }
+
+    private BroadcastReceiver mUpdateProfile = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
+                mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData()
+                        .getFullAddressWithNewLine());
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
+                mUpdateProfile);
+        super.onPause();
     }
 }

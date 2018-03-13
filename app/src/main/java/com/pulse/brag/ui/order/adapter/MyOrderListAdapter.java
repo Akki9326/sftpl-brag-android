@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListOrderBinding;
-import com.pulse.brag.data.model.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.MyOrderData;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.order.MyOrderItemViewModel;
 import com.pulse.brag.utils.Utility;
@@ -32,11 +32,11 @@ import java.util.List;
 
 public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.ViewHolder> {
 
-    List<MyOrderListResponeData> listRespones = Collections.emptyList();
+    List<MyOrderData> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
     Activity activity;
 
-    public MyOrderListAdapter(Activity activity, List<MyOrderListResponeData> listRespones
+    public MyOrderListAdapter(Activity activity, List<MyOrderData> listRespones
             , OnItemClick onItemClick) {
         this.listRespones = listRespones;
         this.activity = activity;
@@ -64,7 +64,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
 
     public interface OnItemClick {
-        void onItemClick(int position, MyOrderListResponeData responeData);
+        void onItemClick(int position, MyOrderData responeData);
     }
 
     public class ViewHolder extends CoreViewHolder implements MyOrderItemViewModel.OnItemClick {
@@ -79,7 +79,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
         }
 
 
-        void bindCartData(int position, MyOrderListResponeData responeData) {
+        void bindCartData(int position, MyOrderData responeData) {
             pos = position;
             if (itemBind.getViewModel() == null) {
                 itemBind.setViewModel(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this));
@@ -94,7 +94,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
 
         @Override
-        public void onItemClick(int position, MyOrderListResponeData responeData) {
+        public void onItemClick(int position, MyOrderData responeData) {
             onItemClick.onItemClick(position, responeData);
         }
     }

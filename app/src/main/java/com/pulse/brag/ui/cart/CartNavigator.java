@@ -25,11 +25,19 @@ public interface CartNavigator {
 
     void onApiError(ApiError error);
 
-    void onPlaceOrderClick();
+    void onContinuesClick();
 
     void onPriceClick();
 
     void swipeRefresh();
 
     void getCartList(List<CartData> list);
+
+    void onSuccessDeleteFromAPI();
+
+    void onErrorDeleteFromAPI(ApiError error);
+
+    void onSuccessEditQtyFromAPI();
+
+    void onErrorEditQtyFromAPI(ApiError error);
 }

@@ -25,7 +25,8 @@ import java.util.List;
 
 public interface AddEditAddressNavigator extends CoreNavigator {
 
-    void onAddOrUpdateAddress();
+    void onAddAddress();
+    void onUpdateAddress();
 
     boolean onEditorActionPincode(TextView textView, int i, KeyEvent keyEvent);
 
@@ -34,6 +35,11 @@ public interface AddEditAddressNavigator extends CoreNavigator {
     void onApiSuccessState(List<StateData> data);
 
     void onApiErrorState(ApiError error);
+
+
+    void onApiSuccessUserProfile();
+
+    void onApiErrorUserProfile(ApiError error);
 
 
 }

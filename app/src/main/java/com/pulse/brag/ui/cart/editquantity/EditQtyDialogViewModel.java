@@ -25,6 +25,7 @@ import com.pulse.brag.ui.core.CoreViewModel;
 public class EditQtyDialogViewModel extends CoreViewModel<EditQtyDialogNavigator> {
 
     ObservableField<Integer> qty = new ObservableField<>();
+    ObservableField<Integer> availableStock = new ObservableField<>();
 
     public EditQtyDialogViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -49,5 +50,13 @@ public class EditQtyDialogViewModel extends CoreViewModel<EditQtyDialogNavigator
 
     public void afterTextChanged(Editable s) {
         getNavigator().afterTextChanged(s);
+    }
+
+    public void setAvailableStock(int stock) {
+        availableStock.set(stock);
+    }
+
+   public ObservableField<Integer> getAvailableStock() {
+        return availableStock;
     }
 }

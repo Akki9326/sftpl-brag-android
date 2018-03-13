@@ -9,10 +9,7 @@ package com.pulse.brag.ui.order.orderdetail;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -35,7 +32,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentOrderDetailBinding;
-import com.pulse.brag.data.model.datas.MyOrderListResponeData;
+import com.pulse.brag.data.model.datas.MyOrderData;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
@@ -57,7 +54,7 @@ import javax.inject.Inject;
 public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding, OrderDetailViewModel> implements OrderDetailNavigator {
 
     String orderId;
-    MyOrderListResponeData mData;
+    MyOrderData mData;
 
     final int REQUEST_PERMISSION = 01;
 
@@ -67,7 +64,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     int downloadIdOne;
 
-    public static OrderDetailFragment newInstance(String id, MyOrderListResponeData data) {
+    public static OrderDetailFragment newInstance(String id, MyOrderData data) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_ORDER_ID, id);
@@ -251,11 +248,11 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
 
     public void showData() {
-        orderDetailViewModel.updateOrderId(mData.getOrder_id());
-        orderDetailViewModel.updateProductImage(mData.getProduct_image_url());
-        orderDetailViewModel.updateProductName(mData.getProduct_name());
-        orderDetailViewModel.updateProductPrice(mData.getProductPriceWithSym());
-        orderDetailViewModel.updateProductQty(mData.getProduct_qty());
+//        orderDetailViewModel.updateOrderId(mData.getOrder_id());
+//        orderDetailViewModel.updateProductImage(mData.getProduct_image_url());
+//        orderDetailViewModel.updateProductName(mData.getProduct_name());
+//        orderDetailViewModel.updateProductPrice(mData.getProductPriceWithSym());
+//        orderDetailViewModel.updateProductQty(mData.getProduct_qty());
         orderDetailViewModel.updateAddress("" + getString(R.string.text_s));
         orderDetailViewModel.updateCity("Ahmedabad");
         orderDetailViewModel.updateStateWithPincode("Gujarat-380015");

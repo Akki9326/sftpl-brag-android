@@ -20,6 +20,9 @@ import retrofit2.Call;
 public class MoreViewModel extends CoreViewModel<MoreNavigator> {
 
     private final ObservableField<String> fullName = new ObservableField<>();
+    private final ObservableField<String> fullAddress = new ObservableField<>();
+    private final ObservableField<Boolean> isEmptyAddress = new ObservableField<>();
+
 
     public MoreViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -62,5 +65,23 @@ public class MoreViewModel extends CoreViewModel<MoreNavigator> {
             }
         });
 
+    }
+
+    public ObservableField<String> getFullAddress() {
+
+        return fullAddress;
+    }
+
+    public void setFullAddress(String address) {
+        setIsEmptyAddress(address.isEmpty() ? true : false);
+        fullAddress.set(address);
+    }
+
+    public ObservableField<Boolean> getIsEmptyAddress() {
+        return isEmptyAddress;
+    }
+
+    public void setIsEmptyAddress(boolean isEmptyAddress) {
+        this.isEmptyAddress.set(isEmptyAddress);
     }
 }

@@ -62,7 +62,7 @@
     <string name="error_code_27">Invalid mobile number.</string>
     <string name="error_code_28">Interaction is already available.</string>
     <string name="error_code_29">Interaction is already available.</string>
-    <string name="error_code_30">Internal error occurs.</string>
+    <string name="error_code_30">Your address is empty</string>
     <string name="error_code_31">The member is not allowed to log in.</string>
     <string name="error_code_32">Invalid email id.</string>
     <string name="error_code_33">Mobile number not found.</string>
@@ -239,9 +239,9 @@
     <string name="label_size_came">Size</string>
     <string name="label_color_caps">COLOR</string>
     <string name="label_color_camel">Color</string>
-    <string name="label_order_status_ordered">Ordered</string>
+    <string name="label_order_status_placed">Placed</string>
     <string name="label_order_status_packed">Packed</string>
-    <string name="label_order_status_shipped">Shipped</string>
+    <string name="label_order_status_rejected">Rejected</string>
     <string name="label_order_status_delivered">Delivered</string>
     <string name="label_order_status_cancalled">Cancalled</string>
     <string name="toolbar_label_order_detail">Order Detail</string>
@@ -255,6 +255,7 @@
     <string name="label_send_otp_to_mobile">Please type OTP sent to your mobile number.</string>
 
     <string name="label_edit_address">Edit Address</string>
+    <string name="label_add_address">Add Address</string>
     <string name="error_app_not_found">In your device,app not found to open this file.</string>
     <string name="msg_download_complate">Downlaod complete</string>
     <string name="error_download_file">Error in downlaod file</string>
@@ -284,4 +285,8 @@
     <string name="label_sort_by_camel">Sort By</string>
     <string name="label_avail_qty">available - %s</string>
     <string name="label_select_state">Select State</string>
+    <string name="error_pincode_valid">Please enter valid pincode.</string>
+    <string name="error_add_address">Please add address which want to place order.</string>
+    <string name="label_order_status_dispatched">Dispatched</string>
+    <string name="error_code_41">Your cart is empty.</string>
 </resources>

@@ -16,15 +16,23 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.datas.UserAddress;
 import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.data.model.requests.QAddAddress;
+import com.pulse.brag.data.model.response.LoginResponse;
 import com.pulse.brag.data.model.response.RStateList;
+import com.pulse.brag.data.model.response.RUserAddress;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Handler;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -37,16 +45,27 @@ import retrofit2.Call;
 public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigator> {
 
     ObservableField<String> state = new ObservableField<>();
+    ObservableField<Boolean> isAddressAvaliable = new ObservableField<>();
+    UserAddress userAddress;
 
     public AddEditAddressViewModel(IDataManager dataManager) {
         super(dataManager);
     }
 
-    public View.OnClickListener onAddOrUpdate() {
+    public View.OnClickListener onAdd() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onAddOrUpdateAddress();
+                getNavigator().onAddAddress();
+            }
+        };
+    }
+
+    public View.OnClickListener onUpdate() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onUpdateAddress();
             }
         };
     }
@@ -74,14 +93,46 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
 
     }
 
-    public void AddorUpdateAddress(QAddAddress addAddress) {
+    public void AddAddress(final QAddAddress addAddress) {
 
-        Call<GeneralResponse> mAddAddress = getDataManager().addAddress(addAddress);
-        mAddAddress.enqueue(new ApiResponse<GeneralResponse>() {
+        Call<RUserAddress> mAddAddress = getDataManager().addAddress(addAddress);
+        mAddAddress.enqueue(new ApiResponse<RUserAddress>() {
             @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+            public void onSuccess(RUserAddress generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
+                    UserData userData = getDataManager().getUserData();
+                    userData.setAddresses(generalResponse.getAddresses());
+                    getDataManager().setUserData(new Gson().toJson(userData));
                     getNavigator().onApiSuccess();
+                } else {
+                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    public void UpdateAddress(UserAddress addAddress) {
+        UserData userData = getDataManager().getUserData();
+        List<UserAddress> mUserAddresses = new ArrayList<>();
+        mUserAddresses.add(addAddress);
+        userData.setAddresses(mUserAddresses);
+        Call<LoginResponse> mAddAddress = getDataManager().updateProfile(userData);
+        mAddAddress.enqueue(new ApiResponse<LoginResponse>() {
+            @Override
+            public void onSuccess(LoginResponse generalResponse, Headers headers) {
+                if (generalResponse.isStatus()) {
+                    getDataManager().setUserData(new Gson().toJson(generalResponse.getData()));
+                    new android.os.Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getNavigator().onApiSuccess();
+                        }
+                    }, 500);
                 } else {
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
@@ -113,5 +164,95 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
                 getNavigator().onApiErrorState(t);
             }
         });
+    }
+
+    public void getUserProfile() {
+        Call<LoginResponse> responseCall = getDataManager().getUserProfile("user/getProfile");
+        responseCall.enqueue(new ApiResponse<LoginResponse>() {
+            @Override
+            public void onSuccess(LoginResponse loginResponse, Headers headers) {
+                if (loginResponse.isStatus()) {
+                    if (loginResponse.getData().getAddresses() == null || loginResponse.getData().getAddresses().isEmpty()) {
+                        setIsAddressAvaliable(false);
+                    } else {
+                        setUserAddress(loginResponse.getData().getAddresses().get(0));
+                        setIsAddressAvaliable(true);
+                    }
+                    getNavigator().onApiSuccessUserProfile();
+                } else {
+                    getNavigator().onApiErrorUserProfile(new ApiError(loginResponse.getErrorCode(), loginResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiErrorUserProfile(new ApiError(t.getHttpCode(), t.getMessage()));
+            }
+        });
+    }
+
+    public ObservableField<Boolean> IsAddressAvaliable() {
+        return isAddressAvaliable;
+    }
+
+    public void setIsAddressAvaliable(boolean isAddressAvaliable) {
+        this.isAddressAvaliable.set(isAddressAvaliable);
+    }
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public String getAddress() {
+        if (getDataManager().getUserData().getAddresses() != null && !getDataManager().getUserData().getAddresses().isEmpty()) {
+            setIsAddressAvaliable(true);
+            return getDataManager().getUserData().getAddresses().get(0).getAddress().trim();
+        } else {
+            return "";
+        }
+    }
+
+    public String getLandmark() {
+        if (getDataManager().getUserData().getAddresses() != null && !getDataManager().getUserData().getAddresses().isEmpty()) {
+            return getDataManager().getUserData().getAddresses().get(0).getLandmark().trim();
+        } else {
+            return "";
+        }
+    }
+
+    public String getCity() {
+        if (getDataManager().getUserData().getAddresses() != null && !getDataManager().getUserData().getAddresses().isEmpty()) {
+            return getDataManager().getUserData().getAddresses().get(0).getCity().trim();
+        } else {
+            return "";
+        }
+    }
+
+    public String getStateText() {
+        if (getDataManager().getUserData().getAddresses() != null && !getDataManager().getUserData().getAddresses().isEmpty()) {
+            return getDataManager().getUserData().getAddresses().get(0).getState().getText().trim();
+        } else {
+            return "";
+        }
+    }
+
+    public String getStateId() {
+        if (getDataManager().getUserData().getAddresses() != null && !getDataManager().getUserData().getAddresses().isEmpty()) {
+            return getDataManager().getUserData().getAddresses().get(0).getState().getId().trim();
+        } else {
+            return "";
+        }
+    }
+
+    public String getPincode() {
+        if (getDataManager().getUserData().getAddresses() != null && !getDataManager().getUserData().getAddresses().isEmpty()) {
+            return String.valueOf(getDataManager().getUserData().getAddresses().get(0).getPincode()).trim();
+        } else {
+            return "";
+        }
     }
 }

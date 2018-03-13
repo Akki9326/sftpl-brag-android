@@ -26,7 +26,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-
                 android:orientation="vertical">
 
                 <TextView
@@ -49,7 +48,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
                     android:maxLength="@integer/max_length"
-                    android:paddingBottom="5dp" />
+                    android:paddingBottom="5dp"
+                    android:text="@{viewModel.address}" />
 
                 <View
                     android:layout_width="match_parent"
@@ -77,7 +77,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
                     android:maxLength="@integer/max_length"
-                    android:paddingBottom="5dp" />
+                    android:paddingBottom="5dp"
+                    android:text="@{viewModel.landmark}" />
 
                 <View
                     android:layout_width="match_parent"
@@ -107,6 +108,7 @@
                     android:maxLength="@integer/max_length"
                     android:paddingBottom="5dp"
                     android:tag="@string/font_opensans_regular_id"
+                    android:text="@{viewModel.city}"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_medium" />
 
@@ -169,7 +171,8 @@
                     android:inputType="number"
                     android:maxLength="6"
                     android:onEditorAction="@{viewModel.onEditorActionPincode}"
-                    android:paddingBottom="5dp" />
+                    android:paddingBottom="5dp"
+                    android:text="@{viewModel.pincode}" />
 
                 <View
                     android:layout_width="match_parent"
@@ -179,7 +182,7 @@
                     android:background="@color/pink" />
 
                 <TextView
-                    android:id="@+id/textview_signup"
+                    android:id="@+id/textview_add_update"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -187,11 +190,11 @@
                     android:layout_marginTop="30dp"
                     android:background="@drawable/round_corner_solid_pink"
                     android:gravity="center"
-                    android:onClick="@{viewModel.onAddOrUpdate()}"
+                    android:onClick="@{viewModel.IsAddressAvaliable()?viewModel.onUpdate():viewModel.onAdd()}"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/button_add"
+                    android:text="@{viewModel.IsAddressAvaliable() ?(@string/button_update): (@string/button_add)}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small" />
 

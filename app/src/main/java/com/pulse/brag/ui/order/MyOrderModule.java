@@ -9,24 +9,19 @@ package com.pulse.brag.ui.order;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.MyOrderData;
-import com.pulse.brag.data.model.response.RMyOrderList;
+import com.pulse.brag.data.IDataManager;
 
-import java.util.List;
+import dagger.Module;
+import dagger.Provides;
 
 /**
  * Created by nikhil.vadoliya on 21-02-2018.
  */
 
-
-public interface MyOrderNavigator {
-
-    void onApiSuccess();
-
-    void onApiError(ApiError error);
-
-    void swipeRefresh();
-
-    void getOrderList(RMyOrderList orderList, List<MyOrderData> listRespones);
+@Module
+public class MyOrderModule {
+    @Provides
+    MyOrderViewModel provideMyOrderViewModel(IDataManager dataManager) {
+        return new MyOrderViewModel(dataManager);
+    }
 }

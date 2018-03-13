@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.order;
+package com.pulse.brag.data.model.requests;
 
 
 /**
@@ -9,19 +9,11 @@ package com.pulse.brag.ui.order;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.IDataManager;
-
-import dagger.Module;
-import dagger.Provides;
-
 /**
- * Created by nikhil.vadoliya on 21-02-2018.
+ * Created by nikhil.vadoliya on 13-03-2018.
  */
 
-@Module
-public class MyOrderFragmentModule {
-    @Provides
-    MyOrderViewModel provideMyOrderViewModel(IDataManager dataManager) {
-        return new MyOrderViewModel(dataManager);
-    }
+
+public class QPlaceOrder {
+
 }

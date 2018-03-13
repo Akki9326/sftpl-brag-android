@@ -9,12 +9,15 @@ package com.pulse.brag.data.model.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by nikhil.vadoliya on 09-03-2018.
  */
 
 
-public class UserAddress {
+public class UserAddress implements Parcelable {
     private String id;
     private String address;
     private String landmark;
@@ -69,4 +72,43 @@ public class UserAddress {
     public void setState(StateData state) {
         this.state = state;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.address);
+        dest.writeString(this.landmark);
+        dest.writeString(this.city);
+        dest.writeInt(this.pincode);
+        dest.writeParcelable(this.state, flags);
+    }
+
+    public UserAddress() {
+    }
+
+    protected UserAddress(Parcel in) {
+        this.id = in.readString();
+        this.address = in.readString();
+        this.landmark = in.readString();
+        this.city = in.readString();
+        this.pincode = in.readInt();
+        this.state = in.readParcelable(StateData.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<UserAddress> CREATOR = new Parcelable.Creator<UserAddress>() {
+        @Override
+        public UserAddress createFromParcel(Parcel source) {
+            return new UserAddress(source);
+        }
+
+        @Override
+        public UserAddress[] newArray(int size) {
+            return new UserAddress[size];
+        }
+    };
 }

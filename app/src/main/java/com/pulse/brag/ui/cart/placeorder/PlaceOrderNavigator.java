@@ -22,9 +22,15 @@ public interface PlaceOrderNavigator {
 
     void onApiError(ApiError error);
 
-    void onContinueClick();
+    void onPlaceOrder();
 
-    void  onEditAddress();
+    void onEditAddress();
+
+    void onAddAddress();
 
     void onPriceLabelClick();
+
+    void onApiSuccessPlaceOrder();
+
+    void onApiErrorPlaceOrder(ApiError error);
 }

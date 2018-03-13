@@ -39,7 +39,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="5dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="@color/gray_transparent"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -90,6 +90,7 @@
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:tag="@string/font_opensans_regular_id"
+                            android:visibility="gone"
                             android:text="@{viewModel.product_name}"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_small" />
@@ -100,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:tag="@string/font_opensans_bold_id"
-                            android:text="@{viewModel.productPriceWithSym}"
+                            android:text="@{`Total Price: `+viewModel.productPriceWithSym}"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_very_small" />
 
@@ -111,6 +112,7 @@
                             android:layout_marginTop="3dp"
                             android:gravity="center"
                             android:tag="@string/font_opensans_regular_id"
+                            android:visibility="gone"
                             android:text="@{`Qty: `+viewModel.product_qty}"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_very_small" />
@@ -120,6 +122,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:gravity="center_vertical"
+                            android:layout_gravity="bottom"
                             android:orientation="horizontal">
 
                             <com.pulse.brag.views.RoundView
@@ -146,6 +149,7 @@
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
                         android:scaleType="centerCrop"
+                        android:visibility="gone"
                         bind:imageUrl="@{viewModel.product_image_url}" />
 
 

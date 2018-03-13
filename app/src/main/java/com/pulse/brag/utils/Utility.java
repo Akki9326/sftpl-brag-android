@@ -416,4 +416,13 @@ public class Utility {
         }
     }
 
+
+    public static int numLengthFromInt(int n) {
+        if (n == 0) return 1;
+        int l;
+        n = Math.abs(n);
+        for (l = 0; n > 0; ++l)
+            n /= 10;
+        return l;
+    }
 }

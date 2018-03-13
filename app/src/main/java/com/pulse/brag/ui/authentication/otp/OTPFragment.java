@@ -166,7 +166,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -182,7 +182,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
             else
                 mOTPViewModel.verifyOtp(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -192,7 +192,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
             showProgress();
             mOTPViewModel.resendOtp(mobileNum);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
 
     }

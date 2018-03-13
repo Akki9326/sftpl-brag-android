@@ -1,13 +1,18 @@
 package com.pulse.brag.ui.home.product.list;
 
 import android.databinding.ObservableField;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.remote.ApiResponse;
@@ -27,7 +32,6 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
 
     private final ObservableField<Boolean> noResult = new ObservableField<>();
 
-    ObservableField<String> productImg = new ObservableField<>();
 
     public ObservableField<Boolean> getNoInternet() {
         return noInternet;
@@ -55,7 +59,7 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().openSortDialog();
+                getNavigator().openSortingDialog();
             }
         };
     }
@@ -64,7 +68,7 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().openFilter();
+                getNavigator().openFilterDialog();
             }
         };
     }
@@ -84,11 +88,27 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
         };
     }
 
-    public void getProductList(int page, String category, String subCategory, int sorting, DataProductList.Filter filter) {
+    public boolean onEditorActionSearch(@NonNull final TextView textView, final int actionId,
+                                        @Nullable final KeyEvent keyEvent) {
+
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            getNavigator().search(textView.getText().toString().toLowerCase());
+            return true;
+        }
+        return false;
+    }
+
+    public void afterTextChanged(Editable s) {
+        if (s != null && s.length() <= 0)
+            getNavigator().search("");
+    }
+
+    public void getProductList(int page, String category, String subCategory, String seasonCode, final String q, int sorting, QProductList.Filter filter) {
         QProductList query = new QProductList();
         query.setCategory(category);
         query.setSubCategory(subCategory);
-        query.setSeasonCode(null);
+        query.setSeasonCode(seasonCode);
+        query.setQ(q);
         query.setOrderByEnum(sorting);
         query.setFilter(filter);
         Call<RProductList> getProductList = getDataManager().getProductionList(page, query);
@@ -99,10 +119,12 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
                     getNavigator().onApiSuccess();
                     if (rProductList.getData() != null && rProductList.getData().getObjects() != null && rProductList.getData().getObjects().size() > 0) {
                         //display data
+                        getNavigator().setData(rProductList.getData());
                         getNavigator().setProductList(rProductList.getData().getCount(), rProductList.getData().getObjects());
                         getNavigator().setFilter(rProductList.getData().getFilter());
                     } else {
-                        getNavigator().onNoData();
+                        if (q == null)
+                            getNavigator().onNoData();
                     }
                 } else {
                     getNavigator().onApiError(new ApiError(rProductList.getErrorCode(), rProductList.getMessage()));

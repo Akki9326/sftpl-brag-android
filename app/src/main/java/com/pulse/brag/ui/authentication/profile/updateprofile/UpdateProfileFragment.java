@@ -52,6 +52,7 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
     public void afterViewCreated() {
         mFragmentEditUserProfileBinding = getViewDataBinding();
         Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentEditUserProfileBinding.baseLayout);
+        mUserProfileViewModel.fetchUserProfile();
     }
 
     @Override
@@ -82,7 +83,7 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
     @Override
     public void onApiError(ApiError error) {
         showProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
             Utility.hideSoftkeyboard(getActivity());
             mUserProfileViewModel.updateUser(mobile,mFragmentEditUserProfileBinding.edittextFirstname.getText().toString(),mFragmentEditUserProfileBinding.edittextLastname.getText().toString(),mFragmentEditUserProfileBinding.edittextEmail.getText().toString());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 

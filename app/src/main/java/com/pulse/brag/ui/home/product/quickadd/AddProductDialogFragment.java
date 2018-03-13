@@ -145,7 +145,6 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         attachKeyboardListeners();
 
         if (mProductDetails != null) {
-
             List<String> mIntegerList = new ArrayList<>();
             mIntegerList.add("#000000");
             mColorListAdapter = new ColorListAdapter(getActivity(), mIntegerList, 0, this);
@@ -191,6 +190,8 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     }
 
     public void showData(String description, int stockData, double unitPrice, List<String> bannerImages) {
+        //// TODO: 3/12/2018 if data not available than display no data screen
+
         List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
         for (String url : bannerImages) {
             imagePagerResponeList.add(new ImagePagerResponse(url, ""));
@@ -201,14 +202,14 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         if (stockData > 0)
             mAddProductDialogViewModel.updateQty(String.valueOf(1));
 
-
-        mAddProductDialogViewModel.updateMaxQty(String.valueOf(stockData));
         mAddProductDialogViewModel.updateProductName(description);
+        mAddProductDialogViewModel.updateMaxQty(String.valueOf(stockData));
+        mAddProductDialogViewModel.updateNotifyMe(stockData <= 0);
         mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(String.valueOf(mProductDetails.getStockData()).length())});
     }
 
     @Override
-    public void onSeleteColor(int pos) {
+    public void onSelectedColor(int pos) {
         mColorListAdapter.setSelectorItem(pos);
     }
 
@@ -230,7 +231,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -248,7 +249,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         if (Utility.isConnection(getActivity())) {
             mAddProductDialogViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mDialogFragmentAddProductBinding.edittextQty.getText().toString()));
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
 
     }
@@ -280,8 +281,17 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
     @Override
     public void notifyMe() {
-        // TODO: 2/20/2018 check for new parameter
-        mAddProductDialogViewModel.notifyMe("", "", "");
+        if (Utility.isConnection(getActivity())) {
+            mAddProductDialogViewModel.notifyMe(mProduct.getNo());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+
+        }
+    }
+
+    @Override
+    public void onNotifyMeSuccess(String msg) {
+        AlertUtils.showAlertMessage(getBaseActivity(), msg);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class DataProductList {
     private List<Products> objects = null;
     @SerializedName("filter")
     @Expose
-    private Filter filter;
+    private DataFilter.Filter filter;
     @SerializedName("count")
     @Expose
     private int count;
@@ -46,7 +46,7 @@ public class DataProductList {
     @Expose
     private boolean alreadyInCart;
 
-    public Filter getFilter() {
+    public DataFilter.Filter getFilter() {
         return filter;
     }
 
@@ -114,7 +114,7 @@ public class DataProductList {
         this.orderBy = orderBy;
     }
 
-    public void setFilter(Filter filter) {
+    public void setFilter(DataFilter.Filter filter) {
         this.filter = filter;
     }
 
@@ -482,30 +482,4 @@ public class DataProductList {
         }
     }
 
-    public static class Filter {
-
-        @SerializedName("colorCodes")
-        @Expose
-        private List<String> colorCodes = null;
-        @SerializedName("sizeCodes")
-        @Expose
-        private List<String> sizeCodes = null;
-
-        public List<String> getColorCodes() {
-            return colorCodes;
-        }
-
-        public void setColorCodes(List<String> colorCodes) {
-            this.colorCodes = colorCodes;
-        }
-
-        public List<String> getSizeCodes() {
-            return sizeCodes;
-        }
-
-        public void setSizeCodes(List<String> sizeCodes) {
-            this.sizeCodes = sizeCodes;
-        }
-
-    }
 }

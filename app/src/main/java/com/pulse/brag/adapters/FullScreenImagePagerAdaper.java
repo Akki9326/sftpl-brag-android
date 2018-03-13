@@ -57,7 +57,7 @@ public class FullScreenImagePagerAdaper extends PagerAdapter implements ImagePag
         /*View itemView = mLayoutInflater.inflate(R.layout.item_full_image, container, false);
 
         PinchToZoom imageView = (PinchToZoom) itemView.findViewById(R.id.imageView);
-        Utility.imageSet(mContext, mPagerRespones.get(position).getUrl(), imageView);
+        Utility.imageSetCenterInside(mContext, mPagerRespones.get(position).getUrl(), imageView);
         container.addView(itemView);
         return itemView;*/
 

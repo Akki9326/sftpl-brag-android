@@ -157,6 +157,8 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     public void showData(String description, String description2, int stockData, double unitPrice, List<String> bannerImages) {
 
+        //// TODO: 3/12/2018 if data not available than display no data screen
+
         if (stockData > 0) {
             mProductDetailViewModel.updateQty(String.valueOf(1));
             mQuality = 1;
@@ -200,7 +202,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
     @Override
-    public void onSeleteColor(int pos) {
+    public void onSelectedColor(int pos) {
         mColorListAdapter.setSelectorItem(pos);
     }
 
@@ -212,7 +214,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
 
     }
 
@@ -245,7 +247,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         if (Utility.isConnection(getActivity())) {
             mProductDetailViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()));
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -256,8 +258,16 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void notifyMe() {
-        // TODO: 2/20/2018 check for new parameter && internet check
-        mProductDetailViewModel.notifyMe("", "", "");
+        if (Utility.isConnection(getActivity())) {
+            mProductDetailViewModel.notifyMe(mProduct.getNo());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+        }
+    }
+
+    @Override
+    public void onNotifyMeSuccess(String msg) {
+        AlertUtils.showAlertMessage(getBaseActivity(), msg);
     }
 
     @Override

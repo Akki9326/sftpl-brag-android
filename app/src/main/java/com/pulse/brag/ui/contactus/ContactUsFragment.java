@@ -80,7 +80,7 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
             //api call
             getActivity().onBackPressed();
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 }

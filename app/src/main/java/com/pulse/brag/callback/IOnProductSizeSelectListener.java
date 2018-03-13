@@ -16,5 +16,5 @@ import com.pulse.brag.data.model.datas.DataProductList;
 
 
 public interface IOnProductSizeSelectListener {
-    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item);
+    void OnSelectedSize(int prevPos, int pos, DataProductList.Size item);
 }

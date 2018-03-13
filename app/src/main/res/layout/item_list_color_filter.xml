@@ -30,7 +30,7 @@
             android:layout_width="39dp"
             android:layout_height="39dp"
             android:layout_gravity="center"
-            app:round_color="@color/white" />
+            app:round_color="#EBEBF1" />
 
         <com.pulse.brag.views.RoundView
             android:id="@+id/roundview_product_color"

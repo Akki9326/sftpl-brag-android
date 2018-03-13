@@ -118,7 +118,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
     }
 
     public void addToCart(String itemId, int qty) {
-        Call<RAddToCart> callAddToCart = getDataManager().addToCart(new QAddToCart(itemId,qty));
+        Call<RAddToCart> callAddToCart = getDataManager().addToCart(new QAddToCart(itemId, qty));
         callAddToCart.enqueue(new ApiResponse<RAddToCart>() {
             @Override
             public void onSuccess(RAddToCart rAddToCart, Headers headers) {
@@ -142,13 +142,14 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         });
     }
 
-    public void notifyMe(String productId, String color, String size) {
-        Call<GeneralResponse> mCallNotifyMe = getDataManager().notifyMe(productId, color, size);
+    public void notifyMe(String itemNo) {
+        Call<GeneralResponse> mCallNotifyMe = getDataManager().notifyMe(itemNo);
         mCallNotifyMe.enqueue(new ApiResponse<GeneralResponse>() {
             @Override
             public void onSuccess(GeneralResponse generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
+                    getNavigator().onNotifyMeSuccess("Once item available will notify you.");
                 } else {
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }

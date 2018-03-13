@@ -78,7 +78,7 @@ public class AlertUtils {
 
     public static Dialog alertDialog;
 
-    public static void showAlertMessage(final Activity activity, Integer code, String errormessage) {
+    public static void showAlertMessage(final Activity activity, Integer code, String errormessage, IDismissDialogListener listener) {
 
         if (code != null) {
             String message = "";
@@ -252,7 +252,9 @@ public class AlertUtils {
 
 
             }
-            if (code == 7) {
+            if (listener != null) {
+                showAlertMessageWithButton(activity, message, listener);
+            } else if (code == 7) {
                 showAlertMessageOkToLogin(activity, message);
             } else {
                 showAlertMessage(activity, message);
@@ -260,7 +262,7 @@ public class AlertUtils {
         } else if (errormessage != null && !errormessage.isEmpty()) {
             showAlertMessage(activity, errormessage);
         } else {
-            showAlertMessage(activity, 1, null);
+            showAlertMessage(activity, 1, null, listener);
         }
 
 
@@ -332,8 +334,7 @@ public class AlertUtils {
     }
 
     public static void showAlertMessageOkToLogin(final Activity activity, String s) {
-
-// TODO: 2/27/2018 move to core class because of preference clear issue
+        // TODO: 2/27/2018 move to core class because of preference clear issue
 
         try {
             dissmissDialog();
@@ -367,10 +368,35 @@ public class AlertUtils {
         }
     }
 
+    public static void showAlertMessageWithButton(final Activity activity, String s, final IDismissDialogListener listener) {
+
+        try {
+            dissmissDialog();
+            alertDialog = new Dialog(activity);
+
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.setContentView(R.layout.dialog_one_button);
+            Utility.applyTypeFace(activity, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            alertDialog.setCancelable(false);
+
+            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
+            txt.setText(s);
+
+            Button dialogButton = (Button) alertDialog.findViewById(R.id.button_ok_alert_btn);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.dismissDialog(alertDialog);
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void showAlertMessage(final Activity activity, Throwable throwable) {
-
-
         if (throwable instanceof TimeoutException || throwable instanceof SocketTimeoutException) {
             showAlertMessage(activity, activity.getResources().getString(R.string.error_retrofit_request_timeout));
         } else if (throwable instanceof NetworkOnMainThreadException) {
@@ -379,7 +405,7 @@ public class AlertUtils {
             showAlertMessage(activity, activity.getResources().getString(R.string.error_retrofit_connection));
         } else {
             throwable.printStackTrace();
-            showAlertMessage(activity, 1, null);
+            showAlertMessage(activity, 1, null, null);
         }
     }
 
@@ -421,5 +447,9 @@ public class AlertUtils {
         } catch (Exception e) {
 
         }
+    }
+
+    public interface IDismissDialogListener {
+        void dismissDialog(Dialog dialog);
     }
 }

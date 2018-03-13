@@ -6,7 +6,6 @@ import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.utils.Utility;
 
@@ -57,7 +56,7 @@ public class ItemProductViewModel extends BaseObservable {
     // Loading Image using Glide Library.
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String url) {
-        Utility.imageSet(imageView.getContext(), url, imageView);
+        Utility.imageSetCenterInside(imageView.getContext(), url, imageView);
     }
 
     public void setProduct(DataProductList.Products product) {

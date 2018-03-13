@@ -80,7 +80,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                 }
             }, 500);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 

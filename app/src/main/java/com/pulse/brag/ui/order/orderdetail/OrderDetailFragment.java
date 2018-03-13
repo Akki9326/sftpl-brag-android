@@ -111,7 +111,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             showProgress();
             orderDetailViewModel.getOrderDetail();
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -139,7 +139,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                 downloadOrOpenFile();
             }
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
 
 

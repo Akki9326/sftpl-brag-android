@@ -143,7 +143,7 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -162,7 +162,7 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
                         , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
             }
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 

@@ -2,6 +2,7 @@ package com.pulse.brag.data.model.requests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.data.model.datas.DataProductList;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class QProductList {
     private List<Object> objects = null;
     @SerializedName("filter")
     @Expose
-    private DataProductList.Filter filter;
+    private Filter filter;
     @SerializedName("orderByEnum")
     @Expose
     private int orderByEnum;
@@ -48,7 +49,7 @@ public class QProductList {
         this.objects = objects;
     }
 
-    public void setFilter(DataProductList.Filter filter) {
+    public void setFilter(Filter filter) {
         this.filter = filter;
     }
 
@@ -74,5 +75,56 @@ public class QProductList {
 
     public void setSeasonCode(String seasonCode) {
         this.seasonCode = seasonCode;
+    }
+
+    public static class Filter {
+
+        private List<ColorCode> colorCodes = null;
+        private List<String> sizeCodes = null;
+
+        public List<ColorCode> getColorCodes() {
+            return colorCodes;
+        }
+
+        public void setColorCodes(List<ColorCode> colorCodes) {
+            this.colorCodes = colorCodes;
+        }
+
+        public List<String> getSizeCodes() {
+            return sizeCodes;
+        }
+
+        public void setSizeCodes(List<String> sizeCodes) {
+            this.sizeCodes = sizeCodes;
+        }
+
+    }
+
+    public static class ColorCode {
+
+        private String color;
+        private String hash;
+
+        public ColorCode(String color, String hash) {
+            this.color = color;
+            this.hash = hash;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
+
+        public String getHash() {
+            return hash;
+        }
+
+        public void setHash(String hash) {
+            this.hash = hash;
+        }
+
     }
 }

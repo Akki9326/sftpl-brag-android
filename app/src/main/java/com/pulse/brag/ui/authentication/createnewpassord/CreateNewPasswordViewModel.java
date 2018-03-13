@@ -57,31 +57,5 @@ public class CreateNewPasswordViewModel extends CoreViewModel<CreateNewPasswordN
             }
         });
 
-        /*Call<ChangePasswordResponse> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().resetPassword(resetPassword);
-        mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordResponse>() {
-            @Override
-            public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    ChangePasswordResponse respone = response.body();
-                    if (respone.isStatus()) {
-                        showAlertMessage();
-                    } else {
-                        //Utility.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                    }
-                } else {
-                    //Utility.showAlertMessage(getActivity(), 1, null);
-                    AlertUtils.showAlertMessage(getActivity(), 1, null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
-                hideProgressDialog();
-                //Utility.showAlertMessage(getActivity(), t);
-                AlertUtils.showAlertMessage(getActivity(), t);
-            }
-        });*/
     }
 }

@@ -5,8 +5,10 @@ import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
+import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QGetFilter;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.SignInRequest;
 import com.pulse.brag.data.model.response.RCartList;
@@ -18,7 +20,9 @@ import com.pulse.brag.data.model.response.MyOrderListRespone;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.RAddToCart;
+import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RProductList;
+import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import retrofit2.Call;
@@ -33,7 +37,7 @@ public interface IApiManager extends ApiInterface {
     Call<LoginResponse> userLogin(LoginRequest loginRequest);
 
     @Override
-    Call<RProductList> getProductionList(int page,QProductList body);
+    Call<RProductList> getProductionList(int page, QProductList body);
 
     @Override
     Call<SignUpResponse> userSignIn(SignInRequest signInRequest);
@@ -78,7 +82,16 @@ public interface IApiManager extends ApiInterface {
     Call<CollectionListResponse> getCollectionProduct(String url);
 
     @Override
-    Call<GeneralResponse> notifyMe(String productId, String color, String size);
+    Call<GeneralResponse> notifyMe(String itemNo);
+
+    @Override
+    Call<RFilter> getFilter(QGetFilter reqGetFilter);
+
+    @Override
+    Call<GeneralResponse> addAddress(QAddAddress addAddress);
+
+    @Override
+    Call<RStateList> getStateList(String url);
 
     @Override
     Call<RAddToCart> addToCart(QAddToCart addToCart);

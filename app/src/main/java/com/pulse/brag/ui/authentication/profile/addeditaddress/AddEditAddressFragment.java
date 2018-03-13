@@ -104,7 +104,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             showProgress();
             mAddEditViewModel.AddorUpdateAddress(qAddAddress);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -169,7 +169,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     @Override
     public void onApiErrorState(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
 

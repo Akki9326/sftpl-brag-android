@@ -11,6 +11,7 @@ package com.pulse.brag.ui.home.category;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
@@ -83,6 +84,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             @Override
             public void onSingleClick(View v) {
                 checkInternet(true);
+
             }
         });
 
@@ -96,6 +98,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
 
     private void checkInternet(boolean showProgress) {
+        hideProgressBar();
         if (Utility.isConnection(getContext())) {
             categoryViewModel.setNoInternet(false);
             if (showProgress)
@@ -103,7 +106,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             categoryViewModel.getCategoryData();
         } else {
             categoryViewModel.setNoInternet(true);
-            hideProgressBar();
         }
     }
 
@@ -145,7 +147,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             return;
         }
         categoryViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override

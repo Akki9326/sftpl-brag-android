@@ -184,13 +184,15 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
             return;
         }
         categoryViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
     public void swipeRefresh() {
-        mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet(false);
+        //// TODO: 3/12/2018 remove comment for swipe refresh
+        mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+        /*mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(true);
+        checkInternet(false);*/
     }
 
     @Override

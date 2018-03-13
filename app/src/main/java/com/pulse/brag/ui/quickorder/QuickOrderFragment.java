@@ -133,7 +133,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
             mSwipeRefreshLayout.setRefreshing(false);
             mRecyclerView.loadMoreComplete(false);
             //Utility.showAlertMessage(getActivity(), 0, null);
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -299,7 +299,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
     }
 
     @Override
-    public void onSeleteColor(int pos) {
+    public void onSelectedColor(int pos) {
         mColorListAdapter.setSelectorItem(pos);
 
     }

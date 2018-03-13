@@ -5,7 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.view.View;
 
-import com.pulse.brag.ui.home.product.list.adapter.model.ColorModel;
+import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.views.RoundView;
 
 /**
@@ -15,10 +15,10 @@ import com.pulse.brag.views.RoundView;
 public class ItemColorFilterViewModel extends BaseObservable {
     private Context mContext;
     private int mPosition;
-    private ColorModel mColorModel;
+    private DataFilter.ColorCode mColorModel;
     private ItemColorFilterViewModel.ItemColorViewModelListener mListener;
 
-    public ItemColorFilterViewModel(Context context, int position, ColorModel colorModel, ItemColorFilterViewModel.ItemColorViewModelListener listener) {
+    public ItemColorFilterViewModel(Context context, int position, DataFilter.ColorCode colorModel, ItemColorFilterViewModel.ItemColorViewModelListener listener) {
         this.mContext = context;
         this.mPosition = position;
         this.mListener = listener;
@@ -30,10 +30,10 @@ public class ItemColorFilterViewModel extends BaseObservable {
     }
 
     public String getFilterColor() {
-        return mColorModel.getColor();
+        return mColorModel.getHash();
     }
 
-    public void setColorModel(ColorModel colorModel) {
+    public void setColorModel(DataFilter.ColorCode colorModel) {
         this.mColorModel = colorModel;
     }
 
@@ -56,6 +56,6 @@ public class ItemColorFilterViewModel extends BaseObservable {
     }
 
     public interface ItemColorViewModelListener {
-        void OnColorClick(ColorModel model, int pos);
+        void OnColorClick(DataFilter.ColorCode model, int pos);
     }
 }

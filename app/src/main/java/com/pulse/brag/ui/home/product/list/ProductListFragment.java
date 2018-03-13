@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.Editable;
 import android.view.View;
 
 import com.pulse.brag.BR;
@@ -29,7 +30,9 @@ import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.data.model.datas.DataProductList;
+import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.databinding.FragmentProductListBinding;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
@@ -73,46 +76,33 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     FragmentProductListBinding mFragmentProductListBinding;
 
-    boolean isExecuteAsync = false;
     private static final int LOAD_LIST = 1;
-    private static final int REFINE = 2;
-    private static final int SORT = 3;
-    private static final int SEARCH = 4;
     private static final int LOAD_MORE = 5;
-    private static final int SEARCH_LOAD_MORE = 6;
-    private static final int PAGE_SIZE = 5;
-    private int ITEM_SPACING;
+
     private int ACTION = 0;
-    int productCount = 60;
     private int PAGE_NUM = 1;
-    private static final int QTY_REQUEST = 1;
+    int mSorting;
+    int productListSize;
+    boolean isClicked = false;
+
+    String mTitle;
+    String mCategoryName;
+    String mSubCategoryName;
+    String mSeasonCode;
+    String mQuery;
 
     ProductListAdapter mProductListAdapter;
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;
 
     List<DataProductList.Products> mProductList;
-    boolean isViewWithCatalog = true;
-
-    int mSelectedQty;
-    int productListSize;
-
-    String mTitle;
-    int mSorting;
-    DataProductList.Filter mFilter;
-
-    boolean mFilterApplied;
-    String mFilterColor;
-    int mFilterColorPos;
-    String mFilterSize;
-    int mFilterSizePos;
-    boolean isClicked = false;
-
-    String mCategoryName;
-    String mSubCategoryName;
+    DataProductList mData;
+    QProductList.Filter mRequestFilter;
+    DataFilter.Filter mResponseFilter;
 
     HashMap<String, String> mColorFilter;
     HashMap<String, String> mSizeFilter;
+
 
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
         @Override
@@ -145,6 +135,14 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         return fragment;
     }
 
+    public static ProductListFragment newInstance(String seasonCode) {
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_SEASON_CODE, seasonCode);
+        ProductListFragment fragment = new ProductListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +157,10 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SUB_CATEGORY_NAME))
             mSubCategoryName = getArguments().getString(Constants.BUNDLE_SUB_CATEGORY_NAME);
 
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SEASON_CODE))
+            mSeasonCode = getArguments().getString(Constants.BUNDLE_SEASON_CODE);
+
+
         if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_PRODUCT_LIST_TITLE))
             mTitle = getArguments().getString(BUNDLE_KEY_PRODUCT_LIST_TITLE);
         else
@@ -166,8 +168,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
 
         mSorting = Constants.SortBy.PRICE_ASC.ordinal();
-        mFilter = null;
-        mFilterApplied = false;
+        mRequestFilter = null;
 
         mProductList = new ArrayList<>();
         mColorFilter = new HashMap<>();
@@ -200,7 +201,13 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         mFragmentProductListBinding.recycleView.setOnLoadMoreListener(mOnLoadMoreListener);
 
         ACTION = LOAD_LIST;
-        checkNetworkConnection(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkNetworkConnection(true);
+            }
+        }, 300);
+
     }
 
     @Override
@@ -243,14 +250,14 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             }
             if (isShowLoader)
                 showProgress();
-            mProductListViewModel.getProductList(PAGE_NUM, mCategoryName, mSubCategoryName, mSorting, mFilter);
+            mProductListViewModel.getProductList(PAGE_NUM, mCategoryName, mSubCategoryName, mSeasonCode, mQuery, mSorting, mRequestFilter);
         } else {
             switch (ACTION) {
                 case LOAD_LIST:
                     mProductListViewModel.setNoInternet(true);
                     break;
                 case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null,null);
                     break;
             }
             mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
@@ -272,7 +279,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void OnAddListener(final int position) {
         if (!isClicked) {
             isClicked = true;
-            openDialogFragment(position);
+            openAddProductDialog(position);
             enabledClick();
         }
     }
@@ -286,18 +293,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         }
     }
 
-    private void openDialogFragment(int position) {
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mProductList.get(position));
-        AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
-        mAddProductDialogFragment.setCancelable(true);
-        mAddProductDialogFragment.setArguments(bundle);
-        mAddProductDialogFragment.show(getChildFragmentManager(), "");
-    }
-
     @Override
-    public void onSeleteColor(int pos) {
+    public void onSelectedColor(int pos) {
         mColorListAdapter.setSelectorItem(pos);
     }
 
@@ -326,19 +323,33 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
             mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
         }
-        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+        if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
             switch (ACTION) {
                 case LOAD_LIST:
                     mProductListViewModel.setNoInternet(true);
                     break;
                 case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null,null);
                     break;
             }
             return;
         }
+
+        if (error.getHttpCode() == 19 && (mQuery != null && mQuery.length() > 0)) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mProductListViewModel.setNoResult(true);
+                    break;
+                case LOAD_MORE:
+                    mProductListViewModel.setNoResult(false);
+                    AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+                    break;
+            }
+            return;
+        }
+
         mProductListViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
 
     }
 
@@ -355,6 +366,25 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         }, 1000);
     }
 
+
+    @Override
+    public void search(String query) {
+        hideKeyboard();
+        if (query != null && query.length() > 0) {
+            mQuery = query;
+            ACTION = LOAD_LIST;
+            PAGE_NUM = 1;
+            mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+            checkNetworkConnection(false);
+        } else {
+            mQuery = null;
+            ACTION = LOAD_LIST;
+            PAGE_NUM = 1;
+            mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+            checkNetworkConnection(false);
+        }
+    }
+
     @Override
     public void onNoData() {
         switch (ACTION) {
@@ -365,6 +395,12 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                 mProductListViewModel.setNoResult(false);
                 break;
         }
+    }
+
+    @Override
+    public void setData(DataProductList data) {
+        this.mData = data;
+        this.mSeasonCode = data.getSeasonCode();
     }
 
     @Override
@@ -392,12 +428,22 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     }
 
     @Override
-    public void setFilter(DataProductList.Filter filter) {
-        this.mFilter = filter;
+    public void setFilter(DataFilter.Filter filter) {
+        this.mResponseFilter = filter;
     }
 
     @Override
-    public void openSortDialog() {
+    public void openAddProductDialog(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mProductList.get(position));
+        AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
+        mAddProductDialogFragment.setCancelable(true);
+        mAddProductDialogFragment.setArguments(bundle);
+        mAddProductDialogFragment.show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void openSortingDialog() {
         if (!isClicked) {
             isClicked = true;
             Bundle bundle = new Bundle();
@@ -411,13 +457,14 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     }
 
     @Override
-    public void openFilter() {
+    public void openFilterDialog() {
         if (!isClicked) {
             isClicked = true;
             Bundle bundle = new Bundle();
-            bundle.putBoolean(Constants.BUNDLE_PRODUCT_FILTER_APPLIED, mFilterApplied);
-            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_COLOR, mFilterColorPos);
-            bundle.putInt(Constants.BUNDLE_PRODUCT_FILTER_SIZE, mFilterSizePos);
+            bundle.putString(Constants.BUNDLE_CATEGORY_NAME, mCategoryName);
+            bundle.putString(Constants.BUNDLE_SUB_CATEGORY_NAME, mSubCategoryName);
+            bundle.putString(Constants.BUNDLE_SEASON_CODE, mSeasonCode);
+            bundle.putParcelable(Constants.BUNDLE_APPLIED_FILTER, mResponseFilter);
             ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
             productFilterDialogFragment.setCancelable(true);
             productFilterDialogFragment.setArguments(bundle);
@@ -429,7 +476,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void onSort(int type) {
         mSorting = type;
-
         ACTION = LOAD_LIST;
         PAGE_NUM = 1;
         mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
@@ -437,12 +483,12 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     }
 
     @Override
-    public void applyFilter(String color, int colorPos, String size, int sizePos) {
-        mFilterApplied = true;
-        mFilterColor = color;
-        mFilterColorPos = colorPos;
-        mFilterSize = size;
-        mFilterSizePos = sizePos;
+    public void applyFilter(QProductList.Filter filter) {
+        mRequestFilter = filter;
+        ACTION = LOAD_LIST;
+        PAGE_NUM = 1;
+        mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+        checkNetworkConnection(true);
     }
 
 

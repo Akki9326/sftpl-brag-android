@@ -10,14 +10,12 @@ package com.pulse.brag.ui.core;
  */
 
 import android.databinding.BindingAdapter;
-import android.graphics.Bitmap;
 import android.support.design.widget.BottomNavigationView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.views.RoundView;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by nikhil.vadoliya on 14-02-2018.
@@ -32,7 +30,7 @@ public class CoreBindingAdapter {
 
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(ImageView imageView, String url) {
-        Utility.imageSet(imageView.getContext(), url, imageView);
+        Utility.imageSetCenterInside(imageView.getContext(), url, imageView);
     }
 
 

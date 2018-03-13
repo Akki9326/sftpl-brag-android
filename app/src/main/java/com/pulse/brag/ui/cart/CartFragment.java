@@ -75,7 +75,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             }, 500);
         } else {
             hideLoader();
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -188,7 +188,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override

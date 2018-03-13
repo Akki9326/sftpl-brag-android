@@ -68,7 +68,7 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         holder.mRoundColor.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                colorSelectListener.onSeleteColor(position);
+                colorSelectListener.onSelectedColor(position);
             }
         });
         if (mBooleanList.get(position)) {

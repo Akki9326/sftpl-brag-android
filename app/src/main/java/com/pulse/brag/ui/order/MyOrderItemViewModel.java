@@ -16,6 +16,7 @@ import android.view.View;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.datas.MyOrderData;
 import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.DateFormatter;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -37,15 +38,6 @@ public class MyOrderItemViewModel extends BaseObservable {
         this.position = position;
     }
 
-    public void setMyOrderData(MyOrderData responeData) {
-        this.responeData = responeData;
-        notifyChange();
-    }
-
-    public MyOrderData getMyOrderData() {
-        return responeData;
-
-    }
 
     public void onItemListClick(View view) {
         onItemClick.onItemClick(position, responeData);
@@ -85,8 +77,8 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public String getProductPriceWithSym() {
-//        return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(responeData.getProduct_price()));
-        return Utility.getIndianCurrencyPriceFormat(10);
+        return Utility.getIndianCurrencyPriceFormat(responeData.getTotalAmount());
+
     }
 
     public String getStatusLable() {
@@ -99,7 +91,8 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public String getStatusLableWithDate() {
-        return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus()) + " " + responeData.getCreatedDate();
+        return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus()) + " - "
+                + DateFormatter.convertMillisToStringDate(responeData.getCreatedDate(), DateFormatter.dd_MMM_YYYY_HH_MM_A);
     }
 
     public int getStatus() {

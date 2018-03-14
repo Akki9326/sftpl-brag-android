@@ -53,6 +53,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     FragmentMyOrderBinding mFragmentMyOrderBinding;
 
     List<MyOrderData> mList;
+    MyOrderListAdapter listAdapter;
 
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
         @Override
@@ -127,7 +128,8 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
                 PAGE_NUM++;
             } else {
                 //for pull to refresh
-                showProgress();
+                if (isShowLoader)
+                    showProgress();
                 PAGE_NUM = 1;
             }
             new Handler().postDelayed(new Runnable() {
@@ -138,6 +140,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
             }, 500);
         } else {
             hideLoader();
+            mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
             AlertUtils.showAlertMessage(getActivity(), 0, null);
         }
     }
@@ -162,7 +165,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
     @Override
     public void onItemClick(int position, MyOrderData responeData) {
-        ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(responeData.getOrderNumber(), responeData), true, true);
+        ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(responeData), true, true);
 
     }
 
@@ -188,7 +191,8 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void swipeRefresh() {
         mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(true);
-        ACTION = LOAD_MORE;
+        ACTION = LOAD_LIST;
+        mFragmentMyOrderBinding.recycleview.setIsLoadingMore(true);
         checkInternet(false);
     }
 
@@ -201,7 +205,8 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
                 totalOrderList = orderList.getCount();
                 mList.clear();
                 mList.addAll(listRespones);
-                mFragmentMyOrderBinding.recycleview.setAdapter(new MyOrderListAdapter(getActivity(), mList, this));
+                listAdapter = new MyOrderListAdapter(getActivity(), mList, this);
+                mFragmentMyOrderBinding.recycleview.setAdapter(listAdapter);
                 mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(false);
 
                 //issue of space in bottom of recycleview in last item when total item size small than 20;
@@ -212,6 +217,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
             case LOAD_MORE:
 
                 mList.addAll(listRespones);
+                listAdapter.notifyDataSetChanged();
                 mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
 
                 break;

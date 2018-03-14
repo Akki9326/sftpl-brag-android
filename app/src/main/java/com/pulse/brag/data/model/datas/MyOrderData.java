@@ -33,7 +33,7 @@ public class MyOrderData implements Parcelable {
     private boolean isActive;
     private String addressId;
     private String orderNumber;
-    private int totalAmount;
+    private double totalAmount;
     private double payableAmount;
     private UserAddress address;
     private int status;
@@ -88,7 +88,7 @@ public class MyOrderData implements Parcelable {
         this.orderNumber = orderNumber;
     }
 
-    public int getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
@@ -149,7 +149,7 @@ public class MyOrderData implements Parcelable {
         dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
         dest.writeString(this.addressId);
         dest.writeString(this.orderNumber);
-        dest.writeInt(this.totalAmount);
+        dest.writeDouble(this.totalAmount);
         dest.writeDouble(this.payableAmount);
         dest.writeParcelable(this.address, flags);
         dest.writeInt(this.status);
@@ -186,4 +186,27 @@ public class MyOrderData implements Parcelable {
             return new MyOrderData[size];
         }
     };
+
+
+    public String getFullAddressWithNewLine() {
+        if (getAddress() != null) {
+            return getAddress().getAddress() + " , " + getAddress().getLandmark() + " , "
+                    + getAddress().getCity() + "\n"
+                    + getAddress().getState().getText() + " - " + getAddress().getPincode();
+        } else {
+            return "";
+        }
+
+    }
+
+    public String getFullAddress() {
+        if (getAddress() != null) {
+            return getAddress().getAddress() + " , " + getAddress().getLandmark() + " , "
+                    + getAddress().getCity() + " , " + getAddress().getState().getText() + " - "
+                    + getAddress().getPincode();
+        } else {
+            return "";
+        }
+
+    }
 }

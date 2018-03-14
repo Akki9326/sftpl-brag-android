@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -8,11 +8,11 @@
             type="com.pulse.brag.ui.authentication.profile.addeditaddress.AddEditAddressViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="-25dp"
+        android:layout_marginTop="10dp"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 

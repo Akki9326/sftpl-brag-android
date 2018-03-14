@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.databinding.ItemListColorFilterBinding;
-import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.ui.home.product.list.adapter.model.ColorModel;
+import com.pulse.brag.ui.home.product.list.filter.listener.IFilterSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +22,12 @@ import java.util.List;
 public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.ItemViewHolder> {
 
     Activity mActivity;
-    List<ColorModel> mList;
-    IOnProductColorSelectListener colorSelectListener;
+    List<DataFilter.ColorCode> mList;
+    IFilterSelectedListener colorSelectListener;
 
     ItemViewHolder mViewHolder;
 
-    public ColorFilterAdapter(Activity mActivity, List<ColorModel> mList, IOnProductColorSelectListener colorSelectListener) {
+    public ColorFilterAdapter(Activity mActivity, List<DataFilter.ColorCode> mList, IFilterSelectedListener colorSelectListener) {
         this.mActivity = mActivity;
         this.mList = new ArrayList<>();
         this.mList = mList;
@@ -51,7 +51,7 @@ public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.
         return mList.size();
     }
 
-    public void resetList(List<ColorModel> list) {
+    public void resetList(List<DataFilter.ColorCode> list) {
         if (mList != null && mList.size() > 0)
             mList.clear();
 
@@ -69,7 +69,7 @@ public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.
             this.itemBinding = itemView;
         }
 
-        void bindColorData(int pos, ColorModel colorModel) {
+        void bindColorData(int pos, DataFilter.ColorCode colorModel) {
             this.pos = pos;
             itemBinding.setItemModel(new ItemColorFilterViewModel(itemView.getContext(), pos, colorModel, this));
 
@@ -81,8 +81,9 @@ public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.
         }
 
         @Override
-        public void OnColorClick(ColorModel model, int pos) {
+        public void OnColorClick(DataFilter.ColorCode model, int pos) {
             mList.get(pos).setSelected(!model.isSelected());
+            colorSelectListener.onSelectedColor(model.isSelected(), model);
             notifyItemChanged(pos);
         }
     }

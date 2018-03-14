@@ -9,6 +9,7 @@ import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QGetFilter;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.QAddAddress;
@@ -23,6 +24,7 @@ import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.RAddToCart;
+import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.RUserAddress;
@@ -113,8 +115,13 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
-        return mApiInterface.notifyMe(productId, color, size);
+    public Call<GeneralResponse> notifyMe(String itemNo) {
+        return mApiInterface.notifyMe(itemNo);
+    }
+
+    @Override
+    public Call<RFilter> getFilter(QGetFilter reqGetFilter) {
+        return mApiInterface.getFilter(reqGetFilter);
     }
 
     @Override

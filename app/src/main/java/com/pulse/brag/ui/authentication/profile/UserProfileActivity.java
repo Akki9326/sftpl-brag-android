@@ -138,7 +138,7 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivityInstance(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivityInstance(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override

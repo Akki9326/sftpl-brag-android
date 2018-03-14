@@ -51,7 +51,7 @@ public class WebviewDialogFragment extends CoreDialogFragment<DialogWebviewBindi
             showData();
         } else {
             //Utility.showAlertMessage(getActivity(), 0, null);
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 

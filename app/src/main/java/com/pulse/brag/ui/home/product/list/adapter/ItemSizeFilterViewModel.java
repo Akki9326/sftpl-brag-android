@@ -2,12 +2,10 @@ package com.pulse.brag.ui.home.product.list.adapter;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
 import android.view.View;
 
-import com.pulse.brag.ui.home.product.list.adapter.model.ColorModel;
-import com.pulse.brag.ui.home.product.list.adapter.model.SizeModel;
-import com.pulse.brag.views.RoundView;
+import com.pulse.brag.data.model.datas.DataFilter;
+import com.pulse.brag.data.model.datas.DataProductList;
 
 /**
  * Created by alpesh.rathod on 2/22/2018.
@@ -17,10 +15,10 @@ public class ItemSizeFilterViewModel extends BaseObservable {
 
     private Context mContext;
     private int mPosition;
-    private SizeModel mmSizeModel;
+    private DataFilter.SizeCode mmSizeModel;
     private ItemSizeFilterViewModel.ItemSizeViewModelListener mListener;
 
-    public ItemSizeFilterViewModel(Context context, int position, SizeModel colorModel, ItemSizeFilterViewModel.ItemSizeViewModelListener listener) {
+    public ItemSizeFilterViewModel(Context context, int position, DataFilter.SizeCode colorModel, ItemSizeFilterViewModel.ItemSizeViewModelListener listener) {
         this.mContext = context;
         this.mPosition = position;
         this.mListener = listener;
@@ -35,7 +33,7 @@ public class ItemSizeFilterViewModel extends BaseObservable {
         return mmSizeModel.getSize();
     }
 
-    public void setSizeModel(SizeModel sizeModel) {
+    public void setSizeModel(DataFilter.SizeCode sizeModel) {
         this.mmSizeModel = sizeModel;
     }
 
@@ -53,6 +51,6 @@ public class ItemSizeFilterViewModel extends BaseObservable {
     }
 
     public interface ItemSizeViewModelListener {
-        void OnSizeClick(SizeModel model, int pos);
+        void OnSizeClick(DataFilter.SizeCode model, int pos);
     }
 }

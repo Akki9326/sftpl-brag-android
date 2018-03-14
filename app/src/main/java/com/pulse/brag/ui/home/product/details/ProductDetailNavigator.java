@@ -22,4 +22,6 @@ public interface ProductDetailNavigator extends CoreNavigator {
     void onAddedToCart(List<DataAddToCart> data);
 
     void notifyMe();
+
+    void onNotifyMeSuccess(String msg);
 }

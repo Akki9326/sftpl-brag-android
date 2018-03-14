@@ -6,7 +6,6 @@ import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.data.model.response.ImagePagerResponse;
 import com.pulse.brag.utils.Utility;
 
@@ -44,7 +43,7 @@ public class ImagePagerItem extends BaseObservable {
 
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String url) {
-        Utility.imageSet(imageView.getContext(), url, imageView);
+        Utility.imageSetCenterInside(imageView.getContext(), url, imageView);
     }
 
     public void onItemClick(View v) {

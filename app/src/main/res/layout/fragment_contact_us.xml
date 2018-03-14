@@ -19,6 +19,7 @@
             android:layout_height="0dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:gravity="top"
             android:orientation="vertical">
@@ -130,7 +131,7 @@
                 android:paddingRight="70dp"
                 android:paddingTop="10dp"
                 android:tag="@string/font_opensans_regular_id"
-                android:text="@string/button_send"
+                android:text="@string/button_contact_us"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_small" />
 

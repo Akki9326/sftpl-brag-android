@@ -144,7 +144,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         if (Utility.isConnection(getContext())) {
             showData();
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
             mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
         }
     }
@@ -224,7 +224,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override

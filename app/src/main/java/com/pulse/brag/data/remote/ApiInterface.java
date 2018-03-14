@@ -9,13 +9,13 @@ package com.pulse.brag.data.remote;
  */
 
 import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;
 import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QGetFilter;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.SignInRequest;
@@ -28,6 +28,7 @@ import com.pulse.brag.data.model.response.RMyOrder;
 import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
+import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.model.response.RProductList;
@@ -83,17 +84,21 @@ public interface ApiInterface {
     @GET
     Call<CategoryListResponse> getCategoryProduct(@Url String url);
 
+    @GET
+    Call<CollectionListResponse> getCollectionProduct(@Url String url);
+
     @POST("item/list/{pages}")
     Call<RProductList> getProductionList(@Path("pages") int page, @Body QProductList body);
 
-    @GET
-    Call<CollectionListResponse> getCollectionProduct(@Url String url);
 
     @POST("item/addToCart")
     Call<RAddToCart> addToCart(@Body QAddToCart addToCart);
 
-    @GET("notifyMe")
-    Call<GeneralResponse> notifyMe(String productId, String color, String size);
+    @GET("item/notifyme/{itemNo}")
+    Call<GeneralResponse> notifyMe(@Path("itemNo") String itemNo);
+
+    @POST("item/getFilter")
+    Call<RFilter> getFilter(@Body QGetFilter reqGetFilter);
 
     @GET
     Call<RCartList> getCartList(@Url String url);

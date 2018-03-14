@@ -163,7 +163,7 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
 
 
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 

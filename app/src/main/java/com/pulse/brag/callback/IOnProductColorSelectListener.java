@@ -8,11 +8,13 @@ package com.pulse.brag.callback;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.data.model.datas.DataFilter;
+
 /**
  * Created by nikhil.vadoliya on 26-10-2017.
  */
 
 
 public interface IOnProductColorSelectListener {
-    public void  onSeleteColor(int pos);
+    void onSelectedColor(int pos);
 }

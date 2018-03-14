@@ -64,7 +64,7 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
 
-        Utility.imageSet(mActivity, mListResponses.get(position).getUrl(), holder.mImgBackground);
+        Utility.imageSetCenterCrop(mActivity, mListResponses.get(position).getUrl(), holder.mImgBackground);
         holder.mText.setText(mListResponses.get(position).getOptionName());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

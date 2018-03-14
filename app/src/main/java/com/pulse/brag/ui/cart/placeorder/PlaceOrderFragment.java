@@ -86,6 +86,8 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                     mPlaceOrderViewModel.getUserProfile();
                 }
             }, 500);
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -146,7 +148,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     @Override
     public void onApiErrorPlaceOrder(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
 

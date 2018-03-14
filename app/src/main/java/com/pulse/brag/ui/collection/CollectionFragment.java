@@ -133,7 +133,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(new ProductListFragment(), true, true);
+        ((MainActivity) getActivity()).pushFragments(ProductListFragment.newInstance(mCollectionList.get(position).getOptionName()), true, true);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
             return;
         }
         mCollectionViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override

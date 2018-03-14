@@ -7,9 +7,11 @@ import com.pulse.brag.data.local.AppPrefsManager;
 import com.pulse.brag.data.local.IPreferenceManager;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
+import com.pulse.brag.data.model.requests.QGetFilter;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.response.RAddToCart;
+import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RMyOrder;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.requests.QAddAddress;
@@ -146,8 +148,13 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<GeneralResponse> notifyMe(String productId, String color, String size) {
-        return mApiManager.notifyMe(productId, color, size);
+    public Call<GeneralResponse> notifyMe(String itemNo) {
+        return mApiManager.notifyMe(itemNo);
+    }
+
+    @Override
+    public Call<RFilter> getFilter(QGetFilter reqGetFilter) {
+        return mApiManager.getFilter(reqGetFilter);
     }
 
     @Override

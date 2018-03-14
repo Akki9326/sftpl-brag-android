@@ -14,10 +14,17 @@ import java.util.List;
 public interface AddProductDialogNavigator extends CoreNavigator {
 
     void dismissFragment();
+
     void editQty();
+
     void addToCart();
+
     void onAddedToCart(List<DataAddToCart> data);
+
     void afterTextChanged(Editable s);
+
     void notifyMe();
+
+    void onNotifyMeSuccess(String msg);
 
 }

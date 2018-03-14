@@ -185,7 +185,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override

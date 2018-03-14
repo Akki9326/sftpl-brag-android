@@ -21,4 +21,5 @@
 
     <color name="order_status_green">#4CAF50</color>
     <color name="order_status_red">#F44336</color>
+    <color name="filter_bg_color">#EBEBF1</color>
 </resources>

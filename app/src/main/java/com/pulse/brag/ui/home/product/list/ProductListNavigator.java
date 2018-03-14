@@ -1,6 +1,9 @@
 package com.pulse.brag.ui.home.product.list;
 
+import android.text.Editable;
+
 import com.pulse.brag.data.model.DummeyDataRespone;
+import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.ui.core.CoreNavigator;
 
@@ -14,13 +17,19 @@ public interface ProductListNavigator extends CoreNavigator {
 
     void swipeRefresh();
 
+    void search(String query);
+
     void onNoData();
+
+    void setData(DataProductList data);
 
     void setProductList(int prodcutSize, List<DataProductList.Products> dataList);
 
-    void setFilter(DataProductList.Filter filter);
+    void setFilter(DataFilter.Filter filter);
 
-    void openSortDialog();
+    void openAddProductDialog(int position);
 
-    void openFilter();
+    void openSortingDialog();
+
+    void openFilterDialog();
 }

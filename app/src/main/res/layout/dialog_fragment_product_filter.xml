@@ -16,10 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="@drawable/squre_corner_solid_white"
+        android:background="@color/filter_bg_color"
         android:gravity="center_horizontal|top"
-        android:orientation="vertical"
-        android:paddingTop="5dp">
+        android:orientation="vertical">
 
         <include
             android:id="@+id/toolbar_filter"
@@ -45,22 +44,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!--<TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:ellipsize="end"
-                    android:onClick="@{viewModel.overrideClick()}"
-                    android:padding="10dp"
-                    android:tag="@string/font_opensans_semi_bold_id"
-                    android:text="@string/label_filter_camel"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorPrimaryDark" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,7 +65,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorAccent"
                         android:onClick="@{viewModel.overrideClick()}" />
 
                     <android.support.v7.widget.RecyclerView
@@ -113,7 +96,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorAccent"
                         android:onClick="@{viewModel.overrideClick()}" />
 
                     <android.support.v7.widget.RecyclerView
@@ -136,6 +119,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_margin="1dp"
             android:layout_marginTop="10dp"
             android:background="@color/gray"
             android:orientation="horizontal">
@@ -154,7 +138,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/white" />
+                android:background="@color/filter_bg_color" />
 
             <TextView
                 android:layout_width="0dp"

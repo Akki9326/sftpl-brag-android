@@ -24,7 +24,8 @@ public class Constants {
     // TODO: Release : Log and Base Url
     public static final boolean IS_LOG_ENABLED = true;
     //    public static final String BASE_URL = "http://139.162.1.39:8082/";
-    public static final String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
+    //public static final String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
+
 
     //font type
     //public static final int FONT_SANS_ROUNDED = 1;
@@ -41,9 +42,6 @@ public class Constants {
     public static final String BUNDLE_POSITION = "bundleposition";
     public static final String BUNDLE_QTY = "bundleqty";
     public static final String BUNDLE_PRODUCT_SORTING = "bundleProductSort";
-    public static final String BUNDLE_PRODUCT_FILTER_COLOR = "bundleProductFilterColor";
-    public static final String BUNDLE_PRODUCT_FILTER_SIZE = "bundleProductFilterSize";
-    public static final String BUNDLE_PRODUCT_FILTER_APPLIED = "bundleProductFilterApplied";
     public static final String BUNDLE_SELETED_PRODUCT = "bundleselectedProduct";
     public static final String BUNDLE_IMAGE_URL = "imageurl";
     public static final String BUNDLE_MOBILE = "bundlemobile";
@@ -51,10 +49,7 @@ public class Constants {
     public static final String BUNDLE_PASSWORD = "bundlePassword";
     public static final String BUNDLE_PROFILE_IS_FROM = "bundleProfileIsFrom";
     public static final String BUNDLE_IS_FROM_SIGNUP = "bundleisFromsignup";
-    public static final String BUNDLE_IS_FROM_CHANGE_PASS = "bundleisfromchangepass";
     public static final String BUNDLE_OTP = "bundleotp";
-    public static final String BUNDLE_PRODUCT_NAME = "bundleproductname";
-    public static final String BUNDLE_PRODUCT_IMG = "bundleproductImg";
     public static final String BUNDLE_DEVICE_TOKEN = "devicetoken";
     public static final String BUNDLE_NOTIFICATION_MODEL = "notificationModel";
     public static final String BUNDLE_KEY_NOTIFICATION_ID = "notificationId";
@@ -68,16 +63,8 @@ public class Constants {
     public static final String BUNDLE_CATEGORY_LIST = "bundlecategorylist";
     public static final String BUNDLE_CATEGORY_NAME = "bundleCategoryId";
     public static final String BUNDLE_SUB_CATEGORY_NAME = "bundleSubCategoryId";
-
-
-    //header
-    public static final String HEADER_KEY_VERSION_NAME = "versionName";
-    public static final String HEADER_KEY_ACCESS_TOKEN = "accessToken";
-    public static final String HEADER_KEY_DEVICE_TOKEN = "devicesToken";
-    public static final String HEADER_KEY_DEVICE_TYPE = "deviceType";
-    public static final String HEADER_KEY_OSV = "osVersion";
-    public static final String HEADER_KEY_OS = "Os";
-    public static final int SUCCESS_RESPONE = 200;
+    public static final String BUNDLE_SEASON_CODE = "bundleSeasonCode";
+    public static final String BUNDLE_APPLIED_FILTER = "bundleAppliedFilter";
 
     public static final int EXIT_TIME_INTERVAL = 2000;
     public static final String BUNDLE_KEY_STATE = "bundlestate";
@@ -90,7 +77,8 @@ public class Constants {
     public interface ApiHelper {
         //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip
         //String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
-        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
+        //String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
+        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";
 
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;
@@ -140,7 +128,6 @@ public class Constants {
         CHANGE_ADDRESS(9),
         FAQ(10),
         ABOUT_US(11);
-
 
         MoreList(int i) {
             this.type = i;

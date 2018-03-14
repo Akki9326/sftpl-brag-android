@@ -7,10 +7,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.databinding.ItemListSizeFilterBinding;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.ui.home.product.list.adapter.model.SizeModel;
+import com.pulse.brag.ui.home.product.list.filter.listener.IFilterSelectedListener;
 import com.pulse.brag.utils.Utility;
 
 import java.util.List;
@@ -22,10 +23,10 @@ import java.util.List;
 public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.ItemViewHolder> {
 
     Activity mActivity;
-    List<SizeModel> mListSize;
-    IOnProductSizeSelectListener mOnProductSizeSelectListener;
+    List<DataFilter.SizeCode> mListSize;
+    IFilterSelectedListener mOnProductSizeSelectListener;
 
-    public SizeFilterAdapter(Activity mActivity, List<SizeModel> mListSize, IOnProductSizeSelectListener onProductSizeSelectListener) {
+    public SizeFilterAdapter(Activity mActivity, List<DataFilter.SizeCode> mListSize, IFilterSelectedListener onProductSizeSelectListener) {
         this.mActivity = mActivity;
         this.mListSize = mListSize;
         mOnProductSizeSelectListener = onProductSizeSelectListener;
@@ -48,7 +49,7 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
         return mListSize.size();
     }
 
-    public void resetSize(List<SizeModel> list) {
+    public void resetSize(List<DataFilter.SizeCode> list) {
         if (mListSize != null && mListSize.size() > 0)
             mListSize.clear();
 
@@ -67,7 +68,7 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
             Utility.applyTypeFace(this.itemView.getContext(), itemBinding.baseLayout);
         }
 
-        void bindSizeData(int pos, SizeModel sizeModel) {
+        void bindSizeData(int pos, DataFilter.SizeCode sizeModel) {
             this.pos = pos;
             itemBinding.setItemModel(new ItemSizeFilterViewModel(itemView.getContext(), pos, sizeModel, this));
 
@@ -79,8 +80,9 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
         }
 
         @Override
-        public void OnSizeClick(SizeModel model, int pos) {
+        public void OnSizeClick(DataFilter.SizeCode model, int pos) {
             mListSize.get(pos).setSelected(!model.isSelected());
+            mOnProductSizeSelectListener.onSelectedSize(model.isSelected(), model);
             notifyItemChanged(pos);
         }
     }

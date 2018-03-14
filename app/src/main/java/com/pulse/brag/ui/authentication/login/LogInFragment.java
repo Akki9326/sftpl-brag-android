@@ -105,7 +105,7 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
             showProgress();
             mLoginViewModel.login(mFragmentLoginBinding.edittextMobileNum.getText().toString(), mFragmentLoginBinding.edittextPassword.getText().toString());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -139,7 +139,7 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override

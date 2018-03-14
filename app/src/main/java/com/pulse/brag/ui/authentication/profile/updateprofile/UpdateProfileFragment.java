@@ -53,7 +53,7 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
     @Override
     public void afterViewCreated() {
         mFragmentEditUserProfileBinding = getViewDataBinding();
-        Utility.applyTypeFace(getActivity(), mFragmentEditUserProfileBinding.baseLayout);
+        Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentEditUserProfileBinding.baseLayout);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
                     , mFragmentEditUserProfileBinding.edittextLastname.getText().toString()
                     , mFragmentEditUserProfileBinding.edittextEmail.getText().toString());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 

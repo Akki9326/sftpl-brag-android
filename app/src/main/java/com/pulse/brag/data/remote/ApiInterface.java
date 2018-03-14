@@ -9,6 +9,7 @@ package com.pulse.brag.data.remote;
  */
 
 import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
 import com.pulse.brag.data.model.requests.ChangePasswordRequest;
 import com.pulse.brag.data.model.requests.LoginRequest;

@@ -23,6 +23,7 @@ import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.response.RStateList;
+import com.pulse.brag.data.model.response.RUserAddress;
 import com.pulse.brag.data.model.response.SignUpResponse;
 
 import retrofit2.Call;
@@ -85,7 +86,7 @@ public interface IApiManager extends ApiInterface {
     Call<RFilter> getFilter(QGetFilter reqGetFilter);
 
     @Override
-    Call<GeneralResponse> addAddress(QAddAddress addAddress);
+    Call<RUserAddress> addAddress(QAddAddress addAddress);
 
     @Override
     Call<RStateList> getStateList(String url);

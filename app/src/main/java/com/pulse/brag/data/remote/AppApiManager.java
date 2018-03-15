@@ -5,6 +5,7 @@ import android.content.Context;
 import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.data.model.datas.DataUser;
 import com.pulse.brag.data.model.requests.QChangeMobileNumber;
+import com.pulse.brag.data.model.requests.QChangePassword;
 import com.pulse.brag.data.model.requests.QContactUs;
 import com.pulse.brag.data.model.requests.QLogin;
 import com.pulse.brag.data.model.requests.QAddToCart;
@@ -17,6 +18,7 @@ import com.pulse.brag.data.model.requests.QSignUp;
 import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.RCategoryList;
+import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.model.response.RCollectionList;
 import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.data.model.response.RMyOrder;
@@ -78,12 +80,12 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<RChangePassword> changePassword(com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest) {
+    public Call<RChangePassword> changePassword(QChangePassword changePasswordRequest) {
         return mApiInterface.changePassword(changePasswordRequest);
     }
 
     @Override
-    public Call<RChangePassword> resetPassword(com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest) {
+    public Call<RChangePassword> resetPassword(QChangePassword changePasswordRequest) {
         return mApiInterface.resetPassword(changePasswordRequest);
     }
 

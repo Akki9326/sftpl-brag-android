@@ -7,6 +7,10 @@ import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.remote.ApiResponse;
+<<<<<<< HEAD
+=======
+import com.pulse.brag.data.model.requests.QChangePassword;
+>>>>>>> origin/master
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;

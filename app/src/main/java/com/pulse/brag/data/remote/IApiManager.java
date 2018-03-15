@@ -3,6 +3,7 @@ package com.pulse.brag.data.remote;
 import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.data.model.datas.DataUser;
 import com.pulse.brag.data.model.requests.QChangeMobileNumber;
+import com.pulse.brag.data.model.requests.QChangePassword;
 import com.pulse.brag.data.model.requests.QContactUs;
 import com.pulse.brag.data.model.requests.QLogin;
 import com.pulse.brag.data.model.requests.QAddAddress;
@@ -54,10 +55,10 @@ public interface IApiManager extends ApiInterface {
     Call<RGeneralData> resendOtp(String mobile);
 
     @Override
-    Call<RChangePassword> changePassword(com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
+    Call<RChangePassword> changePassword(QChangePassword changePasswordRequest);
 
     @Override
-    Call<RChangePassword> resetPassword(com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
+    Call<RChangePassword> resetPassword(QChangePassword changePasswordRequest);
 
     @Override
     Call<RGeneralData> logoutCall();

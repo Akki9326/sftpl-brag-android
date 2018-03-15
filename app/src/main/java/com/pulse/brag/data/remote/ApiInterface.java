@@ -11,6 +11,7 @@ package com.pulse.brag.data.remote;
 import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.data.model.datas.DataUser;
 import com.pulse.brag.data.model.requests.QChangeMobileNumber;
+import com.pulse.brag.data.model.requests.QChangePassword;
 import com.pulse.brag.data.model.requests.QContactUs;
 import com.pulse.brag.data.model.requests.QLogin;
 import com.pulse.brag.data.model.requests.QAddAddress;
@@ -22,6 +23,8 @@ import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.QSignUp;
 import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.model.response.RCategoryList;
+import com.pulse.brag.data.model.response.RCategoryList;
+import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.model.response.RCollectionList;
 import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.data.model.response.ROTPVerify;
@@ -67,10 +70,10 @@ public interface ApiInterface {
     Call<RGeneralData> resendOtp(@Query("mobile") String mobile);
 
     @POST("changePassword")
-    Call<RChangePassword> changePassword(@Body com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
+    Call<RChangePassword> changePassword(@Body QChangePassword changePasswordRequest);
 
     @POST("resetPassword")
-    Call<RChangePassword> resetPassword(@Body com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
+    Call<RChangePassword> resetPassword(@Body QChangePassword changePasswordRequest);
 
     @GET("logout")
     Call<RGeneralData> logoutCall();

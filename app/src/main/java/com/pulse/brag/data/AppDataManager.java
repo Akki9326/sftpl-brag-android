@@ -23,10 +23,12 @@ import com.pulse.brag.data.remote.IApiManager;
 import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.data.model.datas.DataUser;
 import com.pulse.brag.data.model.requests.QChangeMobileNumber;
+import com.pulse.brag.data.model.requests.QChangePassword;
 import com.pulse.brag.data.model.requests.QLogin;
 import com.pulse.brag.data.model.requests.QSignUp;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.RCategoryList;
+import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.model.response.RCollectionList;
 import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.data.model.response.ROTPVerify;
@@ -253,7 +255,7 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<RChangePassword> resetPassword(com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest) {
+    public Call<RChangePassword> resetPassword(QChangePassword changePasswordRequest) {
         return mApiManager.resetPassword(changePasswordRequest);
     }
 

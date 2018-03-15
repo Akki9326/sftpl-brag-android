@@ -12,7 +12,7 @@ package com.pulse.brag.ui.home.category;
 import android.content.Context;
 import android.view.View;
 
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.datas.DataCategoryList;
 
 /**
  * Created by nikhil.vadoliya on 27-02-2018.
@@ -22,19 +22,19 @@ import com.pulse.brag.data.model.datas.CategoryListResponseData;
 public class CategoryItemViewModel {
 
     Context context;
-    CategoryListResponseData.Category responeData;
+    DataCategoryList.Category responeData;
     OnItemClickListener onItemClick;
     int position;
 
 
-    public CategoryItemViewModel(Context context, int position, CategoryListResponseData.Category responeData, OnItemClickListener onItemClick) {
+    public CategoryItemViewModel(Context context, int position, DataCategoryList.Category responeData, OnItemClickListener onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
         this.position = position;
     }
 
-    public void setResponeData(CategoryListResponseData.Category responeData) {
+    public void setResponeData(DataCategoryList.Category responeData) {
         this.responeData = responeData;
         notifyAll();
     }
@@ -57,6 +57,6 @@ public class CategoryItemViewModel {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, CategoryListResponseData.Category responeData);
+        void onItemClick(int position, DataCategoryList.Category responeData);
     }
 }

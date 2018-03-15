@@ -16,7 +16,7 @@ import com.pulse.brag.utils.Utility;
  */
 
 
-public class OrderDetailResponeData {
+public class DataOrderDetail {
 
     private String id;
     private String order_id;
@@ -24,9 +24,9 @@ public class OrderDetailResponeData {
     private String product_image_url;
     private String product_qty;
     private String product_price;
-    private AddressRespones address;
+    private DataAddress address;
 
-    public OrderDetailResponeData(String id, String order_id, String product_name
+    public DataOrderDetail(String id, String order_id, String product_name
             , String product_image_url, String product_qty, String product_price) {
         this.id = id;
         this.order_id = order_id;
@@ -88,11 +88,11 @@ public class OrderDetailResponeData {
         return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(getProduct_price()));
     }
 
-    public AddressRespones getAddress() {
+    public DataAddress getAddress() {
         return address;
     }
 
-    public void setAddress(AddressRespones address) {
+    public void setAddress(DataAddress address) {
         this.address = address;
     }
 }

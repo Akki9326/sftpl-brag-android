@@ -11,7 +11,7 @@ import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.requests.QSignUp;
-import com.pulse.brag.data.model.response.SignUpResponse;
+import com.pulse.brag.data.model.response.RSignUp;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -51,10 +51,10 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
     }
 
     public void signUp(QSignUp signInRequest){
-        Call<SignUpResponse> mSignUpResponeCall = getDataManager().userSignIn(signInRequest);
-        mSignUpResponeCall.enqueue(new ApiResponse<SignUpResponse>() {
+        Call<RSignUp> mSignUpResponeCall = getDataManager().userSignIn(signInRequest);
+        mSignUpResponeCall.enqueue(new ApiResponse<RSignUp>() {
             @Override
-            public void onSuccess(SignUpResponse signUpResponse, Headers headers) {
+            public void onSuccess(RSignUp signUpResponse, Headers headers) {
                 if (signUpResponse.isStatus()){
                     getNavigator().onApiSuccess();
                     getNavigator().pushOtpFragment();

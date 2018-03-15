@@ -9,7 +9,7 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.UserAddress;
+import com.pulse.brag.data.model.datas.DataUserAddress;
 
 /**
  * Created by nikhil.vadoliya on 09-03-2018.
@@ -20,7 +20,7 @@ public class RAddUpdateAddress {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private UserAddress data;
+    private DataUserAddress data;
 
     public boolean isStatus() {
         return status;
@@ -46,11 +46,11 @@ public class RAddUpdateAddress {
         this.message = message;
     }
 
-    public UserAddress getData() {
+    public DataUserAddress getData() {
         return data;
     }
 
-    public void setData(UserAddress data) {
+    public void setData(DataUserAddress data) {
         this.data = data;
     }
 }

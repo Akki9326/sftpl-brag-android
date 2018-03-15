@@ -9,16 +9,27 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.pulse.brag.data.model.datas.DataOrderDetail;
+
 /**
- * Created by nikhil.vadoliya on 08-11-2017.
+ * Created by nikhil.vadoliya on 23-02-2018.
  */
 
 
-public class SignUpResponse {
+public class ROrderDetail {
 
     private boolean status;
-    private int errorCode;
+    private Integer errorCode;
     private String message;
+    private DataOrderDetail data;
+
+    public DataOrderDetail getData() {
+        return data;
+    }
+
+    public void setData(DataOrderDetail data) {
+        this.data = data;
+    }
 
     public boolean isStatus() {
         return status;
@@ -28,11 +39,11 @@ public class SignUpResponse {
         this.status = status;
     }
 
-    public int getErrorCode() {
+    public Integer getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(int errorCode) {
+    public void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
     }
 
@@ -43,4 +54,5 @@ public class SignUpResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }

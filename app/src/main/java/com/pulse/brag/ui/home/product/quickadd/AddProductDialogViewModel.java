@@ -11,7 +11,7 @@ import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.utils.Constants;
 
@@ -140,10 +140,10 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
     }
 
     public void notifyMe(String itemNo) {
-        Call<GeneralResponse> mCallNotifyMe = getDataManager().notifyMe(itemNo);
-        mCallNotifyMe.enqueue(new ApiResponse<GeneralResponse>() {
+        Call<RGeneralData> mCallNotifyMe = getDataManager().notifyMe(itemNo);
+        mCallNotifyMe.enqueue(new ApiResponse<RGeneralData>() {
             @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().onNotifyMeSuccess("Once item available will notify you.");

@@ -12,21 +12,19 @@ package com.pulse.brag.data.model.datas;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.pulse.brag.utils.Utility;
-
 /**
  * Created by nikhil.vadoliya on 04-12-2017.
  */
 
 
-public class CartData implements Parcelable {
+public class DataCart implements Parcelable {
 
 
     private String id;
     private String itemId;
     private int quantity;
     private long createdDate;
-    private CartItemData item;
+    private DataCartItem item;
 
     public String getId() {
         return id;
@@ -60,11 +58,11 @@ public class CartData implements Parcelable {
         this.createdDate = createdDate;
     }
 
-    public CartItemData getItem() {
+    public DataCartItem getItem() {
         return item;
     }
 
-    public void setItem(CartItemData item) {
+    public void setItem(DataCartItem item) {
         this.item = item;
     }
 
@@ -82,26 +80,26 @@ public class CartData implements Parcelable {
         dest.writeParcelable(this.item, flags);
     }
 
-    public CartData() {
+    public DataCart() {
     }
 
-    protected CartData(Parcel in) {
+    protected DataCart(Parcel in) {
         this.id = in.readString();
         this.itemId = in.readString();
         this.quantity = in.readInt();
         this.createdDate = in.readLong();
-        this.item = in.readParcelable(CartItemData.class.getClassLoader());
+        this.item = in.readParcelable(DataCartItem.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<CartData> CREATOR = new Parcelable.Creator<CartData>() {
+    public static final Parcelable.Creator<DataCart> CREATOR = new Parcelable.Creator<DataCart>() {
         @Override
-        public CartData createFromParcel(Parcel source) {
-            return new CartData(source);
+        public DataCart createFromParcel(Parcel source) {
+            return new DataCart(source);
         }
 
         @Override
-        public CartData[] newArray(int size) {
-            return new CartData[size];
+        public DataCart[] newArray(int size) {
+            return new DataCart[size];
         }
     };
 }

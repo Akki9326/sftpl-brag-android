@@ -14,12 +14,12 @@ package com.pulse.brag.data.model.requests;
  */
 
 
-public class ChangeMobileNumberRequest {
+public class QChangeMobileNumber {
     private String mobileNumber;
     private String password;
     private String otp;
 
-    public ChangeMobileNumberRequest(String mobileNumber, String password, String otp) {
+    public QChangeMobileNumber(String mobileNumber, String password, String otp) {
         this.mobileNumber = mobileNumber;
         this.password = password;
         this.otp = otp;

@@ -18,7 +18,7 @@ import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.remote.ApiResponse;
@@ -69,10 +69,10 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
     }
 
     public void removeFromCart(String itemId) {
-        Call<GeneralResponse> cartListResponseCall = getDataManager().removeFromCart("item/removeFromCart/" + itemId);
-        cartListResponseCall.enqueue(new ApiResponse<GeneralResponse>() {
+        Call<RGeneralData> cartListResponseCall = getDataManager().removeFromCart("item/removeFromCart/" + itemId);
+        cartListResponseCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
-            public void onSuccess(GeneralResponse cartListResponse, Headers headers) {
+            public void onSuccess(RGeneralData cartListResponse, Headers headers) {
                 if (cartListResponse.isStatus()) {
 //                    BragApp.CartNumber--;
                     BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));

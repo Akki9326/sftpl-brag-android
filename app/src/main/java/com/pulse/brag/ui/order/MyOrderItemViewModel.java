@@ -14,7 +14,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.pulse.brag.R;
-import com.pulse.brag.data.model.datas.MyOrderData;
+import com.pulse.brag.data.model.datas.DataMyOrder;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.DateFormatter;
 import com.pulse.brag.utils.Utility;
@@ -27,11 +27,11 @@ import com.pulse.brag.utils.Utility;
 public class MyOrderItemViewModel extends BaseObservable {
 
     Context context;
-    MyOrderData responeData;
+    DataMyOrder responeData;
     OnItemClick onItemClick;
     int position;
 
-    public MyOrderItemViewModel(Context context, int position, MyOrderData responeData, OnItemClick onItemClick) {
+    public MyOrderItemViewModel(Context context, int position, DataMyOrder responeData, OnItemClick onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
@@ -44,7 +44,7 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public interface OnItemClick {
-        void onItemClick(int position, MyOrderData responeData);
+        void onItemClick(int position, DataMyOrder responeData);
 
     }
 

@@ -1,9 +1,8 @@
 package com.pulse.brag.data.remote;
 
-import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.datas.UserData;
-import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
-import com.pulse.brag.data.model.requests.QChangePassword;
+import com.pulse.brag.data.model.response.RGeneralData;
+import com.pulse.brag.data.model.datas.DataUser;
+import com.pulse.brag.data.model.requests.QChangeMobileNumber;
 import com.pulse.brag.data.model.requests.QContactUs;
 import com.pulse.brag.data.model.requests.QLogin;
 import com.pulse.brag.data.model.requests.QAddAddress;
@@ -14,19 +13,19 @@ import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.QSignUp;
 import com.pulse.brag.data.model.response.RCartList;
-import com.pulse.brag.data.model.response.CategoryListResponse;
-import com.pulse.brag.data.model.response.ChangePasswordResponse;
-import com.pulse.brag.data.model.response.CollectionListResponse;
-import com.pulse.brag.data.model.response.LoginResponse;
-import com.pulse.brag.data.model.response.OTPVerifyResponse;
-import com.pulse.brag.data.model.response.OrderDetailResponse;
+import com.pulse.brag.data.model.response.RCategoryList;
+import com.pulse.brag.data.model.response.RChangePassword;
+import com.pulse.brag.data.model.response.RCollectionList;
+import com.pulse.brag.data.model.response.RLogin;
+import com.pulse.brag.data.model.response.ROTPVerify;
+import com.pulse.brag.data.model.response.ROrderDetail;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RMyOrder;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.RUserAddress;
-import com.pulse.brag.data.model.response.SignUpResponse;
+import com.pulse.brag.data.model.response.RSignUp;
 
 import retrofit2.Call;
 
@@ -37,52 +36,52 @@ import retrofit2.Call;
 public interface IApiManager extends ApiInterface {
 
     @Override
-    Call<LoginResponse> userLogin(QLogin loginRequest);
+    Call<RLogin> userLogin(QLogin loginRequest);
 
     @Override
     Call<RProductList> getProductionList(int page, QProductList body);
 
     @Override
-    Call<SignUpResponse> userSignIn(QSignUp signInRequest);
+    Call<RSignUp> userSignIn(QSignUp signInRequest);
 
     @Override
-    Call<OTPVerifyResponse> verifyOtp(String mobile, String otp);
+    Call<ROTPVerify> verifyOtp(String mobile, String otp);
 
     @Override
-    Call<OTPVerifyResponse> verifyOtpForgetPass(String mobile, String otp);
+    Call<ROTPVerify> verifyOtpForgetPass(String mobile, String otp);
 
     @Override
-    Call<GeneralResponse> resendOtp(String mobile);
+    Call<RGeneralData> resendOtp(String mobile);
 
     @Override
-    Call<ChangePasswordResponse> changePassword(QChangePassword changePasswordRequest);
+    Call<RChangePassword> changePassword(com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
 
     @Override
-    Call<ChangePasswordResponse> resetPassword(QChangePassword changePasswordRequest);
+    Call<RChangePassword> resetPassword(com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
 
     @Override
-    Call<GeneralResponse> logoutCall();
+    Call<RGeneralData> logoutCall();
 
     @Override
-    Call<GeneralResponse> generateOTPForMobileChange(QGenerateOtpForChangeMobile generateOtpForChangeMobile);
+    Call<RGeneralData> generateOTPForMobileChange(QGenerateOtpForChangeMobile generateOtpForChangeMobile);
 
     @Override
     Call<RCartList> getCartList(String url);
 
     @Override
-    Call<OrderDetailResponse> getOrderDetail(String url);
+    Call<ROrderDetail> getOrderDetail(String url);
 
     @Override
-    Call<GeneralResponse> changeMobileNum(ChangeMobileNumberRequest changeMobileNumberRequest);
+    Call<RGeneralData> changeMobileNum(QChangeMobileNumber changeMobileNumberRequest);
 
     @Override
-    Call<CategoryListResponse> getCategoryProduct();
+    Call<RCategoryList> getCategoryProduct();
 
     @Override
-    Call<CollectionListResponse> getCollectionProduct();
+    Call<RCollectionList> getCollectionProduct();
 
     @Override
-    Call<GeneralResponse> notifyMe(String itemNo);
+    Call<RGeneralData> notifyMe(String itemNo);
 
     @Override
     Call<RFilter> getFilter(QGetFilter reqGetFilter);
@@ -97,20 +96,20 @@ public interface IApiManager extends ApiInterface {
     Call<RAddToCart> addToCart(QAddToCart addToCart);
 
     @Override
-    Call<GeneralResponse> contactUs(QContactUs qContactUs);
+    Call<RGeneralData> contactUs(QContactUs qContactUs);
 
     @Override
     Call<RMyOrder> getOrderList(int page);
 
     @Override
-    Call<LoginResponse> updateProfile(UserData userData);
+    Call<RLogin> updateProfile(DataUser userData);
 
     @Override
-    Call<GeneralResponse> removeFromCart(String id);
+    Call<RGeneralData> removeFromCart(String id);
 
     @Override
-    Call<LoginResponse> getUserProfile(String s);
+    Call<RLogin> getUserProfile(String s);
 
     @Override
-    Call<GeneralResponse> placeOrder(QPlaceOrder placeOrder);
+    Call<RGeneralData> placeOrder(QPlaceOrder placeOrder);
 }

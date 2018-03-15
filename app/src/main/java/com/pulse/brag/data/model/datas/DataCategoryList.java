@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 
-public class CategoryListResponseData {
+public class DataCategoryList {
 
     private List<Category> categories;
     private List<Banners> banners;
@@ -124,7 +124,7 @@ public class CategoryListResponseData {
             this.url = in.readString();
             this.optionOrderNo = in.readInt();
             this.childs = new ArrayList<Category>();
-            in.readList(this.childs, CategoryListResponseData.class.getClassLoader());
+            in.readList(this.childs, DataCategoryList.class.getClassLoader());
         }
 
         public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {

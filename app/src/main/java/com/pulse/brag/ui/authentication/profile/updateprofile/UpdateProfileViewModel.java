@@ -5,8 +5,8 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.UserData;
-import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.model.datas.DataUser;
+import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.callback.OnSingleClickListener;
@@ -34,14 +34,14 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
     }
 
     public void updateProfileAPI(String firstName, String lastName, String email) {
-        UserData userData = getDataManager().getUserData();
+        DataUser userData = getDataManager().getUserData();
         userData.setFirstName(firstName);
         userData.setLastName(lastName);
         userData.setEmail(email);
-        Call<LoginResponse> responseCall = getDataManager().updateProfile(userData);
-        responseCall.enqueue(new ApiResponse<LoginResponse>() {
+        Call<RLogin> responseCall = getDataManager().updateProfile(userData);
+        responseCall.enqueue(new ApiResponse<RLogin>() {
             @Override
-            public void onSuccess(LoginResponse loginResponse, Headers headers) {
+            public void onSuccess(RLogin loginResponse, Headers headers) {
                 if (loginResponse.isStatus()) {
                     getDataManager().setUserData(new Gson().toJson(loginResponse.getData()));
                     getNavigator().onApiSuccess();

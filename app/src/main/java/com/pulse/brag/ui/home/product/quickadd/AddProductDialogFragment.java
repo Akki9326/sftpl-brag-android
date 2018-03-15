@@ -24,7 +24,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
-import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
@@ -32,7 +31,7 @@ import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.datas.DataAddToCart;
 import com.pulse.brag.data.model.datas.DataProductList;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.RImagePager;
 import com.pulse.brag.databinding.DialogFragmentAddProductBinding;
 import com.pulse.brag.ui.core.CoreDialogFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
@@ -212,9 +211,9 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         //// TODO: 3/12/2018 if data not available than display no data screen
 
         if (mSizedProduct != null) {
-            List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
+            List<RImagePager> imagePagerResponeList = new ArrayList<>();
             for (String url : mSizedProduct.getImages()) {
-                imagePagerResponeList.add(new ImagePagerResponse(url, ""));
+                imagePagerResponeList.add(new RImagePager(url, ""));
             }
             mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
             mDialogFragmentAddProductBinding.pagerView.setViewPager(mDialogFragmentAddProductBinding.viewPager);
@@ -316,7 +315,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     }
 
     @Override
-    public void onImagePageClick(int pos, ImagePagerResponse item) {
+    public void onImagePageClick(int pos, RImagePager item) {
 
     }
 }

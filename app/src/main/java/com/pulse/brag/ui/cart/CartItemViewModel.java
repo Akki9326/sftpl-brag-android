@@ -15,7 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -26,18 +26,18 @@ import com.pulse.brag.utils.Utility;
 public class CartItemViewModel extends BaseObservable {
 
     Context context;
-    CartData responeData;
+    DataCart responeData;
     OnItemClick onItemClick;
     int position;
 
-    public CartItemViewModel(Context context, int position, CartData responeData, OnItemClick onItemClick) {
+    public CartItemViewModel(Context context, int position, DataCart responeData, OnItemClick onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
         this.position = position;
     }
 
-    public void setCartData(CartData responeData) {
+    public void setCartData(DataCart responeData) {
         this.responeData = responeData;
         notifyChange();
     }
@@ -85,8 +85,8 @@ public class CartItemViewModel extends BaseObservable {
     }
 
     public interface OnItemClick {
-        public void onDeleteItem(int position, CartData responeData);
+        public void onDeleteItem(int position, DataCart responeData);
 
-        public void onQtyClick(int position, CartData responeData);
+        public void onQtyClick(int position, DataCart responeData);
     }
 }

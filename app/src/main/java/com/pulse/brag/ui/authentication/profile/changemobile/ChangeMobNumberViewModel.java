@@ -7,13 +7,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
+import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.callback.OnSingleClickListener;
 
@@ -66,10 +64,10 @@ public class ChangeMobNumberViewModel extends CoreViewModel<ChangeMobNumberNavig
 
     public void sendOtpForChangeMob(String newMobileNumber, String password) {
         QGenerateOtpForChangeMobile generateOtpForChangeMobile = new QGenerateOtpForChangeMobile(newMobileNumber, password);
-        Call<GeneralResponse> responeCall = getDataManager().generateOTPForMobileChange(generateOtpForChangeMobile);
-        responeCall.enqueue(new ApiResponse<GeneralResponse>() {
+        Call<RGeneralData> responeCall = getDataManager().generateOTPForMobileChange(generateOtpForChangeMobile);
+        responeCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().pushOTPFragment();

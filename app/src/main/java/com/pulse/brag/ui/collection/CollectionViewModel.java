@@ -6,16 +6,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.response.CollectionListResponse;
-import com.pulse.brag.data.remote.ApiClient;
+import com.pulse.brag.data.model.response.RCollectionList;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.utils.AlertUtils;
 
 import okhttp3.Headers;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by alpesh.rathod on 2/28/2018.
@@ -72,10 +68,10 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
     }
 
     public void getCollectionList() {
-        Call<CollectionListResponse> getCategoryList = getDataManager().getCollectionProduct();
-        getCategoryList.enqueue(new ApiResponse<CollectionListResponse>() {
+        Call<RCollectionList> getCategoryList = getDataManager().getCollectionProduct();
+        getCategoryList.enqueue(new ApiResponse<RCollectionList>() {
             @Override
-            public void onSuccess(CollectionListResponse collectionListResponse, Headers headers) {
+            public void onSuccess(RCollectionList collectionListResponse, Headers headers) {
                 if (collectionListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     if (collectionListResponse.getData() == null) {

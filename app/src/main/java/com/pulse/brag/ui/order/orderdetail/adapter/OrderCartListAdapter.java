@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.pulse.brag.R;
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 import com.pulse.brag.databinding.ItemListOrderedCartBinding;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.order.orderdetail.OrderCartItemViewMobel;
@@ -32,10 +32,10 @@ import java.util.List;
 
 public class OrderCartListAdapter extends RecyclerView.Adapter<OrderCartListAdapter.ViewHolder> {
 
-    List<CartData> listRespones = Collections.emptyList();
+    List<DataCart> listRespones = Collections.emptyList();
     Activity activity;
 
-    public OrderCartListAdapter(Activity activity, List<CartData> listRespone) {
+    public OrderCartListAdapter(Activity activity, List<DataCart> listRespone) {
         this.listRespones = listRespone;
         this.activity = activity;
     }
@@ -69,7 +69,7 @@ public class OrderCartListAdapter extends RecyclerView.Adapter<OrderCartListAdap
         }
 
 
-        void bindCartData(int position, CartData responeData) {
+        void bindCartData(int position, DataCart responeData) {
             pos = position;
             itemBind.setViewModel(new OrderCartItemViewMobel(itemView.getContext(), responeData));
             itemBind.executePendingBindings();

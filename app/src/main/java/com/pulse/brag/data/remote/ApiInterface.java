@@ -8,10 +8,9 @@ package com.pulse.brag.data.remote;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.datas.UserData;
-import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
-import com.pulse.brag.data.model.requests.QChangePassword;
+import com.pulse.brag.data.model.response.RGeneralData;
+import com.pulse.brag.data.model.datas.DataUser;
+import com.pulse.brag.data.model.requests.QChangeMobileNumber;
 import com.pulse.brag.data.model.requests.QContactUs;
 import com.pulse.brag.data.model.requests.QLogin;
 import com.pulse.brag.data.model.requests.QAddAddress;
@@ -21,12 +20,12 @@ import com.pulse.brag.data.model.requests.QGetFilter;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.QSignUp;
-import com.pulse.brag.data.model.response.CategoryListResponse;
-import com.pulse.brag.data.model.response.ChangePasswordResponse;
-import com.pulse.brag.data.model.response.CollectionListResponse;
-import com.pulse.brag.data.model.response.LoginResponse;
-import com.pulse.brag.data.model.response.OTPVerifyResponse;
-import com.pulse.brag.data.model.response.OrderDetailResponse;
+import com.pulse.brag.data.model.response.RChangePassword;
+import com.pulse.brag.data.model.response.RCategoryList;
+import com.pulse.brag.data.model.response.RCollectionList;
+import com.pulse.brag.data.model.response.RLogin;
+import com.pulse.brag.data.model.response.ROTPVerify;
+import com.pulse.brag.data.model.response.ROrderDetail;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.RFilter;
@@ -34,7 +33,7 @@ import com.pulse.brag.data.model.response.RMyOrder;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.RUserAddress;
-import com.pulse.brag.data.model.response.SignUpResponse;
+import com.pulse.brag.data.model.response.RSignUp;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -53,43 +52,43 @@ public interface ApiInterface {
 
 
     @POST("login")
-    Call<LoginResponse> userLogin(@Body QLogin loginRequest);
+    Call<RLogin> userLogin(@Body QLogin loginRequest);
 
     @POST("signup")
-    Call<SignUpResponse> userSignIn(@Body QSignUp signInRequest);
+    Call<RSignUp> userSignIn(@Body QSignUp signInRequest);
 
     @GET("validate")
-    Call<OTPVerifyResponse> verifyOtp(@Query("mobile") String mobile, @Query("otp") String otp);
+    Call<ROTPVerify> verifyOtp(@Query("mobile") String mobile, @Query("otp") String otp);
 
     @GET("validateForgetPassword")
-    Call<OTPVerifyResponse> verifyOtpForgetPass(@Query("mobile") String mobile, @Query("otp") String otp);
+    Call<ROTPVerify> verifyOtpForgetPass(@Query("mobile") String mobile, @Query("otp") String otp);
 
     @GET("resendotp")
-    Call<GeneralResponse> resendOtp(@Query("mobile") String mobile);
+    Call<RGeneralData> resendOtp(@Query("mobile") String mobile);
 
     @POST("changePassword")
-    Call<ChangePasswordResponse> changePassword(@Body QChangePassword changePasswordRequest);
+    Call<RChangePassword> changePassword(@Body com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
 
     @POST("resetPassword")
-    Call<ChangePasswordResponse> resetPassword(@Body QChangePassword changePasswordRequest);
+    Call<RChangePassword> resetPassword(@Body com.pulse.brag.data.model.requests.QChangePassword changePasswordRequest);
 
     @GET("logout")
-    Call<GeneralResponse> logoutCall();
+    Call<RGeneralData> logoutCall();
 
     @POST("generateOTPForMobileChange")
-    Call<GeneralResponse> generateOTPForMobileChange(@Body QGenerateOtpForChangeMobile generateOtpForChangeMobile);
+    Call<RGeneralData> generateOTPForMobileChange(@Body QGenerateOtpForChangeMobile generateOtpForChangeMobile);
 
     @POST("changeMobileNumber")
-    Call<GeneralResponse> changeMobileNum(@Body ChangeMobileNumberRequest changeMobileNumberRequest);
+    Call<RGeneralData> changeMobileNum(@Body QChangeMobileNumber changeMobileNumberRequest);
 
     @POST("contactUs")
-    Call<GeneralResponse> contactUs(@Body QContactUs qContactUs);
+    Call<RGeneralData> contactUs(@Body QContactUs qContactUs);
 
     @GET("home/get/1")
-    Call<CategoryListResponse> getCategoryProduct();
+    Call<RCategoryList> getCategoryProduct();
 
     @GET("home/get/2")
-    Call<CollectionListResponse> getCollectionProduct();
+    Call<RCollectionList> getCollectionProduct();
 
     @POST("item/list/{pages}")
     Call<RProductList> getProductionList(@Path("pages") int page, @Body QProductList body);
@@ -98,7 +97,7 @@ public interface ApiInterface {
     Call<RAddToCart> addToCart(@Body QAddToCart addToCart);
 
     @GET("item/notifyme/{itemNo}")
-    Call<GeneralResponse> notifyMe(@Path("itemNo") String itemNo);
+    Call<RGeneralData> notifyMe(@Path("itemNo") String itemNo);
 
     @POST("item/getFilter")
     Call<RFilter> getFilter(@Body QGetFilter reqGetFilter);
@@ -110,26 +109,26 @@ public interface ApiInterface {
     Call<RMyOrder> getOrderList(@Path("pages") int page);
 
     @POST("order/list/{pages}")
-    Call<OrderDetailResponse> getOrderDetail(@Url String url);
+    Call<ROrderDetail> getOrderDetail(@Url String url);
 
     @POST("user/addAddress")
     Call<RUserAddress> addAddress(@Body QAddAddress addAddress);
 
     @POST("user/updateProfile")
-    Call<LoginResponse> updateProfile(@Body UserData userData);
+    Call<RLogin> updateProfile(@Body DataUser userData);
 
     @GET
     Call<RStateList> getStateList(@Url String url);
 
     @GET
-    Call<GeneralResponse> removeFromCart(@Url String id);
+    Call<RGeneralData> removeFromCart(@Url String id);
 
     @GET
-    Call<LoginResponse> getUserProfile(@Url String s);
+    Call<RLogin> getUserProfile(@Url String s);
 
     @POST("order/add")
-    Call<GeneralResponse> placeOrder(@Body QPlaceOrder placeOrder);
+    Call<RGeneralData> placeOrder(@Body QPlaceOrder placeOrder);
 
     @GET("order/reOrder/{orderId}")
-    Call<GeneralResponse> reOrder(@Path("orderId") String id);
+    Call<RGeneralData> reOrder(@Path("orderId") String id);
 }

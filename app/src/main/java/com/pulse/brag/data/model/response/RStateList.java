@@ -9,7 +9,7 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.StateData;
+import com.pulse.brag.data.model.datas.DataState;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class RStateList {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<StateData> data;
+    private List<DataState> data;
 
     public boolean isStatus() {
         return status;
@@ -48,11 +48,11 @@ public class RStateList {
         this.message = message;
     }
 
-    public List<StateData> getData() {
+    public List<DataState> getData() {
         return data;
     }
 
-    public void setData(List<StateData> data) {
+    public void setData(List<DataState> data) {
         this.data = data;
     }
 }

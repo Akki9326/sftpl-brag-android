@@ -22,7 +22,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.NotificationListData;
+import com.pulse.brag.data.model.datas.DataNotificationList;
 import com.pulse.brag.databinding.FragmentNotificationListBinding;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.notification.adapter.NotificationListAdapter;
@@ -56,7 +56,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     static final int LOAD_LIST = 1;
 
     NotificationListAdapter mListAdapter;
-    List<NotificationListData> mListData;
+    List<DataNotificationList> mListData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,7 +144,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         if (Utility.isConnection(getContext())) {
             showData();
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
             mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
         }
     }
@@ -154,25 +154,25 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         if (ACTION == LOAD_LIST) {
             mListData.clear();
 
-            mListData.add(new NotificationListData("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
+            mListData.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
                     "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", false));
-            mListData.add(new NotificationListData("1", "It is a long established fact that a reader will be distracted by the ",
+            mListData.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
                     "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
-            mListData.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
+            mListData.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", false));
-            mListData.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
+            mListData.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
                     "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", false));
-            mListData.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
+            mListData.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
-            mListData.add(new NotificationListData("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
+            mListData.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
                     "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", false));
-            mListData.add(new NotificationListData("1", "It is a long established fact that a reader will be distracted by the ",
+            mListData.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
                     "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", false));
-            mListData.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
+            mListData.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", false));
-            mListData.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
+            mListData.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
                     "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", false));
-            mListData.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
+            mListData.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", false));
 
             mListAdapter = new NotificationListAdapter(getActivity(), mListData, this);
@@ -180,26 +180,26 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
         } else {
 
-            ArrayList<NotificationListData> localList = new ArrayList<>();
-            localList.add(new NotificationListData("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
+            ArrayList<DataNotificationList> localList = new ArrayList<>();
+            localList.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
                     "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", true));
-            localList.add(new NotificationListData("1", "It is a long established fact that a reader will be distracted by the ",
+            localList.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
                     "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
-            localList.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
+            localList.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", true));
-            localList.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
+            localList.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
                     "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", true));
-            localList.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
+            localList.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
-            localList.add(new NotificationListData("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
+            localList.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
                     "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", true));
-            localList.add(new NotificationListData("1", "It is a long established fact that a reader will be distracted by the ",
+            localList.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
                     "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
-            localList.add(new NotificationListData("1", "Text ever since the 1500s, when an unknown printer took a galley ",
+            localList.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
                     ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", true));
-            localList.add(new NotificationListData("1", "His having within saw become ask passed misery giving. ",
+            localList.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
                     "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", true));
-            localList.add(new NotificationListData("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
+            localList.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
                     " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
 
 
@@ -213,7 +213,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void onItemClick(int position) {
-
     }
 
     @Override
@@ -224,7 +223,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

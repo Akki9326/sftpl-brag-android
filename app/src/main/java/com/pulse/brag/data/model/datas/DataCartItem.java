@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 
-public class CartItemData implements Parcelable {
+public class DataCartItem implements Parcelable {
 
     private String no;
     private String brandCode;
@@ -254,10 +254,10 @@ public class CartItemData implements Parcelable {
         dest.writeString(this.colorHexCode);
     }
 
-    public CartItemData() {
+    public DataCartItem() {
     }
 
-    protected CartItemData(Parcel in) {
+    protected DataCartItem(Parcel in) {
         this.no = in.readString();
         this.brandCode = in.readString();
         this.colorCode = in.readString();
@@ -282,15 +282,15 @@ public class CartItemData implements Parcelable {
         this.colorHexCode = in.readString();
     }
 
-    public static final Parcelable.Creator<CartItemData> CREATOR = new Parcelable.Creator<CartItemData>() {
+    public static final Parcelable.Creator<DataCartItem> CREATOR = new Parcelable.Creator<DataCartItem>() {
         @Override
-        public CartItemData createFromParcel(Parcel source) {
-            return new CartItemData(source);
+        public DataCartItem createFromParcel(Parcel source) {
+            return new DataCartItem(source);
         }
 
         @Override
-        public CartItemData[] newArray(int size) {
-            return new CartItemData[size];
+        public DataCartItem[] newArray(int size) {
+            return new DataCartItem[size];
         }
     };
 }

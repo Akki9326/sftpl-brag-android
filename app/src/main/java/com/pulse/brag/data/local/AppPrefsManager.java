@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.pulse.brag.di.PreferenceInfo;
-import com.pulse.brag.data.model.datas.UserData;
+import com.pulse.brag.data.model.datas.DataUser;
 
 import javax.inject.Inject;
 
@@ -94,8 +94,8 @@ public class AppPrefsManager implements IPreferenceManager {
     }
 
     @Override
-    public UserData getUserData() {
-        return new Gson().fromJson(mPref.getString(USER_DATA, ""), UserData.class);
+    public DataUser getUserData() {
+        return new Gson().fromJson(mPref.getString(USER_DATA, ""), DataUser.class);
     }
 
     @Override

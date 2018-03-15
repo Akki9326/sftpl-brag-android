@@ -10,7 +10,6 @@ package com.pulse.brag.ui.collection;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -18,7 +17,7 @@ import android.view.View;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.datas.DataCategoryList;
 import com.pulse.brag.ui.collection.adapter.CollectionListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
@@ -30,7 +29,7 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.RImagePager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +48,8 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     FragmentCollectionBinding mFragmentCollectionBinding;
 
-    List<CategoryListResponseData.Category> mCollectionList;
-    List<ImagePagerResponse> mBannerList;
+    List<DataCategoryList.Category> mCollectionList;
+    List<RImagePager> mBannerList;
 
     CollectionListAdapter mAdapter;
 
@@ -137,7 +136,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     }
 
     @Override
-    public void onImagePageClick(int pos, ImagePagerResponse item) {
+    public void onImagePageClick(int pos, RImagePager item) {
 
     }
 
@@ -169,19 +168,19 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     }
 
     @Override
-    public void setCategoryList(List<CategoryListResponseData.Category> list) {
+    public void setCategoryList(List<DataCategoryList.Category> list) {
         mCollectionList.clear();
         mCollectionList.addAll(list);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void setBanner(List<CategoryListResponseData.Banners> list) {
+    public void setBanner(List<DataCategoryList.Banners> list) {
         if (list != null && list.size() > 0) {
             mCollectionViewModel.setIsBannerAvail(true);
             mBannerList = new ArrayList<>();
-            for (CategoryListResponseData.Banners item : list) {
-                mBannerList.add(new ImagePagerResponse(item.getUrl(), item.getId()));
+            for (DataCategoryList.Banners item : list) {
+                mBannerList.add(new RImagePager(item.getUrl(), item.getId()));
             }
             mFragmentCollectionBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), mBannerList, this));
             mFragmentCollectionBinding.pagerView.setViewPager(mFragmentCollectionBinding.viewPager);

@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.pulse.brag.R;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.RImagePager;
 import com.pulse.brag.databinding.ItemImagePagerBinding;
 
 import java.util.ArrayList;
@@ -32,10 +32,10 @@ public class ImagePagerAdapter extends PagerAdapter implements ImagePagerItem.It
 
     Context mContext;
     LayoutInflater mLayoutInflater;
-    List<ImagePagerResponse> mPagerRespones;
+    List<RImagePager> mPagerRespones;
     IOnImagePageClickListener mListener;
 
-    public ImagePagerAdapter(Context context, List<ImagePagerResponse> mPagerRespones, IOnImagePageClickListener listener) {
+    public ImagePagerAdapter(Context context, List<RImagePager> mPagerRespones, IOnImagePageClickListener listener) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mPagerRespones = new ArrayList<>();
@@ -72,11 +72,11 @@ public class ImagePagerAdapter extends PagerAdapter implements ImagePagerItem.It
 
 
     @Override
-    public void onItemClick(int position, ImagePagerResponse item) {
+    public void onItemClick(int position, RImagePager item) {
         mListener.onImagePageClick(position, item);
     }
 
     public interface IOnImagePageClickListener {
-        void onImagePageClick(int pos, ImagePagerResponse item);
+        void onImagePageClick(int pos, RImagePager item);
     }
 }

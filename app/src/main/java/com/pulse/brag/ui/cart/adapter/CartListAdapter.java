@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListCartBinding;
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 import com.pulse.brag.ui.cart.CartItemViewModel;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.utils.Utility;
@@ -32,11 +32,11 @@ import java.util.List;
 
 public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHolder> {
 
-    List<CartData> listRespones = Collections.emptyList();
+    List<DataCart> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
     Activity activity;
 
-    public CartListAdapter(Activity activity, List<CartData> listRespones
+    public CartListAdapter(Activity activity, List<DataCart> listRespones
             , OnItemClick onItemClick) {
         this.listRespones = listRespones;
         this.activity = activity;
@@ -61,7 +61,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
     }
 
 
-    public void removeItem(CartData responeData) {
+    public void removeItem(DataCart responeData) {
         int pos = listRespones.indexOf(responeData);
         listRespones.remove(responeData);
         notifyItemRemoved(pos);
@@ -69,7 +69,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
     }
 
-    public void addAll(List<CartData> list) {
+    public void addAll(List<DataCart> list) {
         listRespones.addAll(list);
         notifyDataSetChanged();
     }
@@ -79,9 +79,9 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
     }
 
     public interface OnItemClick {
-        public void onDeleteItem(int position, CartData responeData);
+        public void onDeleteItem(int position, DataCart responeData);
 
-        public void onQtyClick(int position, CartData responeData);
+        public void onQtyClick(int position, DataCart responeData);
     }
 
     public class ViewHolder extends CoreViewHolder implements CartItemViewModel.OnItemClick {
@@ -97,7 +97,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         }
 
 
-        void bindCartData(int position, CartData responeData) {
+        void bindCartData(int position, DataCart responeData) {
             pos = position;
             itemBind.setCartData(new CartItemViewModel(itemView.getContext(), position, responeData, this));
             itemBind.executePendingBindings();
@@ -109,12 +109,12 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
 
         @Override
-        public void onDeleteItem(int position, CartData responeData) {
+        public void onDeleteItem(int position, DataCart responeData) {
             onItemClick.onDeleteItem(pos, responeData);
         }
 
         @Override
-        public void onQtyClick(int position, CartData responeData) {
+        public void onQtyClick(int position, DataCart responeData) {
             onItemClick.onQtyClick(pos, responeData);
         }
     }

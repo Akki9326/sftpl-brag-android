@@ -9,27 +9,17 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.OrderDetailResponeData;
-
 /**
- * Created by nikhil.vadoliya on 23-02-2018.
+ * Created by nikhil.vadoliya on 13-11-2017.
  */
 
 
-public class OrderDetailResponse {
+public class RChangePassword {
 
     private boolean status;
-    private Integer errorCode;
     private String message;
-    private OrderDetailResponeData data;
-
-    public OrderDetailResponeData getData() {
-        return data;
-    }
-
-    public void setData(OrderDetailResponeData data) {
-        this.data = data;
-    }
+    private Integer errorCode;
+    private Object data;
 
     public boolean isStatus() {
         return status;
@@ -37,14 +27,6 @@ public class OrderDetailResponse {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
     }
 
     public String getMessage() {
@@ -55,4 +37,19 @@ public class OrderDetailResponse {
         this.message = message;
     }
 
+    public Integer getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

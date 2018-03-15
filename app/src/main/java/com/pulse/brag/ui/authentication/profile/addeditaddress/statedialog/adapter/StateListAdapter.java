@@ -19,7 +19,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.pulse.brag.R;
-import com.pulse.brag.data.model.datas.StateData;
+import com.pulse.brag.data.model.datas.DataState;
 import com.pulse.brag.databinding.ItemListStateBinding;
 import com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.StateItemViewModel;
 import com.pulse.brag.utils.Utility;
@@ -36,12 +36,12 @@ import java.util.List;
 public class StateListAdapter extends BaseAdapter implements Filterable {
 
     Context mContext;
-    List<StateData> mList = Collections.emptyList();
+    List<DataState> mList = Collections.emptyList();
     LayoutInflater inflater;
-    List<StateData> mFilterList;
+    List<DataState> mFilterList;
     ValueFilter valueFilter;
 
-    public StateListAdapter(Context context, List<StateData> mList) {
+    public StateListAdapter(Context context, List<DataState> mList) {
         this.mList = mList;
         mContext = context;
         mFilterList = this.mList;
@@ -101,12 +101,12 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
             FilterResults results = new FilterResults();
 
             if (constraint != null && constraint.length() > 0) {
-                List<StateData> filterList = new ArrayList<>();
+                List<DataState> filterList = new ArrayList<>();
                 for (int i = 0; i < mFilterList.size(); i++) {
                     if ((mFilterList.get(i).getText().toUpperCase())
                             .contains(constraint.toString().toUpperCase())) {
 
-                        StateData data = new StateData(mFilterList.get(i)
+                        DataState data = new DataState(mFilterList.get(i)
                                 .getId(), mFilterList.get(i)
                                 .getText());
                         filterList.add(data);
@@ -125,7 +125,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            mList = (ArrayList<StateData>) results.values;
+            mList = (ArrayList<DataState>) results.values;
             notifyDataSetChanged();
         }
 

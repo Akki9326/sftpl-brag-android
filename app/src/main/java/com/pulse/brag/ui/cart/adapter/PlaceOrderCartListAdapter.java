@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListPlaceOrderBinding;
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 import com.pulse.brag.ui.cart.placeorder.PlaceOrderItemViewModel;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.utils.Utility;
@@ -32,11 +32,11 @@ import java.util.List;
 
 public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCartListAdapter.ViewHolder> {
 
-    List<CartData> listRespones = Collections.emptyList();
+    List<DataCart> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
     Activity activity;
 
-    public PlaceOrderCartListAdapter(Activity activity, List<CartData> listRespones, OnItemClick onItemClick) {
+    public PlaceOrderCartListAdapter(Activity activity, List<DataCart> listRespones, OnItemClick onItemClick) {
         this.listRespones = listRespones;
         this.activity = activity;
         this.onItemClick = onItemClick;
@@ -65,7 +65,7 @@ public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCa
     }
 
     public interface OnItemClick {
-        public void onQtyClick(int position, CartData responeData);
+        public void onQtyClick(int position, DataCart responeData);
     }
 
     public class ViewHolder extends CoreViewHolder implements PlaceOrderItemViewModel.OnItemClick {
@@ -80,7 +80,7 @@ public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCa
         }
 
 
-        void bindCartData(int position, CartData responeData) {
+        void bindCartData(int position, DataCart responeData) {
             pos = position;
             itemBind.setPlaceOrderData(new PlaceOrderItemViewModel(itemView.getContext(), position, responeData, this));
             itemBind.executePendingBindings();
@@ -92,7 +92,7 @@ public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCa
 
 
         @Override
-        public void onQtyClick(int position, CartData responeData) {
+        public void onQtyClick(int position, DataCart responeData) {
             onItemClick.onQtyClick(pos, responeData);
         }
     }

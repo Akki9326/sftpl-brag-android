@@ -10,16 +10,15 @@ package com.pulse.brag.data.model.response;
  */
 
 /**
- * Created by nikhil.vadoliya on 13-11-2017.
+ * Created by nikhil.vadoliya on 08-11-2017.
  */
 
 
-public class ChangePasswordResponse {
+public class RSignUp {
 
     private boolean status;
+    private int errorCode;
     private String message;
-    private Integer errorCode;
-    private Object data;
 
     public boolean isStatus() {
         return status;
@@ -29,27 +28,19 @@ public class ChangePasswordResponse {
         this.status = status;
     }
 
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
+
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
     }
 }

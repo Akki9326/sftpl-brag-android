@@ -9,7 +9,7 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.MyOrderData;
+import com.pulse.brag.data.model.datas.DataMyOrder;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class RMyOrderList {
     private Object medianType;
     private Integer count;
     private Integer pageSize;
-    private List<MyOrderData> objects = null;
+    private List<DataMyOrder> objects = null;
 
     public String getQ() {
         return q;
@@ -58,11 +58,11 @@ public class RMyOrderList {
         this.pageSize = pageSize;
     }
 
-    public List<MyOrderData> getObjects() {
+    public List<DataMyOrder> getObjects() {
         return objects;
     }
 
-    public void setObjects(List<MyOrderData> objects) {
+    public void setObjects(List<DataMyOrder> objects) {
         this.objects = objects;
     }
 }

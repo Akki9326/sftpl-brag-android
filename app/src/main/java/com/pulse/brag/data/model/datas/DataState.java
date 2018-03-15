@@ -17,14 +17,14 @@ import android.os.Parcelable;
  */
 
 
-public class StateData implements Parcelable {
+public class DataState implements Parcelable {
     private String id;
     private String text;
 
-    public StateData() {
+    public DataState() {
     }
 
-    public StateData(String id, String text) {
+    public DataState(String id, String text) {
         this.id = id;
         this.text = text;
     }
@@ -56,20 +56,20 @@ public class StateData implements Parcelable {
         dest.writeString(this.text);
     }
 
-    protected StateData(Parcel in) {
+    protected DataState(Parcel in) {
         this.id = in.readString();
         this.text = in.readString();
     }
 
-    public static final Parcelable.Creator<StateData> CREATOR = new Parcelable.Creator<StateData>() {
+    public static final Parcelable.Creator<DataState> CREATOR = new Parcelable.Creator<DataState>() {
         @Override
-        public StateData createFromParcel(Parcel source) {
-            return new StateData(source);
+        public DataState createFromParcel(Parcel source) {
+            return new DataState(source);
         }
 
         @Override
-        public StateData[] newArray(int size) {
-            return new StateData[size];
+        public DataState[] newArray(int size) {
+            return new DataState[size];
         }
     };
 }

@@ -11,7 +11,6 @@ package com.pulse.brag.ui.home.category;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
@@ -27,8 +26,8 @@ import com.pulse.brag.databinding.FragmentCategoryBinding;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.datas.DataCategoryList;
+import com.pulse.brag.data.model.response.RImagePager;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.home.subcategory.SubCategoryFragment;
@@ -52,8 +51,8 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     FragmentCategoryBinding mFragmentCategoryBinding;
 
-    List<CategoryListResponseData.Category> mCategoryList;
-    List<ImagePagerResponse> mBannerList;
+    List<DataCategoryList.Category> mCategoryList;
+    List<RImagePager> mBannerList;
 
 
     @Override
@@ -131,7 +130,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
     @Override
-    public void onImagePageClick(int pos, ImagePagerResponse item) {
+    public void onImagePageClick(int pos, RImagePager item) {
         //((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
     }
 
@@ -165,7 +164,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
     @Override
-    public void setCategoryList(List<CategoryListResponseData.Category> list) {
+    public void setCategoryList(List<DataCategoryList.Category> list) {
         mCategoryList = new ArrayList<>();
         mCategoryList.addAll(list);
         CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
@@ -175,12 +174,12 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
     @Override
-    public void setBanner(List<CategoryListResponseData.Banners> list) {
+    public void setBanner(List<DataCategoryList.Banners> list) {
         if (list != null && list.size() > 0) {
             categoryViewModel.setIsBannerAvail(true);
             mBannerList = new ArrayList<>();
-            for (CategoryListResponseData.Banners item : list) {
-                mBannerList.add(new ImagePagerResponse(item.getUrl(), item.getId()));
+            for (DataCategoryList.Banners item : list) {
+                mBannerList.add(new RImagePager(item.getUrl(), item.getId()));
             }
             mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), mBannerList, this));
             mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);

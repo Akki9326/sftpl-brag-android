@@ -17,13 +17,13 @@ import android.os.Parcelable;
  */
 
 
-public class UserAddress implements Parcelable {
+public class DataUserAddress implements Parcelable {
     private String id;
     private String address;
     private String landmark;
     private String city;
     private int pincode;
-    private StateData state;
+    private DataState state;
 
     public String getId() {
         return id;
@@ -65,11 +65,11 @@ public class UserAddress implements Parcelable {
         this.pincode = pincode;
     }
 
-    public StateData getState() {
+    public DataState getState() {
         return state;
     }
 
-    public void setState(StateData state) {
+    public void setState(DataState state) {
         this.state = state;
     }
 
@@ -88,27 +88,27 @@ public class UserAddress implements Parcelable {
         dest.writeParcelable(this.state, flags);
     }
 
-    public UserAddress() {
+    public DataUserAddress() {
     }
 
-    protected UserAddress(Parcel in) {
+    protected DataUserAddress(Parcel in) {
         this.id = in.readString();
         this.address = in.readString();
         this.landmark = in.readString();
         this.city = in.readString();
         this.pincode = in.readInt();
-        this.state = in.readParcelable(StateData.class.getClassLoader());
+        this.state = in.readParcelable(DataState.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<UserAddress> CREATOR = new Parcelable.Creator<UserAddress>() {
+    public static final Parcelable.Creator<DataUserAddress> CREATOR = new Parcelable.Creator<DataUserAddress>() {
         @Override
-        public UserAddress createFromParcel(Parcel source) {
-            return new UserAddress(source);
+        public DataUserAddress createFromParcel(Parcel source) {
+            return new DataUserAddress(source);
         }
 
         @Override
-        public UserAddress[] newArray(int size) {
-            return new UserAddress[size];
+        public DataUserAddress[] newArray(int size) {
+            return new DataUserAddress[size];
         }
     };
 }

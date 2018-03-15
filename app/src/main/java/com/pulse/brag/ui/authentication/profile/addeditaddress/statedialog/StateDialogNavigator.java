@@ -9,7 +9,7 @@ package com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.StateData;
+import com.pulse.brag.data.model.datas.DataState;
 import com.pulse.brag.ui.core.CoreNavigator;
 
 /**
@@ -21,5 +21,5 @@ public interface StateDialogNavigator extends CoreNavigator {
 
     void onClose();
 
-    void onStateSelect(StateData data);
+    void onStateSelect(DataState data);
 }

@@ -20,8 +20,8 @@ import android.widget.TextView;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.StateData;
-import com.pulse.brag.data.model.datas.UserAddress;
+import com.pulse.brag.data.model.datas.DataState;
+import com.pulse.brag.data.model.datas.DataUserAddress;
 import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.databinding.FragmentAddEditAddressBinding;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
@@ -51,8 +51,8 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     FragmentAddEditAddressBinding mAddEditAddressBinding;
 
     private String stateId;
-    private List<StateData> mStateList;
-    StateData selectedState;
+    private List<DataState> mStateList;
+    DataState selectedState;
     public int REQUEST_STATE = 1;
     private String mAddressId;
 
@@ -79,7 +79,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
 
         if (mAddEditViewModel.getDataManager().getUserData().getAddresses() != null
                 && !mAddEditViewModel.getDataManager().getUserData().getAddresses().isEmpty()) {
-            selectedState = new StateData(mAddEditViewModel.getStateId(), mAddEditViewModel.getStateText());
+            selectedState = new DataState(mAddEditViewModel.getStateId(), mAddEditViewModel.getStateText());
             mAddressId = mAddEditViewModel.getDataManager().getUserData().getAddresses().get(0).getId();
             mAddEditViewModel.updateState(mAddEditViewModel.getDataManager().getUserData().getAddresses().get(0).getState().getText());
         }
@@ -170,7 +170,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pincode_valid));
         } else if (Utility.isConnection(getContext())) {
 
-            UserAddress userAddress = new UserAddress();
+            DataUserAddress userAddress = new DataUserAddress();
             userAddress.setId(mAddressId);
             userAddress.setAddress(mAddEditAddressBinding.edittextAddress.getText().toString());
             userAddress.setCity(mAddEditAddressBinding.edittextCity.getText().toString());
@@ -218,7 +218,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
 
 
     @Override
-    public void onApiSuccessState(List<StateData> data) {
+    public void onApiSuccessState(List<DataState> data) {
         hideProgress();
         mStateList.addAll(data);
     }
@@ -234,9 +234,9 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     public void onApiSuccessUserProfile() {
         hideProgress();
         if (mAddEditViewModel.isAddressAvaliable.get()) {
-            UserAddress userAddress = mAddEditViewModel.getUserAddress();
+            DataUserAddress userAddress = mAddEditViewModel.getUserAddress();
 
-            selectedState = new StateData(userAddress.getState().getId(), userAddress.getState().getText());
+            selectedState = new DataState(userAddress.getState().getId(), userAddress.getState().getText());
             mAddressId = userAddress.getId();
 
             mAddEditAddressBinding.edittextAddress.setText(userAddress.getAddress());

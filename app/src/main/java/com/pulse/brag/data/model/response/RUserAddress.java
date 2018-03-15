@@ -9,8 +9,7 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.UserAddress;
-import com.pulse.brag.data.model.datas.UserData;
+import com.pulse.brag.data.model.datas.DataUserAddress;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class RUserAddress {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<UserAddress> addresses;
+    private List<DataUserAddress> addresses;
 
     public boolean isStatus() {
         return status;
@@ -49,11 +48,11 @@ public class RUserAddress {
         this.message = message;
     }
 
-    public List<UserAddress> getAddresses() {
+    public List<DataUserAddress> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<UserAddress> addresses) {
+    public void setAddresses(List<DataUserAddress> addresses) {
         this.addresses = addresses;
     }
 }

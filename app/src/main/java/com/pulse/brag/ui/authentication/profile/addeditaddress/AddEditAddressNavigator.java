@@ -13,7 +13,7 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.StateData;
+import com.pulse.brag.data.model.datas.DataState;
 import com.pulse.brag.ui.core.CoreNavigator;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public interface AddEditAddressNavigator extends CoreNavigator {
 
     void onOpenStateListDialog();
 
-    void onApiSuccessState(List<StateData> data);
+    void onApiSuccessState(List<DataState> data);
 
     void onApiErrorState(ApiError error);
 

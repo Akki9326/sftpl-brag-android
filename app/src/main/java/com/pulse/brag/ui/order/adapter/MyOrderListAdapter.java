@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemListOrderBinding;
-import com.pulse.brag.data.model.datas.MyOrderData;
+import com.pulse.brag.data.model.datas.DataMyOrder;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.order.MyOrderItemViewModel;
 import com.pulse.brag.utils.Utility;
@@ -33,11 +33,11 @@ import java.util.List;
 
 public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.ViewHolder> {
 
-    List<MyOrderData> listRespones = Collections.emptyList();
+    List<DataMyOrder> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
     Activity activity;
 
-    public MyOrderListAdapter(Activity activity, List<MyOrderData> listRespones
+    public MyOrderListAdapter(Activity activity, List<DataMyOrder> listRespones
             , OnItemClick onItemClick) {
         this.listRespones = listRespones;
         this.activity = activity;
@@ -66,7 +66,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
 
     public interface OnItemClick {
-        void onItemClick(int position, MyOrderData responeData);
+        void onItemClick(int position, DataMyOrder responeData);
     }
 
     public class ViewHolder extends CoreViewHolder implements MyOrderItemViewModel.OnItemClick {
@@ -81,7 +81,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
         }
 
 
-        void bindCartData(int position, MyOrderData responeData) {
+        void bindCartData(int position, DataMyOrder responeData) {
             pos = position;
             itemBind.setViewModel(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this));
             itemBind.executePendingBindings();
@@ -93,7 +93,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
 
         @Override
-        public void onItemClick(int position, MyOrderData responeData) {
+        public void onItemClick(int position, DataMyOrder responeData) {
             onItemClick.onItemClick(position, responeData);
         }
     }

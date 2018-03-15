@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import com.pulse.brag.databinding.ItemGridCategoryBinding;
 import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.datas.DataCategoryList;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.home.category.CategoryItemViewModel;
 import com.pulse.brag.utils.Utility;
@@ -31,11 +31,11 @@ import java.util.List;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
-    List<CategoryListResponseData.Category> listRespones = new ArrayList<>();
+    List<DataCategoryList.Category> listRespones = new ArrayList<>();
     Context context;
     IOnItemClickListener onItemClickListener;
 
-    public CategoryListAdapter(Context context, List<CategoryListResponseData.Category> listRespones
+    public CategoryListAdapter(Context context, List<DataCategoryList.Category> listRespones
             , IOnItemClickListener onItemClickListener) {
         this.listRespones = listRespones;
         this.context = context;
@@ -75,7 +75,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             Utility.applyTypeFace(context, itemBinding.baseLayout);
         }
 
-        public void onBind(int position, CategoryListResponseData.Category responseData) {
+        public void onBind(int position, DataCategoryList.Category responseData) {
             itemBinding.setViewModel(new CategoryItemViewModel(itemView.getContext(), position, responseData, this));
             itemBinding.executePendingBindings();
         }
@@ -86,7 +86,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
 
         @Override
-        public void onItemClick(int position, CategoryListResponseData.Category responeData) {
+        public void onItemClick(int position, DataCategoryList.Category responeData) {
             onItemClickListener.onItemClick(position);
         }
     }

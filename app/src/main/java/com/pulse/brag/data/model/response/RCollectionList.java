@@ -8,21 +8,19 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
-
-import java.util.List;
+import com.pulse.brag.data.model.datas.DataCollectionList;
 
 /**
- * Created by nikhil.vadoliya on 16-10-2017.
+ * Created by nikhil.vadoliya on 13-12-2017.
  */
 
 
-public class CategoryListResponse {
+public class RCollectionList {
 
     private boolean status;
     private Integer errorCode;
     private String message;
-    private CategoryListResponseData data;
+    private DataCollectionList data;
 
     public boolean isStatus() {
         return status;
@@ -48,13 +46,11 @@ public class CategoryListResponse {
         this.message = message;
     }
 
-    public CategoryListResponseData getData() {
+    public DataCollectionList getData() {
         return data;
     }
 
-    public void setData(CategoryListResponseData data) {
+    public void setData(DataCollectionList data) {
         this.data = data;
     }
-
-
 }

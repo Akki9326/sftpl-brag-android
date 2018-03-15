@@ -26,7 +26,7 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.data.model.datas.MyOrderData;
+import com.pulse.brag.data.model.datas.DataMyOrder;
 import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 
@@ -52,7 +52,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     MyOrderViewModel mMyOrderViewModel;
     FragmentMyOrderBinding mFragmentMyOrderBinding;
 
-    List<MyOrderData> mList;
+    List<DataMyOrder> mList;
     MyOrderListAdapter listAdapter;
 
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
@@ -164,7 +164,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     }
 
     @Override
-    public void onItemClick(int position, MyOrderData responeData) {
+    public void onItemClick(int position, DataMyOrder responeData) {
         ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(responeData), true, true);
 
     }
@@ -197,7 +197,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     }
 
     @Override
-    public void getOrderList(RMyOrderList orderList, List<MyOrderData> listRespones) {
+    public void getOrderList(RMyOrderList orderList, List<DataMyOrder> listRespones) {
 
         switch (ACTION) {
             case LOAD_LIST:

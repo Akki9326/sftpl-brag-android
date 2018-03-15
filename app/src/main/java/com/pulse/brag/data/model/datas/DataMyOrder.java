@@ -9,14 +9,8 @@ package com.pulse.brag.data.model.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.app.Activity;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.pulse.brag.R;
-import com.pulse.brag.data.model.response.RCartList;
-import com.pulse.brag.utils.DateFormatter;
-import com.pulse.brag.utils.Utility;
 
 import java.util.List;
 
@@ -25,7 +19,7 @@ import java.util.List;
  */
 
 
-public class MyOrderData implements Parcelable {
+public class DataMyOrder implements Parcelable {
 
     private String id;
     private String userId;
@@ -35,10 +29,10 @@ public class MyOrderData implements Parcelable {
     private String orderNumber;
     private double totalAmount;
     private double payableAmount;
-    private UserAddress address;
+    private DataUserAddress address;
     private int status;
-    private UserData user;
-    private List<CartData> cart;
+    private DataUser user;
+    private List<DataCart> cart;
 
     public String getId() {
         return id;
@@ -104,11 +98,11 @@ public class MyOrderData implements Parcelable {
         this.payableAmount = payableAmount;
     }
 
-    public UserAddress getAddress() {
+    public DataUserAddress getAddress() {
         return address;
     }
 
-    public void setAddress(UserAddress address) {
+    public void setAddress(DataUserAddress address) {
         this.address = address;
     }
 
@@ -120,19 +114,19 @@ public class MyOrderData implements Parcelable {
         this.status = status;
     }
 
-    public UserData getUser() {
+    public DataUser getUser() {
         return user;
     }
 
-    public void setUser(UserData user) {
+    public void setUser(DataUser user) {
         this.user = user;
     }
 
-    public List<CartData> getCart() {
+    public List<DataCart> getCart() {
         return cart;
     }
 
-    public void setCart(List<CartData> cart) {
+    public void setCart(List<DataCart> cart) {
         this.cart = cart;
     }
 
@@ -157,10 +151,10 @@ public class MyOrderData implements Parcelable {
         dest.writeTypedList(this.cart);
     }
 
-    public MyOrderData() {
+    public DataMyOrder() {
     }
 
-    protected MyOrderData(Parcel in) {
+    protected DataMyOrder(Parcel in) {
         this.id = in.readString();
         this.userId = in.readString();
         this.createdDate = in.readLong();
@@ -169,21 +163,21 @@ public class MyOrderData implements Parcelable {
         this.orderNumber = in.readString();
         this.totalAmount = in.readInt();
         this.payableAmount = in.readDouble();
-        this.address = in.readParcelable(UserAddress.class.getClassLoader());
+        this.address = in.readParcelable(DataUserAddress.class.getClassLoader());
         this.status = in.readInt();
-        this.user = in.readParcelable(UserData.class.getClassLoader());
-        this.cart = in.createTypedArrayList(CartData.CREATOR);
+        this.user = in.readParcelable(DataUser.class.getClassLoader());
+        this.cart = in.createTypedArrayList(DataCart.CREATOR);
     }
 
-    public static final Parcelable.Creator<MyOrderData> CREATOR = new Parcelable.Creator<MyOrderData>() {
+    public static final Parcelable.Creator<DataMyOrder> CREATOR = new Parcelable.Creator<DataMyOrder>() {
         @Override
-        public MyOrderData createFromParcel(Parcel source) {
-            return new MyOrderData(source);
+        public DataMyOrder createFromParcel(Parcel source) {
+            return new DataMyOrder(source);
         }
 
         @Override
-        public MyOrderData[] newArray(int size) {
-            return new MyOrderData[size];
+        public DataMyOrder[] newArray(int size) {
+            return new DataMyOrder[size];
         }
     };
 

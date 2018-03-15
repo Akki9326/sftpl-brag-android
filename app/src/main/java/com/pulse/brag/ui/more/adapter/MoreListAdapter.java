@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.data.model.datas.MoreListData;
+import com.pulse.brag.data.model.datas.DataMoreList;
 
 import java.util.List;
 
@@ -32,10 +32,10 @@ import java.util.List;
 public class MoreListAdapter extends BaseAdapter {
 
     Context context;
-    List<MoreListData> moreListData;
+    List<DataMoreList> moreListData;
     LayoutInflater inflter;
 
-    public MoreListAdapter(Context context, List<MoreListData> moreListData) {
+    public MoreListAdapter(Context context, List<DataMoreList> moreListData) {
         this.context = context;
         this.moreListData = moreListData;
         inflter = (LayoutInflater.from(context));

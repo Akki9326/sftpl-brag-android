@@ -16,16 +16,16 @@ import java.util.List;
  */
 
 
-public class CollectionListResponeData {
-    private List<CategoryListResponseData.Category> categories;
-    private List<CategoryListResponseData.Banners> banners;
+public class DataCollectionList {
+    private List<DataCategoryList.Category> categories;
+    private List<DataCategoryList.Banners> banners;
 
 
-    public List<CategoryListResponseData.Category> getCategories() {
+    public List<DataCategoryList.Category> getCategories() {
         return categories;
     }
 
-    public List<CategoryListResponseData.Banners> getBanners() {
+    public List<DataCategoryList.Banners> getBanners() {
         return banners;
     }
 
@@ -67,7 +67,7 @@ public class CollectionListResponeData {
     }
 
     @Override
-    public int compareTo(@NonNull CollectionListResponeData o) {
+    public int compareTo(@NonNull DataCollectionList o) {
         if (optionOrderNo > o.getOptionOrderNo()) {
             return 1;
         } else if (optionOrderNo < o.getOptionOrderNo()) {

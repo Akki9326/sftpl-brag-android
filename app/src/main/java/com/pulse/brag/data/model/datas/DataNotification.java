@@ -1,4 +1,4 @@
-package com.pulse.brag.data.model;
+package com.pulse.brag.data.model.datas;
 
 
 /**
@@ -17,7 +17,7 @@ import android.os.Parcelable;
  */
 
 
-public class NotificationResponseData implements Parcelable {
+public class DataNotification implements Parcelable {
 
     private String id;
     private String title;
@@ -89,10 +89,10 @@ public class NotificationResponseData implements Parcelable {
         dest.writeString(this.category);
     }
 
-    public NotificationResponseData() {
+    public DataNotification() {
     }
 
-    protected NotificationResponseData(Parcel in) {
+    protected DataNotification(Parcel in) {
         this.id = in.readString();
         this.title = in.readString();
         this.body = in.readString();
@@ -101,15 +101,15 @@ public class NotificationResponseData implements Parcelable {
         this.category = in.readString();
     }
 
-    public static final Parcelable.Creator<NotificationResponseData> CREATOR = new Parcelable.Creator<NotificationResponseData>() {
+    public static final Parcelable.Creator<DataNotification> CREATOR = new Parcelable.Creator<DataNotification>() {
         @Override
-        public NotificationResponseData createFromParcel(Parcel source) {
-            return new NotificationResponseData(source);
+        public DataNotification createFromParcel(Parcel source) {
+            return new DataNotification(source);
         }
 
         @Override
-        public NotificationResponseData[] newArray(int size) {
-            return new NotificationResponseData[size];
+        public DataNotification[] newArray(int size) {
+            return new DataNotification[size];
         }
     };
 }

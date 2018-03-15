@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.datas.DataProductList;
+import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.ui.core.BaseFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.list.adapter.ProductListAdapter;
@@ -44,7 +45,6 @@ import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.DummeyDataRespone;
-import com.pulse.brag.data.model.response.ProductListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
     int mSelectedQty;
     int productSize;
 
-    List<ProductListResponse> collectionListRespones;
+    List<RProductList> collectionListRespones;
     ProductListAdapter mProductListAdapter;
     ColorListAdapter mColorListAdapter;
     SizeListAdapter mSizeListAdapter;

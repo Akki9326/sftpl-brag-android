@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.FullScreenImagePagerAdaper;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.RImagePager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.List;
 public class FullScreenImageDialogFragment extends DialogFragment implements FullScreenImagePagerAdaper.IOnFullImagePageClickListener {
 
     ViewPager mViewPager;
-    List<ImagePagerResponse> mPagerRespones;
+    List<RImagePager> mPagerRespones;
     int pos;
 
     @Nullable
@@ -48,7 +48,7 @@ public class FullScreenImageDialogFragment extends DialogFragment implements Ful
 
         if (getArguments().containsKey(Constants.BUNDLE_IMAGE_URL)) {
             mPagerRespones = new ArrayList<>();
-            mPagerRespones.add(new ImagePagerResponse(getArguments().getString(Constants.BUNDLE_IMAGE_URL), ""));
+            mPagerRespones.add(new RImagePager(getArguments().getString(Constants.BUNDLE_IMAGE_URL), ""));
             pos = 0;
         }
 
@@ -73,7 +73,7 @@ public class FullScreenImageDialogFragment extends DialogFragment implements Ful
     }
 
     @Override
-    public void onFullImagePageClick(int pos, ImagePagerResponse item) {
+    public void onFullImagePageClick(int pos, RImagePager item) {
 
     }
 }

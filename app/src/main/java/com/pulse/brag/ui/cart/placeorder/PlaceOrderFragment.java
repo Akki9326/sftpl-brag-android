@@ -9,6 +9,7 @@ package com.pulse.brag.ui.cart.placeorder;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,18 +21,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.widget.Toast;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
+import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.datas.CartData;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
+import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
 import com.pulse.brag.ui.cart.adapter.PlaceOrderCartListAdapter;
-import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
-import com.pulse.brag.data.model.datas.CartData;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
+import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
@@ -87,19 +89,20 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                 }
             }, 500);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
     @Override
     public void onApiSuccess() {
         hideProgress();
+
     }
 
     @Override
     public void onApiError(ApiError error) {
         hideKeyboard();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -111,8 +114,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
             showProgress();
             mPlaceOrderViewModel.placeOrderAPI(new QPlaceOrder());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
-
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
 
     }
@@ -143,12 +145,23 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     @Override
     public void onApiSuccessPlaceOrder() {
         hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), 2001, null, new AlertUtils.IDismissDialogListener() {
+            @Override
+            public void dismissDialog(Dialog dialog) {
+                dialog.dismiss();
+                //clear cart when successfully place order
+                BragApp.CartNumber = 0;
+                ((MainActivity) getActivity()).updateCartNum();
+                ((MainActivity) getActivity()).clearStackForPlaceOrder();
+
+            }
+        });
     }
 
     @Override
     public void onApiErrorPlaceOrder(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
 
@@ -206,6 +219,10 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     }
 
     public void showData() {
+
+
+        //default address pre filled
+        mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData().getFullAddressWithNewLine());
 
         mAdapter = new PlaceOrderCartListAdapter(getActivity(), mList, this);
         mFragmentPlaceOrderBinding.recycleview.setAdapter(mAdapter);

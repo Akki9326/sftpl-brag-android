@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
@@ -276,7 +277,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
     @Override
     public void onAddedToCart(List<DataAddToCart> data) {
-        ((MainActivity) getBaseActivity()).addToCartAPI(data.size());
+        ((MainActivity) getBaseActivity()).updateCartNum();
         dismissDialog("");
     }
 

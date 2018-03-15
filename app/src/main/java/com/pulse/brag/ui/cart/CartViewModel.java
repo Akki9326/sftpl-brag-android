@@ -13,6 +13,7 @@ import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
@@ -73,6 +74,8 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
             @Override
             public void onSuccess(GeneralResponse cartListResponse, Headers headers) {
                 if (cartListResponse.isStatus()) {
+//                    BragApp.CartNumber--;
+                    BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
                     getNavigator().onSuccessDeleteFromAPI();
 
                 } else {

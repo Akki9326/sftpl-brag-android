@@ -290,4 +290,6 @@
     <string name="label_order_status_dispatched">Dispatched</string>
     <string name="error_code_41">Your cart is empty.</string>
     <string name="message_contact_us_success">Thank you for contacting us. We will get back to you very soon.</string>
+    <string name="msg_place_order_successfull">Your order placed successfully.</string>
+    <string name="msg_reorder_success">This ordered succesfully reorder.</string>
 </resources>

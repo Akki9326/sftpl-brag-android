@@ -41,6 +41,7 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
 
     ActivityMainBinding mMainActivyBinding;
 
+    FragmentManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,6 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         if (bActivity instanceof OnToolbarSetupListener) {
             ((OnToolbarSetupListener) bActivity).setUpToolbar();
         }
-        BragApp.NotificationNumber = 1;
         //// TODO: 3/9/2018 get cart details
         /*BragApp.CartNumber = 2;
         setBagCount(BragApp.CartNumber);*/
@@ -86,7 +86,7 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
 
     public void pushFragments(Fragment fragment, boolean shouldAnimate, boolean shouldAdd) {
 
-        FragmentManager manager = getSupportFragmentManager();
+        manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         if (shouldAnimate) {
             ft.setCustomAnimations(R.anim.right_in, R.anim.left_out,
@@ -94,6 +94,29 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         }
         if (shouldAdd) {
             ft.addToBackStack(null);
+        }
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) != null) {
+            ft.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
+        }
+        ft.add(R.id.fragment_container, fragment);
+
+        if (!isFinishing()) {
+            ft.commitAllowingStateLoss();
+        } else {
+            ft.commit();
+        }
+    }
+
+    public void pushFragments(Fragment fragment, boolean shouldAnimate, boolean shouldAdd, String tag) {
+
+        manager = getSupportFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        if (shouldAnimate) {
+            ft.setCustomAnimations(R.anim.right_in, R.anim.left_out,
+                    R.anim.left_in, R.anim.right_out);
+        }
+        if (shouldAdd) {
+            ft.addToBackStack(tag);
         }
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) != null) {
             ft.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
@@ -123,14 +146,13 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
     }
 
 
-    public void addToCartAPI(final int i) {
+    public void updateCartNum() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                BragApp.CartNumber = i;
                 setBagCount(BragApp.CartNumber);
             }
-        }, 1000);
+        }, 500);
 
     }
 
@@ -157,13 +179,17 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
             @Override
             public void onSingleClick(View v) {
 
-                pushFragments(new CartFragment(), true, true);
+                pushFragments(new CartFragment(), true, true, "Cart");
 
 
             }
         });
 
 
+    }
+
+    public void clearStackForPlaceOrder() {
+        getSupportFragmentManager().popBackStackImmediate("Cart", FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 }
 

@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -35,6 +38,7 @@ import com.pulse.brag.databinding.FragmentOrderDetailBinding;
 import com.pulse.brag.data.model.datas.MyOrderData;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
+import com.pulse.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.AppPermission;
 import com.pulse.brag.utils.Constants;
@@ -64,10 +68,9 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     int downloadIdOne;
 
-    public static OrderDetailFragment newInstance(String id, MyOrderData data) {
+    public static OrderDetailFragment newInstance(MyOrderData data) {
 
         Bundle args = new Bundle();
-        args.putString(Constants.BUNDLE_ORDER_ID, id);
         args.putParcelable(Constants.BUNDLE_ORDER_DATA, data);
         OrderDetailFragment fragment = new OrderDetailFragment();
         fragment.setArguments(args);
@@ -98,19 +101,17 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         mFragmentOrderDetailBinding.imageviewDownload.setInAnimation(up);
         mFragmentOrderDetailBinding.imageviewDownload.setOutAnimation(down);
         mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
-        //checkInternet();
+
+        mFragmentOrderDetailBinding.recycleview.setHasFixedSize(true);
+        mFragmentOrderDetailBinding.recycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mFragmentOrderDetailBinding.recycleview.setMotionEventSplittingEnabled(false);
+        mFragmentOrderDetailBinding.recycleview.addItemDecoration(new DividerItemDecoration(getActivity(),
+                DividerItemDecoration.VERTICAL));
+        mFragmentOrderDetailBinding.recycleview.setNestedScrollingEnabled(false);
         showData();
 
     }
 
-    private void checkInternet() {
-        if (Utility.isConnection(getActivity())) {
-            showProgress();
-            orderDetailViewModel.getOrderDetail();
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
-        }
-    }
 
     @Override
     public void setUpToolbar() {
@@ -136,7 +137,19 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+    }
+
+    @Override
+    public void onApiReorderSuccess() {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), null, getString(R.string.msg_reorder_success), null);
+    }
+
+    @Override
+    public void onApiReorderError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -149,7 +162,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                 downloadOrOpenFile();
             }
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
 
 
@@ -238,7 +251,12 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void onReorderClick() {
-        Toast.makeText(getActivity(), "Reorder", Toast.LENGTH_SHORT).show();
+        if (Utility.isConnection(getActivity())) {
+            showData();
+            orderDetailViewModel.reOrderAPI(mData.getId());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+        }
     }
 
     @Override
@@ -248,14 +266,12 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
 
     public void showData() {
-//        orderDetailViewModel.updateOrderId(mData.getOrder_id());
-//        orderDetailViewModel.updateProductImage(mData.getProduct_image_url());
-//        orderDetailViewModel.updateProductName(mData.getProduct_name());
-//        orderDetailViewModel.updateProductPrice(mData.getProductPriceWithSym());
-//        orderDetailViewModel.updateProductQty(mData.getProduct_qty());
-        orderDetailViewModel.updateAddress("" + getString(R.string.text_s));
-        orderDetailViewModel.updateCity("Ahmedabad");
-        orderDetailViewModel.updateStateWithPincode("Gujarat-380015");
+        orderDetailViewModel.updateOrderId(mData.getOrderNumber());
+        orderDetailViewModel.updateAddress(mData.getUser().getFullAddressWithNewLine());
+        orderDetailViewModel.updateFullName(mData.getUser().getFullName());
+        orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
+
+        mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
     }
 
     @Override

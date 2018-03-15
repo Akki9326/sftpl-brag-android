@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.text.Editable;
 import android.view.View;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
@@ -121,6 +122,7 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
                     if (rAddToCart.getData() == null) {
                         getNavigator().onApiError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
                     } else {
+                        BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
                         getNavigator().onApiSuccess();
                         getNavigator().onAddedToCart(rAddToCart.getData());
                     }

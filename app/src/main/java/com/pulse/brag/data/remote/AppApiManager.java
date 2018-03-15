@@ -179,4 +179,9 @@ public class AppApiManager implements IApiManager {
     public Call<GeneralResponse> placeOrder(QPlaceOrder placeOrder) {
         return mApiInterface.placeOrder(placeOrder);
     }
+
+    @Override
+    public Call<GeneralResponse> reOrder(String id) {
+        return mApiInterface.reOrder(id);
+    }
 }

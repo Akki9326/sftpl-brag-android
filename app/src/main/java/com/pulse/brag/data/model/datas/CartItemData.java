@@ -42,6 +42,7 @@ public class CartItemData implements Parcelable {
     private Integer stockData;
     private List<String> images = null;
     private Boolean alreadyInCart;
+    private String colorHexCode;
 
     public String getNo() {
         return no;
@@ -211,6 +212,17 @@ public class CartItemData implements Parcelable {
         this.alreadyInCart = alreadyInCart;
     }
 
+    public String getColorHexCode() {
+        if (colorHexCode != null && !colorHexCode.isEmpty())
+            return colorHexCode;
+        else
+            return "#000000";
+    }
+
+    public void setColorHexCode(String colorHexCode) {
+        this.colorHexCode = colorHexCode;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -239,6 +251,7 @@ public class CartItemData implements Parcelable {
         dest.writeValue(this.stockData);
         dest.writeStringList(this.images);
         dest.writeValue(this.alreadyInCart);
+        dest.writeString(this.colorHexCode);
     }
 
     public CartItemData() {
@@ -266,6 +279,7 @@ public class CartItemData implements Parcelable {
         this.stockData = (Integer) in.readValue(Integer.class.getClassLoader());
         this.images = in.createStringArrayList();
         this.alreadyInCart = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.colorHexCode = in.readString();
     }
 
     public static final Parcelable.Creator<CartItemData> CREATOR = new Parcelable.Creator<CartItemData>() {

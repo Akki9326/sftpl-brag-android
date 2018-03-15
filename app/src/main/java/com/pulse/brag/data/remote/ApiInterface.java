@@ -129,4 +129,7 @@ public interface ApiInterface {
 
     @POST("order/add")
     Call<GeneralResponse> placeOrder(@Body QPlaceOrder placeOrder);
+
+    @GET("order/reOrder/{orderId}")
+    Call<GeneralResponse> reOrder(@Path("orderId") String id);
 }

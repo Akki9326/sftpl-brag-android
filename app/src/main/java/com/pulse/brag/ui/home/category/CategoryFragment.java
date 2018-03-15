@@ -19,6 +19,7 @@ import android.view.View;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.ui.home.HomeFragment;
 import com.pulse.brag.ui.home.adapter.CategoryListAdapter;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.data.model.ApiError;
@@ -137,6 +138,8 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     @Override
     public void onApiSuccess() {
         hideProgressBar();
+        ((MainActivity) getActivity()).updateCartNum();
+        ((HomeFragment) getParentFragment()).setNotificationBadge();
     }
 
     @Override
@@ -147,7 +150,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             return;
         }
         categoryViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

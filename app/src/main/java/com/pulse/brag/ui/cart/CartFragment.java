@@ -87,7 +87,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                 cartViewModel.setNoInternet(true);
             } else {
                 hideLoader();
-                AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
             }
         }
     }
@@ -157,7 +157,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                     showProgress();
                     cartViewModel.editQty(mEditQtyItemId, mEditQtyItemNo, updateItemQtyNum);
                 } else {
-                    AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                 }
             }
         }
@@ -201,7 +201,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -239,6 +239,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             public void run() {
                 hideProgress();
                 mAdapter.removeItem(mCartItemDeleteData);
+                ((MainActivity) getActivity()).updateCartNum();
                 setTotalPrice();
                 if (mAdapter.getItemCount() == 0) {
                     cartViewModel.setListVisibility(false);
@@ -250,7 +251,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onErrorDeleteFromAPI(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

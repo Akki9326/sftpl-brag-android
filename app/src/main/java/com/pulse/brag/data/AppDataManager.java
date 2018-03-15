@@ -213,6 +213,11 @@ public class AppDataManager implements IDataManager {
         return mApiManager.placeOrder(placeOrder);
     }
 
+
+    public Call<GeneralResponse> reOrder(String id) {
+        return mApiManager.reOrder(id);
+    }
+
     @Override
     public Call<LoginResponse> userLogin(QLogin loginRequest) {
         return mApiManager.userLogin(loginRequest);

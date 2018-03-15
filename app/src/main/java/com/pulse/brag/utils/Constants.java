@@ -86,6 +86,8 @@ public class Constants {
         String MAP_APP_VERSION = "app-version";
         String MAP_KEY_OSV = "os-version";
         String MAP_KEY_OS = "os";
+        String MAP_KEY_CART_NUM = "itemnoofcart";
+        String MAP_KEY_NOTIFICATION_NUM = "unreadcount";
     }
 
     public interface IErrorCode {

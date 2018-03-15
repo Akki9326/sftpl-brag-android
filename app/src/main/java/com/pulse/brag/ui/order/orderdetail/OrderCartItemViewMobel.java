@@ -1,4 +1,4 @@
-package com.pulse.brag.ui.cart;
+package com.pulse.brag.ui.order.orderdetail;
 
 
 /**
@@ -19,28 +19,20 @@ import com.pulse.brag.data.model.datas.CartData;
 import com.pulse.brag.utils.Utility;
 
 /**
- * Created by nikhil.vadoliya on 19-02-2018.
+ * Created by nikhil.vadoliya on 14-03-2018.
  */
 
 
-public class CartItemViewModel extends BaseObservable {
+public class OrderCartItemViewMobel extends BaseObservable {
 
     Context context;
     CartData responeData;
-    OnItemClick onItemClick;
-    int position;
 
-    public CartItemViewModel(Context context, int position, CartData responeData, OnItemClick onItemClick) {
+    public OrderCartItemViewMobel(Context context, CartData responeData) {
         this.context = context;
         this.responeData = responeData;
-        this.onItemClick = onItemClick;
-        this.position = position;
     }
 
-    public void setCartData(CartData responeData) {
-        this.responeData = responeData;
-        notifyChange();
-    }
 
     public String getId() {
         return responeData.getId();
@@ -50,7 +42,7 @@ public class CartItemViewModel extends BaseObservable {
         return responeData.getItem().getImages().get(0);
     }
 
-    public String getProduct_name() {
+    public String getProductName() {
         return responeData.getItem().getDescription();
     }
 
@@ -72,21 +64,7 @@ public class CartItemViewModel extends BaseObservable {
     }
 
     public Drawable getColorBitMap() {
-
         return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap(responeData.getItem().getColorHexCode(), true));
     }
 
-    public void onDeleteItem(View v) {
-        onItemClick.onDeleteItem(position, responeData);
-    }
-
-    public void onQtyClick(View view) {
-        onItemClick.onQtyClick(position, responeData);
-    }
-
-    public interface OnItemClick {
-        public void onDeleteItem(int position, CartData responeData);
-
-        public void onQtyClick(int position, CartData responeData);
-    }
 }

@@ -280,8 +280,9 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void OnCartClick(int position) {
         if (!isClicked) {
             isClicked = true;
-            ((MainActivity) getBaseActivity()).addToCartAPI(0);
-            enabledClick();
+            // TODO: 15-03-2018 :oncart click
+//            ((MainActivity) getBaseActivity()).updateCartNum(0);
+//            enabledClick();
         }
     }
 

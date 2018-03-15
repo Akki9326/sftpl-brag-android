@@ -16,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -35,7 +34,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentOrderDetailBinding;
-import com.pulse.brag.data.model.datas.MyOrderData;
+import com.pulse.brag.data.model.datas.DataMyOrder;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
@@ -58,7 +57,7 @@ import javax.inject.Inject;
 public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding, OrderDetailViewModel> implements OrderDetailNavigator {
 
     String orderId;
-    MyOrderData mData;
+    DataMyOrder mData;
 
     final int REQUEST_PERMISSION = 01;
 
@@ -68,7 +67,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     int downloadIdOne;
 
-    public static OrderDetailFragment newInstance(MyOrderData data) {
+    public static OrderDetailFragment newInstance(DataMyOrder data) {
 
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_ORDER_DATA, data);

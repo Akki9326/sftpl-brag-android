@@ -14,7 +14,7 @@ package com.pulse.brag.data.model.response;
  */
 
 
-public class OTPVerifyResponse {
+public class ROTPVerify {
     private boolean status;
     private String message;
     private int errorCode;

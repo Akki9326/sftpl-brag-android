@@ -13,9 +13,8 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.view.View;
 
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -26,9 +25,9 @@ import com.pulse.brag.utils.Utility;
 public class OrderCartItemViewMobel extends BaseObservable {
 
     Context context;
-    CartData responeData;
+    DataCart responeData;
 
-    public OrderCartItemViewMobel(Context context, CartData responeData) {
+    public OrderCartItemViewMobel(Context context, DataCart responeData) {
         this.context = context;
         this.responeData = responeData;
     }

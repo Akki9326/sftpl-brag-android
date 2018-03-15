@@ -14,13 +14,13 @@ package com.pulse.brag.data.model.datas;
  */
 
 
-public class NotificationListData {
+public class DataNotificationList {
     private String id;
     private String title;
     private String descrioption;
     private boolean isRead;
 
-    public NotificationListData(String id, String title, String descrioption,boolean isRead) {
+    public DataNotificationList(String id, String title, String descrioption, boolean isRead) {
         this.id = id;
         this.title = title;
         this.descrioption = descrioption;

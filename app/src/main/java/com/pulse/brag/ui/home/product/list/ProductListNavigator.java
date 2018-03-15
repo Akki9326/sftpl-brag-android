@@ -1,8 +1,5 @@
 package com.pulse.brag.ui.home.product.list;
 
-import android.text.Editable;
-
-import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.ui.core.CoreNavigator;

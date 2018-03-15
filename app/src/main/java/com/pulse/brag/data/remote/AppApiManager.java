@@ -2,9 +2,9 @@ package com.pulse.brag.data.remote;
 
 import android.content.Context;
 
-import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.datas.UserData;
-import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
+import com.pulse.brag.data.model.response.RGeneralData;
+import com.pulse.brag.data.model.datas.DataUser;
+import com.pulse.brag.data.model.requests.QChangeMobileNumber;
 import com.pulse.brag.data.model.requests.QChangePassword;
 import com.pulse.brag.data.model.requests.QContactUs;
 import com.pulse.brag.data.model.requests.QLogin;
@@ -16,19 +16,19 @@ import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.QAddAddress;
 import com.pulse.brag.data.model.requests.QSignUp;
 import com.pulse.brag.data.model.response.RCartList;
-import com.pulse.brag.data.model.response.CategoryListResponse;
-import com.pulse.brag.data.model.response.ChangePasswordResponse;
-import com.pulse.brag.data.model.response.CollectionListResponse;
-import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.model.response.RCategoryList;
+import com.pulse.brag.data.model.response.RChangePassword;
+import com.pulse.brag.data.model.response.RCollectionList;
+import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.data.model.response.RMyOrder;
-import com.pulse.brag.data.model.response.OTPVerifyResponse;
-import com.pulse.brag.data.model.response.OrderDetailResponse;
+import com.pulse.brag.data.model.response.ROTPVerify;
+import com.pulse.brag.data.model.response.ROrderDetail;
 import com.pulse.brag.data.model.response.RAddToCart;
 import com.pulse.brag.data.model.response.RFilter;
 import com.pulse.brag.data.model.response.RProductList;
 import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.RUserAddress;
-import com.pulse.brag.data.model.response.SignUpResponse;
+import com.pulse.brag.data.model.response.RSignUp;
 
 import javax.inject.Inject;
 
@@ -49,7 +49,7 @@ public class AppApiManager implements IApiManager {
 
 
     @Override
-    public Call<LoginResponse> userLogin(QLogin loginRequest) {
+    public Call<RLogin> userLogin(QLogin loginRequest) {
         return mApiInterface.userLogin(loginRequest);
     }
 
@@ -59,63 +59,63 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<SignUpResponse> userSignIn(QSignUp signInRequest) {
+    public Call<RSignUp> userSignIn(QSignUp signInRequest) {
         return mApiInterface.userSignIn(signInRequest);
     }
 
     @Override
-    public Call<OTPVerifyResponse> verifyOtp(String mobile, String otp) {
+    public Call<ROTPVerify> verifyOtp(String mobile, String otp) {
         return mApiInterface.verifyOtp(mobile, otp);
     }
 
     @Override
-    public Call<OTPVerifyResponse> verifyOtpForgetPass(String mobile, String otp) {
+    public Call<ROTPVerify> verifyOtpForgetPass(String mobile, String otp) {
         return mApiInterface.verifyOtpForgetPass(mobile, otp);
     }
 
     @Override
-    public Call<GeneralResponse> resendOtp(String mobile) {
+    public Call<RGeneralData> resendOtp(String mobile) {
         return mApiInterface.resendOtp(mobile);
     }
 
     @Override
-    public Call<ChangePasswordResponse> changePassword(QChangePassword changePasswordRequest) {
+    public Call<RChangePassword> changePassword(QChangePassword changePasswordRequest) {
         return mApiInterface.changePassword(changePasswordRequest);
     }
 
     @Override
-    public Call<ChangePasswordResponse> resetPassword(QChangePassword changePasswordRequest) {
+    public Call<RChangePassword> resetPassword(QChangePassword changePasswordRequest) {
         return mApiInterface.resetPassword(changePasswordRequest);
     }
 
     @Override
-    public Call<GeneralResponse> logoutCall() {
+    public Call<RGeneralData> logoutCall() {
         return mApiInterface.logoutCall();
     }
 
     @Override
-    public Call<GeneralResponse> generateOTPForMobileChange(QGenerateOtpForChangeMobile generateOtpForChangeMobile) {
+    public Call<RGeneralData> generateOTPForMobileChange(QGenerateOtpForChangeMobile generateOtpForChangeMobile) {
         return mApiInterface.generateOTPForMobileChange(generateOtpForChangeMobile);
     }
 
 
     @Override
-    public Call<GeneralResponse> changeMobileNum(ChangeMobileNumberRequest changeMobileNumberRequest) {
+    public Call<RGeneralData> changeMobileNum(QChangeMobileNumber changeMobileNumberRequest) {
         return mApiInterface.changeMobileNum(changeMobileNumberRequest);
     }
 
     @Override
-    public Call<CategoryListResponse> getCategoryProduct() {
+    public Call<RCategoryList> getCategoryProduct() {
         return mApiInterface.getCategoryProduct();
     }
 
     @Override
-    public Call<CollectionListResponse> getCollectionProduct() {
+    public Call<RCollectionList> getCollectionProduct() {
         return mApiInterface.getCollectionProduct();
     }
 
     @Override
-    public Call<GeneralResponse> notifyMe(String itemNo) {
+    public Call<RGeneralData> notifyMe(String itemNo) {
         return mApiInterface.notifyMe(itemNo);
     }
 
@@ -130,7 +130,7 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<GeneralResponse> contactUs(QContactUs qContactUs) {
+    public Call<RGeneralData> contactUs(QContactUs qContactUs) {
         return mApiInterface.contactUs(qContactUs);
     }
 
@@ -146,7 +146,7 @@ public class AppApiManager implements IApiManager {
 
 
     @Override
-    public Call<OrderDetailResponse> getOrderDetail(String url) {
+    public Call<ROrderDetail> getOrderDetail(String url) {
         return mApiInterface.getOrderDetail(url);
     }
 
@@ -156,7 +156,7 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<LoginResponse> updateProfile(UserData userData) {
+    public Call<RLogin> updateProfile(DataUser userData) {
         return mApiInterface.updateProfile(userData);
     }
 
@@ -166,22 +166,22 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<GeneralResponse> removeFromCart(String id) {
+    public Call<RGeneralData> removeFromCart(String id) {
         return mApiInterface.removeFromCart(id);
     }
 
     @Override
-    public Call<LoginResponse> getUserProfile(String s) {
+    public Call<RLogin> getUserProfile(String s) {
         return mApiInterface.getUserProfile(s);
     }
 
     @Override
-    public Call<GeneralResponse> placeOrder(QPlaceOrder placeOrder) {
+    public Call<RGeneralData> placeOrder(QPlaceOrder placeOrder) {
         return mApiInterface.placeOrder(placeOrder);
     }
 
     @Override
-    public Call<GeneralResponse> reOrder(String id) {
+    public Call<RGeneralData> reOrder(String id) {
         return mApiInterface.reOrder(id);
     }
 }

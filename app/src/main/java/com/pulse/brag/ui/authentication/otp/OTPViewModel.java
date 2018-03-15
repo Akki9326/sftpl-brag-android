@@ -10,12 +10,11 @@ import com.google.gson.Gson;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
+import com.pulse.brag.data.model.requests.QChangeMobileNumber;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.response.OTPVerifyResponse;
+import com.pulse.brag.data.model.response.RGeneralData;
+import com.pulse.brag.data.model.response.ROTPVerify;
 import com.pulse.brag.ui.core.CoreViewModel;
-import com.pulse.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -54,10 +53,10 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
     }
 
     public void resendOtp(String mobileNumber) {
-        Call<GeneralResponse> responeCall = getDataManager().resendOtp(mobileNumber);
-        responeCall.enqueue(new ApiResponse<GeneralResponse>() {
+        Call<RGeneralData> responeCall = getDataManager().resendOtp(mobileNumber);
+        responeCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                 } else {
@@ -73,11 +72,11 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
     }
 
     public void verifyOtp(String mobileNum, String otp, final int formType) {
-        Call<OTPVerifyResponse> mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum, otp);
+        Call<ROTPVerify> mOtpVerifyResponeCall = getDataManager().verifyOtp(mobileNum, otp);
 
-        mOtpVerifyResponeCall.enqueue(new ApiResponse<OTPVerifyResponse>() {
+        mOtpVerifyResponeCall.enqueue(new ApiResponse<ROTPVerify>() {
             @Override
-            public void onSuccess(OTPVerifyResponse otpVerifyResponse, Headers headers) {
+            public void onSuccess(ROTPVerify otpVerifyResponse, Headers headers) {
                 if (otpVerifyResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().pushSignUpCompleteFragment();
@@ -95,11 +94,11 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
     }
 
     public void verifyOtpForForgotPass(String mobileNum, String otp, final int formType) {
-        Call<OTPVerifyResponse> mOtpVerifyResponeCall = getDataManager().verifyOtpForgetPass(mobileNum, otp);
+        Call<ROTPVerify> mOtpVerifyResponeCall = getDataManager().verifyOtpForgetPass(mobileNum, otp);
 
-        mOtpVerifyResponeCall.enqueue(new ApiResponse<OTPVerifyResponse>() {
+        mOtpVerifyResponeCall.enqueue(new ApiResponse<ROTPVerify>() {
             @Override
-            public void onSuccess(OTPVerifyResponse otpVerifyResponse, Headers headers) {
+            public void onSuccess(ROTPVerify otpVerifyResponse, Headers headers) {
                 if (otpVerifyResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().pushCreatePasswordFragment();
@@ -118,11 +117,11 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
 
     public void verifyOtpForChangeMob(String mobile, String password, String otp) {
         // TODO: 13-12-2017 if you display mobile number in more Fragment than isStatus==true update mobile number display
-        ChangeMobileNumberRequest changeMobileNumberRequest = new ChangeMobileNumberRequest(mobile, password, otp);
-        Call<GeneralResponse> mResponeCall = getDataManager().changeMobileNum(changeMobileNumberRequest);
-        mResponeCall.enqueue(new ApiResponse<GeneralResponse>() {
+        QChangeMobileNumber changeMobileNumberRequest = new QChangeMobileNumber(mobile, password, otp);
+        Call<RGeneralData> mResponeCall = getDataManager().changeMobileNum(changeMobileNumberRequest);
+        mResponeCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getDataManager().setUserData(new Gson().toJson(generalResponse.getData()));

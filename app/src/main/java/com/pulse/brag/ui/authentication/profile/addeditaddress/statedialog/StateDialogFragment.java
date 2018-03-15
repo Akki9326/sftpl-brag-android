@@ -25,7 +25,7 @@ import android.widget.AdapterView;
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.StateData;
+import com.pulse.brag.data.model.datas.DataState;
 import com.pulse.brag.databinding.DialogFragmentListSelectorBinding;
 import com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.adapter.StateListAdapter;
 import com.pulse.brag.ui.core.CoreDialogFragment;
@@ -52,7 +52,7 @@ public class StateDialogFragment extends CoreDialogFragment<DialogFragmentListSe
     DialogFragmentListSelectorBinding mDialogListSelectorBinding;
 
     StateListAdapter adapter;
-    List<StateData> mStateList;
+    List<DataState> mStateList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class StateDialogFragment extends CoreDialogFragment<DialogFragmentListSe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                StateData responeData = (StateData) parent.getItemAtPosition(position);
+                DataState responeData = (DataState) parent.getItemAtPosition(position);
                 onStateSelect(responeData);
 
 
@@ -153,7 +153,7 @@ public class StateDialogFragment extends CoreDialogFragment<DialogFragmentListSe
     }
 
     @Override
-    public void onStateSelect(StateData data) {
+    public void onStateSelect(DataState data) {
         Intent intent = new Intent();
         intent.putExtra(Constants.BUNDLE_KEY_STATE, (Parcelable) data);
         getTargetFragment().onActivityResult(1, 1, intent);

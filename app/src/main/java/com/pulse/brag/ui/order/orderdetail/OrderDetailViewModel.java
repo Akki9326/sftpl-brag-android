@@ -15,10 +15,8 @@ import android.view.View;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.GeneralResponse;
+import com.pulse.brag.data.model.response.RGeneralData;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.datas.OrderDetailResponeData;
-import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -98,10 +96,10 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     }
 
     public void reOrderAPI(String orderId) {
-        Call<GeneralResponse> call = getDataManager().reOrder(orderId);
-        call.enqueue(new ApiResponse<GeneralResponse>() {
+        Call<RGeneralData> call = getDataManager().reOrder(orderId);
+        call.enqueue(new ApiResponse<RGeneralData>() {
             @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiReorderSuccess();
                 } else {

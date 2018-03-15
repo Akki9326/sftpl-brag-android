@@ -6,7 +6,7 @@ import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.RImagePager;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -15,13 +15,13 @@ import com.pulse.brag.utils.Utility;
 
 public class ImagePagerItem extends BaseObservable {
 
-    private ImagePagerResponse item;
+    private RImagePager item;
     private Context context;
     private int position;
 
     private ItemImageClickListener itemImageClickListener;
 
-    public ImagePagerItem(ImagePagerResponse item, Context context, int position, ItemImageClickListener itemImageClickListener) {
+    public ImagePagerItem(RImagePager item, Context context, int position, ItemImageClickListener itemImageClickListener) {
         this.item = item;
         this.context = context;
         this.position = position;
@@ -36,7 +36,7 @@ public class ImagePagerItem extends BaseObservable {
         return item.getId();
     }
 
-    public void setItem(ImagePagerResponse item) {
+    public void setItem(RImagePager item) {
         this.item = item;
         notifyChange();
     }
@@ -51,7 +51,7 @@ public class ImagePagerItem extends BaseObservable {
     }
 
     public interface ItemImageClickListener {
-        void onItemClick(int position, ImagePagerResponse item);
+        void onItemClick(int position, RImagePager item);
 
     }
 }

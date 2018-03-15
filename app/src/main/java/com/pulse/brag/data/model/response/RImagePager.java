@@ -12,24 +12,22 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.view.View;
 
 import com.pulse.brag.BR;
-import com.pulse.brag.callback.OnSingleClickListener;
 
 /**
  * Created by nikhil.vadoliya on 29-09-2017.
  */
 
 
-public class ImagePagerResponse extends BaseObservable implements Parcelable {
+public class RImagePager extends BaseObservable implements Parcelable {
 
     @Bindable
     String url;
     @Bindable
     String id;
 
-    public ImagePagerResponse(String url, String id) {
+    public RImagePager(String url, String id) {
         this.url = url;
         this.id = id;
     }
@@ -63,20 +61,20 @@ public class ImagePagerResponse extends BaseObservable implements Parcelable {
         dest.writeString(this.id);
     }
 
-    protected ImagePagerResponse(Parcel in) {
+    protected RImagePager(Parcel in) {
         this.url = in.readString();
         this.id = in.readString();
     }
 
-    public static final Parcelable.Creator<ImagePagerResponse> CREATOR = new Parcelable.Creator<ImagePagerResponse>() {
+    public static final Parcelable.Creator<RImagePager> CREATOR = new Parcelable.Creator<RImagePager>() {
         @Override
-        public ImagePagerResponse createFromParcel(Parcel source) {
-            return new ImagePagerResponse(source);
+        public RImagePager createFromParcel(Parcel source) {
+            return new RImagePager(source);
         }
 
         @Override
-        public ImagePagerResponse[] newArray(int size) {
-            return new ImagePagerResponse[size];
+        public RImagePager[] newArray(int size) {
+            return new RImagePager[size];
         }
     };
 

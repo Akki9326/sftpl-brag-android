@@ -16,7 +16,7 @@ import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.response.CategoryListResponse;
+import com.pulse.brag.data.model.response.RCategoryList;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -55,10 +55,10 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
     }
 
     public void getSubCategoryData() {
-        Call<CategoryListResponse> mCategoryRespone = getDataManager().getCategoryProduct();
-        mCategoryRespone.enqueue(new ApiResponse<CategoryListResponse>() {
+        Call<RCategoryList> mCategoryRespone = getDataManager().getCategoryProduct();
+        mCategoryRespone.enqueue(new ApiResponse<RCategoryList>() {
             @Override
-            public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
+            public void onSuccess(RCategoryList categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     // TODO: 27-02-2018 :onSwiptoRefresh

@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 
-public class UserData implements Parcelable {
+public class DataUser implements Parcelable {
 
     private String id;
     private String title;
@@ -33,7 +33,7 @@ public class UserData implements Parcelable {
     private Long lastModifiedDate;
     private Boolean isActive;
     private Boolean isDeleted;
-    private List<UserAddress> addresses;
+    private List<DataUserAddress> addresses;
 
     public String getId() {
         return id;
@@ -143,17 +143,17 @@ public class UserData implements Parcelable {
         return firstName + " " + lastName;
     }
 
-    public List<UserAddress> getAddresses() {
+    public List<DataUserAddress> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<UserAddress> addresses) {
+    public void setAddresses(List<DataUserAddress> addresses) {
         this.addresses = addresses;
     }
 
     public String getFullAddressWithNewLine() {
         if (getAddresses() != null && !getAddresses().isEmpty()) {
-            UserAddress address = getAddresses().get(0);
+            DataUserAddress address = getAddresses().get(0);
             return address.getAddress() + " , " + address.getLandmark() + " , "
                     + address.getCity() + "\n"
                     + address.getState().getText() + "-" + address.getPincode();
@@ -165,7 +165,7 @@ public class UserData implements Parcelable {
 
     public String getFullAddress() {
         if (getAddresses() != null && !getAddresses().isEmpty()) {
-            UserAddress address = getAddresses().get(0);
+            DataUserAddress address = getAddresses().get(0);
             return address.getAddress() + " , " + address.getLandmark() + " , "
                     + address.getCity() + " , " + address.getState().getText() + " - "
                     + address.getPincode();
@@ -198,10 +198,10 @@ public class UserData implements Parcelable {
         dest.writeTypedList(this.addresses);
     }
 
-    public UserData() {
+    public DataUser() {
     }
 
-    protected UserData(Parcel in) {
+    protected DataUser(Parcel in) {
         this.id = in.readString();
         this.title = in.readString();
         this.firstName = in.readString();
@@ -215,18 +215,18 @@ public class UserData implements Parcelable {
         this.lastModifiedDate = (Long) in.readValue(Long.class.getClassLoader());
         this.isActive = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.isDeleted = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.addresses = in.createTypedArrayList(UserAddress.CREATOR);
+        this.addresses = in.createTypedArrayList(DataUserAddress.CREATOR);
     }
 
-    public static final Parcelable.Creator<UserData> CREATOR = new Parcelable.Creator<UserData>() {
+    public static final Parcelable.Creator<DataUser> CREATOR = new Parcelable.Creator<DataUser>() {
         @Override
-        public UserData createFromParcel(Parcel source) {
-            return new UserData(source);
+        public DataUser createFromParcel(Parcel source) {
+            return new DataUser(source);
         }
 
         @Override
-        public UserData[] newArray(int size) {
-            return new UserData[size];
+        public DataUser[] newArray(int size) {
+            return new DataUser[size];
         }
     };
 }

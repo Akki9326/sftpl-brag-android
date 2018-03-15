@@ -12,7 +12,7 @@ import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.requests.QLogin;
-import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.callback.OnSingleClickListener;
 
@@ -80,10 +80,10 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
 
     public void login(String mobile, String password) {
         final QLogin loginRequest = new QLogin(mobile, password);
-        Call<LoginResponse> mLoginResponseCall = getDataManager().userLogin(loginRequest);
-        mLoginResponseCall.enqueue(new ApiResponse<LoginResponse>() {
+        Call<RLogin> mLoginResponseCall = getDataManager().userLogin(loginRequest);
+        mLoginResponseCall.enqueue(new ApiResponse<RLogin>() {
             @Override
-            public void onSuccess(LoginResponse loginResponse, Headers headers) {
+            public void onSuccess(RLogin loginResponse, Headers headers) {
                 if (loginResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getDataManager().setAccessToken(headers.get("access-token"));

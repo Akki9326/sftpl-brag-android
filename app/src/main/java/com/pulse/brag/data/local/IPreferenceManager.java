@@ -1,6 +1,6 @@
 package com.pulse.brag.data.local;
 
-import com.pulse.brag.data.model.datas.UserData;
+import com.pulse.brag.data.model.datas.DataUser;
 
 /**
  * Created by alpesh.rathod on 2/8/2018.
@@ -31,7 +31,7 @@ public interface IPreferenceManager {
 
     void setUserData(String s);
 
-    UserData getUserData();
+    DataUser getUserData();
 
     void logout();
 

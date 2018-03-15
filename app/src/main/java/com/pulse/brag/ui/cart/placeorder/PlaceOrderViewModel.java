@@ -15,10 +15,10 @@ import android.view.View;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.datas.UserAddress;
+import com.pulse.brag.data.model.response.RGeneralData;
+import com.pulse.brag.data.model.datas.DataUserAddress;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
-import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
@@ -37,7 +37,7 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
     ObservableField<String> address = new ObservableField<>();
     ObservableField<Boolean> isAddressAvaliable = new ObservableField<>();
     String itemsLable;
-    UserAddress userAddress;
+    DataUserAddress userAddress;
 
     public PlaceOrderViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -113,10 +113,10 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
     }
 
     public void getUserProfile() {
-        Call<LoginResponse> responseCall = getDataManager().getUserProfile("user/getProfile");
-        responseCall.enqueue(new ApiResponse<LoginResponse>() {
+        Call<RLogin> responseCall = getDataManager().getUserProfile("user/getProfile");
+        responseCall.enqueue(new ApiResponse<RLogin>() {
             @Override
-            public void onSuccess(LoginResponse loginResponse, Headers headers) {
+            public void onSuccess(RLogin loginResponse, Headers headers) {
                 if (loginResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     setAddress(loginResponse.getData().getFullAddressWithNewLine());
@@ -149,10 +149,10 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
     }
 
     public void placeOrderAPI(QPlaceOrder placeOrder) {
-        Call<GeneralResponse> responseCall = getDataManager().placeOrder(placeOrder);
-        responseCall.enqueue(new ApiResponse<GeneralResponse>() {
+        Call<RGeneralData> responseCall = getDataManager().placeOrder(placeOrder);
+        responseCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
-            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccessPlaceOrder();
                 } else {
@@ -175,11 +175,11 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         this.isAddressAvaliable.set(isAddressAvaliable);
     }
 
-    public UserAddress getUserAddress() {
+    public DataUserAddress getUserAddress() {
         return userAddress;
     }
 
-    public void setUserAddress(UserAddress userAddress) {
+    public void setUserAddress(DataUserAddress userAddress) {
         this.userAddress = userAddress;
     }
 }

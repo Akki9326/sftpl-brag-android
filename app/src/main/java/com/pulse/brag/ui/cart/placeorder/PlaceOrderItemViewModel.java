@@ -15,7 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 import com.pulse.brag.utils.Utility;
 
 /**
@@ -27,18 +27,18 @@ public class PlaceOrderItemViewModel extends BaseObservable {
 
 
     Context context;
-    CartData responeData;
+    DataCart responeData;
     OnItemClick onItemClick;
     int position;
 
-    public PlaceOrderItemViewModel(Context context, int position, CartData responeData, OnItemClick onItemClick) {
+    public PlaceOrderItemViewModel(Context context, int position, DataCart responeData, OnItemClick onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
         this.position = position;
     }
 
-    public void setPlaceOrderData(CartData responeData) {
+    public void setPlaceOrderData(DataCart responeData) {
         this.responeData = responeData;
         notifyChange();
     }
@@ -82,6 +82,6 @@ public class PlaceOrderItemViewModel extends BaseObservable {
     }
 
     public interface OnItemClick {
-        void onQtyClick(int position, CartData responeData);
+        void onQtyClick(int position, DataCart responeData);
     }
 }

@@ -17,13 +17,9 @@ import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
-import com.pulse.brag.data.model.response.CategoryListResponse;
+import com.pulse.brag.data.model.response.RCategoryList;
 import com.pulse.brag.ui.core.CoreViewModel;
 import com.pulse.brag.utils.Constants;
-
-import java.util.Collections;
-import java.util.List;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -86,10 +82,10 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
     }
 
     public void getCategoryData() {
-        Call<CategoryListResponse> mCategoryRespone = getDataManager().getCategoryProduct();
-        mCategoryRespone.enqueue(new ApiResponse<CategoryListResponse>() {
+        Call<RCategoryList> mCategoryRespone = getDataManager().getCategoryProduct();
+        mCategoryRespone.enqueue(new ApiResponse<RCategoryList>() {
             @Override
-            public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
+            public void onSuccess(RCategoryList categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));

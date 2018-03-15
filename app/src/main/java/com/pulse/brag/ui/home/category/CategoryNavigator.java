@@ -9,7 +9,7 @@ package com.pulse.brag.ui.home.category;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.datas.DataCategoryList;
 import com.pulse.brag.ui.core.CoreNavigator;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface CategoryNavigator extends CoreNavigator {
 
     void onNoData();
 
-    void setCategoryList(List<CategoryListResponseData.Category> list);
+    void setCategoryList(List<DataCategoryList.Category> list);
 
-    void setBanner(List<CategoryListResponseData.Banners> list);
+    void setBanner(List<DataCategoryList.Banners> list);
 }

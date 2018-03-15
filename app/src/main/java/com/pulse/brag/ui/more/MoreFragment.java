@@ -35,8 +35,8 @@ import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentMoreBinding;
-import com.pulse.brag.data.model.datas.MoreListData;
-import com.pulse.brag.data.model.datas.UserData;
+import com.pulse.brag.data.model.datas.DataMoreList;
+import com.pulse.brag.data.model.datas.DataUser;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.views.FullScreenImageDialogFragment;
@@ -69,9 +69,9 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     FragmentMoreBinding mFragmentMoreBinding;
 
 
-    UserData mUserData;
+    DataUser mUserData;
     MoreListAdapter moreListAdapter;
-    List<MoreListData> moreListData;
+    List<DataMoreList> moreListData;
 
     Dialog alertDialog;
 
@@ -199,33 +199,33 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         mMoreViewModel.setFullName(mUserData.getFullName());
         mMoreViewModel.setFullAddress(mUserData.getFullAddress());
         moreListData = new ArrayList<>();
-        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(Constants.MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
+        moreListData.add(new DataMoreList(Constants.MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
                 getString(R.string.label_my_order)));
-        moreListData.add(new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
+        moreListData.add(new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
                 Utility.getNotificationlabel(getActivity())));
-        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(Constants.MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_privacy_policy),
+        moreListData.add(new DataMoreList(Constants.MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_privacy_policy),
                 getString(R.string.label_pri_policy)));
-        moreListData.add(new MoreListData(Constants.MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_terms_conditions),
+        moreListData.add(new DataMoreList(Constants.MoreList.TERMS_AND.getNumericType(), getResources().getDrawable(R.drawable.ic_terms_conditions),
                 getString(R.string.label_terms_and)));
-        moreListData.add(new MoreListData(Constants.MoreList.FAQ.getNumericType(), getResources().getDrawable(R.drawable.ic_faq),
+        moreListData.add(new DataMoreList(Constants.MoreList.FAQ.getNumericType(), getResources().getDrawable(R.drawable.ic_faq),
                 getString(R.string.label_faq)));
-        moreListData.add(new MoreListData(Constants.MoreList.ABOUT_US.getNumericType(), getResources().getDrawable(R.drawable.ic_about_us),
+        moreListData.add(new DataMoreList(Constants.MoreList.ABOUT_US.getNumericType(), getResources().getDrawable(R.drawable.ic_about_us),
                 getString(R.string.label_about_us)));
-        moreListData.add(new MoreListData(0, getResources().getDrawable(R.drawable.ic_cart),
+        moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
+        moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
                 getString(R.string.label_add_update_address)));
-        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
+        moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
                 getString(R.string.label_change_pass)));
-        moreListData.add(new MoreListData(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_change_mob_num),
+        moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_change_mob_num),
                 getString(R.string.label_change_mobile_num)));
-        moreListData.add(new MoreListData(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_update_profile),
+        moreListData.add(new DataMoreList(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_update_profile),
                 getString(R.string.label_update_profile)));
-        moreListData.add(new MoreListData(Constants.MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
+        moreListData.add(new DataMoreList(Constants.MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
                 getString(R.string.label_logout)));
 
         moreListAdapter = new MoreListAdapter(getContext(), moreListData);
@@ -300,7 +300,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            moreListData.set(2, new MoreListData(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((CoreActivity) getActivity()).getNotificationlabel()));
+            moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((CoreActivity) getActivity()).getNotificationlabel()));
             moreListAdapter.notifyDataSetChanged();
         }
     };

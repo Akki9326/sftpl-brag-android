@@ -1,6 +1,6 @@
 package com.pulse.brag.ui.collection;
 
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
+import com.pulse.brag.data.model.datas.DataCategoryList;
 import com.pulse.brag.ui.core.CoreNavigator;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface CollectionNavigator extends CoreNavigator{
 
     void onNoData();
 
-    void setCategoryList(List<CategoryListResponseData.Category> list);
+    void setCategoryList(List<DataCategoryList.Category> list);
 
-    void setBanner(List<CategoryListResponseData.Banners> list);
+    void setBanner(List<DataCategoryList.Banners> list);
 }

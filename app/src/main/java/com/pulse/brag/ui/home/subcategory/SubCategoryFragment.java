@@ -30,8 +30,8 @@ import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.data.model.datas.CategoryListResponseData;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.datas.DataCategoryList;
+import com.pulse.brag.data.model.response.RImagePager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,14 +50,14 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     SubCategoryViewModel categoryViewModel;
     FragmentSubCategoryBinding mFragmentSubCategoryBinding;
 
-    List<CategoryListResponseData.Category> mCategoryList;
-    List<ImagePagerResponse> imagePagerResponeList;
+    List<DataCategoryList.Category> mCategoryList;
+    List<RImagePager> imagePagerResponeList;
     String mCategory;
 
     CategoryListAdapter adapter;
 
 
-    public static SubCategoryFragment newInstance(String category, String url, List<CategoryListResponseData.Category> list) {
+    public static SubCategoryFragment newInstance(String category, String url, List<DataCategoryList.Category> list) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_CATEGORY_NAME, category);
@@ -201,7 +201,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     }
 
     @Override
-    public void setCategoryList(List<CategoryListResponseData.Category> list) {
+    public void setCategoryList(List<DataCategoryList.Category> list) {
         categoryViewModel.setNoResult(false);
         mCategoryList.clear();
         mCategoryList.addAll(list);

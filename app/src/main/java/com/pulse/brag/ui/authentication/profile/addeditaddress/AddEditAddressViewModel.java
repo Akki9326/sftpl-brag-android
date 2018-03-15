@@ -20,11 +20,10 @@ import com.google.gson.Gson;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.GeneralResponse;
-import com.pulse.brag.data.model.datas.UserAddress;
-import com.pulse.brag.data.model.datas.UserData;
+import com.pulse.brag.data.model.datas.DataUserAddress;
+import com.pulse.brag.data.model.datas.DataUser;
 import com.pulse.brag.data.model.requests.QAddAddress;
-import com.pulse.brag.data.model.response.LoginResponse;
+import com.pulse.brag.data.model.response.RLogin;
 import com.pulse.brag.data.model.response.RStateList;
 import com.pulse.brag.data.model.response.RUserAddress;
 import com.pulse.brag.data.remote.ApiResponse;
@@ -32,7 +31,6 @@ import com.pulse.brag.ui.core.CoreViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -46,7 +44,7 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
 
     ObservableField<String> state = new ObservableField<>();
     ObservableField<Boolean> isAddressAvaliable = new ObservableField<>();
-    UserAddress userAddress;
+    DataUserAddress userAddress;
 
     public AddEditAddressViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -100,7 +98,7 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
             @Override
             public void onSuccess(RUserAddress generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
-                    UserData userData = getDataManager().getUserData();
+                    DataUser userData = getDataManager().getUserData();
                     userData.setAddresses(generalResponse.getAddresses());
                     getDataManager().setUserData(new Gson().toJson(userData));
                     getNavigator().onApiSuccess();
@@ -116,15 +114,15 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
         });
     }
 
-    public void UpdateAddress(UserAddress addAddress) {
-        UserData userData = getDataManager().getUserData();
-        List<UserAddress> mUserAddresses = new ArrayList<>();
+    public void UpdateAddress(DataUserAddress addAddress) {
+        DataUser userData = getDataManager().getUserData();
+        List<DataUserAddress> mUserAddresses = new ArrayList<>();
         mUserAddresses.add(addAddress);
         userData.setAddresses(mUserAddresses);
-        Call<LoginResponse> mAddAddress = getDataManager().updateProfile(userData);
-        mAddAddress.enqueue(new ApiResponse<LoginResponse>() {
+        Call<RLogin> mAddAddress = getDataManager().updateProfile(userData);
+        mAddAddress.enqueue(new ApiResponse<RLogin>() {
             @Override
-            public void onSuccess(LoginResponse generalResponse, Headers headers) {
+            public void onSuccess(RLogin generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getDataManager().setUserData(new Gson().toJson(generalResponse.getData()));
                     new android.os.Handler().postDelayed(new Runnable() {
@@ -167,10 +165,10 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
     }
 
     public void getUserProfile() {
-        Call<LoginResponse> responseCall = getDataManager().getUserProfile("user/getProfile");
-        responseCall.enqueue(new ApiResponse<LoginResponse>() {
+        Call<RLogin> responseCall = getDataManager().getUserProfile("user/getProfile");
+        responseCall.enqueue(new ApiResponse<RLogin>() {
             @Override
-            public void onSuccess(LoginResponse loginResponse, Headers headers) {
+            public void onSuccess(RLogin loginResponse, Headers headers) {
                 if (loginResponse.isStatus()) {
                     if (loginResponse.getData().getAddresses() == null || loginResponse.getData().getAddresses().isEmpty()) {
                         setIsAddressAvaliable(false);
@@ -199,11 +197,11 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
         this.isAddressAvaliable.set(isAddressAvaliable);
     }
 
-    public UserAddress getUserAddress() {
+    public DataUserAddress getUserAddress() {
         return userAddress;
     }
 
-    public void setUserAddress(UserAddress userAddress) {
+    public void setUserAddress(DataUserAddress userAddress) {
         this.userAddress = userAddress;
     }
 

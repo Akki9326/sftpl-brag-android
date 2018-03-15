@@ -8,36 +8,19 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.UserData;
+import com.pulse.brag.data.model.datas.DataCategoryList;
 
 /**
- * Created by nikhil.vadoliya on 02-11-2017.
+ * Created by nikhil.vadoliya on 16-10-2017.
  */
 
 
-public class LoginResponse {
-
+public class RCategoryList {
 
     private boolean status;
     private Integer errorCode;
     private String message;
-    private UserData data;
-
-    public UserData getData() {
-        return data;
-    }
-
-    public void setData(UserData data) {
-        this.data = data;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    private DataCategoryList data;
 
     public boolean isStatus() {
         return status;
@@ -51,7 +34,25 @@ public class LoginResponse {
         return errorCode;
     }
 
-    public void setErrorCode(int errorCode) {
+    public void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public DataCategoryList getData() {
+        return data;
+    }
+
+    public void setData(DataCategoryList data) {
+        this.data = data;
+    }
+
+
 }

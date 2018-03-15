@@ -14,12 +14,12 @@ package com.pulse.brag.data.model.datas;
  */
 
 
-public class PriceListData {
+public class DataPriceList {
     private String product;
     private int price;
     private String muliplecation;
 
-    public PriceListData(String product, int price, String muliplecation) {
+    public DataPriceList(String product, int price, String muliplecation) {
         this.product = product;
         this.price = price;
         this.muliplecation = muliplecation;

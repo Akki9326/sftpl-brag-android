@@ -9,9 +9,9 @@ import android.widget.TextView;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.requests.QChangePassword;
-import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -45,10 +45,10 @@ public class ChangePassViewModel extends CoreViewModel<ChangePassNavigator> {
         changePasswordRequest.setMobileNumber(mobile);
         changePasswordRequest.setOldPassword(oldPass);
         changePasswordRequest.setPassword(newPass);
-        Call<ChangePasswordResponse> mChangePasswordResponeCall = getDataManager().changePassword(changePasswordRequest);
-        mChangePasswordResponeCall.enqueue(new ApiResponse<ChangePasswordResponse>() {
+        Call<RChangePassword> mChangePasswordResponeCall = getDataManager().changePassword(changePasswordRequest);
+        mChangePasswordResponeCall.enqueue(new ApiResponse<RChangePassword>() {
             @Override
-            public void onSuccess(ChangePasswordResponse changePasswordResponse, Headers headers) {
+            public void onSuccess(RChangePassword changePasswordResponse, Headers headers) {
                 if (changePasswordResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().showMsgPasswordChange();
@@ -64,13 +64,13 @@ public class ChangePassViewModel extends CoreViewModel<ChangePassNavigator> {
         });
 
         /*ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<ChangePasswordResponse> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().changePassword(changePasswordRequest);
-        mChangePasswordResponeCall.enqueue(new Callback<ChangePasswordResponse>() {
+        Call<RChangePassword> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().changePassword(changePasswordRequest);
+        mChangePasswordResponeCall.enqueue(new Callback<RChangePassword>() {
             @Override
-            public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
+            public void onResponse(Call<RChangePassword> call, Response<RChangePassword> response) {
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    ChangePasswordResponse respone = response.body();
+                    RChangePassword respone = response.body();
                     if (respone.isStatus()) {
                         //Utility.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
                         AlertUtils.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
@@ -85,7 +85,7 @@ public class ChangePassViewModel extends CoreViewModel<ChangePassNavigator> {
             }
 
             @Override
-            public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
+            public void onFailure(Call<RChangePassword> call, Throwable t) {
                 hideProgressDialog();
                 //Utility.showAlertMessage(getActivity(), t);
                 AlertUtils.showAlertMessage(getActivity(), t);

@@ -26,7 +26,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.databinding.FragmentPlaceOrderBinding;
 import com.pulse.brag.ui.authentication.profile.UserProfileActivity;
@@ -60,9 +60,9 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     FragmentPlaceOrderBinding mFragmentPlaceOrderBinding;
 
     PlaceOrderCartListAdapter mAdapter;
-    List<CartData> mList;
+    List<DataCart> mList;
 
-    public static PlaceOrderFragment newInstance(List<CartData> cartList) {
+    public static PlaceOrderFragment newInstance(List<DataCart> cartList) {
 
         Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.BUNDLE_CART_LIST, (ArrayList<? extends Parcelable>) cartList);
@@ -232,7 +232,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     }
 
     @Override
-    public void onQtyClick(int position, CartData responeData) {
+    public void onQtyClick(int position, DataCart responeData) {
 
         // TODO: 05-12-2017 limit qty (max)
        /* positionQty = mList.indexOf(responeData);

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.data.model.datas.NotificationListData;
+import com.pulse.brag.data.model.datas.DataNotificationList;
 import com.pulse.brag.callback.OnSingleClickListener;
 
 import java.util.ArrayList;
@@ -32,10 +32,10 @@ import java.util.List;
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.MyViewHolder> {
 
     Activity mActivity;
-    List<NotificationListData> mListData;
+    List<DataNotificationList> mListData;
     IOnItemClickListener onItemClickListener;
 
-    public NotificationListAdapter(Activity mActivity, List<NotificationListData> mListData, IOnItemClickListener onItemClickListener) {
+    public NotificationListAdapter(Activity mActivity, List<DataNotificationList> mListData, IOnItemClickListener onItemClickListener) {
         this.mActivity = mActivity;
         this.mListData = new ArrayList<>();
         this.mListData = mListData;

@@ -16,13 +16,13 @@ import android.graphics.drawable.Drawable;
  */
 
 
-public class MoreListData {
+public class DataMoreList {
     private int id;
     private String label;
     private Drawable drawable;
     private boolean isBadge;
 
-    public MoreListData(int id, Drawable drawable, String label) {
+    public DataMoreList(int id, Drawable drawable, String label) {
         this.id = id;
         this.label = label;
         this.drawable = drawable;

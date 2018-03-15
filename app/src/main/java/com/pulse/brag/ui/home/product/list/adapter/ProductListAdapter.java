@@ -13,12 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.pulse.brag.callback.IOnItemClickListener;
+import com.pulse.brag.callback.IOnProductButtonClickListener;
 import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.databinding.ItemGridProductBinding;
 import com.pulse.brag.ui.core.CoreViewHolder;
-import com.pulse.brag.callback.IOnProductButtonClickListener;
-import com.pulse.brag.callback.IOnItemClickListener;
-import com.pulse.brag.data.model.DummeyDataRespone;
 import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;

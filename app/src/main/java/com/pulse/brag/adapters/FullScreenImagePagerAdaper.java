@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.pulse.brag.R;
 import com.pulse.brag.databinding.ItemFullImageBinding;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.RImagePager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +31,10 @@ import java.util.List;
 public class FullScreenImagePagerAdaper extends PagerAdapter implements ImagePagerItem.ItemImageClickListener {
     Context mContext;
     LayoutInflater mLayoutInflater;
-    List<ImagePagerResponse> mPagerRespones;
+    List<RImagePager> mPagerRespones;
     IOnFullImagePageClickListener mListener;
 
-    public FullScreenImagePagerAdaper(Context context, List<ImagePagerResponse> mPagerRespones, IOnFullImagePageClickListener listener) {
+    public FullScreenImagePagerAdaper(Context context, List<RImagePager> mPagerRespones, IOnFullImagePageClickListener listener) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mPagerRespones = new ArrayList<>();
@@ -75,12 +75,12 @@ public class FullScreenImagePagerAdaper extends PagerAdapter implements ImagePag
     }
 
     @Override
-    public void onItemClick(int position, ImagePagerResponse item) {
+    public void onItemClick(int position, RImagePager item) {
         mListener.onFullImagePageClick(position, item);
     }
 
     public interface IOnFullImagePageClickListener {
-        void onFullImagePageClick(int pos, ImagePagerResponse item);
+        void onFullImagePageClick(int pos, RImagePager item);
     }
 
 }

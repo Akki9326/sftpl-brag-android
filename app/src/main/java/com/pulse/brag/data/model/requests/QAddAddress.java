@@ -9,7 +9,7 @@ package com.pulse.brag.data.model.requests;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.StateData;
+import com.pulse.brag.data.model.datas.DataState;
 
 /**
  * Created by nikhil.vadoliya on 09-03-2018.
@@ -22,7 +22,7 @@ public class QAddAddress {
     private String address;
     private String landmark;
     private String city;
-    private StateData state;
+    private DataState state;
     private int pincode;
     private String createdBy;
     private String createdDate;
@@ -63,11 +63,11 @@ public class QAddAddress {
         this.city = city;
     }
 
-    public StateData getState() {
+    public DataState getState() {
         return state;
     }
 
-    public void setState(StateData state) {
+    public void setState(DataState state) {
         this.state = state;
     }
 

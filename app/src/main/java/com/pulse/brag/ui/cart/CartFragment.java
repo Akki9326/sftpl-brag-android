@@ -31,7 +31,7 @@ import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
 import com.pulse.brag.utils.Utility;
-import com.pulse.brag.data.model.datas.CartData;
+import com.pulse.brag.data.model.datas.DataCart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +50,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
 
     CartListAdapter mAdapter;
-    List<CartData> mList;
+    List<DataCart> mList;
 
     @Inject
     CartViewModel cartViewModel;
 
     FragmentCartBinding mFragmentCartBinding;
-    CartData mCartItemDeleteData;
+    DataCart mCartItemDeleteData;
     String mEditQtyItemNo;
     String mEditQtyItemId;
     int updateItemQtyNum;
@@ -165,7 +165,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
 
     @Override
-    public void onDeleteItem(final int position, final CartData responeData) {
+    public void onDeleteItem(final int position, final DataCart responeData) {
 
         if (Utility.isConnection(getActivity())) {
             showProgress();
@@ -177,7 +177,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     @Override
-    public void onQtyClick(int position, CartData responeData) {
+    public void onQtyClick(int position, DataCart responeData) {
         // TODO: 05-12-2017 limit qty (max)
         positionQty = mList.indexOf(responeData);
         mEditQtyItemNo = mList.get(positionQty).getItemId();
@@ -222,7 +222,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     @Override
-    public void getCartList(List<CartData> list) {
+    public void getCartList(List<DataCart> list) {
 
         mList = new ArrayList<>();
         mList.addAll(list);

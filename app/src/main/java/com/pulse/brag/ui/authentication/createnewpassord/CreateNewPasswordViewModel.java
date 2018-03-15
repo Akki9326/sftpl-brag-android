@@ -5,9 +5,9 @@ import android.view.View;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.response.RChangePassword;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.requests.QChangePassword;
-import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
 import okhttp3.Headers;
@@ -39,10 +39,10 @@ public class CreateNewPasswordViewModel extends CoreViewModel<CreateNewPasswordN
         resetPassword.setOtp(Integer.parseInt(otp));
         resetPassword.setPassword(newPassword);
 
-        Call<ChangePasswordResponse> mChangePasswordResponeCall = getDataManager().resetPassword(resetPassword);
-        mChangePasswordResponeCall.enqueue(new ApiResponse<ChangePasswordResponse>() {
+        Call<RChangePassword> mChangePasswordResponeCall = getDataManager().resetPassword(resetPassword);
+        mChangePasswordResponeCall.enqueue(new ApiResponse<RChangePassword>() {
             @Override
-            public void onSuccess(ChangePasswordResponse changePasswordResponse, Headers headers) {
+            public void onSuccess(RChangePassword changePasswordResponse, Headers headers) {
                 if (changePasswordResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().onChangePasswordSuccess();

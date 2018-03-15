@@ -25,7 +25,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.data.model.NotificationResponseData;
+import com.pulse.brag.data.model.datas.DataNotification;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
@@ -98,7 +98,7 @@ public class FCMService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void sendNotification(String message, String title, int ntype, String whatid, String nid) {
 
-        NotificationResponseData modelNotification = new NotificationResponseData();
+        DataNotification modelNotification = new DataNotification();
         modelNotification.setBody(message);
         modelNotification.setTitle(title);
         modelNotification.setId(nid);

@@ -9,10 +9,6 @@ package com.pulse.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.pulse.brag.data.model.datas.MyOrderData;
-
-import java.util.List;
-
 /**
  * Created by nikhil.vadoliya on 13-03-2018.
  */

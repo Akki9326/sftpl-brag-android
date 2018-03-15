@@ -18,7 +18,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.RelativeLayout;
 
 import com.pulse.brag.BR;
-import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
@@ -26,7 +25,7 @@ import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.datas.DataAddToCart;
 import com.pulse.brag.data.model.datas.DataProductList;
-import com.pulse.brag.data.model.response.ImagePagerResponse;
+import com.pulse.brag.data.model.response.RImagePager;
 import com.pulse.brag.databinding.FragmentProductDetailBinding;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
@@ -69,7 +68,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     DataProductList.Size mSizedProduct;
     int mSelectedColorPosition = 0;
 
-    List<ImagePagerResponse> imagePagerResponeList;
+    List<RImagePager> imagePagerResponeList;
     int mQuality;
 
 
@@ -185,7 +184,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
             imagePagerResponeList.clear();
             for (String url : mSizedProduct.getImages()) {
-                imagePagerResponeList.add(new ImagePagerResponse(url, ""));
+                imagePagerResponeList.add(new RImagePager(url, ""));
             }
             mFragmentProductDetailBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
             mFragmentProductDetailBinding.pagerIndicator.setViewPager(mFragmentProductDetailBinding.viewPager);
@@ -285,7 +284,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
     @Override
-    public void onImagePageClick(int pos, ImagePagerResponse item) {
+    public void onImagePageClick(int pos, RImagePager item) {
         Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.BUNDLE_IMAGE_LIST, (ArrayList<? extends Parcelable>) imagePagerResponeList);
         args.putInt(Constants.BUNDLE_POSITION, pos);

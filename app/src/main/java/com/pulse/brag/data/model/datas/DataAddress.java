@@ -14,14 +14,14 @@ package com.pulse.brag.data.model.datas;
  */
 
 
-public class AddressRespones {
+public class DataAddress {
     private String id;
     private String address;
     private String city;
     private String state;
     private String pincode;
 
-    public AddressRespones(String id, String address, String city, String state, String pincode) {
+    public DataAddress(String id, String address, String city, String state, String pincode) {
         this.id = id;
         this.address = address;
         this.city = city;

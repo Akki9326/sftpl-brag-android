@@ -10,7 +10,7 @@ import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.remote.ApiResponse;
-import com.pulse.brag.data.model.requests.ChangePasswordRequest;
+import com.pulse.brag.data.model.requests.QChangePassword;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
 
@@ -41,7 +41,7 @@ public class ChangePassViewModel extends CoreViewModel<ChangePassNavigator> {
     }
 
     public void changePassword(String mobile, String oldPass, String newPass) {
-        ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
+        QChangePassword changePasswordRequest = new QChangePassword();
         changePasswordRequest.setMobileNumber(mobile);
         changePasswordRequest.setOldPassword(oldPass);
         changePasswordRequest.setPassword(newPass);

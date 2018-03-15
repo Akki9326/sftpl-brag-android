@@ -19,15 +19,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.text.Editable;
 import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.callback.IOnProductButtonClickListener;
-import com.pulse.brag.callback.IOnProductColorSelectListener;
-import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.data.model.datas.DataFilter;
@@ -37,8 +34,6 @@ import com.pulse.brag.databinding.FragmentProductListBinding;
 import com.pulse.brag.ui.core.CoreActivity;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.home.product.details.ProductDetailFragment;
-import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
-import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
 import com.pulse.brag.ui.home.product.list.adapter.ProductListAdapter;
 import com.pulse.brag.ui.home.product.list.filter.ProductFilterDialogFragment;
 import com.pulse.brag.ui.home.product.list.sorting.ProductSortingDialogFragment;
@@ -65,8 +60,7 @@ import static com.pulse.brag.utils.Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE;
 
 
 public class ProductListFragment extends CoreFragment<FragmentProductListBinding, ProductListViewModel> implements ProductListNavigator,
-        IOnItemClickListener, IOnProductButtonClickListener, IOnProductSizeSelectListener,
-        IOnProductColorSelectListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener/*BaseFragment implements BaseInterface,*/ {
+        IOnItemClickListener, IOnProductButtonClickListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener/*BaseFragment implements BaseInterface,*/ {
 
 
     @Inject
@@ -92,8 +86,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     String mQuery;
 
     ProductListAdapter mProductListAdapter;
-    ColorListAdapter mColorListAdapter;
-    SizeListAdapter mSizeListAdapter;
 
     List<DataProductList.Products> mProductList;
     DataProductList mData;
@@ -257,7 +249,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                     mProductListViewModel.setNoInternet(true);
                     break;
                 case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                     break;
             }
             mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
@@ -270,7 +262,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onItemClick(int position) {
         if (!isClicked) {
             isClicked = true;
-            ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mProductList.get(position)), true, true);
+            ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mData, position), true, true);
             enabledClick();
         }
     }
@@ -293,16 +285,16 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         }
     }
 
-    @Override
+    /*@Override
     public void onSelectedColor(int pos) {
-        mColorListAdapter.setSelectorItem(pos);
+        mColorListAdapter.setSelectedItem(pos);
     }
 
 
     @Override
     public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
         mSizeListAdapter.setSelectedItem(pos);
-    }
+    }*/
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -329,7 +321,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                     mProductListViewModel.setNoInternet(true);
                     break;
                 case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                     break;
             }
             return;
@@ -342,14 +334,14 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                     break;
                 case LOAD_MORE:
                     mProductListViewModel.setNoResult(false);
-                    AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+                    AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
                     break;
             }
             return;
         }
 
         mProductListViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
 
     }
 
@@ -360,6 +352,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             public void run() {
                 ACTION = LOAD_LIST;
                 PAGE_NUM = 1;
+                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(true);
                 mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
                 checkNetworkConnection(false);
             }
@@ -435,7 +428,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void openAddProductDialog(int position) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mProductList.get(position));
+        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mData);
+        bundle.putInt(Constants.BUNDLE_POSITION, position);
         AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
         mAddProductDialogFragment.setCancelable(true);
         mAddProductDialogFragment.setArguments(bundle);

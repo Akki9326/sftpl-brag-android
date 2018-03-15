@@ -13,7 +13,8 @@ import java.util.List;
  * Created by alpesh.rathod on 3/7/2018.
  */
 
-public class DataProductList {
+public class DataProductList implements Parcelable {
+
 
     @SerializedName("q")
     @Expose
@@ -154,6 +155,9 @@ public class DataProductList {
         @SerializedName("colorCode")
         @Expose
         private String colorCode;
+        @SerializedName("colorHexCode")
+        @Expose
+        private String colorHexCode;
         @SerializedName("colorFamily")
         @Expose
         private String colorFamily;
@@ -178,6 +182,14 @@ public class DataProductList {
         @SerializedName("alreadyInCart")
         @Expose
         private boolean alreadyInCart;
+
+        public String getColorHexCode() {
+            return colorHexCode;
+        }
+
+        public void setColorHexCode(String colorHexCode) {
+            this.colorHexCode = colorHexCode;
+        }
 
         public double getUnitPrice() {
             return unitPrice;
@@ -379,7 +391,8 @@ public class DataProductList {
         };
     }
 
-    public static class Size {
+    public static class Size implements Parcelable {
+
         @SerializedName("no")
         @Expose
         private String no;
@@ -480,6 +493,97 @@ public class DataProductList {
         public void setImages(List<String> images) {
             this.images = images;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.no);
+            dest.writeString(this.description);
+            dest.writeString(this.description2);
+            dest.writeString(this.sizeCode);
+            dest.writeString(this.unitOfMeasure);
+            dest.writeInt(this.unitPrice);
+            dest.writeInt(this.stockData);
+            dest.writeByte(this.isDefault ? (byte) 1 : (byte) 0);
+            dest.writeStringList(this.images);
+        }
+
+        public Size() {
+        }
+
+        protected Size(Parcel in) {
+            this.no = in.readString();
+            this.description = in.readString();
+            this.description2 = in.readString();
+            this.sizeCode = in.readString();
+            this.unitOfMeasure = in.readString();
+            this.unitPrice = in.readInt();
+            this.stockData = in.readInt();
+            this.isDefault = in.readByte() != 0;
+            this.images = in.createStringArrayList();
+        }
+
+        public static final Creator<Size> CREATOR = new Creator<Size>() {
+            @Override
+            public Size createFromParcel(Parcel source) {
+                return new Size(source);
+            }
+
+            @Override
+            public Size[] newArray(int size) {
+                return new Size[size];
+            }
+        };
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.q);
+        dest.writeTypedList(this.objects);
+        dest.writeParcelable(this.filter, flags);
+        dest.writeInt(this.count);
+        dest.writeStringList(this.loadedItems);
+        dest.writeString(this.category);
+        dest.writeString(this.subCategory);
+        dest.writeString(this.seasonCode);
+        dest.writeString(this.orderBy);
+        dest.writeByte(this.alreadyInCart ? (byte) 1 : (byte) 0);
+    }
+
+    public DataProductList() {
+    }
+
+    protected DataProductList(Parcel in) {
+        this.q = in.readString();
+        this.objects = in.createTypedArrayList(Products.CREATOR);
+        this.filter = in.readParcelable(DataFilter.Filter.class.getClassLoader());
+        this.count = in.readInt();
+        this.loadedItems = in.createStringArrayList();
+        this.category = in.readString();
+        this.subCategory = in.readString();
+        this.seasonCode = in.readString();
+        this.orderBy = in.readString();
+        this.alreadyInCart = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<DataProductList> CREATOR = new Parcelable.Creator<DataProductList>() {
+        @Override
+        public DataProductList createFromParcel(Parcel source) {
+            return new DataProductList(source);
+        }
+
+        @Override
+        public DataProductList[] newArray(int size) {
+            return new DataProductList[size];
+        }
+    };
 }

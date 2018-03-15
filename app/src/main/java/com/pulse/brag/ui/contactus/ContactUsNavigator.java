@@ -9,4 +9,5 @@ import com.pulse.brag.ui.core.CoreNavigator;
 public interface ContactUsNavigator extends CoreNavigator {
 
     void send();
+    void back();
 }

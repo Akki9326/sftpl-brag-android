@@ -43,12 +43,7 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
         this.mSeletedPos = selectedPos;
         mOnProductSizeSelectListener = onProductSizeSelectListener;
 
-        int pos = 0;
-        mSeletedList = new ArrayList<>();
-        for (int i = 0; i < mListSize.size(); i++) {
-            mSeletedList.add(pos++, Boolean.FALSE);
-        }
-        mSeletedList.add(0, Boolean.TRUE);
+        fillSelectedList(selectedPos);
     }
 
     @Override
@@ -67,8 +62,10 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
         holder.mView.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-
-                mOnProductSizeSelectListener.OnSelectedSize(mSeletedPos,position,mListSize.get(position));
+                if (mSeletedPos != position) {
+                    setSelectedItem(position);
+                    mOnProductSizeSelectListener.OnSelectedSize(mSeletedPos, position, mListSize.get(position));
+                }
             }
         });
     }
@@ -78,12 +75,31 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.MyView
         return mListSize.size();
     }
 
+    public void reset(List<DataProductList.Size> list, int selectedPos) {
+        if (mListSize != null)
+            mListSize.clear();
+
+        if (mSeletedList != null)
+            mSeletedList.clear();
+        mListSize.addAll(list);
+        fillSelectedList(selectedPos);
+        notifyDataSetChanged();
+    }
+
+    private void fillSelectedList(int mSelectedPos) {
+        int pos = 0;
+        mSeletedList = new ArrayList<>();
+        for (int i = 0; i < mListSize.size(); i++) {
+            mSeletedList.add(pos++, Boolean.FALSE);
+        }
+        mSeletedList.add(mSelectedPos, Boolean.TRUE);
+    }
 
     public void setSelectedItem(int pos) {
-            mSeletedList.set(pos, Boolean.TRUE);
-            mSeletedList.set(mSeletedPos, Boolean.FALSE);
-            mSeletedPos = pos;
-            notifyDataSetChanged();
+        mSeletedList.set(pos, Boolean.TRUE);
+        mSeletedList.set(mSeletedPos, Boolean.FALSE);
+        mSeletedPos = pos;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

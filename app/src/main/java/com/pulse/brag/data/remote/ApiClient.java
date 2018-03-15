@@ -12,17 +12,9 @@ import android.content.Context;
 
 import com.pulse.brag.data.local.IPreferenceManager;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.utils.PreferencesManager;
-
-import java.io.IOException;
 
 import javax.inject.Inject;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -88,64 +80,4 @@ public class ApiClient {
         this.mPreferencesHelper = mPreferencesHelper;
     }
 
-    public ApiInterface getApiResp() {
-        try {
-
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-            Interceptor interceptor = new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request.Builder builder = chain.request().newBuilder();
-                    if (!PreferencesManager.getInstance().getAccessToken().isEmpty()) {
-                        builder.header(Constants.ApiHelper.MAP_KEY_ACCESS_TOKEN, PreferencesManager.getInstance().getAccessToken());
-                    }
-
-
-                    if (!PreferencesManager.getInstance().getDeviceType().isEmpty()) {
-                        builder.header(Constants.ApiHelper.MAP_KEY_DEVICE_TYPE, PreferencesManager.getInstance().getDeviceType());
-                    }
-
-                    if (!PreferencesManager.getInstance().getDeviceToken().isEmpty()) {
-                        builder.header(Constants.ApiHelper.MAP_KEY_DEVICE_TOKEN, PreferencesManager.getInstance().getDeviceToken());
-                    }
-
-                    if (!PreferencesManager.getInstance().getOsVersion().isEmpty()) {
-                        builder.header(Constants.ApiHelper.MAP_KEY_OSV, PreferencesManager.getInstance().getOsVersion());
-                    }
-
-                    builder.header(Constants.ApiHelper.MAP_KEY_OS, Constants.ApiHelper.OS);
-                    builder.header(Constants.ApiHelper.MAP_APP_VERSION, Constants.ApiHelper.APP_VERSION);
-                    return chain.proceed(builder.build());
-                }
-            };
-
-            httpClient.addInterceptor(interceptor);
-            httpClient.addInterceptor(logging);
-
-            OkHttpClient client = httpClient.build();
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(FULL_URL).addConverterFactory(GsonConverterFactory.create())
-                    .client(client)
-                    .build();
-
-            apiInterface = retrofit.create(ApiInterface.class);
-            return apiInterface;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    public static void changeApiBaseUrl(String newApiBaseUrl) {
-        FULL_URL = newApiBaseUrl;
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(FULL_URL).addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
 }

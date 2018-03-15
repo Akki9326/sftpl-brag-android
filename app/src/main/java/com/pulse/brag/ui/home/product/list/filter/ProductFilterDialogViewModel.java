@@ -95,13 +95,13 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
                             if (appliedFilter != null) {
                                 if (appliedFilter.getColorCodes() != null && appliedFilter.getColorCodes().size() > 0)
                                     for (DataFilter.ColorCode item : appliedFilter.getColorCodes())
-                                        mMapSelectedColor.put(item.getColor(), item);
+                                        mMapSelectedColor.put(item.getKey(), item);
 
                                 for (DataFilter.ColorCode color : rFilter.getData().getFilter().getColorCodes()) {
                                     if (!Common.isNotNullOrEmpty(color.getHash()))
                                         color.setHash("#000000");
 
-                                    if (mMapSelectedColor.containsKey(color.getColor()))
+                                    if (mMapSelectedColor.containsKey(color.getKey()))
                                         color.setSelected(true);
                                     colorCodeList.add(color);
                                 }
@@ -141,7 +141,7 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
                         }
 
                     } else {
-                        //// TODO: 3/12/2018 display no data
+                        getNavigator().noData();
                     }
                 } else {
                     getNavigator().onApiError(new ApiError(rFilter.getErrorCode(), rFilter.getMessage()));

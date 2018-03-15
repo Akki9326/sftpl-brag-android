@@ -71,6 +71,7 @@ public class SizeFilterAdapter extends RecyclerView.Adapter<SizeFilterAdapter.It
         void bindSizeData(int pos, DataFilter.SizeCode sizeModel) {
             this.pos = pos;
             itemBinding.setItemModel(new ItemSizeFilterViewModel(itemView.getContext(), pos, sizeModel, this));
+            itemBinding.executePendingBindings();
 
         }
 

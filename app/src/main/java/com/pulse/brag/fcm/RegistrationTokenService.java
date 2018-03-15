@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import com.pulse.brag.BragApp;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.utils.PreferencesManager;
 
 import javax.inject.Inject;
 
@@ -47,7 +46,7 @@ public class RegistrationTokenService extends IntentService {
 
 
         if (intent.hasExtra(Constants.BUNDLE_DEVICE_TOKEN))
-            PreferencesManager.getInstance().setDeviceToken(intent.getStringExtra(Constants.BUNDLE_DEVICE_TOKEN));
+            mDataManager.setDeviceToken(intent.getStringExtra(Constants.BUNDLE_DEVICE_TOKEN));
 
     }
 }

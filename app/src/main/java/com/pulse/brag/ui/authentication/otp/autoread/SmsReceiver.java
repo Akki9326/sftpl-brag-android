@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import com.pulse.brag.utils.Common;
+import com.pulse.brag.utils.Constants;
+
 /**
  * Created by alpesh.rathod on 2/16/2018.
  */
@@ -29,10 +32,12 @@ public class SmsReceiver extends BroadcastReceiver {
             for (int i = 0; i < smsm.length; i++) {
                 smsm[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
 
-                sms_str = smsm[i].getMessageBody().toString();
-                pinNo = sms_str.replaceAll("[^0-9]", "");
+                if (smsm[i].getOriginatingAddress().contains(Constants.OTP_FORMAT)) {
+                    sms_str = smsm[i].getMessageBody().toString();
+                    pinNo = sms_str.replaceAll("[^0-9]", "");
+                }
             }
-            if (mListener != null)
+            if (mListener != null && Common.isNotNullOrEmpty(pinNo))
                 mListener.messageReceived(pinNo);
         }
     }

@@ -22,7 +22,7 @@ import com.pulse.brag.BR;
 import com.pulse.brag.R;
 import com.pulse.brag.data.model.ApiError;
 import com.pulse.brag.databinding.FragmentSignUpBinding;
-import com.pulse.brag.data.model.requests.SignInRequest;
+import com.pulse.brag.data.model.requests.QSignUp;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.authentication.otp.OTPFragment;
 import com.pulse.brag.ui.splash.SplashActivity;
@@ -53,9 +53,9 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     SignUpViewModel mSignUpViewModel;
     FragmentSignUpBinding mFragmentSignUpBinding;
 
-    ArrayList<DropdownItem> userType;
+    ArrayList<DropdownItem> userTypeList;
+    int mSelectedUserType;
 
-    int keyboardheight;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
     @Override
     public void beforeViewCreated() {
-        userType = new ArrayList<>();
+        userTypeList = new ArrayList<>();
     }
 
     @Override
@@ -75,9 +75,10 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         mFragmentSignUpBinding = getViewDataBinding();
         Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentSignUpBinding.baseLayout);
 
-        userType.add(new DropdownItem("Retailer", 0));
-        userType.add(new DropdownItem("Distributor", 1));
-        mFragmentSignUpBinding.textviewUserType.setText(userType.get(0).getValue());
+        userTypeList.add(new DropdownItem("Retailer", 0));
+        userTypeList.add(new DropdownItem("Distributor", 1));
+        mFragmentSignUpBinding.textviewUserType.setText(userTypeList.get(0).getValue());
+        mSelectedUserType = userTypeList.get(0).getId();
     }
 
     @Override
@@ -105,9 +106,10 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         super.onPermissionDenied(request);
 
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
-            SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+            showProgress();
+            QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString());
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType);
             mSignUpViewModel.signUp(signInRequest);
         }
     }
@@ -116,9 +118,10 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     public void onPermissionGranted(int request) {
         super.onPermissionGranted(request);
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
-            SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+            showProgress();
+            QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString());
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType);
             mSignUpViewModel.signUp(signInRequest);
         }
     }
@@ -155,16 +158,16 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
     public void typeDropdown(View view) {
         try {
-            DropdownUtils.DropDownSpinner(getActivity(), userType, view, new IOnDropDownItemClick() {
+            DropdownUtils.DropDownSpinner(getActivity(), userTypeList, view, new IOnDropDownItemClick() {
                 @Override
                 public void onItemClick(String str, int i) {
-
+                    mSelectedUserType = i;
                 }
             });
         } catch (Exception e) {
@@ -198,13 +201,13 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
             if (checkAndRequestPermissions()) {
                 showProgress();
-                SignInRequest signInRequest = new SignInRequest("Mr", mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+                QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                         mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                        , mFragmentSignUpBinding.edittextPassword.getText().toString());
+                        , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType);
                 mSignUpViewModel.signUp(signInRequest);
             }
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 

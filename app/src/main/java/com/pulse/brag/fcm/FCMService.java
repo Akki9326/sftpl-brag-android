@@ -23,15 +23,14 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pulse.brag.BragApp;
-import com.pulse.brag.data.IDataManager;
-import com.pulse.brag.utils.NotificationUtils;
 import com.pulse.brag.R;
+import com.pulse.brag.data.IDataManager;
+import com.pulse.brag.data.model.NotificationResponseData;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.Constants;
-import com.pulse.brag.utils.PreferencesManager;
-import com.pulse.brag.data.model.NotificationResponseData;
+import com.pulse.brag.utils.NotificationUtils;
 
 import javax.inject.Inject;
 
@@ -107,9 +106,9 @@ public class FCMService extends FirebaseMessagingService {
         modelNotification.setNotificationType(ntype);
 
 
-        mNotificationId = PreferencesManager.getInstance().getNotificationId();
+        mNotificationId = mDataManager.getNotificationId();
         mNotificationId++;
-        PreferencesManager.getInstance().setNotificationId(mNotificationId);
+        mDataManager.setNotificationId(mNotificationId);
 
         Intent notificationIntent = null;
         PendingIntent simplePendingIntent = null;

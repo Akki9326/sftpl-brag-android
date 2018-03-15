@@ -104,10 +104,12 @@ public class QProductList {
 
         private String color;
         private String hash;
+        private String variant;
 
-        public ColorCode(String color, String hash) {
+        public ColorCode(String color, String hash, String variant) {
             this.color = color;
             this.hash = hash;
+            this.variant = variant;
         }
 
         public String getColor() {
@@ -118,13 +120,8 @@ public class QProductList {
             this.color = color;
         }
 
-        public String getHash() {
-            return hash;
+        public String getVariant() {
+            return variant;
         }
-
-        public void setHash(String hash) {
-            this.hash = hash;
-        }
-
     }
 }

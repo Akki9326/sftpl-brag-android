@@ -289,4 +289,5 @@
     <string name="error_add_address">Please add address which want to place order.</string>
     <string name="label_order_status_dispatched">Dispatched</string>
     <string name="error_code_41">Your cart is empty.</string>
+    <string name="message_contact_us_success">Thank you for contacting us. We will get back to you very soon.</string>
 </resources>

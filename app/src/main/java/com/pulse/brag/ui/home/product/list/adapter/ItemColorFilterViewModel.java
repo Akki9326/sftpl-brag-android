@@ -25,6 +25,10 @@ public class ItemColorFilterViewModel extends BaseObservable {
         this.mColorModel = colorModel;
     }
 
+    public String getTitle() {
+        return mColorModel.getColor().length() >= 3 ? mColorModel.getColor().substring(0, 3) + mColorModel.getVariant() : mColorModel.getColor() + mColorModel.getVariant();
+    }
+
     public int getPosition() {
         return mPosition;
     }

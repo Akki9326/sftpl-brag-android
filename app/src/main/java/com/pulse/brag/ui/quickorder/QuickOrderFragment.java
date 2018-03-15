@@ -34,7 +34,6 @@ import com.pulse.brag.views.erecyclerview.ERecyclerView;
 import com.pulse.brag.views.erecyclerview.GridSpacingItemDecoration;
 import com.pulse.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.pulse.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
-import com.pulse.brag.data.remote.ApiClient;
 import com.pulse.brag.ui.home.product.quickadd.AddProductDialogFragment;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
@@ -45,15 +44,10 @@ import com.pulse.brag.callback.IOnItemClickListener;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.IOnProductSizeSelectListener;
 import com.pulse.brag.data.model.DummeyDataRespone;
-import com.pulse.brag.data.model.DummeyRespone;
 import com.pulse.brag.data.model.response.ProductListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by nikhil.vadoliya on 03-01-2018.
@@ -133,7 +127,7 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
             mSwipeRefreshLayout.setRefreshing(false);
             mRecyclerView.loadMoreComplete(false);
             //Utility.showAlertMessage(getActivity(), 0, null);
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -299,8 +293,8 @@ public class QuickOrderFragment extends BaseFragment implements BaseInterface
     }
 
     @Override
-    public void onSelectedColor(int pos) {
-        mColorListAdapter.setSelectorItem(pos);
+    public void onSelectedColor(int prevPos, int pos, List<DataProductList.Size> sizes) {
+        mColorListAdapter.setSelectedItem(pos);
 
     }
 

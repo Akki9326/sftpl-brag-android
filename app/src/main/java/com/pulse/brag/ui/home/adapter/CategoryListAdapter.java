@@ -54,7 +54,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.onBind(position,listRespones.get(position));
+        holder.onBind(position, listRespones.get(position));
 
     }
 
@@ -76,11 +76,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         }
 
         public void onBind(int position, CategoryListResponseData.Category responseData) {
-            if(itemBinding.getViewModel()==null){
-                itemBinding.setViewModel(new CategoryItemViewModel(itemView.getContext(),position,responseData,this));
-            }else {
-                itemBinding.getViewModel().setResponeData(responseData);
-            }
+            itemBinding.setViewModel(new CategoryItemViewModel(itemView.getContext(), position, responseData, this));
+            itemBinding.executePendingBindings();
         }
 
         @Override

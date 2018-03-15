@@ -14,7 +14,7 @@ package com.pulse.brag.data.model.requests;
  */
 
 
-public class ChangePasswordRequest {
+public class QChangePassword {
 
     private String mobileNumber;
     private String oldPassword;

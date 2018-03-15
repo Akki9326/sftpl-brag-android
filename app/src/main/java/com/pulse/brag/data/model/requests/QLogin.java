@@ -13,12 +13,12 @@ package com.pulse.brag.data.model.requests;
  */
 
 
-public class LoginRequest {
+public class QLogin {
 
     private String mobileNumber;
     private String password;
 
-    public LoginRequest(String mobileNumber, String password) {
+    public QLogin(String mobileNumber, String password) {
         this.mobileNumber = mobileNumber;
         this.password = password;
     }

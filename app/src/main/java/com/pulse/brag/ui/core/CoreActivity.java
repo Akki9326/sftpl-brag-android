@@ -24,6 +24,7 @@ import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.IFragmentCallback;
 import com.pulse.brag.callback.IFragmentLoader;
+import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.utils.Common;
 import com.pulse.brag.utils.NetworkUtils;
 import com.pulse.brag.utils.ToastUtils;
@@ -133,8 +134,15 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         return NetworkUtils.isNetworkConnected(getApplicationContext());
     }
 
+    public void showAlert() {
+    }
+
     public void showToast(String msg) {
         ToastUtils.show(this, msg);
+    }
+
+    public IDataManager getDataManager() {
+        return getViewModel().getDataManager();
     }
 
     public B getActivityInstance() {

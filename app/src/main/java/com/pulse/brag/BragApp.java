@@ -16,7 +16,6 @@ import com.downloader.PRDownloaderConfig;
 import com.google.firebase.FirebaseApp;
 import com.pulse.brag.di.component.AppComponent;
 import com.pulse.brag.di.component.DaggerAppComponent;
-import com.pulse.brag.utils.PreferencesManager;
 
 import javax.inject.Inject;
 
@@ -45,7 +44,7 @@ public class BragApp extends Application implements HasActivityInjector {
 
         DaggerAppComponent.builder().application(this).build().inject(this);
         mInstance = this;
-        PreferencesManager.initializeInstance(mInstance);
+        //PreferencesManager.initializeInstance(mInstance);
 
         // Enabling database for resume support even after the application is killed:
         PRDownloaderConfig config = PRDownloaderConfig.newBuilder()

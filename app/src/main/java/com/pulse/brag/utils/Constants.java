@@ -20,13 +20,6 @@ import com.pulse.brag.R;
 
 
 public class Constants {
-
-    // TODO: Release : Log and Base Url
-    public static final boolean IS_LOG_ENABLED = true;
-    //    public static final String BASE_URL = "http://139.162.1.39:8082/";
-    //public static final String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
-
-
     //font type
     //public static final int FONT_SANS_ROUNDED = 1;
     public static final int FONT_OPENSANS_REGULAR = 1;
@@ -70,15 +63,16 @@ public class Constants {
     public static final String BUNDLE_KEY_STATE = "bundlestate";
     public static final String BUNDLE_KEY_STATE_LIST = "bundlestatelist";
     public static final String BUNDLE_NUM_STOCK = "bundlenumstock";
-    public static final String BUNDLE_ADDRESS ="bundleaddress" ;
+    public static final String BUNDLE_ADDRESS = "bundleaddress";
     public static final String LOCALBROADCAST_UPDATE_PROFILE = "localbroadcastupdateprofile";
-    public static final String BUNDLE_IS_ADDRESS_UPDATE ="bundleupdateaddress" ;
+    public static final String BUNDLE_IS_ADDRESS_UPDATE = "bundleupdateaddress";
+
+    public static final String OTP_FORMAT = "RTBRAG";
 
     public interface ApiHelper {
-        //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip
         //String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
-        //String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
-        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
+        //String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";
 
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;

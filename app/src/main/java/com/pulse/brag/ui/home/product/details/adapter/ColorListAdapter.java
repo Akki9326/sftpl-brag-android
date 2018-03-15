@@ -15,10 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pulse.brag.R;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.OnSingleClickListener;
+import com.pulse.brag.data.model.datas.DataProductList;
+import com.pulse.brag.utils.Common;
 import com.pulse.brag.views.RoundView;
 
 import java.util.ArrayList;
@@ -32,25 +35,22 @@ import java.util.List;
 public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyViewHolder> {
 
     Activity mActivity;
-    List<String> mList;
+    List<DataProductList.Products> mList;
     IOnProductColorSelectListener colorSelectListener;
     int mSeletedPos;
-    List<Boolean> mBooleanList;
+    List<Boolean> mSeletedList;
 
     MyViewHolder mViewHolder;
 
-    public ColorListAdapter(Activity mActivity, List<String> mList, int mSeletedPos, IOnProductColorSelectListener colorSelectListener) {
+    public ColorListAdapter(Activity mActivity, List<DataProductList.Products> mList, int mSeletedPos, IOnProductColorSelectListener colorSelectListener) {
         this.mActivity = mActivity;
         this.mList = new ArrayList<>();
         this.mList = mList;
         this.colorSelectListener = colorSelectListener;
         this.mSeletedPos = mSeletedPos;
-        int pos = 0;
-        mBooleanList = new ArrayList<>();
-        for (int i = 0; i < mList.size(); i++) {
-            mBooleanList.add(pos++, Boolean.FALSE);
-        }
-        mBooleanList.add(0, Boolean.TRUE);
+
+        fillSelectedList(mSeletedPos);
+
     }
 
     @Override
@@ -68,16 +68,17 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         holder.mRoundColor.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                colorSelectListener.onSelectedColor(position);
+                colorSelectListener.onSelectedColor(mSeletedPos, position, mList.get(position).getSizes());
             }
         });
-        if (mBooleanList.get(position)) {
+        if (mSeletedList.get(position)) {
             holder.mRoundSelector.setVisibility(View.VISIBLE);
         } else {
             holder.mRoundSelector.setVisibility(View.INVISIBLE);
         }
-        holder.mRoundSelector.setColorHex(mList.get(position));
-        holder.mRoundColor.setColorHex(mList.get(position));
+        holder.mRoundSelector.setColorHex(Common.isNotNullOrEmpty(mList.get(position).getColorHexCode()) ? mList.get(position).getColorHexCode() : "#000000");
+        holder.mRoundColor.setColorHex(Common.isNotNullOrEmpty(mList.get(position).getColorHexCode()) ? mList.get(position).getColorHexCode() : "#000000");
+        holder.mName.setText(mList.get(position).getColorCode().length() >= 3 ? mList.get(position).getColorCode().substring(0, 3) + mList.get(position).getColorFamily() : mList.get(position).getColorCode() + mList.get(position).getColorFamily());
     }
 
     @Override
@@ -85,20 +86,38 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         return mList.size();
     }
 
-    public void setSelectorItem(int pos) {
-        if (mSeletedPos != pos) {
-            mBooleanList.set(pos, Boolean.TRUE);
-            mBooleanList.set(mSeletedPos, Boolean.FALSE);
-            mSeletedPos = pos;
-            notifyDataSetChanged();
+    public void reset(List<DataProductList.Products> list, int selectedPos) {
+        if (mList != null)
+            mList.clear();
 
+        if (mSeletedList != null)
+            mSeletedList.clear();
+        mList.addAll(list);
+        fillSelectedList(selectedPos);
+        notifyDataSetChanged();
+    }
+
+    private void fillSelectedList(int selectedPos) {
+        int pos = 0;
+        mSeletedList = new ArrayList<>();
+        for (int i = 0; i < mList.size(); i++) {
+            mSeletedList.add(pos++, Boolean.FALSE);
         }
+        mSeletedList.add(selectedPos, Boolean.TRUE);
+    }
+
+    public void setSelectedItem(int pos) {
+        mSeletedList.set(pos, Boolean.TRUE);
+        mSeletedList.set(mSeletedPos, Boolean.FALSE);
+        mSeletedPos = pos;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         View mBaseView;
         RoundView mRoundColor, mRoundSelector;
+        TextView mName;
 
         LinearLayout mBaseLayout;
 
@@ -108,6 +127,7 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
             mBaseView = itemView;
             mRoundColor = itemView.findViewById(R.id.roundview_product_color);
             mRoundSelector = itemView.findViewById(R.id.roundview_selector);
+            mName = itemView.findViewById(R.id.textview_color);
 
         }
     }

@@ -71,15 +71,6 @@
         <activity
             android:name=".ui.authentication.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Dummey">
-
-            <!-- <intopenFilterlter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intopenFilterlter> -->
-        </activity>
     </application>
 
 </manifest>

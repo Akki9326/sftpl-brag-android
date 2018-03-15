@@ -84,7 +84,7 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
     }
 
     public void getCategoryData() {
-        Call<CategoryListResponse> mCategoryRespone = getDataManager().getCategoryProduct("home/get/1");
+        Call<CategoryListResponse> mCategoryRespone = getDataManager().getCategoryProduct();
         mCategoryRespone.enqueue(new ApiResponse<CategoryListResponse>() {
             @Override
             public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {

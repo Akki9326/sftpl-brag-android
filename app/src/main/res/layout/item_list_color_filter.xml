@@ -10,34 +10,57 @@
             type="com.pulse.brag.ui.home.product.list.adapter.ItemColorFilterViewModel" />
     </data>
 
-    <FrameLayout
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:onClick="@{itemModel::onColorClick}"
-        android:padding="5dp">
+    <RelativeLayout
+        android:layout_width="70dp"
+        android:layout_height="wrap_content">
 
-        <com.pulse.brag.views.RoundView
-            android:id="@+id/roundview_selector"
-            android:layout_width="43dp"
-            android:layout_height="43dp"
+        <FrameLayout
+            android:id="@+id/color_view"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:visibility="@{itemModel.selected ? View.VISIBLE : View.GONE}"
-            app:colorFilter="@{itemModel.filterColor}" />
+            android:onClick="@{itemModel::onColorClick}"
+            android:padding="5dp">
+
+            <com.pulse.brag.views.RoundView
+                android:id="@+id/roundview_selector"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:visibility="@{itemModel.selected ? View.VISIBLE : View.GONE}"
+                app:colorFilter="@{itemModel.filterColor}" />
 
 
-        <com.pulse.brag.views.RoundView
-            android:layout_width="39dp"
-            android:layout_height="39dp"
+            <com.pulse.brag.views.RoundView
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center"
+                app:round_color="#EBEBF1" />
+
+            <com.pulse.brag.views.RoundView
+                android:id="@+id/roundview_product_color"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:colorFilter="@{itemModel.filterColor}" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textview_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/color_view"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            app:round_color="#EBEBF1" />
-
-        <com.pulse.brag.views.RoundView
-            android:id="@+id/roundview_product_color"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            app:colorFilter="@{itemModel.filterColor}" />
-
-    </FrameLayout>
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:tag="@string/font_opensans_regular_id"
+            android:text="@{itemModel.title}"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_very_small_12" />
+    </RelativeLayout>
 </layout>

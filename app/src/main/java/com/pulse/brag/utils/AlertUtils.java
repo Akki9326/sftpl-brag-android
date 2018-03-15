@@ -337,8 +337,6 @@ public class AlertUtils {
     }
 
     public static void showAlertMessageOkToLogin(final Activity activity, String s) {
-        // TODO: 2/27/2018 move to core class because of preference clear issue
-
         try {
             dissmissDialog();
             alertDialog = new Dialog(activity);
@@ -356,7 +354,9 @@ public class AlertUtils {
                 @Override
                 public void onClick(View v) {
                     alertDialog.dismiss();
-                    PreferencesManager.getInstance().logout();
+                    if (activity instanceof CoreActivity)
+                        ((CoreActivity) activity).getDataManager().logout();
+                    //PreferencesManager.getInstance().logout();
                     Intent intent = new Intent(activity, SplashActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     activity.startActivity(intent);

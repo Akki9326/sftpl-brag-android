@@ -157,7 +157,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                     showProgress();
                     cartViewModel.editQty(mEditQtyItemId, mEditQtyItemNo, updateItemQtyNum);
                 } else {
-                    AlertUtils.showAlertMessage(getActivity(), 0, null);
+                    AlertUtils.showAlertMessage(getActivity(), 0, null,null);
                 }
             }
         }
@@ -172,7 +172,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             mCartItemDeleteData = responeData;
             cartViewModel.removeFromCart(responeData.getItemId());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -250,7 +250,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onErrorDeleteFromAPI(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -269,7 +269,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onErrorEditQtyFromAPI(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
 

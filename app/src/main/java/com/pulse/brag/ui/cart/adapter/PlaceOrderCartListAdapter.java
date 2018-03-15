@@ -82,11 +82,8 @@ public class PlaceOrderCartListAdapter extends RecyclerView.Adapter<PlaceOrderCa
 
         void bindCartData(int position, CartData responeData) {
             pos = position;
-            if (itemBind.getPlaceOrderData() == null) {
-                itemBind.setPlaceOrderData(new PlaceOrderItemViewModel(itemView.getContext(), position, responeData, this));
-            } else {
-                itemBind.getPlaceOrderData().setPlaceOrderData(responeData);
-            }
+            itemBind.setPlaceOrderData(new PlaceOrderItemViewModel(itemView.getContext(), position, responeData, this));
+            itemBind.executePendingBindings();
         }
 
         @Override

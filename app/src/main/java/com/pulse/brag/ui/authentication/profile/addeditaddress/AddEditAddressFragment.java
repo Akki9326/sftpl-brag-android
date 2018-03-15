@@ -152,7 +152,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             showProgress();
             mAddEditViewModel.AddAddress(qAddAddress);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -202,7 +202,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
                 showProgress();
                 mAddEditViewModel.getStateListAPI();
             } else {
-                AlertUtils.showAlertMessage(getActivity(), 0, null);
+                AlertUtils.showAlertMessage(getActivity(), 0, null,null);
             }
         } else {
             Bundle bundle = new Bundle();

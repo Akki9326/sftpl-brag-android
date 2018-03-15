@@ -72,8 +72,7 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
     }
 
     public void getCollectionList() {
-        // TODO: 2/28/2018 change url
-        Call<CollectionListResponse> getCategoryList = getDataManager().getCollectionProduct("home/get/2");
+        Call<CollectionListResponse> getCategoryList = getDataManager().getCollectionProduct();
         getCategoryList.enqueue(new ApiResponse<CollectionListResponse>() {
             @Override
             public void onSuccess(CollectionListResponse collectionListResponse, Headers headers) {

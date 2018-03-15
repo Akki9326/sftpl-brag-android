@@ -8,7 +8,6 @@ package com.pulse.brag.ui.home.product.details;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -39,7 +38,6 @@ import com.pulse.brag.views.FullScreenImageDialogFragment;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 import com.pulse.brag.views.webview.WebviewDialogFragment;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,17 +63,19 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     FragmentProductDetailBinding mFragmentProductDetailBinding;
 
     ColorListAdapter mColorListAdapter;
-    SizeListAdapter mSizeListAdapter;
-    DataProductList.Products mProductDetails;
-    DataProductList.Size mProduct;
+
+    DataProductList mProductData;
+    DataProductList.Size mSizedProduct;
+    int mSelectedColorPosition = 0;
 
     List<ImagePagerResponse> imagePagerResponeList;
     int mQuality;
 
 
-    public static ProductDetailFragment newInstance(DataProductList.Products dataRespone) {
+    public static ProductDetailFragment newInstance(DataProductList dataRespone, int position) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, dataRespone);
+        args.putInt(Constants.BUNDLE_POSITION, position);
         ProductDetailFragment fragment = new ProductDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -90,8 +90,12 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void beforeViewCreated() {
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
-            mProductDetails = null;
-            mProductDetails = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
+            mProductData = null;
+            mProductData = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
+        }
+
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_POSITION)) {
+            mSelectedColorPosition = getArguments().getInt(Constants.BUNDLE_POSITION);
         }
         imagePagerResponeList = new ArrayList<>();
     }
@@ -105,32 +109,22 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mFragmentProductDetailBinding.recycleViewColor.setLayoutManager(mColorLayoutManager);
         mFragmentProductDetailBinding.recycleViewSize.setHasFixedSize(true);
         mFragmentProductDetailBinding.recycleViewSize.setLayoutManager(mSizeLayoutManager);
+        mFragmentProductDetailBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
 
-        if (mProductDetails != null) {
-            List<String> colorList = new ArrayList<>();
-            colorList.add("#000000");
-            mColorListAdapter = new ColorListAdapter(getActivity(), colorList, 0, this);
-            mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
-            mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+        if (mProductData != null) {
+            List<DataProductList.Products> colorList = new ArrayList<>();
+            if (mProductData.getObjects() != null && mProductData.getObjects().size() > 0)
+                colorList.addAll(mProductData.getObjects());
 
-
-            List<DataProductList.Size> sizeList = new ArrayList<>();
-            int pos = 0;
-            int selectedPos = 0;
-            for (DataProductList.Size size : mProductDetails.getSizes()) {
-                if (size.isIsDefault()) {
-                    selectedPos = pos;
-                    mProduct = size;
-                }
-                pos++;
-                sizeList.add(size);
+            if (mColorListAdapter != null) {
+                mColorListAdapter.reset(colorList, mSelectedColorPosition);
+            } else {
+                mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
+                mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
+                mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
             }
 
-            mSizeListAdapter = new SizeListAdapter(getActivity(), sizeList, selectedPos, this);
-            mFragmentProductDetailBinding.recycleViewSize.setAdapter(mSizeListAdapter);
-            mFragmentProductDetailBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
-
-            showData(mProduct.getDescription(), mProduct.getDescription2(), mProduct.getStockData(), mProduct.getUnitPrice(), mProduct.getImages());
+            onColorProductSelected(mProductData.getObjects().get(mSelectedColorPosition).getSizes());
         }
     }
 
@@ -155,28 +149,46 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
 
-    public void showData(String description, String description2, int stockData, double unitPrice, List<String> bannerImages) {
+    private void onColorProductSelected(List<DataProductList.Size> sizes) {
+        int pos = 0;
+        int selectedPos = 0;
+        for (DataProductList.Size size : sizes) {
+            if (size.isIsDefault()) {
+                selectedPos = pos;
+                mSizedProduct = size;
+            }
+            pos++;
+        }
+
+        mFragmentProductDetailBinding.recycleViewSize.setAdapter(null);
+        SizeListAdapter mSizeListAdapter = new SizeListAdapter(getActivity(), sizes, selectedPos, this);
+        mFragmentProductDetailBinding.recycleViewSize.setAdapter(mSizeListAdapter);
+
+        showData();
+    }
+
+
+    public void showData() {
 
         //// TODO: 3/12/2018 if data not available than display no data screen
 
-        if (stockData > 0) {
-            mProductDetailViewModel.updateQty(String.valueOf(1));
-            mQuality = 1;
+        if (mSizedProduct != null) {
+            if (mSizedProduct.getStockData() > 0) {
+                mProductDetailViewModel.updateQty(String.valueOf(1));
+                mQuality = 1;
+            }
+            mProductDetailViewModel.updateProductProDetail(mSizedProduct.getDescription());
+            mProductDetailViewModel.updateProductProShortDetail(mSizedProduct.getDescription2());
+            mProductDetailViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
+            mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencyPriceFormat(mSizedProduct.getUnitPrice()));
+
+            imagePagerResponeList.clear();
+            for (String url : mSizedProduct.getImages()) {
+                imagePagerResponeList.add(new ImagePagerResponse(url, ""));
+            }
+            mFragmentProductDetailBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
+            mFragmentProductDetailBinding.pagerIndicator.setViewPager(mFragmentProductDetailBinding.viewPager);
         }
-        mProductDetailViewModel.updateProductProDetail(description);
-        mProductDetailViewModel.updateProductProShortDetail(description2);
-        mProductDetailViewModel.updateNotifyMe(stockData <= 0);
-        mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencyPriceFormat(unitPrice));
-
-        imagePagerResponeList.clear();
-        for (String url : bannerImages) {
-            imagePagerResponeList.add(new ImagePagerResponse(url, ""));
-        }
-
-        mFragmentProductDetailBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
-        mFragmentProductDetailBinding.pagerIndicator.setViewPager(mFragmentProductDetailBinding.viewPager);
-
-
     }
 
     private void pushSizeGuideFragment() {
@@ -194,16 +206,17 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
-        if (prevPos != pos) {
-            mSizeListAdapter.setSelectedItem(pos);
-            mProduct = item;
-            showData(item.getDescription(), item.getDescription2(), item.getStockData(), item.getUnitPrice(), item.getImages());
-        }
+
+        mSizedProduct = item;
+        showData();
     }
 
     @Override
-    public void onSelectedColor(int pos) {
-        mColorListAdapter.setSelectorItem(pos);
+    public void onSelectedColor(int prevPos, int pos, List<DataProductList.Size> sizes) {
+        if (prevPos != pos) {
+            mColorListAdapter.setSelectedItem(pos);
+            onColorProductSelected(sizes);
+        }
     }
 
     @Override
@@ -214,7 +227,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
 
     }
 
@@ -225,7 +238,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void plus() {
-        if (mQuality < mProduct.getStockData()) {
+        if (mQuality < mSizedProduct.getStockData()) {
             mQuality++;
             mProductDetailViewModel.updateQty(String.valueOf(mQuality));
         } else {
@@ -245,9 +258,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void addToCart() {
         if (Utility.isConnection(getActivity())) {
-            mProductDetailViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()));
+            mProductDetailViewModel.addToCart(mSizedProduct.getNo(), Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()));
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -259,9 +272,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void notifyMe() {
         if (Utility.isConnection(getActivity())) {
-            mProductDetailViewModel.notifyMe(mProduct.getNo());
+            mProductDetailViewModel.notifyMe(mSizedProduct.getNo());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 

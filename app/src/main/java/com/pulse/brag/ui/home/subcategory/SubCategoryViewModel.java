@@ -55,14 +55,14 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
     }
 
     public void getSubCategoryData() {
-        Call<CategoryListResponse> mCategoryRespone = getDataManager().getCategoryProduct("home/get/1");
+        Call<CategoryListResponse> mCategoryRespone = getDataManager().getCategoryProduct();
         mCategoryRespone.enqueue(new ApiResponse<CategoryListResponse>() {
             @Override
             public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     // TODO: 27-02-2018 :onSwiptoRefresh
-//                    getNavigator().OnSuccessPullToRefresh(categoryListResponse.getData());
+                    //getNavigator().OnSuccessPullToRefresh(categoryListResponse.getData());
 
                     if (categoryListResponse.getData() != null && categoryListResponse.getData().getCategories() != null && categoryListResponse.getData().getCategories().size() > 0) {
                         getNavigator().setCategoryList(categoryListResponse.getData().getCategories());

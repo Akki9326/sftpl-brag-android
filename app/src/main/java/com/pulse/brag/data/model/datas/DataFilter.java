@@ -143,11 +143,15 @@ public class DataFilter {
 
         private String color;
         private String hash;
+        private String variant;
         private boolean selected;
 
-        public ColorCode(String color, String hash) {
+        private String key;
+
+        public ColorCode(String color, String hash, String variant) {
             this.color = color;
             this.hash = hash;
+            this.variant = variant;
         }
 
         public String getColor() {
@@ -172,6 +176,23 @@ public class DataFilter {
 
         public void setSelected(boolean selected) {
             this.selected = selected;
+        }
+
+        public String getVariant() {
+
+            return variant;
+        }
+
+        public void setVariant(String variant) {
+            this.variant = variant;
+        }
+
+        public String getKey() {
+            return color + variant;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
         }
     }
 

@@ -5,22 +5,22 @@ import android.content.Context;
 import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.model.datas.UserData;
 import com.pulse.brag.data.model.requests.ChangeMobileNumberRequest;
-import com.pulse.brag.data.model.requests.ChangePasswordRequest;
-import com.pulse.brag.data.model.requests.LoginRequest;
+import com.pulse.brag.data.model.requests.QChangePassword;
+import com.pulse.brag.data.model.requests.QContactUs;
+import com.pulse.brag.data.model.requests.QLogin;
 import com.pulse.brag.data.model.requests.QAddToCart;
 import com.pulse.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.pulse.brag.data.model.requests.QGetFilter;
 import com.pulse.brag.data.model.requests.QPlaceOrder;
 import com.pulse.brag.data.model.requests.QProductList;
 import com.pulse.brag.data.model.requests.QAddAddress;
-import com.pulse.brag.data.model.requests.SignInRequest;
+import com.pulse.brag.data.model.requests.QSignUp;
 import com.pulse.brag.data.model.response.RCartList;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.data.model.response.ChangePasswordResponse;
 import com.pulse.brag.data.model.response.CollectionListResponse;
 import com.pulse.brag.data.model.response.LoginResponse;
 import com.pulse.brag.data.model.response.RMyOrder;
-import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.data.model.response.OTPVerifyResponse;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
 import com.pulse.brag.data.model.response.RAddToCart;
@@ -49,7 +49,7 @@ public class AppApiManager implements IApiManager {
 
 
     @Override
-    public Call<LoginResponse> userLogin(LoginRequest loginRequest) {
+    public Call<LoginResponse> userLogin(QLogin loginRequest) {
         return mApiInterface.userLogin(loginRequest);
     }
 
@@ -59,7 +59,7 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<SignUpResponse> userSignIn(SignInRequest signInRequest) {
+    public Call<SignUpResponse> userSignIn(QSignUp signInRequest) {
         return mApiInterface.userSignIn(signInRequest);
     }
 
@@ -79,12 +79,12 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<ChangePasswordResponse> changePassword(ChangePasswordRequest changePasswordRequest) {
+    public Call<ChangePasswordResponse> changePassword(QChangePassword changePasswordRequest) {
         return mApiInterface.changePassword(changePasswordRequest);
     }
 
     @Override
-    public Call<ChangePasswordResponse> resetPassword(ChangePasswordRequest changePasswordRequest) {
+    public Call<ChangePasswordResponse> resetPassword(QChangePassword changePasswordRequest) {
         return mApiInterface.resetPassword(changePasswordRequest);
     }
 
@@ -105,13 +105,13 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<CategoryListResponse> getCategoryProduct(String url) {
-        return mApiInterface.getCategoryProduct(url);
+    public Call<CategoryListResponse> getCategoryProduct() {
+        return mApiInterface.getCategoryProduct();
     }
 
     @Override
-    public Call<CollectionListResponse> getCollectionProduct(String url) {
-        return mApiInterface.getCollectionProduct(url);
+    public Call<CollectionListResponse> getCollectionProduct() {
+        return mApiInterface.getCollectionProduct();
     }
 
     @Override
@@ -130,6 +130,11 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
+    public Call<GeneralResponse> contactUs(QContactUs qContactUs) {
+        return mApiInterface.contactUs(qContactUs);
+    }
+
+    @Override
     public Call<RCartList> getCartList(String url) {
         return mApiInterface.getCartList(url);
     }
@@ -138,7 +143,6 @@ public class AppApiManager implements IApiManager {
     public Call<RMyOrder> getOrderList(int page) {
         return mApiInterface.getOrderList(page);
     }
-
 
 
     @Override

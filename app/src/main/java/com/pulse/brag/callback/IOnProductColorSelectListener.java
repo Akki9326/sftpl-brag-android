@@ -9,6 +9,9 @@ package com.pulse.brag.callback;
  */
 
 import com.pulse.brag.data.model.datas.DataFilter;
+import com.pulse.brag.data.model.datas.DataProductList;
+
+import java.util.List;
 
 /**
  * Created by nikhil.vadoliya on 26-10-2017.
@@ -16,5 +19,5 @@ import com.pulse.brag.data.model.datas.DataFilter;
 
 
 public interface IOnProductColorSelectListener {
-    void onSelectedColor(int pos);
+    void onSelectedColor(int prevPos, int pos, List<DataProductList.Size> sizes);
 }

@@ -60,10 +60,10 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     DialogFragmentAddProductBinding mDialogFragmentAddProductBinding;
 
     ColorListAdapter mColorListAdapter;
-    SizeListAdapter mSizeListAdapter;
 
-    DataProductList.Products mProductDetails;
-    DataProductList.Size mProduct;
+    DataProductList mProductData;
+    DataProductList.Size mSizedProduct;
+    int mSelectedColorPosition = 0;
 
     private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -126,8 +126,15 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     public void beforeViewCreated() {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SELETED_PRODUCT)) {
-            mProductDetails = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
+            mProductData = null;
+            mProductData = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
         }
+
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_POSITION)) {
+            mSelectedColorPosition = getArguments().getInt(Constants.BUNDLE_POSITION);
+        }
+
+
     }
 
     @Override
@@ -137,35 +144,29 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
         mDialogFragmentAddProductBinding.recycleViewColor.setHasFixedSize(true);
         mDialogFragmentAddProductBinding.recycleViewColor.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mDialogFragmentAddProductBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
 
         mDialogFragmentAddProductBinding.recycleViewSize.setHasFixedSize(true);
         mDialogFragmentAddProductBinding.recycleViewSize.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mDialogFragmentAddProductBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
 
 
         attachKeyboardListeners();
 
-        if (mProductDetails != null) {
-            List<String> mIntegerList = new ArrayList<>();
-            mIntegerList.add("#000000");
-            mColorListAdapter = new ColorListAdapter(getActivity(), mIntegerList, 0, this);
-            mDialogFragmentAddProductBinding.recycleViewColor.setAdapter(mColorListAdapter);
-            mDialogFragmentAddProductBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+        if (mProductData != null) {
+            List<DataProductList.Products> colorList = new ArrayList<>();
+            if (mProductData.getObjects() != null && mProductData.getObjects().size() > 0)
+                colorList.addAll(mProductData.getObjects());
 
-            List<DataProductList.Size> sizeList = new ArrayList<>();
-            int pos = 0;
-            int selectedPos = 0;
-            for (DataProductList.Size size : mProductDetails.getSizes()) {
-                if (size.isIsDefault()) {
-                    selectedPos = pos;
-                    mProduct = size;
-                }
-                pos++;
-                sizeList.add(size);
+            if (mColorListAdapter != null) {
+                mColorListAdapter.reset(colorList, mSelectedColorPosition);
+            } else {
+                mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
+                mDialogFragmentAddProductBinding.recycleViewColor.setAdapter(mColorListAdapter);
+                mDialogFragmentAddProductBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
             }
-            mSizeListAdapter = new SizeListAdapter(getActivity(), sizeList, selectedPos, this);
-            mDialogFragmentAddProductBinding.recycleViewSize.setAdapter(mSizeListAdapter);
-            mDialogFragmentAddProductBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
-            showData(mProduct.getDescription(), mProduct.getStockData(), mProduct.getUnitPrice(), mProduct.getImages());
+
+            onColorProductSelected(mProductData.getObjects().get(mSelectedColorPosition).getSizes());
         }
     }
 
@@ -189,37 +190,56 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         return R.layout.dialog_fragment_add_product;
     }
 
-    public void showData(String description, int stockData, double unitPrice, List<String> bannerImages) {
+    private void onColorProductSelected(List<DataProductList.Size> sizes) {
+        int pos = 0;
+        int selectedPos = 0;
+        for (DataProductList.Size size : sizes) {
+            if (size.isIsDefault()) {
+                selectedPos = pos;
+                mSizedProduct = size;
+            }
+            pos++;
+        }
+
+        mDialogFragmentAddProductBinding.recycleViewSize.setAdapter(null);
+        SizeListAdapter mSizeListAdapter = new SizeListAdapter(getActivity(), sizes, selectedPos, this);
+        mDialogFragmentAddProductBinding.recycleViewSize.setAdapter(mSizeListAdapter);
+        showData();
+    }
+
+    public void showData() {
         //// TODO: 3/12/2018 if data not available than display no data screen
 
-        List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
-        for (String url : bannerImages) {
-            imagePagerResponeList.add(new ImagePagerResponse(url, ""));
+        if (mSizedProduct != null) {
+            List<ImagePagerResponse> imagePagerResponeList = new ArrayList<>();
+            for (String url : mSizedProduct.getImages()) {
+                imagePagerResponeList.add(new ImagePagerResponse(url, ""));
+            }
+            mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
+            mDialogFragmentAddProductBinding.pagerView.setViewPager(mDialogFragmentAddProductBinding.viewPager);
+
+            if (mSizedProduct.getStockData() > 0)
+                mAddProductDialogViewModel.updateQty(String.valueOf(1));
+
+            mAddProductDialogViewModel.updateProductName(mSizedProduct.getDescription());
+            mAddProductDialogViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
+            mAddProductDialogViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
+            mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(String.valueOf(mSizedProduct.getStockData()).length())});
         }
-        mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
-        mDialogFragmentAddProductBinding.pagerView.setViewPager(mDialogFragmentAddProductBinding.viewPager);
-
-        if (stockData > 0)
-            mAddProductDialogViewModel.updateQty(String.valueOf(1));
-
-        mAddProductDialogViewModel.updateProductName(description);
-        mAddProductDialogViewModel.updateMaxQty(String.valueOf(stockData));
-        mAddProductDialogViewModel.updateNotifyMe(stockData <= 0);
-        mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(String.valueOf(mProductDetails.getStockData()).length())});
     }
 
     @Override
-    public void onSelectedColor(int pos) {
-        mColorListAdapter.setSelectorItem(pos);
+    public void onSelectedColor(int prevPos, int pos, List<DataProductList.Size> sizes) {
+        if (prevPos != pos) {
+            mColorListAdapter.setSelectedItem(pos);
+            onColorProductSelected(sizes);
+        }
     }
 
     @Override
     public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
-        if (prevPos != pos) {
-            mSizeListAdapter.setSelectedItem(pos);
-            mProduct = item;
-            showData(item.getDescription(), item.getStockData(), item.getUnitPrice(), item.getImages());
-        }
+        mSizedProduct = item;
+        showData();
     }
 
 
@@ -231,7 +251,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -247,9 +267,9 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void addToCart() {
         if (Utility.isConnection(getActivity())) {
-            mAddProductDialogViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mDialogFragmentAddProductBinding.edittextQty.getText().toString()));
+            mAddProductDialogViewModel.addToCart(mSizedProduct.getNo(), Integer.parseInt(mDialogFragmentAddProductBinding.edittextQty.getText().toString()));
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
 
     }
@@ -267,7 +287,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
                 mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
                 mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
                 mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
-            } else if (Integer.valueOf(s.toString()) > mProduct.getStockData()) {
+            } else if (Integer.valueOf(s.toString()) > mSizedProduct.getStockData()) {
                 mDialogFragmentAddProductBinding.textviewMax.setTextColor(Color.RED);
                 mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
                 mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
@@ -282,9 +302,9 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void notifyMe() {
         if (Utility.isConnection(getActivity())) {
-            mAddProductDialogViewModel.notifyMe(mProduct.getNo());
+            mAddProductDialogViewModel.notifyMe(mSizedProduct.getNo());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
 
         }
     }

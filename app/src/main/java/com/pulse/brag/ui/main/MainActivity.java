@@ -71,7 +71,7 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
     public void afterLayoutSet() {
         mMainActivyBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
-        Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) mMainActivyBinding.baseLayout);
+        Utility.applyTypeFace(getApplicationContext(),mMainActivyBinding.baseLayout);
         // TODO: 16-02-2018 move to core activity
         if (bActivity instanceof OnToolbarSetupListener) {
             ((OnToolbarSetupListener) bActivity).setUpToolbar();

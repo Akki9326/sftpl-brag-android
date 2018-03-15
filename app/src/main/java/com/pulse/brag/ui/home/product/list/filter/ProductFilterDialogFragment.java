@@ -116,13 +116,7 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
         mDialogFragmentProductFilterBinding.recycleViewSize.setHasFixedSize(true);
         mDialogFragmentProductFilterBinding.recycleViewSize.setLayoutManager(mSizeLayoutManager);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showData();
-            }
-        }, 500);
-
+        showData();
     }
 
     @Override
@@ -149,13 +143,20 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
         if (Utility.isConnection(getActivity())) {
             mProductFilterDialogViewModel.getFilter(mCategory, mSubCategory, mSeasonCode, mAppliedFilter);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, new AlertUtils.IDismissDialogListener() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void dismissDialog(Dialog dialog) {
-                    dialog.dismiss();
-                    dismissFragment();
+                public void run() {
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, new AlertUtils.IDismissDialogListener() {
+                        @Override
+                        public void dismissDialog(Dialog dialog) {
+                            dialog.dismiss();
+                            dismissFragment();
+                        }
+                    });
                 }
-            });
+            }, 500);
+
+
         }
     }
 
@@ -165,21 +166,45 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
     }
 
     @Override
-    public void onApiError(ApiError error) {
+    public void onApiError(final ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), new AlertUtils.IDismissDialogListener() {
+
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void dismissDialog(Dialog dialog) {
-                dialog.dismiss();
-                dismissFragment();
+            public void run() {
+                AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), new AlertUtils.IDismissDialogListener() {
+                    @Override
+                    public void dismissDialog(Dialog dialog) {
+                        dialog.dismiss();
+                        dismissFragment();
+                    }
+                });
             }
-        });
+        }, 500);
+
+
     }
 
 
     @Override
     public void dismissFragment() {
         dismissDialog("");
+    }
+
+    @Override
+    public void noData() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AlertUtils.showAlertMessage(getActivity(), 19, null, new AlertUtils.IDismissDialogListener() {
+                    @Override
+                    public void dismissDialog(Dialog dialog) {
+                        dialog.dismiss();
+                        dismissFragment();
+                    }
+                });
+            }
+        }, 500);
     }
 
     @Override
@@ -191,7 +216,7 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
         if (mMapSelectedColor != null && mMapSelectedColor.size() > 0)
             for (Object value : mMapSelectedColor.values()) {
                 DataFilter.ColorCode color = (DataFilter.ColorCode) value;
-                colorList.add(new QProductList.ColorCode(color.getColor(), color.getHash()));
+                colorList.add(new QProductList.ColorCode(color.getColor(), color.getHash(), color.getVariant()));
             }
         if (colorList.size() > 0)
             filter.setColorCodes(colorList);
@@ -266,10 +291,10 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
     @Override
     public void onSelectedColor(boolean isSelected, DataFilter.ColorCode item) {
         if (isSelected)
-            mMapSelectedColor.put(item.getColor(), item);
+            mMapSelectedColor.put(item.getKey(), item);
         else {
-            if (mMapSelectedColor.containsKey(item.getColor()))
-                mMapSelectedColor.remove(item.getColor());
+            if (mMapSelectedColor.containsKey(item.getKey()))
+                mMapSelectedColor.remove(item.getKey());
         }
     }
 

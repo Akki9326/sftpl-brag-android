@@ -14,21 +14,21 @@ package com.pulse.brag.data.model.requests;
  */
 
 
-public class SignInRequest {
+public class QSignUp {
 
-    private String title;
     private String firstName;
     private String lastName;
     private String email;
     private String mobileNumber;
     private String addPassword;
+    private int userType;
 
-    public SignInRequest(String title, String firstname, String lastname, String email, String mobilenumber, String password) {
-        this.title = title;
+    public QSignUp(String firstname, String lastname, String email, String mobilenumber, String password, int userType) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.email = email;
         this.mobileNumber = mobilenumber;
         this.addPassword = password;
+        this.userType = userType;
     }
 }

@@ -81,11 +81,8 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
         void bindCartData(int position, MyOrderData responeData) {
             pos = position;
-            if (itemBind.getViewModel() == null) {
-                itemBind.setViewModel(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this));
-            } else {
-                itemBind.getViewModel().setMyOrderData(responeData);
-            }
+            itemBind.setViewModel(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this));
+            itemBind.executePendingBindings();
         }
 
         @Override

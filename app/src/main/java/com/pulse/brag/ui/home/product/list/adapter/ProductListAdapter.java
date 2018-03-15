@@ -90,12 +90,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 
         void bindProduct(int posistion, DataProductList.Products product) {
-            if (mItemProductBinding.getViewModel() == null) {
-                mItemProductBinding.setViewModel(new ItemProductViewModel(itemView.getContext(), product, posistion, this));
-                mItemProductBinding.executePendingBindings();
-            } else {
-                mItemProductBinding.getViewModel().setProduct(product);
-            }
+            mItemProductBinding.setViewModel(new ItemProductViewModel(itemView.getContext(), product, posistion, this));
+            mItemProductBinding.executePendingBindings();
         }
 
         @Override

@@ -99,11 +99,8 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
         void bindCartData(int position, CartData responeData) {
             pos = position;
-            if (itemBind.getCartData() == null) {
-                itemBind.setCartData(new CartItemViewModel(itemView.getContext(), position, responeData, this));
-            } else {
-                itemBind.getCartData().setCartData(responeData);
-            }
+            itemBind.setCartData(new CartItemViewModel(itemView.getContext(), position, responeData, this));
+            itemBind.executePendingBindings();
         }
 
         @Override

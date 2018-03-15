@@ -72,7 +72,7 @@ public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.
         void bindColorData(int pos, DataFilter.ColorCode colorModel) {
             this.pos = pos;
             itemBinding.setItemModel(new ItemColorFilterViewModel(itemView.getContext(), pos, colorModel, this));
-
+            itemBinding.executePendingBindings();
         }
 
         @Override

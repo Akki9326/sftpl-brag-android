@@ -99,7 +99,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     @Override
     public void onApiError(ApiError error) {
         hideKeyboard();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage());
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
             showProgress();
             mPlaceOrderViewModel.placeOrderAPI(new QPlaceOrder());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
 
         }
 

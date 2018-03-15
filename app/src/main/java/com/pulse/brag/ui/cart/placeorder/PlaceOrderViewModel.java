@@ -143,6 +143,8 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
     }
 
     public void setAddress(String address) {
+        if (!address.isEmpty())
+            setIsAddressAvaliable(true);
         this.address.set(address);
     }
 

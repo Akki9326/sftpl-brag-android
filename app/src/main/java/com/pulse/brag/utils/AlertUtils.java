@@ -234,6 +234,11 @@ public class AlertUtils {
                 case 1011:
                     blockApplicationAlert(activity, activity.getResources().getString(R.string.error_code_block));
                     return;
+
+                case 2001:
+                    message = activity.getString(R.string.msg_place_order_successfull);
+                    break;
+
                 case 5001:
                     message = activity.getResources().getString(R.string.error_code_5001);
                     break;

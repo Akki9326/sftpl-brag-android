@@ -12,6 +12,7 @@ package com.pulse.brag.ui.order.adapter;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -54,6 +55,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bindCartData(position, listRespones.get(position));
+        Log.i("Adapter", "onBindViewHolder: holder-" + listRespones.get(position).getTotalAmount());
 
     }
 

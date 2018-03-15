@@ -209,6 +209,11 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
+    public Call<GeneralResponse> reOrder(String id) {
+        return mApiManager.reOrder(id);
+    }
+
+    @Override
     public Call<LoginResponse> userLogin(LoginRequest loginRequest) {
         return mApiManager.userLogin(loginRequest);
     }

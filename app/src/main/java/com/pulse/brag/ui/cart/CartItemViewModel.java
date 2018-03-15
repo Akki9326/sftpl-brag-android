@@ -58,11 +58,6 @@ public class CartItemViewModel extends BaseObservable {
         return responeData.getItem().getSizeCode();
     }
 
-    public String getColor() {
-        // TODO: 09-03-2018 color hex or color label
-        return "#F44336";
-//        return responeData.getColor();
-    }
 
     public int getPrice() {
         return responeData.getItem().getUnitPrice();
@@ -78,11 +73,7 @@ public class CartItemViewModel extends BaseObservable {
 
     public Drawable getColorBitMap() {
 
-        // TODO: 09-03-2018 color hex or label
-        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap("#F44336", true));
-//        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap(responeData.getItem().getColorCode(), true));
-
-
+        return new BitmapDrawable(context.getResources(), Utility.getRoundBitmap(responeData.getItem().getColorHexCode(), true));
     }
 
     public void onDeleteItem(View v) {

@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.text.Editable;
 import android.view.View;
 
 import com.pulse.brag.BR;
@@ -288,8 +287,9 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void OnCartClick(int position) {
         if (!isClicked) {
             isClicked = true;
-            ((MainActivity) getBaseActivity()).addToCartAPI(0);
-            enabledClick();
+            // TODO: 15-03-2018 :oncart click
+//            ((MainActivity) getBaseActivity()).updateCartNum(0);
+//            enabledClick();
         }
     }
 

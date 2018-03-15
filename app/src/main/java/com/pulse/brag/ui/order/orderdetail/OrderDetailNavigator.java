@@ -10,17 +10,18 @@ package com.pulse.brag.ui.order.orderdetail;
  */
 
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.ui.core.CoreNavigator;
 
 /**
  * Created by nikhil.vadoliya on 22-02-2018.
  */
 
 
-public interface OrderDetailNavigator {
+public interface OrderDetailNavigator extends CoreNavigator {
 
-    void onApiSuccess();
+    void onApiReorderSuccess();
 
-    void onApiError(ApiError error);
+    void onApiReorderError(ApiError error);
 
     void onDownloadInvoice();
 

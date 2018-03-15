@@ -134,9 +134,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         setFragmentInTab();
         isAddedCategory = true;
 
-
-        setNotificationBadge();
-
     }
 
 
@@ -182,7 +179,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     }
 
 
-    private void setNotificationBadge() {
+    public void setNotificationBadge() {
 
         View v = bottomNavigationMenuView.getChildAt(3);
         itemView = (BottomNavigationItemView) v;

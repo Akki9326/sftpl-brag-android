@@ -8,7 +8,6 @@ package com.pulse.brag.ui.home.product.details;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -19,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.RelativeLayout;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
@@ -39,7 +39,6 @@ import com.pulse.brag.views.FullScreenImageDialogFragment;
 import com.pulse.brag.views.HorizontalSpacingDecoration;
 import com.pulse.brag.views.webview.WebviewDialogFragment;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,7 +213,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
 
     }
 
@@ -247,13 +246,13 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         if (Utility.isConnection(getActivity())) {
             mProductDetailViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()));
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
     @Override
     public void onAddedToCart(List<DataAddToCart> data) {
-        ((MainActivity) getBaseActivity()).addToCartAPI(data.size());
+        ((MainActivity) getBaseActivity()).updateCartNum();
     }
 
     @Override
@@ -261,7 +260,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         if (Utility.isConnection(getActivity())) {
             mProductDetailViewModel.notifyMe(mProduct.getNo());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 

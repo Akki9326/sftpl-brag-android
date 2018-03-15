@@ -137,7 +137,19 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+    }
+
+    @Override
+    public void onApiReorderSuccess() {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), null, getString(R.string.msg_reorder_success), null);
+    }
+
+    @Override
+    public void onApiReorderError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -150,7 +162,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                 downloadOrOpenFile();
             }
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
 
 
@@ -239,7 +251,12 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void onReorderClick() {
-        Toast.makeText(getActivity(), "Reorder", Toast.LENGTH_SHORT).show();
+        if (Utility.isConnection(getActivity())) {
+            showData();
+            orderDetailViewModel.reOrderAPI(mData.getId());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+        }
     }
 
     @Override
@@ -252,7 +269,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         orderDetailViewModel.updateOrderId(mData.getOrderNumber());
         orderDetailViewModel.updateAddress(mData.getUser().getFullAddressWithNewLine());
         orderDetailViewModel.updateFullName(mData.getUser().getFullName());
-//        orderDetailViewModel.updateIsOrderApprove(Constants.OrderStatus.REJECTED.ordinal() != mData.getStatus());
+        orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
 
         mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
     }

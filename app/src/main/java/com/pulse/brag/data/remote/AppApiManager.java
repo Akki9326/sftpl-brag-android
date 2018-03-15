@@ -140,7 +140,6 @@ public class AppApiManager implements IApiManager {
     }
 
 
-
     @Override
     public Call<OrderDetailResponse> getOrderDetail(String url) {
         return mApiInterface.getOrderDetail(url);
@@ -174,5 +173,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<GeneralResponse> placeOrder(QPlaceOrder placeOrder) {
         return mApiInterface.placeOrder(placeOrder);
+    }
+
+    @Override
+    public Call<GeneralResponse> reOrder(String id) {
+        return mApiInterface.reOrder(id);
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
+import com.pulse.brag.data.model.GeneralResponse;
 import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.datas.OrderDetailResponeData;
 import com.pulse.brag.data.model.response.OrderDetailResponse;
@@ -94,5 +95,24 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
     public ObservableField<Boolean> isApprvoe() {
         return isOrderApprove;
+    }
+
+    public void reOrderAPI(String orderId) {
+        Call<GeneralResponse> call = getDataManager().reOrder(orderId);
+        call.enqueue(new ApiResponse<GeneralResponse>() {
+            @Override
+            public void onSuccess(GeneralResponse generalResponse, Headers headers) {
+                if (generalResponse.isStatus()) {
+                    getNavigator().onApiReorderSuccess();
+                } else {
+                    getNavigator().onApiReorderError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiReorderError(t);
+            }
+        });
     }
 }

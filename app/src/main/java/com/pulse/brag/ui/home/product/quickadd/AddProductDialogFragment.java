@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
@@ -231,7 +232,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -249,14 +250,14 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         if (Utility.isConnection(getActivity())) {
             mAddProductDialogViewModel.addToCart(mProduct.getNo(), Integer.parseInt(mDialogFragmentAddProductBinding.edittextQty.getText().toString()));
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
 
     }
 
     @Override
     public void onAddedToCart(List<DataAddToCart> data) {
-        ((MainActivity) getBaseActivity()).addToCartAPI(data.size());
+        ((MainActivity) getBaseActivity()).updateCartNum();
         dismissDialog("");
     }
 
@@ -284,7 +285,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         if (Utility.isConnection(getActivity())) {
             mAddProductDialogViewModel.notifyMe(mProduct.getNo());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
 
         }
     }

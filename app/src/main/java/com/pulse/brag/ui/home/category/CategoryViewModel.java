@@ -12,6 +12,7 @@ package com.pulse.brag.ui.home.category;
 import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.data.IDataManager;
 import com.pulse.brag.data.model.ApiError;
@@ -19,6 +20,7 @@ import com.pulse.brag.data.remote.ApiResponse;
 import com.pulse.brag.data.model.datas.CategoryListResponseData;
 import com.pulse.brag.data.model.response.CategoryListResponse;
 import com.pulse.brag.ui.core.CoreViewModel;
+import com.pulse.brag.utils.Constants;
 
 import java.util.Collections;
 import java.util.List;
@@ -90,6 +92,8 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
             public void onSuccess(CategoryListResponse categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
+                    BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
+                    BragApp.NotificationNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_NOTIFICATION_NUM));
                     if (categoryListResponse.getData() == null) {
                         getNavigator().onNoData();
                     } else {

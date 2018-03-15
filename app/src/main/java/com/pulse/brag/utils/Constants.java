@@ -70,15 +70,15 @@ public class Constants {
     public static final String BUNDLE_KEY_STATE = "bundlestate";
     public static final String BUNDLE_KEY_STATE_LIST = "bundlestatelist";
     public static final String BUNDLE_NUM_STOCK = "bundlenumstock";
-    public static final String BUNDLE_ADDRESS ="bundleaddress" ;
+    public static final String BUNDLE_ADDRESS = "bundleaddress";
     public static final String LOCALBROADCAST_UPDATE_PROFILE = "localbroadcastupdateprofile";
-    public static final String BUNDLE_IS_ADDRESS_UPDATE ="bundleupdateaddress" ;
+    public static final String BUNDLE_IS_ADDRESS_UPDATE = "bundleupdateaddress";
 
     public interface ApiHelper {
         //String BASE_URL = "http://192.168.131.124:8085/BRAGWeb/api/";   //local ip
         //String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
-        //String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
-        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
+//        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";
 
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;
@@ -92,6 +92,8 @@ public class Constants {
         String MAP_APP_VERSION = "app-version";
         String MAP_KEY_OSV = "os-version";
         String MAP_KEY_OS = "os";
+        String MAP_KEY_CART_NUM = "itemnoofcart";
+        String MAP_KEY_NOTIFICATION_NUM = "unreadcount";
     }
 
     public interface IErrorCode {

@@ -8,16 +8,19 @@ package com.pulse.brag.ui.home.product.details;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.RelativeLayout;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
@@ -30,6 +33,7 @@ import com.pulse.brag.databinding.FragmentProductDetailBinding;
 import com.pulse.brag.ui.core.CoreFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
+import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
@@ -65,19 +69,24 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     ColorListAdapter mColorListAdapter;
 
     DataProductList mProductData;
+    List<DataProductList.Products> mProductList;
     DataProductList.Size mSizedProduct;
     int mSelectedColorPosition = 0;
 
     List<RImagePager> imagePagerResponeList;
     int mQuality;
+    String mSizeGuide;
 
 
-    public static ProductDetailFragment newInstance(DataProductList dataRespone, int position) {
+    public static ProductDetailFragment newInstance(DataProductList dataRespone, List<DataProductList.Products> list, int position, String sizeGuide/*, ProductListFragment targetFragment, int reqCode*/) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, dataRespone);
         args.putInt(Constants.BUNDLE_POSITION, position);
+        args.putString(Constants.BUNDLE_SIZE_GUIDE, sizeGuide);
+        args.putParcelableArrayList(Constants.BUNDLE_PRODUCT_LISt, (ArrayList<? extends Parcelable>) list);
         ProductDetailFragment fragment = new ProductDetailFragment();
         fragment.setArguments(args);
+        //fragment.setTargetFragment(targetFragment, reqCode);
         return fragment;
     }
 
@@ -94,8 +103,16 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             mProductData = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
         }
 
+        if (getArguments().containsKey(Constants.BUNDLE_PRODUCT_LISt)) {
+            mProductList = getArguments().getParcelableArrayList(Constants.BUNDLE_PRODUCT_LISt);
+        }
+
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_POSITION)) {
             mSelectedColorPosition = getArguments().getInt(Constants.BUNDLE_POSITION);
+        }
+
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SIZE_GUIDE)) {
+            mSizeGuide = getArguments().getString(Constants.BUNDLE_SIZE_GUIDE);
         }
         imagePagerResponeList = new ArrayList<>();
     }
@@ -105,6 +122,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mFragmentProductDetailBinding = getViewDataBinding();
         Utility.applyTypeFace(getContext(), (RelativeLayout) mFragmentProductDetailBinding.baseLayout);
 
+
         mFragmentProductDetailBinding.recycleViewColor.setHasFixedSize(true);
         mFragmentProductDetailBinding.recycleViewColor.setLayoutManager(mColorLayoutManager);
         mFragmentProductDetailBinding.recycleViewSize.setHasFixedSize(true);
@@ -112,9 +130,10 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mFragmentProductDetailBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
 
         if (mProductData != null) {
+
             List<DataProductList.Products> colorList = new ArrayList<>();
-            if (mProductData.getObjects() != null && mProductData.getObjects().size() > 0)
-                colorList.addAll(mProductData.getObjects());
+            if (mProductList != null && mProductList.size() > 0)
+                colorList.addAll(mProductList);
 
             if (mColorListAdapter != null) {
                 mColorListAdapter.reset(colorList, mSelectedColorPosition);
@@ -124,7 +143,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
                 mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
             }
 
-            onColorProductSelected(mProductData.getObjects().get(mSelectedColorPosition).getSizes());
+            onColorProductSelected(mProductList.get(mSelectedColorPosition).getSizes(), mProductList.get(mSelectedColorPosition).getItemCategoryCode());
         }
     }
 
@@ -149,7 +168,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
 
-    private void onColorProductSelected(List<DataProductList.Size> sizes) {
+    private void onColorProductSelected(List<DataProductList.Size> sizes, String category) {
+        mSizeGuide = BragApp.getInstance().getSizeGuide(category);
+        mProductDetailViewModel.updateSizeGuide(mSizeGuide != null);
         int pos = 0;
         int selectedPos = 0;
         for (DataProductList.Size size : sizes) {
@@ -173,6 +194,8 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         //// TODO: 3/12/2018 if data not available than display no data screen
 
         if (mSizedProduct != null) {
+
+
             if (mSizedProduct.getStockData() > 0) {
                 mProductDetailViewModel.updateQty(String.valueOf(1));
                 mQuality = 1;
@@ -197,7 +220,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         WebviewDialogFragment dialogFragment;
         bundle = new Bundle();
         bundle.putString(Constants.BUNDLE_TITLE, "Size Guide");
-        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/privacy-policy");
+        bundle.putString(Constants.BUNDLE_SUBTITLE, mSizeGuide);
         dialogFragment = new WebviewDialogFragment();
         dialogFragment.setArguments(bundle);
         dialogFragment.show(getChildFragmentManager(), "");
@@ -214,8 +237,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void onSelectedColor(int prevPos, int pos, List<DataProductList.Size> sizes) {
         if (prevPos != pos) {
+            mSelectedColorPosition = pos;
             mColorListAdapter.setSelectedItem(pos);
-            onColorProductSelected(sizes);
+            onColorProductSelected(sizes, mColorListAdapter.getItem(pos).getItemCategoryCode());
         }
     }
 
@@ -266,6 +290,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void onAddedToCart(List<DataAddToCart> data) {
+        Intent intent = new Intent(Constants.ACTION_UPDATE_CART_ICON_STATE);
+        intent.putExtra(Constants.BUNDLE_POSITION, mSelectedColorPosition);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         ((MainActivity) getBaseActivity()).updateCartNum();
     }
 

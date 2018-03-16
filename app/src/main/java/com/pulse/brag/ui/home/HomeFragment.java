@@ -262,12 +262,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     public void openQuickOrderFragement() {
         if (!isAddedOrder) {
             isAddedOrder = true;
-
-            // TODO: 2/28/2018 if not work properly then create QuickOrderFragment
-            /*FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-            transactionTwo.replace(R.id.fragment_container_order, new QuickOrderFragment(), "Quick_Order_Tag");
-            transactionTwo.commit();*/
-
             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
 
             Bundle bundle = new Bundle();

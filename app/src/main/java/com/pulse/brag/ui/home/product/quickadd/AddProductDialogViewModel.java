@@ -28,6 +28,7 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
     private final ObservableField<String> qty = new ObservableField<>();
     private final ObservableField<String> productName = new ObservableField<>();
     private final ObservableField<Boolean> notify = new ObservableField<>();
+    private final ObservableField<Boolean> hasSizeGuide = new ObservableField<>();
 
     public AddProductDialogViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -63,6 +64,14 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
 
     public void updateNotifyMe(boolean notify) {
         this.notify.set(notify);
+    }
+
+    public ObservableField<Boolean> getHasSizeGuide() {
+        return hasSizeGuide;
+    }
+
+    public void updateSizeGuide(boolean hasSizeGuide) {
+        this.hasSizeGuide.set(hasSizeGuide);
     }
 
     public View.OnClickListener onDismissClick() {

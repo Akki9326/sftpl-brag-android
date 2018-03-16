@@ -24,6 +24,8 @@ public interface ProductListNavigator extends CoreNavigator {
 
     void setFilter(DataFilter.Filter filter);
 
+    void openFragmentDetails(int position);
+
     void openAddProductDialog(int position);
 
     void openSortingDialog();

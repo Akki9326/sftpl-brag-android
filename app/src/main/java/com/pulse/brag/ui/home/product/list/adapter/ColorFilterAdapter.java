@@ -11,6 +11,7 @@ import com.pulse.brag.data.model.datas.DataFilter;
 import com.pulse.brag.databinding.ItemListColorFilterBinding;
 import com.pulse.brag.ui.core.CoreViewHolder;
 import com.pulse.brag.ui.home.product.list.filter.listener.IFilterSelectedListener;
+import com.pulse.brag.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class ColorFilterAdapter extends RecyclerView.Adapter<ColorFilterAdapter.
         public ItemViewHolder(ItemListColorFilterBinding itemView) {
             super(itemView.getRoot());
             this.itemBinding = itemView;
+            Utility.applyTypeFace(mActivity, itemBinding.baseLayout);
         }
 
         void bindColorData(int pos, DataFilter.ColorCode colorModel) {

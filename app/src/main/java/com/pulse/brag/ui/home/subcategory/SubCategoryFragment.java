@@ -53,15 +53,17 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     List<DataCategoryList.Category> mCategoryList;
     List<RImagePager> imagePagerResponeList;
     String mCategory;
+    String mSizeGuide;
 
     CategoryListAdapter adapter;
 
 
-    public static SubCategoryFragment newInstance(String category, String url, List<DataCategoryList.Category> list) {
+    public static SubCategoryFragment newInstance(String category, String url, List<DataCategoryList.Category> list, String sizeGuide) {
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_CATEGORY_NAME, category);
         args.putString(Constants.BUNDLE_IMAGE_URL, url);
+        args.putString(Constants.BUNDLE_SIZE_GUIDE, sizeGuide);
         args.putParcelableArrayList(Constants.BUNDLE_CATEGORY_LIST, (ArrayList<? extends Parcelable>) list);
         SubCategoryFragment fragment = new SubCategoryFragment();
         fragment.setArguments(args);
@@ -87,6 +89,10 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         }
         if (getArguments().containsKey(Constants.BUNDLE_CATEGORY_NAME)) {
             mCategory = getArguments().getString(Constants.BUNDLE_CATEGORY_NAME);
+        }
+
+        if (getArguments().containsKey(Constants.BUNDLE_SIZE_GUIDE)) {
+            mSizeGuide = getArguments().getString(Constants.BUNDLE_SIZE_GUIDE);
         }
 
     }
@@ -137,7 +143,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(ProductListFragment.newInstance(mCategory, mCategoryList.get(position).getOptionName()), true, true);
+        ((MainActivity) getActivity()).pushFragments(ProductListFragment.newInstance(mCategory, mCategoryList.get(position).getOptionName(), mSizeGuide), true, true);
 
     }
 
@@ -184,7 +190,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
             return;
         }
         categoryViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

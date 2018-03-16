@@ -41,6 +41,7 @@ public class DataCategoryList {
         private String id;
         private String optionName;
         private String url;
+        private String sizeGuide;
         private int optionOrderNo;
         private List<Category> childs = Collections.emptyList();
 
@@ -48,16 +49,17 @@ public class DataCategoryList {
             return childs;
         }
 
-        public void setChild(List<Category> child) {
-            this.childs = child;
-        }
-
-        public Category(String id, String optionName, String url, int optionOrderNo) {
+        public Category(String id, String optionName, String url, int optionOrderNo, String sizeGuide) {
             this.id = id;
             this.optionName = optionName;
             this.url = url;
             this.optionOrderNo = optionOrderNo;
+            this.sizeGuide = sizeGuide;
 
+        }
+
+        public String getSizeGuide() {
+            return sizeGuide;
         }
 
         public String getId() {
@@ -72,24 +74,14 @@ public class DataCategoryList {
             return optionName == null ? "" : optionName;
         }
 
-        public void setOptionName(String optionName) {
-            this.optionName = optionName;
-        }
 
         public String getUrl() {
             return url;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
-        }
 
         public int getOptionOrderNo() {
             return optionOrderNo;
-        }
-
-        public void setOptionOrderNo(int optionOrderNo) {
-            this.optionOrderNo = optionOrderNo;
         }
 
 
@@ -114,6 +106,7 @@ public class DataCategoryList {
             dest.writeString(this.id);
             dest.writeString(this.optionName);
             dest.writeString(this.url);
+            dest.writeString(this.sizeGuide);
             dest.writeInt(this.optionOrderNo);
             dest.writeList(this.childs);
         }
@@ -122,6 +115,7 @@ public class DataCategoryList {
             this.id = in.readString();
             this.optionName = in.readString();
             this.url = in.readString();
+            this.sizeGuide = in.readString();
             this.optionOrderNo = in.readInt();
             this.childs = new ArrayList<Category>();
             in.readList(this.childs, DataCategoryList.class.getClassLoader());
@@ -167,81 +161,51 @@ public class DataCategoryList {
             return purpose;
         }
 
-        public void setPurpose(String purpose) {
-            this.purpose = purpose;
-        }
 
         public String getUrl() {
             return url;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
-        }
 
         public String getCreatedBy() {
             return createdBy;
         }
 
-        public void setCreatedBy(String createdBy) {
-            this.createdBy = createdBy;
-        }
 
         public long getCreatedDate() {
             return createdDate;
         }
 
-        public void setCreatedDate(long createdDate) {
-            this.createdDate = createdDate;
-        }
 
         public String getLastModifiedBy() {
             return lastModifiedBy;
         }
 
-        public void setLastModifiedBy(String lastModifiedBy) {
-            this.lastModifiedBy = lastModifiedBy;
-        }
 
         public long getLastModifiedDate() {
             return lastModifiedDate;
         }
 
-        public void setLastModifiedDate(long lastModifiedDate) {
-            this.lastModifiedDate = lastModifiedDate;
-        }
 
         public boolean isActive() {
             return isActive;
         }
 
-        public void setActive(boolean active) {
-            isActive = active;
-        }
 
         public boolean isDeleted() {
             return isDeleted;
         }
 
-        public void setDeleted(boolean deleted) {
-            isDeleted = deleted;
-        }
 
         public int getTabType() {
             return tabType;
         }
 
-        public void setTabType(int tabType) {
-            this.tabType = tabType;
-        }
 
         public List<Banners> getChilds() {
             return childs;
         }
 
-        public void setChilds(List<Banners> childs) {
-            this.childs = childs;
-        }
 
         @Override
         public int describeContents() {

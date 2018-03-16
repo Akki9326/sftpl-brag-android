@@ -16,6 +16,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.ui.home.HomeFragment;
@@ -126,7 +127,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getOptionName(), mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
+        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getOptionName(), mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild(), mCategoryList.get(position).getSizeGuide()), true, true);
     }
 
     @Override
@@ -165,6 +166,9 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void setCategoryList(List<DataCategoryList.Category> list) {
+        for (DataCategoryList.Category category : list)
+            BragApp.getInstance().setMapSizeGuide(category.getOptionName(), category.getSizeGuide());
+
         mCategoryList = new ArrayList<>();
         mCategoryList.addAll(list);
         CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);

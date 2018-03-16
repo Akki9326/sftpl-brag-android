@@ -28,6 +28,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
     private final ObservableField<String> productProDetail = new ObservableField<>();
     private final ObservableField<String> productProShortDetail = new ObservableField<>();
     private final ObservableField<Boolean> notify = new ObservableField<>();
+    private final ObservableField<Boolean> hasSizeGuide = new ObservableField<>();
 
     public ProductDetailViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -71,6 +72,14 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
 
     public void updateNotifyMe(boolean notify) {
         this.notify.set(notify);
+    }
+
+    public ObservableField<Boolean> getHasSizeGuide() {
+        return hasSizeGuide;
+    }
+
+    public void updateSizeGuide(boolean hasSizeGuide) {
+        this.hasSizeGuide.set(hasSizeGuide);
     }
 
     public View.OnClickListener onSizeGuideClick() {

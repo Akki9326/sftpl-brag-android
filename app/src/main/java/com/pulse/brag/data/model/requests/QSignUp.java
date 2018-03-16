@@ -22,13 +22,15 @@ public class QSignUp {
     private String mobileNumber;
     private String addPassword;
     private int userType;
+    private String gstin;
 
-    public QSignUp(String firstname, String lastname, String email, String mobilenumber, String password, int userType) {
+    public QSignUp(String firstname, String lastname, String email, String mobilenumber, String password, int userType, String gstin) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.email = email;
         this.mobileNumber = mobilenumber;
         this.addPassword = password;
         this.userType = userType;
+        this.gstin = gstin;
     }
 }

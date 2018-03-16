@@ -17,6 +17,8 @@ import com.google.firebase.FirebaseApp;
 import com.pulse.brag.di.component.AppComponent;
 import com.pulse.brag.di.component.DaggerAppComponent;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import dagger.android.DispatchingAndroidInjector;
@@ -33,7 +35,7 @@ public class BragApp extends Application implements HasActivityInjector {
     public static int CartNumber = 0;
     public static int NotificationNumber = 0;
 
-    public static boolean isProductViewAsList = false;
+    public HashMap<String, String> mMapSizeGuide;
 
     @Inject
     DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
@@ -60,14 +62,21 @@ public class BragApp extends Application implements HasActivityInjector {
         return mInstance;
     }
 
+    public String getSizeGuide(String key) {
+        if (mMapSizeGuide != null && mMapSizeGuide.containsKey(key))
+            return mMapSizeGuide.get(key);
 
-    public static String getCartNumber() {
-        if (CartNumber > 0 && CartNumber <= 99) {
-            return "" + CartNumber;
-        } else {
-            return "99+";
-        }
+        else return null;
     }
+
+    public void setMapSizeGuide(String key, String value) {
+        if (mMapSizeGuide == null) {
+            mMapSizeGuide = new HashMap<>();
+            mMapSizeGuide.put(key, value);
+        } else if (!mMapSizeGuide.containsKey(key))
+            mMapSizeGuide.put(key, value);
+    }
+
 
     public AppComponent getAppComponent() {
         return DaggerAppComponent.builder().application(this).build();

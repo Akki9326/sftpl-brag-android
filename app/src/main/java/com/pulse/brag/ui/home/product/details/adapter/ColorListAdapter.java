@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pulse.brag.R;
@@ -22,6 +23,7 @@ import com.pulse.brag.callback.IOnProductColorSelectListener;
 import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.datas.DataProductList;
 import com.pulse.brag.utils.Common;
+import com.pulse.brag.utils.Utility;
 import com.pulse.brag.views.RoundView;
 
 import java.util.ArrayList;
@@ -86,6 +88,12 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         return mList.size();
     }
 
+    public DataProductList.Products getItem(int position) {
+        if (mList != null && position < mList.size())
+            return mList.get(position);
+        else return null;
+    }
+
     public void reset(List<DataProductList.Products> list, int selectedPos) {
         if (mList != null)
             mList.clear();
@@ -119,12 +127,14 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         RoundView mRoundColor, mRoundSelector;
         TextView mName;
 
-        LinearLayout mBaseLayout;
+        RelativeLayout mBaseLayout;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mBaseView = itemView;
+            mBaseLayout = itemView.findViewById(R.id.base_layout);
+            Utility.applyTypeFace(mActivity, mBaseLayout);
             mRoundColor = itemView.findViewById(R.id.roundview_product_color);
             mRoundSelector = itemView.findViewById(R.id.roundview_selector);
             mName = itemView.findViewById(R.id.textview_color);

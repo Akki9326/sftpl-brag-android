@@ -11,6 +11,7 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/base_layout"
         android:layout_width="70dp"
         android:layout_height="wrap_content">
 

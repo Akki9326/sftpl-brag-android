@@ -41,4 +41,11 @@ public class Validation {
 
         return mEditText.getText().toString().trim().length() == 10 ? true : false;
     }
+
+    public static boolean isValidGST(EditText mEditText) {
+
+        return mEditText.getText().toString().trim().length() == 15 ? true : false;
+    }
+
+
 }

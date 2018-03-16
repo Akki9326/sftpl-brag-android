@@ -77,6 +77,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         notifyDataSetChanged();
     }
 
+    public List<DataProductList.Products> getList() {
+        return mListRespones;
+    }
+
+    public DataProductList.Products getItem(int pos) {
+        if (mListRespones != null && pos < mListRespones.size())
+            return mListRespones.get(pos);
+        else return null;
+    }
+
     public class MyViewHolder extends CoreViewHolder implements ItemProductViewModel.ItemProductViewModelListener {
 
         ItemGridProductBinding mItemProductBinding;

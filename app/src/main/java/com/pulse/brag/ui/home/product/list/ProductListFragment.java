@@ -15,9 +15,15 @@ package com.pulse.brag.ui.home.product.list;
 *  mRecyclerView.loadMoreComplete(true)- hide footer loader,complate load more
 * */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
@@ -60,8 +66,11 @@ import static com.pulse.brag.utils.Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE;
 
 
 public class ProductListFragment extends CoreFragment<FragmentProductListBinding, ProductListViewModel> implements ProductListNavigator,
-        IOnItemClickListener, IOnProductButtonClickListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener/*BaseFragment implements BaseInterface,*/ {
+        IOnItemClickListener, IOnProductButtonClickListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener {
 
+
+    public static final int REQ_ADDED_TO_CART = 2221;
+    public static final int RESULT_OK = 0;
 
     @Inject
     ProductListViewModel mProductListViewModel;
@@ -83,6 +92,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     String mCategoryName;
     String mSubCategoryName;
     String mSeasonCode;
+    String mSizeGuide;
     String mQuery;
 
     ProductListAdapter mProductListAdapter;
@@ -118,18 +128,40 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         }
     };
 
-    public static ProductListFragment newInstance(String categoryId, String subCategoryId) {
+    private BroadcastReceiver mUpdateCartIcon = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_UPDATE_CART_ICON_STATE)) {
+                if (intent.hasExtra(Constants.BUNDLE_POSITION)) {
+                    int selectedPos = intent.getIntExtra(Constants.BUNDLE_POSITION, -1);
+                    updateProductCartIcon(selectedPos);
+                }
+            }
+        }
+    };
+
+    public static ProductListFragment newInstance(String categoryId, String subCategoryId, String sizeGuide) {
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_CATEGORY_NAME, categoryId);
         args.putString(Constants.BUNDLE_SUB_CATEGORY_NAME, subCategoryId);
+        args.putString(Constants.BUNDLE_SIZE_GUIDE, sizeGuide);
         ProductListFragment fragment = new ProductListFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static ProductListFragment newInstance(String seasonCode) {
+    public static ProductListFragment newInstance(String seasonCode, String sizeGuide) {
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_SEASON_CODE, seasonCode);
+        args.putString(Constants.BUNDLE_SIZE_GUIDE, sizeGuide);
+        ProductListFragment fragment = new ProductListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ProductListFragment newInstance(String title) {
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE, title);
         ProductListFragment fragment = new ProductListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -139,6 +171,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProductListViewModel.setNavigator(this);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                mUpdateCartIcon, new IntentFilter(Constants.ACTION_UPDATE_CART_ICON_STATE));
     }
 
     @Override
@@ -151,6 +185,9 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SEASON_CODE))
             mSeasonCode = getArguments().getString(Constants.BUNDLE_SEASON_CODE);
+
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SIZE_GUIDE))
+            mSizeGuide = getArguments().getString(Constants.BUNDLE_SIZE_GUIDE);
 
 
         if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_PRODUCT_LIST_TITLE))
@@ -222,6 +259,12 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         return R.layout.fragment_product_list;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateCartIcon);
+    }
+
     private void enabledClick() {
         if (isClicked)
             new Handler().postDelayed(new Runnable() {
@@ -257,12 +300,22 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         }
     }
 
+    public void updateProductCartIcon(int pos) {
+        if (pos >= 0 && pos < mProductListAdapter.getList().size()) {
+            DataProductList.Products item = mProductListAdapter.getItem(pos);
+            if (item != null) {
+                item.setAlreadyInCart(true);
+                mProductListAdapter.notifyItemChanged(pos);
+            }
+        }
+    }
+
 
     @Override
     public void onItemClick(int position) {
         if (!isClicked) {
             isClicked = true;
-            ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mData, position), true, true);
+            openFragmentDetails(position);
             enabledClick();
         }
     }
@@ -285,17 +338,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 //            enabledClick();
         }
     }
-
-    /*@Override
-    public void onSelectedColor(int pos) {
-        mColorListAdapter.setSelectedItem(pos);
-    }
-
-
-    @Override
-    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
-        mSizeListAdapter.setSelectedItem(pos);
-    }*/
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -427,14 +469,22 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     }
 
     @Override
+    public void openFragmentDetails(int position) {
+        ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mData, mProductListAdapter.getList(), position, mSizeGuide/*, this, REQ_ADDED_TO_CART*/), true, true);
+    }
+
+    @Override
     public void openAddProductDialog(int position) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mData);
         bundle.putInt(Constants.BUNDLE_POSITION, position);
+        bundle.putString(Constants.BUNDLE_SIZE_GUIDE, mSizeGuide);
+        bundle.putParcelableArrayList(Constants.BUNDLE_PRODUCT_LISt, (ArrayList<? extends Parcelable>) mProductListAdapter.getList());
         AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
         mAddProductDialogFragment.setCancelable(true);
         mAddProductDialogFragment.setArguments(bundle);
-        mAddProductDialogFragment.show(getChildFragmentManager(), "");
+        /*mAddProductDialogFragment.setTargetFragment(this, REQ_ADDED_TO_CART);*/
+        mAddProductDialogFragment.show(getFragmentManager(), "");
     }
 
     @Override

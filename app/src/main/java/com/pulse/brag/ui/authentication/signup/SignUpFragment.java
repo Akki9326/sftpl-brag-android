@@ -11,6 +11,8 @@ package com.pulse.brag.ui.authentication.signup;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,6 +31,7 @@ import com.pulse.brag.ui.splash.SplashActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.AppLogger;
 import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.TextFilterUtils;
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.utils.Validation;
 import com.pulse.brag.views.dropdown.DropdownItem;
@@ -75,6 +78,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         mFragmentSignUpBinding = getViewDataBinding();
         Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentSignUpBinding.baseLayout);
 
+        mFragmentSignUpBinding.edittextGstIn.setFilters(new InputFilter[]{TextFilterUtils.getAlphaNumericFilter(), TextFilterUtils.getLengthFilter(15)});
         userTypeList.add(new DropdownItem("Retailer", 0));
         userTypeList.add(new DropdownItem("Distributor", 1));
         mFragmentSignUpBinding.textviewUserType.setText(userTypeList.get(0).getValue());
@@ -109,7 +113,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString());
             mSignUpViewModel.signUp(signInRequest);
         }
     }
@@ -121,7 +125,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString());
             mSignUpViewModel.signUp(signInRequest);
         }
     }
@@ -194,16 +198,17 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
         } else if (!(mFragmentSignUpBinding.edittextPassword.getText().toString().trim().equals(mFragmentSignUpBinding.edittextConfirmPassword.getText().toString().trim()))) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
+        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextGstIn)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_gst));
+        } else if (!Validation.isValidGST(mFragmentSignUpBinding.edittextGstIn)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_gst_valid));
         } else if (Utility.isConnection(getActivity())) {
             Utility.hideSoftkeyboard(getActivity());
-            // TODO: 2/15/2018 change title in api call it is backend issue
-            //// TODO: 2/26/2018 add sms permission
-
             if (checkAndRequestPermissions()) {
                 showProgress();
                 QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                         mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                        , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType);
+                        , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString());
                 mSignUpViewModel.signUp(signInRequest);
             }
         } else {

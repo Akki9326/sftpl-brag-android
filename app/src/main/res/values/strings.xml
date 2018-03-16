@@ -97,6 +97,7 @@
     <string name="label_lastname">Last name</string>
     <string name="label_email">Email</string>
     <string name="label_mobileno">Mobile number</string>
+    <string name="label_gst_in">GSTIN</string>
     <string name="label_colors">Colors:</string>
     <string name="label_color">Color:</string>
     <string name="label_size">Size:</string>
@@ -137,6 +138,7 @@
     <string name="hint_last_name"><font size="12">Last name</font></string>
     <string name="hint_landmark"><font size="12">Landmark</font></string>
     <string name="hint_mobile_num_ast"><font size="12">Mobile number*</font></string>
+    <string name="hint_gst_in_ast"><font size="12">GST Number*</font></string>
     <string name="hint_state_ast"><font size="12">State*</font></string>
     <string name="hint_email_ast"><font size="12">Email*</font></string>
     <string name="hint_city_ast"><font size="12">City*</font></string>
@@ -148,10 +150,13 @@
     <string name="error_please_enter_first_name">Please Enter your first name.</string>
     <string name="error_please_email">Please enter your email address.</string>
     <string name="error_enter_mobile">Please enter your mobile number</string>
+    <string name="error_enter_gst">Please enter GST number</string>
     <string name="error_pass">Please enter password.</string>
     <string name="error_confirm_pass">Please enter confirm password</string>
     <string name="error_email_valid">Please enter valid email address</string>
     <string name="error_mobile_valid">Please enter valid mobile number.</string>
+    <string name="error_gst_valid">Please enter valid GST number.</string>
+
     <string name="button_verify">Verify</string>
     <string name="error_otp">Please enter 6 digit OTP.</string>
     <string name="msg_otp_label">Please type OTP sent to</string>

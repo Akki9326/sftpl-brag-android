@@ -36,7 +36,9 @@ public class Constants {
     public static final String BUNDLE_QTY = "bundleqty";
     public static final String BUNDLE_PRODUCT_SORTING = "bundleProductSort";
     public static final String BUNDLE_SELETED_PRODUCT = "bundleselectedProduct";
+    public static final String BUNDLE_PRODUCT_LISt = "bundleProductList";
     public static final String BUNDLE_IMAGE_URL = "imageurl";
+    public static final String BUNDLE_SIZE_GUIDE= "bundleSizeGuide";
     public static final String BUNDLE_MOBILE = "bundlemobile";
     public static final String BUNDLE_EMAIL = "bundleemail";
     public static final String BUNDLE_PASSWORD = "bundlePassword";
@@ -66,6 +68,8 @@ public class Constants {
     public static final String BUNDLE_ADDRESS = "bundleaddress";
     public static final String LOCALBROADCAST_UPDATE_PROFILE = "localbroadcastupdateprofile";
     public static final String BUNDLE_IS_ADDRESS_UPDATE = "bundleupdateaddress";
+
+    public static final String ACTION_UPDATE_CART_ICON_STATE="action_update_cart_icon_state";
 
     public static final String OTP_FORMAT = "RTBRAG";
 

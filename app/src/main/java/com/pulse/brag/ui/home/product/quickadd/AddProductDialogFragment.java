@@ -9,11 +9,13 @@ package com.pulse.brag.ui.home.product.quickadd;
  */
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -24,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.pulse.brag.BR;
+import com.pulse.brag.BragApp;
 import com.pulse.brag.R;
 import com.pulse.brag.adapters.ImagePagerAdapter;
 import com.pulse.brag.callback.IOnProductColorSelectListener;
@@ -36,6 +39,7 @@ import com.pulse.brag.databinding.DialogFragmentAddProductBinding;
 import com.pulse.brag.ui.core.CoreDialogFragment;
 import com.pulse.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.pulse.brag.ui.home.product.details.adapter.SizeListAdapter;
+import com.pulse.brag.ui.home.product.list.ProductListFragment;
 import com.pulse.brag.ui.main.MainActivity;
 import com.pulse.brag.utils.AlertUtils;
 import com.pulse.brag.utils.Constants;
@@ -53,7 +57,7 @@ import javax.inject.Inject;
 
 
 public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentAddProductBinding, AddProductDialogViewModel> implements AddProductDialogNavigator, IOnProductSizeSelectListener,
-        IOnProductColorSelectListener, ImagePagerAdapter.IOnImagePageClickListener/*, BaseInterface */ {
+        IOnProductColorSelectListener, ImagePagerAdapter.IOnImagePageClickListener {
 
     @Inject
     AddProductDialogViewModel mAddProductDialogViewModel;
@@ -62,8 +66,10 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     ColorListAdapter mColorListAdapter;
 
     DataProductList mProductData;
+    List<DataProductList.Products> mProductList;
     DataProductList.Size mSizedProduct;
     int mSelectedColorPosition = 0;
+    String mSizeGuide;
 
     private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -130,8 +136,16 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
             mProductData = getArguments().getParcelable(Constants.BUNDLE_SELETED_PRODUCT);
         }
 
+        if (getArguments().containsKey(Constants.BUNDLE_PRODUCT_LISt)) {
+            mProductList = getArguments().getParcelableArrayList(Constants.BUNDLE_PRODUCT_LISt);
+        }
+
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_POSITION)) {
             mSelectedColorPosition = getArguments().getInt(Constants.BUNDLE_POSITION);
+        }
+
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SIZE_GUIDE)) {
+            mSizeGuide = getArguments().getString(Constants.BUNDLE_SIZE_GUIDE);
         }
 
 
@@ -155,8 +169,8 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
         if (mProductData != null) {
             List<DataProductList.Products> colorList = new ArrayList<>();
-            if (mProductData.getObjects() != null && mProductData.getObjects().size() > 0)
-                colorList.addAll(mProductData.getObjects());
+            if (mProductList != null && mProductList.size() > 0)
+                colorList.addAll(mProductList);
 
             if (mColorListAdapter != null) {
                 mColorListAdapter.reset(colorList, mSelectedColorPosition);
@@ -166,7 +180,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
                 mDialogFragmentAddProductBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
             }
 
-            onColorProductSelected(mProductData.getObjects().get(mSelectedColorPosition).getSizes());
+            onColorProductSelected(mProductList.get(mSelectedColorPosition).getSizes(), mProductList.get(mSelectedColorPosition).getItemCategoryCode());
         }
     }
 
@@ -190,7 +204,10 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         return R.layout.dialog_fragment_add_product;
     }
 
-    private void onColorProductSelected(List<DataProductList.Size> sizes) {
+    private void onColorProductSelected(List<DataProductList.Size> sizes, String category) {
+        mSizeGuide = BragApp.getInstance().getSizeGuide(category);
+        mAddProductDialogViewModel.updateSizeGuide(mSizeGuide != null);
+
         int pos = 0;
         int selectedPos = 0;
         for (DataProductList.Size size : sizes) {
@@ -231,8 +248,9 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void onSelectedColor(int prevPos, int pos, List<DataProductList.Size> sizes) {
         if (prevPos != pos) {
+            mSelectedColorPosition = pos;
             mColorListAdapter.setSelectedItem(pos);
-            onColorProductSelected(sizes);
+            onColorProductSelected(sizes, mColorListAdapter.getItem(pos).getItemCategoryCode());
         }
     }
 
@@ -276,6 +294,9 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
     @Override
     public void onAddedToCart(List<DataAddToCart> data) {
+        Intent intent = new Intent(Constants.ACTION_UPDATE_CART_ICON_STATE);
+        intent.putExtra(Constants.BUNDLE_POSITION, mSelectedColorPosition);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         ((MainActivity) getBaseActivity()).updateCartNum();
         dismissDialog("");
     }

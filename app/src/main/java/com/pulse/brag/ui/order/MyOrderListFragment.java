@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.pulse.brag.BR;
 import com.pulse.brag.R;
+import com.pulse.brag.callback.OnSingleClickListener;
 import com.pulse.brag.data.model.response.RMyOrderList;
 import com.pulse.brag.ui.order.adapter.MyOrderListAdapter;
 import com.pulse.brag.data.model.ApiError;
@@ -95,6 +96,15 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
 
         initializeData();
+
+        mFragmentMyOrderBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkInternet(true);
+            }
+        });
+
+
         ACTION = LOAD_LIST;
         checkInternet(true);
 
@@ -124,6 +134,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     private void checkInternet(boolean isShowLoader) {
 
         if (Utility.isConnection(getActivity())) {
+            mMyOrderViewModel.setNoInternet(false);
             if (ACTION == LOAD_MORE) {
                 PAGE_NUM++;
             } else {
@@ -139,9 +150,16 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
                 }
             }, 500);
         } else {
+            //if not internet connection during swipe or load more than show pop up than no internet layout
+            if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()
+                    || mFragmentMyOrderBinding.recycleview.isLoadingData()) {
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            } else {
+                mMyOrderViewModel.setNoInternet(true);
+            }
+
             hideLoader();
             mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
         }
     }
 
@@ -185,7 +203,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

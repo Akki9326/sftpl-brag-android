@@ -13,6 +13,7 @@ import android.databinding.BindingAdapter;
 import android.support.design.widget.BottomNavigationView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pulse.brag.utils.Utility;
 import com.pulse.brag.views.RoundView;
@@ -52,4 +53,6 @@ public class CoreBindingAdapter {
     public static void roundColor(RoundView imageView, int color) {
         imageView.setColorFromResource(color);
     }
+
+
 }

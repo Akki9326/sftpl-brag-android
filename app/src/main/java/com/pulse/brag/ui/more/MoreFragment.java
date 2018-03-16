@@ -203,7 +203,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                 ""));
         moreListData.add(new DataMoreList(Constants.MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
                 getString(R.string.label_my_order)));
-        moreListData.add(new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification),
+        moreListData.add(new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more),
                 Utility.getNotificationlabel(getActivity())));
         moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));

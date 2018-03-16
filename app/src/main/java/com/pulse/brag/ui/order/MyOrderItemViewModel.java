@@ -86,13 +86,16 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public Long getDate() {
-//        return responeData.getDate();
         return responeData.getCreatedDate();
+    }
+
+    public String getCreateDateString() {
+        return responeData.getCreateDateString();
     }
 
     public String getStatusLableWithDate() {
         return Constants.OrderStatus.getOrderStatusLabel(context, responeData.getStatus()) + " - "
-                + DateFormatter.convertMillisToStringDate(responeData.getCreatedDate(), DateFormatter.dd_MMM_YYYY_HH_MM_A);
+                + responeData.getCreateDateString();
     }
 
     public int getStatus() {
@@ -100,11 +103,6 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public int getStatusColor() {
-        if (responeData.getStatus() == Constants.OrderStatus.CANCELED.ordinal()
-                || responeData.getStatus() == Constants.OrderStatus.REJECTED.ordinal())
-            return R.color.order_status_red;
-        else
-            return R.color.order_status_green;
+        return responeData.getOrderStatesColor(context);
     }
-
 }

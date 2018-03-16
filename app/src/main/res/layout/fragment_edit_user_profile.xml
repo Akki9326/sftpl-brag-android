@@ -45,6 +45,7 @@
                 android:imeOptions="actionNext"
                 android:maxLength="@integer/max_length"
                 android:paddingBottom="5dp"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@{viewModel.firstName}" />
 
 
@@ -74,6 +75,7 @@
                 android:imeOptions="actionNext"
                 android:maxLength="@integer/max_length"
                 android:paddingBottom="5dp"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@{viewModel.lastName}" />
 
             <View
@@ -102,6 +104,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLength="@integer/max_length"
+                android:tag="@string/font_opensans_regular_id"
                 android:paddingBottom="5dp"
                 android:text="@{viewModel.email}" />
 

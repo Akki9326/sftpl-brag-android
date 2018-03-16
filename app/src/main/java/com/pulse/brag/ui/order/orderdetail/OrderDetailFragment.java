@@ -269,8 +269,13 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         orderDetailViewModel.updateAddress(mData.getUser().getFullAddressWithNewLine());
         orderDetailViewModel.updateFullName(mData.getUser().getFullName());
         orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
-
+        orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
+        orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
+        orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
+        orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma((int) mData.getTotalAmount()));
         mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
+
+        mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getContext()));
     }
 
     @Override

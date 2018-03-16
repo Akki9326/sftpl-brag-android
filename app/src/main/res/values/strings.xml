@@ -204,7 +204,7 @@
     <string name="toolbar_label_cart">Cart</string>
     <string name="toolbar_label_right_read_all">Read all</string>
     <string name="error_empty_cart">Your cart is empty.</string>
-    <string name="label_order_id">ORDER ID - </string>
+    <string name="label_order_id">Order No:</string>
     <string name="label_order_empty">Order list empty.</string>
     <string name="toolbar_my_order">My Order</string>
     <string name="label_quick_order">Quick Order</string>
@@ -290,6 +290,8 @@
     <string name="label_order_status_dispatched">Dispatched</string>
     <string name="error_code_41">Your cart is empty.</string>
     <string name="message_contact_us_success">Thank you for contacting us. We will get back to you very soon.</string>
-    <string name="msg_place_order_successfull">Your order placed successfully.</string>
+    <string name="msg_place_order_successfull">Thanks for placing order with us! We shall keep you posted on the order status.</string>
     <string name="msg_reorder_success">This ordered succesfully reorder.</string>
+    <string name="label_status">Status:</string>
+    <string name="label_total_amount">Total Amount:</string>
 </resources>

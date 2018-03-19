@@ -114,7 +114,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void setUpToolbar() {
-        ((MainActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_order_detail));
+        ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
     }
 
     @Override
@@ -273,6 +273,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
         orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
         orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma((int) mData.getTotalAmount()));
+        orderDetailViewModel.setMobilenum(mData.getUser().getMobileNumber());
         mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
 
         mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getContext()));

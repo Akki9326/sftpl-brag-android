@@ -9,8 +9,10 @@ package com.ragtagger.brag.ui.authentication.otp;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
@@ -125,32 +127,6 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     }
 
 
-   /* private void showAlertMessage(String message) {
-        try {
-
-            final Dialog alertDialog = new Dialog(getActivity());
-
-            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            alertDialog.setContentView(R.layout.dialog_one_button);
-            Utility.applyTypeFace(getActivity(), (LinearLayout) alertDialog.findViewById(R.id.base_layout));
-            alertDialog.setCancelable(false);
-
-            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
-            txt.setText(message);
-
-            Button dialogButton = (Button) alertDialog.findViewById(R.id.button_ok_alert_btn);
-            dialogButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                    ((UserProfileActivity) getActivity()).finish();
-                }
-            });
-            alertDialog.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     @Override
     public void onApiSuccess() {
@@ -203,6 +179,10 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
 
     @Override
     public void finishUserProfileActivity() {
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_PROFILE);
+        intent.putExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE, false);
+        intent.putExtra(Constants.BUNDLE_KEY_MOBILE_NUM,mobileNum);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         ((UserProfileActivity) getActivity()).finish();
         ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }

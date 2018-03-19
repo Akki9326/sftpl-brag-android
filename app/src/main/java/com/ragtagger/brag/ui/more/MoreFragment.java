@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BuildConfig;
 import com.ragtagger.brag.R;
@@ -91,6 +92,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     public void beforeViewCreated() {
         mUserData = mMoreViewModel.getDataManager().getUserData();
     }
+
 
     @Override
     public void afterViewCreated() {
@@ -287,7 +289,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         mMoreViewModel.logout();
                         //LogOutAPI();
                     } else {
-                        AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+                        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                     }
                 }
             });
@@ -309,8 +311,14 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
-                if (intent.getBooleanExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE,true)) {
+                if (intent.getBooleanExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE, true)) {
                     mMoreViewModel.setFullAddress(mMoreViewModel.getDataManager().getUserData().getFullAddress());
+                } else if (intent.hasExtra(Constants.BUNDLE_KEY_MOBILE_NUM)) {
+                    //if successfully change moblie  num than update userprofile prefrence
+                    DataUser dataUser = mMoreViewModel.getDataManager().getUserData();
+                    dataUser.setMobileNumber(intent.getStringExtra(Constants.BUNDLE_KEY_MOBILE_NUM));
+                    mMoreViewModel.getDataManager().setUserData(new Gson().toJson(dataUser));
+                    mUserData = mMoreViewModel.getDataManager().getUserData();
                 } else {
                     mMoreViewModel.setFullName(mMoreViewModel.getDataManager().getUserData().getFullName());
                 }
@@ -334,7 +342,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

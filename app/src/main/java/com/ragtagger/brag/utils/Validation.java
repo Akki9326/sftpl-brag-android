@@ -34,6 +34,11 @@ public class Validation {
         return etText.getText().toString().trim().length() == 0;
     }
 
+    //Don't trim in password field because space first character or last character may be space
+    public static boolean isEmptyPassword(EditText etText) {
+        return etText.getText().toString().length() == 0;
+    }
+
     public static boolean isValidMobileNum(EditText mEditText) {
 
         return mEditText.getText().toString().trim().length() == 10 ? true : false;
@@ -42,6 +47,11 @@ public class Validation {
     public static boolean isValidGST(EditText mEditText) {
 
         return mEditText.getText().toString().trim().length() == 15 ? true : false;
+    }
+
+    public static boolean isValidPincode(EditText mEditText) {
+
+        return mEditText.getText().toString().trim().length() == 6 ? true : false;
     }
 
 

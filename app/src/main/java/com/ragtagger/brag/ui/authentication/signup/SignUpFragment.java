@@ -191,11 +191,11 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
         } else if (!Validation.isValidMobileNum(mFragmentSignUpBinding.edittextMobileNum)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextPassword)) {
+        } else if (Validation.isEmptyPassword(mFragmentSignUpBinding.edittextPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
-        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextConfirmPassword)) {
+        } else if (Validation.isEmptyPassword(mFragmentSignUpBinding.edittextConfirmPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
-        } else if (!(mFragmentSignUpBinding.edittextPassword.getText().toString().trim().equals(mFragmentSignUpBinding.edittextConfirmPassword.getText().toString().trim()))) {
+        } else if (!(mFragmentSignUpBinding.edittextPassword.getText().toString().equals(mFragmentSignUpBinding.edittextConfirmPassword.getText().toString()))) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
         } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextGstIn)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_gst));

@@ -107,8 +107,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void onPlaceOrder() {
-        if (mPlaceOrderViewModel.getDataManager().getUserData().getAddresses() == null
-                || mPlaceOrderViewModel.getDataManager().getUserData().getAddresses().isEmpty()) {
+        if (!mPlaceOrderViewModel.isAddressAvaliable.get()) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
         } else if (Utility.isConnection(getActivity())) {
             showProgress();

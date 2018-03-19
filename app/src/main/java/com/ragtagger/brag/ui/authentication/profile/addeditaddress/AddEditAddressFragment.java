@@ -126,7 +126,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_state));
         } else if (Validation.isEmpty(mAddEditAddressBinding.edittextPincode)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_pincode));
-        } else if (mAddEditAddressBinding.edittextPincode.getText().toString().length() < 6) {
+        } else if (!Validation.isValidPincode(mAddEditAddressBinding.edittextPincode)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pincode_valid));
         } else if (Utility.isConnection(getContext())) {
 
@@ -152,7 +152,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             showProgress();
             mAddEditViewModel.AddAddress(qAddAddress);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -180,7 +180,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             showProgress();
             mAddEditViewModel.UpdateAddress(userAddress);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -202,7 +202,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
                 showProgress();
                 mAddEditViewModel.getStateListAPI();
             } else {
-                AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
             }
         } else {
             Bundle bundle = new Bundle();
@@ -227,7 +227,7 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     @Override
     public void onApiErrorState(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

@@ -72,6 +72,7 @@ public class Constants {
     public static final String ACTION_UPDATE_CART_ICON_STATE="action_update_cart_icon_state";
 
     public static final String OTP_FORMAT = "RTBRAG";
+    public static final String BUNDLE_KEY_MOBILE_NUM ="bundlemobile" ;
 
     public interface ApiHelper {
         //String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";

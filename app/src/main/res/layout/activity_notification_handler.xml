@@ -8,14 +8,14 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.notification.handler.NotificationHandlerViewModel" />
+            type="com.ragtagger.brag.ui.notification.handler.NotificationHandlerViewModel" />
 
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.pulse.brag.ui.notification.handler.NotificationHandlerActivity">
+        tools:context="com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity">
 
     </android.support.constraint.ConstraintLayout>
 </layout>

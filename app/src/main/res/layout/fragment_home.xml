@@ -2,7 +2,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.HomeViewModel"/>
+            type="com.ragtagger.brag.ui.home.HomeViewModel"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

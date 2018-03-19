@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.authentication.profile.addeditaddress.statedialog.StateItemViewModel" />
+            type="com.ragtagger.brag.ui.authentication.profile.addeditaddress.statedialog.StateItemViewModel" />
     </data>
 
     <RelativeLayout

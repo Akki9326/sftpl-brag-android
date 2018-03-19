@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.authentication.signup.complete.SignUpCompleteViewModel" />
+            type="com.ragtagger.brag.ui.authentication.signup.complete.SignUpCompleteViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

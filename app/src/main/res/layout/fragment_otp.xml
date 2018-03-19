@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.authentication.otp.OTPViewModel" />
+            type="com.ragtagger.brag.ui.authentication.otp.OTPViewModel" />
     </data>
 
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
 
 
-        <com.pulse.brag.views.PinView
+        <com.ragtagger.brag.views.PinView
             android:id="@+id/pinView"
             style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"

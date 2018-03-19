@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.pulse.brag.views.erecyclerview.ERecyclerView
+            <com.ragtagger.brag.views.erecyclerview.ERecyclerView
                 android:id="@+id/recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

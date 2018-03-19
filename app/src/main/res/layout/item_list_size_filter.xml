@@ -5,7 +5,7 @@
 
         <variable
             name="itemModel"
-            type="com.pulse.brag.ui.home.product.list.adapter.ItemSizeFilterViewModel" />
+            type="com.ragtagger.brag.ui.home.product.list.adapter.ItemSizeFilterViewModel" />
     </data>
 
     <LinearLayout

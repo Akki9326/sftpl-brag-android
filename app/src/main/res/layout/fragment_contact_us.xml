@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.contactus.ContactUsViewModel" />
+            type="com.ragtagger.brag.ui.contactus.ContactUsViewModel" />
     </data>
 
 

@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.product.list.sorting.ProductSortingDialogViewModel" />
+            type="com.ragtagger.brag.ui.home.product.list.sorting.ProductSortingDialogViewModel" />
     </data>
 
     <LinearLayout

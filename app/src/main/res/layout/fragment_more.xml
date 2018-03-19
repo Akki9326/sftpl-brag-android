@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.more.MoreViewModel" />
+            type="com.ragtagger.brag.ui.more.MoreViewModel" />
     </data>
 
     <LinearLayout
@@ -41,7 +41,7 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <com.pulse.brag.views.CircleImageView
+                    <com.ragtagger.brag.views.CircleImageView
                         android:id="@+id/imageview_profile"
                         android:layout_width="70dp"
                         android:layout_height="70dp"

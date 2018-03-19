@@ -5,7 +5,7 @@
 
         <variable
             name="cartData"
-            type="com.pulse.brag.ui.cart.CartItemViewModel" />
+            type="com.ragtagger.brag.ui.cart.CartItemViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

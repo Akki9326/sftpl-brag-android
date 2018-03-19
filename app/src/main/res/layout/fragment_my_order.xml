@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.order.MyOrderViewModel" />
+            type="com.ragtagger.brag.ui.order.MyOrderViewModel" />
     </data>
 
     <LinearLayout
@@ -41,7 +41,7 @@
                     android:visibility="@{viewModel.listVisibility ? View.VISIBLE : View.GONE}">
 
 
-                    <com.pulse.brag.views.erecyclerview.ERecyclerView
+                    <com.ragtagger.brag.views.erecyclerview.ERecyclerView
                         android:id="@+id/recycleview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

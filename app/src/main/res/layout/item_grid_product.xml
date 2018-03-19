@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.product.list.adapter.ItemProductViewModel" />
+            type="com.ragtagger.brag.ui.home.product.list.adapter.ItemProductViewModel" />
     </data>
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:orientation="vertical">
 
 
-            <com.pulse.brag.views.SquareImageView
+            <com.ragtagger.brag.views.SquareImageView
                 android:id="@+id/imageView_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

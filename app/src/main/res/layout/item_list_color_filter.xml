@@ -7,7 +7,7 @@
 
         <variable
             name="itemModel"
-            type="com.pulse.brag.ui.home.product.list.adapter.ItemColorFilterViewModel" />
+            type="com.ragtagger.brag.ui.home.product.list.adapter.ItemColorFilterViewModel" />
     </data>
 
     <RelativeLayout
@@ -24,7 +24,7 @@
             android:onClick="@{itemModel::onColorClick}"
             android:padding="5dp">
 
-            <com.pulse.brag.views.RoundView
+            <com.ragtagger.brag.views.RoundView
                 android:id="@+id/roundview_selector"
                 android:layout_width="43dp"
                 android:layout_height="43dp"
@@ -33,13 +33,13 @@
                 app:colorFilter="@{itemModel.filterColor}" />
 
 
-            <com.pulse.brag.views.RoundView
+            <com.ragtagger.brag.views.RoundView
                 android:layout_width="39dp"
                 android:layout_height="39dp"
                 android:layout_gravity="center"
                 app:round_color="#EBEBF1" />
 
-            <com.pulse.brag.views.RoundView
+            <com.ragtagger.brag.views.RoundView
                 android:id="@+id/roundview_product_color"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

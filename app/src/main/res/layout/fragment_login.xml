@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.authentication.login.LoginViewModel" />
+            type="com.ragtagger.brag.ui.authentication.login.LoginViewModel" />
     </data>
 
     <LinearLayout

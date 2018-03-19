@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.category.CategoryItemViewModel" />
+            type="com.ragtagger.brag.ui.home.category.CategoryItemViewModel" />
 
     </data>
 
@@ -17,7 +17,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:onClick="@{viewModel::onItemClick}">
 
-        <com.pulse.brag.views.SquareImageView
+        <com.ragtagger.brag.views.SquareImageView
             android:id="@+id/imageview_category"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

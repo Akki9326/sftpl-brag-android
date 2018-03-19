@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.product.quickadd.AddProductDialogViewModel" />
+            type="com.ragtagger.brag.ui.home.product.quickadd.AddProductDialogViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -77,7 +77,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="200dp" />
 
-                        <com.pulse.brag.views.CustomViewPagerIndicator
+                        <com.ragtagger.brag.views.CustomViewPagerIndicator
                             android:id="@+id/pager_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

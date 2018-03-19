@@ -5,7 +5,7 @@
 
         <variable
             name="placeOrderData"
-            type="com.pulse.brag.ui.cart.placeorder.PlaceOrderItemViewModel" />
+            type="com.ragtagger.brag.ui.cart.placeorder.PlaceOrderItemViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

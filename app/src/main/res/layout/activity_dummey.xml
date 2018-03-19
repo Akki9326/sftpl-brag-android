@@ -21,7 +21,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_very_small" />
 
-    <com.pulse.brag.views.SquareImageView
+    <com.ragtagger.brag.views.SquareImageView
         android:id="@+id/imageview_category"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

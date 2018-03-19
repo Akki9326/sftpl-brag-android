@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.views.webview.WebviewDialogViewModel" />
+            type="com.ragtagger.brag.views.webview.WebviewDialogViewModel" />
     </data>
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.order.MyOrderItemViewModel" />
+            type="com.ragtagger.brag.ui.order.MyOrderItemViewModel" />
     </data>
 
     <LinearLayout

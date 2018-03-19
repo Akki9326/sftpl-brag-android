@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.product.details.ProductDetailViewModel" />
+            type="com.ragtagger.brag.ui.home.product.details.ProductDetailViewModel" />
     </data>
 
     <RelativeLayout
@@ -48,7 +48,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="200dp" />
 
-                        <com.pulse.brag.views.CustomViewPagerIndicator
+                        <com.ragtagger.brag.views.CustomViewPagerIndicator
                             android:id="@+id/pager_indicator"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

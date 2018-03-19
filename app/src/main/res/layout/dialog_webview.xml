@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.views.webview.WebviewDialogViewModel" />
+            type="com.ragtagger.brag.views.webview.WebviewDialogViewModel" />
     </data>
 
     <RelativeLayout

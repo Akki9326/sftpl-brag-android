@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.cart.editquantity.EditQtyDialogViewModel" />
+            type="com.ragtagger.brag.ui.cart.editquantity.EditQtyDialogViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

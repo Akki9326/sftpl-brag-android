@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.product.list.filter.ProductFilterDialogViewModel" />
+            type="com.ragtagger.brag.ui.home.product.list.filter.ProductFilterDialogViewModel" />
     </data>
 
     <android.support.v7.widget.Toolbar

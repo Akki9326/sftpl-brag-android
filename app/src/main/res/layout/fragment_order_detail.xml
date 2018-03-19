@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.order.orderdetail.OrderDetailViewModel" />
+            type="com.ragtagger.brag.ui.order.orderdetail.OrderDetailViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

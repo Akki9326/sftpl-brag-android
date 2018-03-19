@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.product.list.ProductListViewModel" />
+            type="com.ragtagger.brag.ui.home.product.list.ProductListViewModel" />
     </data>
 
     <RelativeLayout
@@ -44,7 +44,7 @@
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                     app:onRefreshListener="@{viewModel.onRefreshListener}">
 
-                    <com.pulse.brag.views.erecyclerview.ERecyclerView
+                    <com.ragtagger.brag.views.erecyclerview.ERecyclerView
                         android:id="@+id/recycleView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

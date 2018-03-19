@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center">
 
-        <com.pulse.brag.views.RoundView
+        <com.ragtagger.brag.views.RoundView
             android:id="@+id/roundview_selector"
             android:layout_width="43dp"
             android:layout_height="43dp"
@@ -19,13 +19,13 @@
             app:round_color="@color/pink" />
 
 
-        <com.pulse.brag.views.RoundView
+        <com.ragtagger.brag.views.RoundView
             android:layout_width="39dp"
             android:layout_height="39dp"
             android:layout_gravity="center"
             app:round_color="@color/filter_bg_color" />
 
-        <com.pulse.brag.views.RoundView
+        <com.ragtagger.brag.views.RoundView
             android:id="@+id/roundview_product_color"
             android:layout_width="30dp"
             android:layout_height="30dp"

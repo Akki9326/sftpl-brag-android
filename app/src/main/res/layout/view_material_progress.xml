@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.pulse.brag.views.MaterialProgressBar
+    <com.ragtagger.brag.views.MaterialProgressBar
         android:id="@+id/progress1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

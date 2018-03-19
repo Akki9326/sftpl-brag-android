@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.pulse.brag.ui.home.category.CategoryViewModel" />
+            type="com.ragtagger.brag.ui.home.category.CategoryViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -58,7 +58,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent" />
 
-                                <com.pulse.brag.views.CustomViewPagerIndicator
+                                <com.ragtagger.brag.views.CustomViewPagerIndicator
                                     android:id="@+id/pager_view"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"

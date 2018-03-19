@@ -1,15 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/base_layout"
     android:layout_width="60dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/color_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center">
 
         <com.pulse.brag.views.RoundView
@@ -24,7 +23,7 @@
             android:layout_width="39dp"
             android:layout_height="39dp"
             android:layout_gravity="center"
-            app:round_color="@color/white" />
+            app:round_color="@color/filter_bg_color" />
 
         <com.pulse.brag.views.RoundView
             android:id="@+id/roundview_product_color"
@@ -39,8 +38,6 @@
         android:id="@+id/textview_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/color_view"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="3dp"
         android:gravity="center"
@@ -49,4 +46,4 @@
         android:tag="@string/font_opensans_regular_id"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_very_small_12" />
-</RelativeLayout>
+</LinearLayout>

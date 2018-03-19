@@ -27,9 +27,22 @@ import retrofit2.Call;
 public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDialogNavigator> {
 
     private final ObservableField<String> title = new ObservableField<>();
+    private final ObservableField<Boolean> inProgress = new ObservableField<>();
 
     public ProductFilterDialogViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public ObservableField<String> getTitle() {
+        return title;
+    }
+
+    public ObservableField<Boolean> getInProgress() {
+        return inProgress;
+    }
+
+    public void updateInProgress(boolean inProgress) {
+        this.inProgress.set(inProgress);
     }
 
     public View.OnClickListener onDismissClick() {
@@ -39,10 +52,6 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
                 getNavigator().dismissFragment();
             }
         };
-    }
-
-    public ObservableField<String> getTitle() {
-        return title;
     }
 
     public void updateTitle(String title) {
@@ -87,6 +96,7 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
                 if (rFilter.isStatus()) {
                     getNavigator().onApiSuccess();
                     if (rFilter.getData() != null && rFilter.getData().getFilter() != null) {
+                        getNavigator().onSetData();
                         if (rFilter.getData().getFilter().getColorCodes() != null && rFilter.getData().getFilter().getColorCodes().size() > 0) {
 
                             List<DataFilter.ColorCode> colorCodeList = new ArrayList<>();

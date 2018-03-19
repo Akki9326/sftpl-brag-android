@@ -140,6 +140,7 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
     }
 
     public void showData() {
+        mProductFilterDialogViewModel.updateInProgress(true);
         if (Utility.isConnection(getActivity())) {
             mProductFilterDialogViewModel.getFilter(mCategory, mSubCategory, mSeasonCode, mAppliedFilter);
         } else {
@@ -205,6 +206,11 @@ public class ProductFilterDialogFragment extends CoreDialogFragment<DialogFragme
                 });
             }
         }, 500);
+    }
+
+    @Override
+    public void onSetData() {
+        mProductFilterDialogViewModel.updateInProgress(false);
     }
 
     @Override

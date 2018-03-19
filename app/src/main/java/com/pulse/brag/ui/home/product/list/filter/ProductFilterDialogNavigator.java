@@ -16,6 +16,8 @@ public interface ProductFilterDialogNavigator extends CoreNavigator {
 
     void noData();
 
+    void onSetData();
+
     void setColorFilter(List<DataFilter.ColorCode> colorCodeList, HashMap<String, DataFilter.ColorCode> selectedMap);
 
     void noColorFilter();

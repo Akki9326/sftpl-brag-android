@@ -127,7 +127,7 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.MyVi
         RoundView mRoundColor, mRoundSelector;
         TextView mName;
 
-        RelativeLayout mBaseLayout;
+        LinearLayout mBaseLayout;
 
 
         public MyViewHolder(View itemView) {

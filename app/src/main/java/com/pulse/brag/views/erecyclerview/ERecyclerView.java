@@ -605,4 +605,8 @@ public class ERecyclerView extends RecyclerView {
             }
         }
     }
+
+    public boolean isLoadingData() {
+        return isLoadingData;
+    }
 }

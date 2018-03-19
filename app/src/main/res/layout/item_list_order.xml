@@ -1,6 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -30,6 +29,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:onClick="@{viewModel::onItemListClick}"
                 android:orientation="vertical">
 
@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:tag="@string/font_opensans_regular_id"
                         android:text="@string/label_order_id"
-                        android:textColor="@color/gray_transparent"
+                        android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_very_small" />
 
                     <TextView
@@ -56,104 +56,74 @@
                         android:layout_marginLeft="5dp"
                         android:tag="@string/font_opensans_regular_id"
                         android:text="@{viewModel.order_id}"
-                        android:textColor="@color/gray_transparent"
+                        android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_very_small" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/gray_transparent"
-                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_status"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small" />
 
-                    <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel.statusLable}"
+                        android:textColor="@{viewModel.statusColor}"
+                        android:textSize="@dimen/text_size_very_small" />
+
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="10dp"
+                        android:gravity="right"
                         android:paddingRight="5dp"
-                        android:paddingTop="5dp">
-
-                        <TextView
-                            android:id="@+id/textview_product_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="2"
-                            android:tag="@string/font_opensans_regular_id"
-                            android:text="@{viewModel.product_name}"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_small"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/textview_product_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:tag="@string/font_opensans_bold_id"
-                            android:text="@{`Total Price: `+viewModel.productPriceWithSym}"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small"
-                            android:visibility="@{viewModel.status!=0?View.VISIBLE:View.GONE}" />
-
-                        <TextView
-                            android:id="@+id/textview_qty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:gravity="center"
-                            android:tag="@string/font_opensans_regular_id"
-                            android:text="@{`Qty: `+viewModel.product_qty}"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small"
-                            android:visibility="gone" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginTop="10dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <com.pulse.brag.views.RoundView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                bind:roundColor="@{viewModel.statusColor}" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.date != null ?viewModel.statusLableWithDate : viewModel.statusLable}"
-                                android:textColor="@color/gray_transparent"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-                    </LinearLayout>
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel.createDateString}"
+                        android:textColor="@color/gray_transparent"
+                        android:textSize="10sp"
+                        android:visibility="@{viewModel.date!=null?View.VISIBLE:View.GONE}" />
+                </LinearLayout>
 
 
-                    <ImageView
-                        android:id="@+id/imageview_product"
-                        android:layout_width="60dp"
-                        android:layout_height="90dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        bind:imageUrl="@{viewModel.product_image_url}" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:visibility="visible">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_total_amount"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:tag="@string/font_opensans_semi_bold_id"
+                        android:text="@{viewModel.getProductPriceWithSym}"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small" />
                 </LinearLayout>
             </LinearLayout>
 

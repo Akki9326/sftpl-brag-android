@@ -33,7 +33,13 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     ObservableField<String> orderId = new ObservableField<>();
     ObservableField<String> address = new ObservableField<>();
     ObservableField<String> fullName = new ObservableField<>();
+    ObservableField<String> orderState = new ObservableField<>();
+    ObservableField<String> date = new ObservableField<>();
     ObservableField<Boolean> isOrderApprove = new ObservableField<>();
+    ObservableField<Integer> orderStateColor = new ObservableField<>();
+    ObservableField<String> total = new ObservableField<>();
+    ObservableField<Integer> listSize = new ObservableField<>();
+    String itemsLable;
 
     public OrderDetailViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -112,5 +118,46 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
                 getNavigator().onApiReorderError(t);
             }
         });
+    }
+
+    public void updateOrderState(String orderState) {
+        this.orderState.set(orderState);
+    }
+
+    public ObservableField<String> getOrderState() {
+        return orderState;
+    }
+
+    public void updateOrderStateDate(String date) {
+        this.date.set(date);
+    }
+
+    public ObservableField<String> getOrderStateDate() {
+        return date;
+    }
+
+    public void updateTotalCartNum(int size) {
+        listSize.set(size);
+        if (size > 1) {
+            itemsLable = "items";
+        } else {
+            itemsLable = "item";
+        }
+    }
+
+    public ObservableField<Integer> getCartSize() {
+        return listSize;
+    }
+
+    public String getItemsLable() {
+        return itemsLable;
+    }
+
+    public void setTotal(String total) {
+        this.total.set(total);
+    }
+
+    public ObservableField<String> getTotalPrice() {
+        return total;
     }
 }

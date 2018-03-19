@@ -227,14 +227,14 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/imageView_add"
+                            android:id="@+id/imageView_minus"
                             android:layout_width="26dp"
                             android:layout_height="26dp"
-                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="5dp"
                             android:background="@drawable/round_corner_solid_white"
-                            android:onClick="@{viewModel.onPlusClick()}"
+                            android:onClick="@{viewModel.onMinusClick()}"
                             android:padding="5dp"
-                            android:src="@drawable/ic_add"
+                            android:src="@drawable/ic_minus"
                             android:tint="@color/gray" />
 
                         <TextView
@@ -253,15 +253,17 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <ImageView
-                            android:id="@+id/imageView_minus"
+                            android:id="@+id/imageView_add"
                             android:layout_width="26dp"
                             android:layout_height="26dp"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:background="@drawable/round_corner_solid_white"
-                            android:onClick="@{viewModel.onMinusClick()}"
+                            android:onClick="@{viewModel.onPlusClick()}"
                             android:padding="5dp"
-                            android:src="@drawable/ic_minus"
+                            android:src="@drawable/ic_add"
                             android:tint="@color/gray" />
+
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -276,7 +278,6 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:onClick="@{viewModel.onAddToCartClick()}"
-
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@string/label_add_to_cart"
                     android:textColor="@color/white"

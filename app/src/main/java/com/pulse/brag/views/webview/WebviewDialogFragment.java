@@ -15,9 +15,11 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -64,11 +66,15 @@ public class WebviewDialogFragment extends CoreDialogFragment<DialogWebviewBindi
 
     @Override
     public Dialog onCreateFragmentDialog(Bundle savedInstanceState, Dialog dialog) {
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounder_corner_solid_white);
+//        dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounder_corner_solid_white);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            dialog.getWindow().setStatusBarColor(getResources().getColor(R.color.gray_transparent));
+        }*/
         return dialog;
     }
 
@@ -167,4 +173,6 @@ public class WebviewDialogFragment extends CoreDialogFragment<DialogWebviewBindi
     public void close() {
         dismissDialog("");
     }
+
+
 }

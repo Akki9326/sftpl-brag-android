@@ -9,8 +9,13 @@ package com.pulse.brag.data.model.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.pulse.brag.R;
+import com.pulse.brag.utils.Constants;
+import com.pulse.brag.utils.DateFormatter;
 
 import java.util.List;
 
@@ -30,7 +35,7 @@ public class DataMyOrder implements Parcelable {
     private double totalAmount;
     private double payableAmount;
     private DataUserAddress address;
-    private int status;
+    private Integer status;
     private DataUser user;
     private List<DataCart> cart;
 
@@ -57,6 +62,21 @@ public class DataMyOrder implements Parcelable {
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
+
+    public String getCreateDateString() {
+        return DateFormatter.convertMillisToStringDate(getCreatedDate(), DateFormatter.dd_MMM_YYYY_HH_MM_A);
+    }
+
+    public int getOrderStatesColor(Context context) {
+        if (getStatus() == Constants.OrderStatus.CANCELED.ordinal()
+                || getStatus() == Constants.OrderStatus.REJECTED.ordinal())
+            return context.getResources().getColor(R.color.order_status_red);
+//            return R.color.order_status_red;
+        else
+            return context.getResources().getColor(R.color.order_status_green);
+//        return R.color.order_status_green;
+    }
+
 
     public boolean isActive() {
         return isActive;
@@ -107,7 +127,7 @@ public class DataMyOrder implements Parcelable {
     }
 
     public int getStatus() {
-        return status;
+        return status != null ? status : 0;
     }
 
     public void setStatus(int status) {

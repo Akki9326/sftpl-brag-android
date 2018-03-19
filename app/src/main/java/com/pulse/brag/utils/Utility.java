@@ -58,6 +58,8 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import static com.pulse.brag.utils.AppLogger.TAG;
+
 /**
  * Created by nikhil.vadoliya on 25-09-2017.
  */
@@ -142,6 +144,7 @@ public class Utility {
                 }
             }
         } catch (Exception e) {
+            Log.i(TAG, "applyTypeFace: "+e.getMessage());
             e.printStackTrace();
         }
     }

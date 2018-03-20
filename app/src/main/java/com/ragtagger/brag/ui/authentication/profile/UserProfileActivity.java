@@ -145,6 +145,7 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
         onBackPressed();
     }
 
+
     @Override
     public void pushChangePassFragment() {
         pushFragmentInChangeContainer(ChangePassFragment.newInstance(getIntent().getStringExtra(Constants.BUNDLE_MOBILE))

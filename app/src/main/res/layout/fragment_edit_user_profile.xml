@@ -104,8 +104,8 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLength="@integer/max_length"
-                android:tag="@string/font_opensans_regular_id"
                 android:paddingBottom="5dp"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@{viewModel.email}" />
 
             <View
@@ -115,6 +115,34 @@
                 android:alpha=".5"
                 android:background="@color/pink" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/label_gst_in"
+                android:textColor="@color/pink"
+                android:textSize="@dimen/text_size_very_small_12" />
+
+            <EditText
+                android:id="@+id/edittext_gst_in"
+                style="@style/NormalEditText"
+                android:background="@null"
+                android:hint="@string/hint_gst_in_ast"
+                android:imeOptions="actionNext"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingBottom="5dp"
+                android:text="@{viewModel.gstNum()}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/pink" />
 
             <TextView
                 android:id="@+id/textview_done"

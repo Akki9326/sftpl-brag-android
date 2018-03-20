@@ -22,7 +22,7 @@ public class RUserAddress {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private List<DataUserAddress> addresses;
+    private DataUserAddress data;
 
     public boolean isStatus() {
         return status;
@@ -48,11 +48,11 @@ public class RUserAddress {
         this.message = message;
     }
 
-    public List<DataUserAddress> getAddresses() {
-        return addresses;
+    public DataUserAddress getData() {
+        return data;
     }
 
-    public void setAddresses(List<DataUserAddress> addresses) {
-        this.addresses = addresses;
+    public void setData(DataUserAddress data) {
+        this.data = data;
     }
 }

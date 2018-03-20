@@ -124,7 +124,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void setUpToolbar() {
-        ((MainActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_order_detail));
+        ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
     }
 
     @Override

@@ -33,11 +33,12 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
         };
     }
 
-    public void updateProfileAPI(String firstName, String lastName, String email) {
+    public void updateProfileAPI(String firstName, String lastName, String email, String gstNum) {
         DataUser userData = getDataManager().getUserData();
         userData.setFirstName(firstName);
         userData.setLastName(lastName);
         userData.setEmail(email);
+        userData.setGstin(gstNum);
         Call<RLogin> responseCall = getDataManager().updateProfile(userData);
         responseCall.enqueue(new ApiResponse<RLogin>() {
             @Override
@@ -68,5 +69,9 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
 
     public String getEmail() {
         return getDataManager().getUserData().getEmail();
+    }
+
+    public String gstNum() {
+        return getDataManager().getUserData().getGstin();
     }
 }

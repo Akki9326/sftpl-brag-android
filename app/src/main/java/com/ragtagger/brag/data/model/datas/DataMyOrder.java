@@ -69,12 +69,13 @@ public class DataMyOrder implements Parcelable {
 
     public int getOrderStatesColor(Context context) {
         if (getStatus() == Constants.OrderStatus.CANCELED.ordinal()
-                || getStatus() == Constants.OrderStatus.REJECTED.ordinal())
+                || getStatus() == Constants.OrderStatus.REJECTED.ordinal()) {
             return context.getResources().getColor(R.color.order_status_red);
-//            return R.color.order_status_red;
-        else
+        } else if (getStatus() == Constants.OrderStatus.PLACED.ordinal()) {
+            return context.getResources().getColor(R.color.order_status_yellow);
+        } else {
             return context.getResources().getColor(R.color.order_status_green);
-//        return R.color.order_status_green;
+        }
     }
 
 

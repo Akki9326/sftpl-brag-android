@@ -37,6 +37,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     ObservableField<String> orderState = new ObservableField<>();
     ObservableField<String> date = new ObservableField<>();
     ObservableField<Boolean> isOrderApprove = new ObservableField<>();
+    ObservableField<String> mobilenum = new ObservableField<>();
     ObservableField<Integer> orderStateColor = new ObservableField<>();
     ObservableField<String> total = new ObservableField<>();
     ObservableField<Integer> listSize = new ObservableField<>();
@@ -151,6 +152,14 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
     public ObservableField<String> getTotalPrice() {
         return total;
+    }
+
+    public ObservableField<String> getMobilenum() {
+        return mobilenum;
+    }
+
+    public void setMobilenum(String mobilenum) {
+        this.mobilenum.set(mobilenum);
     }
 
 

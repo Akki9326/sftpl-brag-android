@@ -98,8 +98,11 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
             @Override
             public void onSuccess(RUserAddress generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
+                    //add address in prefrence of userdata.
                     DataUser userData = getDataManager().getUserData();
-                    userData.setAddresses(generalResponse.getAddresses());
+                    List<DataUserAddress> userAddresses = new ArrayList<>();
+                    userAddresses.add(generalResponse.getData());
+                    userData.setAddresses(userAddresses);
                     getDataManager().setUserData(new Gson().toJson(userData));
                     getNavigator().onApiSuccess();
                 } else {

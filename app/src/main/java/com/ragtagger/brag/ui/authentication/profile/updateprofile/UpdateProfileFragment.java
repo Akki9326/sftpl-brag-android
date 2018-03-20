@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.InputFilter;
 import android.widget.LinearLayout;
 
 import com.ragtagger.brag.BR;
@@ -14,6 +15,7 @@ import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.authentication.profile.UserProfileActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
+import com.ragtagger.brag.utils.TextFilterUtils;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.utils.Validation;
 
@@ -53,6 +55,8 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
     @Override
     public void afterViewCreated() {
         mFragmentEditUserProfileBinding = getViewDataBinding();
+        mFragmentEditUserProfileBinding.edittextGstIn.setFilters(new InputFilter[]{TextFilterUtils.getAlphaNumericFilter(), TextFilterUtils.getLengthFilter(15)});
+
         Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentEditUserProfileBinding.baseLayout);
     }
 
@@ -88,7 +92,7 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
@@ -99,14 +103,19 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_email));
         } else if (!Validation.isEmailValid(mFragmentEditUserProfileBinding.edittextEmail)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
+        } else if (Validation.isEmpty(mFragmentEditUserProfileBinding.edittextGstIn)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_gst));
+        } else if (!Validation.isValidGST(mFragmentEditUserProfileBinding.edittextGstIn)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_gst_valid));
         } else if (Utility.isConnection(getActivity())) {
             Utility.hideSoftkeyboard(getActivity());
             showProgress();
             mUserProfileViewModel.updateProfileAPI(mFragmentEditUserProfileBinding.edittextFirstname.getText().toString()
                     , mFragmentEditUserProfileBinding.edittextLastname.getText().toString()
-                    , mFragmentEditUserProfileBinding.edittextEmail.getText().toString());
+                    , mFragmentEditUserProfileBinding.edittextEmail.getText().toString()
+                    , mFragmentEditUserProfileBinding.edittextGstIn.getText().toString());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 

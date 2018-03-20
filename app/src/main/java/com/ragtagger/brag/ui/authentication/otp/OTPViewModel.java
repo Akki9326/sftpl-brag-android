@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataUser;
 import com.ragtagger.brag.data.model.requests.QChangeMobileNumber;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.data.model.response.RGeneralData;
@@ -115,7 +116,7 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
         });
     }
 
-    public void verifyOtpForChangeMob(String mobile, String password, String otp) {
+    public void verifyOtpForChangeMob(final String mobile, String password, String otp) {
         // TODO: 13-12-2017 if you display mobile number in more Fragment than isStatus==true update mobile number display
         QChangeMobileNumber changeMobileNumberRequest = new QChangeMobileNumber(mobile, password, otp);
         Call<RGeneralData> mResponeCall = getDataManager().changeMobileNum(changeMobileNumberRequest);
@@ -124,7 +125,6 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
             public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getDataManager().setUserData(new Gson().toJson(generalResponse.getData()));
                     getNavigator().finishUserProfileActivity();
                 } else {
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));

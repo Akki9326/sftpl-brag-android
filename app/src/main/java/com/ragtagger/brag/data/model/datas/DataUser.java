@@ -34,6 +34,7 @@ public class DataUser implements Parcelable {
     private Boolean isActive;
     private Boolean isDeleted;
     private List<DataUserAddress> addresses;
+    private String gstin;
 
     public String getId() {
         return id;
@@ -175,6 +176,14 @@ public class DataUser implements Parcelable {
 
     }
 
+    public String getGstin() {
+        return gstin;
+    }
+
+    public void setGstin(String gstin) {
+        this.gstin = gstin;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -196,6 +205,7 @@ public class DataUser implements Parcelable {
         dest.writeValue(this.isActive);
         dest.writeValue(this.isDeleted);
         dest.writeTypedList(this.addresses);
+        dest.writeString(this.gstin);
     }
 
     public DataUser() {
@@ -216,6 +226,7 @@ public class DataUser implements Parcelable {
         this.isActive = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.isDeleted = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.addresses = in.createTypedArrayList(DataUserAddress.CREATOR);
+        this.gstin = in.readString();
     }
 
     public static final Parcelable.Creator<DataUser> CREATOR = new Parcelable.Creator<DataUser>() {

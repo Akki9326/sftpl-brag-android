@@ -16,6 +16,7 @@ import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.response.RGeneralData;
+import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
 
@@ -42,6 +43,16 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     ObservableField<String> totalPayable = new ObservableField<>();
     ObservableField<Integer> listSize = new ObservableField<>();
     String itemsLable;
+
+    ObservableField<Boolean> isLoading = new ObservableField<>();
+
+    public ObservableField<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
+    public void updateIsLoading(boolean isLoading) {
+        this.isLoading.set(isLoading);
+    }
 
     public OrderDetailViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -103,25 +114,6 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         return isOrderApprove;
     }
 
-    public void reOrderAPI(String orderId) {
-        Call<RGeneralData> call = getDataManager().reOrder(orderId);
-        call.enqueue(new ApiResponse<RGeneralData>() {
-            @Override
-            public void onSuccess(RGeneralData generalResponse, Headers headers) {
-                if (generalResponse.isStatus()) {
-                    getNavigator().onApiReorderSuccess();
-                } else {
-                    getNavigator().onApiReorderError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
-                }
-            }
-
-            @Override
-            public void onError(ApiError t) {
-                getNavigator().onApiReorderError(t);
-            }
-        });
-    }
-
     public void updateOrderState(String orderState) {
         this.orderState.set(orderState);
     }
@@ -177,5 +169,50 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
     public void setMobilenum(String mobilenum) {
         this.mobilenum.set(mobilenum);
+    }
+
+
+    void reOrderAPI(String orderId) {
+        Call<RGeneralData> call = getDataManager().reOrder(orderId);
+        call.enqueue(new ApiResponse<RGeneralData>() {
+            @Override
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
+                if (generalResponse.isStatus()) {
+                    getNavigator().onApiReorderSuccess();
+                } else {
+                    getNavigator().onApiReorderError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiReorderError(t);
+            }
+        });
+    }
+
+    void getOrderDetails(String orderId) {
+        Call<ROrderDetail> call = getDataManager().getOrderDetail(orderId);
+        call.enqueue(new ApiResponse<ROrderDetail>() {
+            @Override
+            public void onSuccess(ROrderDetail rOrderDetail, Headers headers) {
+                if (rOrderDetail.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    if (rOrderDetail.getData() != null) {
+                        getNavigator().onOrderDetails(rOrderDetail.getData());
+                    } else {
+                        getNavigator().onNoOrderData();
+                    }
+                } else {
+                    getNavigator().onApiError(new ApiError(rOrderDetail.getErrorCode(), rOrderDetail.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+
+            }
+        });
+
     }
 }

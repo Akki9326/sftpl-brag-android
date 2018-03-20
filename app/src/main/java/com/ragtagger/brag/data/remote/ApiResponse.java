@@ -58,11 +58,11 @@ public abstract class ApiResponse<T> implements Callback<T> {
         } else if (!(th instanceof IOException)) {
             onError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
         } else if (Common.isNotNullOrEmpty(th.getMessage()) && th.getMessage().contains("Cancel")) {
-            onError(new ApiError(Constants.IErrorCode.ioExceptionCancelApiErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
+            onError(new ApiError(Constants.IErrorCode.ioExceptionCancelApiErrorCode, Constants.IErrorMessage.IO_EXCEPTION_CANCEL_API));
         } else if (Common.isNotNullOrEmpty(th.getMessage()) && th.getMessage().equalsIgnoreCase("socket closed")) {
-            onError(new ApiError(Constants.IErrorCode.ioExceptionCancelApiErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
+            onError(new ApiError(Constants.IErrorCode.ioExceptionCancelApiErrorCode, Constants.IErrorMessage.IO_EXCEPTION_CANCEL_API));
         } else {
-            onError(new ApiError(Constants.IErrorCode.ioExceptionOtherErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
+            onError(new ApiError(Constants.IErrorCode.ioExceptionOtherErrorCode, Constants.IErrorMessage.IO_EXCEPTION_OTHER_ERROR));
         }
     }
 }

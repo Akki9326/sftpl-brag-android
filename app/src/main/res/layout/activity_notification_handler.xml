@@ -12,10 +12,41 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
+        android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity">
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        tools:context=".ui.main.MainActivity">
 
-    </android.support.constraint.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_top_from_toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar_notification"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/margin_top_from_status"
+                app:viewModel="@{viewModel}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@drawable/dropshadow_toolbar" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
 </layout>

@@ -38,7 +38,7 @@ public class Constants {
     public static final String BUNDLE_SELETED_PRODUCT = "bundleselectedProduct";
     public static final String BUNDLE_PRODUCT_LISt = "bundleProductList";
     public static final String BUNDLE_IMAGE_URL = "imageurl";
-    public static final String BUNDLE_SIZE_GUIDE= "bundleSizeGuide";
+    public static final String BUNDLE_SIZE_GUIDE = "bundleSizeGuide";
     public static final String BUNDLE_MOBILE = "bundlemobile";
     public static final String BUNDLE_EMAIL = "bundleemail";
     public static final String BUNDLE_PASSWORD = "bundlePassword";
@@ -48,6 +48,7 @@ public class Constants {
     public static final String BUNDLE_DEVICE_TOKEN = "devicetoken";
     public static final String BUNDLE_NOTIFICATION_MODEL = "notificationModel";
     public static final String BUNDLE_KEY_NOTIFICATION_ID = "notificationId";
+    public static final String BUNDLE_KEY_NOTIFICATION_WHAT_ID = "notificationWhatId";
     public static final String BUNDLE_KEY_PRODUCT_LIST_TITLE = "bundleProductListTitle";
     public static final String LOCALBROADCAST_UPDATE_NOTIFICATION = "localbrodUpdateNotification";
     public static final String BUNDLE_TITLE = "bunbletitle";
@@ -69,15 +70,15 @@ public class Constants {
     public static final String LOCALBROADCAST_UPDATE_PROFILE = "localbroadcastupdateprofile";
     public static final String BUNDLE_IS_ADDRESS_UPDATE = "bundleupdateaddress";
 
-    public static final String ACTION_UPDATE_CART_ICON_STATE="action_update_cart_icon_state";
+    public static final String ACTION_UPDATE_CART_ICON_STATE = "action_update_cart_icon_state";
 
     public static final String OTP_FORMAT = "RTBRAG";
     public static final String BUNDLE_KEY_MOBILE_NUM ="bundlemobile" ;
 
     public interface ApiHelper {
         //String BASE_URL = "http://103.204.192.148/BRAGWeb/api/";
-        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/";
-//        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
+        //String BASE_URL = "http://192.168.131.125:8085/BRAGWeb/api/"; //tushar
 
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;
@@ -105,10 +106,13 @@ public class Constants {
 
     public interface IErrorMessage {
         String CONTENT_NOT_MODIFIED = "Content not modified";
-        String IO_EXCEPTION = "We could not complete your request";
-        String NO_INTERNET_CONNECTION = "No internet connection.";
         String OTHER_EXCEPTION = "We could not complete your request";
         String SOMETHING_WRONG_ERROR = "Something went wrong!!\nPlease try again later.";
+
+        String IO_EXCEPTION = "Something went wrong!!\nPlease try again later.";
+        String NO_INTERNET_CONNECTION = "No internet connection.";
+        String IO_EXCEPTION_CANCEL_API = "Something went wrong!!\nPlease try again later.";
+        String IO_EXCEPTION_OTHER_ERROR = "Something went wrong!!\nPlease try again later.";
         String TIME_OUT_CONNECTION = "Connection timeout.\nPlease try again later.";
     }
 
@@ -141,10 +145,17 @@ public class Constants {
         }
     }
 
-    public enum NotificationType {
+    /*public enum NotificationType {
         TEXT,
         OTHER,
         LOGIN;
+    }*/
+
+    public enum NotificationType {
+        TEXT,
+        USER,
+        ORDER,
+        ITEM;
     }
 
     public enum OTPValidationIsFrom {

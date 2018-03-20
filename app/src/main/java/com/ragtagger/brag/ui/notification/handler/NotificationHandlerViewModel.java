@@ -1,5 +1,7 @@
 package com.ragtagger.brag.ui.notification.handler;
 
+import android.databinding.ObservableField;
+
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.ui.core.CoreViewModel;
 
@@ -8,7 +10,14 @@ import com.ragtagger.brag.ui.core.CoreViewModel;
  */
 
 public class NotificationHandlerViewModel extends CoreViewModel {
+
     public NotificationHandlerViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    ObservableField<String> toolbarTitle = new ObservableField<>();
+
+    public ObservableField<String> getToolbarTitle() {
+        return toolbarTitle;
     }
 }

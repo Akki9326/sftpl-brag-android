@@ -121,12 +121,11 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                 Bundle bundle;
                 WebviewDialogFragment dialogFragment;
                 switch (viewId) {
-                    case 1:
+                    case 1://order list
                         ((MainActivity) getActivity()).pushFragments(new MyOrderListFragment()
                                 , true, true);
                         break;
-                    case 2:
-
+                    case 2://privacy policy
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "Privacy");
                         bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/privacy-policy");
@@ -134,7 +133,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
                         break;
-                    case 3:
+                    case 3://terms & conditions
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "Terms and Condition");
                         bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/terms-and-condition");
@@ -142,28 +141,28 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
                         break;
-                    case 4:
+                    case 4://change password
                         intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
                         intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_PASS.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
-                    case 5:
+                    case 5://logout
                         showAlertMessageLogOut(getActivity(), getString(R.string.msg_logout));
                         break;
 
-                    case 6:
+                    case 6://change mobile number
                         intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
                         intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_MOBILE.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
-                    case 7:
+                    case 7://notification list
                         ((MainActivity) getActivity()).pushFragments(new NotificationListFragment(), true, true);
                         break;
-                    case 8:
+                    case 8://update profile
                         intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
                         intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.UPDATE_PROFILE.ordinal());
@@ -171,14 +170,14 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
 
-                    case 9:
+                    case 9://add and edit address
                         intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         break;
 
-                    case 10:
+                    case 10://faqs
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "FAQs");
                         bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/refund-cancellations");
@@ -186,7 +185,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
                         break;
-                    case 11:
+                    case 11://about us
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "About us");
                         bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/about-us");

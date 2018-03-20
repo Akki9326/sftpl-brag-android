@@ -20,7 +20,8 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isLoading? View.GONE : View.VISIBLE}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -387,5 +388,14 @@
                     android:layout_marginTop="5dp" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/no_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.isLoading? View.VISIBLE: View.GONE}">
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

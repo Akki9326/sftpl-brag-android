@@ -149,6 +149,11 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             categoryViewModel.setNoInternet(true);
             return;
         }
+        /*else if (error.getHttpCode() == Constants.IErrorCode.defaultErrorCode || error.getHttpCode() == Constants.IErrorCode.ioExceptionCancelApiErrorCode || error.getHttpCode() == Constants.IErrorCode.ioExceptionOtherErrorCode || error.getHttpCode() == Constants.IErrorCode.socketTimeOutError) {
+            mFragmentCategoryBinding.layoutNoInternet.textviewNoInternet.setText(error.getMessage());
+            categoryViewModel.setNoInternet(true);
+            return;
+        }*/
         categoryViewModel.setNoInternet(false);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }

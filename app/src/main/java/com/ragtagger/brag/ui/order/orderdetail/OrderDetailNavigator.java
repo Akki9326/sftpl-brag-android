@@ -10,6 +10,7 @@ package com.ragtagger.brag.ui.order.orderdetail;
  */
 
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataMyOrder;
 import com.ragtagger.brag.ui.core.CoreNavigator;
 
 /**
@@ -26,4 +27,8 @@ public interface OrderDetailNavigator extends CoreNavigator {
     void onDownloadInvoice();
 
     void onReorderClick();
+
+    void onOrderDetails(DataMyOrder orderDetails);
+
+    void onNoOrderData();
 }

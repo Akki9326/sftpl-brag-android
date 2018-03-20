@@ -83,16 +83,16 @@ public class FCMService extends FirebaseMessagingService {
             Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
         }
 
-//        sendNotification(remoteMessage.getData().get(MESSAGE),
-//                remoteMessage.getData().get(TITLE),
-//                Integer.parseInt(remoteMessage.getData().get(N_TYPE)),
-//                remoteMessage.getData().get(WHAT_ID),
-//                remoteMessage.getData().get(N_ID));
-        sendNotification("Message",
-                "Title",
+        sendNotification(remoteMessage.getData().get(MESSAGE),
+                remoteMessage.getData().get(TITLE),
+                Integer.parseInt(remoteMessage.getData().get(N_TYPE)),
+                remoteMessage.getData().get(WHAT_ID),
+                remoteMessage.getData().get(N_ID));
+        /*sendNotification(remoteMessage.getData().get(MESSAGE),
+                remoteMessage.getData().get(TITLE),
                 2,
                 "1",
-                "1");
+                "1");*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -120,17 +120,18 @@ public class FCMService extends FirebaseMessagingService {
                 //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
                 notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
+                notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_WHAT_ID, whatid);
                 simplePendingIntent =
                         PendingIntent.getActivity(getApplicationContext(), mNotificationId,
                                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 break;
 
-            case LOGIN:
-
+            case USER:
                 notificationIntent = new Intent(getApplicationContext(), SplashActivity.class);
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
                 notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
+                notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_WHAT_ID, whatid);
                 simplePendingIntent =
                         PendingIntent.getActivity(getApplicationContext(), mNotificationId,
                                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -138,8 +139,17 @@ public class FCMService extends FirebaseMessagingService {
 
                 break;
 
-            case OTHER:
+            case ORDER:
+                notificationIntent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);
+                notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
+                notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
+                notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_WHAT_ID, whatid);
+                simplePendingIntent =
+                        PendingIntent.getActivity(getApplicationContext(), mNotificationId,
+                                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                break;
 
+            /*case OTHER:
                 notificationIntent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);
                 //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
@@ -148,7 +158,7 @@ public class FCMService extends FirebaseMessagingService {
                         PendingIntent.getActivity(getApplicationContext(), mNotificationId,
                                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                break;
+                break;*/
         }
 
         Notification notification = null;

@@ -8,33 +8,33 @@ package com.ragtagger.brag.data.remote;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.datas.DataUser;
+import com.ragtagger.brag.data.model.requests.QAddAddress;
+import com.ragtagger.brag.data.model.requests.QAddToCart;
 import com.ragtagger.brag.data.model.requests.QChangeMobileNumber;
 import com.ragtagger.brag.data.model.requests.QChangePassword;
 import com.ragtagger.brag.data.model.requests.QContactUs;
-import com.ragtagger.brag.data.model.requests.QLogin;
-import com.ragtagger.brag.data.model.requests.QAddAddress;
-import com.ragtagger.brag.data.model.requests.QAddToCart;
 import com.ragtagger.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.ragtagger.brag.data.model.requests.QGetFilter;
+import com.ragtagger.brag.data.model.requests.QLogin;
 import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.data.model.requests.QProductList;
 import com.ragtagger.brag.data.model.requests.QSignUp;
-import com.ragtagger.brag.data.model.response.RChangePassword;
-import com.ragtagger.brag.data.model.response.RCategoryList;
-import com.ragtagger.brag.data.model.response.RCollectionList;
-import com.ragtagger.brag.data.model.response.RLogin;
-import com.ragtagger.brag.data.model.response.ROTPVerify;
-import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.model.response.RCartList;
+import com.ragtagger.brag.data.model.response.RCategoryList;
+import com.ragtagger.brag.data.model.response.RChangePassword;
+import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RFilter;
+import com.ragtagger.brag.data.model.response.RGeneralData;
+import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.ROTPVerify;
+import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProductList;
+import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.data.model.response.RStateList;
 import com.ragtagger.brag.data.model.response.RUserAddress;
-import com.ragtagger.brag.data.model.response.RSignUp;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -109,8 +109,8 @@ public interface ApiInterface {
     @POST("order/list/{pages}")
     Call<RMyOrder> getOrderList(@Path("pages") int page);
 
-    @POST("order/list/{pages}")
-    Call<ROrderDetail> getOrderDetail(@Url String url);
+    @GET("order/get/{orderId}")
+    Call<ROrderDetail> getOrderDetail(@Path("orderId") String orderId);
 
     @POST("user/addAddress")
     Call<RUserAddress> addAddress(@Body QAddAddress addAddress);
@@ -132,4 +132,6 @@ public interface ApiInterface {
 
     @GET("order/reOrder/{orderId}")
     Call<RGeneralData> reOrder(@Path("orderId") String id);
+
+
 }

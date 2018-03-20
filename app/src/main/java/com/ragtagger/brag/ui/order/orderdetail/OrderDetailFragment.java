@@ -56,21 +56,28 @@ import javax.inject.Inject;
 
 public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding, OrderDetailViewModel> implements OrderDetailNavigator {
 
-    String orderId;
-    DataMyOrder mData;
-
     final int REQUEST_PERMISSION = 01;
 
     @Inject
     OrderDetailViewModel orderDetailViewModel;
     FragmentOrderDetailBinding mFragmentOrderDetailBinding;
 
+    String orderId;
+    DataMyOrder mData;
     int downloadIdOne;
 
     public static OrderDetailFragment newInstance(DataMyOrder data) {
 
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_ORDER_DATA, data);
+        OrderDetailFragment fragment = new OrderDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static OrderDetailFragment newInstance(String orderId) {
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_ORDER_ID, orderId);
         OrderDetailFragment fragment = new OrderDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -95,6 +102,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         mFragmentOrderDetailBinding = getViewDataBinding();
         Utility.applyTypeFace(getContext(), mFragmentOrderDetailBinding.baseLayout);
 
+        orderDetailViewModel.updateIsLoading(true);
+
         Animation up = AnimationUtils.loadAnimation(getContext(), R.anim.right_out);
         Animation down = AnimationUtils.loadAnimation(getContext(), R.anim.left_in);
         mFragmentOrderDetailBinding.imageviewDownload.setInAnimation(up);
@@ -107,8 +116,9 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         mFragmentOrderDetailBinding.recycleview.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL));
         mFragmentOrderDetailBinding.recycleview.setNestedScrollingEnabled(false);
-        showData();
 
+
+        checkInternetAncGetDetails();
     }
 
 
@@ -163,13 +173,22 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
+    }
 
-
+    private void checkInternetAncGetDetails() {
+        if (mData != null) {
+            showData();
+        } else if (orderId != null) {
+            if (Utility.isConnection(getActivity())) {
+                showProgress();
+                orderDetailViewModel.getOrderDetails(orderId);
+            } else {
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            }
+        }
     }
 
     private void downloadOrOpenFile() {
-
-
         String path = Environment.getExternalStorageDirectory().toString();
         String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
 
@@ -259,23 +278,37 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     }
 
     @Override
+    public void onOrderDetails(DataMyOrder orderDetails) {
+        mData = orderDetails;
+        showData();
+    }
+
+    @Override
+    public void onNoOrderData() {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.fragment_order_detail;
     }
 
 
     public void showData() {
-        orderDetailViewModel.updateOrderId(mData.getOrderNumber());
-        orderDetailViewModel.updateAddress(mData.getUser().getFullAddressWithNewLine());
-        orderDetailViewModel.updateFullName(mData.getUser().getFullName());
-        orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
-        orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
-        orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
-        orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
-        orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma((int) mData.getTotalAmount()));
-        mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
+        orderDetailViewModel.updateIsLoading(false);
+        if (mData != null) {
+            orderDetailViewModel.updateOrderId(mData.getOrderNumber());
+            orderDetailViewModel.updateAddress(mData.getUser().getFullAddressWithNewLine());
+            orderDetailViewModel.updateFullName(mData.getUser().getFullName());
+            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
+            orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
+            orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
+            orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
+            orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma((int) mData.getTotalAmount()));
+            mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
 
-        mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getContext()));
+            mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getContext()));
+        }
     }
 
     @Override

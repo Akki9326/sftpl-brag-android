@@ -194,7 +194,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
 
     private void setFragmentInTab() {
-
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container_category, new CategoryFragment(), "Category_Tag");
         transaction.commit();

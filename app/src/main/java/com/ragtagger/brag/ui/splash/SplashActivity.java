@@ -42,6 +42,7 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSplashViewModel.setNavigator(this);
     }
 
     @Override
@@ -68,13 +69,12 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
     @Override
     public void afterLayoutSet() {
         mActiviSplashBinding = getViewDataBinding();
-        mSplashViewModel.setNavigator(this);
-
         Utility.applyTypeFace(getApplicationContext(), (RelativeLayout) mActiviSplashBinding.baseLayout);
-        mSplashViewModel.setDeviceNameAndOS();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                mSplashViewModel.setDeviceNameAndOS();
                 mSplashViewModel.decideNextActivity();
             }
         }, 2000);

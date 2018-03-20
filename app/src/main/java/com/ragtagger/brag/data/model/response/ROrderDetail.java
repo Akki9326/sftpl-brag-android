@@ -9,7 +9,7 @@ package com.ragtagger.brag.data.model.response;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import com.ragtagger.brag.data.model.datas.DataOrderDetail;
+import com.ragtagger.brag.data.model.datas.DataMyOrder;
 
 /**
  * Created by nikhil.vadoliya on 23-02-2018.
@@ -21,13 +21,13 @@ public class ROrderDetail {
     private boolean status;
     private Integer errorCode;
     private String message;
-    private DataOrderDetail data;
+    private DataMyOrder data;
 
-    public DataOrderDetail getData() {
+    public DataMyOrder getData() {
         return data;
     }
 
-    public void setData(DataOrderDetail data) {
+    public void setData(DataMyOrder data) {
         this.data = data;
     }
 

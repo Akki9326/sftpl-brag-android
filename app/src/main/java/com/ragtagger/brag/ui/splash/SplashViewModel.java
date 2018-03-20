@@ -17,18 +17,15 @@ public class SplashViewModel extends CoreViewModel<SplashNavigator> {
     }
 
     public void setDeviceNameAndOS() {
-
-
-
-        if (getDataManager().getDeviceType().isEmpty()){
-            getDataManager().setDeviceTypeAndOsVer(Utility.getDeviceName(),android.os.Build.VERSION.RELEASE);
+        if (getDataManager().getDeviceType().isEmpty()) {
+            getDataManager().setDeviceTypeAndOsVer(Utility.getDeviceName(), android.os.Build.VERSION.RELEASE);
         }
 
-        AppLogger.i(getClass().getSimpleName()+" : setDeviceNameAndOS: device token " + FirebaseInstanceId.getInstance().getToken());
+        AppLogger.i(getClass().getSimpleName() + " : setDeviceNameAndOS: device token " + FirebaseInstanceId.getInstance().getToken());
         getDataManager().setDeviceToken(FirebaseInstanceId.getInstance().getToken());
     }
 
-    public void decideNextActivity(){
+    public void decideNextActivity() {
         if (getDataManager().isLogin()) {
             getNavigator().openMainActivity();
         } else {

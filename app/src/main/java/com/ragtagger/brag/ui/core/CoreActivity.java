@@ -184,8 +184,14 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         });
     }
 
+    /**
+     * Main activity fragment toolbar
+     *
+     * @param isBackBtn
+     * @param isLogo
+     * @param isCardBtn
+     */
     public void showToolbar(boolean isBackBtn, boolean isLogo, boolean isCardBtn) {
-
         mTxtReadAll.setVisibility(View.GONE);
         if (isBackBtn) {
             mImgBack.setVisibility(View.VISIBLE);
@@ -217,6 +223,14 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
 
     }
 
+    /**
+     * When title available but logo not there
+     *
+     * @param isBack
+     * @param isLogo
+     * @param title
+     * @param rightLabel
+     */
     public void showToolbar(boolean isBack, boolean isLogo, String title, String rightLabel) {
         mTxtReadAll.setVisibility(View.VISIBLE);
         mToolbarTitle.setText(title);

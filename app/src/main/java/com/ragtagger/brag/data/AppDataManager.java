@@ -5,34 +5,34 @@ import android.content.Context;
 
 import com.ragtagger.brag.data.local.AppPrefsManager;
 import com.ragtagger.brag.data.local.IPreferenceManager;
+import com.ragtagger.brag.data.model.datas.DataUser;
+import com.ragtagger.brag.data.model.requests.QAddAddress;
 import com.ragtagger.brag.data.model.requests.QAddToCart;
+import com.ragtagger.brag.data.model.requests.QChangeMobileNumber;
+import com.ragtagger.brag.data.model.requests.QChangePassword;
 import com.ragtagger.brag.data.model.requests.QContactUs;
 import com.ragtagger.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.ragtagger.brag.data.model.requests.QGetFilter;
+import com.ragtagger.brag.data.model.requests.QLogin;
 import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.data.model.requests.QProductList;
+import com.ragtagger.brag.data.model.requests.QSignUp;
 import com.ragtagger.brag.data.model.response.RAddToCart;
+import com.ragtagger.brag.data.model.response.RCartList;
+import com.ragtagger.brag.data.model.response.RCategoryList;
 import com.ragtagger.brag.data.model.response.RChangePassword;
+import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RFilter;
+import com.ragtagger.brag.data.model.response.RGeneralData;
+import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.ROTPVerify;
+import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProductList;
-import com.ragtagger.brag.data.model.requests.QAddAddress;
+import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.data.model.response.RStateList;
 import com.ragtagger.brag.data.model.response.RUserAddress;
 import com.ragtagger.brag.data.remote.IApiManager;
-import com.ragtagger.brag.data.model.response.RGeneralData;
-import com.ragtagger.brag.data.model.datas.DataUser;
-import com.ragtagger.brag.data.model.requests.QChangeMobileNumber;
-import com.ragtagger.brag.data.model.requests.QChangePassword;
-import com.ragtagger.brag.data.model.requests.QLogin;
-import com.ragtagger.brag.data.model.requests.QSignUp;
-import com.ragtagger.brag.data.model.response.RCartList;
-import com.ragtagger.brag.data.model.response.RCategoryList;
-import com.ragtagger.brag.data.model.response.RCollectionList;
-import com.ragtagger.brag.data.model.response.RLogin;
-import com.ragtagger.brag.data.model.response.ROTPVerify;
-import com.ragtagger.brag.data.model.response.ROrderDetail;
-import com.ragtagger.brag.data.model.response.RSignUp;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -179,8 +179,8 @@ public class AppDataManager implements IDataManager {
 
 
     @Override
-    public Call<ROrderDetail> getOrderDetail(String url) {
-        return mApiManager.getOrderDetail(url);
+    public Call<ROrderDetail> getOrderDetail(String orderId) {
+        return mApiManager.getOrderDetail(orderId);
     }
 
     @Override

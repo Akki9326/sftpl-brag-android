@@ -8,9 +8,9 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.ragtagger.brag.BragApp"
@@ -28,7 +28,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity
@@ -42,8 +42,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.ragtagger.brag.ui.authentication.otp.autoread.SmsReceiver" >
-            <intent-filter android:priority="999" >
+        <receiver android:name="com.ragtagger.brag.ui.authentication.otp.autoread.SmsReceiver">
+            <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
@@ -67,6 +67,7 @@
         <!-- FCM -->
         <activity
             android:name="com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ragtagger.brag.ui.authentication.profile.UserProfileActivity"

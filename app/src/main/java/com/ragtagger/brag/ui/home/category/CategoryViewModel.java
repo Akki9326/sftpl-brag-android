@@ -95,6 +95,7 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
                     } else {
                         getNavigator().setBanner(categoryListResponse.getData().getBanners());
                         getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
+                        //getNavigator().onApiError(new ApiError(Constants.IErrorCode.socketTimeOutError, Constants.IErrorMessage.TIME_OUT_CONNECTION));
                     }
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));

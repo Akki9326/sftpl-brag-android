@@ -10,6 +10,7 @@ package com.ragtagger.brag.ui.home.subcategory;
  */
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;

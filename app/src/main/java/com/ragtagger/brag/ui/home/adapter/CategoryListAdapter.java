@@ -10,6 +10,7 @@ package com.ragtagger.brag.ui.home.adapter;
  */
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     public class ViewHolder extends CoreViewHolder implements CategoryItemViewModel.OnItemClickListener {
 
         ItemGridCategoryBinding itemBinding;
+        boolean isClicked = false;
 
         public ViewHolder(ItemGridCategoryBinding itemView) {
             super(itemView.getRoot());
@@ -84,10 +86,23 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         public void onBind(final int position) {
         }
 
+        private void enabledClick() {
+            if (isClicked)
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isClicked = false;
+                    }
+                }, 250);
+        }
 
         @Override
-        public void onItemClick(int position, DataCategoryList.Category responeData) {
-            onItemClickListener.onItemClick(position);
+        public void onItemClick(final int position, DataCategoryList.Category responeData) {
+            if (!isClicked) {
+                isClicked = true;
+                onItemClickListener.onItemClick(position);
+                enabledClick();
+            }
         }
     }
 

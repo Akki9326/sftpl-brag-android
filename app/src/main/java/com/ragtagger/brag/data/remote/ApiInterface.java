@@ -25,6 +25,7 @@ import com.ragtagger.brag.data.model.response.RChangePassword;
 import com.ragtagger.brag.data.model.response.RCategoryList;
 import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RLogin;
+import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RAddToCart;
@@ -132,4 +133,7 @@ public interface ApiInterface {
 
     @GET("order/reOrder/{orderId}")
     Call<RGeneralData> reOrder(@Path("orderId") String id);
+
+    @POST("notification/list/{pages}")
+    Call<RNotification> getNotificationList(@Path("pages") int page);
 }

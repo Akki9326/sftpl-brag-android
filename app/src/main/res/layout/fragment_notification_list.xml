@@ -1,32 +1,55 @@
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="com.ragtagger.brag.ui.notification.NotificationListViewModel"/>
+            type="com.ragtagger.brag.ui.notification.NotificationListViewModel" />
     </data>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/base_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textview_read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:visibility="gone"
-        android:onClick="@{viewModel.onReadClick()}"
-        android:text="@string/label_notification_read" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.noInternet ? View.GONE : View.VISIBLE}">
 
-    <com.ragtagger.brag.views.erecyclerview.ERecyclerView
-        android:id="@+id/recycleview_notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+                app:onRefreshListener="@{viewModel.getOnRefreshListener}">
 
+                <com.ragtagger.brag.views.erecyclerview.ERecyclerView
+                    android:id="@+id/recycleview_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linear_no_internet"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.noInternet ? View.VISIBLE : View.GONE}">
 
-</LinearLayout></layout>
+            <include
+                android:id="@+id/layout_no_internet"
+                layout="@layout/layout_no_internet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

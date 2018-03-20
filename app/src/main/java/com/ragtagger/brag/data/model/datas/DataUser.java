@@ -155,8 +155,14 @@ public class DataUser implements Parcelable {
     public String getFullAddressWithNewLine() {
         if (getAddresses() != null && !getAddresses().isEmpty()) {
             DataUserAddress address = getAddresses().get(0);
-            return address.getAddress() + " , " + address.getLandmark() + " , "
-                    + address.getCity() + "\n"
+            String landmark;
+            if (address.getLandmark().isEmpty()) {
+                landmark = address.getLandmark();
+            } else {
+                landmark = address.getLandmark() + " , ";
+            }
+
+            return address.getAddress() + " , " + landmark + address.getCity() + "\n"
                     + address.getState().getText() + "-" + address.getPincode();
         } else {
             return "";
@@ -167,8 +173,15 @@ public class DataUser implements Parcelable {
     public String getFullAddress() {
         if (getAddresses() != null && !getAddresses().isEmpty()) {
             DataUserAddress address = getAddresses().get(0);
-            return address.getAddress() + " , " + address.getLandmark() + " , "
-                    + address.getCity() + " , " + address.getState().getText() + " - "
+
+            String landmark;
+            if (address.getLandmark().isEmpty()) {
+                landmark = address.getLandmark();
+            } else {
+                landmark = address.getLandmark() + " , ";
+            }
+            return address.getAddress() + " , "
+                    + landmark + address.getCity() + " , " + address.getState().getText() + " - "
                     + address.getPincode();
         } else {
             return "";

@@ -136,9 +136,9 @@ public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPas
 
     @Override
     public void done() {
-        if (Validation.isEmpty(mFragmentCreateNewPasswordBinding.edittextPassword)) {
+        if (Validation.isEmptyPassword(mFragmentCreateNewPasswordBinding.edittextPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
-        } else if (Validation.isEmpty(mFragmentCreateNewPasswordBinding.edittextConfirmPassword)) {
+        } else if (Validation.isEmptyPassword(mFragmentCreateNewPasswordBinding.edittextConfirmPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
         } else if (!(mFragmentCreateNewPasswordBinding.edittextPassword.getText().toString().equals(mFragmentCreateNewPasswordBinding.edittextConfirmPassword.getText().toString()))) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));

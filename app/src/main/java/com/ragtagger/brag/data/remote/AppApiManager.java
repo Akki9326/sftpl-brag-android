@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.response.RCategoryList;
 import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RAddToCart;
@@ -183,5 +184,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<RGeneralData> reOrder(String id) {
         return mApiInterface.reOrder(id);
+    }
+
+    @Override
+    public Call<RNotification> getNotificationList(int page) {
+        return mApiInterface.getNotificationList(page);
     }
 }

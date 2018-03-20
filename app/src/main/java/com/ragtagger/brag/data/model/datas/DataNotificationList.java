@@ -17,22 +17,17 @@ package com.ragtagger.brag.data.model.datas;
 public class DataNotificationList {
     private String id;
     private String title;
-    private String descrioption;
-    private boolean isRead;
+    private String body;
+    private int notificationType;
+    private String whatId;
+    private boolean isAttended;
 
-    public DataNotificationList(String id, String title, String descrioption, boolean isRead) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
-        this.title = title;
-        this.descrioption = descrioption;
-        this.isRead=isRead;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
     }
 
     public String getTitle() {
@@ -43,19 +38,35 @@ public class DataNotificationList {
         this.title = title;
     }
 
-    public String getDescrioption() {
-        return descrioption;
+    public String getBody() {
+        return body;
     }
 
-    public void setDescrioption(String descrioption) {
-        this.descrioption = descrioption;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public String getId() {
-        return id;
+    public int getNotificationType() {
+        return notificationType;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNotificationType(int notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public String getWhatId() {
+        return whatId;
+    }
+
+    public void setWhatId(String whatId) {
+        this.whatId = whatId;
+    }
+
+    public boolean isAttended() {
+        return isAttended;
+    }
+
+    public void setAttended(boolean attended) {
+        isAttended = attended;
     }
 }

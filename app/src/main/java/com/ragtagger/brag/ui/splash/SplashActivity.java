@@ -116,6 +116,10 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
 
     @Override
     public void onBackPressed() {
+
+        if (manager == null) {
+            manager = getSupportFragmentManager();
+        }
         if (manager.findFragmentById(R.id.fragment_container_login) instanceof SignUpCompleteFragment) {
             return;
         } else {

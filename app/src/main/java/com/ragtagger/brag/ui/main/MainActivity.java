@@ -1,5 +1,6 @@
 package com.ragtagger.brag.ui.main;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -78,6 +79,12 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         //// TODO: 3/9/2018 get cart details
         /*BragApp.CartNumber = 2;
         setBagCount(BragApp.CartNumber);*/
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (mMainActivyBinding.getRoot() != null) {
+                mMainActivyBinding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }*/
         pushFragments(new HomeFragment(), false, false);
     }
 

@@ -10,6 +10,7 @@ package com.ragtagger.brag.ui.notification.adapter;
  */
 
 import android.app.Activity;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,10 @@ import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.IOnItemClickListener;
 import com.ragtagger.brag.data.model.datas.DataNotificationList;
 import com.ragtagger.brag.callback.OnSingleClickListener;
+import com.ragtagger.brag.databinding.ItemListNotificationBinding;
+import com.ragtagger.brag.ui.core.CoreViewHolder;
+import com.ragtagger.brag.ui.notification.NotificationItemViewModel;
+import com.ragtagger.brag.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,16 +49,18 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     @Override
     public NotificationListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.item_list_notification, null);
-        NotificationListAdapter.MyViewHolder viewHolder1 = new NotificationListAdapter.MyViewHolder(view1);
-        return viewHolder1;
+
+
+        ItemListNotificationBinding itemListNotificationBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()), R.layout.item_list_notification, parent, false);
+        return new MyViewHolder(itemListNotificationBinding);
 
     }
 
     @Override
     public void onBindViewHolder(NotificationListAdapter.MyViewHolder holder, final int position) {
-        holder.mTxtTitle.setText(mListData.get(position).getTitle());
-        holder.mTxtDetail.setText(mListData.get(position).getDescrioption());
+
+        holder.bindCartData(position, mListData.get(position));
 
        /* if (mListData.get(position).isRead()) {
             holder.mView.setBackgroundColor(Color.WHITE);
@@ -61,12 +68,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             holder.mView.setBackgroundColor(mActivity.getResources().getColor(R.color.gray_10));
         }*/
 
-        holder.mView.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                onItemClickListener.onItemClick(position);
-            }
-        });
+
     }
 
     @Override
@@ -74,18 +76,31 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         return mListData.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends CoreViewHolder implements NotificationItemViewModel.OnItemClick {
 
-        TextView mTxtTitle;
-        TextView mTxtDetail;
-        View mView;
+        ItemListNotificationBinding mBind;
+        int pos;
 
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
+        public MyViewHolder(ItemListNotificationBinding itemView) {
+            super(itemView.getRoot());
+            this.mBind = itemView;
+            Utility.applyTypeFace(mActivity, mBind.baseLayout);
+        }
 
-            mTxtTitle = itemView.findViewById(R.id.textview_title);
-            mTxtDetail = itemView.findViewById(R.id.textview_description);
+        void bindCartData(int position, DataNotificationList responeData) {
+            pos = position;
+            mBind.setViewModel(new NotificationItemViewModel(itemView.getContext(), responeData, position, this));
+            mBind.executePendingBindings();
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+
+        @Override
+        public void onItemClick(int position, DataNotificationList responeData) {
+            onItemClickListener.onItemClick(position);
         }
     }
 }

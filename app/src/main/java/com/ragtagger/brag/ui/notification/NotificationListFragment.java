@@ -17,12 +17,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataNotificationList;
+import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.databinding.FragmentNotificationListBinding;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.notification.adapter.NotificationListAdapter;
@@ -51,12 +53,36 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     FragmentNotificationListBinding mFragmentNotificationListBinding;
 
-    static int ACTION = 0;
-    static final int LOAD_MORE = 2;
-    static final int LOAD_LIST = 1;
+    private int ACTION = 0;
+    private static final int LOAD_LIST = 1;
+    private static final int LOAD_MORE = 5;
+    private int PAGE_NUM = 1;
+    int totalNotification;
 
     NotificationListAdapter mListAdapter;
     List<DataNotificationList> mListData;
+
+    private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()) {
+                        return;
+                    }
+
+                    if (mListData.size() != totalNotification) {
+                        ACTION = LOAD_MORE;
+                        checkInternet(false);
+                    } else {
+                        mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(true);
+                    }
+                }
+            }, 500);
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +95,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         mListData = new ArrayList<>();
         mListAdapter = new NotificationListAdapter(getActivity(), mListData, this);
 
-        ACTION = LOAD_LIST;
+
     }
 
     @Override
@@ -81,27 +107,18 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mFragmentNotificationListBinding.recycleviewNotification.setLayoutManager(layoutManager);
         mFragmentNotificationListBinding.recycleviewNotification.setMotionEventSplittingEnabled(false);
-        mFragmentNotificationListBinding.recycleviewNotification.setPageSize(10);
+        mFragmentNotificationListBinding.recycleviewNotification.setPageSize(20);
         mFragmentNotificationListBinding.recycleviewNotification.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
         mFragmentNotificationListBinding.recycleviewNotification.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
-        mFragmentNotificationListBinding.recycleviewNotification.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+        mFragmentNotificationListBinding.recycleviewNotification.setOnLoadMoreListener(mOnLoadMoreListener);
 
-                        if (mListData.size() != 60) {
-                            ACTION = LOAD_MORE;
-                            checkInternet();
-                        } else {
-                            mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(true);
-                        }
-                    }
-                }, 500);
+
+        mFragmentNotificationListBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkInternet(true);
             }
         });
-
         mActivity.mTxtReadAll.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -112,7 +129,9 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             }
         });
 
-        checkInternet();
+        PAGE_NUM = 1;
+        ACTION = LOAD_LIST;
+        checkInternet(true);
     }
 
     @Override
@@ -140,89 +159,52 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         return R.layout.fragment_notification_list;
     }
 
-    private void checkInternet() {
-        if (Utility.isConnection(getContext())) {
-            showData();
+    private void checkInternet(boolean isShowLoader) {
+
+
+        if (Utility.isConnection(getActivity())) {
+            mNotificationListViewModel.setNoInternet(false);
+            if (ACTION == LOAD_MORE) {
+                PAGE_NUM++;
+            } else {
+                //for pull to refresh
+                if (isShowLoader)
+                    showProgress();
+                PAGE_NUM = 1;
+            }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mNotificationListViewModel.getNotificationListAPI(PAGE_NUM);
+                }
+            }, 500);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            //if not internet connection during swipe or load more than show pop up than no internet layout
+            if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()
+                    || mFragmentNotificationListBinding.recycleviewNotification.isLoadingData()) {
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            } else {
+                mNotificationListViewModel.setNoInternet(true);
+            }
+
+            hideLoader();
             mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
         }
-    }
-
-    public void showData() {
-
-        if (ACTION == LOAD_LIST) {
-            mListData.clear();
-
-            mListData.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-                    "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", false));
-            mListData.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
-                    "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
-            mListData.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
-                    ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", false));
-            mListData.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", false));
-            mListData.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
-                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
-            mListData.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-                    "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", false));
-            mListData.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
-                    "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", false));
-            mListData.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
-                    ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", false));
-            mListData.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", false));
-            mListData.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
-                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", false));
-
-            mListAdapter = new NotificationListAdapter(getActivity(), mListData, this);
-            mFragmentNotificationListBinding.recycleviewNotification.setAdapter(mListAdapter);
-
-        } else {
-
-            ArrayList<DataNotificationList> localList = new ArrayList<>();
-            localList.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-                    "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", true));
-            localList.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
-                    "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
-            localList.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
-                    ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", true));
-            localList.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", true));
-            localList.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
-                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
-            localList.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-                    "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", true));
-            localList.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
-                    "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
-            localList.add(new DataNotificationList("1", "Text ever since the 1500s, when an unknown printer took a galley ",
-                    ". Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable.", true));
-            localList.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
-                    "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", true));
-            localList.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
-                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
-
-
-            mListData.addAll(localList);
-            mListAdapter.notifyDataSetChanged();
-            mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
-        }
-
-
     }
 
     @Override
     public void onItemClick(int position) {
+        Toast.makeText(mActivity, "Click", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onApiSuccess() {
-        hideProgress();
+        hideLoader();
     }
 
     @Override
     public void onApiError(ApiError error) {
-        hideProgress();
+        hideLoader();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
@@ -232,5 +214,57 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         setUpToolbar();
+    }
+
+    @Override
+    public void getNotificationList(RNotificationList notificationList, List<DataNotificationList> lists) {
+        switch (ACTION) {
+            case LOAD_LIST:
+
+                totalNotification = notificationList.getCount();
+                mListData.clear();
+                mListData.addAll(lists);
+                mListAdapter = new NotificationListAdapter(getActivity(), mListData, this);
+                mFragmentNotificationListBinding.recycleviewNotification.setAdapter(mListAdapter);
+                mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(false);
+
+                //issue of space in bottom of recycleview in last item when total item size small than 20;
+                if (totalNotification <= 20)
+                    mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(false);
+
+                break;
+            case LOAD_MORE:
+
+                mListData.addAll(lists);
+                mListAdapter.notifyDataSetChanged();
+                mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
+
+                break;
+        }
+
+    }
+
+    @Override
+    public void swipeToRefresh() {
+        mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(true);
+        ACTION = LOAD_LIST;
+        mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
+        checkInternet(false);
+    }
+
+    public void hideLoader() {
+        if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+            mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
     }
 }

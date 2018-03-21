@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProductList;
@@ -113,4 +114,10 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<RGeneralData> placeOrder(QPlaceOrder placeOrder);
+
+    @Override
+    Call<RGeneralData> reOrder(String id);
+
+    @Override
+    Call<RNotificationList> getNotifications(int page);
 }

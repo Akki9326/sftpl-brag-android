@@ -45,6 +45,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     String itemsLable;
 
     ObservableField<Boolean> isLoading = new ObservableField<>();
+    ObservableField<Boolean> hasData = new ObservableField<>();
 
     public ObservableField<Boolean> getIsLoading() {
         return isLoading;
@@ -52,6 +53,14 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
     public void updateIsLoading(boolean isLoading) {
         this.isLoading.set(isLoading);
+    }
+
+    public ObservableField<Boolean> getHasData() {
+        return hasData;
+    }
+
+    public void updateHasData(boolean hasData) {
+        this.hasData.set(hasData);
     }
 
     public OrderDetailViewModel(IDataManager dataManager) {

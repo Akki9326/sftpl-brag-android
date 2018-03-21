@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataNotification;
 import com.ragtagger.brag.databinding.ActivityNotificationHandlerBinding;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.ragtagger.brag.utils.Constants;
+import com.ragtagger.brag.utils.Utility;
 
 import javax.inject.Inject;
 
@@ -19,7 +22,9 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class NotificationHandlerActivity extends CoreActivity<NotificationHandlerActivity, ActivityNotificationHandlerBinding, NotificationHandlerViewModel> implements NotificationHandlerNavigator, HasSupportFragmentInjector {
+import static com.ragtagger.brag.utils.Constants.BUNDLE_NOTIFICATION_MODEL;
+
+public class NotificationHandlerActivity extends CoreActivity<NotificationHandlerActivity, ActivityNotificationHandlerBinding, NotificationHandlerViewModel> implements NotificationHandlerNavigator, HasSupportFragmentInjector, CoreActivity.OnToolbarSetupListener {
 
     @Inject
     NotificationHandlerViewModel mNotificationHandlerViewModel;
@@ -29,7 +34,7 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
 
     ActivityNotificationHandlerBinding mActivityNotificationHandlerBinding;
 
-    private String mWhatId;
+    private DataNotification mNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +47,19 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent != null) {
-            if (intent.hasExtra(Constants.BUNDLE_KEY_NOTIFICATION_WHAT_ID)) {
-                mWhatId = intent.getStringExtra(Constants.BUNDLE_KEY_NOTIFICATION_WHAT_ID);
-                OrderDetailFragment fragment = OrderDetailFragment.newInstance(mWhatId);
-                pushFragments(fragment, false, false);
+            if (intent.hasExtra(BUNDLE_NOTIFICATION_MODEL)) {
+                mNotification = intent.getParcelableExtra(BUNDLE_NOTIFICATION_MODEL);
+                //mWhatId = intent.getStringExtra(Constants.BUNDLE_KEY_NOTIFICATION_WHAT_ID);
+                if (mNotification != null) {
+                    switch (Constants.NotificationType.values()[mNotification.getNotificationType()]) {
+                        case ORDER:
+                            OrderDetailFragment fragment = OrderDetailFragment.newInstance(mNotification.getContentId());
+                            pushFragments(fragment, false, false);
+                            break;
+                        case ITEM:
+                            break;
+                    }
+                }
             }
         }
     }
@@ -73,7 +87,12 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
     @Override
     public void afterLayoutSet() {
         mActivityNotificationHandlerBinding = getViewDataBinding();
+        // TODO: 16-02-2018 move to core activity
+        if (bActivity instanceof OnToolbarSetupListener) {
+            ((OnToolbarSetupListener) bActivity).setUpToolbar();
+        }
     }
+
 
     @Override
     public void onApiSuccess() {
@@ -111,5 +130,17 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
+    }
+
+    @Override
+    public void setUpToolbar() {
+        mNotificationHandlerViewModel.updateToolbarTitle(getString(R.string.toolbar_label_order_detail));
+        mActivityNotificationHandlerBinding.toolbar.imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.hideSoftkeyboard(NotificationHandlerActivity.this, view);
+                onBackPressed();
+            }
+        });
     }
 }

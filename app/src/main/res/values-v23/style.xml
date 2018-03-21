@@ -1,4 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -10,10 +11,8 @@
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:actionMenuTextAppearance">@style/menuText</item>
-        <!--<item name="android:navigationBarColor">@color/gray_transparent</item>-->
-        <!--<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowLightStatusBar">true</item>-->
+        <!--<item name="android:statusBarColor">@color/white</item>-->
         <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
-
 </resources>

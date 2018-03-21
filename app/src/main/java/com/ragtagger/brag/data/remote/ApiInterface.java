@@ -28,8 +28,8 @@ import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RLogin;
+import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RMyOrder;
-import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProductList;
@@ -135,8 +135,7 @@ public interface ApiInterface {
     Call<RGeneralData> reOrder(@Path("orderId") String id);
 
 
-    @POST("notification/list/{page}")
-    Call<RNotificationList> getNotifications(@Path("page") int page);
 
-
+    @POST("notification/list/{pages}")
+    Call<RNotification> getNotificationList(@Path("pages") int page);
 }

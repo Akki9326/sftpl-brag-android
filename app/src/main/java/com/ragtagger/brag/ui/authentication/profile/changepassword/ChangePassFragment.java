@@ -29,6 +29,7 @@ import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.utils.Validation;
 
 import javax.inject.Inject;
+import javax.xml.validation.Validator;
 
 /**
  * Created by nikhil.vadoliya on 13-11-2017.
@@ -98,24 +99,27 @@ public class ChangePassFragment extends CoreFragment<FragmentChangePasswordBindi
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
     public void done() {
-        if (Validation.isEmpty(mChangePasswordBinding.edittextOldPassword)) {
+        if (Validation.isEmptyPassword(mChangePasswordBinding.edittextOldPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
-        } else if (Validation.isEmpty(mChangePasswordBinding.edittextPassword)) {
+        } else if (Validation.isEmptyPassword(mChangePasswordBinding.edittextPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
-        } else if (Validation.isEmpty(mChangePasswordBinding.edittextConfirmPassword)) {
+        } else if (Validation.isEmptyPassword(mChangePasswordBinding.edittextConfirmPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
-        } else if (!(mChangePasswordBinding.edittextPassword.getText().toString().equals(mChangePasswordBinding.edittextConfirmPassword.getText().toString()))) {
+        } else if (Validation.isTwoStringSameFormPassword(mChangePasswordBinding.edittextOldPassword
+                , mChangePasswordBinding.edittextPassword)) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match_with_old));
+        } else if (!Validation.isTwoStringSameFormPassword(mChangePasswordBinding.edittextPassword, mChangePasswordBinding.edittextConfirmPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
         } else if (Utility.isConnection(getActivity())) {
             showProgress();
             mChangePassViewModel.changePassword(mobile, mChangePasswordBinding.edittextOldPassword.getText().toString(), mChangePasswordBinding.edittextPassword.getText().toString());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 

@@ -16,6 +16,21 @@ import com.ragtagger.brag.data.model.requests.QGetFilter;
 import com.ragtagger.brag.data.model.requests.QLogin;
 import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.data.model.requests.QProductList;
+import com.ragtagger.brag.data.model.response.RAddToCart;
+import com.ragtagger.brag.data.model.response.RChangePassword;
+import com.ragtagger.brag.data.model.response.RFilter;
+import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.RNotification;
+import com.ragtagger.brag.data.model.response.RProductList;
+import com.ragtagger.brag.data.model.requests.QAddAddress;
+import com.ragtagger.brag.data.model.response.RStateList;
+import com.ragtagger.brag.data.model.response.RUserAddress;
+import com.ragtagger.brag.data.remote.IApiManager;
+import com.ragtagger.brag.data.model.response.RGeneralData;
+import com.ragtagger.brag.data.model.datas.DataUser;
+import com.ragtagger.brag.data.model.requests.QChangeMobileNumber;
+import com.ragtagger.brag.data.model.requests.QChangePassword;
+import com.ragtagger.brag.data.model.requests.QLogin;
 import com.ragtagger.brag.data.model.requests.QSignUp;
 import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.model.response.RCartList;
@@ -26,7 +41,6 @@ import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
-import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProductList;
@@ -220,8 +234,8 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<RNotificationList> getNotifications(int page) {
-        return mApiManager.getNotifications(page);
+    public Call<RNotification> getNotificationList(int page) {
+        return mApiManager.getNotificationList(page);
     }
 
     @Override

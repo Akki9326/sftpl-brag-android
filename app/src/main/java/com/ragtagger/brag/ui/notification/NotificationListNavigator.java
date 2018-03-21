@@ -1,9 +1,10 @@
 package com.ragtagger.brag.ui.notification;
 
 import com.ragtagger.brag.data.model.datas.DataNotificationList;
-import com.ragtagger.brag.data.model.datas.DataProductList;
+import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.ui.core.CoreNavigator;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,9 +15,7 @@ public interface NotificationListNavigator extends CoreNavigator {
 
     void readNotification();
 
-    void onNoData();
+    void getNotificationList(RNotificationList notificationList, List<DataNotificationList> lists);
 
-    void setData(DataNotificationList data);
-
-    void setProductList(int notificationSize, List<DataNotificationList.Notification> notificationList);
+    void swipeToRefresh();
 }

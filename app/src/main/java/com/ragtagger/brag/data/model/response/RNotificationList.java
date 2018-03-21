@@ -1,46 +1,67 @@
 package com.ragtagger.brag.data.model.response;
 
-import com.ragtagger.brag.data.model.datas.DataNotificationList;
 
 /**
- * Created by alpesh.rathod on 3/20/2018.
+ * Copyright (c) 2015-2016 Sailfin Technologies, Pvt. Ltd.  All Rights Reserved.
+ * This software is the confidential and proprietary information
+ * (Confidential Information) of Sailfin Technologies, Pvt. Ltd.  You shall not
+ * disclose or use Confidential Information without the express written
+ * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.ragtagger.brag.data.model.datas.DataNotificationList;
+
+import java.util.List;
+
+/**
+ * Created by nikhil.vadoliya on 20-03-2018.
+ */
+
+
 public class RNotificationList {
-    private boolean status;
-    private Integer errorCode;
-    private String message;
-    private DataNotificationList data;
+    private String q;
+    private String medianType;
+    private int count;
+    private int pageSize;
+    private List<DataNotificationList> objects;
 
-    public boolean isStatus() {
-        return status;
+    public String getQ() {
+        return q;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setQ(String q) {
+        this.q = q;
     }
 
-    public Integer getErrorCode() {
-        return errorCode;
+    public String getMedianType() {
+        return medianType;
     }
 
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
+    public void setMedianType(String medianType) {
+        this.medianType = medianType;
     }
 
-    public String getMessage() {
-        return message;
+    public int getCount() {
+        return count;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public DataNotificationList getData() {
-        return data;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setData(DataNotificationList data) {
-        this.data = data;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public List<DataNotificationList> getObjects() {
+        return objects;
+    }
+
+    public void setObjects(List<DataNotificationList> objects) {
+        this.objects = objects;
     }
 }

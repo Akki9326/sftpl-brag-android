@@ -42,7 +42,7 @@
     <string name="error_code_7">Your permissions have been changed. Please login again.</string>
     <string name="error_code_8">Mobile number you have entered is already exists.
                                 Please try again with a different mobile number.</string>
-    <string name="error_code_9">The user is not approved.</string>
+    <string name="error_code_9">The user is not yet approved.</string>
     <string name="error_code_10">User not allowed. Please contact administrator.</string>
     <string name="error_code_11"> The user is approved but not signed up yet.</string>
     <string name="error_code_12">User is already exists.</string>
@@ -112,7 +112,7 @@
     <string name="error_retrofit_request_timeout">Your request timeout.</string>
     <string name="error_retrofit_network_error">Problem communicating with server!</string>
     <string name="error_enter_num_and_pass">Please enter mobile number and password.</string>
-    <string name="error_retrofit_connection">Error in connect to server</string>
+    <string name="error_retrofit_connection">Error in connect to server.</string>
     <string name="btn_back">Back</string>
     <string name="label_quality">Quality</string>
     <string name="label_category">Category</string>
@@ -148,13 +148,14 @@
     <string name="label_confirm_password">Confirm password</string>
     <string name="hint_confirm_password_ast"><font size="12">Confirm password*</font></string>
     <string name="error_password_not_match">Entered password not match with confirm password.</string>
-    <string name="error_please_enter_first_name">Please Enter your first name.</string>
+    <string name="error_password_not_match_with_old">New password should not be same as the old password.</string>
+    <string name="error_please_enter_first_name">Please enter your first name.</string>
     <string name="error_please_email">Please enter your email address.</string>
-    <string name="error_enter_mobile">Please enter your mobile number</string>
-    <string name="error_enter_gst">Please enter GST number</string>
+    <string name="error_enter_mobile">Please enter your mobile number.</string>
+    <string name="error_enter_gst">Please enter GST number.</string>
     <string name="error_pass">Please enter password.</string>
-    <string name="error_confirm_pass">Please enter confirm password</string>
-    <string name="error_email_valid">Please enter valid email address</string>
+    <string name="error_confirm_pass">Please enter confirm password.</string>
+    <string name="error_email_valid">Please enter valid email address.</string>
     <string name="error_mobile_valid">Please enter valid mobile number.</string>
     <string name="error_gst_valid">Please enter valid GST number.</string>
 
@@ -171,7 +172,7 @@
     <string name="label_old_pass">Old password</string>
     <string name="hint_old_password_ast"><font size="12">Old password*</font></string>
     <string name="error_enter_old_pass">Please enter old password.</string>
-    <string name="error_new_pass">Please enter new Password</string>
+    <string name="error_new_pass">Please enter new Password.</string>
     <string name="label_new_password">New password</string>
     <string name="hint_new_password_ast"><font size="12">New password*</font></string>
     <string name="label_change_pass">Change Password</string>
@@ -223,12 +224,12 @@
     <string name="hint_message_ast"><font size="12">Message*</font></string>
     <string name="hint_name_ast"><font size="12">Name*</font></string>
     <string name="button_send">Send</string>
-    <string name="error_empty_name">Please Enter Name.</string>
-    <string name="error_empty_message">Please Enter Message.</string>
+    <string name="error_empty_name">Please enter name.</string>
+    <string name="error_empty_message">Please enter message.</string>
     <string name="transition_image">transitionimage</string>
 
     <!--Common utils-->
-    <string name="value_is_not_valid_email_address">Invalid email address</string>
+    <string name="value_is_not_valid_email_address">Invalid email address.</string>
     <string name="field_could_not_be_empty">Field must not be empty.</string>
     <string name="not_in_range">Given value is not in a range between %1$d and %2$d.</string>
     <string name="dialog_action_ok">OK</string>
@@ -263,8 +264,8 @@
     <string name="label_edit_address">Edit Address</string>
     <string name="label_add_address">Add Address</string>
     <string name="error_app_not_found">In your device,app not found to open this file.</string>
-    <string name="msg_download_complate">Downlaod complete</string>
-    <string name="error_download_file">Error in downlaod file</string>
+    <string name="msg_download_complate">Download complete</string>
+    <string name="error_download_file">Error in download file</string>
     <string name="label_address">Address</string>
     <string name="label_landmark">Landmark</string>
     <string name="label_city">City</string>
@@ -272,8 +273,8 @@
     <string name="label_pincode">Pincode</string>
     <string name="toolbar_label_address">Address</string>
     <string name="button_add">Add</string>
-    <string name="error_empty_address">Please enter address</string>
-    <string name="error_empty_state">Please select  state</string>
+    <string name="error_empty_address">Please enter address.</string>
+    <string name="error_empty_state">Please select  state.</string>
     <string name="error_empty_city">Please enter city.</string>
     <string name="error_empty_pincode">Please enter pincode.</string>
     <string name="label_faq">FAQs</string>

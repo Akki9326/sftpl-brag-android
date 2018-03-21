@@ -1,12 +1,14 @@
 package com.ragtagger.brag.ui.notification;
 
 import android.databinding.ObservableField;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
+import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
-import com.ragtagger.brag.data.model.response.RNotificationList;
+import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
 
@@ -19,26 +21,9 @@ import retrofit2.Call;
 
 public class NotificationListViewModel extends CoreViewModel<NotificationListNavigator> {
 
-    private final ObservableField<Boolean> noInternet = new ObservableField<>();
+    private final ObservableField<Boolean> visibility = new ObservableField<>();
+    ObservableField<Boolean> noInternet = new ObservableField<>();
 
-    private final ObservableField<Boolean> noResult = new ObservableField<>();
-
-
-    public ObservableField<Boolean> getNoInternet() {
-        return noInternet;
-    }
-
-    public void setNoInternet(boolean noInternet) {
-        this.noInternet.set(noInternet);
-    }
-
-    public ObservableField<Boolean> getNoResult() {
-        return noResult;
-    }
-
-    public void setNoResult(boolean noResult) {
-        this.noResult.set(noResult);
-    }
 
     public NotificationListViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -53,22 +38,16 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
         };
     }
 
-    public void getNotifications(int page) {
-        Call<RNotificationList> call = getDataManager().getNotifications(page);
-        call.enqueue(new ApiResponse<RNotificationList>() {
+    public void getNotificationListAPI(int page) {
+        Call<RNotification> notificationCall = getDataManager().getNotificationList(page);
+        notificationCall.enqueue(new ApiResponse<RNotification>() {
             @Override
-            public void onSuccess(RNotificationList rNotificationList, Headers headers) {
-                if (rNotificationList.isStatus()) {
+            public void onSuccess(RNotification rNotification, Headers headers) {
+                if (rNotification.isStatus()) {
                     getNavigator().onApiSuccess();
-                    if (rNotificationList.getData() != null && rNotificationList.getData().getObjects() != null && rNotificationList.getData().getObjects().size() > 0) {
-                        //display data
-                        getNavigator().setData(rNotificationList.getData());
-                        getNavigator().setProductList(rNotificationList.getData().getCount(), rNotificationList.getData().getObjects());
-                    } else {
-                        getNavigator().onNoData();
-                    }
+                    getNavigator().getNotificationList(rNotification.getData(), rNotification.getData().getObjects());
                 } else {
-                    getNavigator().onApiError(new ApiError(rNotificationList.getErrorCode(), rNotificationList.getMessage()));
+                    getNavigator().onApiError(new ApiError(rNotification.getErrorCode(), rNotification.getMessage()));
                 }
             }
 
@@ -77,5 +56,36 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
                 getNavigator().onApiError(t);
             }
         });
+    }
+
+    public ObservableField<Boolean> getListVisibility() {
+        return visibility;
+    }
+
+    public void setListVisibility(boolean visibility) {
+        this.visibility.set(visibility);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().swipeToRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
+    }
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
     }
 }

@@ -54,5 +54,9 @@ public class Validation {
         return mEditText.getText().toString().trim().length() == 6 ? true : false;
     }
 
+    public static boolean isTwoStringSameFormPassword(EditText mEditTextFirst, EditText mEditTextSecond) {
+        return (mEditTextFirst.getText().toString()).equals(mEditTextSecond.getText().toString());
+    }
+
 
 }

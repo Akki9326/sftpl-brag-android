@@ -96,7 +96,7 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
         } else if (!Validation.isValidMobileNum(mFragmentLoginBinding.edittextMobileNum)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-        } else if (Validation.isEmpty(mFragmentLoginBinding.edittextPassword)) {
+        } else if (Validation.isEmptyPassword(mFragmentLoginBinding.edittextPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
         } else if (Utility.isConnection(getActivity())) {
             showProgress();

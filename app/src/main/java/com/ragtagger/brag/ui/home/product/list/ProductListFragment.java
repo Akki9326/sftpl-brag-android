@@ -331,12 +331,12 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void OnCartClick(int position) {
-        if (!isClicked) {
-            isClicked = true;
+//        if (!isClicked) {
+//            isClicked = true;
             // TODO: 15-03-2018 :oncart click
 //            ((MainActivity) getBaseActivity()).updateCartNum(0);
 //            enabledClick();
-        }
+//        }
     }
 
     @Override

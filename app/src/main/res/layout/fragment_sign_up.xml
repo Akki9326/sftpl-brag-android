@@ -158,7 +158,7 @@
                     android:hint="@string/hint_password_ast"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
-                    android:maxLength="@integer/max_length"
+                    android:maxLength="@integer/max_length_password"
                     android:paddingBottom="5dp" />
 
                 <View
@@ -185,7 +185,7 @@
                     android:background="@null"
                     android:hint="@string/hint_confirm_password_ast"
                     android:inputType="textPassword"
-                    android:maxLength="@integer/max_length"
+                    android:maxLength="@integer/max_length_password"
                     android:paddingBottom="5dp"
                     android:tag="@string/font_opensans_regular_id" />
                 <!--android:imeOptions="actionDone"

@@ -8,6 +8,7 @@ import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
@@ -54,6 +55,25 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
             @Override
             public void onError(ApiError t) {
                 getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    public void notificationRead(String id) {
+        Call<RGeneralData> notificationCall = getDataManager().notificationRead(id);
+        notificationCall.enqueue(new ApiResponse<RGeneralData>() {
+            @Override
+            public void onSuccess(RGeneralData rNotification, Headers headers) {
+                if (rNotification.isStatus()) {
+                    getNavigator().onApiSuccessNotificationRead();
+                } /*else {
+                    getNavigator().onApiError(new ApiError(rNotification.getErrorCode(), rNotification.getMessage()));
+                }*/
+            }
+
+            @Override
+            public void onError(ApiError t) {
+//                getNavigator().onApiError(t);
             }
         });
     }

@@ -9,10 +9,9 @@ package com.ragtagger.brag.ui.order.orderdetail;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
-import android.content.pm.PackageManager;
+import android.Manifest;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,15 +39,18 @@ import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
 import com.ragtagger.brag.utils.AlertUtils;
-import com.ragtagger.brag.utils.AppPermission;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.FileUtils;
 import com.ragtagger.brag.utils.Utility;
 
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.ragtagger.brag.utils.Constants.IPermissionRequestCode.REQ_SMS_SEND_RECEIVED_READ;
 
 /**
  * Created by nikhil.vadoliya on 22-02-2018.
@@ -156,7 +158,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onApiReorderSuccess() {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), null, getString(R.string.msg_reorder_success), null);
+        AlertUtils.showAlertMessage(getActivity(), null, getString(R.string.msg_place_order_successfull), null);
     }
 
     @Override
@@ -167,16 +169,19 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void onDownloadInvoice() {
-        if (Utility.isConnection(getContext())) {
-            if (!AppPermission.isPermissionRequestRequired(getActivity()
-                    , new String[]{"android.permission.READ_EXTERNAL_STORAGE"}
-                    , REQUEST_PERMISSION)) {
 
-                downloadOrOpenFile();
+        String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
+        if (checkAndRequestPermissions())
+            if (FileUtils.isFileExist(pathWithFolder + "/" + "example.pdf")) {
+                Utility.fileIntentHandle(getActivity(), new File(pathWithFolder + "/" + "example.pdf"));
+            } else {
+                if (Utility.isConnection(getContext())) {
+                    downloadFile();
+                } else {
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                }
             }
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
+
     }
 
     private void checkInternetAncGetDetails() {
@@ -192,21 +197,13 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         }
     }
 
-    private void downloadOrOpenFile() {
+    private void downloadFile() {
         String path = Environment.getExternalStorageDirectory().toString();
         String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
 
-        //make Brag folder
         Utility.makeFolder(path, getString(R.string.app_name));
+        downloadfileFromPRDownloader(pathWithFolder);
 
-
-        if (FileUtils.isFileExist(pathWithFolder + "/" + "example.pdf")) {
-            //open file
-            Utility.fileIntentHandle(getActivity(), new File(pathWithFolder + "/" + "example.pdf"));
-        } else {
-            //download file
-            downloadfileFromPRDownloader(pathWithFolder);
-        }
     }
 
     private void downloadfileFromPRDownloader(String path) {
@@ -331,7 +328,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             setUpToolbar();
     }
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
@@ -342,12 +339,44 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                     switch (permission) {
                         case "android.permission.READ_EXTERNAL_STORAGE":
                             if (PackageManager.PERMISSION_GRANTED == grantResult) {
-                                downloadOrOpenFile();
+                                downloadFile();
                             }
                             break;
                     }
                 }
                 break;
         }
+    }*/
+
+    @Override
+    public void onPermissionDenied(int request) {
+        super.onPermissionDenied(request);
+//        AlertUtils.showAlertMessage(getActivity(),getString(R.string.msg_read_permission));
     }
+
+    @Override
+    public void onPermissionGranted(int request) {
+        super.onPermissionGranted(request);
+        onDownloadInvoice();
+    }
+
+    private boolean checkAndRequestPermissions() {
+        boolean hasPermissionReadData = hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+        boolean hasPermissionWriteData = hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (!hasPermissionReadData) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (!hasPermissionWriteData) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQ_SMS_SEND_RECEIVED_READ);
+            return false;
+        }
+        return true;
+    }
+
+
 }

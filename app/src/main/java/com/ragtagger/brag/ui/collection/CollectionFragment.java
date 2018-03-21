@@ -9,6 +9,7 @@ package com.ragtagger.brag.ui.collection;
  */
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -80,6 +81,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         mCollectionViewModel.setNoResult(false);
         mCollectionViewModel.setNoInternet(false);
         mCollectionViewModel.setIsBannerAvail(true);
+        mCollectionViewModel.setIsListAvail(true);
 
         mFragmentCollectionBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -124,8 +126,15 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
                 showProgress();
             mCollectionViewModel.getCollectionList();
         } else {
-            mCollectionViewModel.setNoInternet(true);
             hideProgressBar();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCollectionViewModel.setNoInternet(true);
+                }
+            }, 150);
+
+
         }
 
     }
@@ -151,6 +160,10 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
             mCollectionViewModel.setNoInternet(true);
             return;
+        } else if (error.getHttpCode() == 19) {
+            onNoData();
+            mCollectionViewModel.setNoInternet(false);
+            return;
         }
         mCollectionViewModel.setNoInternet(false);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
@@ -169,9 +182,14 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     @Override
     public void setCategoryList(List<DataCategoryList.Category> list) {
-        mCollectionList.clear();
-        mCollectionList.addAll(list);
-        mAdapter.notifyDataSetChanged();
+        if (list != null && list.size() > 0) {
+            mCollectionViewModel.setIsListAvail(true);
+            mCollectionList.clear();
+            mCollectionList.addAll(list);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mCollectionViewModel.setIsListAvail(false);
+        }
     }
 
     @Override

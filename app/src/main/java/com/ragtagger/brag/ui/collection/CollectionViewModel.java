@@ -23,6 +23,7 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
     private final ObservableField<Boolean> noResult = new ObservableField<>();
 
     private final ObservableField<Boolean> isBannerAvail = new ObservableField<>();
+    private final ObservableField<Boolean> isListAvail = new ObservableField<>();
 
     public CollectionViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -52,6 +53,14 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
         this.isBannerAvail.set(isBannerAvail);
     }
 
+    public ObservableField<Boolean> getIsListAvail() {
+        return isListAvail;
+    }
+
+    public void setIsListAvail(boolean isListAvail) {
+        this.isListAvail.set(isListAvail);
+    }
+
     public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -75,6 +84,8 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
                 if (collectionListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     if (collectionListResponse.getData() == null) {
+                        getNavigator().onNoData();
+                    } else if (collectionListResponse.getData().getBanners().size() == 0 && collectionListResponse.getData().getCategories().size() == 0) {
                         getNavigator().onNoData();
                     } else {
                         getNavigator().setCategoryList(collectionListResponse.getData().getCategories());

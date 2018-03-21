@@ -216,6 +216,7 @@
     <string name="label_order_empty">Order list empty.</string>
     <string name="label_category_list_empty">No category list available.</string>
     <string name="label_product_list_empty">Product list empty.</string>
+    <string name="label_collection_list_empty">Collection list empty.</string>
     <string name="toolbar_my_order">My Order</string>
     <string name="label_quick_order">Quick Order</string>
     <string name="btn_add">ADD</string>

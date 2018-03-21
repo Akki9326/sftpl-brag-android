@@ -9,53 +9,142 @@ package com.ragtagger.brag.data.model.datas;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Created by nikhil.vadoliya on 18-12-2017.
  */
 
 
 public class DataNotificationList {
-    private String id;
-    private String title;
-    private String descrioption;
-    private boolean isRead;
 
-    public DataNotificationList(String id, String title, String descrioption, boolean isRead) {
-        this.id = id;
-        this.title = title;
-        this.descrioption = descrioption;
-        this.isRead=isRead;
+    @SerializedName("q")
+    @Expose
+    private String q;
+    @SerializedName("medianType")
+    @Expose
+    private java.lang.Object medianType;
+    @SerializedName("count")
+    @Expose
+    private int count;
+    @SerializedName("pageSize")
+    @Expose
+    private int pageSize;
+    @SerializedName("objects")
+    @Expose
+    private List<Notification> objects = null;
+
+    public String getQ() {
+        return q;
     }
 
-    public boolean isRead() {
-        return isRead;
+    public void setQ(String q) {
+        this.q = q;
     }
 
-    public void setRead(boolean read) {
-        isRead = read;
+    public java.lang.Object getMedianType() {
+        return medianType;
     }
 
-    public String getTitle() {
-        return title;
+    public void setMedianType(java.lang.Object medianType) {
+        this.medianType = medianType;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public int getCount() {
+        return count;
     }
 
-    public String getDescrioption() {
-        return descrioption;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public void setDescrioption(String descrioption) {
-        this.descrioption = descrioption;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public String getId() {
-        return id;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public List<Notification> getObjects() {
+        return objects;
+    }
+
+    public void setObjects(List<Notification> objects) {
+        this.objects = objects;
+    }
+
+
+    public static class Notification {
+
+        @SerializedName("id")
+        @Expose
+        private String id;
+        @SerializedName("title")
+        @Expose
+        private String title;
+        @SerializedName("body")
+        @Expose
+        private String body;
+        @SerializedName("notificationType")
+        @Expose
+        private int notificationType;
+        @SerializedName("whatId")
+        @Expose
+        private java.lang.Object whatId;
+        @SerializedName("isAttended")
+        @Expose
+        private boolean isAttended;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getBody() {
+            return body;
+        }
+
+        public void setBody(String body) {
+            this.body = body;
+        }
+
+        public int getNotificationType() {
+            return notificationType;
+        }
+
+        public void setNotificationType(int notificationType) {
+            this.notificationType = notificationType;
+        }
+
+        public java.lang.Object getWhatId() {
+            return whatId;
+        }
+
+        public void setWhatId(java.lang.Object whatId) {
+            this.whatId = whatId;
+        }
+
+        public boolean isIsAttended() {
+            return isAttended;
+        }
+
+        public void setIsAttended(boolean isAttended) {
+            this.isAttended = isAttended;
+        }
     }
 }

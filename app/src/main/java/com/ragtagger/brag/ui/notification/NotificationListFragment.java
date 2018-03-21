@@ -56,7 +56,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     static final int LOAD_LIST = 1;
 
     NotificationListAdapter mListAdapter;
-    List<DataNotificationList> mListData;
+    List<DataNotificationList.Notification> mListData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,7 +154,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         if (ACTION == LOAD_LIST) {
             mListData.clear();
 
-            mListData.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
+            /*mListData.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
                     "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", false));
             mListData.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
                     "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
@@ -173,15 +173,15 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             mListData.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
                     "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", false));
             mListData.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
-                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", false));
+                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", false));*/
 
             mListAdapter = new NotificationListAdapter(getActivity(), mListData, this);
             mFragmentNotificationListBinding.recycleviewNotification.setAdapter(mListAdapter);
 
         } else {
 
-            ArrayList<DataNotificationList> localList = new ArrayList<>();
-            localList.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
+            ArrayList<DataNotificationList.Notification> localList = new ArrayList<>();
+            /*localList.add(new DataNotificationList("1", "Lorem Ipsum is simply dummy text of the printing and typesetting ",
                     "Entrance strongly packages she out rendered get quitting denoting led. Dwelling confined improved it he no doubtful raptures. Several carried through an of up attempt gravity. Situation to be at offending elsewhere distrusts if. ", true));
             localList.add(new DataNotificationList("1", "It is a long established fact that a reader will be distracted by the ",
                     "Particular use for considered projection cultivated. Worth of do doubt shall it their. Extensive existence up me contained he pronounce do. Excellence inquietude assistance precaution any impression man sufficient. ", true));
@@ -200,7 +200,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             localList.add(new DataNotificationList("1", "His having within saw become ask passed misery giving. ",
                     "questions get too fulfilled. He fact in we case miss sake Text ever since the 1500s, when an unknown printer took a galley", true));
             localList.add(new DataNotificationList("1", "Recommend questions get too fulfilled. He fact in we case miss sake",
-                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));
+                    " attempted add arranging age gentleman concluded. Get who uncommonly our expression ten increasing considered occasional travelling. Ever read tell year give may men call its. Piqued son turned fat income played end wicket.", true));*/
 
 
             mListData.addAll(localList);
@@ -232,5 +232,20 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         setUpToolbar();
+    }
+
+    @Override
+    public void onNoData() {
+
+    }
+
+    @Override
+    public void setData(DataNotificationList data) {
+
+    }
+
+    @Override
+    public void setProductList(int notificationSize, List<DataNotificationList.Notification> notificationList) {
+
     }
 }

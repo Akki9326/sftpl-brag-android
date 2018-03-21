@@ -26,6 +26,7 @@ import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProductList;
@@ -216,6 +217,11 @@ public class AppDataManager implements IDataManager {
 
     public Call<RGeneralData> reOrder(String id) {
         return mApiManager.reOrder(id);
+    }
+
+    @Override
+    public Call<RNotificationList> getNotifications(int page) {
+        return mApiManager.getNotifications(page);
     }
 
     @Override

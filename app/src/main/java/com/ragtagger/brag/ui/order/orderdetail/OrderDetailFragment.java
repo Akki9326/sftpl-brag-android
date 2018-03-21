@@ -37,6 +37,7 @@ import com.ragtagger.brag.databinding.FragmentOrderDetailBinding;
 import com.ragtagger.brag.data.model.datas.DataMyOrder;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.AppPermission;
@@ -124,7 +125,10 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void setUpToolbar() {
+        if (getActivity() instanceof MainActivity)
         ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
+        else if (getActivity() instanceof NotificationHandlerActivity)
+            ((NotificationHandlerActivity)getActivity()).setUpToolbar();
     }
 
     @Override
@@ -285,6 +289,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void onNoOrderData() {
+        mData = null;
+        showData();
 
     }
 
@@ -297,6 +303,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     public void showData() {
         orderDetailViewModel.updateIsLoading(false);
         if (mData != null) {
+            orderDetailViewModel.updateHasData(true);
             orderDetailViewModel.updateOrderId(mData.getOrderNumber());
             orderDetailViewModel.updateAddress(mData.getUser().getFullAddressWithNewLine());
             orderDetailViewModel.updateFullName(mData.getUser().getFullName());
@@ -308,6 +315,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
 
             mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getContext()));
+        } else {
+            orderDetailViewModel.updateHasData(false);
         }
     }
 

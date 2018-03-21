@@ -75,9 +75,6 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         if (bActivity instanceof OnToolbarSetupListener) {
             ((OnToolbarSetupListener) bActivity).setUpToolbar();
         }
-        //// TODO: 3/9/2018 get cart details
-        /*BragApp.CartNumber = 2;
-        setBagCount(BragApp.CartNumber);*/
         pushFragments(new HomeFragment(), false, false);
     }
 

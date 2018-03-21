@@ -32,10 +32,10 @@ import java.util.List;
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.MyViewHolder> {
 
     Activity mActivity;
-    List<DataNotificationList> mListData;
+    List<DataNotificationList.Notification> mListData;
     IOnItemClickListener onItemClickListener;
 
-    public NotificationListAdapter(Activity mActivity, List<DataNotificationList> mListData, IOnItemClickListener onItemClickListener) {
+    public NotificationListAdapter(Activity mActivity, List<DataNotificationList.Notification> mListData, IOnItemClickListener onItemClickListener) {
         this.mActivity = mActivity;
         this.mListData = new ArrayList<>();
         this.mListData = mListData;
@@ -53,7 +53,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     @Override
     public void onBindViewHolder(NotificationListAdapter.MyViewHolder holder, final int position) {
         holder.mTxtTitle.setText(mListData.get(position).getTitle());
-        holder.mTxtDetail.setText(mListData.get(position).getDescrioption());
+        holder.mTxtDetail.setText(mListData.get(position).getBody());
 
        /* if (mListData.get(position).isRead()) {
             holder.mView.setBackgroundColor(Color.WHITE);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
@@ -11,235 +12,38 @@
             type="com.ragtagger.brag.ui.order.orderdetail.OrderDetailViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
-        <android.support.v4.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
             android:visibility="@{viewModel.isLoading? View.GONE : View.VISIBLE}">
 
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:visibility="@{viewModel.hasData? View.VISIBLE: View.GONE}">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/card_order_id"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="1dp">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/card_order_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@string/label_order_id"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.orderId}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@string/label_status"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
-
-                            <TextView
-                                android:id="@+id/textview_status"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.orderState}"
-                                android:textSize="@dimen/text_size_very_small" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_weight="1"
-                                android:gravity="right"
-                                android:paddingRight="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.orderStateDate}"
-                                android:textColor="@color/gray_transparent"
-                                android:textSize="10sp"
-                                android:visibility="@{viewModel.orderStateDate!=null?View.VISIBLE:View.GONE}" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/card_cart_item"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="1dp">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycleview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </android.support.v7.widget.CardView>
-
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="1dp">
-
-                    <LinearLayout
-                        android:id="@+id/linear_price_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:tag="@string/font_opensans_semi_bold_id"
-                            android:text="@string/label_place_details"
-                            android:textColor="@color/gray_transparent"
-                            android:textSize="@dimen/text_size_very_small_12" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="@color/gray_10" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="1"
-                                android:padding="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{`Price (`+viewModel.CartSize +` `+viewModel.ItemsLable+`)`}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.totalPrice}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
-                        </LinearLayout>
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="@color/gray_10" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="1"
-                                android:padding="5dp"
-                                android:tag="@string/font_opensans_bold_id"
-                                android:text="@string/label_amount_payable"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:tag="@string/font_opensans_bold_id"
-                                android:text="@{viewModel.totalPrice}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="1dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:tag="@string/font_opensans_semi_bold_id"
-                            android:text="@string/label_shipping_details"
-                            android:textColor="@color/gray_transparent"
-                            android:textSize="@dimen/text_size_very_small_12" />
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="@color/gray_transparent" />
-
+                        android:layout_marginTop="10dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -247,54 +51,317 @@
                             android:orientation="vertical"
                             android:padding="10dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="2"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.fullName}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_small" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.address}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@string/label_order_id"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{viewModel.orderId}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:tag="@string/font_opensans_regular_id"
-                                android:text="@{viewModel.mobilenum}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@string/label_status"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+
+                                <TextView
+                                    android:id="@+id/textview_status"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{viewModel.orderState}"
+                                    android:textSize="@dimen/text_size_very_small" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:paddingRight="5dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{viewModel.orderStateDate}"
+                                    android:textColor="@color/gray_transparent"
+                                    android:textSize="10sp"
+                                    android:visibility="@{viewModel.orderStateDate!=null?View.VISIBLE:View.GONE}" />
+                            </LinearLayout>
 
                         </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/card_download_invoice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="@{viewModel.isApprvoe() ?View.VISIBLE:View.GONE}"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="1dp">
-
-                    <LinearLayout
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/card_cart_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginTop="10dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="1dp">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycleview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.v7.widget.CardView>
+
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:id="@+id/linear_price_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:tag="@string/font_opensans_semi_bold_id"
+                                android:text="@string/label_place_details"
+                                android:textColor="@color/gray_transparent"
+                                android:textSize="@dimen/text_size_very_small_12" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/gray_10" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:padding="5dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{`Price (`+viewModel.CartSize +` `+viewModel.ItemsLable+`)`}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="5dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{viewModel.totalPrice}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/gray_10" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:padding="5dp"
+                                    android:tag="@string/font_opensans_bold_id"
+                                    android:text="@string/label_amount_payable"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="5dp"
+                                    android:tag="@string/font_opensans_bold_id"
+                                    android:text="@{viewModel.totalPrice}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:tag="@string/font_opensans_semi_bold_id"
+                                android:text="@string/label_shipping_details"
+                                android:textColor="@color/gray_transparent"
+                                android:textSize="@dimen/text_size_very_small_12" />
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/gray_transparent" />
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="2"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{viewModel.fullName}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{viewModel.address}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@{viewModel.mobilenum}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/card_download_invoice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="@{viewModel.isApprvoe() ?View.VISIBLE:View.GONE}"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="left"
+                                    android:padding="10dp"
+                                    android:tag="@string/font_opensans_regular_id"
+                                    android:text="@string/label_download_invoice"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginRight="10dp"
+                                    android:gravity="center"
+                                    android:onClick="@{viewModel.onDownloadInvoice()}"
+                                    android:visibility="visible">
+
+                                    <ImageSwitcher
+                                        android:id="@+id/imageview_download"
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:layout_centerInParent="true"
+                                        android:src="@drawable/ic_download" />
+
+                                    <ProgressBar
+                                        android:id="@+id/progressBarDownload"
+                                        style="?android:attr/progressBarStyleHorizontal"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:background="@drawable/circle_shape"
+                                        android:indeterminate="false"
+                                        android:max="100"
+                                        android:progressDrawable="@drawable/circular_progress_bar" />
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:onClick="@{viewModel.onReorder()}"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -308,89 +375,52 @@
                                 android:gravity="left"
                                 android:padding="10dp"
                                 android:tag="@string/font_opensans_regular_id"
-                                android:text="@string/label_download_invoice"
+                                android:text="@string/label_reorder"
                                 android:textColor="@color/text_black"
                                 android:textSize="@dimen/text_size_very_small" />
 
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="center"
                                 android:layout_marginRight="10dp"
-                                android:gravity="center"
-                                android:onClick="@{viewModel.onDownloadInvoice()}"
-                                android:visibility="visible">
-
-                                <ImageSwitcher
-                                    android:id="@+id/imageview_download"
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:layout_centerInParent="true"
-                                    android:src="@drawable/ic_download" />
-
-                                <ProgressBar
-                                    android:id="@+id/progressBarDownload"
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:background="@drawable/circle_shape"
-                                    android:indeterminate="false"
-                                    android:max="100"
-                                    android:progressDrawable="@drawable/circular_progress_bar" />
-                            </RelativeLayout>
-
+                                android:padding="5dp"
+                                android:src="@drawable/ic_reorder"
+                                android:tint="@color/pink" />
                         </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="5dp" />
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <LinearLayout
+                android:id="@+id/linear_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.hasData? View.GONE: View.VISIBLE}">
 
-                <android.support.v7.widget.CardView
+                <TextView
+                    android:id="@+id/textview_no_internet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:onClick="@{viewModel.onReorder()}"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="1dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:padding="10dp"
-                            android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/label_reorder"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small" />
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="10dp"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_reorder"
-                            android:tint="@color/pink" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="5dp" />
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:tag="@string/font_opensans_semi_bold_id"
+                    android:text="@string/error_no_data"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_small" />
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/no_data"
+            android:id="@+id/linear_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

@@ -20,4 +20,8 @@ public class NotificationHandlerViewModel extends CoreViewModel {
     public ObservableField<String> getToolbarTitle() {
         return toolbarTitle;
     }
+
+    public void updateToolbarTitle(String title) {
+        this.toolbarTitle.set(title);
+    }
 }

@@ -47,7 +47,7 @@
                         android:gravity="center"
                         android:paddingLeft="10dp"
                         android:tag="@string/font_opensans_regular_id"
-                        android:text="@{viewModel.toolbarTitle}"
+                        android:text="@{viewModel!= null ? viewModel.toolbarTitle : viewModel}"
                         android:textColor="@color/text_black"
                         android:visibility="gone" />
 

@@ -68,6 +68,12 @@ public interface ApiInterface {
     @GET("resendotp")
     Call<RGeneralData> resendOtp(@Query("mobile") String mobile);
 
+    @POST("generateOTPForMobileChange")
+    Call<RGeneralData> generateOTPForMobileChange(@Body QGenerateOtpForChangeMobile generateOtpForChangeMobile);
+
+    @GET("resendforgototp")
+    Call<RGeneralData> resendForgotOtp(@Query("mobile") String mobile);
+
     @POST("changePassword")
     Call<RChangePassword> changePassword(@Body QChangePassword changePasswordRequest);
 
@@ -77,8 +83,7 @@ public interface ApiInterface {
     @GET("logout")
     Call<RGeneralData> logoutCall();
 
-    @POST("generateOTPForMobileChange")
-    Call<RGeneralData> generateOTPForMobileChange(@Body QGenerateOtpForChangeMobile generateOtpForChangeMobile);
+
 
     @POST("changeMobileNumber")
     Call<RGeneralData> changeMobileNum(@Body QChangeMobileNumber changeMobileNumberRequest);
@@ -133,8 +138,6 @@ public interface ApiInterface {
 
     @GET("order/reOrder/{orderId}")
     Call<RGeneralData> reOrder(@Path("orderId") String id);
-
-
 
     @POST("notification/list/{pages}")
     Call<RNotification> getNotificationList(@Path("pages") int page);

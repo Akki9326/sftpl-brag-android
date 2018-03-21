@@ -69,8 +69,6 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
                     } else {
                         getNavigator().onNoData();
                     }
-
-
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));
                 }

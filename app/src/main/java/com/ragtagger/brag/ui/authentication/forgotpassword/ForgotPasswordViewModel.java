@@ -44,7 +44,7 @@ public class ForgotPasswordViewModel extends CoreViewModel<ForgotPasswordNavigat
     }
 
     public void sendOtp(String mobileNumber) {
-        Call<RGeneralData> responeCall = getDataManager().resendOtp(mobileNumber);
+        Call<RGeneralData> responeCall = getDataManager().resendForgotOtp(mobileNumber);
         responeCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
             public void onSuccess(RGeneralData generalResponse, Headers headers) {

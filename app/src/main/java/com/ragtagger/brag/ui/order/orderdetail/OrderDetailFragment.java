@@ -126,9 +126,9 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void setUpToolbar() {
         if (getActivity() instanceof MainActivity)
-        ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
+            ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
         else if (getActivity() instanceof NotificationHandlerActivity)
-            ((NotificationHandlerActivity)getActivity()).setUpToolbar();
+            ((NotificationHandlerActivity) getActivity()).setUpToolbar();
     }
 
     @Override
@@ -314,7 +314,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma((int) mData.getTotalAmount()));
             orderDetailViewModel.setMobilenum(mData.getUser().getMobileNumber());
             orderDetailViewModel.setTotalPayable(Utility.getIndianCurrencyPriceFormatWithComma(
-                    mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() ? ((int) mData.getPayableAmount()) :
+                    (mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()) ? ((int) mData.getPayableAmount()) :
                             (int) mData.getTotalAmount()));
             mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
 

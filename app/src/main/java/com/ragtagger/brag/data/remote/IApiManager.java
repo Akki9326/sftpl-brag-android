@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
@@ -54,6 +55,9 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<RGeneralData> resendOtp(String mobile);
+
+    @Override
+    Call<RGeneralData> resendForgotOtp(String mobile);
 
     @Override
     Call<RChangePassword> changePassword(QChangePassword changePasswordRequest);
@@ -119,5 +123,5 @@ public interface IApiManager extends ApiInterface {
     Call<RGeneralData> reOrder(String id);
 
     @Override
-    Call<RNotificationList> getNotifications(int page);
+    Call<RNotification> getNotificationList(int page);
 }

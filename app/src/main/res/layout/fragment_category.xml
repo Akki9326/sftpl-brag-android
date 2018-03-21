@@ -35,6 +35,7 @@
                     android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}"
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                     app:onRefreshListener="@{viewModel.getOnRefreshListener}">
+
                     <android.support.v4.widget.NestedScrollView
                         android:id="@+id/scrollview"
                         android:layout_width="match_parent"
@@ -74,7 +75,8 @@
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/recycleView"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:visibility="@{viewModel.isListAvail ? View.VISIBLE : View.GONE}" />
 
                         </LinearLayout>
                     </android.support.v4.widget.NestedScrollView>
@@ -82,12 +84,37 @@
 
                 <!--No list-->
 
-                <include
+                <!--<include
                     android:id="@+id/layout_result"
                     layout="@layout/layout_result_no_data"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}" />-->
+
+                <LinearLayout
+                    android:id="@+id/layout_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}">
+
+                    <!--<ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_category"
+                        android:tint="@color/gray_10" />-->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_category_list_empty"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/text_size_small" />
+                </LinearLayout>
 
             </LinearLayout>
 

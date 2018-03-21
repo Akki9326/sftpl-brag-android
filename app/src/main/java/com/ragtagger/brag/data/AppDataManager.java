@@ -269,6 +269,11 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
+    public Call<RGeneralData> resendForgotOtp(String mobile) {
+        return mApiManager.resendForgotOtp(mobile);
+    }
+
+    @Override
     public Call<RChangePassword> changePassword(com.ragtagger.brag.data.model.requests.QChangePassword changePasswordRequest) {
         return mApiManager.changePassword(changePasswordRequest);
     }

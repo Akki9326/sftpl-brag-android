@@ -333,7 +333,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void OnCartClick(int position) {
 //        if (!isClicked) {
 //            isClicked = true;
-            // TODO: 15-03-2018 :oncart click
+        // TODO: 15-03-2018 :oncart click
 //            ((MainActivity) getBaseActivity()).updateCartNum(0);
 //            enabledClick();
 //        }
@@ -381,6 +381,11 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                     break;
             }
             return;
+        } else if (error.getHttpCode() == 19 && (mQuery == null || mQuery.length() == 0)) {
+            if (ACTION == LOAD_LIST)
+                mProductListViewModel.setNoResult(true);
+            mProductListViewModel.setNoInternet(false);
+            return;
         }
 
         mProductListViewModel.setNoInternet(false);
@@ -406,6 +411,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void search(String query) {
         hideKeyboard();
+        mProductListViewModel.setNoResult(false);
         if (query != null && query.length() > 0) {
             mQuery = query;
             ACTION = LOAD_LIST;

@@ -37,6 +37,7 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
 
     private final ObservableField<Boolean> isBannerAvail = new ObservableField<>();
 
+    private final ObservableField<Boolean> isListAvail = new ObservableField<>();
 
     public CategoryViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -66,6 +67,14 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         this.isBannerAvail.set(isBannerAvail);
     }
 
+    public ObservableField<Boolean> getIsListAvail() {
+        return isListAvail;
+    }
+
+    public void setIsListAvail(boolean isListAvail) {
+        this.isListAvail.set(isListAvail);
+    }
+
     public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -92,10 +101,11 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
                     BragApp.NotificationNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_NOTIFICATION_NUM));
                     if (categoryListResponse.getData() == null) {
                         getNavigator().onNoData();
+                    } else if (categoryListResponse.getData().getBanners().size() == 0 && categoryListResponse.getData().getCategories().size() == 0) {
+                        getNavigator().onNoData();
                     } else {
                         getNavigator().setBanner(categoryListResponse.getData().getBanners());
                         getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
-                        //getNavigator().onApiError(new ApiError(Constants.IErrorCode.socketTimeOutError, Constants.IErrorMessage.TIME_OUT_CONNECTION));
                     }
                 } else {
                     getNavigator().onApiError(new ApiError(categoryListResponse.getErrorCode(), categoryListResponse.getMessage()));

@@ -11,6 +11,7 @@ package com.ragtagger.brag.ui.home.category;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
@@ -76,6 +77,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         categoryViewModel.setNoResult(false);
         categoryViewModel.setNoInternet(false);
         categoryViewModel.setIsBannerAvail(true);
+        categoryViewModel.setIsListAvail(true);
 
         mFragmentCategoryBinding.recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mFragmentCategoryBinding.recycleView.setHasFixedSize(true);
@@ -99,14 +101,22 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
 
     private void checkInternet(boolean showProgress) {
-        hideProgressBar();
+        //hideProgressBar();
         if (Utility.isConnection(getContext())) {
             categoryViewModel.setNoInternet(false);
             if (showProgress)
                 showProgress();
             categoryViewModel.getCategoryData();
         } else {
-            categoryViewModel.setNoInternet(true);
+            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    categoryViewModel.setNoInternet(true);
+                }
+            }, 150);
+
+
         }
     }
 
@@ -148,12 +158,12 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
             categoryViewModel.setNoInternet(true);
             return;
-        }
-        /*else if (error.getHttpCode() == Constants.IErrorCode.defaultErrorCode || error.getHttpCode() == Constants.IErrorCode.ioExceptionCancelApiErrorCode || error.getHttpCode() == Constants.IErrorCode.ioExceptionOtherErrorCode || error.getHttpCode() == Constants.IErrorCode.socketTimeOutError) {
-            mFragmentCategoryBinding.layoutNoInternet.textviewNoInternet.setText(error.getMessage());
-            categoryViewModel.setNoInternet(true);
+        } else if (error.getHttpCode() == 19) {
+            onNoData();
+            categoryViewModel.setNoInternet(false);
             return;
-        }*/
+        }
+
         categoryViewModel.setNoInternet(false);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
@@ -171,15 +181,21 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void setCategoryList(List<DataCategoryList.Category> list) {
-        for (DataCategoryList.Category category : list)
-            BragApp.getInstance().setMapSizeGuide(category.getOptionName(), category.getSizeGuide());
+        if (list != null && list.size() > 0) {
+            categoryViewModel.setIsListAvail(true);
+            for (DataCategoryList.Category category : list)
+                BragApp.getInstance().setMapSizeGuide(category.getOptionName(), category.getSizeGuide());
 
-        mCategoryList = new ArrayList<>();
-        mCategoryList.addAll(list);
-        CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
+            mCategoryList = new ArrayList<>();
+            mCategoryList.addAll(list);
+            CategoryListAdapter adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
 
-        mFragmentCategoryBinding.recycleView.setAdapter(adapter);
-        mFragmentCategoryBinding.recycleView.setNestedScrollingEnabled(false);
+            mFragmentCategoryBinding.recycleView.setAdapter(adapter);
+            mFragmentCategoryBinding.recycleView.setNestedScrollingEnabled(false);
+        } else {
+            categoryViewModel.setIsListAvail(false);
+        }
+
     }
 
     @Override

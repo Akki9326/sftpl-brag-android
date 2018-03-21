@@ -12,10 +12,12 @@ import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataUser;
 import com.ragtagger.brag.data.model.requests.QChangeMobileNumber;
+import com.ragtagger.brag.data.model.requests.QGenerateOtpForChangeMobile;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.ui.core.CoreViewModel;
+import com.ragtagger.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -53,8 +55,24 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
         return getNavigator().onEditorActionPin(textView, actionId, keyEvent);
     }
 
-    public void resendOtp(String mobileNumber) {
-        Call<RGeneralData> responeCall = getDataManager().resendOtp(mobileNumber);
+    public void resendOtp(String mobileNumber, final int formType, String password) {
+        Call<RGeneralData> responeCall;
+        switch (Constants.OTPValidationIsFrom.values()[formType]) {
+            case SIGN_UP:
+                responeCall = getDataManager().resendOtp(mobileNumber);
+                break;
+            case FORGET_PASS:
+                responeCall = getDataManager().resendForgotOtp(mobileNumber);
+                break;
+            case CHANGE_MOBILE:
+                responeCall = getDataManager().generateOTPForMobileChange(new QGenerateOtpForChangeMobile(mobileNumber, password));
+                break;
+            default:
+                responeCall = getDataManager().resendOtp(mobileNumber);
+                break;
+        }
+
+
         responeCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
             public void onSuccess(RGeneralData generalResponse, Headers headers) {

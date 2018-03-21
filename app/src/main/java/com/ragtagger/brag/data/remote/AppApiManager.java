@@ -24,6 +24,7 @@ import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.RNotification;
+import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProductList;
@@ -77,6 +78,11 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<RGeneralData> resendOtp(String mobile) {
         return mApiInterface.resendOtp(mobile);
+    }
+
+    @Override
+    public Call<RGeneralData> resendForgotOtp(String mobile) {
+        return mApiInterface.resendForgotOtp(mobile);
     }
 
     @Override
@@ -185,6 +191,7 @@ public class AppApiManager implements IApiManager {
     public Call<RGeneralData> reOrder(String id) {
         return mApiInterface.reOrder(id);
     }
+
 
     @Override
     public Call<RNotification> getNotificationList(int page) {

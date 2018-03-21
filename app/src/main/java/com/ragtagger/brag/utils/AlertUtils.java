@@ -232,7 +232,7 @@ public class AlertUtils {
                     message = activity.getString(R.string.error_code_41);
                     break;
                 case 1011:
-                    blockApplicationAlert(activity, activity.getResources().getString(R.string.error_code_block));
+                    blockApplicationAlert(activity, activity.getResources().getString(R.string.error_code_1011));
                     return;
 
                 case 2001:

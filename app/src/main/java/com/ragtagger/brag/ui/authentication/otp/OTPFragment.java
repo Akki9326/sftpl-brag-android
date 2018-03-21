@@ -127,7 +127,6 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     }
 
 
-
     @Override
     public void onApiSuccess() {
         hideProgress();
@@ -136,13 +135,15 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
     public void verifyOtp() {
-        if (mFragmentOtpBinding.pinView.getText().toString().length() < 6) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_otp));
+        if (mFragmentOtpBinding.pinView.getText().toString().equals("")) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_otp));
+        } else if (mFragmentOtpBinding.pinView.getText().toString().length() < 6) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_code_6));
         } else if (Utility.isConnection(getActivity())) {
             showProgress();
             if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
@@ -152,7 +153,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
             else
                 mOTPViewModel.verifyOtp(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -160,9 +161,9 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     public void resendOtp() {
         if (Utility.isConnection(getActivity())) {
             showProgress();
-            mOTPViewModel.resendOtp(mobileNum);
+            mOTPViewModel.resendOtp(mobileNum, isFromScreen, password);
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
 
     }
@@ -181,7 +182,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     public void finishUserProfileActivity() {
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_PROFILE);
         intent.putExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE, false);
-        intent.putExtra(Constants.BUNDLE_KEY_MOBILE_NUM,mobileNum);
+        intent.putExtra(Constants.BUNDLE_KEY_MOBILE_NUM, mobileNum);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         ((UserProfileActivity) getActivity()).finish();
         ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);

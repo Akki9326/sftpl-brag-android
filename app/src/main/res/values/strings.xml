@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Brag</string>
-    <string name="btn_ok">OK</string>
+    <string name="btn_ok">Ok</string>
 
 
     <!--font style and id-->
@@ -34,24 +34,23 @@
 
 
     <string name="error_code_1">Something went wrong. Please try again.</string>
-    <string name="error_code_2">The Username or Password entered was wrong. Please try again.</string>
-    <string name="error_code_3">User not allowed.Please enter valid credentials.</string>
+    <string name="error_code_2">The Username or Password entered was incorrect. Please try again.</string>
+    <string name="error_code_3">You do not have enough permission, please contact administrator.</string>
     <string name="error_code_4">Invalid mobile number. Please enter a valid mobile number.</string>
-    <string name="error_code_5">Invalid Data.</string>
+    <string name="error_code_5">No filter available.</string>
     <string name="error_code_6">Invalid OTP entered. Please enter valid OTP.</string>
     <string name="error_code_7">Your permissions have been changed. Please login again.</string>
-    <string name="error_code_8">Mobile number you have entered is already exists.
-                                Please try again with a different mobile number.</string>
+    <string name="error_code_8">Mobile number you have entered already exists. \nPlease try again with a different mobile number.</string>
     <string name="error_code_9">The user is not yet approved.</string>
-    <string name="error_code_10">User not allowed. Please contact administrator.</string>
-    <string name="error_code_11"> The user is approved but not signed up yet.</string>
-    <string name="error_code_12">User is already exists.</string>
+    <string name="error_code_10">Your subscription might have expired, please contact Administrator.</string>
+    <string name="error_code_11">Mobile number not found, please signup.</string>
+    <string name="error_code_12">User already exists.</string>
     <string name="error_code_13">Company list is empty.</string>
-    <string name="error_code_14">The member is not OTP validated.</string>
+    <string name="error_code_14">Please complete the signup process.</string>
     <string name="error_code_15">Mobile number not found. Please try again with a valid mobile number.</string>
     <string name="error_code_16">Mobile number not verified.</string>
     <string name="error_code_17">Invalid mobile number. Please enter a valid mobile number.</string>
-    <string name="error_code_18">Email id already exists.</string>
+    <string name="error_code_18">Email address already exist.</string>
     <string name="error_code_19">No data available.</string>
     <string name="error_code_20">interactedTo is missing.</string>
     <string name="error_code_21">interactionMedian is missing.</string>
@@ -76,11 +75,11 @@
     <string name="error_code_40">Sorry, you don\'t have permission.</string>
 
 
-    <string name="error_code_5001">Something went wrong!\nPlease try again later.</string>
+    <string name="error_code_5001">Something went wrong. Please try again.</string>
     <string name="error_code_5002">Your internet connection appears to be offline.</string>
-    <string name="error_code_5003">Something went wrong!\nPlease try again later.</string>
-    <string name="error_code_5004">Something went wrong!\nPlease try again later.</string>
-    <string name="error_code_5006">Connection timeout.\nPlease try again later.</string>
+    <string name="error_code_5003">Something went wrong. Please try again.</string>
+    <string name="error_code_5004">Something went wrong. Please try again.</string>
+    <string name="error_code_5006">Something went wrong. Please try again.</string>
 
     <string name="toolbar_title_home_screen">Brag</string>
     <string name="title_activity_home_screen_tab">HomeScreenTabActivity</string>
@@ -119,6 +118,7 @@
     <string name="label_collection">Collection</string>
     <string name="label_order">Order</string>
     <string name="label_more">More</string>
+    <string name="error_enter_otp">Please enter OTP.</string>
 
     <string name="label_cart">Cart Detail</string>
 
@@ -129,9 +129,9 @@
     <string name="label_terms_and"><![CDATA[Terms & Conditions]]></string>
     <string name="label_version">version </string>
     <string name="label_logout">Logout</string>
-    <string name="msg_logout">Are you sure want to logout?</string>
-    <string name="btn_yes">YES</string>
-    <string name="btn_no">NO</string>
+    <string name="msg_logout">Are you sure you want to logout?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
     <string name="hint_mobile_num"><font size="12">Mobile number</font></string>
     <string name="hint_password"><font size="12">Password</font></string>
     <string name="hint_first_name"><font size="12">First name*</font></string>
@@ -147,17 +147,18 @@
     <string name="hint_pincode_ast"><font size="12">Pincode*</font></string>
     <string name="label_confirm_password">Confirm password</string>
     <string name="hint_confirm_password_ast"><font size="12">Confirm password*</font></string>
-    <string name="error_password_not_match">Entered password not match with confirm password.</string>
+    <string name="error_password_not_match">Password mismatch.</string>
     <string name="error_password_not_match_with_old">New password should not be same as the old password.</string>
-    <string name="error_please_enter_first_name">Please enter your first name.</string>
-    <string name="error_please_email">Please enter your email address.</string>
-    <string name="error_enter_mobile">Please enter your mobile number.</string>
+    <string name="error_please_enter_first_name">Please enter first name.</string>
+    <string name="error_please_email">Please enter email.</string>
+    <string name="error_enter_mobile">Please enter mobile number.</string>
+    <string name="error_enter_new_mobile">Please enter new mobile number.</string>
     <string name="error_enter_gst">Please enter GST number.</string>
     <string name="error_pass">Please enter password.</string>
-    <string name="error_confirm_pass">Please enter confirm password.</string>
-    <string name="error_email_valid">Please enter valid email address.</string>
+    <string name="error_confirm_pass">Please confirm password.</string>
+    <string name="error_email_valid">Please enter valid email.</string>
     <string name="error_mobile_valid">Please enter valid mobile number.</string>
-    <string name="error_gst_valid">Please enter valid GST number.</string>
+    <string name="error_gst_valid">Please enter valid GSTIN.</string>
 
     <string name="button_verify">Verify</string>
     <string name="error_otp">Please enter 6 digit OTP.</string>
@@ -172,12 +173,12 @@
     <string name="label_old_pass">Old password</string>
     <string name="hint_old_password_ast"><font size="12">Old password*</font></string>
     <string name="error_enter_old_pass">Please enter old password.</string>
-    <string name="error_new_pass">Please enter new Password.</string>
+    <string name="error_new_pass">Please enter new password.</string>
     <string name="label_new_password">New password</string>
     <string name="hint_new_password_ast"><font size="12">New password*</font></string>
     <string name="label_change_pass">Change Password</string>
     <string name="label_add_update_address">Add/Update Address</string>
-    <string name="error_code_block">Please update the application for better experience.</string>
+    <string name="error_code_1011">Please update the application for better experience.</string>
     <string name="label_qty_s">Qty :</string>
     <string name="label_add_to_cart_small">Add to Cart</string>
     <string name="msg_password_change_successfull">Your password updated successfully.</string>
@@ -191,8 +192,8 @@
     <string name="label_update_profile">Update Profile</string>
     <string name="label_new_mobile_no">New mobile number</string>
     <string name="hint_new_mobile_num"><font size="12">New Mobile Number</font></string>
-    <string name="error_empty_new_mobile_num">Please Enter mobile Number.</string>
-    <string name="msg_mobile_num_change_success">Your mobile number change successfully.</string>
+    <string name="error_empty_new_mobile_num">Please enter mobile number.</string>
+    <string name="msg_mobile_num_change_success">Your mobile number changed successfully.</string>
     <string name="hint_search_product">Name, SKU</string>
     <string name="label_search">Search</string>
     <string name="label_notification">Notifications</string>
@@ -213,6 +214,8 @@
     <string name="error_empty_cart">Your cart is empty.</string>
     <string name="label_order_id">Order No:</string>
     <string name="label_order_empty">Order list empty.</string>
+    <string name="label_category_list_empty">No category list available.</string>
+    <string name="label_product_list_empty">Product list empty.</string>
     <string name="toolbar_my_order">My Order</string>
     <string name="label_quick_order">Quick Order</string>
     <string name="btn_add">ADD</string>
@@ -232,7 +235,7 @@
     <string name="value_is_not_valid_email_address">Invalid email address.</string>
     <string name="field_could_not_be_empty">Field must not be empty.</string>
     <string name="not_in_range">Given value is not in a range between %1$d and %2$d.</string>
-    <string name="dialog_action_ok">OK</string>
+    <string name="dialog_action_ok">Ok</string>
     <string name="dialog_error_title">Error</string>
     <string name="toolbar_label_place_order">Place Order</string>
     <string name="label_place_details">PRICE DETAILS</string>
@@ -250,7 +253,7 @@
     <string name="label_order_status_packed">Packed</string>
     <string name="label_order_status_rejected">Rejected</string>
     <string name="label_order_status_delivered">Delivered</string>
-    <string name="label_order_status_cancalled">Cancalled</string>
+    <string name="label_order_status_cancalled">Cancelled</string>
     <string name="toolbar_label_order_detail">Order Detail</string>
     <string name="label_shipping_details">SHIPPING DETAILS</string>
     <string name="label_email_invoice">Email Invoice</string>

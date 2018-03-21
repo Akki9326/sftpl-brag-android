@@ -13,7 +13,7 @@
         android:padding="10dp"
         android:tag="@string/font_opensans_semi_bold_id"
         android:text="@string/error_code_19"
-        android:textColor="@color/text_black"
+        android:textColor="@color/gray"
         android:textSize="@dimen/text_size_small" />
 
 </RelativeLayout>

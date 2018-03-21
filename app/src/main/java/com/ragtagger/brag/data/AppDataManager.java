@@ -239,6 +239,11 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
+    public Call<RGeneralData> notificationRead(String id) {
+        return mApiManager.notificationRead(id);
+    }
+
+    @Override
     public Call<RLogin> userLogin(QLogin loginRequest) {
         return mApiManager.userLogin(loginRequest);
     }

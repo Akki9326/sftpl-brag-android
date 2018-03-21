@@ -190,4 +190,9 @@ public class AppApiManager implements IApiManager {
     public Call<RNotification> getNotificationList(int page) {
         return mApiInterface.getNotificationList(page);
     }
+
+    @Override
+    public Call<RGeneralData> notificationRead(String id) {
+        return mApiInterface.notificationRead(id);
+    }
 }

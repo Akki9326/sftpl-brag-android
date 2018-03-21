@@ -23,11 +23,15 @@ import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataNotification;
 import com.ragtagger.brag.data.model.datas.DataNotificationList;
 import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.databinding.FragmentNotificationListBinding;
+import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
+import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.adapter.NotificationListAdapter;
+import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.ragtagger.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.ragtagger.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 import com.ragtagger.brag.utils.AlertUtils;
@@ -58,6 +62,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     private static final int LOAD_MORE = 5;
     private int PAGE_NUM = 1;
     int totalNotification;
+    int position;
 
     NotificationListAdapter mListAdapter;
     List<DataNotificationList> mListData;
@@ -136,12 +141,16 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void setUpToolbar() {
-        if (BragApp.NotificationNumber > 0) {
+
+        //Read all toolbar
+       /* if (BragApp.NotificationNumber > 0) {
             mActivity.showToolbar(true, false,
                     Utility.getNotificationlabel(getActivity()), getString(R.string.toolbar_label_right_read_all));
         } else {
             mActivity.showToolbar(true, false, false, Utility.getNotificationlabel(getActivity()));
-        }
+        }*/
+
+        mActivity.showToolbar(true, false, false, Utility.getNotificationlabel(getActivity()));
     }
 
     @Override
@@ -194,7 +203,31 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(mActivity, "Click", Toast.LENGTH_SHORT).show();
+        this.position = position;
+
+        DataNotificationList dataNotification = mListData.get(position);
+        switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
+            case TEXT:
+                break;
+            case USER:
+                break;
+            case ITEM:
+                break;
+            case ORDER:
+                ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
+                break;
+            default:
+                AlertUtils.showAlertMessage(getActivity(), 1, null, null);
+
+        }
+
+        //read notification api
+        if (!dataNotification.isAttended()) {
+            if (Utility.isConnection(getActivity())) {
+                mNotificationListViewModel.notificationRead(dataNotification.getId());
+            }
+        }
+
     }
 
     @Override
@@ -250,6 +283,17 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         ACTION = LOAD_LIST;
         mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
         checkInternet(false);
+    }
+
+    @Override
+    public void onApiSuccessNotificationRead() {
+        mListData.get(position).setAttended(true);
+        mListAdapter.notifyDataSetChanged();
+        BragApp.NotificationNumber--;
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        setUpToolbar();
+
     }
 
     public void hideLoader() {

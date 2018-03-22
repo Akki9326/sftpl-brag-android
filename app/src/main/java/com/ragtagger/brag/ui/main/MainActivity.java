@@ -1,5 +1,6 @@
 package com.ragtagger.brag.ui.main;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -195,6 +196,12 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
 
     public void clearStackForPlaceOrder() {
         getSupportFragmentManager().popBackStackImmediate("Cart", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        onRestart();
     }
 }
 

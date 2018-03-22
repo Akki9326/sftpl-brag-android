@@ -148,7 +148,8 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     @Override
     public void onApiSuccess() {
         hideProgressBar();
-        ((MainActivity) getActivity()).updateCartNum();
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).updateCartNum();
         ((HomeFragment) getParentFragment()).setNotificationBadge();
     }
 

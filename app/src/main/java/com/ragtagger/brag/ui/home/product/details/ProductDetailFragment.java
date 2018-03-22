@@ -256,7 +256,17 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void sizeGuide() {
-        pushSizeGuideFragment();
+//        pushSizeGuideFragment();
+
+
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_IMAGE_URL,  mSizeGuide);
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
+        mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
+        mDialogFragmentImage.setArguments(args);
+        mDialogFragmentImage.show(fm, "");
     }
 
     @Override

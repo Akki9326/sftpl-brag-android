@@ -6,6 +6,7 @@
     <integer name="obj_anim_long">225</integer>
     <integer name="obj_anim_short">195</integer>
     <integer name="max_length">256</integer>
+    <integer name="max_length_address">256</integer>
     <integer name="max_length_password">15</integer>
 
     <!--<integer name="enter_duration">1990</integer>-->

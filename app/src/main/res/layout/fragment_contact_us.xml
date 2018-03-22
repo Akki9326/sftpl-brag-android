@@ -101,7 +101,7 @@
                 android:gravity="top"
                 android:hint="@string/hint_message_ast"
                 android:lines="5"
-                android:maxLength="@integer/max_length"
+                android:maxLength="@integer/max_length_address"
                 android:maxLines="5"
                 android:paddingBottom="5dp"
                 android:textColor="@color/text_black"

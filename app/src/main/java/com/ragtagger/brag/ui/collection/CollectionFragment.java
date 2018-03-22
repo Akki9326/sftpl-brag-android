@@ -126,15 +126,19 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
                 showProgress();
             mCollectionViewModel.getCollectionList();
         } else {
-            hideProgressBar();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mCollectionViewModel.setNoInternet(true);
-                }
-            }, 150);
+            if (mFragmentCollectionBinding.swipeRefreshLayout.isRefreshing()) {
+                hideProgressBar();
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            } else {
+                hideProgressBar();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCollectionViewModel.setNoInternet(true);
+                    }
+                }, 150);
 
-
+            }
         }
 
     }
@@ -158,7 +162,12 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     public void onApiError(ApiError error) {
         hideProgressBar();
         if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            mCollectionViewModel.setNoInternet(true);
+            if (mFragmentCollectionBinding.swipeRefreshLayout.isRefreshing()) {
+                mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(false);
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            } else {
+                mCollectionViewModel.setNoInternet(true);
+            }
             return;
         } else if (error.getHttpCode() == 19) {
             onNoData();

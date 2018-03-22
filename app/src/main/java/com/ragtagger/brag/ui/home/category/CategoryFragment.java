@@ -109,15 +109,19 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
                 showProgress();
             categoryViewModel.getCategoryData();
         } else {
-            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    categoryViewModel.setNoInternet(true);
-                }
-            }, 150);
+            if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
+                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            } else {
+                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        categoryViewModel.setNoInternet(true);
+                    }
+                }, 150);
 
-
+            }
         }
     }
 
@@ -158,7 +162,12 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     public void onApiError(ApiError error) {
         hideProgressBar();
         if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            categoryViewModel.setNoInternet(true);
+            if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
+                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            } else {
+                categoryViewModel.setNoInternet(true);
+            }
             return;
         } else if (error.getHttpCode() == 19) {
             onNoData();

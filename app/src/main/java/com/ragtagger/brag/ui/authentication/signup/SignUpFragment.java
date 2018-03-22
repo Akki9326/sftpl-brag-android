@@ -80,6 +80,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         mFragmentSignUpBinding.edittextGstIn.setFilters(new InputFilter[]{TextFilterUtils.getAlphaNumericFilter(), TextFilterUtils.getLengthFilter(15)});
         userTypeList.add(new DropdownItem("Retailer", 0));
         userTypeList.add(new DropdownItem("Distributor", 1));
+        userTypeList.add(new DropdownItem("Sales representative", 2));
         mFragmentSignUpBinding.textviewUserType.setText(userTypeList.get(0).getValue());
         mSelectedUserType = userTypeList.get(0).getId();
     }

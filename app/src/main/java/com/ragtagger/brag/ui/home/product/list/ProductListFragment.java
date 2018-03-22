@@ -289,7 +289,11 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         } else {
             switch (ACTION) {
                 case LOAD_LIST:
-                    mProductListViewModel.setNoInternet(true);
+                    if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+                        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                    } else {
+                        mProductListViewModel.setNoInternet(true);
+                    }
                     break;
                 case LOAD_MORE:
                     AlertUtils.showAlertMessage(getActivity(), 0, null, null);
@@ -355,19 +359,27 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onApiError(ApiError error) {
         hideProgress();
 
-        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
-        }
         if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
             switch (ACTION) {
                 case LOAD_LIST:
-                    mProductListViewModel.setNoInternet(true);
+                    if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+                        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                    } else {
+                        mProductListViewModel.setNoInternet(true);
+                    }
                     break;
                 case LOAD_MORE:
                     AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                     break;
             }
+            if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+            }
             return;
+        }
+
+        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
         }
 
         if (error.getHttpCode() == 19 && (mQuery != null && mQuery.length() > 0)) {

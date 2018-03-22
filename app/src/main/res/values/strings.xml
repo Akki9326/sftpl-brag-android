@@ -306,4 +306,5 @@
     <string name="msg_reorder_success">The items have been re-ordered. We shall keep you posted on the order status.</string>
     <string name="label_status">Status:</string>
     <string name="label_total_amount">Total Amount:</string>
+    <string name="error_no_more_quantity">No more quantity available.</string>
 </resources>

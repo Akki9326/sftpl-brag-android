@@ -75,6 +75,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     List<RImagePager> imagePagerResponeList;
     int mQuality;
     String mSizeGuide;
+    boolean isDefaultAdded = false;
 
 
     public static ProductDetailFragment newInstance(DataProductList dataRespone, List<DataProductList.Products> list, int position, String sizeGuide/*, ProductListFragment targetFragment, int reqCode*/) {
@@ -194,7 +195,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
         if (mSizedProduct != null) {
 
-
+            isDefaultAdded = mSizedProduct.isIsDefault();
             if (mSizedProduct.getStockData() > 0) {
                 mProductDetailViewModel.updateQty(String.valueOf(1));
                 mQuality = 1;
@@ -257,10 +258,8 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void sizeGuide() {
 //        pushSizeGuideFragment();
-
-
         Bundle args = new Bundle();
-        args.putString(Constants.BUNDLE_IMAGE_URL,  mSizeGuide);
+        args.putString(Constants.BUNDLE_IMAGE_URL, mSizeGuide);
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
@@ -275,7 +274,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             mQuality++;
             mProductDetailViewModel.updateQty(String.valueOf(mQuality));
         } else {
-            // TODO: 3/9/2018 display toast no qty available
+            ((MainActivity) getActivity()).showToast(getString(R.string.error_no_more_quantity));
         }
     }
 
@@ -299,9 +298,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void onAddedToCart(List<DataAddToCart> data) {
-        Intent intent = new Intent(Constants.ACTION_UPDATE_CART_ICON_STATE);
-        intent.putExtra(Constants.BUNDLE_POSITION, mSelectedColorPosition);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        if (isDefaultAdded) {
+            Intent intent = new Intent(Constants.ACTION_UPDATE_CART_ICON_STATE);
+            intent.putExtra(Constants.BUNDLE_POSITION, mSelectedColorPosition);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        }
         ((MainActivity) getBaseActivity()).updateCartNum();
     }
 

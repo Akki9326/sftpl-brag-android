@@ -178,7 +178,7 @@
                         android:gravity="center"
                         android:onClick="@{viewModel.onAddToCartClick()}"
                         android:tag="@string/font_opensans_bold_id"
-                        android:text="@string/label_add_to_cart_small"
+                        android:text="@string/label_add_to_cart"
                         android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold"
                         android:visibility="@{viewModel.notify ? View.GONE : View.VISIBLE}" />

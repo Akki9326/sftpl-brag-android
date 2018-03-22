@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -69,6 +70,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     DataProductList.Size mSizedProduct;
     int mSelectedColorPosition = 0;
     String mSizeGuide;
+    boolean isDefaultAdded = false;
 
     private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -227,6 +229,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         //// TODO: 3/12/2018 if data not available than display no data screen
 
         if (mSizedProduct != null) {
+            isDefaultAdded = mSizedProduct.isIsDefault();
             List<RImagePager> imagePagerResponeList = new ArrayList<>();
             for (String url : mSizedProduct.getImages()) {
                 imagePagerResponeList.add(new RImagePager(url, ""));
@@ -234,8 +237,23 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
             mDialogFragmentAddProductBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), imagePagerResponeList, this));
             mDialogFragmentAddProductBinding.pagerView.setViewPager(mDialogFragmentAddProductBinding.viewPager);
 
-            if (mSizedProduct.getStockData() > 0)
+            mAddProductDialogViewModel.updateQty("");
+            mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
+            mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
+            mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
+            if (mSizedProduct.getStockData() > 0) {
                 mAddProductDialogViewModel.updateQty(String.valueOf(1));
+                mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
+                mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.text_black));
+                mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDialogFragmentAddProductBinding.edittextQty.setSelection(1);
+                    }
+                }, 100);
+            }
+
 
             mAddProductDialogViewModel.updateProductName(mSizedProduct.getDescription());
             mAddProductDialogViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
@@ -293,9 +311,11 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
     @Override
     public void onAddedToCart(List<DataAddToCart> data) {
-        Intent intent = new Intent(Constants.ACTION_UPDATE_CART_ICON_STATE);
-        intent.putExtra(Constants.BUNDLE_POSITION, mSelectedColorPosition);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        if (isDefaultAdded) {
+            Intent intent = new Intent(Constants.ACTION_UPDATE_CART_ICON_STATE);
+            intent.putExtra(Constants.BUNDLE_POSITION, mSelectedColorPosition);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        }
         ((MainActivity) getBaseActivity()).updateCartNum();
         dismissDialog("");
     }

@@ -15,7 +15,7 @@ public interface NotificationListNavigator extends CoreNavigator {
 
     void readNotification();
 
-    void getNotificationList(RNotificationList notificationList, List<DataNotificationList> lists);
+    void setNotificationList(RNotificationList notificationList, List<DataNotificationList> lists);
 
     void swipeToRefresh();
 

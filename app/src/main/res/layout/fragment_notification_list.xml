@@ -22,18 +22,52 @@
             android:orientation="vertical"
             android:visibility="@{viewModel.noInternet ? View.GONE : View.VISIBLE}">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
+            <LinearLayout
+                android:id="@+id/linear_cart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                app:onRefreshListener="@{viewModel.getOnRefreshListener}">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="@{viewModel.listVisibility ? View.VISIBLE :View.GONE}">
 
-                <com.ragtagger.brag.views.erecyclerview.ERecyclerView
-                    android:id="@+id/recycleview_notification"
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+                    app:onRefreshListener="@{viewModel.getOnRefreshListener}">
+
+                    <com.ragtagger.brag.views.erecyclerview.ERecyclerView
+                        android:id="@+id/recycleview_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_no_notification"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
+
+                <!--<ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_cart"
+                    android:tint="@color/gray_10" />-->
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </android.support.v4.widget.SwipeRefreshLayout>
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/error_empty_notification"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_large" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

@@ -17,28 +17,25 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
+import com.ragtagger.brag.callback.IOnItemClickListener;
+import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.model.ApiError;
-import com.ragtagger.brag.data.model.datas.DataNotification;
 import com.ragtagger.brag.data.model.datas.DataNotificationList;
 import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.databinding.FragmentNotificationListBinding;
-import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.adapter.NotificationListAdapter;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
-import com.ragtagger.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
-import com.ragtagger.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
-import com.ragtagger.brag.callback.IOnItemClickListener;
-import com.ragtagger.brag.callback.OnSingleClickListener;
+import com.ragtagger.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
+import com.ragtagger.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +104,8 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     public void afterViewCreated() {
         mFragmentNotificationListBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentNotificationListBinding.baseLayout);
+
+        mNotificationListViewModel.setListVisibility(true);
 
         mFragmentNotificationListBinding.recycleviewNotification.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -250,10 +249,9 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     }
 
     @Override
-    public void getNotificationList(RNotificationList notificationList, List<DataNotificationList> lists) {
+    public void setNotificationList(RNotificationList notificationList, List<DataNotificationList> lists) {
         switch (ACTION) {
             case LOAD_LIST:
-
                 totalNotification = notificationList.getCount();
                 mListData.clear();
                 mListData.addAll(lists);
@@ -264,6 +262,8 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 //issue of space in bottom of recycleview in last item when total item size small than 20;
                 if (totalNotification <= 20)
                     mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(false);
+
+                mNotificationListViewModel.setListVisibility(mListData.isEmpty() ? false : true);
 
                 break;
             case LOAD_MORE:

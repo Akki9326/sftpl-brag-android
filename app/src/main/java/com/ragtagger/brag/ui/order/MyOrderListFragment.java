@@ -112,7 +112,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
     @Override
     public void setUpToolbar() {
-        ((MainActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_my_order));
+        ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_my_order));
     }
 
     @Override

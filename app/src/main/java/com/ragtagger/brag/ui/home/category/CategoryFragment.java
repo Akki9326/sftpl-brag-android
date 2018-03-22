@@ -20,6 +20,7 @@ import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
+import com.ragtagger.brag.ui.authentication.profile.UserProfileActivity;
 import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.ui.home.adapter.CategoryListAdapter;
 import com.ragtagger.brag.adapters.ImagePagerAdapter;
@@ -148,7 +149,8 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     @Override
     public void onApiSuccess() {
         hideProgressBar();
-        ((MainActivity) getActivity()).updateCartNum();
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).updateCartNum();
         ((HomeFragment) getParentFragment()).setNotificationBadge();
     }
 
@@ -206,7 +208,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             for (DataCategoryList.Banners item : list) {
                 mBannerList.add(new RImagePager(item.getUrl(), item.getId()));
             }
-            mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), mBannerList, this));
+            mFragmentCategoryBinding.viewPager.setAdapter(new ImagePagerAdapter(getContext(), mBannerList, this));
             mFragmentCategoryBinding.pagerView.setViewPager(mFragmentCategoryBinding.viewPager);
         } else {
             categoryViewModel.setIsBannerAvail(false);

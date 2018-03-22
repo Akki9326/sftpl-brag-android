@@ -194,6 +194,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             } else {
                 AlertUtils.showAlertMessage(getActivity(), 0, null, null);
             }
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 1, null, null);
         }
     }
 

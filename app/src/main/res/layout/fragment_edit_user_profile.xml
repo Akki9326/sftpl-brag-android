@@ -135,6 +135,7 @@
                 android:maxLength="15"
                 android:maxLines="1"
                 android:paddingBottom="5dp"
+                android:tag="@string/font_opensans_regular_id"
                 android:text="@{viewModel.gstNum()}" />
 
             <View

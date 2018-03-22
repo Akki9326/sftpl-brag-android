@@ -46,7 +46,7 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
             public void onSuccess(RNotification rNotification, Headers headers) {
                 if (rNotification.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getNavigator().getNotificationList(rNotification.getData(), rNotification.getData().getObjects());
+                    getNavigator().setNotificationList(rNotification.getData(), rNotification.getData().getObjects());
                 } else {
                     getNavigator().onApiError(new ApiError(rNotification.getErrorCode(), rNotification.getMessage()));
                 }

@@ -22,6 +22,7 @@ import com.ragtagger.brag.databinding.ItemImagePagerBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 /**
  * Created by nikhil.vadoliya on 29-09-2017.
@@ -31,13 +32,11 @@ import java.util.List;
 public class ImagePagerAdapter extends PagerAdapter implements ImagePagerItem.ItemImageClickListener {
 
     Context mContext;
-    LayoutInflater mLayoutInflater;
     List<RImagePager> mPagerRespones;
     IOnImagePageClickListener mListener;
 
     public ImagePagerAdapter(Context context, List<RImagePager> mPagerRespones, IOnImagePageClickListener listener) {
         mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mPagerRespones = new ArrayList<>();
         this.mPagerRespones.addAll(mPagerRespones);
         mListener = listener;
@@ -57,7 +56,7 @@ public class ImagePagerAdapter extends PagerAdapter implements ImagePagerItem.It
     public Object instantiateItem(ViewGroup container, final int position) {
 
 
-        ItemImagePagerBinding dataBinding = DataBindingUtil.inflate(mLayoutInflater
+        ItemImagePagerBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext())
                 , R.layout.item_image_pager, null, false);
         dataBinding.setViewModel(new ImagePagerItem(mPagerRespones.get(position), mContext, position, this));
         //dataBinding.setVariable(BR.viewModel, mPagerRespones.get(position));

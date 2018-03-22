@@ -205,8 +205,15 @@ public class DataMyOrder implements Parcelable {
 
     public String getFullAddressWithNewLine() {
         if (getAddress() != null) {
-            return getAddress().getAddress() + " , " + getAddress().getLandmark() + " , "
-                    + getAddress().getCity() + "\n"
+
+            String landmark;
+            if (getAddress().getLandmark().isEmpty()) {
+                landmark = getAddress().getLandmark();
+            } else {
+                landmark = getAddress().getLandmark() + " , ";
+            }
+
+            return getAddress().getAddress() + " , " + landmark + getAddress().getCity() + "\n"
                     + getAddress().getState().getText() + " - " + getAddress().getPincode();
         } else {
             return "";
@@ -215,9 +222,16 @@ public class DataMyOrder implements Parcelable {
     }
 
     public String getFullAddress() {
-        if (getAddress() != null) {
-            return getAddress().getAddress() + " , " + getAddress().getLandmark() + " , "
-                    + getAddress().getCity() + " , " + getAddress().getState().getText() + " - "
+        if (getAddress() != null ) {
+
+            String landmark;
+            if (getAddress().getLandmark().isEmpty()) {
+                landmark = getAddress().getLandmark();
+            } else {
+                landmark = getAddress().getLandmark() + " , ";
+            }
+            return getAddress().getAddress() + " , "
+                    + landmark + getAddress().getCity() + " , " + getAddress().getState().getText() + " - "
                     + getAddress().getPincode();
         } else {
             return "";

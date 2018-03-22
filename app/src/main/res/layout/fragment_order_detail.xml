@@ -385,8 +385,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginRight="10dp"
                                 android:padding="5dp"
-                                android:src="@drawable/ic_reorder"
-                                android:tint="@color/pink" />
+                                android:src="@drawable/ic_reorder" />
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
 

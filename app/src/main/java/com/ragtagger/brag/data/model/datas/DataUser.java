@@ -163,7 +163,7 @@ public class DataUser implements Parcelable {
             }
 
             return address.getAddress() + " , " + landmark + address.getCity() + "\n"
-                    + address.getState().getText() + "-" + address.getPincode();
+                    + address.getState().getText() + " - " + address.getPincode();
         } else {
             return "";
         }

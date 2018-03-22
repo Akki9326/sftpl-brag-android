@@ -158,7 +158,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onApiReorderSuccess() {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), null, getString(R.string.msg_place_order_successfull), null);
+        AlertUtils.showAlertMessage(getActivity(),getString(R.string.msg_reorder_success));
     }
 
     @Override
@@ -304,9 +304,10 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         if (mData != null) {
             orderDetailViewModel.updateHasData(true);
             orderDetailViewModel.updateOrderId(mData.getOrderNumber());
-            orderDetailViewModel.updateAddress(mData.getUser().getFullAddressWithNewLine());
+            orderDetailViewModel.updateAddress(mData.getFullAddressWithNewLine());
             orderDetailViewModel.updateFullName(mData.getUser().getFullName());
-            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
+            // TODO: 22-03-2018 Download invoice
+//            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
             orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
             orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
             orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());

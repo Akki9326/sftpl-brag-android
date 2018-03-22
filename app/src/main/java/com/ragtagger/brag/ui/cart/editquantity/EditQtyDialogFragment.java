@@ -96,7 +96,8 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
         isValidQty = true;
         Utility.applyTypeFace(getActivity(), mDialogFragmentEditQtyBinding.baseLayout);
 
-        mEditQtyDialogViewModel.setQty(qty);
+//        mEditQtyDialogViewModel.setQty(qty);
+        mDialogFragmentEditQtyBinding.edittextQty.setText(String.valueOf(qty));
         mEditQtyDialogViewModel.setAvailableStock(numProductStock);
         new Handler().postDelayed(new Runnable() {
             @Override

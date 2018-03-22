@@ -258,7 +258,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
             mAddProductDialogViewModel.updateProductName(mSizedProduct.getDescription());
             mAddProductDialogViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
             mAddProductDialogViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
-            mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(String.valueOf(mSizedProduct.getStockData()).length())});
+            mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
         }
     }
 

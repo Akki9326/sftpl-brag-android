@@ -28,10 +28,20 @@ public abstract class ApiResponse<T> implements Callback<T> {
 
     public abstract void onError(ApiError t);
 
+    public void checkData(T t, Headers headers) {
+        if (t != null) {
+            onSuccess(t, headers);
+        } else {
+            onError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
+        }
+    }
+
+
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
-            onSuccess(response.body(), response.headers());
+            checkData(response.body(), response.headers());
+//            onSuccess(response.body(), response.headers());
         } else {
             onError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
         }

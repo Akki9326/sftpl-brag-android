@@ -52,7 +52,7 @@
     <string name="error_code_17">Invalid mobile number. Please enter a valid mobile number.</string>
     <string name="error_code_18">Email address already exist.</string>
     <string name="error_code_19">No data available.</string>
-    <string name="error_code_20">interactedTo is missing.</string>
+   <!-- <string name="error_code_20">interactedTo is missing.</string>
     <string name="error_code_21">interactionMedian is missing.</string>
     <string name="error_code_22">interactionMedian is missing.</string>
     <string name="error_code_23">Interaction type is missing.</string>
@@ -72,7 +72,7 @@
     <string name="error_code_37">Expert already exist.</string>
     <string name="error_code_38">The new password cannot be accepted because the old password provided is not correct. Please Try again.</string>
     <string name="error_code_39">Requested interaction time missing.</string>
-    <string name="error_code_40">Sorry, you don\'t have permission.</string>
+    <string name="error_code_40">Sorry, you don\'t have permission.</string>-->
 
 
     <string name="error_code_5001">Something went wrong. Please try again.</string>
@@ -295,7 +295,7 @@
     <string name="label_sorting_price_low_to_high">Price -- Low to High</string>
     <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
     <string name="label_sort_by_camel">Sort By</string>
-    <string name="label_avail_qty">available - %s</string>
+    <string name="label_avail_qty">(available - %s)</string>
     <string name="label_select_state">Select State</string>
     <string name="error_pincode_valid">Please enter valid pincode.</string>
     <string name="error_add_address">Please add address which want to place order.</string>

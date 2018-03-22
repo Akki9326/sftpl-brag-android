@@ -108,7 +108,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
         }, 200);
 
         mDialogFragmentEditQtyBinding.edittextQty.setFilters(
-                new InputFilter[]{new InputFilter.LengthFilter(Utility.numLengthFromInt(numProductStock))});
+                new InputFilter[]{new InputFilter.LengthFilter(3)});
     }
 
     @Override

@@ -95,6 +95,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     @Override
     public void afterViewCreated() {
         mFragmentOtpBinding = getViewDataBinding();
+        Utility.applyTypeFace(getContext(), mFragmentOtpBinding.linearLayout);
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {

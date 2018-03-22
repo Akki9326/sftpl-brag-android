@@ -164,7 +164,7 @@ public class AlertUtils {
                     message = activity.getResources().getString(R.string.error_code_19);
                     break;
 
-                case 20:
+              /*  case 20:
                     message = activity.getResources().getString(R.string.error_code_20);
                     break;
 
@@ -230,7 +230,7 @@ public class AlertUtils {
                     break;
                 case 41:
                     message = activity.getString(R.string.error_code_41);
-                    break;
+                    break;*/
                 case 1011:
                     blockApplicationAlert(activity, activity.getResources().getString(R.string.error_code_1011));
                     return;

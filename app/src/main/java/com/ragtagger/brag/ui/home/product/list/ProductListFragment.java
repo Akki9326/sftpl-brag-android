@@ -119,7 +119,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
                     if (mProductList.size() != productListSize) {
                         ACTION = LOAD_MORE;
-                        checkNetworkConnection(false);
+                        checkInternetAndCallApi(false);
                     } else {
                         mFragmentProductListBinding.recycleView.loadMoreComplete(true);
                     }
@@ -216,7 +216,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         mFragmentProductListBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                checkNetworkConnection(true);
+                checkInternetAndCallApi(true);
             }
         });
 
@@ -233,7 +233,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                checkNetworkConnection(true);
+                checkInternetAndCallApi(true);
             }
         }, 300);
 
@@ -276,32 +276,34 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     }
 
 
-    private void checkNetworkConnection(boolean isShowLoader) {
+    private void checkInternetAndCallApi(boolean isShowLoader) {
+        if (isAdded())
+            if (Utility.isConnection(getActivity())) {
+                mProductListViewModel.setNoInternet(false);
+                if (ACTION == LOAD_MORE) {
+                    PAGE_NUM++;
+                }
+                if (isShowLoader)
+                    showProgress();
+                mProductListViewModel.getProductList(PAGE_NUM, mCategoryName, mSubCategoryName, mSeasonCode, mQuery, mSorting, mRequestFilter);
+            } else {
+                switch (ACTION) {
+                    case LOAD_LIST:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mProductListViewModel.setNoInternet(true);
+                            }
+                        }, 200);
 
-        if (Utility.isConnection(getActivity())) {
-            mProductListViewModel.setNoInternet(false);
-            if (ACTION == LOAD_MORE) {
-                PAGE_NUM++;
-            }
-            if (isShowLoader)
-                showProgress();
-            mProductListViewModel.getProductList(PAGE_NUM, mCategoryName, mSubCategoryName, mSeasonCode, mQuery, mSorting, mRequestFilter);
-        } else {
-            switch (ACTION) {
-                case LOAD_LIST:
-                    if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+                        break;
+                    case LOAD_MORE:
                         AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                    } else {
-                        mProductListViewModel.setNoInternet(true);
-                    }
-                    break;
-                case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                    break;
+                        break;
+                }
+                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+                mFragmentProductListBinding.recycleView.loadMoreComplete(false);
             }
-            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
-            mFragmentProductListBinding.recycleView.loadMoreComplete(false);
-        }
     }
 
     public void updateProductCartIcon(int pos) {
@@ -359,27 +361,19 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onApiError(ApiError error) {
         hideProgress();
 
+        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+        }
         if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
             switch (ACTION) {
                 case LOAD_LIST:
-                    if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
-                        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                    } else {
-                        mProductListViewModel.setNoInternet(true);
-                    }
+                    mProductListViewModel.setNoInternet(true);
                     break;
                 case LOAD_MORE:
                     AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                     break;
             }
-            if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
-                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
-            }
             return;
-        }
-
-        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
         }
 
         if (error.getHttpCode() == 19 && (mQuery != null && mQuery.length() > 0)) {
@@ -414,7 +408,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                 PAGE_NUM = 1;
                 mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(true);
                 mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-                checkNetworkConnection(false);
+                checkInternetAndCallApi(false);
             }
         }, 1000);
     }
@@ -429,13 +423,13 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             ACTION = LOAD_LIST;
             PAGE_NUM = 1;
             mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-            checkNetworkConnection(false);
+            checkInternetAndCallApi(false);
         } else {
             mQuery = null;
             ACTION = LOAD_LIST;
             PAGE_NUM = 1;
             mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-            checkNetworkConnection(false);
+            checkInternetAndCallApi(false);
         }
     }
 
@@ -542,7 +536,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         ACTION = LOAD_LIST;
         PAGE_NUM = 1;
         mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-        checkNetworkConnection(true);
+        checkInternetAndCallApi(true);
     }
 
     @Override
@@ -551,7 +545,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         ACTION = LOAD_LIST;
         PAGE_NUM = 1;
         mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-        checkNetworkConnection(true);
+        checkInternetAndCallApi(true);
     }
 
 

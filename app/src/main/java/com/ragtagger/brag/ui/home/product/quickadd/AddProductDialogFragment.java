@@ -258,6 +258,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
             mAddProductDialogViewModel.updateProductName(mSizedProduct.getDescription());
             mAddProductDialogViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
             mAddProductDialogViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
+            mAddProductDialogViewModel.updateProPrice(Utility.getIndianCurrencyPriceFormat(mSizedProduct.getUnitPrice()));
             mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
         }
     }
@@ -317,6 +318,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         }
         ((MainActivity) getBaseActivity()).updateCartNum();
+        ((MainActivity) getBaseActivity()).showToast(getString(R.string.label_item_added_to_cart));
         dismissDialog("");
     }
 

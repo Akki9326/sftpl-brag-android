@@ -26,12 +26,21 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
 
     private final ObservableField<String> maxQty = new ObservableField<>();
     private final ObservableField<String> qty = new ObservableField<>();
+    private final ObservableField<String> proPrice = new ObservableField<>();
     private final ObservableField<String> productName = new ObservableField<>();
     private final ObservableField<Boolean> notify = new ObservableField<>();
     private final ObservableField<Boolean> hasSizeGuide = new ObservableField<>();
 
     public AddProductDialogViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public ObservableField<String> getProPrice() {
+        return proPrice;
+    }
+
+    public void updateProPrice(String price) {
+        this.proPrice.set(price);
     }
 
     public ObservableField<String> getMaxQty() {

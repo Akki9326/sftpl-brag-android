@@ -86,7 +86,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         mFragmentCollectionBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                checkInternet(true);
+                checkInternetAndCallApi(true);
             }
         });
 
@@ -96,7 +96,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         mFragmentCollectionBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentCollectionBinding.recycleView.setAdapter(mAdapter);
         mFragmentCollectionBinding.recycleView.setNestedScrollingEnabled(false);
-        checkInternet(true);
+        checkInternetAndCallApi(true);
     }
 
     @Override
@@ -119,26 +119,22 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
         return R.layout.fragment_collection;
     }
 
-    private void checkInternet(boolean showProgress) {
+    private void checkInternetAndCallApi(boolean showProgress) {
         if (Utility.isConnection(getActivity())) {
             mCollectionViewModel.setNoInternet(false);
             if (showProgress)
                 showProgress();
             mCollectionViewModel.getCollectionList();
         } else {
-            if (mFragmentCollectionBinding.swipeRefreshLayout.isRefreshing()) {
-                hideProgressBar();
-                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-            } else {
-                hideProgressBar();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mCollectionViewModel.setNoInternet(true);
-                    }
-                }, 150);
+            hideProgressBar();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCollectionViewModel.setNoInternet(true);
+                }
+            }, 150);
 
-            }
+
         }
 
     }
@@ -162,12 +158,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     public void onApiError(ApiError error) {
         hideProgressBar();
         if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            if (mFragmentCollectionBinding.swipeRefreshLayout.isRefreshing()) {
-                mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(false);
-                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-            } else {
-                mCollectionViewModel.setNoInternet(true);
-            }
+            mCollectionViewModel.setNoInternet(true);
             return;
         } else if (error.getHttpCode() == 19) {
             onNoData();
@@ -181,7 +172,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     @Override
     public void swipeRefresh() {
         mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet(false);
+        checkInternetAndCallApi(false);
     }
 
     @Override

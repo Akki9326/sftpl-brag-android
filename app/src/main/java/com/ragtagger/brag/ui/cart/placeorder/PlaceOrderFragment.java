@@ -79,17 +79,12 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                 mUpdateProfile, new IntentFilter(Constants.LOCALBROADCAST_UPDATE_PROFILE));
     }
 
-    private void checkInternet() {
+    private void checkInternetAndCallApi() {
         if (Utility.isConnection(getActivity())) {
             showProgress();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mPlaceOrderViewModel.getUserProfile();
-                }
-            }, 500);
+            mPlaceOrderViewModel.getUserProfile();
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            //AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -175,7 +170,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         Utility.applyTypeFace(getBaseActivity(), mFragmentPlaceOrderBinding.baseLayout);
         initializeData();
         showData();
-        checkInternet();
+        checkInternetAndCallApi();
     }
 
     @Override

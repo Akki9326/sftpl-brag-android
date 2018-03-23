@@ -68,28 +68,22 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
 
-    private void checkInternet() {
-        if (Utility.isConnection(getActivity())) {
-            //if it is not swipe to refresh
-            if (!mFragmentCartBinding.swipeRefreshLayout.isRefreshing()) {
-                showProgress();
+    private void checkInternetAndCallApi(boolean showProgress) {
+        if (isAdded())
+            if (Utility.isConnection(getActivity())) {
                 cartViewModel.setNoInternet(false);
-            }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    cartViewModel.getCartData();
-                }
-            }, 500);
-        } else {
-            //if it is not swipe to refresh
-            if (!mFragmentCartBinding.swipeRefreshLayout.isRefreshing()) {
-                cartViewModel.setNoInternet(true);
+                if (showProgress)
+                    showProgress();
+                cartViewModel.getCartData();
             } else {
-                hideLoader();
-                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                mFragmentCartBinding.swipeRefreshLayout.setRefreshing(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        cartViewModel.setNoInternet(true);
+                    }
+                }, 150);
             }
-        }
     }
 
 
@@ -103,12 +97,12 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         Utility.applyTypeFace(getBaseActivity(), mFragmentCartBinding.baseLayout);
         cartViewModel.setNoInternet(false);
         initializeData();
-        checkInternet();
+        checkInternetAndCallApi(true);
 
         mFragmentCartBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                checkInternet();
+                checkInternetAndCallApi(true);
             }
         });
 
@@ -172,7 +166,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             mCartItemDeleteData = responeData;
             cartViewModel.removeFromCart(responeData.getItemId());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -201,6 +195,11 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            cartViewModel.setNoInternet(true);
+            return;
+        }
+        cartViewModel.setNoInternet(false);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
@@ -212,13 +211,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onPriceClick() {
-//        mFragmentCartBinding.recycleView.scrollToPosition(mList.size() - 1);
+        //mFragmentCartBinding.recycleView.scrollToPosition(mList.size() - 1);
     }
 
     @Override
     public void swipeRefresh() {
         mFragmentCartBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet();
+        checkInternetAndCallApi(false);
     }
 
     @Override
@@ -229,7 +228,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         mAdapter = new CartListAdapter(getActivity(), mList, this);
         mFragmentCartBinding.recycleView.setAdapter(mAdapter);
         setTotalPrice();
-        cartViewModel.setListVisibility(mList.isEmpty() ? false : true);
+        cartViewModel.setListVisibility(!mList.isEmpty());
     }
 
     @Override
@@ -270,7 +269,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onErrorEditQtyFromAPI(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
 

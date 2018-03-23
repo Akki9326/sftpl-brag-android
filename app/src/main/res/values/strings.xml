@@ -20,6 +20,8 @@
     <string name="font_opensans_semi_bold_id">4</string>
     <string name="font_opensans_semi_bold">opensans_semi_bold.ttf</string>
 
+    <string name="font_opensans_italic_id">5</string>
+    <string name="font_opensans_italic">opensens_italic.ttf</string>
 
     <string name="text_s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique odio vel enim imperdiet, sit amet sagittis nisl lobortis. Proin sit amet condimentum libero, vel placerat orci. </string>
     <string name="text_v_s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique odio vel enim imperdiet</string>
@@ -52,27 +54,28 @@
     <string name="error_code_17">Invalid mobile number. Please enter a valid mobile number.</string>
     <string name="error_code_18">Email address already exist.</string>
     <string name="error_code_19">No data available.</string>
-   <!-- <string name="error_code_20">interactedTo is missing.</string>
-    <string name="error_code_21">interactionMedian is missing.</string>
-    <string name="error_code_22">interactionMedian is missing.</string>
-    <string name="error_code_23">Interaction type is missing.</string>
-    <string name="error_code_24">Interaction is already available.</string>
-    <string name="error_code_25">Record is already available.</string>
-    <string name="error_code_26">Category you have entered is already available as the subcategory.</string>
-    <string name="error_code_27">Invalid mobile number.</string>
-    <string name="error_code_28">Interaction is already available.</string>
-    <string name="error_code_29">Interaction is already available.</string>
-    <string name="error_code_30">Your address is empty</string>
-    <string name="error_code_31">The member is not allowed to log in.</string>
-    <string name="error_code_32">Invalid email id.</string>
-    <string name="error_code_33">Mobile number not found.</string>
-    <string name="error_code_34">Unable to parse attachment.</string>
-    <string name="error_code_35">Unable to upload attachment.</string>
-    <string name="error_code_36">The member is not yet registered.</string>
-    <string name="error_code_37">Expert already exist.</string>
-    <string name="error_code_38">The new password cannot be accepted because the old password provided is not correct. Please Try again.</string>
-    <string name="error_code_39">Requested interaction time missing.</string>
-    <string name="error_code_40">Sorry, you don\'t have permission.</string>-->
+    <string name="error_code_41">Your cart is empty.</string>
+    <!-- <string name="error_code_20">interactedTo is missing.</string>
+     <string name="error_code_21">interactionMedian is missing.</string>
+     <string name="error_code_22">interactionMedian is missing.</string>
+     <string name="error_code_23">Interaction type is missing.</string>
+     <string name="error_code_24">Interaction is already available.</string>
+     <string name="error_code_25">Record is already available.</string>
+     <string name="error_code_26">Category you have entered is already available as the subcategory.</string>
+     <string name="error_code_27">Invalid mobile number.</string>
+     <string name="error_code_28">Interaction is already available.</string>
+     <string name="error_code_29">Interaction is already available.</string>
+     <string name="error_code_30">Your address is empty</string>
+     <string name="error_code_31">The member is not allowed to log in.</string>
+     <string name="error_code_32">Invalid email id.</string>
+     <string name="error_code_33">Mobile number not found.</string>
+     <string name="error_code_34">Unable to parse attachment.</string>
+     <string name="error_code_35">Unable to upload attachment.</string>
+     <string name="error_code_36">The member is not yet registered.</string>
+     <string name="error_code_37">Expert already exist.</string>
+     <string name="error_code_38">The new password cannot be accepted because the old password provided is not correct. Please Try again.</string>
+     <string name="error_code_39">Requested interaction time missing.</string>
+     <string name="error_code_40">Sorry, you don\'t have permission.</string>-->
 
 
     <string name="error_code_5001">Something went wrong. Please try again.</string>
@@ -180,6 +183,7 @@
     <string name="label_add_update_address">Add/Update Address</string>
     <string name="error_code_1011">Please update the application for better experience.</string>
     <string name="label_qty_s">Qty :</string>
+    <string name="label_price_s">Price :</string>
     <string name="label_add_to_cart_small">Add to Cart</string>
     <string name="msg_password_change_successfull">Your password updated successfully.</string>
     <string name="msg_profile_update_successfull">Your profile updated successfully.</string>
@@ -300,11 +304,12 @@
     <string name="error_pincode_valid">Please enter valid pincode.</string>
     <string name="error_add_address">Please add address which want to place order.</string>
     <string name="label_order_status_dispatched">Dispatched</string>
-    <string name="error_code_41">Your cart is empty.</string>
+
     <string name="message_contact_us_success">Thank you for contacting us. We will get back to you very soon.</string>
     <string name="msg_place_order_successfull">Thanks for placing order with us! We shall keep you posted on the order status.</string>
     <string name="msg_reorder_success">The items have been re-ordered. We shall keep you posted on the order status.</string>
     <string name="label_status">Status:</string>
     <string name="label_total_amount">Total Amount:</string>
     <string name="error_no_more_quantity">No more quantity available.</string>
+    <string name="label_item_added_to_cart">Added to cart.</string>
 </resources>

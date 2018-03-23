@@ -24,6 +24,7 @@ import retrofit2.Call;
 public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator> {
 
     private final ObservableField<String> qty = new ObservableField<>();
+    private final ObservableField<String> maxQty = new ObservableField<>();
     private final ObservableField<String> productProPrice = new ObservableField<>();
     private final ObservableField<String> productProDetail = new ObservableField<>();
     private final ObservableField<String> productProShortDetail = new ObservableField<>();
@@ -40,6 +41,14 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
 
     public void updateQty(String quantity) {
         qty.set(quantity);
+    }
+
+    public ObservableField<String> getMaxQty() {
+        return maxQty;
+    }
+
+    public void updateMaxQty(String maxQty){
+        this.maxQty.set(maxQty);
     }
 
     public ObservableField<String> getProductProPrice() {
@@ -92,21 +101,33 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
     }
 
     public View.OnClickListener onPlusClick() {
-        return new OnSingleClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getNavigator().plus();
+            }
+        };
+        /*return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 getNavigator().plus();
             }
-        };
+        };*/
     }
 
     public View.OnClickListener onMinusClick() {
-        return new OnSingleClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getNavigator().minus();
+            }
+        };
+        /*return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 getNavigator().minus();
             }
-        };
+        };*/
     }
 
     public View.OnClickListener onAddToCartClick() {

@@ -26,6 +26,7 @@ import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.ragtagger.brag.utils.AlertUtils;
+import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.data.model.datas.DataMyOrder;
 import com.ragtagger.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
@@ -69,7 +70,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
                     if (mList.size() != totalOrderList) {
                         ACTION = LOAD_MORE;
-                        checkInternet(false);
+                        checkInternetAndCallApi(false);
                     } else {
                         mFragmentMyOrderBinding.recycleview.loadMoreComplete(true);
                     }
@@ -93,20 +94,18 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void afterViewCreated() {
         mFragmentMyOrderBinding = getViewDataBinding();
-
-
         initializeData();
 
         mFragmentMyOrderBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                checkInternet(true);
+                checkInternetAndCallApi(true);
             }
         });
 
 
         ACTION = LOAD_LIST;
-        checkInternet(true);
+        checkInternetAndCallApi(true);
 
     }
 
@@ -131,36 +130,38 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
         return R.layout.fragment_my_order;
     }
 
-    private void checkInternet(boolean isShowLoader) {
-
-        if (Utility.isConnection(getActivity())) {
-            mMyOrderViewModel.setNoInternet(false);
-            if (ACTION == LOAD_MORE) {
-                PAGE_NUM++;
-            } else {
-                //for pull to refresh
-                if (isShowLoader)
-                    showProgress();
-                PAGE_NUM = 1;
-            }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mMyOrderViewModel.getOrderData(PAGE_NUM);
+    private void checkInternetAndCallApi(boolean isShowLoader) {
+        if (isAdded())
+            if (Utility.isConnection(getActivity())) {
+                mMyOrderViewModel.setNoInternet(false);
+                if (ACTION == LOAD_MORE) {
+                    PAGE_NUM++;
+                } else {
+                    //for pull to refresh
+                    if (isShowLoader)
+                        showProgress();
+                    PAGE_NUM = 1;
                 }
-            }, 500);
-        } else {
-            //if not internet connection during swipe or load more than show pop up than no internet layout
-            if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()
-                    || mFragmentMyOrderBinding.recycleview.isLoadingData()) {
-                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                mMyOrderViewModel.getOrderData(PAGE_NUM);
             } else {
-                mMyOrderViewModel.setNoInternet(true);
-            }
+                switch (ACTION) {
+                    case LOAD_LIST:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mMyOrderViewModel.setNoInternet(true);
+                            }
+                        }, 200);
 
-            hideLoader();
-            mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
-        }
+                        break;
+                    case LOAD_MORE:
+                        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                        break;
+                }
+
+                hideLoader();
+                mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
+            }
     }
 
     public void initializeData() {
@@ -203,7 +204,16 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+        if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mMyOrderViewModel.setNoInternet(true);
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -211,7 +221,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
         mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(true);
         ACTION = LOAD_LIST;
         mFragmentMyOrderBinding.recycleview.setIsLoadingMore(true);
-        checkInternet(false);
+        checkInternetAndCallApi(false);
     }
 
     @Override
@@ -219,7 +229,6 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
         switch (ACTION) {
             case LOAD_LIST:
-
                 totalOrderList = orderList.getCount();
                 mList.clear();
                 mList.addAll(listRespones);
@@ -241,7 +250,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
                 break;
         }
 
-        mMyOrderViewModel.setListVisibility(mList.isEmpty() ? false : true);
+        mMyOrderViewModel.setListVisibility(!mList.isEmpty());
     }
 
 

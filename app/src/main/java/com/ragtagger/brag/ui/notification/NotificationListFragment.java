@@ -60,6 +60,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     private int PAGE_NUM = 1;
     int totalNotification;
     int position;
+    boolean isListApi = false;
 
     NotificationListAdapter mListAdapter;
     List<DataNotificationList> mListData;
@@ -77,7 +78,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
                     if (mListData.size() != totalNotification) {
                         ACTION = LOAD_MORE;
-                        checkInternet(false);
+                        checkInternetAndCallApi(false);
                     } else {
                         mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(true);
                     }
@@ -120,7 +121,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         mFragmentNotificationListBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                checkInternet(true);
+                checkInternetAndCallApi(true);
             }
         });
         mActivity.mTxtReadAll.setOnClickListener(new OnSingleClickListener() {
@@ -135,7 +136,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
         PAGE_NUM = 1;
         ACTION = LOAD_LIST;
-        checkInternet(true);
+        checkInternetAndCallApi(true);
     }
 
     @Override
@@ -167,9 +168,8 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         return R.layout.fragment_notification_list;
     }
 
-    private void checkInternet(boolean isShowLoader) {
-
-
+    private void checkInternetAndCallApi(boolean isShowLoader) {
+        isListApi = true;
         if (Utility.isConnection(getActivity())) {
             mNotificationListViewModel.setNoInternet(false);
             if (ACTION == LOAD_MORE) {
@@ -180,20 +180,31 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                     showProgress();
                 PAGE_NUM = 1;
             }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mNotificationListViewModel.getNotificationListAPI(PAGE_NUM);
-                }
-            }, 500);
+            mNotificationListViewModel.getNotificationListAPI(PAGE_NUM);
         } else {
-            //if not internet connection during swipe or load more than show pop up than no internet layout
+
+            switch (ACTION) {
+                case LOAD_LIST:
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mNotificationListViewModel.setNoInternet(true);
+                        }
+                    }, 200);
+
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                    break;
+            }
+
+            /*//if not internet connection during swipe or load more than show pop up than no internet layout
             if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()
                     || mFragmentNotificationListBinding.recycleviewNotification.isLoadingData()) {
                 AlertUtils.showAlertMessage(getActivity(), 0, null, null);
             } else {
                 mNotificationListViewModel.setNoInternet(true);
-            }
+            }*/
 
             hideLoader();
             mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
@@ -205,25 +216,27 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         this.position = position;
 
         DataNotificationList dataNotification = mListData.get(position);
-        switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
-            case TEXT:
-                break;
-            case USER:
-                break;
-            case ITEM:
-                break;
-            case ORDER:
-                ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
-                break;
-            default:
-                AlertUtils.showAlertMessage(getActivity(), 1, null, null);
-
-        }
-
-        //read notification api
         if (!dataNotification.isAttended()) {
             if (Utility.isConnection(getActivity())) {
+                //read notification api
+                isListApi = false;
                 mNotificationListViewModel.notificationRead(dataNotification.getId());
+                switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
+                    case TEXT:
+                        break;
+                    case USER:
+                        break;
+                    case ITEM:
+                        break;
+                    case ORDER:
+                        ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
+                        break;
+                    default:
+                        AlertUtils.showAlertMessage(getActivity(), 1, null, null);
+
+                }
+
+
             }
         }
 
@@ -237,6 +250,21 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
+        // TODO: 3/23/2018
+        if (isListApi && (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode)) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mNotificationListViewModel.setNoInternet(true);
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                    break;
+            }
+
+            return;
+        }
+
+        isListApi = true;
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
@@ -263,11 +291,10 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 if (totalNotification <= 20)
                     mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(false);
 
-                mNotificationListViewModel.setListVisibility(mListData.isEmpty() ? false : true);
+                mNotificationListViewModel.setListVisibility(!mListData.isEmpty());
 
                 break;
             case LOAD_MORE:
-
                 mListData.addAll(lists);
                 mListAdapter.notifyDataSetChanged();
                 mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
@@ -282,7 +309,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(true);
         ACTION = LOAD_LIST;
         mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
-        checkInternet(false);
+        checkInternetAndCallApi(false);
     }
 
     @Override

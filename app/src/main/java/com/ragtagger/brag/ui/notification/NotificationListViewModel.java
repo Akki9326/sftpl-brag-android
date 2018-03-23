@@ -59,7 +59,7 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
         });
     }
 
-    public void notificationRead(String id) {
+    void notificationRead(String id) {
         Call<RGeneralData> notificationCall = getDataManager().notificationRead(id);
         notificationCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override

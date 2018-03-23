@@ -20,7 +20,6 @@ import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
-import com.ragtagger.brag.ui.authentication.profile.UserProfileActivity;
 import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.ui.home.adapter.CategoryListAdapter;
 import com.ragtagger.brag.adapters.ImagePagerAdapter;
@@ -87,12 +86,12 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         mFragmentCategoryBinding.layoutNoInternet.textviewRetry.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                checkInternet(true);
+                checkInternetAndCallApi(true);
 
             }
         });
 
-        checkInternet(true);
+        checkInternetAndCallApi(true);
     }
 
     @Override
@@ -101,7 +100,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
 
-    private void checkInternet(boolean showProgress) {
+    private void checkInternetAndCallApi(boolean showProgress) {
         //hideProgressBar();
         if (Utility.isConnection(getContext())) {
             categoryViewModel.setNoInternet(false);
@@ -109,19 +108,15 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
                 showProgress();
             categoryViewModel.getCategoryData();
         } else {
-            if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
-                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-            } else {
-                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        categoryViewModel.setNoInternet(true);
-                    }
-                }, 150);
+            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    categoryViewModel.setNoInternet(true);
+                }
+            }, 150);
 
-            }
+
         }
     }
 
@@ -162,12 +157,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     public void onApiError(ApiError error) {
         hideProgressBar();
         if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
-                mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-            } else {
-                categoryViewModel.setNoInternet(true);
-            }
+            categoryViewModel.setNoInternet(true);
             return;
         } else if (error.getHttpCode() == 19) {
             onNoData();
@@ -182,7 +172,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     @Override
     public void swipeRefresh() {
         mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet(false);
+        checkInternetAndCallApi(false);
     }
 
     @Override

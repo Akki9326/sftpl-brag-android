@@ -204,6 +204,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             mProductDetailViewModel.updateProductProShortDetail(mSizedProduct.getDescription2());
             mProductDetailViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
             mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencyPriceFormat(mSizedProduct.getUnitPrice()));
+            mProductDetailViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
 
             imagePagerResponeList.clear();
             for (String url : mSizedProduct.getImages()) {
@@ -304,6 +305,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         }
         ((MainActivity) getBaseActivity()).updateCartNum();
+        ((MainActivity) getBaseActivity()).showToast(getString(R.string.label_item_added_to_cart));
     }
 
     @Override

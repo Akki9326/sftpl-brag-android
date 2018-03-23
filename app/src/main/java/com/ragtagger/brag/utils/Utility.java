@@ -144,7 +144,7 @@ public class Utility {
                 }
             }
         } catch (Exception e) {
-            Log.i(TAG, "applyTypeFace: "+e.getMessage());
+            Log.i(TAG, "applyTypeFace: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -160,6 +160,8 @@ public class Utility {
                     return context.getResources().getString(R.string.font_opensans_bold);
                 case Constants.FONT_OPENSANS_SEMI_BOLD:
                     return context.getResources().getString(R.string.font_opensans_semi_bold);
+                case Constants.FONT_OPENSANS_ITALIC:
+                    return context.getString(R.string.font_opensans_italic);
 //                case Constants.FONT_BOOK_ID:
 //                    return context.getResources().getString(R.string.font_book);
 //                case Constants.FONT_BOOK_ITALIC_ID:
@@ -415,7 +417,7 @@ public class Utility {
             }
 
         } else {
-            AlertUtils.showAlertMessage(activity, 1, null,null);
+            AlertUtils.showAlertMessage(activity, 1, null, null);
         }
     }
 

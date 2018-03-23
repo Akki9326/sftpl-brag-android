@@ -26,6 +26,7 @@ public class Constants {
     public static final int FONT_OPENSANS_LIGHT = 2;
     public static final int FONT_OPENSANS_BOLD = 3;
     public static final int FONT_OPENSANS_SEMI_BOLD = 4;
+    public static final int FONT_OPENSANS_ITALIC = 5;
 
     public static final int EXIT_LEFT = 1;
     public static final int EXIT_BOTTOM = 2;
@@ -76,8 +77,8 @@ public class Constants {
     public static final String BUNDLE_KEY_MOBILE_NUM = "bundlemobile";
 
     public interface ApiHelper {
-        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
-//        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
+        //String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
         //String BASE_URL = "http://192.168.131.125:8085/BRAGWeb/api/"; //tushar
 
         String API_VERSION = "v1/";

@@ -10,9 +10,12 @@ package com.ragtagger.brag.ui.order.orderdetail;
  */
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -121,7 +124,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         mFragmentOrderDetailBinding.recycleview.setNestedScrollingEnabled(false);
 
 
-        checkInternetAncGetDetails();
+        checkInternetAndGetDetails();
     }
 
 
@@ -158,7 +161,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onApiReorderSuccess() {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(),getString(R.string.msg_reorder_success));
+        AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_reorder_success));
     }
 
     @Override
@@ -184,7 +187,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     }
 
-    private void checkInternetAncGetDetails() {
+    private void checkInternetAndGetDetails() {
         if (mData != null) {
             showData();
         } else if (orderId != null) {
@@ -272,12 +275,24 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void onReorderClick() {
-        if (Utility.isConnection(getActivity())) {
-            showData();
-            orderDetailViewModel.reOrderAPI(mData.getId());
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
+        String message = getString(R.string.msg_you_order_delived_address) + "\n" + mData.getFullAddressWithNewLine();
+        AlertUtils.showAlertMessageCancelOk(getContext(), message, new AlertUtils.IDialogListenerCancelAndOk() {
+            @Override
+            public void onCancelClick(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onOkClick(Dialog dialog) {
+                dialog.dismiss();
+                if (Utility.isConnection(getActivity())) {
+                    showProgress();
+                    orderDetailViewModel.reOrderAPI(mData.getId());
+                } else {
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                }
+            }
+        });
     }
 
     @Override
@@ -290,6 +305,36 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     public void onNoOrderData() {
         mData = null;
         showData();
+
+    }
+
+    @Override
+    public void onCancelledClick() {
+        if (Utility.isConnection(getActivity())) {
+            showProgress();
+            orderDetailViewModel.onCancelOrder(mData.getId());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+        }
+    }
+
+    @Override
+    public void onApiCancelSuccess() {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_cancel_order));
+        //update order detail of states and cancel button
+        orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), Constants.OrderStatus.CANCELED.ordinal()));
+        orderDetailViewModel.setIsOrderPlaced(false);
+        mFragmentOrderDetailBinding.textviewStatus.setTextColor(getResources().getColor(R.color.order_status_red));
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_ORDER);
+        intent.putExtra(Constants.BUNDLE_IS_ORDER_CANCEL, true);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+
+    @Override
+    public void onApiCancelError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
 
     }
 
@@ -313,6 +358,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
             orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma((int) mData.getTotalAmount()));
             orderDetailViewModel.setMobilenum(mData.getUser().getMobileNumber());
+            orderDetailViewModel.setIsOrderPlaced(mData.getStatus() == Constants.OrderStatus.PLACED.ordinal());
             orderDetailViewModel.setTotalPayable(Utility.getIndianCurrencyPriceFormatWithComma(
                     (mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()) ? ((int) mData.getPayableAmount()) :
                             (int) mData.getTotalAmount()));

@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
+import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
@@ -12,6 +13,7 @@ import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
+import com.ragtagger.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -30,14 +32,7 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
         super(dataManager);
     }
 
-    public View.OnClickListener onReadClick() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().readNotification();
-            }
-        };
-    }
+
 
     public void getNotificationListAPI(int page) {
         Call<RNotification> notificationCall = getDataManager().getNotificationList(page);
@@ -45,6 +40,7 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
             @Override
             public void onSuccess(RNotification rNotification, Headers headers) {
                 if (rNotification.isStatus()) {
+                    BragApp.NotificationNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_NOTIFICATION_NUM));
                     getNavigator().onApiSuccess();
                     getNavigator().setNotificationList(rNotification.getData(), rNotification.getData().getObjects());
                 } else {

@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ragtagger.brag.R;
+import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.authentication.profile.UserProfileActivity;
 import com.ragtagger.brag.ui.splash.SplashActivity;
@@ -164,7 +165,7 @@ public class AlertUtils {
                     message = activity.getResources().getString(R.string.error_code_19);
                     break;
 
-              /*  case 20:
+                case 20:
                     message = activity.getResources().getString(R.string.error_code_20);
                     break;
 
@@ -174,7 +175,7 @@ public class AlertUtils {
                 case 22:
                     message = activity.getResources().getString(R.string.error_code_22);
                     break;
-                case 23:
+               /* case 23:
                     message = activity.getResources().getString(R.string.error_code_23);
                     break;
                 case 24:
@@ -457,7 +458,88 @@ public class AlertUtils {
         }
     }
 
+
+    public static void showAlertMessageYesNo(final Context mContext, String s, final IDialogListenerYesAndNo listener) {
+
+
+        try {
+            alertDialog = new Dialog(mContext);
+
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.setContentView(R.layout.dialog_two_button);
+            Utility.applyTypeFace(mContext, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            alertDialog.setCancelable(false);
+
+            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
+            txt.setText(s);
+
+            Button dialogYesBtn = (Button) alertDialog.findViewById(R.id.button_yes_alert_btn);
+            Button dialogNoBtn = (Button) alertDialog.findViewById(R.id.button_no_alert_btn);
+            dialogNoBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onNoClick(alertDialog);
+                }
+            });
+            dialogYesBtn.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    listener.onYesClick(alertDialog);
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showAlertMessageCancelOk(final Context mContext, String s, final IDialogListenerCancelAndOk listener) {
+
+
+        try {
+            alertDialog = new Dialog(mContext);
+
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.setContentView(R.layout.dialog_two_button_cancle_ok);
+            Utility.applyTypeFace(mContext, (LinearLayout) alertDialog.findViewById(R.id.base_layout));
+            alertDialog.setCancelable(false);
+
+            TextView txt = (TextView) alertDialog.findViewById(R.id.txt_alert_tv);
+            txt.setText(s);
+
+            Button dialogCancelBtn = (Button) alertDialog.findViewById(R.id.button_cancel_alert_btn);
+            Button dialogOkBtn = (Button) alertDialog.findViewById(R.id.button_ok_alert_btn);
+            dialogCancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onCancelClick(alertDialog);
+                }
+            });
+            dialogOkBtn.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    listener.onOkClick(alertDialog);
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public interface IDismissDialogListener {
         void dismissDialog(Dialog dialog);
+    }
+
+    public interface IDialogListenerYesAndNo {
+        void onYesClick(Dialog dialog);
+
+        void onNoClick(Dialog dialog);
+    }
+
+    public interface IDialogListenerCancelAndOk {
+        void onCancelClick(Dialog dialog);
+
+        void onOkClick(Dialog dialog);
     }
 }

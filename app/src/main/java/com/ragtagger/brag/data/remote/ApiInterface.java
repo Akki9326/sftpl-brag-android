@@ -139,6 +139,9 @@ public interface ApiInterface {
     @GET("order/reOrder/{orderId}")
     Call<RGeneralData> reOrder(@Path("orderId") String id);
 
+    @GET("order/cancel/{orderId}")
+    Call<RGeneralData> cancelOrder(@Path("orderId") String id);
+
     @POST("notification/list/{pages}")
     Call<RNotification> getNotificationList(@Path("pages") int page);
 

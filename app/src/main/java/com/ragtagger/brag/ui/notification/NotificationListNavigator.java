@@ -13,7 +13,6 @@ import java.util.List;
 
 public interface NotificationListNavigator extends CoreNavigator {
 
-    void readNotification();
 
     void setNotificationList(RNotificationList notificationList, List<DataNotificationList> lists);
 

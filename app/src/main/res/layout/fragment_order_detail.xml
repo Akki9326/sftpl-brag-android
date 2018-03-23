@@ -207,17 +207,17 @@
                                     android:textColor="@color/text_black"
                                     android:textSize="@dimen/text_size_very_small" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:tag="@string/font_opensans_bold_id"
-                                android:text="@{viewModel.totalPricePayable}"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_very_small" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="5dp"
+                                    android:tag="@string/font_opensans_bold_id"
+                                    android:text="@{viewModel.totalPricePayable}"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="@dimen/text_size_very_small" />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                    </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
@@ -386,6 +386,42 @@
                                 android:layout_marginRight="10dp"
                                 android:padding="5dp"
                                 android:src="@drawable/ic_reorder" />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:onClick="@{viewModel.onCancelled()}"
+                        android:visibility="@{viewModel.isOrderPlaced?View.VISIBLE:View.GONE}"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="left"
+                                android:padding="10dp"
+                                android:tag="@string/font_opensans_regular_id"
+                                android:text="@string/label_cancel"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/text_size_very_small" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_cancel_order" />
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
 

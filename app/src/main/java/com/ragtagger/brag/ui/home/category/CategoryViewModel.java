@@ -96,9 +96,9 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
             @Override
             public void onSuccess(RCategoryList categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
-                    getNavigator().onApiSuccess();
                     BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
                     BragApp.NotificationNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_NOTIFICATION_NUM));
+                    getNavigator().onApiSuccess();
                     if (categoryListResponse.getData() == null) {
                         getNavigator().onNoData();
                     } else if (categoryListResponse.getData().getBanners().size() == 0 && categoryListResponse.getData().getCategories().size() == 0) {

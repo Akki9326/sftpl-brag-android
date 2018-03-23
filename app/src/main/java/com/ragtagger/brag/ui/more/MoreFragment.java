@@ -40,6 +40,7 @@ import com.ragtagger.brag.data.model.datas.DataMoreList;
 import com.ragtagger.brag.data.model.datas.DataUser;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
+import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.views.FullScreenImageDialogFragment;
 import com.ragtagger.brag.ui.notification.NotificationListFragment;
 import com.ragtagger.brag.views.webview.WebviewDialogFragment;
@@ -301,8 +302,9 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification), ((CoreActivity) getActivity()).getNotificationlabel()));
+            moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
             moreListAdapter.notifyDataSetChanged();
+            ((HomeFragment) getParentFragment()).setNotificationBadge();
         }
     };
 

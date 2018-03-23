@@ -28,6 +28,7 @@ import com.ragtagger.brag.data.model.datas.DataNotificationList;
 import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.databinding.FragmentNotificationListBinding;
 import com.ragtagger.brag.ui.core.CoreFragment;
+import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.adapter.NotificationListAdapter;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
@@ -245,6 +246,9 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     @Override
     public void onApiSuccess() {
         hideLoader();
+        setUpToolbar();
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
 
     @Override
@@ -268,13 +272,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
-    @Override
-    public void readNotification() {
-        BragApp.NotificationNumber--;
-        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-        setUpToolbar();
-    }
 
     @Override
     public void setNotificationList(RNotificationList notificationList, List<DataNotificationList> lists) {

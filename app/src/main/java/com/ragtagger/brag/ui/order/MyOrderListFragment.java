@@ -8,9 +8,14 @@ package com.ragtagger.brag.ui.order;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -18,6 +23,7 @@ import android.view.View;
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
+import com.ragtagger.brag.data.model.datas.DataMoreList;
 import com.ragtagger.brag.data.model.response.RMyOrderList;
 import com.ragtagger.brag.ui.order.adapter.MyOrderListAdapter;
 import com.ragtagger.brag.data.model.ApiError;
@@ -49,6 +55,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     private static final int LOAD_MORE = 5;
     private int PAGE_NUM = 1;
     int totalOrderList;
+    int positionOfItemClick;
 
     @Inject
     MyOrderViewModel mMyOrderViewModel;
@@ -84,6 +91,8 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMyOrderViewModel.setNavigator(this);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateOrder,
+                new IntentFilter(Constants.LOCALBROADCAST_UPDATE_ORDER));
     }
 
     @Override
@@ -184,6 +193,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
     @Override
     public void onItemClick(int position, DataMyOrder responeData) {
+        positionOfItemClick = position;
         ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(responeData), true, true);
 
     }
@@ -261,5 +271,21 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
             hideProgress();
             mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
         }
+    }
+
+    private BroadcastReceiver mUpdateOrder = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(Constants.BUNDLE_IS_ORDER_CANCEL)) {
+                mList.get(positionOfItemClick).setStatus(Constants.OrderStatus.CANCELED.ordinal());
+                listAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateOrder);
     }
 }

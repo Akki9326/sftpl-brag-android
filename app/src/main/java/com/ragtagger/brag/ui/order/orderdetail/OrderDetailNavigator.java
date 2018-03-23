@@ -31,4 +31,10 @@ public interface OrderDetailNavigator extends CoreNavigator {
     void onOrderDetails(DataMyOrder orderDetails);
 
     void onNoOrderData();
+
+    void onCancelledClick();
+
+    void onApiCancelSuccess();
+
+    void onApiCancelError(ApiError error);
 }

@@ -234,6 +234,11 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
+    public Call<RGeneralData> cancelOrder(String id) {
+        return mApiManager.cancelOrder(id);
+    }
+
+    @Override
     public Call<RNotification> getNotificationList(int page) {
         return mApiManager.getNotificationList(page);
     }

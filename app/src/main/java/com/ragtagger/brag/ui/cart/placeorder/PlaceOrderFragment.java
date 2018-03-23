@@ -142,6 +142,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         AlertUtils.showAlertMessage(getActivity(), 2001, null, new AlertUtils.IDismissDialogListener() {
             @Override
             public void dismissDialog(Dialog dialog) {
+                hideProgress();
                 dialog.dismiss();
                 //clear cart when successfully place order
                 BragApp.CartNumber = 0;

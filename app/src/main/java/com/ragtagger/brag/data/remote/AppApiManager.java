@@ -192,6 +192,11 @@ public class AppApiManager implements IApiManager {
         return mApiInterface.reOrder(id);
     }
 
+    @Override
+    public Call<RGeneralData> cancelOrder(String id) {
+        return mApiInterface.cancelOrder(id);
+    }
+
 
     @Override
     public Call<RNotification> getNotificationList(int page) {

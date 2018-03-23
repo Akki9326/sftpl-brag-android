@@ -9,6 +9,7 @@ package com.ragtagger.brag.ui.cart;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -160,7 +161,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onDeleteItem(final int position, final DataCart responeData) {
-
         if (Utility.isConnection(getActivity())) {
             showProgress();
             mCartItemDeleteData = responeData;

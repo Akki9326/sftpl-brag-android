@@ -37,6 +37,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     ObservableField<String> orderState = new ObservableField<>();
     ObservableField<String> date = new ObservableField<>();
     ObservableField<Boolean> isOrderApprove = new ObservableField<>();
+    ObservableField<Boolean> isOrderPlaced = new ObservableField<>();
     ObservableField<String> mobilenum = new ObservableField<>();
     ObservableField<Integer> orderStateColor = new ObservableField<>();
     ObservableField<String> total = new ObservableField<>();
@@ -100,6 +101,34 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
                 getNavigator().onReorderClick();
             }
         };
+    }
+
+    public View.OnClickListener onCancelled() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onCancelledClick();
+            }
+        };
+    }
+
+    public void onCancelOrder(String id) {
+        Call<RGeneralData> rGeneralDataCall = getDataManager().cancelOrder(id);
+        rGeneralDataCall.enqueue(new ApiResponse<RGeneralData>() {
+            @Override
+            public void onSuccess(RGeneralData rGeneralData, Headers headers) {
+                if (rGeneralData.isStatus()) {
+                    getNavigator().onApiCancelSuccess();
+                } else {
+                    getNavigator().onApiCancelError(new ApiError(rGeneralData.getErrorCode(), rGeneralData.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiCancelError(t);
+            }
+        });
     }
 
     public String getInvoiveUrl() {
@@ -223,5 +252,13 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
             }
         });
 
+    }
+
+    public ObservableField<Boolean> getIsOrderPlaced() {
+        return isOrderPlaced;
+    }
+
+    public void setIsOrderPlaced(boolean isOrderPlaced) {
+        this.isOrderPlaced.set(isOrderPlaced);
     }
 }

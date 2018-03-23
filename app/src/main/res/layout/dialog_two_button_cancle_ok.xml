@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/main_layout_padding">
+
+        <TextView
+            android:id="@+id/alert_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:tag="@string/font_opensans_regular_id"
+            android:text="@string/app_name"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/text_size_extra_large" />
+
+        <TextView
+            android:id="@+id/txt_alert_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/alert_title_tv"
+            android:layout_margin="8dp"
+            android:gravity="center_horizontal"
+            android:tag="@string/font_opensans_regular_id"
+            android:textColor="#111"
+            android:textSize="@dimen/text_size_small" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_cancel_alert_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_alert_tv"
+                android:layout_marginTop="@dimen/margin_child_layout"
+                android:background="@android:color/transparent"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/pink" />
+
+            <Button
+                android:id="@+id/button_ok_alert_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_alert_tv"
+                android:layout_marginTop="@dimen/margin_child_layout"
+                android:background="@android:color/transparent"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/btn_ok"
+                android:textColor="@color/pink" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

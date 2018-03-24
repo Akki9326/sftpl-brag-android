@@ -77,15 +77,15 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
             @Override
             public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
-                    getNavigator().onApiSuccess();
+                    getNavigator().onApiverifyOTPSuccess();
                 } else {
-                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                    getNavigator().onApiverifyOTPError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
             }
 
             @Override
             public void onError(ApiError t) {
-                getNavigator().onApiError(t);
+                getNavigator().onApiverifyOTPError(t);
             }
         });
     }

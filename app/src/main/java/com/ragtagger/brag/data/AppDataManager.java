@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.response.RChangePassword;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.RNotification;
+import com.ragtagger.brag.data.model.response.RProduct;
 import com.ragtagger.brag.data.model.response.RProductList;
 import com.ragtagger.brag.data.model.requests.QAddAddress;
 import com.ragtagger.brag.data.model.response.RStateList;
@@ -246,6 +247,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<RGeneralData> notificationRead(String id) {
         return mApiManager.notificationRead(id);
+    }
+
+    @Override
+    public Call<RProduct> getProductDetail(String itemId) {
+        return mApiManager.getProductDetail(itemId);
     }
 
     @Override

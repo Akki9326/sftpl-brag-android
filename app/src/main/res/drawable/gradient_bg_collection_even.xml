@@ -2,8 +2,8 @@
     android:shape="rectangle">
 
     <gradient
-        android:endColor="@color/semi_pink"
-        android:startColor="@color/gray_transparent" />
+        android:endColor="@color/pink_70"
+        android:startColor="@color/pink_30" />
 
     <!--<gradient-->
     <!--android:endColor="@color/gray_transparent"-->

@@ -15,6 +15,8 @@
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:layout_marginTop="-5dp"
         android:background="@color/gray_10">
 
 
@@ -249,13 +251,16 @@
                             android:src="@drawable/ic_minus"
                             android:tint="@color/gray" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/textView_qty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="5dp"
                             android:background="@drawable/squre_corner_solid_white"
+                            android:cursorVisible="false"
+                            android:inputType="number"
+                            android:maxLength="3"
                             android:paddingBottom="5dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
@@ -296,5 +301,10 @@
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:id="@+id/dummay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </layout>

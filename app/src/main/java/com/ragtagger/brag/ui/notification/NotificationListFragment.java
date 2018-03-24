@@ -217,29 +217,30 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         this.position = position;
 
         DataNotificationList dataNotification = mListData.get(position);
-        if (!dataNotification.isAttended()) {
-            if (Utility.isConnection(getActivity())) {
-                //read notification api
-                isListApi = false;
+
+        if (Utility.isConnection(getActivity())) {
+            //read notification api
+            isListApi = false;
+            if (!dataNotification.isAttended())
                 mNotificationListViewModel.notificationRead(dataNotification.getId());
-                switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
-                    case TEXT:
-                        break;
-                    case USER:
-                        break;
-                    case ITEM:
-                        break;
-                    case ORDER:
-                        ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
-                        break;
-                    default:
-                        AlertUtils.showAlertMessage(getActivity(), 1, null, null);
 
-                }
-
-
+            switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
+                case TEXT:
+                    break;
+                case USER:
+                    break;
+                case ITEM:
+                    break;
+                case ORDER:
+                    ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
+                    break;
+                default:
+                    AlertUtils.showAlertMessage(getActivity(), 1, null, null);
             }
+
+
         }
+
 
     }
 
@@ -316,7 +317,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         BragApp.NotificationNumber--;
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-        setUpToolbar();
+//        setUpToolbar();
 
     }
 

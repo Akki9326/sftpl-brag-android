@@ -32,6 +32,7 @@ import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
+import com.ragtagger.brag.data.model.response.RProduct;
 import com.ragtagger.brag.data.model.response.RProductList;
 import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.data.model.response.RStateList;
@@ -82,7 +83,6 @@ public interface ApiInterface {
 
     @GET("logout")
     Call<RGeneralData> logoutCall();
-
 
 
     @POST("changeMobileNumber")
@@ -147,4 +147,7 @@ public interface ApiInterface {
 
     @GET("notification/read/{notificationId}")
     Call<RGeneralData> notificationRead(@Path("notificationId") String id);
+
+    @GET("item/get/{itemId}")
+    Call<RProduct> getProductDetail(@Path("itemId") String itemId);
 }

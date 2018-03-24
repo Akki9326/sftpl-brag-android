@@ -88,11 +88,6 @@ public class FCMService extends FirebaseMessagingService {
                 Integer.parseInt(remoteMessage.getData().get(N_TYPE)),
                 remoteMessage.getData().get(WHAT_ID),
                 remoteMessage.getData().get(N_ID));
-        /*sendNotification(remoteMessage.getData().get(MESSAGE),
-                remoteMessage.getData().get(TITLE),
-                2,
-                "1",
-                "1");*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -163,9 +158,9 @@ public class FCMService extends FirebaseMessagingService {
 
         Notification notification = null;
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        if (ntype != Constants.NotificationType.TEXT.ordinal()) {
+        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+            stackBuilder.addParentStack(MainActivity.class);
             stackBuilder.addNextIntent(new Intent(getApplicationContext(), MainActivity.class));
-            //stackBuilder.addParentStack(HomeScreenActivity.this);
         }
         stackBuilder.addNextIntent(notificationIntent);
 
@@ -203,6 +198,11 @@ public class FCMService extends FirebaseMessagingService {
         mNotificationManager.notify(mNotificationId, notification);
 
 
+        if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+            BragApp.NotificationNumber++;
+            Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+        }
     }
 
 

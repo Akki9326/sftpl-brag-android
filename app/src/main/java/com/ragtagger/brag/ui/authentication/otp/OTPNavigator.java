@@ -3,6 +3,7 @@ package com.ragtagger.brag.ui.authentication.otp;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
+import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.ui.core.CoreNavigator;
 
 /**
@@ -24,4 +25,8 @@ public interface OTPNavigator extends CoreNavigator {
     void pushCreatePasswordFragment();
 
     void pushSignUpCompleteFragment();
+
+    void onApiverifyOTPSuccess();
+
+    void onApiverifyOTPError(ApiError error);
 }

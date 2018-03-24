@@ -9,6 +9,7 @@ import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.requests.QAddToCart;
 import com.ragtagger.brag.data.model.response.RAddToCart;
+import com.ragtagger.brag.data.model.response.RProduct;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.ui.core.CoreViewModel;
@@ -47,7 +48,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         return maxQty;
     }
 
-    public void updateMaxQty(String maxQty){
+    public void updateMaxQty(String maxQty) {
         this.maxQty.set(maxQty);
     }
 
@@ -190,6 +191,25 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
             @Override
             public void onError(ApiError t) {
                 getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    public void getProductDetail(String id) {
+        Call<RProduct> productCall = getDataManager().getProductDetail(id);
+        productCall.enqueue(new ApiResponse<RProduct>() {
+            @Override
+            public void onSuccess(RProduct rProduct, Headers headers) {
+                if (rProduct.isStatus()) {
+                    getNavigator().onApiSuccessProductDetail(rProduct.getData());
+                } else {
+                    getNavigator().onApiErrorProductDetail(new ApiError(rProduct.getErrorCode(), rProduct.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiErrorProductDetail(t);
             }
         });
     }

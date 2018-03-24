@@ -421,6 +421,18 @@ public class DataProductList implements Parcelable {
         @Expose
         private List<String> images = null;
 
+        public Size(String no, String description, String description2, String sizeCode,
+                    String unitOfMeasure, double unitPrice, int stockData, boolean isDefault, List<String> images) {
+            this.no = no;
+            this.description = description;
+            this.description2 = description2;
+            this.sizeCode = sizeCode;
+            this.unitOfMeasure = unitOfMeasure;
+            this.unitPrice = (int) unitPrice;
+            this.stockData = stockData;
+            this.isDefault = isDefault;
+            this.images = images;
+        }
 
         public String getNo() {
             return no;

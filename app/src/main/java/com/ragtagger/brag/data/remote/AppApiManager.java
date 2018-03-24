@@ -27,6 +27,7 @@ import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
+import com.ragtagger.brag.data.model.response.RProduct;
 import com.ragtagger.brag.data.model.response.RProductList;
 import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.data.model.response.RStateList;
@@ -206,5 +207,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<RGeneralData> notificationRead(String id) {
         return mApiInterface.notificationRead(id);
+    }
+
+    @Override
+    public Call<RProduct> getProductDetail(String itemId) {
+        return mApiInterface.getProductDetail(itemId);
     }
 }

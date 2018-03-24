@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="@string/font_opensans_regular_id"
-                        android:text="@string/label_total_amount"
+                        android:text="@string/label_amount_ast"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_very_small" />
 

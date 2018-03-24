@@ -152,8 +152,7 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:orientation="horizontal"
-                            android:padding="5dp"
-                            android:visibility="@{viewModel.notify ? View.GONE : View.VISIBLE}">
+                            android:padding="5dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -161,7 +160,8 @@
                                 android:padding="5dp"
                                 android:tag="@string/font_opensans_regular_id"
                                 android:text="@string/label_qty_s"
-                                android:textSize="@dimen/text_size_small" />
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="@{viewModel.notify?View.GONE:View.VISIBLE}" />
 
                             <EditText
                                 android:id="@+id/edittext_qty"
@@ -169,7 +169,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:afterTextChanged="@{viewModel.afterTextChanged}"
-                                android:background="@drawable/rounder_corner_edge_gray"
+                                android:background="@drawable/selector_qty"
                                 android:cursorVisible="true"
                                 android:gravity="center"
                                 android:inputType="number"
@@ -182,7 +182,8 @@
                                 android:paddingTop="2dp"
                                 android:tag="@string/font_opensans_regular_id"
                                 android:text="@{viewModel.qty}"
-                                android:textSize="@dimen/text_size_medium" />
+                                android:textSize="@dimen/text_size_medium"
+                                android:visibility="@{viewModel.notify?View.GONE:View.VISIBLE}" />
 
                             <TextView
                                 android:id="@+id/textview_max"
@@ -190,6 +191,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:tag="@string/font_opensans_regular_id"
+                                android:layout_gravity="center"
                                 android:text="@{@string/label_avail_qty(viewModel.maxQty)}"
                                 android:textSize="@dimen/text_size_very_small_12" />
 

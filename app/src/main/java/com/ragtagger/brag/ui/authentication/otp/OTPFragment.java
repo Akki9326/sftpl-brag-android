@@ -131,6 +131,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     @Override
     public void onApiSuccess() {
         hideProgress();
+
     }
 
     @Override
@@ -199,5 +200,17 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     public void pushSignUpCompleteFragment() {
         ((SplashActivity) getActivity()).pushFragments(new SignUpCompleteFragment(),
                 true, true, "Signup_Complete_Frag");
+    }
+
+    @Override
+    public void onApiverifyOTPSuccess() {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_otp_resend));
+    }
+
+    @Override
+    public void onApiverifyOTPError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 }

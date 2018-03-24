@@ -36,6 +36,8 @@ import com.ragtagger.brag.utils.Validation;
 import com.ragtagger.brag.views.dropdown.DropdownItem;
 import com.ragtagger.brag.views.dropdown.DropdownUtils;
 import com.ragtagger.brag.views.dropdown.IOnDropDownItemClick;
+import com.ragtagger.brag.views.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import com.ragtagger.brag.views.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,8 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         userTypeList.add(new DropdownItem("Sales representative", 2));
         mFragmentSignUpBinding.textviewUserType.setText(userTypeList.get(0).getValue());
         mSelectedUserType = userTypeList.get(0).getId();
+
+
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.ragtagger.brag.ui.home.product.details;
 
+import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataAddToCart;
+import com.ragtagger.brag.data.model.datas.DataProductList;
 import com.ragtagger.brag.ui.core.CoreNavigator;
 
 import java.util.List;
@@ -24,4 +26,8 @@ public interface ProductDetailNavigator extends CoreNavigator {
     void notifyMe();
 
     void onNotifyMeSuccess(String msg);
+
+    void onApiSuccessProductDetail(DataProductList.Products products);
+
+    void onApiErrorProductDetail(ApiError error);
 }

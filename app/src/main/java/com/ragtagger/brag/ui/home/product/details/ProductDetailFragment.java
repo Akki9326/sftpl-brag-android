@@ -17,6 +17,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.ragtagger.brag.BR;
@@ -39,6 +41,8 @@ import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.views.FullScreenImageDialogFragment;
 import com.ragtagger.brag.views.HorizontalSpacingDecoration;
+import com.ragtagger.brag.views.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import com.ragtagger.brag.views.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 import com.ragtagger.brag.views.webview.WebviewDialogFragment;
 
 import java.util.ArrayList;
@@ -76,13 +80,16 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     int mQuality;
     String mSizeGuide;
     boolean isDefaultAdded = false;
+    String mItemId = null;
+    Boolean isFromNotification;
 
 
-    public static ProductDetailFragment newInstance(DataProductList dataRespone, List<DataProductList.Products> list, int position, String sizeGuide/*, ProductListFragment targetFragment, int reqCode*/) {
+    public static ProductDetailFragment newInstance(DataProductList dataRespone, List<DataProductList.Products> list, int position, String sizeGuide, boolean isFromNotification/*, ProductListFragment targetFragment, int reqCode*/) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, dataRespone);
         args.putInt(Constants.BUNDLE_POSITION, position);
         args.putString(Constants.BUNDLE_SIZE_GUIDE, sizeGuide);
+        args.putBoolean(Constants.BUNDLE_IS_FROM_NOTIFICATION, isFromNotification);
         args.putParcelableArrayList(Constants.BUNDLE_PRODUCT_LISt, (ArrayList<? extends Parcelable>) list);
         ProductDetailFragment fragment = new ProductDetailFragment();
         fragment.setArguments(args);
@@ -90,9 +97,20 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         return fragment;
     }
 
+    public static ProductDetailFragment newInstance(String itemId, boolean isFromNotification) {
+        Bundle args = new Bundle();
+        args.putString(Constants.BUNDLE_ITEM_ID, itemId);
+        args.putBoolean(Constants.BUNDLE_IS_FROM_NOTIFICATION, isFromNotification);
+        ProductDetailFragment fragment = new ProductDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         mProductDetailViewModel.setNavigator(this);
     }
 
@@ -114,13 +132,22 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_SIZE_GUIDE)) {
             mSizeGuide = getArguments().getString(Constants.BUNDLE_SIZE_GUIDE);
         }
+
+        if (getArguments() != null) {
+            if (getArguments().containsKey(Constants.BUNDLE_ITEM_ID)) {
+                mItemId = getArguments().getString(Constants.BUNDLE_ITEM_ID);
+            }
+            if (getArguments().containsKey(Constants.BUNDLE_IS_FROM_NOTIFICATION)) {
+                isFromNotification = getArguments().getBoolean(Constants.BUNDLE_IS_FROM_NOTIFICATION);
+            }
+        }
         imagePagerResponeList = new ArrayList<>();
     }
 
     @Override
     public void afterViewCreated() {
         mFragmentProductDetailBinding = getViewDataBinding();
-        Utility.applyTypeFace(getContext(), (RelativeLayout) mFragmentProductDetailBinding.baseLayout);
+        Utility.applyTypeFace(getContext(), mFragmentProductDetailBinding.baseLayout);
 
 
         mFragmentProductDetailBinding.recycleViewColor.setHasFixedSize(true);
@@ -129,22 +156,43 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mFragmentProductDetailBinding.recycleViewSize.setLayoutManager(mSizeLayoutManager);
         mFragmentProductDetailBinding.recycleViewSize.addItemDecoration(new HorizontalSpacingDecoration(10));
 
-        if (mProductData != null) {
+        //Is from Notification
+        if (isFromNotification) {
+            checkInternet();
+        } else {
+            if (mProductData != null) {
 
-            List<DataProductList.Products> colorList = new ArrayList<>();
-            if (mProductList != null && mProductList.size() > 0)
-                colorList.addAll(mProductList);
+                List<DataProductList.Products> colorList = new ArrayList<>();
+                if (mProductList != null && mProductList.size() > 0)
+                    colorList.addAll(mProductList);
 
-            if (mColorListAdapter != null) {
-                mColorListAdapter.reset(colorList, mSelectedColorPosition);
-            } else {
-                mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
-                mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
-                mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+                if (mColorListAdapter != null) {
+                    mColorListAdapter.reset(colorList, mSelectedColorPosition);
+                } else {
+                    mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
+                    mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
+                    mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+                }
+
+                onColorProductSelected(mProductList.get(mSelectedColorPosition).getSizes(), mProductList.get(mSelectedColorPosition).getItemCategoryCode());
             }
-
-            onColorProductSelected(mProductList.get(mSelectedColorPosition).getSizes(), mProductList.get(mSelectedColorPosition).getItemCategoryCode());
         }
+
+        KeyboardVisibilityEvent.setEventListener(
+                getActivity(),
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        if (isOpen) {
+                            FrameLayout.LayoutParams relativeParams = (FrameLayout.LayoutParams) mFragmentProductDetailBinding.baseLayout.getLayoutParams();
+                            relativeParams.setMargins(0, -50, 0, 0);  // left, top, right, bottom
+                            mFragmentProductDetailBinding.baseLayout.setLayoutParams(relativeParams);
+//                            mFragmentProductDetailBinding.dummay.setMinimumHeight(KeyboardVisibilityEvent.getKeyBoardHeight() * 2);
+                        } else {
+//                            mFragmentProductDetailBinding.dummay.setMinimumHeight(0);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -186,6 +234,14 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mFragmentProductDetailBinding.recycleViewSize.setAdapter(mSizeListAdapter);
 
         showData();
+    }
+
+    public void checkInternet() {
+        if (Utility.isConnection(getActivity())) {
+            mProductDetailViewModel.getProductDetail(mItemId);
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+        }
     }
 
 
@@ -272,6 +328,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void plus() {
         if (mQuality < mSizedProduct.getStockData()) {
+            mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality++;
             mProductDetailViewModel.updateQty(String.valueOf(mQuality));
         } else {
@@ -284,6 +341,8 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         if (mQuality == 1) {
             return;
         }
+
+        mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
         mQuality--;
         mProductDetailViewModel.updateQty(String.valueOf(mQuality));
     }
@@ -323,6 +382,37 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
     @Override
+    public void onApiSuccessProductDetail(DataProductList.Products products) {
+        hideProgress();
+        if (products != null) {
+            List<DataProductList.Products> colorList = new ArrayList<>();
+            colorList.add(products);
+
+            if (mColorListAdapter != null) {
+                mColorListAdapter.reset(colorList, mSelectedColorPosition);
+            } else {
+                mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
+                mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
+                mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+            }
+            List<DataProductList.Size> mSizes = new ArrayList<>();
+            mSizes.add(new DataProductList.Size(products.getNo(), products.getDescription(), products.getDescription2()
+                    , products.getSizeCode(), products.getUnitOfMeasure(), products.getUnitPrice(), products.getStockData()
+                    , true, products.getImages()));
+            onColorProductSelected(mSizes, products.getItemCategoryCode());
+        }
+
+
+    }
+
+
+    @Override
+    public void onApiErrorProductDetail(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+    }
+
+    @Override
     public void onImagePageClick(int pos, RImagePager item) {
         Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.BUNDLE_IMAGE_LIST, (ArrayList<? extends Parcelable>) imagePagerResponeList);
@@ -340,5 +430,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         super.onHiddenChanged(hidden);
         if (!hidden)
             setUpToolbar();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 }

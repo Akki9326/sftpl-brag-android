@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 
+import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataNotification;
@@ -14,6 +16,7 @@ import com.ragtagger.brag.databinding.ActivityNotificationHandlerBinding;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.ragtagger.brag.utils.Constants;
+import com.ragtagger.brag.utils.NotificationUtils;
 import com.ragtagger.brag.utils.Utility;
 
 import javax.inject.Inject;
@@ -58,6 +61,12 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
                             break;
                         case ITEM:
                             break;
+
+                    }
+
+                    if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+                        BragApp.NotificationNumber--;
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
                     }
                 }
             }

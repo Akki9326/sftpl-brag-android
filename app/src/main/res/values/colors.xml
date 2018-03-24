@@ -16,12 +16,14 @@
     <color name="semi_white_bg">#BFffffff</color>
     <color name="notification_not_read">#EEEEEE</color>
     <!--<color name="semi_white_bg">#90ffffff</color>-->
+    <color name="pink_70">#B3E40044</color>
     <color name="pink">#E40044</color>
     <color name="dynamic_color">#123123</color>
     <color name="semi_pink">#F06292</color>
+    <color name="pink_30">#4DE40044</color>
 
     <color name="order_status_green">#4CAF50</color>
     <color name="order_status_red">#F44336</color>
     <color name="order_status_yellow">#FFA726</color>
-    <color name="filter_bg_color">#EBEBF1</color>
+    <color name="filter_bg_color">#F5F5F5</color>
 </resources>

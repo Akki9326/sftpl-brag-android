@@ -3,17 +3,9 @@
 
     <gradient
         android:angle="180"
-        android:endColor="@color/semi_pink"
-        android:startColor="@color/gray_transparent" />
+        android:endColor="@color/pink_70"
+        android:startColor="@color/pink_30" />
 
-    <!--<gradient-->
-    <!--android:angle="180"-->
-    <!--android:endColor="@color/white"-->
-    <!--android:startColor="@color/gray_transparent" />-->
 
-    <!--<gradient-->
-    <!--android:angle="180"-->
-    <!--android:endColor="@color/semi_pink"-->
-    <!--android:startColor="@color/pink" />-->
 
 </shape>

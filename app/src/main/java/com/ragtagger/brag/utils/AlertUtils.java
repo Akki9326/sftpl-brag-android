@@ -175,63 +175,63 @@ public class AlertUtils {
                 case 22:
                     message = activity.getResources().getString(R.string.error_code_22);
                     break;
-               /* case 23:
+                case 23:
                     message = activity.getResources().getString(R.string.error_code_23);
                     break;
-                case 24:
-                    message = activity.getResources().getString(R.string.error_code_24);
-                    break;
-                case 25:
-                    message = activity.getResources().getString(R.string.error_code_25);
-                    break;
-                case 26:
-                    message = activity.getResources().getString(R.string.error_code_26);
-                    break;
-                case 27:
-                    message = activity.getResources().getString(R.string.error_code_27);
-                    break;
-                case 28:
-                    message = activity.getResources().getString(R.string.error_code_28);
-                    break;
-                case 29:
-                    message = activity.getResources().getString(R.string.error_code_29);
-                    break;
-                case 30:
-                    message = activity.getResources().getString(R.string.error_code_30);
-                    break;
-                case 31:
-                    message = activity.getResources().getString(R.string.error_code_31);
-                    break;
-                case 32:
-                    message = activity.getResources().getString(R.string.error_code_32);
-                    break;
-                case 33:
-                    message = activity.getResources().getString(R.string.error_code_33);
-                    break;
-                case 34:
-                    message = activity.getResources().getString(R.string.error_code_34);
-                    break;
-                case 35:
-                    message = activity.getResources().getString(R.string.error_code_35);
-                    break;
-                case 36:
-                    message = activity.getResources().getString(R.string.error_code_36);
-                    break;
-                case 37:
-                    message = activity.getResources().getString(R.string.error_code_37);
-                    break;
-                case 38:
-                    message = activity.getResources().getString(R.string.error_code_38);
-                    break;
-                case 39:
-                    message = activity.getResources().getString(R.string.error_code_38);
-                    break;
-                case 40:
-                    message = activity.getResources().getString(R.string.error_code_40);
-                    break;
-                case 41:
-                    message = activity.getString(R.string.error_code_41);
-                    break;*/
+//                case 24:
+//                    message = activity.getResources().getString(R.string.error_code_24);
+//                    break;
+//                case 25:
+//                    message = activity.getResources().getString(R.string.error_code_25);
+//                    break;
+//                case 26:
+//                    message = activity.getResources().getString(R.string.error_code_26);
+//                    break;
+//                case 27:
+//                    message = activity.getResources().getString(R.string.error_code_27);
+//                    break;
+//                case 28:
+//                    message = activity.getResources().getString(R.string.error_code_28);
+//                    break;
+//                case 29:
+//                    message = activity.getResources().getString(R.string.error_code_29);
+//                    break;
+//                case 30:
+//                    message = activity.getResources().getString(R.string.error_code_30);
+//                    break;
+//                case 31:
+//                    message = activity.getResources().getString(R.string.error_code_31);
+//                    break;
+//                case 32:
+//                    message = activity.getResources().getString(R.string.error_code_32);
+//                    break;
+//                case 33:
+//                    message = activity.getResources().getString(R.string.error_code_33);
+//                    break;
+//                case 34:
+//                    message = activity.getResources().getString(R.string.error_code_34);
+//                    break;
+//                case 35:
+//                    message = activity.getResources().getString(R.string.error_code_35);
+//                    break;
+//                case 36:
+//                    message = activity.getResources().getString(R.string.error_code_36);
+//                    break;
+//                case 37:
+//                    message = activity.getResources().getString(R.string.error_code_37);
+//                    break;
+//                case 38:
+//                    message = activity.getResources().getString(R.string.error_code_38);
+//                    break;
+//                case 39:
+//                    message = activity.getResources().getString(R.string.error_code_38);
+//                    break;
+//                case 40:
+//                    message = activity.getResources().getString(R.string.error_code_40);
+//                    break;
+//                case 41:
+//                    message = activity.getString(R.string.error_code_41);
+//                    break;
                 case 1011:
                     blockApplicationAlert(activity, activity.getResources().getString(R.string.error_code_1011));
                     return;

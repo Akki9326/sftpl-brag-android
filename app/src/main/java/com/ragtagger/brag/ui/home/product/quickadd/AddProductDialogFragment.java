@@ -254,10 +254,12 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
                 }, 100);
             }
 
-
             mAddProductDialogViewModel.updateProductName(mSizedProduct.getDescription());
             mAddProductDialogViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
             mAddProductDialogViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
+
+
+
             mAddProductDialogViewModel.updateProPrice(Utility.getIndianCurrencyPriceFormat(mSizedProduct.getUnitPrice()));
             mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
         }

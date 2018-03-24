@@ -105,6 +105,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     HashMap<String, String> mColorFilter;
     HashMap<String, String> mSizeFilter;
 
+    boolean isFromQuickOrder = false;
 
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
         @Override
@@ -159,6 +160,14 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         return fragment;
     }
 
+    public static ProductListFragment newInstance(boolean isquickOrder) {
+        Bundle args = new Bundle();
+        args.putBoolean(Constants.BUNDLE_IS_QUICK_ORDER, isquickOrder);
+        ProductListFragment fragment = new ProductListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static ProductListFragment newInstance(String title) {
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE, title);
@@ -196,6 +205,9 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             mTitle = mSubCategoryName == null ? getString(R.string.toolbar_label_productlist) : mSubCategoryName;
 
 
+        if (getArguments() != null && getArguments().containsKey(Constants.BUNDLE_IS_QUICK_ORDER)) {
+            isFromQuickOrder = true;
+        }
         mSorting = Constants.SortBy.PRICE_ASC.ordinal();
         mRequestFilter = null;
 
@@ -241,7 +253,11 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void setUpToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(true, false, true, mTitle);
+        if (isFromQuickOrder) {
+            ((CoreActivity) (getActivity())).showToolbar(false, false, false, getString(R.string.toolbar_label_quick_order));
+        } else {
+            ((CoreActivity) getActivity()).showToolbar(true, false, true, mTitle);
+        }
     }
 
     @Override
@@ -482,7 +498,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void openFragmentDetails(int position) {
-        ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mData, mProductListAdapter.getList(), position, mSizeGuide/*, this, REQ_ADDED_TO_CART*/), true, true);
+        ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mData, mProductListAdapter.getList(), position, mSizeGuide, false/*, this, REQ_ADDED_TO_CART*/), true, true);
     }
 
     @Override

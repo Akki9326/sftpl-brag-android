@@ -203,7 +203,7 @@
                                     android:layout_weight="1"
                                     android:padding="5dp"
                                     android:tag="@string/font_opensans_bold_id"
-                                    android:text="@string/label_amount_payable"
+                                    android:text="@string/label_amount"
                                     android:textColor="@color/text_black"
                                     android:textSize="@dimen/text_size_very_small" />
 

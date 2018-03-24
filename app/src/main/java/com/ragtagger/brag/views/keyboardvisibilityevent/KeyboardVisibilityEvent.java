@@ -2,6 +2,7 @@ package com.ragtagger.brag.views.keyboardvisibilityevent;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -10,12 +11,15 @@ import android.view.WindowManager;
 
 import com.ragtagger.brag.views.keyboardvisibilityevent.util.UIUtil;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by yshrsmz on 15/03/17.
  */
 public class KeyboardVisibilityEvent {
 
     private final static int KEYBOARD_VISIBLE_THRESHOLD_DP = 100;
+    static int mkeyBoardHeight = 0;
 
     /**
      * Set keyboard visibility change event listener.
@@ -52,8 +56,8 @@ public class KeyboardVisibilityEvent {
         }
 
         int softInputMethod = activity.getWindow().getAttributes().softInputMode;
-        if(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE != softInputMethod &&
-            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED != softInputMethod){
+        if (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE != softInputMethod &&
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED != softInputMethod) {
             throw new IllegalArgumentException("Parameter:activity window SoftInputMethod is not ADJUST_RESIZE");
         }
 
@@ -80,11 +84,15 @@ public class KeyboardVisibilityEvent {
                         int heightDiff = activityRoot.getRootView().getHeight() - r.height();
 
                         boolean isOpen = heightDiff > visibleThreshold;
+                        Log.i(TAG, "onGlobalLayout: height " + heightDiff);
+                        Log.i(TAG, "onGlobalLayout: visiablethreshold" + visibleThreshold);
 
                         if (isOpen == wasOpened) {
                             // keyboard state has not changed
                             return;
                         }
+
+                        mkeyBoardHeight = heightDiff;
 
                         wasOpened = isOpen;
 
@@ -118,5 +126,9 @@ public class KeyboardVisibilityEvent {
 
     static View getActivityRoot(Activity activity) {
         return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+    }
+
+    public static int getKeyBoardHeight() {
+        return mkeyBoardHeight;
     }
 }

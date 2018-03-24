@@ -267,7 +267,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
             bundle.putString(BUNDLE_KEY_PRODUCT_LIST_TITLE, getString(R.string.label_quick_order));
             ProductListFragment fragment = new ProductListFragment();
             fragment.setArguments(bundle);
-            transactionTwo.replace(R.id.fragment_container_order, fragment, "Quick_Order_Tag");
+            transactionTwo.replace(R.id.fragment_container_order, ProductListFragment.newInstance(true), "Quick_Order_Tag");
             transactionTwo.commit();
         }
         mFragmentHomeBinding.fragmentContainerCategory.setVisibility(View.GONE);

@@ -151,12 +151,14 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         try {
             if (mProgressDialog != null) {
                 mProgressDialog.dismiss("");
+                mProgressDialog.dismiss();
+                mProgressDialog.hide("");
+                mProgressDialog.hide();
+
             }
-            if (mProgressDialog.isShowing()) {
-                mProgressDialog.dismiss("");
-            }
+
         } catch (Exception e) {
-            AppLogger.e("hide progress -"+e.getMessage(), e.getCause());
+            AppLogger.e("hide progress -" + e.getMessage(), e.getCause());
         }
     }
 

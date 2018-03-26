@@ -1,5 +1,7 @@
 package com.ragtagger.brag.ui.home.product.details;
 
+import android.text.Editable;
+
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataAddToCart;
 import com.ragtagger.brag.data.model.datas.DataProductList;
@@ -30,4 +32,6 @@ public interface ProductDetailNavigator extends CoreNavigator {
     void onApiSuccessProductDetail(DataProductList.Products products);
 
     void onApiErrorProductDetail(ApiError error);
+
+    void afterTextChanged(Editable s);
 }

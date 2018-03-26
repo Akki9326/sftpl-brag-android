@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -410,6 +411,19 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     public void onApiErrorProductDetail(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s != null) {
+            if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
+
+            } else if (Integer.valueOf(s.toString()) > mSizedProduct.getStockData()) {
+
+            } else {
+
+            }
+        }
     }
 
     @Override

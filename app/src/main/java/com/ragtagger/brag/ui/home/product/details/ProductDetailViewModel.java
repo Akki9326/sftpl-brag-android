@@ -1,6 +1,7 @@
 package com.ragtagger.brag.ui.home.product.details;
 
 import android.databinding.ObservableField;
+import android.text.Editable;
 import android.view.View;
 
 import com.ragtagger.brag.BragApp;
@@ -212,5 +213,11 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
                 getNavigator().onApiErrorProductDetail(t);
             }
         });
+    }
+
+
+
+    public void afterTextChanged(Editable s) {
+        getNavigator().afterTextChanged(s);
     }
 }

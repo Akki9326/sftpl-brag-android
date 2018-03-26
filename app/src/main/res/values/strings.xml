@@ -298,7 +298,7 @@
     <string name="label_sorting_price_low_to_high">Price -- Low to High</string>
     <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
     <string name="label_sort_by_camel">Sort By</string>
-    <string name="label_avail_qty">(available - %s)</string>
+    <string name="label_avail_qty">(available : %s)</string>
     <string name="label_select_state">Select State</string>
     <string name="error_pincode_valid">Please enter valid pincode.</string>
     <string name="error_add_address">Please add address which want to place order.</string>

@@ -35,6 +35,7 @@ import com.ragtagger.brag.data.model.response.RUserAddress;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 /**
@@ -212,5 +213,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<RProduct> getProductDetail(String itemId) {
         return mApiInterface.getProductDetail(itemId);
+    }
+
+    @Override
+    public Call<ResponseBody> downloadInvoice(String fileUrl) {
+        return mApiInterface.downloadInvoice(fileUrl);
     }
 }

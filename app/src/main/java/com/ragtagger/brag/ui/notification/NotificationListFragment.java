@@ -224,27 +224,29 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
         DataNotificationList dataNotification = mListData.get(position);
 
+
+        //read notification api
+        isListApi = false;
+        switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
+            case TEXT:
+                break;
+            case USER:
+                break;
+            case ITEM:
+                break;
+            case ORDER:
+                ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
+                break;
+            default:
+                AlertUtils.showAlertMessage(getActivity(), 1, null, null);
+        }
+
+
         if (Utility.isConnection(getActivity())) {
-            //read notification api
-            isListApi = false;
             if (!dataNotification.isAttended())
                 mNotificationListViewModel.notificationRead(dataNotification.getId());
-
-            switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
-                case TEXT:
-                    break;
-                case USER:
-                    break;
-                case ITEM:
-                    break;
-                case ORDER:
-                    ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
-                    break;
-                default:
-                    AlertUtils.showAlertMessage(getActivity(), 1, null, null);
-            }
-
-
+        } else {
+            onApiSuccessNotificationRead();
         }
 
 
@@ -325,6 +327,11 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 //        setUpToolbar();
 
+    }
+
+    @Override
+    public void onAPiErrorNotificationRead(ApiError error) {
+        onApiSuccessNotificationRead();
     }
 
     public void hideLoader() {

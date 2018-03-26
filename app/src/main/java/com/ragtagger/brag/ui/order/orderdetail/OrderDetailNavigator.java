@@ -26,6 +26,10 @@ public interface OrderDetailNavigator extends CoreNavigator {
 
     void onDownloadInvoice();
 
+    void onApiSuccessDownload();
+
+    void onApiErrorDownload(ApiError error);
+
     void onReorderClick();
 
     void onOrderDetails(DataMyOrder orderDetails);

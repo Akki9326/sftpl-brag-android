@@ -38,12 +38,14 @@ import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.data.model.response.RStateList;
 import com.ragtagger.brag.data.model.response.RUserAddress;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
@@ -150,4 +152,8 @@ public interface ApiInterface {
 
     @GET("item/get/{itemId}")
     Call<RProduct> getProductDetail(@Path("itemId") String itemId);
+
+    @Streaming
+    @GET
+    Call<ResponseBody> downloadInvoice(@Url String fileUrl);
 }

@@ -30,6 +30,7 @@ import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RMyOrder;
+import com.ragtagger.brag.data.model.response.RNotificationUnread;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProduct;
@@ -156,4 +157,7 @@ public interface ApiInterface {
     @Streaming
     @GET
     Call<ResponseBody> downloadInvoice(@Url String fileUrl);
+
+    @GET("notification/getUnreadCount")
+    Call<RNotificationUnread> notificationUnread();
 }

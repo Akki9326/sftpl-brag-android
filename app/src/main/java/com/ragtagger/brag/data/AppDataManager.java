@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.response.RChangePassword;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.RNotification;
+import com.ragtagger.brag.data.model.response.RNotificationUnread;
 import com.ragtagger.brag.data.model.response.RProduct;
 import com.ragtagger.brag.data.model.response.RProductList;
 import com.ragtagger.brag.data.model.requests.QAddAddress;
@@ -258,6 +259,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<ResponseBody> downloadInvoice(String fileUrl) {
         return mApiManager.downloadInvoice(fileUrl);
+    }
+
+    @Override
+    public Call<RNotificationUnread> notificationUnread() {
+        return mApiManager.notificationUnread();
     }
 
     @Override

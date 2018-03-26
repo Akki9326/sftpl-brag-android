@@ -25,6 +25,7 @@ import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RNotificationList;
+import com.ragtagger.brag.data.model.response.RNotificationUnread;
 import com.ragtagger.brag.data.model.response.ROTPVerify;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.model.response.RProduct;
@@ -218,5 +219,10 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<ResponseBody> downloadInvoice(String fileUrl) {
         return mApiInterface.downloadInvoice(fileUrl);
+    }
+
+    @Override
+    public Call<RNotificationUnread> notificationUnread() {
+        return mApiInterface.notificationUnread();
     }
 }

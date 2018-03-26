@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.ragtagger.brag.BR;
+import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.BuildConfig;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
@@ -304,6 +305,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         public void onReceive(Context context, Intent intent) {
             moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
             moreListAdapter.notifyDataSetChanged();
+            //update in badge number
             ((HomeFragment) getParentFragment()).setNotificationBadge();
         }
     };

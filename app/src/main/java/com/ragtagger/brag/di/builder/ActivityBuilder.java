@@ -69,6 +69,6 @@ public abstract class ActivityBuilder {
             , AddEditAddresstProvider.class, StateDialogProvider.class})
     abstract UserProfileActivity bindChangePasswordOrMobileActivity();
 
-    @ContributesAndroidInjector(modules = {NotificationHandlerModule.class, OrderDetailFragmentProvider.class})
+    @ContributesAndroidInjector(modules = {NotificationHandlerModule.class, OrderDetailFragmentProvider.class, ProductDetailProvider.class, CartFragmentProvider.class, PlaceOrderFragmentProvider.class})
     abstract NotificationHandlerActivity bindNotificationHandlerActivity();
 }

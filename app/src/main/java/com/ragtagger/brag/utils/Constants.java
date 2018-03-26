@@ -80,6 +80,7 @@ public class Constants {
     public static final String BUNDLE_IS_ORDER_CANCEL ="bundleordercancel" ;
     public static final String BUNDLE_ITEM_ID ="bundleitemId" ;
     public static final String BUNDLE_IS_FROM_NOTIFICATION ="bundleisFromNotification" ;
+    public static final String BUNDLE_IS_RESIZE_NOTIFICATION ="bundleisResizeNotification" ;
     public static final String BUNDLE_IS_QUICK_ORDER = "isquickorder";
 
     public interface ApiHelper {

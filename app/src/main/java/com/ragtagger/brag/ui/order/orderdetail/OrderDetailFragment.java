@@ -126,7 +126,6 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                 DividerItemDecoration.VERTICAL));
         mFragmentOrderDetailBinding.recycleview.setNestedScrollingEnabled(false);
 
-
         checkInternetAndGetDetails();
     }
 
@@ -136,7 +135,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
         else if (getActivity() instanceof NotificationHandlerActivity)
-            ((NotificationHandlerActivity) getActivity()).setUpToolbar();
+            ((NotificationHandlerActivity) getActivity()).showPushToolbar(true,false,getString(R.string.toolbar_label_order_detail));
     }
 
     @Override

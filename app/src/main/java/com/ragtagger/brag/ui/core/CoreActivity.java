@@ -216,11 +216,9 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
     }
 
     public void showToolbar(boolean isBack, boolean isLogo, boolean isCard, String title) {
-
         showToolbar(isBack, isLogo, isCard);
         if (!isLogo)
             mToolbarTitle.setText(title);
-
     }
 
     /**

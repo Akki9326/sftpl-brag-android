@@ -212,6 +212,8 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
             public void onSuccess(RProduct rProduct, Headers headers) {
                 if (rProduct.isStatus()) {
                     getNavigator().onApiSuccessProductDetail(rProduct.getData());
+                    BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
+                    getNavigator().updatePushCart();
                 } else {
                     getNavigator().onApiErrorProductDetail(new ApiError(rProduct.getErrorCode(), rProduct.getMessage()));
                 }

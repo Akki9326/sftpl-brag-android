@@ -114,7 +114,14 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
 
         ACTION = LOAD_LIST;
-        checkInternetAndCallApi(true);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkInternetAndCallApi(true);
+            }
+        }, 300);
+
 
     }
 

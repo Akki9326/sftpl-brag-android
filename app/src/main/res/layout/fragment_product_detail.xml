@@ -15,7 +15,6 @@
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="-5dp"
         android:background="@color/gray_10"
         android:fitsSystemWindows="true">
 
@@ -35,6 +34,7 @@
                 android:scrollbars="none">
 
                 <LinearLayout
+                    android:id="@+id/ll_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"

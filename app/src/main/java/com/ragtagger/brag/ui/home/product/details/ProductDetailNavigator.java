@@ -36,4 +36,6 @@ public interface ProductDetailNavigator extends CoreNavigator {
     void onApiErrorProductDetail(ApiError error);
 
     void afterTextChanged(Editable s);
+
+    void updatePushCart();
 }

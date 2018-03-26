@@ -77,15 +77,6 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         if (bActivity instanceof OnToolbarSetupListener) {
             ((OnToolbarSetupListener) bActivity).setUpToolbar();
         }
-        //// TODO: 3/9/2018 get cart details
-        /*BragApp.CartNumber = 2;
-        setBagCount(BragApp.CartNumber);*/
-
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (mMainActivyBinding.getRoot() != null) {
-                mMainActivyBinding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
-        }*/
         pushFragments(new HomeFragment(), false, false);
     }
 
@@ -184,10 +175,7 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         mMainActivyBinding.toolbar.linearCard.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-
                 pushFragments(new CartFragment(), true, true, "Cart");
-
-
             }
         });
 

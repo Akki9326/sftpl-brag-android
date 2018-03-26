@@ -29,6 +29,7 @@ import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.databinding.FragmentNotificationListBinding;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.home.HomeFragment;
+import com.ragtagger.brag.ui.home.product.details.ProductDetailFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.adapter.NotificationListAdapter;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
@@ -148,15 +149,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void setUpToolbar() {
-
-        //Read all toolbar
-       /* if (BragApp.NotificationNumber > 0) {
-            mActivity.showToolbar(true, false,
-                    Utility.getNotificationlabel(getActivity()), getString(R.string.toolbar_label_right_read_all));
-        } else {
-            mActivity.showToolbar(true, false, false, Utility.getNotificationlabel(getActivity()));
-        }*/
-
         mActivity.showToolbar(true, false, false, Utility.getNotificationlabel(getActivity()));
     }
 
@@ -204,15 +196,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                     AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                     break;
             }
-
-            /*//if not internet connection during swipe or load more than show pop up than no internet layout
-            if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()
-                    || mFragmentNotificationListBinding.recycleviewNotification.isLoadingData()) {
-                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-            } else {
-                mNotificationListViewModel.setNoInternet(true);
-            }*/
-
             hideLoader();
             mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
         }
@@ -233,6 +216,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             case USER:
                 break;
             case ITEM:
+                ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(dataNotification.getWhatId(), true,false), true, true);
                 break;
             case ORDER:
                 ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);

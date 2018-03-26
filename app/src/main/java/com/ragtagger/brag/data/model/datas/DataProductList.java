@@ -454,6 +454,13 @@ public class DataProductList implements Parcelable {
             return description2;
         }
 
+        public String getDescription2Modified() {
+            if (description2 == null)
+                return "";
+            else
+                return description2.replace("|", "\n\u2022");
+        }
+
         public void setDescription2(String description2) {
             this.description2 = description2;
         }

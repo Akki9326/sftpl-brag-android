@@ -72,9 +72,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         notifyDataSetChanged();
     }
 
-    public void addList(List<DataProductList.Products> dataList) {
+    public void addList(List<DataProductList.Products> dataList, int start, int count) {
         mListRespones.addAll(dataList);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
+        notifyItemRangeInserted(start, count);
     }
 
     public List<DataProductList.Products> getList() {

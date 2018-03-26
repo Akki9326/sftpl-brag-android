@@ -303,7 +303,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void setToolbarQuickOrder() {
-        ((CoreActivity) (getActivity())).showToolbar(false, false, false, getString(R.string.toolbar_label_quick_order));
+        ((CoreActivity) (getActivity())).showToolbar(false, false, true, getString(R.string.toolbar_label_quick_order));
 
     }
 

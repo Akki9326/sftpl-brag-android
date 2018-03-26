@@ -321,4 +321,5 @@
     <string name="msg_otp_resend">OTP resent.</string>
     <string name="label_amount">Amount</string>
     <string name="label_amount_ast">Amount:</string>
+    <string name="label_size_guide"><u>Size Guide</u></string>
 </resources>

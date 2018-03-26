@@ -135,7 +135,21 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_UPDATE_CART_ICON_STATE)) {
                 if (intent.hasExtra(Constants.BUNDLE_POSITION)) {
                     int selectedPos = intent.getIntExtra(Constants.BUNDLE_POSITION, -1);
-                    updateProductCartIcon(selectedPos);
+                    updateProductCartIcon(selectedPos, true);
+                }
+            }
+        }
+    };
+
+    private BroadcastReceiver mUpdateCartIconList = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_UPDATE_LIST_CART_ICON_STATE)) {
+                int pos = 0;
+                for (DataProductList.Products product : mProductListAdapter.getList()) {
+                    if (product.isAlreadyInCart())
+                        updateProductCartIcon(pos, false);
+                    pos++;
                 }
             }
         }
@@ -182,6 +196,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         mProductListViewModel.setNavigator(this);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
                 mUpdateCartIcon, new IntentFilter(Constants.ACTION_UPDATE_CART_ICON_STATE));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                mUpdateCartIconList, new IntentFilter(Constants.ACTION_UPDATE_LIST_CART_ICON_STATE));
     }
 
     @Override
@@ -235,8 +251,10 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
         mFragmentProductListBinding.recycleView.setLayoutManager(mLayoutManager);
         mFragmentProductListBinding.recycleView.setHasFixedSize(true);
+        mFragmentProductListBinding.recycleView.setItemViewCacheSize(80);
+        mFragmentProductListBinding.recycleView.setDrawingCacheEnabled(true);
         mFragmentProductListBinding.recycleView.setMotionEventSplittingEnabled(false);
-        mFragmentProductListBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 20, false));
+        mFragmentProductListBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 10, false));
         mFragmentProductListBinding.recycleView.loadMoreComplete(true);
         mFragmentProductListBinding.recycleView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
         mFragmentProductListBinding.recycleView.setOnLoadMoreListener(mOnLoadMoreListener);
@@ -254,7 +272,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void setUpToolbar() {
         if (isFromQuickOrder) {
-            ((CoreActivity) (getActivity())).showToolbar(false, false, false, getString(R.string.toolbar_label_quick_order));
+            ((CoreActivity) (getActivity())).showToolbar(false, false, true, getString(R.string.toolbar_label_quick_order));
         } else {
             ((CoreActivity) getActivity()).showToolbar(true, false, true, mTitle);
         }
@@ -279,6 +297,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateCartIcon);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateCartIconList);
     }
 
     private void enabledClick() {
@@ -322,11 +341,11 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             }
     }
 
-    public void updateProductCartIcon(int pos) {
+    public void updateProductCartIcon(int pos, boolean inCart) {
         if (pos >= 0 && pos < mProductListAdapter.getList().size()) {
             DataProductList.Products item = mProductListAdapter.getItem(pos);
             if (item != null) {
-                item.setAlreadyInCart(true);
+                item.setAlreadyInCart(inCart);
                 mProductListAdapter.notifyItemChanged(pos);
             }
         }
@@ -485,7 +504,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                     mFragmentProductListBinding.recycleView.setIsLoadingMore(false);
                 break;
             case LOAD_MORE:
-                mProductListAdapter.addList(dataList);
+                mProductListAdapter.addList(dataList, mProductListAdapter.getItemCount(), dataList.size());
                 mFragmentProductListBinding.recycleView.loadMoreComplete(false);
                 break;
         }

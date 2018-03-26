@@ -73,6 +73,7 @@ public class Constants {
     public static final String BUNDLE_IS_ADDRESS_UPDATE = "bundleupdateaddress";
 
     public static final String ACTION_UPDATE_CART_ICON_STATE = "action_update_cart_icon_state";
+    public static final String ACTION_UPDATE_LIST_CART_ICON_STATE = "action_update_list_cart_icon_state";
 
     public static final String OTP_FORMAT = "RTBRAG";
     public static final String BUNDLE_KEY_MOBILE_NUM = "bundlemobile";

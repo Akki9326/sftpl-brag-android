@@ -132,6 +132,15 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         };*/
     }
 
+    public View.OnClickListener onEditTextQtyClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getNavigator().onEditTextQty();
+            }
+        };
+    }
+
     public View.OnClickListener onAddToCartClick() {
         return new OnSingleClickListener() {
             @Override
@@ -214,7 +223,6 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
             }
         });
     }
-
 
 
     public void afterTextChanged(Editable s) {

@@ -137,7 +137,13 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
         PAGE_NUM = 1;
         ACTION = LOAD_LIST;
-        checkInternetAndCallApi(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkInternetAndCallApi(true);
+            }
+        }, 300);
+
     }
 
     @Override

@@ -53,6 +53,7 @@ import com.ragtagger.brag.data.remote.IApiManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 /**
@@ -252,6 +253,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<RProduct> getProductDetail(String itemId) {
         return mApiManager.getProductDetail(itemId);
+    }
+
+    @Override
+    public Call<ResponseBody> downloadInvoice(String fileUrl) {
+        return mApiManager.downloadInvoice(fileUrl);
     }
 
     @Override

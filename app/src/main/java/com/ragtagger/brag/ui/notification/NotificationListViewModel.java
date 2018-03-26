@@ -62,14 +62,14 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
             public void onSuccess(RGeneralData rNotification, Headers headers) {
                 if (rNotification.isStatus()) {
                     getNavigator().onApiSuccessNotificationRead();
-                } /*else {
-                    getNavigator().onApiError(new ApiError(rNotification.getErrorCode(), rNotification.getMessage()));
-                }*/
+                } else {
+                    getNavigator().onAPiErrorNotificationRead(new ApiError(rNotification.getErrorCode(), rNotification.getMessage()));
+                }
             }
 
             @Override
             public void onError(ApiError t) {
-//                getNavigator().onApiError(t);
+                getNavigator().onAPiErrorNotificationRead(t);
             }
         });
     }

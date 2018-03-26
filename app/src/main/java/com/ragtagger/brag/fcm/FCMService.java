@@ -144,16 +144,15 @@ public class FCMService extends FirebaseMessagingService {
                                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 break;
 
-            /*case OTHER:
+            case ITEM:
                 notificationIntent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);
-                //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 notificationIntent.putExtra(Constants.BUNDLE_NOTIFICATION_MODEL, modelNotification);
                 notificationIntent.putExtra(Constants.BUNDLE_KEY_NOTIFICATION_ID, mNotificationId);
                 simplePendingIntent =
                         PendingIntent.getActivity(getApplicationContext(), mNotificationId,
                                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                break;*/
+                break;
         }
 
         Notification notification = null;

@@ -14,6 +14,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
@@ -44,6 +45,7 @@ import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.FileUtils;
+import com.ragtagger.brag.utils.ToastUtils;
 import com.ragtagger.brag.utils.Utility;
 
 
@@ -70,7 +72,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     String orderId;
     DataMyOrder mData;
-    int downloadIdOne;
+    int downloadId;
+    String fileName;
 
     public static OrderDetailFragment newInstance(DataMyOrder data) {
 
@@ -173,10 +176,12 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onDownloadInvoice() {
 
+        fileName = mData.getOrderNumber() + "_invoice.pdf";
         String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
-        if (checkAndRequestPermissions())
-            if (FileUtils.isFileExist(pathWithFolder + "/" + "example.pdf")) {
-                Utility.fileIntentHandle(getActivity(), new File(pathWithFolder + "/" + "example.pdf"));
+        if (checkAndRequestPermissions()) {
+            if (FileUtils.isFileExist(pathWithFolder + "/" + fileName)) {
+                Utility.fileIntentHandle(getActivity(), new File(pathWithFolder +
+                        "/" + fileName));
             } else {
                 if (Utility.isConnection(getContext())) {
                     downloadFile();
@@ -184,7 +189,20 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                     AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                 }
             }
+        }
 
+    }
+
+    @Override
+    public void onApiSuccessDownload() {
+        hideProgress();
+        onDownloadInvoice();
+    }
+
+    @Override
+    public void onApiErrorDownload(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     private void checkInternetAndGetDetails() {
@@ -192,8 +210,15 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             showData();
         } else if (orderId != null) {
             if (Utility.isConnection(getActivity())) {
-                showProgress();
-                orderDetailViewModel.getOrderDetails(orderId);
+                // put handle when user come from notification list
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showProgress();
+                        orderDetailViewModel.getOrderDetails(orderId);
+                    }
+                }, 500);
+
             } else {
                 AlertUtils.showAlertMessage(getActivity(), 0, null, null);
             }
@@ -205,28 +230,32 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     private void downloadFile() {
         String path = Environment.getExternalStorageDirectory().toString();
         String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
-
         Utility.makeFolder(path, getString(R.string.app_name));
-        downloadfileFromPRDownloader(pathWithFolder);
+        mData.setInvoiceUrl("https://www.tutorialspoint.com/android/android_tutorial.pdf");
+        if (mData.getInvoiceUrl() != null && !mData.getInvoiceUrl().isEmpty()) {
+            showProgress();
+            orderDetailViewModel.downloadInvoice(mData.getInvoiceUrl(), pathWithFolder, fileName);
+        }
+//        downloadfileFromPRDownloader(pathWithFolder);
 
     }
 
     private void downloadfileFromPRDownloader(String path) {
 
-        if (Status.RUNNING == PRDownloader.getStatus(downloadIdOne)) {
-            PRDownloader.pause(downloadIdOne);
+        if (Status.RUNNING == PRDownloader.getStatus(downloadId)) {
+            PRDownloader.pause(downloadId);
             return;
         }
 
         mFragmentOrderDetailBinding.imageviewDownload.setEnabled(false);
 
 
-        if (Status.PAUSED == PRDownloader.getStatus(downloadIdOne)) {
-            PRDownloader.resume(downloadIdOne);
+        if (Status.PAUSED == PRDownloader.getStatus(downloadId)) {
+            PRDownloader.resume(downloadId);
             return;
         }
 
-        downloadIdOne = PRDownloader.download(orderDetailViewModel.getInvoiveUrl(), path, "example.pdf")
+        downloadId = PRDownloader.download(orderDetailViewModel.getInvoiveUrl(), path, fileName)
                 .build()
                 .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                     @Override
@@ -245,7 +274,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                     public void onCancel() {
                         mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
                         mFragmentOrderDetailBinding.progressBarDownload.setProgress(0);
-                        downloadIdOne = 0;
+                        downloadId = 0;
                     }
                 })
                 .setOnProgressListener(new OnProgressListener() {
@@ -267,7 +296,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                         mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
                         Toast.makeText(getContext(), getString(R.string.error_download_file), Toast.LENGTH_SHORT).show();
                         mFragmentOrderDetailBinding.progressBarDownload.setProgress(0);
-                        downloadIdOne = 0;
+                        downloadId = 0;
                     }
                 });
     }
@@ -351,8 +380,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             orderDetailViewModel.updateOrderId(mData.getOrderNumber());
             orderDetailViewModel.updateAddress(mData.getFullAddressWithNewLine());
             orderDetailViewModel.updateFullName(mData.getUser().getFullName());
-            // TODO: 22-03-2018 Download invoice
-//            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal());
+            // TODO: 26-03-2018 order statues change approve to delivery
+            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal());
             orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
             orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
             orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());

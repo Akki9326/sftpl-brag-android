@@ -37,6 +37,7 @@ public class DataMyOrder implements Parcelable {
     private DataUserAddress address;
     private Integer status;
     private DataUser user;
+    private String invoiceUrl;
     private List<DataCart> cart;
 
     public String getId() {
@@ -237,5 +238,13 @@ public class DataMyOrder implements Parcelable {
             return "";
         }
 
+    }
+
+    public String getInvoiceUrl() {
+        return invoiceUrl;
+    }
+
+    public void setInvoiceUrl(String invoiceUrl) {
+        this.invoiceUrl = invoiceUrl;
     }
 }

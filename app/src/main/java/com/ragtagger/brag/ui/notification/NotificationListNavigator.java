@@ -1,5 +1,6 @@
 package com.ragtagger.brag.ui.notification;
 
+import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataNotificationList;
 import com.ragtagger.brag.data.model.response.RNotificationList;
 import com.ragtagger.brag.ui.core.CoreNavigator;
@@ -20,5 +21,5 @@ public interface NotificationListNavigator extends CoreNavigator {
 
     void onApiSuccessNotificationRead();
 
-
+    void onAPiErrorNotificationRead(ApiError error);
 }

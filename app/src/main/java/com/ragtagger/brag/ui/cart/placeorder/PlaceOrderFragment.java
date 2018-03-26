@@ -148,6 +148,8 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                 BragApp.CartNumber = 0;
                 ((MainActivity) getActivity()).updateCartNum();
                 ((MainActivity) getActivity()).clearStackForPlaceOrder();
+                Intent intent = new Intent(Constants.ACTION_UPDATE_LIST_CART_ICON_STATE);
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 
             }
         });

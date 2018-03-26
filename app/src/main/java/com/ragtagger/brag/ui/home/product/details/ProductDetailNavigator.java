@@ -21,6 +21,8 @@ public interface ProductDetailNavigator extends CoreNavigator {
 
     void minus();
 
+    void onEditTextQty();
+
     void addToCart();
 
     void onAddedToCart(List<DataAddToCart> data);

@@ -12,6 +12,7 @@ package com.ragtagger.brag.ui.notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
@@ -62,6 +63,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     int totalNotification;
     int position;
     boolean isListApi = false;
+    private long mLastClickTime = 0;
 
     NotificationListAdapter mListAdapter;
     List<DataNotificationList> mListData;
@@ -125,7 +127,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 checkInternetAndCallApi(true);
             }
         });
-        mActivity.mTxtReadAll.setOnClickListener(new OnSingleClickListener() {
+       /* mActivity.mTxtReadAll.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 BragApp.NotificationNumber = 0;
@@ -133,7 +135,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
                 setUpToolbar();
             }
-        });
+        });*/
 
         PAGE_NUM = 1;
         ACTION = LOAD_LIST;
@@ -214,6 +216,13 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void onItemClick(int position) {
+
+
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         this.position = position;
 
         DataNotificationList dataNotification = mListData.get(position);
@@ -250,6 +259,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     public void onApiSuccess() {
         hideLoader();
         setUpToolbar();
+        //updated notification count display
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
@@ -317,9 +327,10 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         mListData.get(position).setAttended(true);
         mListAdapter.notifyDataSetChanged();
         BragApp.NotificationNumber--;
+        setUpToolbar();
+        //update in More screen
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-//        setUpToolbar();
 
     }
 

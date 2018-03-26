@@ -1,18 +1,13 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/notifications_badge"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/notification_counter_bg"
-        android:gravity="center"
-        android:padding="2dp"
-        android:tag="@string/font_opensans_regular_id"
-        android:textColor="@color/white"
-        android:textSize="6sp" />
-</FrameLayout>
+<TextView android:id="@+id/notifications_badge"
+    android:layout_width="15dp"
+    android:layout_height="15dp"
+    android:layout_gravity="top|center_horizontal"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/notification_counter_bg"
+    android:gravity="center"
+    android:padding="2dp"
+    android:tag="@string/font_opensans_regular_id"
+    android:textColor="@color/white"
+    android:textSize="6sp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

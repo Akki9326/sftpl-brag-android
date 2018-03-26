@@ -64,10 +64,10 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
 
                     }
 
-                    if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-                        BragApp.NotificationNumber--;
-                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
+                    if (Utility.isConnection(getApplicationContext())) {
+                        mNotificationHandlerViewModel.notificationRead(mNotification.getId());
                     }
+
                 }
             }
         }
@@ -151,5 +151,28 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onApiSuccessNotificationRead() {
+
+//        BragApp.NotificationNumber--;
+//        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
+
+    }
+
+    @Override
+    public void onAPiErrorNotificationRead(ApiError error) {
+
+    }
+
+    @Override
+    public void onApiSuccessNotificationUnread() {
+
+    }
+
+    @Override
+    public void onApiErrorNotificationUnread() {
+
     }
 }

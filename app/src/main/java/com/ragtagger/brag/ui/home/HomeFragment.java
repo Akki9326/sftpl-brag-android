@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -82,8 +83,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeViewModel.setNavigator(this);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotification,
-                new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
+
 
     }
 
@@ -133,6 +133,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         setFragmentInTab();
         isAddedCategory = true;
 
+        initNotificationBadge();
     }
 
 
@@ -179,17 +180,26 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
 
     public void setNotificationBadge() {
+        if (BragApp.NotificationNumber > 0) {
+            //if badge layout not added
+            if (itemView.getChildCount() == 2) {
+                initNotificationBadge();
+            }
+            txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
+        } else {
+            if (((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).getChildCount() > 2)
+                ((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).removeViewAt(2);
+        }
 
+    }
+
+    public void initNotificationBadge() {
         View v = bottomNavigationMenuView.getChildAt(3);
         itemView = (BottomNavigationItemView) v;
         badge = LayoutInflater.from(getActivity())
-                .inflate(R.layout.bottom_navigation_notification_badge, bottomNavigationMenuView, false);
+                .inflate(R.layout.bottom_navigation_notification_badge, itemView, false);
         txtBadge = badge.findViewById(R.id.notifications_badge);
-        if (BragApp.NotificationNumber > 0) {
-            itemView.addView(badge);
-            txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
-        }
-
+        itemView.addView(badge);
     }
 
 
@@ -209,21 +219,11 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         mi.setTitle(mNewTitle);
     }
 
-    private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (BragApp.NotificationNumber > 0) {
-                txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
-            } else {
-                itemView.removeView(badge);
-            }
-        }
-    };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
+
     }
 
     @Override

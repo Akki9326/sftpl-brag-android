@@ -157,7 +157,8 @@ public class FCMService extends FirebaseMessagingService {
 
         Notification notification = null;
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+        Log.i(TAG, "sendNotification: isAppIsInBackground " + NotificationUtils.isAppIsInBackground(getApplicationContext()));
+        if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             stackBuilder.addParentStack(MainActivity.class);
             stackBuilder.addNextIntent(new Intent(getApplicationContext(), MainActivity.class));
         }
@@ -197,11 +198,11 @@ public class FCMService extends FirebaseMessagingService {
         mNotificationManager.notify(mNotificationId, notification);
 
 
-        if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+      /*  if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             BragApp.NotificationNumber++;
             Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-        }
+        }*/
     }
 
 

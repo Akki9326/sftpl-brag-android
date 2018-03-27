@@ -32,9 +32,18 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
     private final ObservableField<String> productProShortDetail = new ObservableField<>();
     private final ObservableField<Boolean> notify = new ObservableField<>();
     private final ObservableField<Boolean> hasSizeGuide = new ObservableField<>();
+    ObservableField<Boolean> isLoading = new ObservableField<>();
 
     public ProductDetailViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public ObservableField<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
+    public void updateIsLoading(boolean isLoading) {
+        this.isLoading.set(isLoading);
     }
 
     public ObservableField<String> getQty() {

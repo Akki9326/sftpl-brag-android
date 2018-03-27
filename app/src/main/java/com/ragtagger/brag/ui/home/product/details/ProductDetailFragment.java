@@ -176,6 +176,8 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     public void afterViewCreated() {
         mFragmentProductDetailBinding = getViewDataBinding();
         Utility.applyTypeFace(getContext(), mFragmentProductDetailBinding.baseLayout);
+
+        mProductDetailViewModel.updateIsLoading(true);
         mFragmentProductDetailBinding.recycleViewColor.setHasFixedSize(true);
         mFragmentProductDetailBinding.recycleViewColor.setLayoutManager(mColorLayoutManager);
         mFragmentProductDetailBinding.recycleViewSize.setHasFixedSize(true);
@@ -193,6 +195,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
                 params.setMargins(0, 0, 0, 0);
                 mFragmentProductDetailBinding.llScroll.setLayoutParams(params);
             }
+
             checkInternet();
         } else {
             if (mProductData != null) {
@@ -281,7 +284,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     public void showData() {
 
         //// TODO: 3/12/2018 if data not available than display no data screen
-
+        mProductDetailViewModel.updateIsLoading(false);
         if (mSizedProduct != null) {
 
             isDefaultAdded = mSizedProduct.isIsDefault();

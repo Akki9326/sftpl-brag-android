@@ -128,15 +128,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 checkInternetAndCallApi(true);
             }
         });
-       /* mActivity.mTxtReadAll.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                BragApp.NotificationNumber = 0;
-                Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-                setUpToolbar();
-            }
-        });*/
 
         PAGE_NUM = 1;
         ACTION = LOAD_LIST;
@@ -205,13 +196,10 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void onItemClick(int position) {
-
-
         if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
             return;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
-
         this.position = position;
 
         DataNotificationList dataNotification = mListData.get(position);
@@ -225,7 +213,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             case USER:
                 break;
             case ITEM:
-                ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(dataNotification.getWhatId(), true,false), true, true);
+                ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(dataNotification.getWhatId(), true, false), true, true);
                 break;
             case ORDER:
                 ((MainActivity) getActivity()).pushFragments(OrderDetailFragment.newInstance(dataNotification.getWhatId()), true, true);
@@ -241,8 +229,9 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         } else {
             onApiSuccessNotificationRead();
         }
-
-
+        mListData.get(position).setAttended(true);
+        mListAdapter.notifyDataSetChanged();
+        BragApp.NotificationNumber--;
     }
 
     @Override
@@ -314,14 +303,9 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void onApiSuccessNotificationRead() {
-        mListData.get(position).setAttended(true);
-        mListAdapter.notifyDataSetChanged();
-        BragApp.NotificationNumber--;
-        setUpToolbar();
         //update in More screen
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
     }
 
     @Override

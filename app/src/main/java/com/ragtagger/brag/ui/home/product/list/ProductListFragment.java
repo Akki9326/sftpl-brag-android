@@ -252,8 +252,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
         mFragmentProductListBinding.recycleView.setLayoutManager(mLayoutManager);
         mFragmentProductListBinding.recycleView.setHasFixedSize(true);
-        mFragmentProductListBinding.recycleView.setItemViewCacheSize(80);
-        mFragmentProductListBinding.recycleView.setDrawingCacheEnabled(true);
+        /*mFragmentProductListBinding.recycleView.setItemViewCacheSize(80);
+        mFragmentProductListBinding.recycleView.setDrawingCacheEnabled(true);*/
         mFragmentProductListBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentProductListBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 10, false));
         mFragmentProductListBinding.recycleView.loadMoreComplete(true);

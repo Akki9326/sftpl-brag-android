@@ -135,7 +135,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
         else if (getActivity() instanceof NotificationHandlerActivity)
-            ((NotificationHandlerActivity) getActivity()).showPushToolbar(true,false,getString(R.string.toolbar_label_order_detail));
+            ((NotificationHandlerActivity) getActivity()).showPushToolbar(true, false, getString(R.string.toolbar_label_order_detail));
     }
 
     @Override
@@ -233,8 +233,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         if (mData.getInvoiceUrl() != null && !mData.getInvoiceUrl().isEmpty()) {
             showProgress();
             orderDetailViewModel.downloadInvoice(mData.getInvoiceUrl(), pathWithFolder, fileName);
-        }else {
-            AlertUtils.showAlertMessage(getActivity(),getString(R.string.msg_invoice_not_generated));
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_invoice_not_generated));
         }
 //        downloadfileFromPRDownloader(pathWithFolder);
 
@@ -382,7 +382,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             orderDetailViewModel.updateFullName(mData.getUser().getFullName());
             orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal()
                     || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()
-                    || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() ? true : false);
+                    || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal());
             orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
             orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
             orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());

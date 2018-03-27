@@ -447,11 +447,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             }
 
             //size list
-            List<DataProductList.Size> mSizes = new ArrayList<>();
+            /*List<DataProductList.Size> mSizes = new ArrayList<>();
             mSizes.add(new DataProductList.Size(products.getNo(), products.getDescription(), products.getDescription2()
                     , products.getSizeCode(), products.getUnitOfMeasure(), products.getUnitPrice(), products.getStockData()
-                    , true, products.getImages()));
-            onColorProductSelected(mSizes, products.getItemCategoryCode());
+                    , true, products.getImages()));*/
+            onColorProductSelected(products.getSizes(), products.getItemCategoryCode());
         }
 
 

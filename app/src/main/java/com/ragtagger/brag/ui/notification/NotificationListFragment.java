@@ -227,11 +227,11 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             if (!dataNotification.isAttended())
                 mNotificationListViewModel.notificationRead(dataNotification.getId());
         } else {
+
             onApiSuccessNotificationRead();
+
         }
-        mListData.get(position).setAttended(true);
-        mListAdapter.notifyDataSetChanged();
-        BragApp.NotificationNumber--;
+
     }
 
     @Override
@@ -303,6 +303,11 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void onApiSuccessNotificationRead() {
+        if (!mListData.get(position).isAttended()) {
+            mListData.get(position).setAttended(true);
+            mListAdapter.notifyDataSetChanged();
+            BragApp.NotificationNumber--;
+        }
         //update in More screen
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);

@@ -230,10 +230,11 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         String path = Environment.getExternalStorageDirectory().toString();
         String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
         Utility.makeFolder(path, getString(R.string.app_name));
-        mData.setInvoiceUrl("https://www.tutorialspoint.com/android/android_tutorial.pdf");
         if (mData.getInvoiceUrl() != null && !mData.getInvoiceUrl().isEmpty()) {
             showProgress();
             orderDetailViewModel.downloadInvoice(mData.getInvoiceUrl(), pathWithFolder, fileName);
+        }else {
+            AlertUtils.showAlertMessage(getActivity(),getString(R.string.msg_invoice_not_generated));
         }
 //        downloadfileFromPRDownloader(pathWithFolder);
 
@@ -379,8 +380,9 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             orderDetailViewModel.updateOrderId(mData.getOrderNumber());
             orderDetailViewModel.updateAddress(mData.getFullAddressWithNewLine());
             orderDetailViewModel.updateFullName(mData.getUser().getFullName());
-            // TODO: 26-03-2018 order statues change approve to delivery
-            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal());
+            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal()
+                    || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()
+                    || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() ? true : false);
             orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
             orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
             orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());

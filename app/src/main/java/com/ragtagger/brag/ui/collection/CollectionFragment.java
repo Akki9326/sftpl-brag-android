@@ -25,6 +25,7 @@ import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.callback.IOnItemClickListener;
 import com.ragtagger.brag.databinding.FragmentCollectionBinding;
 import com.ragtagger.brag.ui.core.CoreFragment;
+import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.ui.home.product.list.ProductListFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.utils.AlertUtils;
@@ -152,6 +153,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     @Override
     public void onApiSuccess() {
         hideProgressBar();
+        ((HomeFragment)getParentFragment()).setNotificationBadge();
     }
 
     @Override

@@ -161,14 +161,4 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
         getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
-
-    public String getSDCardDirectory() {
-        String SdcardPath = Environment.getExternalStorageDirectory().toString();
-        String dir = SdcardPath.substring(SdcardPath.lastIndexOf('/') + 1);
-        System.out.println(dir);
-        String[] trimmed = SdcardPath.split(dir);
-        String sdcardPath = trimmed[0];
-        System.out.println(sdcardPath);
-        return sdcardPath;
-    }
 }

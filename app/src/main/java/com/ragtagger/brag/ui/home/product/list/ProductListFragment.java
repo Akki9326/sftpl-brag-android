@@ -39,6 +39,7 @@ import com.ragtagger.brag.data.model.requests.QProductList;
 import com.ragtagger.brag.databinding.FragmentProductListBinding;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
+import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.ui.home.product.details.ProductDetailFragment;
 import com.ragtagger.brag.ui.home.product.list.adapter.ProductListAdapter;
 import com.ragtagger.brag.ui.home.product.list.filter.ProductFilterDialogFragment;
@@ -390,6 +391,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void onApiSuccess() {
         hideProgress();
+        if (getParentFragment() instanceof HomeFragment)
+            ((HomeFragment) getParentFragment()).setNotificationBadge();
     }
 
     @Override

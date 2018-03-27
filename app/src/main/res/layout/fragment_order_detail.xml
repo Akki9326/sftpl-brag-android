@@ -302,6 +302,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:onClick="@{viewModel.onDownloadInvoice()}"
                             android:orientation="vertical">
 
                             <LinearLayout
@@ -320,6 +321,13 @@
                                     android:textColor="@color/text_black"
                                     android:textSize="@dimen/text_size_very_small" />
 
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginRight="10dp"
+                                    android:padding="2dp"
+                                    android:src="@drawable/ic_invoice_download" />
 
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
@@ -328,7 +336,7 @@
                                     android:layout_marginRight="10dp"
                                     android:gravity="center"
                                     android:onClick="@{viewModel.onDownloadInvoice()}"
-                                    android:visibility="visible">
+                                    android:visibility="gone">
 
                                     <ImageSwitcher
                                         android:id="@+id/imageview_download"

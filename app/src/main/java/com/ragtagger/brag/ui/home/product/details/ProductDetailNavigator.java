@@ -1,6 +1,8 @@
 package com.ragtagger.brag.ui.home.product.details;
 
 import android.text.Editable;
+import android.view.KeyEvent;
+import android.widget.TextView;
 
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataAddToCart;
@@ -38,4 +40,6 @@ public interface ProductDetailNavigator extends CoreNavigator {
     void afterTextChanged(Editable s);
 
     void updatePushCart();
+
+    boolean onEditorActionHide(TextView textView, int i, KeyEvent keyEvent);
 }

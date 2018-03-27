@@ -3,12 +3,14 @@ package com.ragtagger.brag.ui.collection;
 import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
+import com.ragtagger.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -82,6 +84,8 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
             @Override
             public void onSuccess(RCollectionList collectionListResponse, Headers headers) {
                 if (collectionListResponse.isStatus()) {
+                    BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
+                    BragApp.NotificationNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_NOTIFICATION_NUM));
                     getNavigator().onApiSuccess();
                     if (collectionListResponse.getData() == null) {
                         getNavigator().onNoData();

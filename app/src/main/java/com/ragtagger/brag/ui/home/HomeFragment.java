@@ -180,17 +180,21 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
 
     public void setNotificationBadge() {
-        if (BragApp.NotificationNumber > 0) {
-            //if badge layout not added
-            if (itemView.getChildCount() == 2) {
-                initNotificationBadge();
-            }
-            txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
-        } else {
+        if (!Utility.isConnection(getActivity())) {
             if (((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).getChildCount() > 2)
                 ((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).removeViewAt(2);
+        } else {
+            if (BragApp.NotificationNumber > 0) {
+                //if badge layout not added
+                if (itemView.getChildCount() == 2) {
+                    initNotificationBadge();
+                }
+                txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
+            } else {
+                if (((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).getChildCount() > 2)
+                    ((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).removeViewAt(2);
+            }
         }
-
     }
 
     public void initNotificationBadge() {
@@ -199,7 +203,9 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         badge = LayoutInflater.from(getActivity())
                 .inflate(R.layout.bottom_navigation_notification_badge, itemView, false);
         txtBadge = badge.findViewById(R.id.notifications_badge);
+
         itemView.addView(badge);
+        setNotificationBadge();
     }
 
 

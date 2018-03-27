@@ -77,7 +77,7 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
                 mSplashViewModel.setDeviceNameAndOS();
                 mSplashViewModel.decideNextActivity();
             }
-        }, 2000);
+        }, 2500);
     }
 
     public void pushFragments(Fragment fragment, boolean shouldAnimate, boolean shouldAdd, String TAG) {

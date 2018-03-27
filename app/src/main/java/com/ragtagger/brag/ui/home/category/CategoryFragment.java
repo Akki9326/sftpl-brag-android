@@ -152,6 +152,7 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).updateCartNum();
         }
+        //((HomeFragment)getParentFragment()).initNotificationBadge();
         ((HomeFragment) getParentFragment()).setNotificationBadge();
     }
 

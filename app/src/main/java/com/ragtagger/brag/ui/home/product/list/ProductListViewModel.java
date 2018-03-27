@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
+import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
@@ -18,6 +19,7 @@ import com.ragtagger.brag.data.model.response.RProductList;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
 import com.ragtagger.brag.callback.OnSingleClickListener;
+import com.ragtagger.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -116,6 +118,8 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
             @Override
             public void onSuccess(RProductList rProductList, Headers headers) {
                 if (rProductList.isStatus()) {
+                    BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
+                    BragApp.NotificationNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_NOTIFICATION_NUM));
                     getNavigator().onApiSuccess();
                     if (rProductList.getData() != null && rProductList.getData().getObjects() != null && rProductList.getData().getObjects().size() > 0) {
                         //display data

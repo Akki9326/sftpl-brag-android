@@ -303,7 +303,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     private void setTotalPrice() {
 
-        int total = 0;
+        double total = 0;
         for (int i = 0; i < mList.size(); i++) {
             total += (mList.get(i).getQuantity()) * (mList.get(i).getItem().getUnitPrice());
         }

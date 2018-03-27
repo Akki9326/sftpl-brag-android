@@ -29,6 +29,7 @@ import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.cart.editquantity.EditQtyDialogFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -111,7 +112,10 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void setUpToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_cart));
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_cart));
+        else if (getActivity() instanceof NotificationHandlerActivity)
+            ((NotificationHandlerActivity)getActivity()).showPushToolbar(true,false,getResources().getString(R.string.toolbar_label_cart));
     }
 
     @Override
@@ -205,7 +209,10 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onContinuesClick() {
-        ((MainActivity) getActivity()).pushFragments(PlaceOrderFragment.newInstance(mList), true, true);
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).pushFragments(PlaceOrderFragment.newInstance(mList), true, true);
+        else if (getActivity() instanceof NotificationHandlerActivity)
+            ((NotificationHandlerActivity) getActivity()).pushFragments(PlaceOrderFragment.newInstance(mList), true, true);
 
     }
 
@@ -238,7 +245,11 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             public void run() {
                 hideProgress();
                 mAdapter.removeItem(mCartItemDeleteData);
-                ((MainActivity) getActivity()).updateCartNum();
+                if (getActivity() instanceof MainActivity)
+                    ((MainActivity) getActivity()).updateCartNum();
+                else if (getActivity() instanceof NotificationHandlerActivity)
+                    ((NotificationHandlerActivity) getActivity()).updateCartNum();
+
                 setTotalPrice();
                 if (mAdapter.getItemCount() == 0) {
                     cartViewModel.setListVisibility(false);

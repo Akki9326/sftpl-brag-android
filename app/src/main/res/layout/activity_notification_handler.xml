@@ -17,8 +17,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
-        tools:context=".ui.main.MainActivity">
-
+        tools:context=".ui.notification.handler.NotificationHandlerActivity">
 
         <FrameLayout
             android:id="@+id/fragment_container"

@@ -34,6 +34,7 @@ import com.ragtagger.brag.ui.cart.adapter.PlaceOrderCartListAdapter;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -83,8 +84,6 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         if (Utility.isConnection(getActivity())) {
             showProgress();
             mPlaceOrderViewModel.getUserProfile();
-        } else {
-            //AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
     }
 
@@ -144,12 +143,18 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
             public void dismissDialog(Dialog dialog) {
                 hideProgress();
                 dialog.dismiss();
-                //clear cart when successfully place order
                 BragApp.CartNumber = 0;
-                ((MainActivity) getActivity()).updateCartNum();
-                ((MainActivity) getActivity()).clearStackForPlaceOrder();
-                Intent intent = new Intent(Constants.ACTION_UPDATE_LIST_CART_ICON_STATE);
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                // TODO: 3/26/2018 check NotificationHandlerActivity
+
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).updateCartNum();
+                    ((MainActivity) getActivity()).clearStackForPlaceOrder();
+                    Intent intent = new Intent(Constants.ACTION_UPDATE_LIST_CART_ICON_STATE);
+                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                } else if (getActivity() instanceof NotificationHandlerActivity) {
+                    ((NotificationHandlerActivity) getActivity()).updateCartNum();
+                    ((NotificationHandlerActivity) getActivity()).clearStackForPlaceOrder();
+                }
 
             }
         });
@@ -178,7 +183,10 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void setUpToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));
+        else if (getActivity() instanceof NotificationHandlerActivity)
+            ((NotificationHandlerActivity) getActivity()).showPushToolbar(true, false, getResources().getString(R.string.toolbar_label_place_order));
     }
 
     @Override

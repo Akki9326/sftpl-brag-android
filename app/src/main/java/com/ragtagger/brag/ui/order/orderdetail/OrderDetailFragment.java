@@ -386,12 +386,12 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
             orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
             orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
-            orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma((int) mData.getTotalAmount()));
+            orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(mData.getTotalAmount()));
             orderDetailViewModel.setMobilenum(mData.getUser().getMobileNumber());
             orderDetailViewModel.setIsOrderPlaced(mData.getStatus() == Constants.OrderStatus.PLACED.ordinal());
             orderDetailViewModel.setTotalPayable(Utility.getIndianCurrencyPriceFormatWithComma(
-                    (mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()) ? ((int) mData.getPayableAmount()) :
-                            (int) mData.getTotalAmount()));
+                    (mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()) ? (mData.getPayableAmount()) :
+                            mData.getTotalAmount()));
             mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
 
             mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getContext()));

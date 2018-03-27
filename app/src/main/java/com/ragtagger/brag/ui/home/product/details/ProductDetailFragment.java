@@ -20,10 +20,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
@@ -361,7 +363,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void plus() {
         if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()) < mSizedProduct.getStockData()) {//if (mQuality < mSizedProduct.getStockData()) {
-            //mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
+            mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality++;
             mFragmentProductDetailBinding.textViewQty.setText(String.valueOf(mQuality));
         } else if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() == 0) {
@@ -490,6 +492,12 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         } else if (getActivity() instanceof NotificationHandlerActivity) {
             ((NotificationHandlerActivity) getActivity()).updateCartNum();
         }
+    }
+
+    @Override
+    public boolean onEditorActionHide(TextView textView, int i, KeyEvent keyEvent) {
+        Utility.hideSoftkeyboard(getActivity());
+        return false;
     }
 
     @Override

@@ -336,16 +336,20 @@ public class Utility {
         listView.requestLayout();
     }
 
-    public static String getIndianCurrencyPriceFormatWithComma(int price) {
+    public static String getIndianCurrencyPriceFormatWithComma(double price) {
 
-        String rupeessymbol;
+        /*String rupeessymbol;
         String totalprice = NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(new Integer(price));
         if (totalprice.contains("Rs.")) {
             rupeessymbol = "\u20B9" + totalprice.substring(3, totalprice.length()).trim();
             return rupeessymbol;
         } else {
             return totalprice.replace(" ", "");
-        }
+        }*/
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        df.setMinimumIntegerDigits(1);
+        String strPrice = df.format(price);
+        return "\u20B9" + strPrice;
     }
 
     public static String getIndianCurrencyPriceFormat(int price) {

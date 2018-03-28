@@ -172,7 +172,6 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         } else if (!Validation.isValidMobileNum(mFragmentForgotPassBinding.edittextMobileNum)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
         } else if (Utility.isConnection(getActivity())) {
-            // TODO: 2/26/2018 Add sms permission
             if (checkAndRequestPermissions()) {
                 showProgress();
                 mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());

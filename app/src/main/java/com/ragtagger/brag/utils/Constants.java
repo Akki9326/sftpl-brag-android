@@ -52,6 +52,7 @@ public class Constants {
     public static final String BUNDLE_KEY_NOTIFICATION_WHAT_ID = "notificationWhatId";
     public static final String BUNDLE_KEY_PRODUCT_LIST_TITLE = "bundleProductListTitle";
     public static final String LOCALBROADCAST_UPDATE_NOTIFICATION = "localbrodUpdateNotification";
+    public static final String LOCALBROADCAST_UPDATE_NOTIFICATION_MORE = "localbrodUpdateNotificationMore";
     public static final String LOCALBROADCAST_UPDATE_ORDER = "localbrodUpdateOrder";
     public static final String BUNDLE_TITLE = "bunbletitle";
     public static final String BUNDLE_SUBTITLE = "bunblesubtitle";
@@ -84,8 +85,8 @@ public class Constants {
     public static final String BUNDLE_IS_QUICK_ORDER = "isquickorder";
 
     public interface ApiHelper {
-        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
-        //String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
+//        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
         //String BASE_URL = "http://192.168.131.125:8085/BRAGWeb/api/"; //tushar
 
         String API_VERSION = "v1/";

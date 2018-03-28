@@ -173,7 +173,6 @@ public class CustomViewPagerIndicator extends View implements ViewPager.OnPageCh
         this.viewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
 
-        // TODO: 08-01-2018 : if pager size greater than 1 than pager visible pager else gone
         if (viewPager.getAdapter().getCount() > 1) {
             setVisibility(VISIBLE);
         } else {
@@ -245,7 +244,6 @@ public class CustomViewPagerIndicator extends View implements ViewPager.OnPageCh
         for (int i = 0; i < pageCount; i++) {
             dotCenterX[i] = startLeft + i * (dotDiameter + gap);
         }
-        // todo just top aligning for now… should make this smarter
         dotTopY = top;
         dotCenterY = top + dotRadius;
         dotBottomY = top + dotDiameter;
@@ -616,7 +614,6 @@ public class CustomViewPagerIndicator extends View implements ViewPager.OnPageCh
         moveSelected.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                // todo avoid autoboxing
                 selectedDotX = (Float) valueAnimator.getAnimatedValue();
                 retreatAnimation.startIfNecessary(selectedDotX);
                 ViewCompat.postInvalidateOnAnimation(CustomViewPagerIndicator.this);
@@ -738,7 +735,6 @@ public class CustomViewPagerIndicator extends View implements ViewPager.OnPageCh
                 addUpdateListener(new AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        // todo avoid autoboxing
                         retreatingJoinX1 = (Float) valueAnimator.getAnimatedValue();
                         ViewCompat.postInvalidateOnAnimation(CustomViewPagerIndicator.this);
                         // start any reveal animations if we've passed them
@@ -758,7 +754,6 @@ public class CustomViewPagerIndicator extends View implements ViewPager.OnPageCh
                 addUpdateListener(new AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        // todo avoid autoboxing
                         retreatingJoinX2 = (Float) valueAnimator.getAnimatedValue();
                         ViewCompat.postInvalidateOnAnimation(CustomViewPagerIndicator.this);
                         // start any reveal animations if we've passed them
@@ -809,7 +804,6 @@ public class CustomViewPagerIndicator extends View implements ViewPager.OnPageCh
             addUpdateListener(new AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    // todo avoid autoboxing
                     setDotRevealFraction(PendingRevealAnimator.this.dot,
                             (Float) valueAnimator.getAnimatedValue());
                 }

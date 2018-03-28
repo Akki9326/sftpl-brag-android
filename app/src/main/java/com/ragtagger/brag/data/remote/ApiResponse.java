@@ -56,7 +56,6 @@ public abstract class ApiResponse<T> implements Callback<T> {
         if (Common.isNotNullOrEmpty(val))
             AppLogger.e("Response Error : " + val);
 
-        // TODO: 09-03-2018 only for developer mode
         if (th instanceof JsonSyntaxException) {
             Log.i("JsonSyntaxException", "onFailure: onJsonParsing error" + th.getMessage());
         }

@@ -40,7 +40,6 @@ import dagger.android.AndroidInjection;
 
 public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBinding, V extends CoreViewModel> extends AppCompatActivity implements IFragmentLoader, IFragmentCallback {
 
-    // TODO
     // this can probably depend on isLoading variable of CoreViewModel,
     // since its going to be common for all the activities
 

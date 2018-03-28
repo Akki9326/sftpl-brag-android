@@ -144,7 +144,6 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                 hideProgress();
                 dialog.dismiss();
                 BragApp.CartNumber = 0;
-                // TODO: 3/26/2018 check NotificationHandlerActivity
 
                 if (getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).updateCartNum();
@@ -238,18 +237,6 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void onQtyClick(int position, DataCart responeData) {
-
-        // TODO: 05-12-2017 limit qty (max)
-       /* positionQty = mList.indexOf(responeData);
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_PRODUCT_NAME, mList.get(positionQty).getProduct_name());
-        bundle.putInt(Constants.BUNDLE_QTY, mList.get(positionQty).getQty());
-        bundle.putString(Constants.BUNDLE_PRODUCT_IMG, mList.get(positionQty).getProduct_image());
-
-        EditQtyDialogFragment dialogFragment = new EditQtyDialogFragment();
-        dialogFragment.setTargetFragment(this, REQUEST_QTY);
-        dialogFragment.setArguments(bundle);
-        dialogFragment.show(getFragmentManager(), "");*/
     }
 
     private void setTotalPrice() {

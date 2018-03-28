@@ -246,7 +246,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     @Override
     public void onApiError(ApiError error) {
         hideLoader();
-        // TODO: 3/23/2018
         if (isListApi && (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode)) {
             switch (ACTION) {
                 case LOAD_LIST:

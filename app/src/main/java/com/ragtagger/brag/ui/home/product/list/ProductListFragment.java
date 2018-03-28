@@ -252,8 +252,8 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
         mFragmentProductListBinding.recycleView.setLayoutManager(mLayoutManager);
         mFragmentProductListBinding.recycleView.setHasFixedSize(true);
-        /*mFragmentProductListBinding.recycleView.setItemViewCacheSize(80);
-        mFragmentProductListBinding.recycleView.setDrawingCacheEnabled(true);*/
+        mFragmentProductListBinding.recycleView.setItemViewCacheSize(30);
+        mFragmentProductListBinding.recycleView.setDrawingCacheEnabled(true);
         mFragmentProductListBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentProductListBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 10, false));
         mFragmentProductListBinding.recycleView.loadMoreComplete(true);
@@ -373,12 +373,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void OnCartClick(int position) {
-//        if (!isClicked) {
-//            isClicked = true;
-        // TODO: 15-03-2018 :oncart click
-//            ((MainActivity) getBaseActivity()).updateCartNum(0);
-//            enabledClick();
-//        }
     }
 
     @Override
@@ -391,8 +385,10 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public void onApiSuccess() {
         hideProgress();
-        if (getParentFragment() instanceof HomeFragment)
+        if (getParentFragment() instanceof HomeFragment){
             ((HomeFragment) getParentFragment()).setNotificationBadge();
+
+        }
     }
 
     @Override

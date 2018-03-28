@@ -8,9 +8,11 @@ package com.ragtagger.brag.ui.collection;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -153,7 +155,8 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     @Override
     public void onApiSuccess() {
         hideProgressBar();
-        ((HomeFragment)getParentFragment()).setNotificationBadge();
+        ((HomeFragment) getParentFragment()).setNotificationBadge();
+
     }
 
     @Override

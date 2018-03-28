@@ -155,7 +155,6 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
         } else if (Validation.isEmpty(mFragmentChangeMobileNumBinding.edittextPassword)) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
         } else if (Utility.isConnection(getActivity())) {
-            // TODO: 2/26/2018 Add sms permission
             if (checkAndRequestPermissions()) {
                 showProgress();
                 mChangeMobNumberViewModel.sendOtpForChangeMob(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()

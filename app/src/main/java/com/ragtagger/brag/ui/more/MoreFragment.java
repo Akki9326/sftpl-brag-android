@@ -86,6 +86,8 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         mMoreViewModel.setNavigator(this);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotification,
                 new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotificationMore,
+                new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION_MORE));
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
                 mUpdateProfile, new IntentFilter(Constants.LOCALBROADCAST_UPDATE_PROFILE));
     }
@@ -309,6 +311,14 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
             ((HomeFragment) getParentFragment()).setNotificationBadge();
         }
     };
+    private BroadcastReceiver mUpdateNotificationMore = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
+            moreListAdapter.notifyDataSetChanged();
+
+        }
+    };
 
     private BroadcastReceiver mUpdateProfile = new BroadcastReceiver() {
         @Override
@@ -333,6 +343,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotificationMore);
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateProfile);
 
     }

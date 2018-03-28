@@ -176,7 +176,6 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
 
     @Override
     public void onQtyClick(int position, DataCart responeData) {
-        // TODO: 05-12-2017 limit qty (max)
         positionQty = mList.indexOf(responeData);
         mEditQtyItemNo = mList.get(positionQty).getItemId();
         mEditQtyItemId = mList.get(positionQty).getId();

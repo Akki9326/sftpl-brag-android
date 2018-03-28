@@ -195,6 +195,9 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
                     ((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).removeViewAt(2);
             }
         }
+        //update in More screen list
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION_MORE);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
 
     public void initNotificationBadge() {
@@ -236,7 +239,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden)
-            // TODO: 16-02-2018 set toolbar by bottomsheet selected
             setUpToolbar();
 
     }

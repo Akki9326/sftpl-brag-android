@@ -185,7 +185,7 @@ public class Utility {
         animation.setDuration(200).start();
     }
 
-    public static void imageSetCenterInside(Context context, String url, ImageView imageView) {
+    public static void imageSetCenterInside(Context context, String url, ImageView imageView,int width,int height) {
 
         if (url == null) {
             url = String.valueOf(R.drawable.background);
@@ -195,10 +195,16 @@ public class Utility {
         Picasso.with(context)
                 .load(url)
                 .centerInside()
-                .resize(1000, 1000)
+                .resize(width, height)
                 .placeholder(R.drawable.place_holder)
                 .error(R.drawable.place_holder)
                 .into(imageView);
+    }
+
+
+    public static void imageSetCenterInside(Context context, String url, ImageView imageView) {
+        imageSetCenterInside(context,url,imageView,1000,1000);
+
     }
 
     public static void imageSetCenterCrop(Context context, String url, ImageView imageView) {

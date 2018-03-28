@@ -100,7 +100,6 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
                     getNavigator().onApiSuccess();
                     getNavigator().pushSignUpCompleteFragment();
                 } else {
-                    // TODO: 3/5/2018 Display invalid msg
                     getNavigator().onApiError(new ApiError(otpVerifyResponse.getErrorCode(), otpVerifyResponse.getMessage()));
                 }
             }
@@ -122,7 +121,6 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
                     getNavigator().onApiSuccess();
                     getNavigator().pushCreatePasswordFragment();
                 } else {
-                    // TODO: 3/5/2018 Display invalid msg
                     getNavigator().onApiError(new ApiError(otpVerifyResponse.getErrorCode(), otpVerifyResponse.getMessage()));
                 }
             }
@@ -135,7 +133,6 @@ public class OTPViewModel extends CoreViewModel<OTPNavigator> {
     }
 
     public void verifyOtpForChangeMob(final String mobile, String password, String otp) {
-        // TODO: 13-12-2017 if you display mobile number in more Fragment than isStatus==true update mobile number display
         QChangeMobileNumber changeMobileNumberRequest = new QChangeMobileNumber(mobile, password, otp);
         Call<RGeneralData> mResponeCall = getDataManager().changeMobileNum(changeMobileNumberRequest);
         mResponeCall.enqueue(new ApiResponse<RGeneralData>() {

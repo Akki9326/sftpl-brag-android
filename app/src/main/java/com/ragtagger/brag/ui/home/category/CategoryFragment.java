@@ -10,9 +10,11 @@ package com.ragtagger.brag.ui.home.category;
  */
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
@@ -154,6 +156,8 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         }
         //((HomeFragment)getParentFragment()).initNotificationBadge();
         ((HomeFragment) getParentFragment()).setNotificationBadge();
+
+
     }
 
     @Override

@@ -161,36 +161,38 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     }
 
     private void checkInternetAndCallApi(boolean isShowLoader) {
-        isListApi = true;
-        if (Utility.isConnection(getActivity())) {
-            mNotificationListViewModel.setNoInternet(false);
-            if (ACTION == LOAD_MORE) {
-                PAGE_NUM++;
+        if (isAdded()) {
+            isListApi = true;
+            if (Utility.isConnection(getActivity())) {
+                mNotificationListViewModel.setNoInternet(false);
+                if (ACTION == LOAD_MORE) {
+                    PAGE_NUM++;
+                } else {
+                    //for pull to refresh
+                    if (isShowLoader)
+                        showProgress();
+                    PAGE_NUM = 1;
+                }
+                mNotificationListViewModel.getNotificationListAPI(PAGE_NUM);
             } else {
-                //for pull to refresh
-                if (isShowLoader)
-                    showProgress();
-                PAGE_NUM = 1;
-            }
-            mNotificationListViewModel.getNotificationListAPI(PAGE_NUM);
-        } else {
 
-            switch (ACTION) {
-                case LOAD_LIST:
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mNotificationListViewModel.setNoInternet(true);
-                        }
-                    }, 200);
+                switch (ACTION) {
+                    case LOAD_LIST:
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mNotificationListViewModel.setNoInternet(true);
+                            }
+                        }, 200);
 
-                    break;
-                case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                    break;
+                        break;
+                    case LOAD_MORE:
+                        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                        break;
+                }
+                hideLoader();
+                mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
             }
-            hideLoader();
-            mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
         }
     }
 

@@ -17,6 +17,7 @@ import com.ragtagger.brag.R;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.DateFormatter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -169,8 +170,13 @@ public class DataMyOrder implements Parcelable {
         dest.writeDouble(this.payableAmount);
         dest.writeParcelable(this.address, flags);
         dest.writeInt(this.status);
-        dest.writeParcelable(this.user, flags);
-        dest.writeTypedList(this.cart);
+        dest.writeString(this.invoiceUrl);
+        if (cart == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(cart);
+        }
     }
 
     public DataMyOrder() {
@@ -185,10 +191,21 @@ public class DataMyOrder implements Parcelable {
         this.orderNumber = in.readString();
         this.totalAmount = in.readInt();
         this.payableAmount = in.readDouble();
-        this.address = in.readParcelable(DataUserAddress.class.getClassLoader());
+        try {
+            this.address = in.readParcelable(DataUserAddress.class.getClassLoader());
+        } catch (Exception e) {
+            this.address = null;
+        }
+
         this.status = in.readInt();
-        this.user = in.readParcelable(DataUser.class.getClassLoader());
-        this.cart = in.createTypedArrayList(DataCart.CREATOR);
+        this.invoiceUrl = in.readString();
+
+        if (in.readByte() == 0x01) {
+            cart = new ArrayList<DataCart>();
+            in.readList(cart, DataCart.class.getClassLoader());
+        } else {
+            cart = null;
+        }
     }
 
     public static final Parcelable.Creator<DataMyOrder> CREATOR = new Parcelable.Creator<DataMyOrder>() {
@@ -223,7 +240,7 @@ public class DataMyOrder implements Parcelable {
     }
 
     public String getFullAddress() {
-        if (getAddress() != null ) {
+        if (getAddress() != null) {
 
             String landmark;
             if (getAddress().getLandmark().isEmpty()) {

@@ -1,10 +1,12 @@
 package com.ragtagger.brag.ui.main;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,8 +21,12 @@ import com.ragtagger.brag.ui.cart.CartFragment;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.R;
+import com.ragtagger.brag.ui.splash.SplashActivity;
+import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,8 +50,16 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
     FragmentManager manager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Clean fragments (only if the app is recreated (When user disable permission))
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            Intent intent = getIntent();
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -69,20 +83,24 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void afterLayoutSet() {
         mMainActivyBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
-        Utility.applyTypeFace(getApplicationContext(),mMainActivyBinding.baseLayout);
+        Utility.applyTypeFace(getApplicationContext(), mMainActivyBinding.baseLayout);
+        pushFragments(new HomeFragment(), false, false);
         // TODO: 16-02-2018 move to core activity
         if (bActivity instanceof OnToolbarSetupListener) {
             ((OnToolbarSetupListener) bActivity).setUpToolbar();
         }
-        pushFragments(new HomeFragment(), false, false);
     }
 
 
     public void pushFragments(Fragment fragment, boolean shouldAnimate, boolean shouldAdd) {
-
         manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         if (shouldAnimate) {
@@ -189,7 +207,6 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        onRestart();
     }
 }
 

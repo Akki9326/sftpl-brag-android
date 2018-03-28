@@ -302,21 +302,31 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
+    }
+
     private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
-            moreListAdapter.notifyDataSetChanged();
-            //update in badge number
-            ((HomeFragment) getParentFragment()).setNotificationBadge();
+            if (moreListData != null) {
+                moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
+                moreListAdapter.notifyDataSetChanged();
+                //update in badge number
+                ((HomeFragment) getParentFragment()).setNotificationBadge();
+            }
         }
     };
     private BroadcastReceiver mUpdateNotificationMore = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
-            moreListAdapter.notifyDataSetChanged();
-
+            if (moreListData != null) {
+                moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
+                moreListAdapter.notifyDataSetChanged();
+            }
         }
     };
 

@@ -9,6 +9,7 @@ package com.ragtagger.brag.ui.authentication.profile;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,8 +26,11 @@ import com.ragtagger.brag.ui.authentication.profile.changepassword.ChangePassFra
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.authentication.profile.updateprofile.UpdateProfileFragment;
 import com.ragtagger.brag.utils.AlertUtils;
+import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -66,6 +70,12 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FragmentManager manager = getSupportFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            Intent intent = getIntent();
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -137,7 +147,7 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivityInstance(), error.getHttpCode(), error.getMessage(),null);
+        AlertUtils.showAlertMessage(getActivityInstance(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override

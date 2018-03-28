@@ -18,6 +18,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Spannable;
@@ -35,6 +37,7 @@ import android.widget.TextView;
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
+import com.ragtagger.brag.data.model.datas.DataMoreList;
 import com.ragtagger.brag.databinding.FragmentHomeBinding;
 import com.ragtagger.brag.ui.collection.CollectionFragment;
 import com.ragtagger.brag.ui.core.CoreActivity;
@@ -45,6 +48,8 @@ import com.ragtagger.brag.ui.more.MoreFragment;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.views.CustomTypefaceSpan;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -73,6 +78,14 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     boolean isAddedCategory, isAddedCollection, isAddedOrder, isAddedMore;
 
+    private BroadcastReceiver mUpdateNotificationMore = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setNotificationBadge();
+        }
+    };
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,9 +95,10 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         homeViewModel.setNavigator(this);
-
-
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotificationMore,
+                new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION_PUSH_MORE));
     }
 
 
@@ -134,31 +148,34 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         isAddedCategory = true;
 
         initNotificationBadge();
+
+        if (menu.size() > 0)
+            homeViewModel.onNavigationClick(menu.getItem(0));
     }
 
 
     @Override
     public void setUpToolbar() {
-
-        Log.i(TAG, "setUpToolbar: " + mFragmentHomeBinding.bottomNavigation.getSelectedItemId());
-        ((CoreActivity) getActivity()).showToolbar(false, true, true);
-        switch (mFragmentHomeBinding.bottomNavigation.getSelectedItemId()) {
-            case R.id.bottombar_item_categoty:
-                setToolbarCategory();
-                Log.i(TAG, "setUpToolbar:  category");
-                break;
-            case R.id.bottombar_item_collection:
-                setToolbarCollection();
-                Log.i(TAG, "setUpToolbar:  collection");
-                break;
-            case R.id.bottombar_item_order:
-                setToolbarQuickOrder();
-                Log.i(TAG, "setUpToolbar:  order");
-                break;
-            case R.id.bottombar_item_more:
-                setToolbarMore();
-                Log.i(TAG, "setUpToolbar:  more");
-                break;
+        if (isAdded()) {
+            ((CoreActivity) getActivity()).showToolbar(false, true, true);
+            switch (mFragmentHomeBinding.bottomNavigation.getSelectedItemId()) {
+                case R.id.bottombar_item_categoty:
+                    setToolbarCategory();
+                    Log.i(TAG, "setUpToolbar:  category");
+                    break;
+                case R.id.bottombar_item_collection:
+                    setToolbarCollection();
+                    Log.i(TAG, "setUpToolbar:  collection");
+                    break;
+                case R.id.bottombar_item_order:
+                    setToolbarQuickOrder();
+                    Log.i(TAG, "setUpToolbar:  order");
+                    break;
+                case R.id.bottombar_item_more:
+                    setToolbarMore();
+                    Log.i(TAG, "setUpToolbar:  more");
+                    break;
+            }
         }
 
     }
@@ -180,24 +197,26 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
 
     public void setNotificationBadge() {
-        if (!Utility.isConnection(getActivity())) {
-            if (((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).getChildCount() > 2)
-                ((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).removeViewAt(2);
-        } else {
-            if (BragApp.NotificationNumber > 0) {
-                //if badge layout not added
-                if (itemView.getChildCount() == 2) {
-                    initNotificationBadge();
-                }
-                txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
-            } else {
+        if (isAdded()) {
+            if (!Utility.isConnection(getActivity())) {
                 if (((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).getChildCount() > 2)
                     ((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).removeViewAt(2);
+            } else {
+                if (BragApp.NotificationNumber > 0) {
+                    //if badge layout not added
+                    if (itemView.getChildCount() == 2) {
+                        initNotificationBadge();
+                    }
+                    txtBadge.setText(Utility.getBadgeNumber(BragApp.NotificationNumber));
+                } else {
+                    if (((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).getChildCount() > 2)
+                        ((ViewGroup) bottomNavigationMenuView.findViewById(R.id.bottombar_item_more)).removeViewAt(2);
+                }
             }
+            //update in More screen list
+            Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION_MORE);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         }
-        //update in More screen list
-        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION_MORE);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
 
     public void initNotificationBadge() {
@@ -216,7 +235,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container_category, new CategoryFragment(), "Category_Tag");
         transaction.commit();
-
         ((CoreActivity) getActivity()).showToolbar(false, true, true);
 
     }
@@ -232,7 +250,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotificationMore);
     }
 
     @Override
@@ -245,6 +263,11 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void openCategoryFragment() {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container_category, new CategoryFragment(), "Category_Tag");
+        transaction.commit();
+        ((CoreActivity) getActivity()).showToolbar(false, true, true);
+
         mFragmentHomeBinding.fragmentContainerCategory.setVisibility(View.VISIBLE);
         mFragmentHomeBinding.fragmentContainerCollection.setVisibility(View.GONE);
         mFragmentHomeBinding.fragmentContainerOrder.setVisibility(View.GONE);

@@ -59,6 +59,7 @@ public class FCMService extends FirebaseMessagingService {
     private String N_TYPE = "notificationType";
     private String WHAT_ID = "whatId";
     private String N_ID = "notificationId";
+    private String BADGE = "badge";
     private int mNotificationId;
 
     public static final String ANDROID_CHANNEL_ID = "com.ragtagger.brag.ANDROID";
@@ -94,11 +95,15 @@ public class FCMService extends FirebaseMessagingService {
                 remoteMessage.getData().get(TITLE),
                 Integer.parseInt(remoteMessage.getData().get(N_TYPE)),
                 remoteMessage.getData().get(WHAT_ID),
-                remoteMessage.getData().get(N_ID));
+                remoteMessage.getData().get(N_ID), Integer.parseInt(remoteMessage.getData().get(BADGE)));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void sendNotification(String message, String title, int ntype, String whatid, String nid) {
+    private void sendNotification(String message, String title, int ntype, String whatid, String nid, int badge) {
+        BragApp.NotificationNumber = badge;
+        //update in More screen list
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION_PUSH_MORE);
+        LocalBroadcastManager.getInstance(FCMService.this).sendBroadcast(intent);
 
         mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

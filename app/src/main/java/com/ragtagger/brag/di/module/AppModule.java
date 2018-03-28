@@ -49,7 +49,7 @@ public class AppModule {
 
     @Provides
     @OSInfo
-    String provideOS(){
+    String provideOS() {
         return Constants.ApiHelper.OS;
     }
     //==============================================================================================
@@ -59,18 +59,17 @@ public class AppModule {
     //==============================================================================================
     @Provides
     @PreferenceInfo
-    String providePreferenceName(Context context){
-        return context.getPackageName()+".PREF_NAME";
+    String providePreferenceName(Context context) {
+        return context.getPackageName() + ".PREF_NAME";
     }
 
     /**
-     *
      * @param appPrefsManager {@link AppPrefsManager#AppPrefsManager(Context, String)}
      * @return IPreferenceManager
      */
     @Provides
     @Singleton
-    IPreferenceManager providePreferenceHelper(AppPrefsManager appPrefsManager){
+    IPreferenceManager providePreferenceHelper(AppPrefsManager appPrefsManager) {
         return appPrefsManager;
     }
 
@@ -90,26 +89,20 @@ public class AppModule {
     String provideApiVersion() {
         return Constants.ApiHelper.API_VERSION;
     }
+
     @Provides
 
     @ApiFullUrl
     String provideFullUrlString(@ApiBaseUrl String baseUrl, @ApiVersion String apiVersion) {
-        return baseUrl+apiVersion;
+        return baseUrl + apiVersion;
     }
-
-    /*@Provides
-    @Singleton
-    ApiInterface provideApiInterface(ApiClientNew apiClient){
-        return apiClient.getApiResp();
-    }*/
-
 
     @Provides
     @Singleton
-    Retrofit provideCall(@ApiFullUrl String fullUrl,IPreferenceManager mPreferencesHelper,@OSInfo String os) {
+    Retrofit provideCall(@ApiFullUrl String fullUrl, IPreferenceManager mPreferencesHelper, @OSInfo String os) {
         return new Retrofit.Builder()
                 .baseUrl(fullUrl)
-                .client(getHttpClientBuilder(mPreferencesHelper,os))
+                .client(getHttpClientBuilder(mPreferencesHelper, os))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
@@ -121,13 +114,12 @@ public class AppModule {
     }
 
     /**
-     *
-     * @param appApiManager {@link AppApiManager#(Context, String)}
+     * @param appApiManager {@link AppApiManager#(Context, ApiInterface)}
      * @return IPreferenceManager
      */
     @Provides
     @Singleton
-    IApiManager provideApiHelper(AppApiManager appApiManager){
+    IApiManager provideApiHelper(AppApiManager appApiManager) {
         return appApiManager;
     }
 
@@ -136,14 +128,14 @@ public class AppModule {
                                             /*Data Manager*/
 
     //==============================================================================================
+
     /**
-     *
      * @param appDataManager {@link AppDataManager#AppDataManager(Context, IPreferenceManager, IApiManager)}
      * @return IPreferenceManager
      */
     @Provides
     @Singleton
-    IDataManager providesDataManager(AppDataManager appDataManager){
+    IDataManager providesDataManager(AppDataManager appDataManager) {
         return appDataManager;
     }
 
@@ -195,10 +187,6 @@ public class AppModule {
 
         return httpClient.build();
     }
-
-
-
-
 
 
 }

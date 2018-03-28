@@ -19,22 +19,20 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
-import com.ragtagger.brag.data.model.datas.DataMoreList;
-import com.ragtagger.brag.data.model.response.RMyOrderList;
-import com.ragtagger.brag.ui.order.adapter.MyOrderListAdapter;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataMyOrder;
+import com.ragtagger.brag.data.model.response.RMyOrderList;
 import com.ragtagger.brag.databinding.FragmentMyOrderBinding;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.order.adapter.MyOrderListAdapter;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
-import com.ragtagger.brag.data.model.datas.DataMyOrder;
 import com.ragtagger.brag.views.erecyclerview.loadmore.DefaultLoadMoreFooter;
 import com.ragtagger.brag.views.erecyclerview.loadmore.OnLoadMoreListener;
 

@@ -61,34 +61,5 @@ public class ChangePassViewModel extends CoreViewModel<ChangePassNavigator> {
                 getNavigator().onApiError(t);
             }
         });
-
-        /*ApiClient.changeApiBaseUrl("http://103.204.192.148/brag/api/v1/");
-        Call<RChangePassword> mChangePasswordResponeCall = ApiClient.getInstance(getActivity()).getApiResp().changePassword(changePasswordRequest);
-        mChangePasswordResponeCall.enqueue(new Callback<RChangePassword>() {
-            @Override
-            public void onResponse(Call<RChangePassword> call, Response<RChangePassword> response) {
-                hideProgressDialog();
-                if (response.isSuccessful()) {
-                    RChangePassword respone = response.body();
-                    if (respone.isStatus()) {
-                        //Utility.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
-                        AlertUtils.showAlertMessage(getContext(), getString(R.string.msg_password_change_successfull), true);
-                    } else {
-                        //Utility.showAlertMessage(getActivity(), respone.getErrorCode(),respone.getMessage());
-                        AlertUtils.showAlertMessage(getActivity(), respone.getErrorCode(), respone.getMessage());
-                    }
-                } else {
-                    //Utility.showAlertMessage(getActivity(), 1,null);
-                    AlertUtils.showAlertMessage(getActivity(), 1, null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RChangePassword> call, Throwable t) {
-                hideProgressDialog();
-                //Utility.showAlertMessage(getActivity(), t);
-                AlertUtils.showAlertMessage(getActivity(), t);
-            }
-        });*/
     }
 }

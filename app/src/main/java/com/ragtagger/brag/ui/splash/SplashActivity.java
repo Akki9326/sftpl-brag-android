@@ -1,6 +1,7 @@
 package com.ragtagger.brag.ui.splash;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,8 +20,11 @@ import com.ragtagger.brag.databinding.ActivitySplashBinding;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.authentication.login.LogInFragment;
 import com.ragtagger.brag.ui.authentication.signup.complete.SignUpCompleteFragment;
+import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.ui.main.MainActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -43,6 +47,10 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSplashViewModel.setNavigator(this);
+        manager = getSupportFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            popBackToLogin();
+        }
     }
 
     @Override
@@ -162,5 +170,11 @@ public class SplashActivity extends CoreActivity<SplashActivity, ActivitySplashB
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        onRestart();
     }
 }

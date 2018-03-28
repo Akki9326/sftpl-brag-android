@@ -59,7 +59,7 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         beforeViewCreated();
         mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         mRootView = mViewDataBinding.getRoot();
-
+        saveInstanceState(savedInstanceState);
         return mRootView;
     }
 
@@ -68,6 +68,7 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         super.onViewCreated(view, savedInstanceState);
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
+
         afterViewCreated();
     }
 
@@ -127,6 +128,10 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         }
     }
 
+
+    public void saveInstanceState(Bundle state){
+
+    }
 
     public void onPermissionGranted(int request) {
     }

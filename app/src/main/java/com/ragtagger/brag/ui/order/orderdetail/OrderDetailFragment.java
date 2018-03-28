@@ -43,6 +43,7 @@ import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
 import com.ragtagger.brag.utils.AlertUtils;
+import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.FileUtils;
 import com.ragtagger.brag.utils.ToastUtils;
@@ -100,14 +101,16 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void beforeViewCreated() {
-        if (getArguments().containsKey(Constants.BUNDLE_ORDER_ID))
-            orderId = getArguments().getString(Constants.BUNDLE_ORDER_ID);
-        if (getArguments().containsKey(Constants.BUNDLE_ORDER_DATA))
-            mData = getArguments().getParcelable(Constants.BUNDLE_ORDER_DATA);
+
     }
 
     @Override
     public void afterViewCreated() {
+        if (getArguments().containsKey(Constants.BUNDLE_ORDER_ID))
+            orderId = getArguments().getString(Constants.BUNDLE_ORDER_ID);
+        if (getArguments().containsKey(Constants.BUNDLE_ORDER_DATA))
+            mData = getArguments().getParcelable(Constants.BUNDLE_ORDER_DATA);
+
         mFragmentOrderDetailBinding = getViewDataBinding();
         Utility.applyTypeFace(getContext(), mFragmentOrderDetailBinding.baseLayout);
 
@@ -375,29 +378,36 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     public void showData() {
         orderDetailViewModel.updateIsLoading(false);
-        if (mData != null) {
-            orderDetailViewModel.updateHasData(true);
-            orderDetailViewModel.updateOrderId(mData.getOrderNumber());
-            orderDetailViewModel.updateAddress(mData.getFullAddressWithNewLine());
-            orderDetailViewModel.updateFullName(mData.getUser().getFullName());
-            orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal()
-                    || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()
-                    || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal());
-            orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), mData.getStatus()));
-            orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
-            orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
-            orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(mData.getTotalAmount()));
-            orderDetailViewModel.setMobilenum(mData.getUser().getMobileNumber());
-            orderDetailViewModel.setIsOrderPlaced(mData.getStatus() == Constants.OrderStatus.PLACED.ordinal());
-            orderDetailViewModel.setTotalPayable(Utility.getIndianCurrencyPriceFormatWithComma(
-                    (mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()) ? (mData.getPayableAmount()) :
-                            mData.getTotalAmount()));
-            mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
+        if (isAdded())
+            if (mData != null) {
+                if (mData.getUser() != null && mData.getAddress() != null) {
+                    orderDetailViewModel.updateHasData(true);
+                    orderDetailViewModel.updateOrderId(mData.getOrderNumber());
+                    orderDetailViewModel.updateAddress(mData.getFullAddressWithNewLine());
+                    orderDetailViewModel.updateFullName(mData.getUser().getFullName());
+                    orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal()
+                            || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()
+                            || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal());
+                    orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getActivity(), mData.getStatus()));
+                    orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
+                    orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
+                    orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(mData.getTotalAmount()));
+                    orderDetailViewModel.setMobilenum(mData.getUser().getMobileNumber());
+                    orderDetailViewModel.setIsOrderPlaced(mData.getStatus() == Constants.OrderStatus.PLACED.ordinal());
+                    orderDetailViewModel.setTotalPayable(Utility.getIndianCurrencyPriceFormatWithComma(
+                            (mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()) ? (mData.getPayableAmount()) :
+                                    mData.getTotalAmount()));
+                    mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
 
-            mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getContext()));
-        } else {
-            orderDetailViewModel.updateHasData(false);
-        }
+                    mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getActivity()));
+                } else {
+                    orderId = mData.getId();
+                    mData = null;
+                    checkInternetAndGetDetails();
+                }
+            } else {
+                orderDetailViewModel.updateHasData(false);
+            }
     }
 
     @Override
@@ -406,26 +416,6 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         if (!hidden)
             setUpToolbar();
     }
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_PERMISSION:
-                for (int i = 0; i < permissions.length; i++) {
-                    String permission = permissions[i];
-                    int grantResult = grantResults[i];
-                    switch (permission) {
-                        case "android.permission.READ_EXTERNAL_STORAGE":
-                            if (PackageManager.PERMISSION_GRANTED == grantResult) {
-                                downloadFile();
-                            }
-                            break;
-                    }
-                }
-                break;
-        }
-    }*/
 
     @Override
     public void onPermissionDenied(int request) {

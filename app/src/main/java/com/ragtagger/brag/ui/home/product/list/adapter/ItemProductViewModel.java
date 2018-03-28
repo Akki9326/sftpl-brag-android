@@ -56,7 +56,7 @@ public class ItemProductViewModel extends BaseObservable {
     // Loading Image using Glide Library.
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String url) {
-        Utility.imageSetCenterInside(imageView.getContext(), url, imageView,500,500);
+        Utility.imageSetCenterInside(imageView.getContext(), url, imageView, 1000, 1000);
     }
 
     public void setProduct(DataProductList.Products product) {

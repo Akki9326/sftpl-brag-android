@@ -420,7 +420,6 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     @Override
     public void onPermissionDenied(int request) {
         super.onPermissionDenied(request);
-//        AlertUtils.showAlertMessage(getActivity(),getString(R.string.msg_read_permission));
     }
 
     @Override

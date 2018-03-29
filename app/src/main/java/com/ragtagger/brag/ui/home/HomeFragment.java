@@ -66,12 +66,10 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     @Inject
     HomeViewModel homeViewModel;
-
     FragmentHomeBinding mFragmentHomeBinding;
 
     BottomNavigationMenuView bottomNavigationMenuView;
     BottomNavigationItemView itemView;
-
     //badge
     TextView txtBadge;
     View badge;
@@ -85,12 +83,10 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         }
     };
 
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public static HomeFragment getInstance() {
+        return new HomeFragment();
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,18 +95,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         homeViewModel.setNavigator(this);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateNotificationMore,
                 new IntentFilter(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION_PUSH_MORE));
-    }
-
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -149,8 +133,8 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
         initNotificationBadge();
 
-        if (menu.size() > 0)
-            homeViewModel.onNavigationClick(menu.getItem(0));
+        /*if (menu.size() > 0)
+            homeViewModel.onNavigationClick(menu.getItem(0));*/
     }
 
 
@@ -263,11 +247,6 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void openCategoryFragment() {
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_category, new CategoryFragment(), "Category_Tag");
-        transaction.commit();
-        ((CoreActivity) getActivity()).showToolbar(false, true, true);
-
         mFragmentHomeBinding.fragmentContainerCategory.setVisibility(View.VISIBLE);
         mFragmentHomeBinding.fragmentContainerCollection.setVisibility(View.GONE);
         mFragmentHomeBinding.fragmentContainerOrder.setVisibility(View.GONE);

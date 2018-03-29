@@ -132,7 +132,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                     case 2://privacy policy
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "Privacy");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/privacy-policy");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-privacy-policy");
                         dialogFragment = new WebviewDialogFragment();
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
@@ -140,7 +140,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                     case 3://terms & conditions
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "Terms and Condition");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/terms-and-condition");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-terms-and-condition");
                         dialogFragment = new WebviewDialogFragment();
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
@@ -184,7 +184,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                     case 10://faqs
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "FAQs");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/refund-cancellations");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-faqs");
                         dialogFragment = new WebviewDialogFragment();
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
@@ -192,7 +192,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                     case 11://about us
                         bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_TITLE, "About us");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/about-us");
+                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-about-us");
                         dialogFragment = new WebviewDialogFragment();
                         dialogFragment.setArguments(bundle);
                         dialogFragment.show(getChildFragmentManager(), "");
@@ -202,7 +202,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         });
 
         mMoreViewModel.setFullName(mUserData.getFullName());
-        mMoreViewModel.setFullAddress(mUserData.getFullAddress());
+        mMoreViewModel.setFullAddress(mUserData.getFullAddressWithNewLine());
         moreListData = new ArrayList<>();
         moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
@@ -335,7 +335,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
                 if (intent.getBooleanExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE, true)) {
-                    mMoreViewModel.setFullAddress(mMoreViewModel.getDataManager().getUserData().getFullAddress());
+                    mMoreViewModel.setFullAddress(mMoreViewModel.getDataManager().getUserData().getFullAddressWithNewLine());
                 } else if (intent.hasExtra(Constants.BUNDLE_KEY_MOBILE_NUM)) {
                     //if successfully change moblie  num than update userprofile prefrence
                     DataUser dataUser = mMoreViewModel.getDataManager().getUserData();

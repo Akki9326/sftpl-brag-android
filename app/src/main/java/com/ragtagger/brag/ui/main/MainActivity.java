@@ -2,7 +2,6 @@ package com.ragtagger.brag.ui.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -15,18 +14,14 @@ import android.widget.Toast;
 
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
+import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.databinding.ActivityMainBinding;
 import com.ragtagger.brag.ui.cart.CartFragment;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.home.HomeFragment;
-import com.ragtagger.brag.R;
-import com.ragtagger.brag.ui.splash.SplashActivity;
-import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -92,7 +87,7 @@ public class MainActivity extends CoreActivity<MainActivity, ActivityMainBinding
         mMainActivyBinding = getViewDataBinding();
         mMainViewModel.setNavigator(this);
         Utility.applyTypeFace(getApplicationContext(), mMainActivyBinding.baseLayout);
-        pushFragments(new HomeFragment(), false, false);
+        pushFragments(HomeFragment.getInstance(), false, false);
         // TODO: 16-02-2018 move to core activity
         if (bActivity instanceof OnToolbarSetupListener) {
             ((OnToolbarSetupListener) bActivity).setUpToolbar();

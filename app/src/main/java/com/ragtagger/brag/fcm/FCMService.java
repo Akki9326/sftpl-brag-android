@@ -50,9 +50,8 @@ public class FCMService extends FirebaseMessagingService {
     IDataManager mDataManager;
 
 
-    private NotificationUtils notificationUtils;
-
     NotificationManager mNotificationManager;
+    NotificationChannel mNotificationChannel;
 
     private String MESSAGE = "message";
     private String TITLE = "title";
@@ -61,6 +60,7 @@ public class FCMService extends FirebaseMessagingService {
     private String N_ID = "notificationId";
     private String BADGE = "badge";
     private int mNotificationId;
+    private int notificationCount = 0;
 
     public static final String ANDROID_CHANNEL_ID = "com.ragtagger.brag.ANDROID";
     public static final String ANDROID_CHANNEL_NAME = "Orders and Notify ";
@@ -118,10 +118,17 @@ public class FCMService extends FirebaseMessagingService {
 
         mNotificationId = mDataManager.getNotificationId();
         mNotificationId++;
+        notificationCount++;
+
         mDataManager.setNotificationId(mNotificationId);
 
         Intent notificationIntent = null;
         PendingIntent simplePendingIntent = null;
+
+        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+            Intent backIntent = new Intent(FCMService.this, MainActivity.class);
+            backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
 
         switch (Constants.NotificationType.values()[ntype]) {
 
@@ -179,13 +186,19 @@ public class FCMService extends FirebaseMessagingService {
         stackBuilder.addNextIntent(notificationIntent);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannels();
+
+            if (mNotificationChannel == null) {
+                createChannels();
+            }
+            mNotificationManager.createNotificationChannel(mNotificationChannel);
+
             notification = new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setColor(getColor(R.color.semi_pink))
+                    .setNumber(notificationCount)
                     .setContentIntent(simplePendingIntent)
                     .build();
 
@@ -213,8 +226,6 @@ public class FCMService extends FirebaseMessagingService {
         notification.defaults |= Notification.DEFAULT_SOUND;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
 
-        //final PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(2, PendingIntent.FLAG_UPDATE_CURRENT);
-        //builder.setContentIntent(resultPendingIntent);
 
         notification.contentIntent = simplePendingIntent;
         mNotificationManager.notify(mNotificationId, notification);
@@ -228,31 +239,16 @@ public class FCMService extends FirebaseMessagingService {
     }
 
 
-    // if u handle notification by app foreground or background
-    private void handleNotification(String message) {
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-            // app is in foreground, broadcast the push message
-            Intent pushNotification = new Intent("pushNotification");
-            pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
-            // play notification sound
-            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-            notificationUtils.playNotificationSound();
-        } else {
-            // If the app is in background, firebase itself handles the notification
-        }
-    }
-
     @TargetApi(Build.VERSION_CODES.O)
     public void createChannels() {
 
-        NotificationChannel notificationChannel = new NotificationChannel(ANDROID_CHANNEL_ID,
+
+        mNotificationChannel = new NotificationChannel(ANDROID_CHANNEL_ID,
                 ANDROID_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-        notificationChannel.enableLights(true);
-        notificationChannel.setLightColor(Color.RED);
-        notificationChannel.setShowBadge(true);
-        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        mNotificationManager.createNotificationChannel(notificationChannel);
+        mNotificationChannel.enableLights(true);
+        mNotificationChannel.setLightColor(Color.RED);
+        mNotificationChannel.setShowBadge(true);
+        mNotificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
     }
 }

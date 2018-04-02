@@ -25,6 +25,7 @@ import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.IFragmentCallback;
 import com.ragtagger.brag.callback.IFragmentLoader;
 import com.ragtagger.brag.data.IDataManager;
+import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Common;
 import com.ragtagger.brag.utils.NetworkUtils;
 import com.ragtagger.brag.utils.ToastUtils;
@@ -66,33 +67,9 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         afterLayoutSet();
     }
 
-    private void performDependencyInjection() {
-        AndroidInjection.inject(this);
-    }
-
-    private void performDataBinding() {
-        mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
-        this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;
-        mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
-        mViewDataBinding.executePendingBindings();
-    }
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public boolean hasPermission(String permission) {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
-                checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public void requestPermission(String[] permission, int requestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(permission, requestCode);
-        }
     }
 
     @Override
@@ -106,18 +83,97 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         }
     }
 
+    @Override
+    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack, String tag) {
+
+    }
+
+    @Override
+    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack) {
+
+    }
+
+    @Override
+    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, String tag) {
+
+    }
+
+    @Override
+    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate) {
+
+    }
+
+    /**
+     * called when fragment attached to the current
+     * activity
+     */
+    @Override
+    public void onFragmentAttached() {
+
+    }
+
+    @Override
+    public void onFragmentDetached(String tag) {
+
+    }
+
+    /**
+     * Override for set view model
+     *
+     * @return view model instance
+     */
+    public abstract V getViewModel();
+
+    /**
+     * Override for set binding variable
+     *
+     * @return variable id
+     */
+    public abstract int getBindingVariable();
+
+    /**
+     * @return layout resource id
+     */
+    public abstract
+    @LayoutRes
+    int getLayoutId();
+
+    public abstract void beforeLayoutSet();
+
+    public abstract void afterLayoutSet();
+
     public void onPermissionGranted(int request) {
     }
 
     public void onPermissionDenied(int request) {
     }
 
-    protected void showProgress() {
+    private void performDependencyInjection() {
+        AndroidInjection.inject(this);
     }
 
-    protected void hideProgress() {
+    private void performDataBinding() {
+        mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
+        this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;
+        mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
+        mViewDataBinding.executePendingBindings();
     }
 
+    public B getActivityInstance() {
+        return bActivity;
+    }
+
+    public T getViewDataBinding() {
+        return mViewDataBinding;
+    }
+
+    public IDataManager getDataManager() {
+        return getViewModel().getDataManager();
+    }
+
+    public boolean isNetworkConnected() {
+        return NetworkUtils.isNetworkConnected(getApplicationContext());
+    }
 
     public void showKeyboard() {
         View view = this.getCurrentFocus();
@@ -129,27 +185,31 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         Common.hideKeyboard(this, view);
     }
 
-    public boolean isNetworkConnected() {
-        return NetworkUtils.isNetworkConnected(getApplicationContext());
+    protected void showProgress() {
     }
 
-    public void showAlert() {
+    protected void hideProgress() {
+    }
+
+    public void showAlert(String msg) {
+        if (bActivity != null) AlertUtils.createProgressDialog(bActivity, msg);
     }
 
     public void showToast(String msg) {
         ToastUtils.show(this, msg);
     }
 
-    public IDataManager getDataManager() {
-        return getViewModel().getDataManager();
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean hasPermission(String permission) {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+                checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public B getActivityInstance() {
-        return bActivity;
-    }
-
-    public T getViewDataBinding() {
-        return mViewDataBinding;
+    @TargetApi(Build.VERSION_CODES.M)
+    public void requestPermission(String[] permission, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permission, requestCode);
+        }
     }
 
     public void setUpToolbar(Toolbar toolbar, TextView toolbarTitle, ImageView back, ImageView logo, LinearLayout linearCart, TextView bagCount, RelativeLayout relText, TextView textReadAll) {
@@ -264,66 +324,6 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         } else {
             return getString(R.string.toolbar_label_notification);
         }
-    }
-
-    /**
-     * Override for set view model
-     *
-     * @return view model instance
-     */
-    public abstract V getViewModel();
-
-    /**
-     * Override for set binding variable
-     *
-     * @return variable id
-     */
-    public abstract int getBindingVariable();
-
-    /**
-     * @return layout resource id
-     */
-    public abstract
-    @LayoutRes
-    int getLayoutId();
-
-    public abstract void beforeLayoutSet();
-
-    public abstract void afterLayoutSet();
-
-
-    @Override
-    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack, String tag) {
-
-    }
-
-    @Override
-    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack) {
-
-    }
-
-    @Override
-    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, String tag) {
-
-    }
-
-    @Override
-    public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate) {
-
-    }
-
-    /**
-     * called when fragment attached to the current
-     * activity
-     */
-    @Override
-    public void onFragmentAttached() {
-
-    }
-
-    @Override
-    public void onFragmentDetached(String tag) {
-
     }
 
 

@@ -179,6 +179,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
                 mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
                 mDialogFragmentAddProductBinding.recycleViewColor.setAdapter(mColorListAdapter);
                 mDialogFragmentAddProductBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+                mDialogFragmentAddProductBinding.recycleViewColor.scrollToPosition(mSelectedColorPosition);
             }
 
             onColorProductSelected(mProductList.get(mSelectedColorPosition).getSizes(), mProductList.get(mSelectedColorPosition).getItemCategoryCode());
@@ -222,6 +223,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         mDialogFragmentAddProductBinding.recycleViewSize.setAdapter(null);
         SizeListAdapter mSizeListAdapter = new SizeListAdapter(getActivity(), sizes, selectedPos, this);
         mDialogFragmentAddProductBinding.recycleViewSize.setAdapter(mSizeListAdapter);
+        mDialogFragmentAddProductBinding.recycleViewSize.scrollToPosition(selectedPos);
         showData();
     }
 

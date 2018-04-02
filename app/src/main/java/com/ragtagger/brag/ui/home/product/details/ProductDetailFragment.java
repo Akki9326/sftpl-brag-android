@@ -211,6 +211,8 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
                     mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
                     mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
                     mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+                    mFragmentProductDetailBinding.recycleViewColor.scrollToPosition(mSelectedColorPosition);
+                    //mFragmentProductDetailBinding.recycleViewColor.smoothScrollToPosition(mSelectedColorPosition);
                 }
 
                 onColorProductSelected(mProductList.get(mSelectedColorPosition).getSizes(), mProductList.get(mSelectedColorPosition).getItemCategoryCode());
@@ -261,6 +263,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         mFragmentProductDetailBinding.recycleViewSize.setAdapter(null);
         SizeListAdapter mSizeListAdapter = new SizeListAdapter(getActivity(), sizes, selectedPos, this);
         mFragmentProductDetailBinding.recycleViewSize.setAdapter(mSizeListAdapter);
+        mFragmentProductDetailBinding.recycleViewSize.scrollToPosition(selectedPos);
 
         showData();
     }
@@ -446,6 +449,8 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
                 mColorListAdapter = new ColorListAdapter(getActivity(), colorList, mSelectedColorPosition, this);
                 mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
                 mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
+                mFragmentProductDetailBinding.recycleViewColor.scrollToPosition(mSelectedColorPosition);
+                //mFragmentProductDetailBinding.recycleViewColor.smoothScrollToPosition(mSelectedColorPosition);
             }
 
             //size list

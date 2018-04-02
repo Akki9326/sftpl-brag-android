@@ -59,7 +59,6 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         beforeViewCreated();
         mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         mRootView = mViewDataBinding.getRoot();
-        saveInstanceState(savedInstanceState);
         return mRootView;
     }
 
@@ -68,7 +67,6 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         super.onViewCreated(view, savedInstanceState);
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
-
         afterViewCreated();
     }
 
@@ -86,37 +84,6 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         super.onDetach();
     }
 
-    private void performDependencyInjection() {
-        AndroidSupportInjection.inject(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public boolean hasPermission(String permission) {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
-                mActivity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public void requestPermission(String[] permissions, int requestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(permissions, requestCode);
-        }
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            List<String> needrequest = new ArrayList<>();
-            for (String permission : permissions) {
-                if (ContextCompat.checkSelfPermission(getActivity(), permission)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    needrequest.add(permission);
-                }
-            }
-            if (needrequest.size() > 0) {
-                requestPermissions(needrequest.toArray(new String[needrequest.size()]), requestCode);
-                return;
-            }
-        }
-        onPermissionGranted(requestCode);*/
-    }
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -128,70 +95,12 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
         }
     }
 
-
-    public void saveInstanceState(Bundle state){
-
-    }
-
-    public void onPermissionGranted(int request) {
-    }
-
-    public void onPermissionDenied(int request) {
-    }
-
-
-    public void showProgress() {
-        try {
-            if (mProgressDialog != null) {
-                if (mProgressDialog.isShowing())
-                    hideProgress();
-                mProgressDialog.show("");
-            }
-        } catch (Exception e) {
-            AppLogger.e(e.getMessage(), e.getCause());
-        }
-    }
-
-    public void hideProgress() {
-        try {
-            if (mProgressDialog != null) {
-                mProgressDialog.dismiss("");
-                mProgressDialog.dismiss();
-                mProgressDialog.hide("");
-                mProgressDialog.hide();
-
-            }
-
-        } catch (Exception e) {
-            AppLogger.e("hide progress -" + e.getMessage(), e.getCause());
-        }
-    }
-
-    public void showKeyboard() {
-        if (mActivity != null) {
-            mActivity.showKeyboard();
-        }
-    }
-
-
-    public void hideKeyboard() {
-        if (mActivity != null) {
-            mActivity.hideKeyboard();
-        }
-    }
-
-    public boolean isNetworkConnected() {
-        return mActivity != null && mActivity.isNetworkConnected();
-    }
-
-
-    public CoreActivity getBaseActivity() {
-        return mActivity;
-    }
-
-    public T getViewDataBinding() {
-        return mViewDataBinding;
-    }
+    /**
+     * @return layout resource id
+     */
+    public abstract
+    @LayoutRes
+    int getLayoutId();
 
     /**
      * To perform operation before view set like bundle data and other data initialization
@@ -207,7 +116,6 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
     /**
      * Setup toolbar
      */
-
     public abstract void setUpToolbar();
 
 
@@ -225,10 +133,77 @@ public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreView
      */
     public abstract int getBindingVariable();
 
-    /**
-     * @return layout resource id
-     */
-    public abstract
-    @LayoutRes
-    int getLayoutId();
+
+    public void onPermissionGranted(int request) {
+    }
+
+    public void onPermissionDenied(int request) {
+    }
+
+    private void performDependencyInjection() {
+        AndroidSupportInjection.inject(this);
+    }
+
+    public CoreActivity getBaseActivity() {
+        return mActivity;
+    }
+
+    public T getViewDataBinding() {
+        return mViewDataBinding;
+    }
+
+    public boolean isNetworkConnected() {
+        return mActivity != null && mActivity.isNetworkConnected();
+    }
+
+    public void showKeyboard() {
+        if (mActivity != null) {
+            mActivity.showKeyboard();
+        }
+    }
+
+    public void hideKeyboard() {
+        if (mActivity != null) {
+            mActivity.hideKeyboard();
+        }
+    }
+
+    public void showProgress() {
+        try {
+            if (mProgressDialog != null) {
+                if (mProgressDialog.isShowing())
+                    hideProgress();
+                mProgressDialog.show("");
+            }
+        } catch (Exception e) {
+            AppLogger.e("show progress - " + e.getMessage(), e.getCause());
+        }
+    }
+
+    public void hideProgress() {
+        try {
+            if (mProgressDialog != null) {
+                mProgressDialog.dismiss("");
+                mProgressDialog.dismiss();
+                mProgressDialog.hide("");
+                mProgressDialog.hide();
+            }
+        } catch (Exception e) {
+            AppLogger.e("hide progress - " + e.getMessage(), e.getCause());
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean hasPermission(String permission) {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+                mActivity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void requestPermission(String[] permissions, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permissions, requestCode);
+        }
+    }
+
+
 }

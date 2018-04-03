@@ -18,6 +18,7 @@ import com.ragtagger.brag.di.PreferenceInfo;
 import com.ragtagger.brag.utils.Constants;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -38,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule {
 
-                                            /*Common*/
+    /*Common*/
 
     //==============================================================================================
     @Provides
@@ -54,7 +55,7 @@ public class AppModule {
     }
     //==============================================================================================
 
-                                        /*Preference provider*/
+    /*Preference provider*/
 
     //==============================================================================================
     @Provides
@@ -75,7 +76,7 @@ public class AppModule {
 
     //==============================================================================================
 
-                                        /*Network provider*/
+    /*Network provider*/
 
     //==============================================================================================
     @Provides
@@ -125,7 +126,7 @@ public class AppModule {
 
     //==============================================================================================
 
-                                            /*Data Manager*/
+    /*Data Manager*/
 
     //==============================================================================================
 
@@ -141,7 +142,7 @@ public class AppModule {
 
     //==============================================================================================
 
-                                            /*Local method*/
+    /*Local method*/
 
     //==============================================================================================
 
@@ -153,7 +154,6 @@ public class AppModule {
         mLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
         Interceptor interceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -184,6 +184,8 @@ public class AppModule {
 
         httpClient.addInterceptor(interceptor);
         httpClient.addInterceptor(mLoggingInterceptor);
+        httpClient.connectTimeout(30, TimeUnit.SECONDS);
+        httpClient.readTimeout(30, TimeUnit.SECONDS);
 
         return httpClient.build();
     }

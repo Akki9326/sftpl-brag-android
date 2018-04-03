@@ -57,7 +57,7 @@
                 android:orientation="vertical"
                 android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
 
-                <!--<ImageView
+              <!--  <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:padding="10dp"
@@ -68,8 +68,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_order_empty"
-                    android:textColor="@color/gray"
+                    android:text="@string/error_empty_order_list"
+                    android:textColor="@color/disabled_gray"
                     android:textSize="@dimen/text_size_small" />
             </LinearLayout>
         </LinearLayout>

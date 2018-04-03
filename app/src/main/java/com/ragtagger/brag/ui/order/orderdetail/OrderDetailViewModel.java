@@ -325,7 +325,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
                     fileSizeDownloaded += read;
 
-                    Log.d(TAG, "file download: " + fileSizeDownloaded / 1024*1024 + " of " + fileSize / 1024*1024);
+                    Log.d(TAG, "file download: " + fileSizeDownloaded / 1024 * 1024 + " of " + fileSize / 1024 * 1024);
                 }
 
                 outputStream.flush();
@@ -347,5 +347,14 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public View.OnClickListener onStatusClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().onStatusClick();
+            }
+        };
     }
 }

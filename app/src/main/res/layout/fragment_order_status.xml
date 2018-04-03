@@ -1,0 +1,20 @@
+<layout>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ragtagger.brag.ui.order.orderdetail.OrderDetailViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ragtagger.brag.views.verticalstepper.VerticalStepperView
+            android:id="@+id/stepper_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</layout>

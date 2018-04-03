@@ -10,10 +10,10 @@
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:actionMenuTextAppearance">@style/menuText</item>
-        <!--<item name="android:navigationBarColor">@color/gray_transparent</item>-->
-        <!--<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+        <!--<item_list_status name="android:navigationBarColor">@color/gray_transparent</item_list_status>-->
+        <!--<item_list_status name="android:windowLightStatusBar" tools:targetApi="m">true</item_list_status>-->
+        <!--<item_list_status name="android:windowTranslucentStatus">true</item_list_status>-->
+        <!--<item_list_status name="android:windowTranslucentNavigation">true</item_list_status>-->
     </style>
 
 </resources>

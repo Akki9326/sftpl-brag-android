@@ -40,6 +40,7 @@ public class DataMyOrder implements Parcelable {
     private DataUser user;
     private String invoiceUrl;
     private List<DataCart> cart;
+    private List<DataOrderStatus> statusHistory;
 
     public String getId() {
         return id;
@@ -263,5 +264,42 @@ public class DataMyOrder implements Parcelable {
 
     public void setInvoiceUrl(String invoiceUrl) {
         this.invoiceUrl = invoiceUrl;
+    }
+
+    public List<DataOrderStatus> getStatusHistory() {
+        return statusHistory;
+    }
+
+    public void setStatusHistory(List<DataOrderStatus> statusHistory) {
+        this.statusHistory = statusHistory;
+    }
+
+    public List<DataOrderStatus> getStatusHistoryList() {
+        List<DataOrderStatus> mStatusList = new ArrayList<>();
+        switch (Constants.OrderStatus.values()[getStatus()]) {
+
+            case APPROVED:
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.PLACED.ordinal()
+                        , getStatusHistory().get(0).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.APPROVED.ordinal()
+                        , getStatusHistory().get(1).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DISPATCHED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DELIVERED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
+                return mStatusList;
+
+            case DISPATCHED:
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.PLACED.ordinal()
+                        , getStatusHistory().get(0).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.APPROVED.ordinal()
+                        , getStatusHistory().get(1).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DISPATCHED.ordinal()
+                        , getStatusHistory().get(2).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DELIVERED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
+                return mStatusList;
+
+            default:
+                return getStatusHistory();
+        }
+
     }
 }

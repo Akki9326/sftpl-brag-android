@@ -86,8 +86,8 @@ public class Constants {
     public static final String BUNDLE_IS_QUICK_ORDER = "isquickorder";
 
     public interface ApiHelper {
-        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
-//        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
+        //        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
         //String BASE_URL = "http://192.168.131.125:8085/BRAGWeb/api/"; //tushar
 
         String API_VERSION = "v1/";
@@ -128,6 +128,7 @@ public class Constants {
 
     public interface IPermissionRequestCode {
         int REQ_SMS_SEND_RECEIVED_READ = 1001;
+        int REQ_STORAGE_READ_AND_WRITE = 1002;
     }
 
 
@@ -190,6 +191,12 @@ public class Constants {
         AWAITING_FOR_PASSWORD_RESET;
     }
 
+
+    public enum OrderStatusStepper {
+        COMPLETE,
+        ACTIVE,
+        INACTIVE;
+    }
 
     public enum OrderStatus {
         PLACED(0),

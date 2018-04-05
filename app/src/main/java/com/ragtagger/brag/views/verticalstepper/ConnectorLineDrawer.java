@@ -24,8 +24,8 @@ class ConnectorLineDrawer {
 
     void adjust(Context context, int width, int height) {
         line.left = Utility.dpToPx(context, 19.5f);
-        line.right = Utility.dpToPx(context, 20.5f);
-        line.top = Utility.dpToPx(context, 15);
+        line.right = Utility.dpToPx(context, 21.5f);
+        line.top = Utility.dpToPx(context, 20);
         line.bottom = height;
     }
 

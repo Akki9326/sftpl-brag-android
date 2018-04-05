@@ -55,6 +55,8 @@ import com.ragtagger.brag.utils.Utility;
 
 
 import java.io.File;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -363,6 +365,11 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), Constants.OrderStatus.CANCELED.ordinal()));
         orderDetailViewModel.setIsOrderPlaced(false);
         mFragmentOrderDetailBinding.textviewStatus.setTextColor(getResources().getColor(R.color.order_status_red));
+        mData.setStatus(Constants.OrderStatus.CANCELED.ordinal());
+        mData.getStatusHistory().add(new DataOrderStatus(Constants.OrderStatus.CANCELED.ordinal()
+                , (new Timestamp(System.currentTimeMillis())).getTime()
+                , Constants.OrderStatusStepper.COMPLETE.ordinal()));
+        orderStatueStepperDataSet();
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_ORDER);
         intent.putExtra(Constants.BUNDLE_IS_ORDER_CANCEL, true);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);

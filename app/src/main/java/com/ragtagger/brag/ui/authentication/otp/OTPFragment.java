@@ -10,7 +10,9 @@ package com.ragtagger.brag.ui.authentication.otp;
  */
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
@@ -48,6 +50,8 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     @Inject
     OTPViewModel mOTPViewModel;
     FragmentOtpBinding mFragmentOtpBinding;
+
+    IntentFilter intentFilter;
 
     String mobileNum;
     String password;
@@ -89,6 +93,11 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
 
         if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
             password = getArguments().getString(Constants.BUNDLE_PASSWORD);
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+        getActivity().registerReceiver(new SmsReceiver(), intentFilter);
+
 
     }
 

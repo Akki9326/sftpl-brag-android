@@ -8,6 +8,6 @@
         android:width="24dp"
         android:height="24dp" />
 
-    <solid android:color="@color/vertical_stepper_view_black_38" />
+    <solid android:color="@color/gray" />
 
 </shape>

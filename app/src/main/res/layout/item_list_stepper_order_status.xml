@@ -35,6 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:gravity="right"
+            android:padding="2dp"
             android:tag="@string/font_opensans_light_id"
             android:textSize="@dimen/text_size_very_small_12" />
 

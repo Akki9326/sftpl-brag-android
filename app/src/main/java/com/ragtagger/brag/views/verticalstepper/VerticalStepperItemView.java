@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ragtagger.brag.R;
+import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
 
 public class VerticalStepperItemView extends FrameLayout {
@@ -25,22 +26,20 @@ public class VerticalStepperItemView extends FrameLayout {
 
     private boolean showConnectorLine = true;
 
-    private boolean editable = false;
 
     private VerticalStepperItemCircleView circle;
 
-    private int number;
 
     private LinearLayout wrapper;
 
     private TextView title;
 
-    private TextView summary;
-    private int completeColor;
+    private TextView date;
     private int connectionColor;
 
 
     private ConnectorLineDrawer connector;
+    private ConnectorActiveLineDrawer connectorActive;
 
     private int state = STATE_INACTIVE;
     Context context;
@@ -90,43 +89,21 @@ public class VerticalStepperItemView extends FrameLayout {
         circle = findViewById(R.id.vertical_stepper_view_item_circle);
         wrapper = findViewById(R.id.vertical_stepper_view_item_wrapper);
         title = findViewById(R.id.vertical_stepper_view_item_title);
-        summary = findViewById(R.id.vertical_stepper_view_item_summary);
+        date = findViewById(R.id.vertical_stepper_view_item_summary);
         Utility.applyTypeFace(getContext(), wrapper);
 //        contentWrapper = (FrameLayout) findViewById(R.id.vertical_stepper_view_item_content_wrapper);
 
         connector = new ConnectorLineDrawer();
+        connectorActive = new ConnectorActiveLineDrawer();
     }
 
     public void setShowConnectorLine(boolean show) {
         showConnectorLine = show;
-//        setMarginBottom(state == STATE_ACTIVE);
-        setMarginBottom(false);
+        setMarginBottom();
     }
 
     public boolean getShowConnectorLine() {
         return showConnectorLine;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-
-        if (state == STATE_COMPLETE)
-            if (isEditable())
-                circle.setIconEdit();
-            else
-                circle.setIconCheck();
-    }
-
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setCompleteText(int completeColor) {
-        this.completeColor = completeColor;
-    }
-
-    public int getCompleteColor() {
-        return this.completeColor;
     }
 
     public int getConnectionColor() {
@@ -147,11 +124,11 @@ public class VerticalStepperItemView extends FrameLayout {
         this.title.setText(title);
     }
 
-    public void setSummary(CharSequence summary) {
-        this.summary.setText(summary);
+    public void setDate(CharSequence date) {
+        this.date.setText(date);
 
         if (state == STATE_COMPLETE)
-            this.summary.setVisibility(VISIBLE);
+            this.date.setVisibility(VISIBLE);
     }
 
 
@@ -179,48 +156,42 @@ public class VerticalStepperItemView extends FrameLayout {
                 getResources(),
                 R.color.vertical_stepper_view_black_38,
                 null));
-        summary.setVisibility(View.VISIBLE);*/
+        date.setVisibility(View.VISIBLE);*/
         setStateActive();
     }
 
     private void setStateActive() {
         circle.setIconEdit();
-        setMarginBottom(false);
+        setMarginBottom();
         circle.setInActive();
         circle.setBackgroundActive();
         title.setTextColor(ResourcesCompat.getColor(
                 getResources(),
-                R.color.vertical_stepper_view_black_87,
+                R.color.gray,
                 null));
-        summary.setVisibility(View.VISIBLE);
+        date.setVisibility(View.VISIBLE);
     }
 
     private void setStateComplete() {
-        setMarginBottom(false);
+        setMarginBottom();
         circle.setBackgroundComplete();
-
-        if (isEditable())
-            circle.setIconEdit();
-        else
-            circle.setIconCheck();
+        circle.setIconCheck();
 
         title.setTextColor(ResourcesCompat.getColor(
                 getResources(),
                 R.color.text_black,
                 null));
-        summary.setVisibility(TextUtils.isEmpty(summary.getText()) ? View.GONE
+        date.setVisibility(TextUtils.isEmpty(date.getText()) ? View.GONE
                 : View.VISIBLE);
     }
 
-    private void setMarginBottom(boolean active) {
+    private void setMarginBottom() {
         MarginLayoutParams params = (MarginLayoutParams) wrapper
                 .getLayoutParams();
 
 
         if (!getShowConnectorLine())
             params.bottomMargin = 0;
-        else if (active)
-            params.bottomMargin = (int) Utility.dpToPx(getContext(), 48);
         else
             params.bottomMargin = (int) Utility.dpToPx(getContext(), 40);
     }
@@ -230,8 +201,22 @@ public class VerticalStepperItemView extends FrameLayout {
         super.onDraw(canvas);
 
         if (showConnectorLine) {
-            connector.setPaintColor(context, getConnectionColor());
-            connector.draw(canvas);
+
+            switch (Constants.OrderStatusStepper.values()[getConnectionColor()]) {
+                case ACTIVE:
+                    connectorActive.draw(canvas);
+                    break;
+
+                case COMPLETE:
+                    connector.setPaintColor(context, R.color.pink);
+                    connector.draw(canvas);
+                    break;
+                case INACTIVE:
+                    connector.setPaintColor(context, R.color.gray);
+                    connector.draw(canvas);
+                    break;
+            }
+
         }
     }
 
@@ -244,5 +229,6 @@ public class VerticalStepperItemView extends FrameLayout {
         super.onSizeChanged(width, height, oldWidth, oldHeight);
 
         connector.adjust(getContext(), width, height);
+        connectorActive.adjust(getContext(), width, height);
     }
 }

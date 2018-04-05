@@ -32,22 +32,13 @@ public abstract class VerticalStepperAdapter extends BaseAdapter {
         return contentViews;
     }
 
-    @Override
-    public boolean isEnabled(int position) {
-        return isEditable(position) && getState(position) == STATE_COMPLETE;
-    }
-
     @NonNull
     public abstract CharSequence getTitle(int position);
 
     @Nullable
     public abstract CharSequence getSummary(int position);
 
-    public abstract boolean isEditable(int position);
-
-    public abstract int getCompleteTextColor(int position);
-
-    public abstract int getConnectionLineColor(int position);
+    public abstract int getConnectionLineStatus(int position);
 
     @Override
     public long getItemId(int position) {
@@ -108,11 +99,9 @@ public abstract class VerticalStepperAdapter extends BaseAdapter {
         itemView.setState(getState(position));
         itemView.setInActiveCircle();
         itemView.setTitle(getTitle(position));
-        itemView.setSummary(getSummary(position));
-        itemView.setEditable(isEditable(position));
+        itemView.setDate(getSummary(position));
         itemView.setShowConnectorLine(showConnectorLine(position));
-        itemView.setCompleteText(getCompleteTextColor(position));
-        itemView.setConnectionColor(getConnectionLineColor(position));
+        itemView.setConnectionColor(getConnectionLineStatus(position));
     }
 
     public int getFocus() {

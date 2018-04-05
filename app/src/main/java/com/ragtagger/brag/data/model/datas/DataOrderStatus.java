@@ -10,6 +10,7 @@ package com.ragtagger.brag.data.model.datas;
  */
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.utils.Constants;
@@ -20,7 +21,7 @@ import com.ragtagger.brag.utils.DateFormatter;
  */
 
 
-public class DataOrderStatus {
+public class DataOrderStatus implements Comparable<DataOrderStatus> {
 
     private int statusTo;
     private Long createdDate;
@@ -77,5 +78,13 @@ public class DataOrderStatus {
 
     public void setOrderStatusStepper(int orderStatus) {
         this.orderStatusStepper = orderStatus;
+    }
+
+    @Override
+    public int compareTo(@NonNull DataOrderStatus o) {
+
+        if (getCreatedDate() == null || o.getCreatedDate() == null)
+            return 0;
+        return getCreatedDate().compareTo(o.getCreatedDate());
     }
 }

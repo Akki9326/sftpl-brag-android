@@ -18,6 +18,7 @@ import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.DateFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -274,31 +275,72 @@ public class DataMyOrder implements Parcelable {
         this.statusHistory = statusHistory;
     }
 
-    public List<DataOrderStatus> getStatusHistoryList() {
+   /* public List<DataOrderStatus> getStatusHistoryList() {
         List<DataOrderStatus> mStatusList = new ArrayList<>();
         switch (Constants.OrderStatus.values()[getStatus()]) {
 
             case APPROVED:
-                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.PLACED.ordinal()
-                        , getStatusHistory().get(0).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
-                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.APPROVED.ordinal()
-                        , getStatusHistory().get(1).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
+                if (getStatusHistory().size() > 0)
+                    mStatusList.add(new DataOrderStatus(Constants.OrderStatus.PLACED.ordinal()
+                            , getStatusHistory().get(0).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
+                if (getStatusHistory().size() > 1)
+                    mStatusList.add(new DataOrderStatus(Constants.OrderStatus.APPROVED.ordinal()
+                            , getStatusHistory().get(1).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
                 mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DISPATCHED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
                 mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DELIVERED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
                 return mStatusList;
 
             case DISPATCHED:
-                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.PLACED.ordinal()
-                        , getStatusHistory().get(0).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
-                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.APPROVED.ordinal()
-                        , getStatusHistory().get(1).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
-                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DISPATCHED.ordinal()
-                        , getStatusHistory().get(2).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
+                if (getStatusHistory().size() > 0)
+                    mStatusList.add(new DataOrderStatus(Constants.OrderStatus.PLACED.ordinal()
+                            , getStatusHistory().get(0).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
+                if (getStatusHistory().size() > 1)
+                    mStatusList.add(new DataOrderStatus(Constants.OrderStatus.APPROVED.ordinal()
+                            , getStatusHistory().get(1).getCreatedDate(), Constants.OrderStatusStepper.COMPLETE.ordinal()));
+                if (getStatusHistory().size() > 2)
+                    mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DISPATCHED.ordinal()
+                            , getStatusHistory().get(2).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
                 mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DELIVERED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
                 return mStatusList;
 
             default:
                 return getStatusHistory();
+        }*/
+
+    public List<DataOrderStatus> getStatusHistoryList() {
+        List<DataOrderStatus> mStatusList = new ArrayList<>();
+
+        List<DataOrderStatus> mStatusListHistory = new ArrayList<>();
+        mStatusListHistory.addAll(getStatusHistory());
+        Collections.sort(mStatusListHistory);
+        switch (Constants.OrderStatus.values()[getStatus()]) {
+
+
+            case APPROVED:
+                for (int i = 0; i < mStatusListHistory.size(); i++) {
+                    if (i == mStatusListHistory.size() - 1)
+                        mStatusList.add(new DataOrderStatus(Constants.OrderStatus.APPROVED.ordinal(),
+                                mStatusListHistory.get(i).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
+                    else
+                        mStatusList.add(mStatusListHistory.get(i));
+                }
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DISPATCHED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DELIVERED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
+                return mStatusList;
+
+            case DISPATCHED:
+                for (int i = 0; i < mStatusListHistory.size(); i++) {
+                    if (i == mStatusListHistory.size() - 1)
+                        mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DISPATCHED.ordinal(),
+                                mStatusListHistory.get(i).getCreatedDate(), Constants.OrderStatusStepper.ACTIVE.ordinal()));
+                    else
+                        mStatusList.add(mStatusListHistory.get(i));
+                }
+                mStatusList.add(new DataOrderStatus(Constants.OrderStatus.DELIVERED.ordinal(), null, Constants.OrderStatusStepper.INACTIVE.ordinal()));
+                return mStatusList;
+
+            default:
+                return mStatusListHistory;
         }
 
     }

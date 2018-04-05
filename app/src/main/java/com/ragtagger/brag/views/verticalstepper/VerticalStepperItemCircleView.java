@@ -58,12 +58,12 @@ public class VerticalStepperItemCircleView extends FrameLayout {
     }
 
     public void setBackgroundActive() {
-        GradientDrawable drawable = (GradientDrawable) ContextCompat
+        /*GradientDrawable drawable = (GradientDrawable) ContextCompat
                 .getDrawable(
                         getContext(),
                         R.drawable.vertical_stepper_view_item_circle_active);
         drawable.setColor(Util
-                .getThemeColor(getContext(), R.attr.colorAccent));
+                .getThemeColor(getContext(), R.attr.colorAccent));*/
         setBackgroundResource(R.drawable.vertical_stepper_view_item_circle_active);
     }
 

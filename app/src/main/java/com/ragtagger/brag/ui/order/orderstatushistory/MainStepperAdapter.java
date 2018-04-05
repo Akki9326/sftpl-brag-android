@@ -43,19 +43,8 @@ public class MainStepperAdapter extends VerticalStepperAdapter {
     }
 
     @Override
-    public boolean isEditable(int position) {
-        return false;
-    }
-
-    @Override
-    public int getCompleteTextColor(int position) {
-        return states.get(position).getOrderStatesColor();
-    }
-
-    @Override
-    public int getConnectionLineColor(int position) {
-        return states.get(position).getOrderStatusStepper() == Constants.OrderStatusStepper.COMPLETE.ordinal() ?
-                R.color.pink : R.color.gray;
+    public int getConnectionLineStatus(int position) {
+        return states.get(position).getOrderStatusStepper();
     }
 
     @Override
@@ -72,25 +61,6 @@ public class MainStepperAdapter extends VerticalStepperAdapter {
     @Override
     public View onCreateContentView(Context context, int position) {
         View content = new MainItemView(context);
-        /*Button actionContinue = content.findViewById( R.id.action_continue );
-        actionContinue.setEnabled( position < getCount() - 1 );
-        actionContinue.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                next();
-            }
-        } );
-
-        Button actionBack = content.findViewById( R.id.action_back );
-        actionBack.setEnabled( position > 0 );
-        actionBack.findViewById( R.id.action_back ).setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick( View v ) {
-                    previous();
-                }
-            } );*/
-
         return content;
     }
 }

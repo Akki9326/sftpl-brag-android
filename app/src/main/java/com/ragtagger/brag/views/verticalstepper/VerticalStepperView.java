@@ -16,46 +16,46 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class VerticalStepperView extends ListView {
-    public VerticalStepperView( Context context ) {
-        super( context );
-        initialize( context );
+    public VerticalStepperView(Context context) {
+        super(context);
+        initialize(context);
     }
 
-    public VerticalStepperView( Context context, AttributeSet attrs ) {
-        super( context, attrs );
-        initialize( context );
+    public VerticalStepperView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initialize(context);
     }
 
     public VerticalStepperView(
-        Context context,
-        AttributeSet attrs,
-        int defStyleAttr ) {
-        super( context, attrs, defStyleAttr );
-        initialize( context );
+            Context context,
+            AttributeSet attrs,
+            int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initialize(context);
     }
 
-    @TargetApi( 21 )
+    @TargetApi(21)
     public VerticalStepperView(
-        Context context,
-        AttributeSet attrs,
-        int defStyleAttr,
-        int defStyleRes ) {
-        super( context, attrs, defStyleAttr, defStyleRes );
-        initialize( context );
+            Context context,
+            AttributeSet attrs,
+            int defStyleAttr,
+            int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        initialize(context);
     }
 
-    private void initialize( Context context ) {
-        setDivider( null );
-        setOnItemClickListener( new OnItemClickListener() {
+    private void initialize(Context context) {
+        setDivider(null);
+        setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(
-                AdapterView<?> parent,
-                View view,
-                int position,
-                long id ) {
-                getAdapter().jumpTo( position );
+                    AdapterView<?> parent,
+                    View view,
+                    int position,
+                    long id) {
+
             }
-        } );
+        });
     }
 
     @Override
@@ -64,78 +64,82 @@ public class VerticalStepperView extends ListView {
     }
 
     @Override
-    public void setAdapter( ListAdapter adapter ) {
-        if ( !( adapter instanceof VerticalStepperAdapter ) )
+    public void setAdapter(ListAdapter adapter) {
+        if (!(adapter instanceof VerticalStepperAdapter))
             throw new IllegalArgumentException(
-                "Must be a VerticalStepperAdapter" );
-        super.setAdapter( adapter );
+                    "Must be a VerticalStepperAdapter");
+        super.setAdapter(adapter);
     }
 
-    public void setStepperAdapter( VerticalStepperAdapter adapter ) {
-        setAdapter( adapter );
+    public void setStepperAdapter(VerticalStepperAdapter adapter) {
+        setAdapter(adapter);
     }
 
-    @Nullable
+   /* @Nullable
     @Override
     public Parcelable onSaveInstanceState() {
-        SparseArray<View> contentViews = getAdapter().getContentViews();
-        ArrayList<Bundle> containers = new ArrayList<>( contentViews.size() );
+        if (getAdapter().getContentViews() != null) {
+            SparseArray<View> contentViews = getAdapter().getContentViews();
+            ArrayList<Bundle> containers = new ArrayList<>(contentViews.size());
 
-        for ( int i = 0; i < contentViews.size(); i++ ) {
-            int id = contentViews.keyAt( i );
-            View contentView = contentViews.valueAt( i );
-            SparseArray<Parcelable> container = new SparseArray<>( 1 );
-            contentView.saveHierarchyState( container );
+            for (int i = 0; i < contentViews.size(); i++) {
+                int id = contentViews.keyAt(i);
+                View contentView = contentViews.valueAt(i);
+                SparseArray<Parcelable> container = new SparseArray<>(1);
+                contentView.saveHierarchyState(container);
 
-            Bundle bundle = new Bundle( 2 );
-            bundle.putInt( "id", id );
-            bundle.putSparseParcelableArray( "container", container );
+                Bundle bundle = new Bundle(2);
+                bundle.putInt("id", id);
+                bundle.putSparseParcelableArray("container", container);
 
-            containers.add( bundle );
+                containers.add(bundle);
+            }
+
+            Bundle bundle = new Bundle(3);
+            bundle.putParcelable("super", super.onSaveInstanceState());
+            bundle.putParcelableArrayList("containers", containers);
+            bundle.putInt("focus", getAdapter().getFocus());
+
+            return bundle;
         }
-
-        Bundle bundle = new Bundle( 3 );
-        bundle.putParcelable( "super", super.onSaveInstanceState() );
-        bundle.putParcelableArrayList( "containers", containers );
-        bundle.putInt( "focus", getAdapter().getFocus() );
-
-        return bundle;
+        return null;
     }
 
+
     @Override
-    public void onRestoreInstanceState( Parcelable state ) {
-        if ( state instanceof Bundle ) {
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
-            super.onRestoreInstanceState( bundle.getParcelable( "super" ) );
+            super.onRestoreInstanceState(bundle.getParcelable("super"));
 
             ArrayList<Bundle> containers = bundle
-                            .getParcelableArrayList( "containers" );
+                    .getParcelableArrayList("containers");
             SparseArray<View> contentViews = getAdapter().getContentViews();
 
-            for ( Bundle contentViewBundle : containers ) {
-                int id = contentViewBundle.getInt( "id" );
+            for (Bundle contentViewBundle : containers) {
+                int id = contentViewBundle.getInt("id");
                 SparseArray<Parcelable> container = contentViewBundle
-                                .getSparseParcelableArray( "container" );
+                        .getSparseParcelableArray("container");
 
-                View contentView = contentViews.get( id );
-                if ( contentView != null ) {
-                    contentView.restoreHierarchyState( container );
+                View contentView = contentViews.get(id);
+                if (contentView != null) {
+                    contentView.restoreHierarchyState(container);
                 }
             }
 
-            getAdapter().jumpTo( bundle.getInt( "focus" ) );
+            getAdapter().jumpTo(bundle.getInt("focus"));
         } else
-            super.onRestoreInstanceState( state );
+            super.onRestoreInstanceState(state);
     }
 
     @Override
-    protected void dispatchSaveInstanceState( SparseArray<Parcelable> container ) {
-        dispatchFreezeSelfOnly( container );
+    protected void dispatchSaveInstanceState(SparseArray<Parcelable> container) {
+        dispatchFreezeSelfOnly(container);
     }
 
     @Override
     protected void dispatchRestoreInstanceState(
-        SparseArray<Parcelable> container ) {
-        dispatchThawSelfOnly( container );
-    }
+            SparseArray<Parcelable> container) {
+        dispatchThawSelfOnly(container);
+    }*/
 }

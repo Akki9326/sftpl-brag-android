@@ -31,15 +31,11 @@ public class VerticalStepperItemView extends FrameLayout {
 
 
     private LinearLayout wrapper;
-
+    private View mViewLine;
     private TextView title;
 
     private TextView date;
     private int connectionColor;
-
-
-    private ConnectorLineDrawer connector;
-    private ConnectorActiveLineDrawer connectorActive;
 
     private int state = STATE_INACTIVE;
     Context context;
@@ -90,16 +86,34 @@ public class VerticalStepperItemView extends FrameLayout {
         wrapper = findViewById(R.id.vertical_stepper_view_item_wrapper);
         title = findViewById(R.id.vertical_stepper_view_item_title);
         date = findViewById(R.id.vertical_stepper_view_item_summary);
+        mViewLine = findViewById(R.id.view_line);
+
         Utility.applyTypeFace(getContext(), wrapper);
 //        contentWrapper = (FrameLayout) findViewById(R.id.vertical_stepper_view_item_content_wrapper);
 
-        connector = new ConnectorLineDrawer();
-        connectorActive = new ConnectorActiveLineDrawer();
     }
 
     public void setShowConnectorLine(boolean show) {
         showConnectorLine = show;
-        setMarginBottom();
+//        setMarginBottom();
+        if (showConnectorLine) {
+            switch (Constants.OrderStatusStepper.values()[getConnectionColor()]) {
+                case ACTIVE:
+                    mViewLine.setBackgroundResource(R.drawable.vertical_connection_stepper_active);
+                    break;
+
+                case COMPLETE:
+                    mViewLine.setBackgroundResource(R.drawable.vertical_connection_stepper_complete);
+                    break;
+                case INACTIVE:
+                    mViewLine.setBackgroundResource(R.drawable.vertical_connection_stepper_inactive);
+                    break;
+            }
+            mViewLine.setVisibility(VISIBLE);
+        } else {
+            mViewLine.setVisibility(GONE);
+        }
+
     }
 
     public boolean getShowConnectorLine() {
@@ -162,7 +176,7 @@ public class VerticalStepperItemView extends FrameLayout {
 
     private void setStateActive() {
         circle.setIconEdit();
-        setMarginBottom();
+//        setMarginBottom();
         circle.setInActive();
         circle.setBackgroundActive();
         title.setTextColor(ResourcesCompat.getColor(
@@ -173,7 +187,7 @@ public class VerticalStepperItemView extends FrameLayout {
     }
 
     private void setStateComplete() {
-        setMarginBottom();
+//        setMarginBottom();
         circle.setBackgroundComplete();
         circle.setIconCheck();
 
@@ -190,34 +204,15 @@ public class VerticalStepperItemView extends FrameLayout {
                 .getLayoutParams();
 
 
-        if (!getShowConnectorLine())
+        /*if (!getShowConnectorLine())
             params.bottomMargin = 0;
         else
-            params.bottomMargin = (int) Utility.dpToPx(getContext(), 40);
+            params.bottomMargin = (int) Utility.dpToPx(getContext(), 40);*/
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        if (showConnectorLine) {
-
-            switch (Constants.OrderStatusStepper.values()[getConnectionColor()]) {
-                case ACTIVE:
-                    connectorActive.draw(canvas);
-                    break;
-
-                case COMPLETE:
-                    connector.setPaintColor(context, R.color.pink);
-                    connector.draw(canvas);
-                    break;
-                case INACTIVE:
-                    connector.setPaintColor(context, R.color.gray);
-                    connector.draw(canvas);
-                    break;
-            }
-
-        }
     }
 
     @Override
@@ -228,7 +223,10 @@ public class VerticalStepperItemView extends FrameLayout {
             int oldHeight) {
         super.onSizeChanged(width, height, oldWidth, oldHeight);
 
-        connector.adjust(getContext(), width, height);
-        connectorActive.adjust(getContext(), width, height);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

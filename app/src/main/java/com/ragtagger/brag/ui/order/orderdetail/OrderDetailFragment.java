@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.downloader.Error;
@@ -457,6 +458,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                 mainStepperAdapter.jumpTo(mData.getStatusHistory().size());
 
         }
+
     }
 
 

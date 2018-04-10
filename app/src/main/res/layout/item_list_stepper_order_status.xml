@@ -2,45 +2,72 @@
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Circle -->
-    <com.ragtagger.brag.views.verticalstepper.VerticalStepperItemCircleView
-        android:id="@+id/vertical_stepper_view_item_circle"
-        android:layout_width="24dp"
-        android:layout_height="24dp" />
-
     <LinearLayout
-        android:id="@+id/vertical_stepper_view_item_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="2dp"
-        android:clipChildren="false"
-        android:gravity="center"
         android:orientation="horizontal">
 
-        <!-- Title -->
-
-        <TextView
-            android:id="@+id/vertical_stepper_view_item_title"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="@string/font_opensans_semi_bold_id"
-            android:textSize="@dimen/text_size_small" />
+            android:orientation="vertical">
 
-        <!-- Summary -->
+            <com.ragtagger.brag.views.verticalstepper.VerticalStepperItemCircleView
+                android:id="@+id/vertical_stepper_view_item_circle"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
 
-        <TextView
-            android:id="@+id/vertical_stepper_view_item_summary"
-            android:layout_width="0dp"
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="3dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="-3dp"
+                android:background="@drawable/vertical_connection_stepper_active"
+                android:translationZ="-1dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:padding="2dp"
-            android:tag="@string/font_opensans_light_id"
-            android:textSize="@dimen/text_size_very_small_12" />
+            android:orientation="horizontal">
 
+
+            <LinearLayout
+                android:id="@+id/vertical_stepper_view_item_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="2dp"
+                android:clipChildren="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- Title -->
+
+                <TextView
+                    android:id="@+id/vertical_stepper_view_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="@string/font_opensans_semi_bold_id"
+                    android:textSize="@dimen/text_size_small" />
+
+                <!-- Summary -->
+
+                <TextView
+                    android:id="@+id/vertical_stepper_view_item_summary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:padding="2dp"
+                    android:tag="@string/font_opensans_light_id"
+                    android:textSize="@dimen/text_size_very_small_12" />
+
+
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
-
 </merge>

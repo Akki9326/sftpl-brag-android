@@ -100,8 +100,8 @@ public abstract class VerticalStepperAdapter extends BaseAdapter {
         itemView.setInActiveCircle();
         itemView.setTitle(getTitle(position));
         itemView.setDate(getSummary(position));
-        itemView.setShowConnectorLine(showConnectorLine(position));
         itemView.setConnectionColor(getConnectionLineStatus(position));
+        itemView.setShowConnectorLine(showConnectorLine(position));
     }
 
     public int getFocus() {

@@ -18,7 +18,7 @@ public class DateFormatter {
 
     public static final String MM_DD_YYYY = "MM-dd-yyyy";
     public static final String MM_DD_YY = "MM-dd-yy";
-    public static final String dd_MMM_YYYY_HH_MM_A = "dd MMM yyyy hh:mm a";
+    public static final String dd_MMM_YYYY_HH_MM_A = "dd-MMM-yyyy hh:mm aa";
     public static final String HH_MM_A = "hh:mm a";
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -59,7 +59,7 @@ public class DateFormatter {
         return newFormat.format(date);
     }
 
-    public static String convertMillisToStringDate(long millis, String strFormatNew) {
+    public static String convertMillisToStringDate(Long millis, String strFormatNew) {
         Date date = new Date(millis);
         SimpleDateFormat newFormat = new SimpleDateFormat(strFormatNew);
         return newFormat.format(date);

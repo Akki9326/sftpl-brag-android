@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--InActive-->
+    <ImageView
+        android:id="@+id/vertical_stepper_view_item_circle_inactive"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!--Active or Complete-->
+    <ImageView
+        android:id="@+id/vertical_stepper_view_item_circle_complete_active"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</merge>

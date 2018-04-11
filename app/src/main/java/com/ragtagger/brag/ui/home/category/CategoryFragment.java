@@ -150,30 +150,34 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void onApiSuccess() {
-        hideProgressBar();
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).updateCartNum();
+        if (isAdded()) {
+            hideProgressBar();
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).updateCartNum();
+            }
+            //((HomeFragment)getParentFragment()).initNotificationBadge();
+            ((HomeFragment) getParentFragment()).setNotificationBadge();
         }
-        //((HomeFragment)getParentFragment()).initNotificationBadge();
-        ((HomeFragment) getParentFragment()).setNotificationBadge();
 
 
     }
 
     @Override
     public void onApiError(ApiError error) {
-        hideProgressBar();
-        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            categoryViewModel.setNoInternet(true);
-            return;
-        } else if (error.getHttpCode() == 19) {
-            onNoData();
-            categoryViewModel.setNoInternet(false);
-            return;
-        }
+        if (isAdded()) {
+            hideProgressBar();
+            if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+                categoryViewModel.setNoInternet(true);
+                return;
+            } else if (error.getHttpCode() == 19) {
+                onNoData();
+                categoryViewModel.setNoInternet(false);
+                return;
+            }
 
-        categoryViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+            categoryViewModel.setNoInternet(false);
+            AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -36,27 +37,27 @@ import com.downloader.Status;
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataOrderStatus;
 import com.ragtagger.brag.databinding.FragmentOrderDetailBinding;
 import com.ragtagger.brag.data.model.datas.DataMyOrder;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
+import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderStatusStepperAdapter;
 import com.ragtagger.brag.utils.AlertUtils;
-import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.FileUtils;
-import com.ragtagger.brag.utils.ToastUtils;
 import com.ragtagger.brag.utils.Utility;
 
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.ragtagger.brag.utils.Constants.IPermissionRequestCode.REQ_SMS_SEND_RECEIVED_READ;
 
 /**
  * Created by nikhil.vadoliya on 22-02-2018.
@@ -75,6 +76,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     DataMyOrder mData;
     int downloadId;
     String fileName;
+
+    OrderStatusStepperAdapter mainStepperAdapter;
 
     public static OrderDetailFragment newInstance(DataMyOrder data) {
 
@@ -358,6 +361,11 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), Constants.OrderStatus.CANCELED.ordinal()));
         orderDetailViewModel.setIsOrderPlaced(false);
         mFragmentOrderDetailBinding.textviewStatus.setTextColor(getResources().getColor(R.color.order_status_red));
+        mData.setStatus(Constants.OrderStatus.CANCELED.ordinal());
+        mData.getStatusHistory().add(new DataOrderStatus(Constants.OrderStatus.CANCELED.ordinal()
+                , (new Timestamp(System.currentTimeMillis())).getTime()
+                , Constants.OrderStatusStepper.COMPLETE.ordinal()));
+        orderStatueStepperDataSet();
         Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_ORDER);
         intent.putExtra(Constants.BUNDLE_IS_ORDER_CANCEL, true);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
@@ -367,6 +375,12 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     public void onApiCancelError(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+
+    }
+
+    @Override
+    public void onStatusClick() {
+//        ((MainActivity) getActivity()).pushFragments(new OrderStatusFragment(), true, true);
 
     }
 
@@ -400,6 +414,10 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                     mFragmentOrderDetailBinding.recycleview.setAdapter(new OrderCartListAdapter(getActivity(), mData.getCart()));
 
                     mFragmentOrderDetailBinding.textviewStatus.setTextColor(mData.getOrderStatesColor(getActivity()));
+
+                    orderStatueStepperDataSet();
+
+
                 } else {
                     orderId = mData.getId();
                     mData = null;
@@ -409,6 +427,35 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                 orderDetailViewModel.updateHasData(false);
             }
     }
+
+    private void orderStatueStepperDataSet() {
+
+        //order status stepper
+        mainStepperAdapter = new OrderStatusStepperAdapter(getActivity(), mData.getStatusHistoryList());
+        mFragmentOrderDetailBinding.orderStatus.stepperList.setAdapter(mainStepperAdapter);
+        //set dynamic listview height
+        ViewGroup.LayoutParams params = mFragmentOrderDetailBinding.orderStatus.stepperList.getLayoutParams();
+        params.height = (int) (Utility.getListViewHeight(mFragmentOrderDetailBinding.orderStatus.stepperList)
+                + Utility.dpToPx(getContext(), 15));
+        mFragmentOrderDetailBinding.orderStatus.stepperList.setLayoutParams(params);
+
+        switch (Constants.OrderStatus.values()[mData.getStatus()]) {
+            case PLACED:
+                mainStepperAdapter.jumpTo(1);
+                break;
+            case APPROVED:
+                mainStepperAdapter.jumpTo(2);
+                break;
+            case DISPATCHED:
+                mainStepperAdapter.jumpTo(3);
+                break;
+            default:
+                mainStepperAdapter.jumpTo(mData.getStatusHistory().size());
+
+        }
+
+    }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -440,11 +487,10 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         if (!listPermissionsNeeded.isEmpty()) {
-            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQ_SMS_SEND_RECEIVED_READ);
+            requestPermission(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constants.IPermissionRequestCode.REQ_STORAGE_READ_AND_WRITE);
             return false;
         }
         return true;
     }
-
 
 }

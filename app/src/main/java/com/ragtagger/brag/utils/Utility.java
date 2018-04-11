@@ -30,6 +30,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,7 +186,7 @@ public class Utility {
         animation.setDuration(200).start();
     }
 
-    public static void imageSetCenterInside(Context context, String url, ImageView imageView,int width,int height) {
+    public static void imageSetCenterInside(Context context, String url, ImageView imageView, int width, int height) {
 
         if (url == null) {
             url = String.valueOf(R.drawable.background);
@@ -203,7 +204,7 @@ public class Utility {
 
 
     public static void imageSetCenterInside(Context context, String url, ImageView imageView) {
-        imageSetCenterInside(context,url,imageView,1000,1000);
+        imageSetCenterInside(context, url, imageView, 1000, 1000);
 
     }
 
@@ -225,8 +226,8 @@ public class Utility {
 
 
     /*
-    * Default animation in bottom navigation view remove
-    * */
+     * Default animation in bottom navigation view remove
+     * */
     @SuppressLint("RestrictedApi")
     public static void removeShiftModeInBottomNavigation(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
@@ -257,7 +258,7 @@ public class Utility {
         while (st.hasMoreTokens()) {
             temp.append("&#8226; " + st.nextToken() + "<br/>");
         }
-        //last item remove <br/> tag
+        //last item_list_status remove <br/> tag
         temp.setLength(temp.length() - 5);
         return temp.toString();
     }
@@ -440,4 +441,31 @@ public class Utility {
             n /= 10;
         return l;
     }
+
+    public static float dpToPx(Context context, float dp) {
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                context.getResources().getDisplayMetrics());
+    }
+
+    public static int getListViewHeight(ListView myListView) {
+        ListAdapter myListAdapter = myListView.getAdapter();
+        if (myListAdapter == null) {
+            return 0;
+        }
+        // get listview height
+        int totalHeight = 0;
+        int adapterCount = myListAdapter.getCount();
+        for (int size = 0; size < adapterCount; size++) {
+            View listItem = myListAdapter.getView(size, null, myListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        // Change Height of ListView
+
+
+        return (totalHeight + (myListView.getDividerHeight() * (adapterCount)));
+    }
+
 }

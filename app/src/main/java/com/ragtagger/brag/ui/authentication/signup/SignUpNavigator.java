@@ -12,11 +12,23 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface SignUpNavigator extends CoreNavigator {
 
-    void typeDropdown(View view);
-
-    void signUp();
-
     boolean onEditorActionConfirmPass(TextView textView, int i, KeyEvent keyEvent);
+
+    void performClickUserTypeDropdown(View view);
+
+    void performClickChannelDropdown(View view);
+
+    void performClickSaleTypeDropdown(View view);
+
+    void performClickState(View view);
+
+    void performClickSignUp();
+
+    void noInternet();
+
+    void validSignUpForm();
+
+    void invalidSignUpForm(String msg);
 
     void pushOtpFragment();
 }

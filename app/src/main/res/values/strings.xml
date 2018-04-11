@@ -266,6 +266,8 @@
     <string name="label_reorder">Reorder</string>
     <string name="label_order_status_approved">Approved</string>
     <string name="label_type">Type</string>
+    <string name="label_channel">Channel</string>
+    <string name="label_sale_type">Sale type</string>
     <string name="label_notification_read">Notification Read</string>
     <string name="label_send_otp_to_mobile">Please type OTP sent to your mobile number.</string>
 

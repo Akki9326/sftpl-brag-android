@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.downloader.Error;
@@ -45,18 +44,14 @@ import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
-import com.ragtagger.brag.ui.order.orderstatushistory.MainStepperAdapter;
-import com.ragtagger.brag.ui.order.orderstatushistory.OrderStatusFragment;
+import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderStatusStepperAdapter;
 import com.ragtagger.brag.utils.AlertUtils;
-import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.FileUtils;
-import com.ragtagger.brag.utils.ToastUtils;
 import com.ragtagger.brag.utils.Utility;
 
 
 import java.io.File;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +77,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     int downloadId;
     String fileName;
 
-    MainStepperAdapter mainStepperAdapter;
+    OrderStatusStepperAdapter mainStepperAdapter;
 
     public static OrderDetailFragment newInstance(DataMyOrder data) {
 
@@ -436,7 +431,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     private void orderStatueStepperDataSet() {
 
         //order status stepper
-        mainStepperAdapter = new MainStepperAdapter(getActivity(), mData.getStatusHistoryList());
+        mainStepperAdapter = new OrderStatusStepperAdapter(getActivity(), mData.getStatusHistoryList());
         mFragmentOrderDetailBinding.orderStatus.stepperList.setAdapter(mainStepperAdapter);
         //set dynamic listview height
         ViewGroup.LayoutParams params = mFragmentOrderDetailBinding.orderStatus.stepperList.getLayoutParams();

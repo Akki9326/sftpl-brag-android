@@ -33,7 +33,6 @@ import com.ragtagger.brag.ui.authentication.profile.updateprofile.UpdateProfileP
 import com.ragtagger.brag.ui.authentication.signup.SignUpFragmentProvider;
 import com.ragtagger.brag.ui.authentication.signup.complete.SignUpCompleteProvider;
 import com.ragtagger.brag.ui.main.MainActivityModule;
-import com.ragtagger.brag.ui.order.orderstatushistory.OrderStatusProvider;
 import com.ragtagger.brag.ui.splash.SplashActivity;
 import com.ragtagger.brag.ui.splash.SplashActivityModule;
 import com.ragtagger.brag.ui.home.subcategory.SubCategoryFragmentProvider;
@@ -61,8 +60,7 @@ public abstract class ActivityBuilder {
             , PlaceOrderFragmentProvider.class
             , MyOrderProvider.class, MoreProvider.class,
             NotificationListProvider.class, CollectionProvider.class,
-            WebviewDailogProvider.class
-            , OrderStatusProvider.class})
+            WebviewDailogProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class,

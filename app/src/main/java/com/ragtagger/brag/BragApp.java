@@ -44,6 +44,7 @@ public class BragApp extends Application implements HasActivityInjector {
     public void onCreate() {
         super.onCreate();
 
+
         DaggerAppComponent.builder().application(this).build().inject(this);
         mInstance = this;
         //PreferencesManager.initializeInstance(mInstance);

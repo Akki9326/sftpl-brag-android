@@ -1,4 +1,4 @@
-package com.ragtagger.brag.ui.order.orderstatushistory;
+package com.ragtagger.brag.views.verticalstepper;
 
 import android.content.Context;
 import android.os.Parcelable;

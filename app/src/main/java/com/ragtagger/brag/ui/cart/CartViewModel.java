@@ -44,6 +44,7 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
     ObservableField<Boolean> noInternet = new ObservableField<>();
     String itemsLable;
 
+
     public CartViewModel(IDataManager dataManager) {
         super(dataManager);
     }
@@ -56,6 +57,7 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
                 if (cartListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getNavigator().getCartList(cartListResponse.getData());
+
                 } else {
                     getNavigator().onApiError(new ApiError(cartListResponse.getErrorCode(), cartListResponse.getMessage()));
                 }

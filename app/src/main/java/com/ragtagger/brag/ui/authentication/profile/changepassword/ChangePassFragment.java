@@ -36,13 +36,12 @@ import javax.xml.validation.Validator;
  */
 
 
-public class ChangePassFragment extends CoreFragment<FragmentChangePasswordBinding, ChangePassViewModel> implements ChangePassNavigator/*BaseFragment implements BaseInterface*/ {
+public class ChangePassFragment extends CoreFragment<FragmentChangePasswordBinding, ChangePassViewModel> implements ChangePassNavigator {
 
     @Inject
     ChangePassViewModel mChangePassViewModel;
     FragmentChangePasswordBinding mChangePasswordBinding;
 
-    Context mContext;
     String mobile;
 
     public static ChangePassFragment newInstance(String mobile) {
@@ -92,38 +91,6 @@ public class ChangePassFragment extends CoreFragment<FragmentChangePasswordBindi
     }
 
     @Override
-    public void onApiSuccess() {
-        hideProgress();
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void done() {
-        if (Validation.isEmptyPassword(mChangePasswordBinding.edittextOldPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_old_pass));
-        } else if (Validation.isEmptyPassword(mChangePasswordBinding.edittextPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
-        } else if (Validation.isEmptyPassword(mChangePasswordBinding.edittextConfirmPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
-        } else if (Validation.isTwoStringSameFormPassword(mChangePasswordBinding.edittextOldPassword
-                , mChangePasswordBinding.edittextPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match_with_old));
-        } else if (!Validation.isTwoStringSameFormPassword(mChangePasswordBinding.edittextPassword, mChangePasswordBinding.edittextConfirmPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
-        } else if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mChangePassViewModel.changePassword(mobile, mChangePasswordBinding.edittextOldPassword.getText().toString(), mChangePasswordBinding.edittextPassword.getText().toString());
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
-    }
-
-    @Override
     public boolean onEditorActionConfirmPass(TextView textView, int i, KeyEvent keyEvent) {
         if (i == EditorInfo.IME_ACTION_DONE) {
             mChangePasswordBinding.textviewDone.performClick();
@@ -133,7 +100,40 @@ public class ChangePassFragment extends CoreFragment<FragmentChangePasswordBindi
     }
 
     @Override
+    public void performClickDone() {
+        if (isAdded())
+            mChangePassViewModel.validateChangePasswordForm(getActivity(), mChangePasswordBinding.edittextOldPassword, mChangePasswordBinding.edittextPassword, mChangePasswordBinding.edittextConfirmPassword);
+    }
+
+    @Override
+    public void noInternetAlert() {
+        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+    }
+
+    @Override
+    public void validChangePasswordForm() {
+        showProgress();
+        mChangePassViewModel.changePassword(mobile, mChangePasswordBinding.edittextOldPassword.getText().toString(), mChangePasswordBinding.edittextPassword.getText().toString());
+    }
+
+    @Override
+    public void invalidChangePasswordForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
+    }
+
+    @Override
     public void showMsgPasswordChange() {
         AlertUtils.showAlertMessage(getBaseActivity(), getString(R.string.msg_password_change_successfull), true);
+    }
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 }

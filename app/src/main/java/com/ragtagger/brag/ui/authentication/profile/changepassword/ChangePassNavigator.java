@@ -11,9 +11,15 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface ChangePassNavigator extends CoreNavigator {
 
-    void done();
-
     boolean onEditorActionConfirmPass(TextView textView, int i, KeyEvent keyEvent);
+
+    void performClickDone();
+
+    void noInternetAlert();
+
+    void validChangePasswordForm();
+
+    void invalidChangePasswordForm(String msg);
 
     void showMsgPasswordChange();
 }

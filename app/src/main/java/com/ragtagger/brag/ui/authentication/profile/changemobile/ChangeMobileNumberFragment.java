@@ -43,12 +43,11 @@ import static com.ragtagger.brag.utils.Constants.IPermissionRequestCode.REQ_SMS_
  */
 
 
-public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobileNumBinding, ChangeMobNumberViewModel> implements ChangeMobNumberNavigator/*extends BaseFragment implements BaseInterface*/ {
+public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobileNumBinding, ChangeMobNumberViewModel> implements ChangeMobNumberNavigator {
 
     @Inject
     ChangeMobNumberViewModel mChangeMobNumberViewModel;
     FragmentChangeMobileNumBinding mFragmentChangeMobileNumBinding;
-
 
     public static ChangeMobileNumberFragment newInstance() {
         ChangeMobileNumberFragment fragment = new ChangeMobileNumberFragment();
@@ -91,26 +90,6 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
         return R.layout.fragment_change_mobile_num;
     }
 
-    @Override
-    public void onPermissionGranted(int request) {
-        super.onPermissionGranted(request);
-        if (request == REQ_SMS_SEND_RECEIVED_READ) {
-            showProgress();
-            mChangeMobNumberViewModel.sendOtpForChangeMob(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
-                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
-        }
-    }
-
-    @Override
-    public void onPermissionDenied(int request) {
-        super.onPermissionDenied(request);
-        if (request == REQ_SMS_SEND_RECEIVED_READ) {
-            showProgress();
-            mChangeMobNumberViewModel.sendOtpForChangeMob(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
-                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
-        }
-    }
-
     private boolean checkAndRequestPermissions() {
         boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);
         boolean hasPermissionReceiveSMS = hasPermission(Manifest.permission.RECEIVE_MMS);
@@ -134,39 +113,28 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
         return true;
     }
 
-
     @Override
-    public void onApiSuccess() {
-        hideProgress();
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
-    }
-
-    @Override
-    public void done() {
-        if (Validation.isEmpty(mFragmentChangeMobileNumBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-        } else if (!Validation.isValidMobileNum(mFragmentChangeMobileNumBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-        } else if (Validation.isEmpty(mFragmentChangeMobileNumBinding.edittextPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
-        } else if (Utility.isConnection(getActivity())) {
-            if (checkAndRequestPermissions()) {
-                showProgress();
-                mChangeMobNumberViewModel.sendOtpForChangeMob(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
-                        , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
-            }
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+    public void onPermissionGranted(int request) {
+        super.onPermissionGranted(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
+            mChangeMobNumberViewModel.callSendOtpForChangeMobApi(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
         }
     }
 
     @Override
-    public void hideUnhidePass() {
+    public void onPermissionDenied(int request) {
+        super.onPermissionDenied(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
+            mChangeMobNumberViewModel.callSendOtpForChangeMobApi(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
+        }
+    }
+
+    @Override
+    public void performClickHideUnhidePassword() {
         if (mFragmentChangeMobileNumBinding.imageviewPassVisible.isSelected()) {
             mFragmentChangeMobileNumBinding.imageviewPassVisible.setSelected(false);
             mFragmentChangeMobileNumBinding.edittextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -188,6 +156,31 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
     }
 
     @Override
+    public void performClickDone() {
+        if (isAdded())
+            mChangeMobNumberViewModel.validateChangeMobileForm(getActivity(), mFragmentChangeMobileNumBinding.edittextMobileNum, mFragmentChangeMobileNumBinding.edittextPassword);
+    }
+
+    @Override
+    public void noInternetAlert() {
+        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+    }
+
+    @Override
+    public void validChangeMobileForm() {
+        if (checkAndRequestPermissions()) {
+            showProgress();
+            mChangeMobNumberViewModel.callSendOtpForChangeMobApi(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString()
+                    , mFragmentChangeMobileNumBinding.edittextPassword.getText().toString());
+        }
+    }
+
+    @Override
+    public void invalidChangeMobileForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
+    }
+
+    @Override
     public void pushOTPFragment() {
         ((UserProfileActivity) getActivity()).pushFragmentInChangeContainer(OTPFragment.newInstanceForChangeMobile(mFragmentChangeMobileNumBinding.edittextMobileNum.getText().toString(),
                 mFragmentChangeMobileNumBinding.edittextPassword.getText().toString(), Constants.OTPValidationIsFrom.CHANGE_MOBILE.ordinal()),
@@ -195,9 +188,14 @@ public class ChangeMobileNumberFragment extends CoreFragment<FragmentChangeMobil
     }
 
     @Override
-    public void finishActivity() {
-        ((UserProfileActivity) getActivity()).finish();
-        ((UserProfileActivity) getActivity()).overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    public void onApiSuccess() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
 

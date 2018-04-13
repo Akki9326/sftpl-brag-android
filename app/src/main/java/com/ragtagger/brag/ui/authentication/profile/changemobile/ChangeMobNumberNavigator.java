@@ -11,13 +11,17 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface ChangeMobNumberNavigator extends CoreNavigator {
 
-    void done();
-
-    void hideUnhidePass();
+    void performClickHideUnhidePassword();
 
     boolean onEditorActionPass(TextView textView, int i, KeyEvent keyEvent);
 
-    void finishActivity();
+    void performClickDone();
+
+    void noInternetAlert();
+
+    void validChangeMobileForm();
+
+    void invalidChangeMobileForm(String msg);
 
     void pushOTPFragment();
 }

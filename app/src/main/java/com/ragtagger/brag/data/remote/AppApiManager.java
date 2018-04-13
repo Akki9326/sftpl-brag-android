@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.response.RChangePassword;
 import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
+import com.ragtagger.brag.data.model.response.RGetRequired;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.RNotification;
@@ -56,6 +57,11 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<RLogin> userLogin(QLogin loginRequest) {
         return mApiInterface.userLogin(loginRequest);
+    }
+
+    @Override
+    public Call<RGetRequired> getRequired() {
+        return mApiInterface.getRequired();
     }
 
     @Override
@@ -152,6 +158,11 @@ public class AppApiManager implements IApiManager {
     @Override
     public Call<RMyOrder> getOrderList(int page) {
         return mApiInterface.getOrderList(page);
+    }
+
+    @Override
+    public Call<RLogin> getProfile() {
+        return mApiInterface.getProfile();
     }
 
 

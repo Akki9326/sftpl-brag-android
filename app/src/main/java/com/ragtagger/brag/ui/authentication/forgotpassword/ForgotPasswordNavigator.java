@@ -6,13 +6,15 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
  * Created by alpesh.rathod on 2/14/2018.
  */
 
-public interface ForgotPasswordNavigator extends CoreNavigator{
+public interface ForgotPasswordNavigator extends CoreNavigator {
 
-    void sendOtp();
+    void performClickSendOtp();
 
-    /*void pushOtpFragment();
-    void pushOTPFragmentOnUserProfileActivity();*/
+    void noInternetAlert();
+
+    void validOtpForm();
+
+    void invalidOtpForm(String msg);
 
     void pushOTPFragmentOnSplashActivity();
-    //void pushChangeMobileNumberFragment();
 }

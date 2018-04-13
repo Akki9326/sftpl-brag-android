@@ -27,11 +27,10 @@ import javax.inject.Inject;
  */
 
 
-public class SignUpCompleteFragment extends CoreFragment<FragmentSignupComplateBinding, SignUpCompleteViewModel> implements SignUpCompleteNavigator/*extends BaseFragmentimplements BaseInterface*/ {
+public class SignUpCompleteFragment extends CoreFragment<FragmentSignupComplateBinding, SignUpCompleteViewModel> implements SignUpCompleteNavigator {
 
     @Inject
     SignUpCompleteViewModel mSignUpCompleteViewModel;
-
     FragmentSignupComplateBinding mFragmentSignupComplateBinding;
 
     @Override
@@ -53,7 +52,6 @@ public class SignUpCompleteFragment extends CoreFragment<FragmentSignupComplateB
 
     @Override
     public void setUpToolbar() {
-
     }
 
     @Override
@@ -72,17 +70,15 @@ public class SignUpCompleteFragment extends CoreFragment<FragmentSignupComplateB
     }
 
     @Override
-    public void onApiSuccess() {
+    public void performClickBackToLogin() {
+        ((SplashActivity) getActivity()).popBackToLogin();
+    }
 
+    @Override
+    public void onApiSuccess() {
     }
 
     @Override
     public void onApiError(ApiError error) {
-
-    }
-
-    @Override
-    public void backToLogin() {
-        ((SplashActivity) getActivity()).popBackToLogin();
     }
 }

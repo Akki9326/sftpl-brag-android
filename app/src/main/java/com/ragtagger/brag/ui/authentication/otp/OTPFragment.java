@@ -55,9 +55,7 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
 
     String mobileNum;
     String password;
-
-    //is from signup or forget pass
-    int isFromScreen;
+    int isFromScreen;//is from signup or forget pass
 
     public static OTPFragment newInstance(String mobilenum, int isFromScreen) {
         Bundle args = new Bundle();
@@ -69,7 +67,6 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     }
 
     public static OTPFragment newInstanceForChangeMobile(String newMobileNumber, String password, int isFromScreen) {
-
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_MOBILE, newMobileNumber);
         args.putInt(Constants.BUNDLE_IS_FROM_SIGNUP, isFromScreen);
@@ -114,7 +111,6 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
         });
     }
 
-
     @Override
     public void setUpToolbar() {
         if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
@@ -136,49 +132,6 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
         return R.layout.fragment_otp;
     }
 
-
-    @Override
-    public void onApiSuccess() {
-        hideProgress();
-
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void verifyOtp() {
-        if (mFragmentOtpBinding.pinView.getText().toString().equals("")) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_otp));
-        } else if (mFragmentOtpBinding.pinView.getText().toString().length() < 6) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_code_6));
-        } else if (Utility.isConnection(getActivity())) {
-            showProgress();
-            if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
-                mOTPViewModel.verifyOtpForChangeMob(mobileNum, password, mFragmentOtpBinding.pinView.getText().toString());
-            else if ((Constants.OTPValidationIsFrom.values()[isFromScreen] == FORGET_PASS))
-                mOTPViewModel.verifyOtpForForgotPass(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
-            else
-                mOTPViewModel.verifyOtp(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
-    }
-
-    @Override
-    public void resendOtp() {
-        if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mOTPViewModel.resendOtp(mobileNum, isFromScreen, password);
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
-
-    }
-
     @Override
     public boolean onEditorActionPin(TextView textView, int i, KeyEvent keyEvent) {
         if (i == EditorInfo.IME_ACTION_DONE) {
@@ -188,6 +141,43 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
         return false;
     }
 
+
+    @Override
+    public void performClickVerifyOtp() {
+        if (isAdded())
+            mOTPViewModel.validateOtpForm(getActivity(), mFragmentOtpBinding.pinView);
+    }
+
+    @Override
+    public void performClickResendOtp() {
+        if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mOTPViewModel.callResendOtpApi(mobileNum, isFromScreen, password);
+        } else {
+            noInternetAlert();
+        }
+    }
+
+    @Override
+    public void noInternetAlert() {
+        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+    }
+
+    @Override
+    public void validOtpForm() {
+        showProgress();
+        if (Constants.OTPValidationIsFrom.values()[isFromScreen] == CHANGE_MOBILE)
+            mOTPViewModel.callVerifyOtpForChangeMobApi(mobileNum, password, mFragmentOtpBinding.pinView.getText().toString());
+        else if ((Constants.OTPValidationIsFrom.values()[isFromScreen] == FORGET_PASS))
+            mOTPViewModel.callVerifyOtpForForgotPassApi(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
+        else
+            mOTPViewModel.callVerifyOtpApi(mobileNum, mFragmentOtpBinding.pinView.getText().toString(), isFromScreen);
+    }
+
+    @Override
+    public void inValidOtpForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
+    }
 
     @Override
     public void finishUserProfileActivity() {
@@ -212,13 +202,18 @@ public class OTPFragment extends CoreFragment<FragmentOtpBinding, OTPViewModel> 
     }
 
     @Override
-    public void onApiverifyOTPSuccess() {
+    public void onOtpVerifySuccessfully() {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_otp_resend));
     }
 
     @Override
-    public void onApiverifyOTPError(ApiError error) {
+    public void onApiSuccess() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }

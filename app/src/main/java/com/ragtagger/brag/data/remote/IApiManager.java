@@ -19,6 +19,7 @@ import com.ragtagger.brag.data.model.response.RChangePassword;
 import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
+import com.ragtagger.brag.data.model.response.RGetRequired;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.RNotification;
@@ -40,6 +41,9 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<RLogin> userLogin(QLogin loginRequest);
+
+    @Override
+    Call<RGetRequired> getRequired();
 
     @Override
     Call<RProductList> getProductionList(int page, QProductList body);
@@ -108,6 +112,9 @@ public interface IApiManager extends ApiInterface {
     Call<RMyOrder> getOrderList(int page);
 
     @Override
+    Call<RLogin> getProfile();
+
+    @Override
     Call<RLogin> updateProfile(DataUser userData);
 
     @Override
@@ -124,4 +131,6 @@ public interface IApiManager extends ApiInterface {
 
     @Override
     Call<RNotification> getNotificationList(int page);
+
+
 }

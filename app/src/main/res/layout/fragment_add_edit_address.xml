@@ -45,10 +45,10 @@
                     android:background="@null"
                     android:hint="@string/hint_address"
                     android:imeOptions="actionNext"
-                    android:maxLength="@integer/max_length_address"
                     android:inputType="textPostalAddress"
-                    android:tag="@string/font_opensans_regular_id"
+                    android:maxLength="@integer/max_length_address"
                     android:paddingBottom="5dp"
+                    android:tag="@string/font_opensans_regular_id"
                     android:text="@{viewModel.address}" />
 
                 <View
@@ -74,11 +74,11 @@
                     style="@style/NormalEditText"
                     android:background="@null"
                     android:hint="@string/hint_landmark"
-                    android:inputType="textPostalAddress"
                     android:imeOptions="actionNext"
-                    android:tag="@string/font_opensans_regular_id"
+                    android:inputType="textPostalAddress"
                     android:maxLength="@integer/max_length"
                     android:paddingBottom="5dp"
+                    android:tag="@string/font_opensans_regular_id"
                     android:text="@{viewModel.landmark}" />
 
                 <View
@@ -169,11 +169,11 @@
                     android:background="@null"
                     android:hint="@string/hint_pincode_ast"
                     android:imeOptions="actionDone"
-                    android:tag="@string/font_opensans_regular_id"
                     android:inputType="number"
                     android:maxLength="6"
                     android:onEditorAction="@{viewModel.onEditorActionPincode}"
                     android:paddingBottom="5dp"
+                    android:tag="@string/font_opensans_regular_id"
                     android:text="@{viewModel.pincode}" />
 
                 <View
@@ -192,7 +192,7 @@
                     android:layout_marginTop="30dp"
                     android:background="@drawable/round_corner_solid_pink"
                     android:gravity="center"
-                    android:onClick="@{viewModel.IsAddressAvaliable()?viewModel.onUpdate():viewModel.onAdd()}"
+                    android:onClick="@{viewModel.IsAddressAvaliable()?viewModel.onUpdateClick():viewModel.onAddClick()}"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:tag="@string/font_opensans_regular_id"

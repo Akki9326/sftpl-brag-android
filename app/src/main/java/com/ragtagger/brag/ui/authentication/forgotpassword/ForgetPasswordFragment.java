@@ -39,7 +39,7 @@ import static com.ragtagger.brag.utils.Constants.IPermissionRequestCode.REQ_SMS_
  */
 
 
-public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBinding, ForgotPasswordViewModel>/*BaseFragment implements BaseInterface*/ implements ForgotPasswordNavigator {
+public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBinding, ForgotPasswordViewModel> implements ForgotPasswordNavigator {
 
     @Inject
     ForgotPasswordViewModel mForgotPasswordViewModel;
@@ -65,7 +65,6 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
      */
     @Override
     public void beforeViewCreated() {
-
     }
 
     @Override
@@ -85,8 +84,6 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
             mFragmentForgotPassBinding.edittextMobileNum.setHint(
                     Html.fromHtml("<small><small>" + getString(R.string.hint_new_mobile_num) + "</small></small>"));
             mFragmentForgotPassBinding.textviewMobileNum.setText(getString(R.string.label_new_mobile_no));
-
-
         }
     }
 
@@ -112,24 +109,6 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         return R.layout.fragment_forget_pass;
     }
 
-    @Override
-    public void onPermissionGranted(int request) {
-        super.onPermissionGranted(request);
-        if (request == REQ_SMS_SEND_RECEIVED_READ) {
-            showProgress();
-            mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
-        }
-    }
-
-    @Override
-    public void onPermissionDenied(int request) {
-        super.onPermissionDenied(request);
-        if (request == REQ_SMS_SEND_RECEIVED_READ) {
-            showProgress();
-            mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
-        }
-    }
-
     private boolean checkAndRequestPermissions() {
         boolean hasPermissionSendMessage = hasPermission(Manifest.permission.SEND_SMS);
         boolean hasPermissionReceiveSMS = hasPermission(Manifest.permission.RECEIVE_MMS);
@@ -153,6 +132,55 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
         return true;
     }
 
+    @Override
+    public void onPermissionGranted(int request) {
+        super.onPermissionGranted(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
+            mForgotPasswordViewModel.callSendOtpApi(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+        }
+    }
+
+    @Override
+    public void onPermissionDenied(int request) {
+        super.onPermissionDenied(request);
+        if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            showProgress();
+            mForgotPasswordViewModel.callSendOtpApi(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+        }
+    }
+
+    @Override
+    public void performClickSendOtp() {
+        if (isAdded())
+            mForgotPasswordViewModel.validateOtpForm(getActivity(), mFragmentForgotPassBinding.edittextMobileNum);
+    }
+
+    @Override
+    public void noInternetAlert() {
+        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+    }
+
+    @Override
+    public void validOtpForm() {
+        if (checkAndRequestPermissions()) {
+            showProgress();
+            mForgotPasswordViewModel.callSendOtpApi(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
+        }
+    }
+
+    @Override
+    public void invalidOtpForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
+    }
+
+    @Override
+    public void pushOTPFragmentOnSplashActivity() {
+        ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
+                Constants.OTPValidationIsFrom.FORGET_PASS.ordinal()),
+                true, true, "OTP_frag");
+
+    }
 
     @Override
     public void onApiSuccess() {
@@ -162,33 +190,7 @@ public class ForgetPasswordFragment extends CoreFragment<FragmentForgetPassBindi
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
-    }
-
-    @Override
-    public void sendOtp() {
-        if (Validation.isEmpty(mFragmentForgotPassBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-        } else if (!Validation.isValidMobileNum(mFragmentForgotPassBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-        } else if (Utility.isConnection(getActivity())) {
-            if (checkAndRequestPermissions()) {
-                showProgress();
-                mForgotPasswordViewModel.sendOtp(mFragmentForgotPassBinding.edittextMobileNum.getText().toString());
-            }
-
-
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
-        }
-    }
-
-    @Override
-    public void pushOTPFragmentOnSplashActivity() {
-        ((SplashActivity) getActivity()).pushFragments(OTPFragment.newInstance(mFragmentForgotPassBinding.edittextMobileNum.getText().toString(),
-                Constants.OTPValidationIsFrom.FORGET_PASS.ordinal()),
-                true, true, "OTP_frag");
-
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
 

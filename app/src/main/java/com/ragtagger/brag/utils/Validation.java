@@ -9,6 +9,9 @@ package com.ragtagger.brag.utils;
  */
 
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +40,10 @@ public class Validation {
         return etText.getText().toString().trim().length() == 0;
     }
 
+    public static boolean isEmpty(TextView etText) {
+        return etText.getText().toString().trim().length() == 0;
+    }
+
     //Don't trim in password field because space first character or last character may be space
     public static boolean isEmptyPassword(EditText etText) {
         return etText.getText().toString().length() == 0;
@@ -44,17 +51,17 @@ public class Validation {
 
     public static boolean isValidMobileNum(EditText mEditText) {
 
-        return mEditText.getText().toString().trim().length() == 10 ? true : false;
+        return mEditText.getText().toString().trim().length() == 10;
     }
 
     public static boolean isValidGST(EditText mEditText) {
 
-        return mEditText.getText().toString().trim().length() == 15 ? true : false;
+        return mEditText.getText().toString().trim().length() == 15;
     }
 
     public static boolean isValidPincode(EditText mEditText) {
 
-        return mEditText.getText().toString().trim().length() == 6 ? true : false;
+        return mEditText.getText().toString().trim().length() == 6;
     }
 
     public static boolean isTwoStringSameFormPassword(EditText mEditTextFirst, EditText mEditTextSecond) {

@@ -25,21 +25,25 @@ import java.util.List;
 
 public interface AddEditAddressNavigator extends CoreNavigator {
 
-    void onAddAddress();
-    void onUpdateAddress();
-
     boolean onEditorActionPincode(TextView textView, int i, KeyEvent keyEvent);
 
-    void onOpenStateListDialog();
-
-    void onApiSuccessState(List<DataState> data);
-
-    void onApiErrorState(ApiError error);
-
-
-    void onApiSuccessUserProfile();
+    void setUserProfile();
 
     void onApiErrorUserProfile(ApiError error);
 
+    void performClickOnAdd();
 
+    void performClickUpdate();
+
+    void noInternetAlert();
+
+    void invalidAddOrUpdateForm(String msg);
+
+    void validAddAddressForm();
+
+    void validUpdateAddressForm();
+
+    void performClickState();
+
+    void setStateList(List<DataState> data);
 }

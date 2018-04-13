@@ -1,6 +1,7 @@
 package com.ragtagger.brag.ui.authentication.login;
 
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ragtagger.brag.ui.core.CoreNavigator;
@@ -11,14 +12,31 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface LoginNavigator extends CoreNavigator {
 
-    void openSignUpFragment();
-    void openContactUsFragment();
-    void openForgotPassFragment();
-    void openMainActivity();
-    void login();
-    void hideUnhidePass();
     boolean onEditorActionPass(TextView textView, int i, KeyEvent keyEvent);
 
+    void performClickHideUnhidePass();
+
+    void performClickLogin();
+
+    void noInternetAlert();
+
+    void validLoginForm();
+
+    void invalidLoginForm(String msg);
+
+    void performClickSignUp(View view);
+
+    void openSignUpFragment();
+
+    void performClickContactUs(View view);
+
+    void openContactUsFragment();
+
+    void performClickForgotPassword(View view);
+
+    void openForgotPassFragment();
+
+    void openMainActivity();
 
 
 }

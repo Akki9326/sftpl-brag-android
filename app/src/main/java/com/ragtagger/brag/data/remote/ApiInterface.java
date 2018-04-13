@@ -27,6 +27,7 @@ import com.ragtagger.brag.data.model.response.RChangePassword;
 import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
+import com.ragtagger.brag.data.model.response.RGetRequired;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RMyOrder;
@@ -59,6 +60,9 @@ public interface ApiInterface {
 
     @POST("login")
     Call<RLogin> userLogin(@Body QLogin loginRequest);
+
+    @GET("home/getRequired")
+    Call<RGetRequired> getRequired();
 
     @POST("signup")
     Call<RSignUp> userSignIn(@Body QSignUp signInRequest);
@@ -123,6 +127,9 @@ public interface ApiInterface {
 
     @POST("user/addAddress")
     Call<RUserAddress> addAddress(@Body QAddAddress addAddress);
+
+    @GET("user/getProfile")
+    Call<RLogin> getProfile();
 
     @POST("user/updateProfile")
     Call<RLogin> updateProfile(@Body DataUser userData);

@@ -36,18 +36,16 @@ import javax.inject.Inject;
  */
 
 
-public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPasswordBinding, CreateNewPasswordViewModel> implements CreateNewPasswordNavigator/*extends BaseFragment implements BaseInterface*/ {
+public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPasswordBinding, CreateNewPasswordViewModel> implements CreateNewPasswordNavigator {
 
     @Inject
     CreateNewPasswordViewModel mCreateNewPasswordViewModel;
     FragmentCreateNewPasswordBinding mFragmentCreateNewPasswordBinding;
 
-    boolean isFromChangePass;
     String mobile;
     String otp;
 
     public static CreateNewPasswordFragment newInstance(String mobile, String otp) {
-
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_MOBILE, mobile);
         args.putString(Constants.BUNDLE_OTP, otp);
@@ -77,7 +75,6 @@ public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPas
 
     @Override
     public void setUpToolbar() {
-
     }
 
     @Override
@@ -121,37 +118,41 @@ public class CreateNewPasswordFragment extends CoreFragment<FragmentCreateNewPas
         }
     }
 
-
     @Override
-    public void onApiSuccess() {
-        hideProgress();
-
+    public void performClickDone() {
+        if (isAdded())
+            mCreateNewPasswordViewModel.validateNewPasswordForm(getActivity(), mFragmentCreateNewPasswordBinding.edittextPassword, mFragmentCreateNewPasswordBinding.edittextConfirmPassword);
     }
 
     @Override
-    public void onApiError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
+    public void noInternetAlert() {
+        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
     }
 
     @Override
-    public void done() {
-        if (Validation.isEmptyPassword(mFragmentCreateNewPasswordBinding.edittextPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_new_pass));
-        } else if (Validation.isEmptyPassword(mFragmentCreateNewPasswordBinding.edittextConfirmPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
-        } else if (!(mFragmentCreateNewPasswordBinding.edittextPassword.getText().toString().equals(mFragmentCreateNewPasswordBinding.edittextConfirmPassword.getText().toString()))) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
-        } else if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mCreateNewPasswordViewModel.changePassword(mobile, otp, mFragmentCreateNewPasswordBinding.edittextPassword.getText().toString());
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
-        }
+    public void validNewPasswordForm() {
+        showProgress();
+        mCreateNewPasswordViewModel.callChangePasswordApi(mobile, otp, mFragmentCreateNewPasswordBinding.edittextPassword.getText().toString());
+    }
+
+    @Override
+    public void invalidNewPasswordForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
     }
 
     @Override
     public void onChangePasswordSuccess() {
         showAlertMessage();
+    }
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 }

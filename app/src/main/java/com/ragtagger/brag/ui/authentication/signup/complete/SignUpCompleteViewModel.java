@@ -19,7 +19,7 @@ public class SignUpCompleteViewModel extends CoreViewModel<SignUpCompleteNavigat
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().backToLogin();
+                getNavigator().performClickBackToLogin();
             }
         };
     }

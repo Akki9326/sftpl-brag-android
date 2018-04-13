@@ -19,6 +19,7 @@ import com.ragtagger.brag.data.model.requests.QProductList;
 import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.model.response.RChangePassword;
 import com.ragtagger.brag.data.model.response.RFilter;
+import com.ragtagger.brag.data.model.response.RGetRequired;
 import com.ragtagger.brag.data.model.response.RMyOrder;
 import com.ragtagger.brag.data.model.response.RNotification;
 import com.ragtagger.brag.data.model.response.RNotificationUnread;
@@ -195,6 +196,11 @@ public class AppDataManager implements IDataManager {
         return mApiManager.getOrderList(page);
     }
 
+    @Override
+    public Call<RLogin> getProfile() {
+        return mApiManager.getProfile();
+    }
+
 
     @Override
     public Call<ROrderDetail> getOrderDetail(String orderId) {
@@ -269,6 +275,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<RLogin> userLogin(QLogin loginRequest) {
         return mApiManager.userLogin(loginRequest);
+    }
+
+    @Override
+    public Call<RGetRequired> getRequired() {
+        return mApiManager.getRequired();
     }
 
     @Override

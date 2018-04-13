@@ -24,19 +24,19 @@ import android.widget.TextView;
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataChannel;
+import com.ragtagger.brag.data.model.datas.DataSaleType;
 import com.ragtagger.brag.data.model.datas.DataState;
 import com.ragtagger.brag.databinding.FragmentSignUpBinding;
-import com.ragtagger.brag.data.model.requests.QSignUp;
+import com.ragtagger.brag.ui.authentication.otp.OTPFragment;
 import com.ragtagger.brag.ui.authentication.profile.addeditaddress.statedialog.StateDialogFragment;
 import com.ragtagger.brag.ui.core.CoreFragment;
-import com.ragtagger.brag.ui.authentication.otp.OTPFragment;
 import com.ragtagger.brag.ui.splash.SplashActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.TextFilterUtils;
 import com.ragtagger.brag.utils.Utility;
-import com.ragtagger.brag.utils.Validation;
 import com.ragtagger.brag.views.dropdown.DropdownItem;
 import com.ragtagger.brag.views.dropdown.DropdownUtils;
 import com.ragtagger.brag.views.dropdown.IOnDropDownItemClick;
@@ -61,12 +61,18 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     SignUpViewModel mSignUpViewModel;
     FragmentSignUpBinding mFragmentSignUpBinding;
 
-    ArrayList<DropdownItem> mUserTypeList;
-    ArrayList<DropdownItem> mChannelList;
-    ArrayList<DropdownItem> mSaleTypeList;
-    List<DataState> mStateList;
+    ArrayList<DropdownItem> mUserTypeDropDown;
+    ArrayList<DropdownItem> mChannelDropDown;
+    ArrayList<DropdownItem> mSaleTypeDropDown;
 
-    int mSelectedUserType, mSelectedChannel, mSelectedSaleType, mSelectedStateId;
+    List<DataState> mStateList;
+    List<DataChannel> mChannelList;
+    List<DataSaleType> mSalesTypeList;
+
+    int mSelectedUserType;
+    DataChannel mSelectedChannel;
+    DataSaleType mSelectedSalesType;
+    DataState mSelectedState;
 
 
     @Override
@@ -79,10 +85,13 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
     @Override
     public void beforeViewCreated() {
-        mUserTypeList = new ArrayList<>();
+        mUserTypeDropDown = new ArrayList<>();
+        mChannelDropDown = new ArrayList<>();
+        mSaleTypeDropDown = new ArrayList<>();
+
         mStateList = new ArrayList<>();
         mChannelList = new ArrayList<>();
-        mSaleTypeList = new ArrayList<>();
+        mSalesTypeList = new ArrayList<>();
     }
 
     @Override
@@ -91,13 +100,13 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentSignUpBinding.baseLayout);
 
         mFragmentSignUpBinding.edittextGstIn.setFilters(new InputFilter[]{TextFilterUtils.getAlphaNumericFilter(), TextFilterUtils.getLengthFilter(15)});
-        mUserTypeList.add(new DropdownItem("Retailer", 0));
-        mUserTypeList.add(new DropdownItem("Distributor", 1));
-        mUserTypeList.add(new DropdownItem("Sales representative", 2));
-        mFragmentSignUpBinding.textviewUserType.setText(mUserTypeList.get(0).getValue());
-        mSelectedUserType = mUserTypeList.get(0).getId();
+        mUserTypeDropDown.add(new DropdownItem("Retailer", 0));
+        mUserTypeDropDown.add(new DropdownItem("Distributor", 1));
+        mUserTypeDropDown.add(new DropdownItem("Sales representative", 2));
+        mFragmentSignUpBinding.textviewUserType.setText(mUserTypeDropDown.get(0).getValue());
+        mSelectedUserType = mUserTypeDropDown.get(0).getId();
 
-
+        checkInternetAndCallApi();
     }
 
     @Override
@@ -121,7 +130,14 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     }
 
     private void checkInternetAndCallApi() {
-
+        if (isAdded()) {
+            if (Utility.isConnection(getActivity())) {
+                showProgress();
+                mSignUpViewModel.callGetRequiredDataApi();
+            } else {
+                noInternetAlert();
+            }
+        }
     }
 
     private boolean checkAndRequestPermissions() {
@@ -151,9 +167,8 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == REQUEST_STATE) {
-            /*selectedState = data.getParcelableExtra(Constants.BUNDLE_KEY_STATE);
-            mAddEditViewModel.updateState(selectedState.getText());
-            stateId = selectedState.getId();*/
+            mSelectedState = data.getParcelableExtra(Constants.BUNDLE_KEY_STATE);
+            mFragmentSignUpBinding.edittextState.setText(mSelectedState.getText());
         }
     }
 
@@ -163,10 +178,9 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
             showProgress();
-            QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+            mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString());
-            mSignUpViewModel.signUp(signInRequest);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedState, mSelectedSalesType, mSelectedChannel);
         }
     }
 
@@ -175,10 +189,9 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         super.onPermissionGranted(request);
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
             showProgress();
-            QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+            mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString());
-            mSignUpViewModel.signUp(signInRequest);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedState, mSelectedSalesType, mSelectedChannel);
         }
     }
 
@@ -192,9 +205,43 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     }
 
     @Override
+    public void setState(List<DataState> states) {
+        mStateList = states;
+    }
+
+    @Override
+    public void setChannel(List<DataChannel> channels) {
+        int i = 0;
+        if (channels != null && channels.size() > 0) {
+            mChannelList = channels;
+            for (DataChannel channel : channels) {
+                mChannelDropDown.add(new DropdownItem(channel.getText(), i));
+                i++;
+            }
+            mFragmentSignUpBinding.textviewChannel.setText(mChannelDropDown.get(0).getValue());
+            mSelectedChannel = mChannelList.get(0);
+        }
+
+    }
+
+    @Override
+    public void setSalesType(List<DataSaleType> salesTypes) {
+        int i = 0;
+        if (salesTypes != null && salesTypes.size() > 0) {
+            mSalesTypeList = salesTypes;
+            for (DataSaleType salesType : salesTypes) {
+                mSaleTypeDropDown.add(new DropdownItem(salesType.getText(), i));
+                i++;
+            }
+            mFragmentSignUpBinding.textviewSaleType.setText(mSaleTypeDropDown.get(0).getValue());
+            mSelectedSalesType = mSalesTypeList.get(0);
+        }
+    }
+
+    @Override
     public void performClickUserTypeDropdown(View view) {
         try {
-            DropdownUtils.DropDownSpinner(getActivity(), mUserTypeList, view, new IOnDropDownItemClick() {
+            DropdownUtils.DropDownSpinner(getActivity(), mUserTypeDropDown, view, new IOnDropDownItemClick() {
                 @Override
                 public void onItemClick(String str, int i) {
                     mSelectedUserType = i;
@@ -208,17 +255,43 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
     @Override
     public void performClickChannelDropdown(View view) {
+        if (mChannelList == null || mChannelList.isEmpty()) {
 
+        } else {
+            try {
+                DropdownUtils.DropDownSpinner(getActivity(), mChannelDropDown, view, new IOnDropDownItemClick() {
+                    @Override
+                    public void onItemClick(String str, int i) {
+                        mSelectedChannel = mChannelList.get(i);
+                    }
+                });
+            } catch (Exception e) {
+                AppLogger.e(e.getMessage());
+            }
+        }
     }
 
     @Override
     public void performClickSaleTypeDropdown(View view) {
+        if (mSalesTypeList == null || mSalesTypeList.isEmpty()) {
 
+        } else {
+            try {
+                DropdownUtils.DropDownSpinner(getActivity(), mSaleTypeDropDown, view, new IOnDropDownItemClick() {
+                    @Override
+                    public void onItemClick(String str, int i) {
+                        mSelectedSalesType = mSalesTypeList.get(i);
+                    }
+                });
+            } catch (Exception e) {
+                AppLogger.e(e.getMessage());
+            }
+        }
     }
 
     @Override
     public void performClickState(View view) {
-        if (mStateList.isEmpty()) {
+        if (mStateList == null || mStateList.isEmpty()) {
         } else {
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(Constants.BUNDLE_KEY_STATE_LIST, (ArrayList<? extends Parcelable>) mStateList);
@@ -231,42 +304,12 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
 
     @Override
     public void performClickSignUp() {
-        if (Validation.isEmpty(mFragmentSignUpBinding.edittextFirstname)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_enter_first_name));
-        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextEmail)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_email));
-        } else if (!Validation.isEmailValid(mFragmentSignUpBinding.edittextEmail)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
-        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-        } else if (!Validation.isValidMobileNum(mFragmentSignUpBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-        } else if (Validation.isEmptyPassword(mFragmentSignUpBinding.edittextPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_pass));
-        } else if (Validation.isEmptyPassword(mFragmentSignUpBinding.edittextConfirmPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_confirm_pass));
-        } else if (!(mFragmentSignUpBinding.edittextPassword.getText().toString().equals(mFragmentSignUpBinding.edittextConfirmPassword.getText().toString()))) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_password_not_match));
-        } else if (Validation.isEmpty(mFragmentSignUpBinding.edittextGstIn)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_gst));
-        } else if (!Validation.isValidGST(mFragmentSignUpBinding.edittextGstIn)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_gst_valid));
-        } else if (Utility.isConnection(getActivity())) {
-            Utility.hideSoftkeyboard(getActivity());
-            if (checkAndRequestPermissions()) {
-                showProgress();
-                QSignUp signInRequest = new QSignUp(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
-                        mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                        , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString());
-                mSignUpViewModel.signUp(signInRequest);
-            }
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
+        if (isAdded())
+            mSignUpViewModel.validateSignUpForm(getActivity(), mFragmentSignUpBinding.edittextFirstname, mFragmentSignUpBinding.edittextEmail, mFragmentSignUpBinding.edittextMobileNum, mFragmentSignUpBinding.edittextPassword, mFragmentSignUpBinding.edittextConfirmPassword, mFragmentSignUpBinding.edittextGstIn, mFragmentSignUpBinding.edittextState);
     }
 
     @Override
-    public void noInternet() {
+    public void noInternetAlert() {
         AlertUtils.showAlertMessage(getActivity(), 0, null, null);
     }
 
@@ -277,7 +320,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString());
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedState, mSelectedSalesType, mSelectedChannel);
         }
     }
 

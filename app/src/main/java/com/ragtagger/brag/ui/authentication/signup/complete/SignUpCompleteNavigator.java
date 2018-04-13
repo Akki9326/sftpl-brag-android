@@ -8,5 +8,5 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface SignUpCompleteNavigator extends CoreNavigator{
 
-    void backToLogin();
+    void performClickBackToLogin();
 }

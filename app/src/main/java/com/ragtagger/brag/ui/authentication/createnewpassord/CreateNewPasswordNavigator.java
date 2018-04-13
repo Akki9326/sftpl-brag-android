@@ -8,7 +8,13 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface CreateNewPasswordNavigator extends CoreNavigator {
 
-    void done();
+    void performClickDone();
+
+    void noInternetAlert();
+
+    void validNewPasswordForm();
+
+    void invalidNewPasswordForm(String msg);
 
     void onChangePasswordSuccess();
 }

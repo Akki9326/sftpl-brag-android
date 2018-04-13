@@ -44,7 +44,6 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
 
     @Override
     public void beforeViewCreated() {
-
     }
 
     @Override
@@ -55,7 +54,6 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
 
     @Override
     public void setUpToolbar() {
-
     }
 
     @Override
@@ -74,6 +72,39 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
     }
 
     @Override
+    public void performClickSend() {
+        if (isAdded())
+            mContactUsViewModel.validateContactUsForm(getActivity(), mFragmentContactUsBinding.edittextName, mFragmentContactUsBinding.edittextEmail, mFragmentContactUsBinding.edittextMessage);
+    }
+
+    @Override
+    public void noInternetAlert() {
+        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+    }
+
+    @Override
+    public void validContactUsForm() {
+        showProgress();
+        mContactUsViewModel.callSendMessageApi(mFragmentContactUsBinding.edittextName.getText().toString(), mFragmentContactUsBinding.edittextEmail.getText().toString(), mFragmentContactUsBinding.edittextMessage.getText().toString());
+    }
+
+    @Override
+    public void invalidContactUsForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
+    }
+
+    @Override
+    public void goBack() {
+        AlertUtils.showAlertMessageWithButton(getActivity(), getString(R.string.message_contact_us_success), new AlertUtils.IDismissDialogListener() {
+            @Override
+            public void dismissDialog(Dialog dialog) {
+                dialog.dismiss();
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
+    @Override
     public void onApiSuccess() {
         hideProgress();
     }
@@ -82,35 +113,5 @@ public class ContactUsFragment extends CoreFragment<FragmentContactUsBinding, Co
     public void onApiError(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void send() {
-        if (Validation.isEmpty(mFragmentContactUsBinding.edittextName)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_name));
-        } else if (Validation.isEmpty(mFragmentContactUsBinding.edittextEmail)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_please_email));
-        } else if (!Validation.isEmailValid(mFragmentContactUsBinding.edittextEmail)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_email_valid));
-        } else if (Validation.isEmpty(mFragmentContactUsBinding.edittextMessage)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_empty_message));
-        } else if (Utility.isConnection(getContext())) {
-            showProgress();
-            mContactUsViewModel.sendMessage(mFragmentContactUsBinding.edittextName.getText().toString(), mFragmentContactUsBinding.edittextEmail.getText().toString(), mFragmentContactUsBinding.edittextMessage.getText().toString());
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
-    }
-
-    @Override
-    public void back() {
-        AlertUtils.showAlertMessageWithButton(getActivity(), getString(R.string.message_contact_us_success), new AlertUtils.IDismissDialogListener() {
-            @Override
-            public void dismissDialog(Dialog dialog) {
-                dialog.dismiss();
-                getActivity().onBackPressed();
-            }
-        });
-
     }
 }

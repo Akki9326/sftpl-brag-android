@@ -1,13 +1,16 @@
 package com.ragtagger.brag.ui.authentication.login;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
+import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.remote.ApiResponse;
@@ -15,6 +18,9 @@ import com.ragtagger.brag.data.model.requests.QLogin;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.ui.core.CoreViewModel;
 import com.ragtagger.brag.callback.OnSingleClickListener;
+import com.ragtagger.brag.utils.AlertUtils;
+import com.ragtagger.brag.utils.Utility;
+import com.ragtagger.brag.utils.Validation;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -28,11 +34,20 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
         super(dataManager);
     }
 
+    public View.OnClickListener onPassHideUnhideClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickHideUnhidePass();
+            }
+        };
+    }
+
     public View.OnClickListener onLoginClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().login();
+                getNavigator().performClickLogin();
             }
         };
     }
@@ -41,7 +56,7 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().openSignUpFragment();
+                getNavigator().performClickSignUp(v);
             }
         };
     }
@@ -50,16 +65,7 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().openContactUsFragment();
-            }
-        };
-    }
-
-    public View.OnClickListener onPassHideUnhideClick() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().hideUnhidePass();
+                getNavigator().performClickContactUs(v);
             }
         };
     }
@@ -68,7 +74,7 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().openForgotPassFragment();
+                getNavigator().performClickForgotPassword(v);
             }
         };
     }
@@ -78,7 +84,22 @@ public class LoginViewModel extends CoreViewModel<LoginNavigator> {
         return getNavigator().onEditorActionPass(textView, actionId, keyEvent);
     }
 
-    public void login(String mobile, String password) {
+    void validateLoginForm(Activity activity, EditText mobile, EditText password) {
+        if (Validation.isEmpty(mobile)) {
+            getNavigator().invalidLoginForm(activity.getString(R.string.error_enter_mobile));
+        } else if (!Validation.isValidMobileNum(mobile)) {
+            getNavigator().invalidLoginForm(activity.getString(R.string.error_mobile_valid));
+        } else if (Validation.isEmptyPassword(password)) {
+            getNavigator().invalidLoginForm(activity.getString(R.string.error_pass));
+        } else if (Utility.isConnection(activity)) {
+            getNavigator().validLoginForm();
+        } else {
+            getNavigator().noInternetAlert();
+        }
+
+    }
+
+    public void callLoginApi(String mobile, String password) {
         final QLogin loginRequest = new QLogin(mobile, password);
         Call<RLogin> mLoginResponseCall = getDataManager().userLogin(loginRequest);
         mLoginResponseCall.enqueue(new ApiResponse<RLogin>() {

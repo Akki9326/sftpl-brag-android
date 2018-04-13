@@ -12,13 +12,17 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface OTPNavigator extends CoreNavigator {
 
-    void verifyOtp();
-
-    void resendOtp();
-
     boolean onEditorActionPin(TextView textView, int i, KeyEvent keyEvent);
 
-    //void pushChangeMobileFragment();
+    void performClickVerifyOtp();
+
+    void performClickResendOtp();
+
+    void noInternetAlert();
+
+    void validOtpForm();
+
+    void inValidOtpForm(String msg);
 
     void finishUserProfileActivity();
 
@@ -26,7 +30,6 @@ public interface OTPNavigator extends CoreNavigator {
 
     void pushSignUpCompleteFragment();
 
-    void onApiverifyOTPSuccess();
+    void onOtpVerifySuccessfully();
 
-    void onApiverifyOTPError(ApiError error);
 }

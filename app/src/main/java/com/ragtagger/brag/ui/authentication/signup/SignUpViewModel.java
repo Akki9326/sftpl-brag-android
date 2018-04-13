@@ -12,11 +12,17 @@ import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataChannel;
+import com.ragtagger.brag.data.model.datas.DataGetRequired;
+import com.ragtagger.brag.data.model.datas.DataSaleType;
+import com.ragtagger.brag.data.model.datas.DataState;
+import com.ragtagger.brag.data.model.response.RGetRequired;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.data.model.requests.QSignUp;
 import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.ui.core.CoreViewModel;
 import com.ragtagger.brag.utils.AlertUtils;
+import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.utils.Validation;
 
@@ -83,11 +89,40 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
         return getNavigator().onEditorActionConfirmPass(textView, actionId, keyEvent);
     }
 
-    void callSignUpRequiredDataApi() {
+    void callGetRequiredDataApi() {
+        getDataManager().getRequired().enqueue(new ApiResponse<RGetRequired>() {
+            @Override
+            public void onSuccess(RGetRequired rGetRequired, Headers headers) {
+                if (rGetRequired.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    if (rGetRequired.getData() != null) {
+                        if (rGetRequired.getData().getStates() != null) {
+                            getNavigator().setState(rGetRequired.getData().getStates());
+                        }
+                        if (rGetRequired.getData().getChannels() != null) {
+                            getNavigator().setChannel(rGetRequired.getData().getChannels());
+                        }
 
+                        if (rGetRequired.getData().getSalesTypes() != null) {
+                            getNavigator().setSalesType(rGetRequired.getData().getSalesTypes());
+                        }
+                    } else {
+                        getNavigator().onApiError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
+                    }
+
+                } else {
+                    getNavigator().onApiError(new ApiError(rGetRequired.getErrorCode(), rGetRequired.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
     }
 
-    void validateSignUpForm(Activity activity, EditText firstName, EditText email, EditText mobile, EditText password, EditText confirmPassword, EditText gstin) {
+    void validateSignUpForm(Activity activity, EditText firstName, EditText email, EditText mobile, EditText password, EditText confirmPassword, EditText gstin, TextView state) {
         if (Validation.isEmpty(firstName)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_please_enter_first_name));
         } else if (Validation.isEmpty(email)) {
@@ -108,16 +143,18 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_enter_gst));
         } else if (!Validation.isValidGST(gstin)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_gst_valid));
+        } else if (Validation.isEmpty(state)) {
+            getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_state));
         } else if (Utility.isConnection(activity)) {
             getNavigator().validSignUpForm();
         } else {
-            getNavigator().noInternet();
+            getNavigator().noInternetAlert();
         }
     }
 
 
-    void callSignUpApi(String firstname, String lastname, String email, String mobilenumber, String password, int userType, String gstin) {
-        QSignUp signInRequest = new QSignUp(firstname, lastname, email, mobilenumber, password, userType, gstin);
+    void callSignUpApi(String firstname, String lastname, String email, String mobilenumber, String password, int userType, String gstin, DataState state, DataSaleType salesType, DataChannel channel) {
+        QSignUp signInRequest = new QSignUp(firstname, lastname, email, mobilenumber, password, userType, gstin, state, salesType, channel);
         Call<RSignUp> mSignUpResponeCall = getDataManager().userSignIn(signInRequest);
         mSignUpResponeCall.enqueue(new ApiResponse<RSignUp>() {
             @Override
@@ -137,24 +174,4 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
         });
     }
 
-    void signUp(QSignUp signInRequest) {
-        Call<RSignUp> mSignUpResponeCall = getDataManager().userSignIn(signInRequest);
-        mSignUpResponeCall.enqueue(new ApiResponse<RSignUp>() {
-            @Override
-            public void onSuccess(RSignUp signUpResponse, Headers headers) {
-                if (signUpResponse.isStatus()) {
-                    getNavigator().onApiSuccess();
-                    getNavigator().pushOtpFragment();
-                } else {
-                    getNavigator().onApiError(new ApiError(signUpResponse.getErrorCode(), signUpResponse.getMessage()));
-                }
-            }
-
-            @Override
-            public void onError(ApiError t) {
-                getNavigator().onApiError(t);
-            }
-        });
-
-    }
 }

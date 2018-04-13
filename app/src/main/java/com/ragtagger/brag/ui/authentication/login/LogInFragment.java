@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ import javax.inject.Inject;
  */
 
 
-public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewModel> implements LoginNavigator/*BaseFragment implements BaseInterface*/ {
+public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewModel> implements LoginNavigator {
 
     @Inject
     LoginViewModel mLoginViewModel;
@@ -91,23 +92,16 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     }
 
     @Override
-    public void login() {
-        if (Validation.isEmpty(mFragmentLoginBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_mobile));
-        } else if (!Validation.isValidMobileNum(mFragmentLoginBinding.edittextMobileNum)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_mobile_valid));
-        } else if (Validation.isEmptyPassword(mFragmentLoginBinding.edittextPassword)) {
-            AlertUtils.showAlertMessage(getActivity(), getResources().getString(R.string.error_pass));
-        } else if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mLoginViewModel.login(mFragmentLoginBinding.edittextMobileNum.getText().toString(), mFragmentLoginBinding.edittextPassword.getText().toString());
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null,null);
+    public boolean onEditorActionPass(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            mFragmentLoginBinding.textviewLogin.performClick();
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void hideUnhidePass() {
+    public void performClickHideUnhidePass() {
         if (mFragmentLoginBinding.imageviewPassVisible.isSelected()) {
             mFragmentLoginBinding.imageviewPassVisible.setSelected(false);
             mFragmentLoginBinding.edittextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -120,12 +114,63 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     }
 
     @Override
-    public boolean onEditorActionPass(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == EditorInfo.IME_ACTION_DONE) {
-            mFragmentLoginBinding.textviewLogin.performClick();
-            return true;
-        }
-        return false;
+    public void performClickLogin() {
+        if (isAdded())
+            mLoginViewModel.validateLoginForm(getActivity(), mFragmentLoginBinding.edittextMobileNum, mFragmentLoginBinding.edittextPassword);
+    }
+
+    @Override
+    public void noInternetAlert() {
+        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+    }
+
+    @Override
+    public void validLoginForm() {
+        showProgress();
+        mLoginViewModel.callLoginApi(mFragmentLoginBinding.edittextMobileNum.getText().toString(), mFragmentLoginBinding.edittextPassword.getText().toString());
+    }
+
+    @Override
+    public void invalidLoginForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
+    }
+
+    @Override
+    public void performClickSignUp(View view) {
+        openSignUpFragment();
+    }
+
+
+    @Override
+    public void openSignUpFragment() {
+        ((SplashActivity) getBaseActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
+    }
+
+    @Override
+    public void performClickContactUs(View view) {
+        openContactUsFragment();
+    }
+
+    @Override
+    public void openContactUsFragment() {
+        ((SplashActivity) getBaseActivity()).pushFragments(new ContactUsFragment(), true, true, "Signup_Frag");
+    }
+
+    @Override
+    public void performClickForgotPassword(View view) {
+        openForgotPassFragment();
+    }
+
+    @Override
+    public void openForgotPassFragment() {
+        ((SplashActivity) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mFragmentLoginBinding.edittextMobileNum.getText().toString()), true, true, "Forget_Frag");
+    }
+
+    @Override
+    public void openMainActivity() {
+        startActivity(new Intent(getActivity(), MainActivity.class));
+        getActivity().finish();
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override
@@ -136,29 +181,7 @@ public class LogInFragment extends CoreFragment<FragmentLoginBinding, LoginViewM
     @Override
     public void onApiError(ApiError error) {
         hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(),null);
-    }
-
-    @Override
-    public void openSignUpFragment() {
-        ((SplashActivity) getBaseActivity()).pushFragments(new SignUpFragment(), true, true, "Signup_Frag");
-    }
-
-    @Override
-    public void openContactUsFragment() {
-        ((SplashActivity) getBaseActivity()).pushFragments(new ContactUsFragment(), true, true, "Signup_Frag");
-    }
-
-    @Override
-    public void openForgotPassFragment() {
-        ((SplashActivity) getActivity()).pushFragments(ForgetPasswordFragment.newInstance(mFragmentLoginBinding.edittextMobileNum.getText().toString()), true, true, "Forget_Frag");
-    }
-
-    @Override
-    public void openMainActivity() {
-        startActivity(new Intent(getBaseActivity(), MainActivity.class));
-        getActivity().finish();
-        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
 }

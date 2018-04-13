@@ -9,17 +9,21 @@ package com.ragtagger.brag.ui.authentication.profile.addeditaddress;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import android.app.Activity;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataState;
 import com.ragtagger.brag.data.model.datas.DataUserAddress;
 import com.ragtagger.brag.data.model.datas.DataUser;
 import com.ragtagger.brag.data.model.requests.QAddAddress;
@@ -28,6 +32,9 @@ import com.ragtagger.brag.data.model.response.RStateList;
 import com.ragtagger.brag.data.model.response.RUserAddress;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
+import com.ragtagger.brag.utils.AlertUtils;
+import com.ragtagger.brag.utils.Utility;
+import com.ragtagger.brag.utils.Validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,26 +51,53 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
 
     ObservableField<String> state = new ObservableField<>();
     ObservableField<Boolean> isAddressAvaliable = new ObservableField<>();
+
     DataUserAddress userAddress;
 
     public AddEditAddressViewModel(IDataManager dataManager) {
         super(dataManager);
     }
 
-    public View.OnClickListener onAdd() {
+    public ObservableField<Boolean> IsAddressAvaliable() {
+        return isAddressAvaliable;
+    }
+
+    public void setIsAddressAvaliable(boolean isAddressAvaliable) {
+        this.isAddressAvaliable.set(isAddressAvaliable);
+    }
+
+    public void updateState(String state) {
+        this.state.set(state);
+    }
+
+    public ObservableField<String> getState() {
+        return state;
+    }
+
+
+    public View.OnClickListener onAddClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onAddAddress();
+                getNavigator().performClickOnAdd();
             }
         };
     }
 
-    public View.OnClickListener onUpdate() {
+    public View.OnClickListener onUpdateClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onUpdateAddress();
+                getNavigator().performClickUpdate();
+            }
+        };
+    }
+
+    public View.OnClickListener onStateClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickState();
             }
         };
     }
@@ -73,28 +107,34 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
         return getNavigator().onEditorActionPincode(textView, actionId, keyEvent);
     }
 
-    public View.OnClickListener onStateClick() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onOpenStateListDialog();
-            }
-        };
+    void validateAddUpdateAddressForm(Activity activity, boolean addAddress, EditText address, EditText city, TextView state, EditText pincode) {
+        if (Validation.isEmpty(address)) {
+            getNavigator().invalidAddOrUpdateForm(activity.getString(R.string.error_empty_address));
+        } else if (Validation.isEmpty(city)) {
+            getNavigator().invalidAddOrUpdateForm(activity.getString(R.string.error_empty_city));
+        } else if (Validation.isEmpty(state)) {
+            getNavigator().invalidAddOrUpdateForm(activity.getString(R.string.error_empty_state));
+        } else if (Validation.isEmpty(pincode)) {
+            getNavigator().invalidAddOrUpdateForm(activity.getString(R.string.error_empty_pincode));
+        } else if (!Validation.isValidPincode(pincode)) {
+            getNavigator().invalidAddOrUpdateForm(activity.getString(R.string.error_pincode_valid));
+        } else if (Utility.isConnection(activity)) {
+            if (addAddress) getNavigator().validAddAddressForm();
+            else getNavigator().validUpdateAddressForm();
+        } else {
+            getNavigator().noInternetAlert();
+        }
     }
 
-    public void updateState(String state) {
-        this.state.set(state);
-    }
 
-    public ObservableField<String> getState() {
-        return state;
-
-    }
-
-    public void AddAddress(final QAddAddress addAddress) {
-
-        Call<RUserAddress> mAddAddress = getDataManager().addAddress(addAddress);
-        mAddAddress.enqueue(new ApiResponse<RUserAddress>() {
+    public void callAddAddressApi(String address, String city, String landmark, int pincode, DataState state) {
+        QAddAddress qAddAddress = new QAddAddress();
+        qAddAddress.setAddress(address);
+        qAddAddress.setCity(city);
+        qAddAddress.setLandmark(landmark);
+        qAddAddress.setPincode(pincode);
+        qAddAddress.setState(state);
+        getDataManager().addAddress(qAddAddress).enqueue(new ApiResponse<RUserAddress>() {
             @Override
             public void onSuccess(RUserAddress generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
@@ -117,13 +157,22 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
         });
     }
 
-    public void UpdateAddress(DataUserAddress addAddress) {
-        DataUser userData = getDataManager().getUserData();
+
+    public void callUpdateAddressApi(String id, String address, String city, String landmark, int pincode, DataState state) {
+        DataUserAddress userAddress = new DataUserAddress();
+        userAddress.setId(id);
+        userAddress.setAddress(address);
+        userAddress.setCity(city);
+        userAddress.setLandmark(landmark);
+        userAddress.setPincode(pincode);
+        userAddress.setState(state);
+
         List<DataUserAddress> mUserAddresses = new ArrayList<>();
-        mUserAddresses.add(addAddress);
+        mUserAddresses.add(userAddress);
+
+        DataUser userData = getDataManager().getUserData();
         userData.setAddresses(mUserAddresses);
-        Call<RLogin> mAddAddress = getDataManager().updateProfile(userData);
-        mAddAddress.enqueue(new ApiResponse<RLogin>() {
+        getDataManager().updateProfile(userData).enqueue(new ApiResponse<RLogin>() {
             @Override
             public void onSuccess(RLogin generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
@@ -146,28 +195,27 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
         });
     }
 
-    public void getStateListAPI() {
-
+    public void callGetStateListApi() {
         Call<RStateList> stateList = getDataManager().getStateList("state/list");
         stateList.enqueue(new ApiResponse<RStateList>() {
             @Override
             public void onSuccess(RStateList rStateList, Headers headers) {
                 if (rStateList.isStatus()) {
-                    getNavigator().onApiSuccessState(rStateList.getData());
-                    getNavigator().onOpenStateListDialog();
+                    getNavigator().setStateList(rStateList.getData());
+                    getNavigator().performClickState();
                 } else {
-                    getNavigator().onApiErrorState(new ApiError(rStateList.getErrorCode(), rStateList.getMessage()));
+                    getNavigator().onApiError(new ApiError(rStateList.getErrorCode(), rStateList.getMessage()));
                 }
             }
 
             @Override
             public void onError(ApiError t) {
-                getNavigator().onApiErrorState(t);
+                getNavigator().onApiError(t);
             }
         });
     }
 
-    public void getUserProfile() {
+    public void callGetUserProfileApi() {
         Call<RLogin> responseCall = getDataManager().getUserProfile("user/getProfile");
         responseCall.enqueue(new ApiResponse<RLogin>() {
             @Override
@@ -179,7 +227,7 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
                         setUserAddress(loginResponse.getData().getAddresses().get(0));
                         setIsAddressAvaliable(true);
                     }
-                    getNavigator().onApiSuccessUserProfile();
+                    getNavigator().setUserProfile();
                 } else {
                     getNavigator().onApiErrorUserProfile(new ApiError(loginResponse.getErrorCode(), loginResponse.getMessage()));
                 }
@@ -192,13 +240,6 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
         });
     }
 
-    public ObservableField<Boolean> IsAddressAvaliable() {
-        return isAddressAvaliable;
-    }
-
-    public void setIsAddressAvaliable(boolean isAddressAvaliable) {
-        this.isAddressAvaliable.set(isAddressAvaliable);
-    }
 
     public DataUserAddress getUserAddress() {
         return userAddress;

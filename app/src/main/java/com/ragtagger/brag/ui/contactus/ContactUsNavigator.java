@@ -8,6 +8,13 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface ContactUsNavigator extends CoreNavigator {
 
-    void send();
-    void back();
+    void performClickSend();
+
+    void noInternetAlert();
+
+    void validContactUsForm();
+
+    void invalidContactUsForm(String msg);
+
+    void goBack();
 }

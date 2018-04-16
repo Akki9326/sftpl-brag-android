@@ -11,6 +11,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -55,8 +56,8 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
     RelativeLayout mRelText;
 
     protected B bActivity = (B) this;
-    private T mViewDataBinding;
-    private V mViewModel;
+    protected T mViewDataBinding;
+    protected V mViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,22 +86,39 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
 
     @Override
     public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack, String tag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (shouldAnimate) {
+            ft.setCustomAnimations(R.anim.right_in, R.anim.left_out,
+                    R.anim.left_in, R.anim.right_out);
+        }
+        if (addToStack) {
+            ft.addToBackStack(tag);
+        }
+        if (getSupportFragmentManager().findFragmentById(containerId) != null) {
+            ft.hide(getSupportFragmentManager().findFragmentById(containerId));
+        }
+        ft.add(containerId, fragment);
 
+        if (!isFinishing()) {
+            ft.commitAllowingStateLoss();
+        } else {
+            ft.commit();
+        }
     }
 
     @Override
     public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, boolean addToStack) {
-
+        pushFragment(containerId, fragment, shouldAnimate, addToStack, fragment.getClass().getSimpleName());
     }
 
     @Override
     public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate, String tag) {
-
+        pushFragment(containerId, fragment, shouldAnimate, false, tag);
     }
 
     @Override
     public void pushFragment(int containerId, Fragment fragment, boolean shouldAnimate) {
-
+        pushFragment(containerId, fragment, shouldAnimate, false, fragment.getClass().getSimpleName());
     }
 
     /**
@@ -210,6 +228,14 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(permission, requestCode);
         }
+    }
+
+    public interface OnToolbarSetupListener {
+        void setUpToolbar();
+    }
+
+    public interface OnDrawerStateListener {
+        boolean manageDrawerOnBackPressed();
     }
 
     public void setUpToolbar(Toolbar toolbar, TextView toolbarTitle, ImageView back, ImageView logo, LinearLayout linearCart, TextView bagCount, RelativeLayout relText, TextView textReadAll) {
@@ -324,14 +350,5 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
         } else {
             return getString(R.string.toolbar_label_notification);
         }
-    }
-
-
-    public interface OnToolbarSetupListener {
-        void setUpToolbar();
-    }
-
-    public interface OnDrawerStateListener {
-        boolean manageDrawerOnBackPressed();
     }
 }

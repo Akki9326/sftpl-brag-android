@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ragtagger.brag.ui.toolbar.ToolbarViewModel" />
+    </data>
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/WhiteDrawerIconStyle">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/relative_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="@{!viewModel.displayLogo ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel!= null ? viewModel.toolbarTitle : viewModel}"
+                        android:textColor="@color/text_black"
+                        android:visibility="@{viewModel.displayTitle ? View.VISIBLE : View.GONE}" />
+
+                    <ImageView
+                        android:id="@+id/imageView_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{viewModel.onBackButtonClick()}"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_arrow_back"
+                        android:tint="@color/text_black"
+                        android:visibility="@{viewModel.displayBack ? View.VISIBLE : View.GONE}" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="@{viewModel.displayLogo ? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:id="@+id/imageView_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_logo" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_cart"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_cart"
+                android:gravity="right"
+                android:onClick="@{viewModel.onCartButtonClick()}"
+                android:visibility="@{viewModel.displayCart ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/badge_tv_toolbar"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@drawable/notification_counter_bg"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@{viewModel.badgeCount}"
+                    android:textColor="@color/white"
+                    android:textSize="6sp"
+                    android:visibility="@{viewModel.showBadge ? View.VISIBLE : View.GONE}" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+</layout>

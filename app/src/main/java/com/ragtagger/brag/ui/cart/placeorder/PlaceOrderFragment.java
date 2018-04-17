@@ -67,8 +67,9 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
-                mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData()
-                        .getFullAddressWithNewLine());
+                if (!mPlaceOrderViewModel.getIsSalesUser())
+                    mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData()
+                            .getFullAddressWithNewLine());
             }
         }
     };
@@ -91,13 +92,17 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void beforeViewCreated() {
-
+        mList = new ArrayList<>();
+        mList = getArguments().getParcelableArrayList(Constants.BUNDLE_CART_LIST);
     }
 
     @Override
     public void afterViewCreated() {
         mFragmentPlaceOrderBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentPlaceOrderBinding.baseLayout);
+        if (mPlaceOrderViewModel.getIsSalesUser())
+            mPlaceOrderViewModel.setIsCustomerSelected(false);
+
         initializeData();
         showData();
         checkInternetAndCallApi();
@@ -156,14 +161,12 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         defaultItemAnimator.setRemoveDuration(200);
         mFragmentPlaceOrderBinding.recycleview.setItemAnimator(defaultItemAnimator);
-
-        mList = new ArrayList<>();
-        mList = getArguments().getParcelableArrayList(Constants.BUNDLE_CART_LIST);
     }
 
     public void showData() {
         //default address pre filled
-        mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData().getFullAddressWithNewLine());
+        if (!mPlaceOrderViewModel.getIsSalesUser())
+            mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData().getFullAddressWithNewLine());
 
         mAdapter = new PlaceOrderCartListAdapter(getActivity(), mList, this);
         mFragmentPlaceOrderBinding.recycleview.setAdapter(mAdapter);
@@ -227,7 +230,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void performClickPlaceOrder() {
-        if (!mPlaceOrderViewModel.isAddressAvaliable.get()) {
+        if (!mPlaceOrderViewModel.isAddressAvailable.get()) {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
         } else if (Utility.isConnection(getActivity())) {
             showProgress();

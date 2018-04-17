@@ -153,7 +153,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
     }
 
 
-    @Override
     public void performSwipeRefresh() {
         mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(true);
         checkInternetAndCallApi(false);

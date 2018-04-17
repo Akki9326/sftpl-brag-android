@@ -100,9 +100,9 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         Utility.applyTypeFace(getActivity(), (LinearLayout) mFragmentSignUpBinding.baseLayout);
 
         mFragmentSignUpBinding.edittextGstIn.setFilters(new InputFilter[]{TextFilterUtils.getAlphaNumericFilter(), TextFilterUtils.getLengthFilter(15)});
-        mUserTypeDropDown.add(new DropdownItem("Retailer", 0));
-        mUserTypeDropDown.add(new DropdownItem("Distributor", 1));
-        mUserTypeDropDown.add(new DropdownItem("Sales representative", 2));
+        mUserTypeDropDown.add(new DropdownItem("Retailer", Constants.UserType.RETAILER.getId()));
+        mUserTypeDropDown.add(new DropdownItem("Distributor", Constants.UserType.DISTRIBUTOR.getId()));
+        mUserTypeDropDown.add(new DropdownItem("Sales representative", Constants.UserType.SALES_REPRESENTATIVE.getId()));
         mFragmentSignUpBinding.textviewUserType.setText(mUserTypeDropDown.get(0).getValue());
         mSelectedUserType = mUserTypeDropDown.get(0).getId();
 

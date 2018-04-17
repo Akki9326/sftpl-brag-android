@@ -158,11 +158,21 @@ public class Constants {
         }
     }
 
-    /*public enum NotificationType {
-        TEXT,
-        OTHER,
-        LOGIN;
-    }*/
+    public enum UserType {
+        RETAILER(0),
+        DISTRIBUTOR(1),
+        SALES_REPRESENTATIVE(2);
+
+        UserType(int i) {
+            this.id = i;
+        }
+
+        private int id;
+
+        public int getId() {
+            return id;
+        }
+    }
 
     public enum NotificationType {
         TEXT,

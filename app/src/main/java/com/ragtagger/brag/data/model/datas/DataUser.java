@@ -137,6 +137,10 @@ public class DataUser implements Parcelable {
         isActive = active;
     }
 
+    public int getUserType() {
+        return userType;
+    }
+
     public Boolean getDeleted() {
         return isDeleted;
     }

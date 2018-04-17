@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.data.model.response.RLogin;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
+import com.ragtagger.brag.utils.Constants;
 
 import okhttp3.Headers;
 import retrofit2.Call;
@@ -35,12 +36,64 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
     ObservableField<String> total = new ObservableField<>();
     ObservableField<String> listSize = new ObservableField<>();
     ObservableField<String> address = new ObservableField<>();
-    ObservableField<Boolean> isAddressAvaliable = new ObservableField<>();
+    ObservableField<Boolean> isAddressAvailable = new ObservableField<>();
+
+
+    ObservableField<Boolean> isCustomerSelected = new ObservableField<>();
+    ObservableField<String> customerName = new ObservableField<>();
+
     String itemsLable;
     DataUserAddress userAddress;
 
     public PlaceOrderViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+
+    public boolean getIsSalesUser() {
+        return getDataManager().getUserData().getUserType() == Constants.UserType.SALES_REPRESENTATIVE.getId();
+    }
+
+    public ObservableField<Boolean> getIsCustomerSelected() {
+        return isCustomerSelected;
+    }
+
+    public void setIsCustomerSelected(boolean isCustomerSelected) {
+        this.isCustomerSelected.set(isCustomerSelected);
+    }
+
+    public ObservableField<String> getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName.set(customerName);
+    }
+
+    public String getFullName() {
+        return getDataManager().getUserData().getFullName();
+    }
+
+    public String getMobileNum() {
+        return getDataManager().getUserData().getMobileNumber();
+    }
+
+    public ObservableField<Boolean> getIsAddressAvailable() {
+        return isAddressAvailable;
+    }
+
+    private void setIsAddressAvailable(boolean isAddressAvailable) {
+        this.isAddressAvailable.set(isAddressAvailable);
+    }
+
+    public void setAddress(String address) {
+        if (!address.isEmpty())
+            setIsAddressAvailable(true);
+        this.address.set(address);
+    }
+
+    public ObservableField<String> getFullAddress() {
+        return address;
     }
 
     public void setTotal(String total) {
@@ -51,13 +104,6 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         return total;
     }
 
-    public String getFullName() {
-        return getDataManager().getUserData().getFullName();
-    }
-
-    public String getMobileNum() {
-        return getDataManager().getUserData().getMobileNumber();
-    }
 
     public void setListSize(int listSize) {
         this.listSize.set(String.valueOf(listSize));
@@ -76,13 +122,6 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         return itemsLable;
     }
 
-    public ObservableField<Boolean> IsAddressAvaliable() {
-        return isAddressAvaliable;
-    }
-
-    public void setIsAddressAvaliable(boolean isAddressAvaliable) {
-        this.isAddressAvaliable.set(isAddressAvaliable);
-    }
 
     public DataUserAddress getUserAddress() {
         return userAddress;
@@ -92,15 +131,6 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         this.userAddress = userAddress;
     }
 
-    public ObservableField<String> getFullAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        if (!address.isEmpty())
-            setIsAddressAvaliable(true);
-        this.address.set(address);
-    }
 
     public View.OnClickListener onAddAddress() {
         return new OnSingleClickListener() {
@@ -148,9 +178,9 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
                     getNavigator().onApiSuccess();
                     setAddress(loginResponse.getData().getFullAddressWithNewLine());
                     if (loginResponse.getData().getAddresses() == null || loginResponse.getData().getAddresses().isEmpty()) {
-                        setIsAddressAvaliable(false);
+                        setIsAddressAvailable(false);
                     } else {
-                        setIsAddressAvaliable(true);
+                        setIsAddressAvailable(true);
                         setUserAddress(loginResponse.getData().getAddresses().get(0));
                     }
                 } else {

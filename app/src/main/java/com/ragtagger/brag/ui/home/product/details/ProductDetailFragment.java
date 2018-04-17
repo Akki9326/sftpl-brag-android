@@ -11,7 +11,6 @@ package com.ragtagger.brag.ui.home.product.details;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -23,8 +22,6 @@ import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ragtagger.brag.BR;
@@ -44,6 +41,7 @@ import com.ragtagger.brag.ui.home.product.details.adapter.ColorListAdapter;
 import com.ragtagger.brag.ui.home.product.details.adapter.SizeListAdapter;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -51,7 +49,6 @@ import com.ragtagger.brag.views.FullScreenImageDialogFragment;
 import com.ragtagger.brag.views.HorizontalSpacingDecoration;
 import com.ragtagger.brag.views.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import com.ragtagger.brag.views.keyboardvisibilityevent.KeyboardVisibilityEventListener;
-import com.ragtagger.brag.views.webview.WebviewDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +61,7 @@ import javax.inject.Named;
  */
 
 
-public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements /*IOnItemClickListener,*/ IOnProductSizeSelectListener, IOnProductColorSelectListener, ProductDetailNavigator, ImagePagerAdapter.IOnImagePageClickListener /*BaseInterface,*/ {
+public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBinding, ProductDetailViewModel> implements IOnProductColorSelectListener, IOnProductSizeSelectListener, ImagePagerAdapter.IOnImagePageClickListener, ProductDetailNavigator {
 
     @Inject
     ProductDetailViewModel mProductDetailViewModel;
@@ -78,13 +75,12 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     FragmentProductDetailBinding mFragmentProductDetailBinding;
 
     ColorListAdapter mColorListAdapter;
-
     DataProductList mProductData;
-    List<DataProductList.Products> mProductList;
     DataProductList.Size mSizedProduct;
-    int mSelectedColorPosition = 0;
 
+    List<DataProductList.Products> mProductList;
     List<RImagePager> imagePagerResponeList;
+    int mSelectedColorPosition = 0;
     int mQuality;
     String mSizeGuide;
     boolean isDefaultAdded = false;
@@ -212,23 +208,19 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
                     mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
                     mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
                     mFragmentProductDetailBinding.recycleViewColor.scrollToPosition(mSelectedColorPosition);
-                    //mFragmentProductDetailBinding.recycleViewColor.smoothScrollToPosition(mSelectedColorPosition);
                 }
 
                 onColorProductSelected(mProductList.get(mSelectedColorPosition).getSizes(), mProductList.get(mSelectedColorPosition).getItemCategoryCode());
             }
         }
-
         KeyboardVisibilityEvent.setEventListener(
                 getActivity(), mKeyboardEventListener);
     }
 
     @Override
     public void setUpToolbar() {
-        if (getActivity() instanceof MainActivity)
-            ((MainActivity) getActivity()).showToolbar(true, false, true, getString(R.string.toolbar_label_product_detail));
-        else if (getActivity() instanceof NotificationHandlerActivity)
-            ((NotificationHandlerActivity) getActivity()).showPushToolbar(true, true, getString(R.string.toolbar_label_product_detail));
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(true, false, true, getString(R.string.toolbar_label_product_detail));
     }
 
     @Override
@@ -246,6 +238,35 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         return R.layout.fragment_product_detail;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+
+    public void checkInternet() {
+        if (Utility.isConnection(getActivity())) {
+            mProductDetailViewModel.getProductDetail(mItemId);
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+        }
+    }
+
+    private void updateQtyCursor() {
+        if (isKeyboardOpen)
+            if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0) {
+                mFragmentProductDetailBinding.textViewQty.setSelection(mFragmentProductDetailBinding.textViewQty.getText().toString().length());
+            } else {
+                mFragmentProductDetailBinding.textViewQty.setSelection(0);
+            }
+    }
 
     private void onColorProductSelected(List<DataProductList.Size> sizes, String category) {
         mSizeGuide = BragApp.getInstance().getSizeGuide(category);
@@ -268,30 +289,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         showData();
     }
 
-    public void checkInternet() {
-        if (Utility.isConnection(getActivity())) {
-            mProductDetailViewModel.getProductDetail(mItemId);
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
-    }
-
-    private void updateQtyCursor() {
-        if (isKeyboardOpen)
-            if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0) {
-                mFragmentProductDetailBinding.textViewQty.setSelection(mFragmentProductDetailBinding.textViewQty.getText().toString().length());
-            } else {
-                mFragmentProductDetailBinding.textViewQty.setSelection(0);
-            }
-    }
-
 
     public void showData() {
-
         //// TODO: 3/12/2018 if data not available than display no data screen
         mProductDetailViewModel.updateIsLoading(false);
         if (mSizedProduct != null) {
-
             isDefaultAdded = mSizedProduct.isIsDefault();
             imagePagerResponeList.clear();
             for (String url : mSizedProduct.getImages()) {
@@ -322,13 +324,6 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         }
     }
 
-
-    @Override
-    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
-        mSizedProduct = item;
-        showData();
-    }
-
     @Override
     public void onSelectedColor(int prevPos, int pos, List<DataProductList.Size> sizes) {
         if (prevPos != pos) {
@@ -339,20 +334,27 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
     @Override
-    public void onApiSuccess() {
-        hideProgress();
+    public void OnSelectedSize(int prevPos, int pos, DataProductList.Size item) {
+        mSizedProduct = item;
+        showData();
     }
 
     @Override
-    public void onApiError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-
+    public void onImagePageClick(int pos, RImagePager item) {
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(Constants.BUNDLE_IMAGE_LIST, (ArrayList<? extends Parcelable>) imagePagerResponeList);
+        args.putInt(Constants.BUNDLE_POSITION, pos);
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
+        mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
+        mDialogFragmentImage.setArguments(args);
+        mDialogFragmentImage.show(fm, "");
     }
 
+
     @Override
-    public void sizeGuide() {
-//        pushSizeGuideFragment();
+    public void performClickSizeGuide() {
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_IMAGE_URL, mSizeGuide);
         FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -364,7 +366,32 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
     @Override
-    public void plus() {
+    public void afterTextChanged(Editable s) {
+        if (s != null) {
+            if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
+                mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
+                mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
+                mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
+            } else if (Integer.valueOf(s.toString()) > mSizedProduct.getStockData()) {
+                mFragmentProductDetailBinding.textViewAvailQty.setTextColor(Color.RED);
+                mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
+                mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
+            } else {
+                mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
+                mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.white));
+                mFragmentProductDetailBinding.textviewAddCart.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
+    public boolean onEditorActionHide(TextView textView, int i, KeyEvent keyEvent) {
+        Utility.hideSoftkeyboard(getActivity());
+        return false;
+    }
+
+    @Override
+    public void performClickPlus() {
         if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()) < mSizedProduct.getStockData()) {//if (mQuality < mSizedProduct.getStockData()) {
             mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality++;
@@ -376,13 +403,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             ((CoreActivity) getActivity()).showToast(getString(R.string.error_no_more_quantity));
         }
         updateQtyCursor();
-
     }
 
     @Override
-    public void minus() {
+    public void performClickMinus() {
         if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()) == 1) {
-            return;
         } else if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0) {
             mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality--;
@@ -393,12 +418,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void onEditTextQty() {
-
-
     }
 
+
     @Override
-    public void addToCart() {
+    public void performAddToCartClick() {
         if (Utility.isConnection(getActivity())) {
             mProductDetailViewModel.addToCart(mSizedProduct.getNo(), Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()));
         } else {
@@ -422,7 +446,16 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
     @Override
-    public void notifyMe() {
+    public void updatePushCart() {
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).updateCartNum();
+        } else if (getActivity() instanceof NotificationHandlerActivity) {
+            ((NotificationHandlerActivity) getActivity()).updateCartNum();
+        }
+    }
+
+    @Override
+    public void performClickNotifyMe() {
         if (Utility.isConnection(getActivity())) {
             mProductDetailViewModel.notifyMe(mSizedProduct.getNo());
         } else {
@@ -436,12 +469,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     }
 
     @Override
-    public void onApiSuccessProductDetail(DataProductList.Products products) {
-        hideProgress();
+    public void setProductDetails(DataProductList.Products products) {
         if (products != null) {
             List<DataProductList.Products> colorList = new ArrayList<>();
-
-            //color list
             colorList.add(products);
             if (mColorListAdapter != null) {
                 mColorListAdapter.reset(colorList, mSelectedColorPosition);
@@ -450,84 +480,19 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
                 mFragmentProductDetailBinding.recycleViewColor.setAdapter(mColorListAdapter);
                 mFragmentProductDetailBinding.recycleViewColor.addItemDecoration(new HorizontalSpacingDecoration(10));
                 mFragmentProductDetailBinding.recycleViewColor.scrollToPosition(mSelectedColorPosition);
-                //mFragmentProductDetailBinding.recycleViewColor.smoothScrollToPosition(mSelectedColorPosition);
             }
-
-            //size list
-            /*List<DataProductList.Size> mSizes = new ArrayList<>();
-            mSizes.add(new DataProductList.Size(products.getNo(), products.getDescription(), products.getDescription2()
-                    , products.getSizeCode(), products.getUnitOfMeasure(), products.getUnitPrice(), products.getStockData()
-                    , true, products.getImages()));*/
             onColorProductSelected(products.getSizes(), products.getItemCategoryCode());
         }
-
-
     }
 
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+    }
 
     @Override
-    public void onApiErrorProductDetail(ApiError error) {
+    public void onApiError(ApiError error) {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (s != null) {
-            if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
-                mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
-                mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
-                mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
-            } else if (Integer.valueOf(s.toString()) > mSizedProduct.getStockData()) {
-                mFragmentProductDetailBinding.textViewAvailQty.setTextColor(Color.RED);
-                mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
-                mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
-            } else {
-                mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
-                mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.white));
-                mFragmentProductDetailBinding.textviewAddCart.setEnabled(true);
-            }
-        }
-    }
-
-    @Override
-    public void updatePushCart() {
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).updateCartNum();
-        } else if (getActivity() instanceof NotificationHandlerActivity) {
-            ((NotificationHandlerActivity) getActivity()).updateCartNum();
-        }
-    }
-
-    @Override
-    public boolean onEditorActionHide(TextView textView, int i, KeyEvent keyEvent) {
-        Utility.hideSoftkeyboard(getActivity());
-        return false;
-    }
-
-    @Override
-    public void onImagePageClick(int pos, RImagePager item) {
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(Constants.BUNDLE_IMAGE_LIST, (ArrayList<? extends Parcelable>) imagePagerResponeList);
-        args.putInt(Constants.BUNDLE_POSITION, pos);
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
-        mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
-        mDialogFragmentImage.setArguments(args);
-        mDialogFragmentImage.show(fm, "");
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 }

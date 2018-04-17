@@ -87,7 +87,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:onClick="@{viewModel::onCartClick}"
                     android:src="@drawable/ic_cart_added"
                     android:visibility="@{viewModel.alreadyInCart?View.VISIBLE:View.GONE}" />
 

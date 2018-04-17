@@ -9,8 +9,10 @@ package com.ragtagger.brag.ui.cart;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.downloader.core.Core;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataCart;
+import com.ragtagger.brag.ui.core.CoreNavigator;
 
 import java.util.List;
 
@@ -19,19 +21,15 @@ import java.util.List;
  */
 
 
-public interface CartNavigator {
+public interface CartNavigator extends CoreNavigator {
 
-    void onApiSuccess();
+    void performClickPrice();
 
-    void onApiError(ApiError error);
+    void performClickContinues();
 
-    void onContinuesClick();
+    void performSwipeRefresh();
 
-    void onPriceClick();
-
-    void swipeRefresh();
-
-    void getCartList(List<DataCart> list);
+    void setCartList(List<DataCart> list);
 
     void onSuccessDeleteFromAPI();
 

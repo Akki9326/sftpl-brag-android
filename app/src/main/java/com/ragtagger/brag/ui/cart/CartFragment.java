@@ -30,6 +30,7 @@ import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.cart.editquantity.EditQtyDialogFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -48,46 +49,25 @@ import javax.inject.Inject;
 public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewModel> implements CartNavigator, CartListAdapter.OnItemClick {
 
     public static final int REQUEST_QTY = 1;
-    int positionQty;
-
-
-    CartListAdapter mAdapter;
-    List<DataCart> mList;
 
     @Inject
     CartViewModel cartViewModel;
-
     FragmentCartBinding mFragmentCartBinding;
+
+    CartListAdapter mAdapter;
     DataCart mCartItemDeleteData;
+
+    List<DataCart> mList;
     String mEditQtyItemNo;
     String mEditQtyItemId;
     int updateItemQtyNum;
+    int positionQty;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cartViewModel.setNavigator(this);
     }
-
-
-    private void checkInternetAndCallApi(boolean showProgress) {
-        if (isAdded())
-            if (Utility.isConnection(getActivity())) {
-                cartViewModel.setNoInternet(false);
-                if (showProgress)
-                    showProgress();
-                cartViewModel.getCartData();
-            } else {
-                mFragmentCartBinding.swipeRefreshLayout.setRefreshing(false);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        cartViewModel.setNoInternet(true);
-                    }
-                }, 150);
-            }
-    }
-
 
     @Override
     public void beforeViewCreated() {
@@ -107,15 +87,12 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
                 checkInternetAndCallApi(true);
             }
         });
-
     }
 
     @Override
     public void setUpToolbar() {
-        if (getActivity() instanceof MainActivity)
-            ((MainActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_cart));
-        else if (getActivity() instanceof NotificationHandlerActivity)
-            ((NotificationHandlerActivity)getActivity()).showPushToolbar(true,false,getResources().getString(R.string.toolbar_label_cart));
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_cart));
     }
 
     @Override
@@ -123,9 +100,24 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         return cartViewModel;
     }
 
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_cart;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
+    }
 
     public void initializeData() {
-
         mFragmentCartBinding.recycleView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mFragmentCartBinding.recycleView.setLayoutManager(layoutManager);
@@ -141,8 +133,41 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         mFragmentCartBinding.linearCart.setVisibility(View.VISIBLE);
         mFragmentCartBinding.linearBasePrice.setVisibility(View.GONE);
         mList = new ArrayList<>();
+    }
 
+    private void checkInternetAndCallApi(boolean showProgress) {
+        if (isAdded())
+            if (Utility.isConnection(getActivity())) {
+                cartViewModel.setNoInternet(false);
+                if (showProgress)
+                    showProgress();
+                cartViewModel.callGetCartDataApi();
+            } else {
+                mFragmentCartBinding.swipeRefreshLayout.setRefreshing(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        cartViewModel.setNoInternet(true);
+                    }
+                }, 150);
+            }
+    }
 
+    private void setTotalPrice() {
+        double total = 0;
+        for (int i = 0; i < mList.size(); i++) {
+            total += (mList.get(i).getQuantity()) * (mList.get(i).getItem().getUnitPrice());
+        }
+        cartViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(total));
+        cartViewModel.setListNum(mList.size());
+    }
+
+    private void hideLoader() {
+        if (mFragmentCartBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentCartBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+        }
     }
 
 
@@ -154,7 +179,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
             if (updateItemQtyNum != mList.get(positionQty).getQuantity()) {
                 if (Utility.isConnection(getActivity())) {
                     showProgress();
-                    cartViewModel.editQty(mEditQtyItemId, mEditQtyItemNo, updateItemQtyNum);
+                    cartViewModel.callEditQtyApi(mEditQtyItemId, mEditQtyItemNo, updateItemQtyNum);
                 } else {
                     AlertUtils.showAlertMessage(getActivity(), 0, null, null);
                 }
@@ -168,7 +193,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         if (Utility.isConnection(getActivity())) {
             showProgress();
             mCartItemDeleteData = responeData;
-            cartViewModel.removeFromCart(responeData.getItemId());
+            cartViewModel.callRemoveFromCartApi(responeData.getItemId());
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
@@ -188,26 +213,12 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         dialogFragment.show(getFragmentManager(), "");
     }
 
-
     @Override
-    public void onApiSuccess() {
-        hideLoader();
-        mFragmentCartBinding.linearBasePrice.setVisibility(View.VISIBLE);
+    public void performClickPrice() {
     }
 
     @Override
-    public void onApiError(ApiError error) {
-        hideLoader();
-        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            cartViewModel.setNoInternet(true);
-            return;
-        }
-        cartViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void onContinuesClick() {
+    public void performClickContinues() {
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).pushFragments(PlaceOrderFragment.newInstance(mList), true, true);
         else if (getActivity() instanceof NotificationHandlerActivity)
@@ -216,19 +227,13 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     }
 
     @Override
-    public void onPriceClick() {
-        //mFragmentCartBinding.recycleView.scrollToPosition(mList.size() - 1);
-    }
-
-    @Override
-    public void swipeRefresh() {
+    public void performSwipeRefresh() {
         mFragmentCartBinding.swipeRefreshLayout.setRefreshing(true);
         checkInternetAndCallApi(false);
     }
 
     @Override
-    public void getCartList(List<DataCart> list) {
-
+    public void setCartList(List<DataCart> list) {
         mList = new ArrayList<>();
         mList.addAll(list);
         mAdapter = new CartListAdapter(getActivity(), mList, this);
@@ -282,39 +287,21 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
-
     @Override
-    public int getBindingVariable() {
-        return BR.viewModel;
+    public void onApiSuccess() {
+        hideLoader();
+        mFragmentCartBinding.linearBasePrice.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.fragment_cart;
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
-    }
-
-    private void setTotalPrice() {
-
-        double total = 0;
-        for (int i = 0; i < mList.size(); i++) {
-            total += (mList.get(i).getQuantity()) * (mList.get(i).getItem().getUnitPrice());
+    public void onApiError(ApiError error) {
+        hideLoader();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            cartViewModel.setNoInternet(true);
+            return;
         }
-        cartViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(total));
-        cartViewModel.setListNum(mList.size());
+        cartViewModel.setNoInternet(false);
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
-    public void hideLoader() {
-        if (mFragmentCartBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentCartBinding.swipeRefreshLayout.setRefreshing(false);
-        } else {
-            hideProgress();
-        }
-    }
 }

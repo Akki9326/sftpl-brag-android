@@ -13,15 +13,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-
-import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.callback.IFragmentCallback;
 import com.ragtagger.brag.callback.IFragmentLoader;
@@ -30,7 +23,6 @@ import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Common;
 import com.ragtagger.brag.utils.NetworkUtils;
 import com.ragtagger.brag.utils.ToastUtils;
-import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.views.CustomProgressDialog;
 
 import dagger.android.AndroidInjection;
@@ -44,19 +36,10 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
 
     // this can probably depend on isLoading variable of CoreViewModel,
     // since its going to be common for all the activities
-
-    Toolbar mToolbar;
-    TextView mToolbarTitle, mTxtBagCount;
-    public TextView mTxtReadAll;
-    ImageView mImgBack;
-    ImageView mImgLogo;
-
-    LinearLayout mLinearCart;
     CustomProgressDialog mProgressDialog;
-    RelativeLayout mRelText;
 
     protected B bActivity = (B) this;
-    protected T mViewDataBinding;
+    private T mViewDataBinding;
     protected V mViewModel;
 
     @Override
@@ -210,7 +193,7 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
     }
 
     public void showAlert(String msg) {
-        if (bActivity != null) AlertUtils.createProgressDialog(bActivity, msg);
+        if (bActivity != null) AlertUtils.showAlertMessage(bActivity, msg);
     }
 
     public void showToast(String msg) {
@@ -236,119 +219,5 @@ public abstract class CoreActivity<B extends CoreActivity, T extends ViewDataBin
 
     public interface OnDrawerStateListener {
         boolean manageDrawerOnBackPressed();
-    }
-
-    public void setUpToolbar(Toolbar toolbar, TextView toolbarTitle, ImageView back, ImageView logo, LinearLayout linearCart, TextView bagCount, RelativeLayout relText, TextView textReadAll) {
-
-        mToolbar = toolbar;
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-        mToolbarTitle = toolbarTitle;
-        mImgBack = back;
-        mImgLogo = logo;
-        mLinearCart = linearCart;
-        mTxtBagCount = bagCount;
-        mRelText = relText;
-        mTxtReadAll = textReadAll;
-
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        Utility.applyTypeFace(getApplicationContext(), toolbar);
-
-
-        mImgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Utility.hideSoftkeyboard(CoreActivity.this, view);
-                onBackPressed();
-            }
-        });
-    }
-
-    /**
-     * Main activity fragment toolbar
-     *
-     * @param isBackBtn
-     * @param isLogo
-     * @param isCardBtn
-     */
-    public void showToolbar(boolean isBackBtn, boolean isLogo, boolean isCardBtn) {
-        mTxtReadAll.setVisibility(View.GONE);
-        if (isBackBtn) {
-            mImgBack.setVisibility(View.VISIBLE);
-            mRelText.setVisibility(View.VISIBLE);
-        } else {
-            mImgBack.setVisibility(View.GONE);
-        }
-        if (isLogo) {
-            mImgLogo.setVisibility(View.VISIBLE);
-            mToolbarTitle.setVisibility(View.GONE);
-            mRelText.setVisibility(View.GONE);
-        } else {
-            mToolbarTitle.setVisibility(View.VISIBLE);
-            mRelText.setVisibility(View.VISIBLE);
-            mImgLogo.setVisibility(View.GONE);
-        }
-        if (isCardBtn) {
-            mLinearCart.setVisibility(View.VISIBLE);
-        } else {
-            mLinearCart.setVisibility(View.GONE);
-        }
-    }
-
-    public void showToolbar(boolean isBack, boolean isLogo, boolean isCard, String title) {
-        showToolbar(isBack, isLogo, isCard);
-        if (!isLogo)
-            mToolbarTitle.setText(title);
-    }
-
-    /**
-     * When title available but logo not there
-     *
-     * @param isBack
-     * @param isLogo
-     * @param title
-     * @param rightLabel
-     */
-    public void showToolbar(boolean isBack, boolean isLogo, String title, String rightLabel) {
-        mTxtReadAll.setVisibility(View.VISIBLE);
-        mToolbarTitle.setText(title);
-        mTxtReadAll.setText(rightLabel);
-        if (isBack) {
-            mImgBack.setVisibility(View.VISIBLE);
-            mRelText.setVisibility(View.VISIBLE);
-        } else {
-            mImgBack.setVisibility(View.GONE);
-        }
-        if (isLogo) {
-            mImgLogo.setVisibility(View.VISIBLE);
-            mToolbarTitle.setVisibility(View.GONE);
-            mRelText.setVisibility(View.GONE);
-        } else {
-            mToolbarTitle.setVisibility(View.VISIBLE);
-            mRelText.setVisibility(View.VISIBLE);
-            mImgLogo.setVisibility(View.GONE);
-        }
-    }
-
-    public void setBagCount(int num) {
-        if (num == 0) {
-            mTxtBagCount.setVisibility(View.GONE);
-        } else {
-            mTxtBagCount.setVisibility(View.VISIBLE);
-            mTxtBagCount.setText(Utility.getBadgeNumber(num));
-        }
-    }
-
-    public String getNotificationlabel() {
-        if (BragApp.NotificationNumber > 0) {
-            return getString(R.string.toolbar_label_notification) + " (" + Utility.getBadgeNumber(BragApp.NotificationNumber) + ")";
-        } else {
-            return getString(R.string.toolbar_label_notification);
-        }
     }
 }

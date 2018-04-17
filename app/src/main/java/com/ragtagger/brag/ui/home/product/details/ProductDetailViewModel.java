@@ -110,39 +110,36 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().sizeGuide();
+                getNavigator().performClickSizeGuide();
             }
         };
+    }
+
+    public void afterTextChanged(Editable s) {
+        getNavigator().afterTextChanged(s);
+    }
+
+    public boolean onEditorActionHide(@NonNull final TextView textView, final int actionId,
+                                      @Nullable final KeyEvent keyEvent) {
+        return getNavigator().onEditorActionHide(textView, actionId, keyEvent);
     }
 
     public View.OnClickListener onPlusClick() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getNavigator().plus();
+                getNavigator().performClickPlus();
             }
         };
-        /*return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().plus();
-            }
-        };*/
     }
 
     public View.OnClickListener onMinusClick() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getNavigator().minus();
+                getNavigator().performClickMinus();
             }
         };
-        /*return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().minus();
-            }
-        };*/
     }
 
     public View.OnClickListener onEditTextQtyClick() {
@@ -158,7 +155,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().addToCart();
+                getNavigator().performAddToCartClick();
             }
         };
     }
@@ -167,15 +164,11 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().notifyMe();
+                getNavigator().performClickNotifyMe();
             }
         };
     }
 
-    public boolean onEditorActionHide(@NonNull final TextView textView, final int actionId,
-                                      @Nullable final KeyEvent keyEvent) {
-        return getNavigator().onEditorActionHide(textView, actionId, keyEvent);
-    }
 
     public void addToCart(String itemId, int qty) {
         Call<RAddToCart> callAddToCart = getDataManager().addToCart(new QAddToCart(itemId, qty));
@@ -229,23 +222,21 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
             @Override
             public void onSuccess(RProduct rProduct, Headers headers) {
                 if (rProduct.isStatus()) {
-                    getNavigator().onApiSuccessProductDetail(rProduct.getData());
+                    getNavigator().onApiSuccess();
+                    getNavigator().setProductDetails(rProduct.getData());
                     BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
                     getNavigator().updatePushCart();
                 } else {
-                    getNavigator().onApiErrorProductDetail(new ApiError(rProduct.getErrorCode(), rProduct.getMessage()));
+                    getNavigator().onApiError(new ApiError(rProduct.getErrorCode(), rProduct.getMessage()));
                 }
             }
 
             @Override
             public void onError(ApiError t) {
-                getNavigator().onApiErrorProductDetail(t);
+                getNavigator().onApiError(t);
             }
         });
     }
 
 
-    public void afterTextChanged(Editable s) {
-        getNavigator().afterTextChanged(s);
-    }
 }

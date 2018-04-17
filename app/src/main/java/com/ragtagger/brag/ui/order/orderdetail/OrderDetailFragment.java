@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.downloader.Error;
@@ -45,13 +46,17 @@ import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderCartListAdapter;
 import com.ragtagger.brag.ui.order.orderdetail.adapter.OrderStatusStepperAdapter;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
+import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.FileUtils;
+import com.ragtagger.brag.utils.ToastUtils;
 import com.ragtagger.brag.utils.Utility;
 
 
 import java.io.File;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,21 +71,19 @@ import javax.inject.Inject;
 
 public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding, OrderDetailViewModel> implements OrderDetailNavigator {
 
-    final int REQUEST_PERMISSION = 01;
-
     @Inject
     OrderDetailViewModel orderDetailViewModel;
     FragmentOrderDetailBinding mFragmentOrderDetailBinding;
 
-    String orderId;
+    OrderStatusStepperAdapter mainStepperAdapter;
     DataMyOrder mData;
+
+    String orderId;
     int downloadId;
     String fileName;
 
-    OrderStatusStepperAdapter mainStepperAdapter;
 
     public static OrderDetailFragment newInstance(DataMyOrder data) {
-
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_ORDER_DATA, data);
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -138,10 +141,8 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
 
     @Override
     public void setUpToolbar() {
-        if (getActivity() instanceof MainActivity)
-            ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
-        else if (getActivity() instanceof NotificationHandlerActivity)
-            ((NotificationHandlerActivity) getActivity()).showPushToolbar(true, false, getString(R.string.toolbar_label_order_detail));
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(true, false, false, getString(R.string.toolbar_label_order_detail));
     }
 
     @Override
@@ -155,59 +156,15 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     }
 
     @Override
-    public void onApiSuccess() {
-        hideProgress();
-        showData();
+    public int getLayoutId() {
+        return R.layout.fragment_order_detail;
     }
 
     @Override
-    public void onApiError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void onApiReorderSuccess() {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_reorder_success));
-    }
-
-    @Override
-    public void onApiReorderError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void onDownloadInvoice() {
-
-        fileName = mData.getOrderNumber() + "_invoice.pdf";
-        String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
-        if (checkAndRequestPermissions()) {
-            if (FileUtils.isFileExist(pathWithFolder + "/" + fileName)) {
-                Utility.fileIntentHandle(getActivity(), new File(pathWithFolder +
-                        "/" + fileName));
-            } else {
-                if (Utility.isConnection(getContext())) {
-                    downloadFile();
-                } else {
-                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                }
-            }
-        }
-
-    }
-
-    @Override
-    public void onApiSuccessDownload() {
-        hideProgress();
-        onDownloadInvoice();
-    }
-
-    @Override
-    public void onApiErrorDownload(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
     }
 
     private void checkInternetAndGetDetails() {
@@ -220,7 +177,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                     @Override
                     public void run() {
                         showProgress();
-                        orderDetailViewModel.getOrderDetails(orderId);
+                        orderDetailViewModel.callOrderDetailsApi(orderId);
                     }
                 }, 500);
 
@@ -238,157 +195,11 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         Utility.makeFolder(path, getString(R.string.app_name));
         if (mData.getInvoiceUrl() != null && !mData.getInvoiceUrl().isEmpty()) {
             showProgress();
-            orderDetailViewModel.downloadInvoice(mData.getInvoiceUrl(), pathWithFolder, fileName);
+            orderDetailViewModel.callDownloadInvoiceApi(mData.getInvoiceUrl(), pathWithFolder, fileName);
         } else {
             AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_invoice_not_generated));
         }
-//        downloadfileFromPRDownloader(pathWithFolder);
-
     }
-
-    private void downloadfileFromPRDownloader(String path) {
-
-        if (Status.RUNNING == PRDownloader.getStatus(downloadId)) {
-            PRDownloader.pause(downloadId);
-            return;
-        }
-
-        mFragmentOrderDetailBinding.imageviewDownload.setEnabled(false);
-
-
-        if (Status.PAUSED == PRDownloader.getStatus(downloadId)) {
-            PRDownloader.resume(downloadId);
-            return;
-        }
-
-        downloadId = PRDownloader.download(orderDetailViewModel.getInvoiveUrl(), path, fileName)
-                .build()
-                .setOnStartOrResumeListener(new OnStartOrResumeListener() {
-                    @Override
-                    public void onStartOrResume() {
-                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download_close);
-                    }
-                })
-                .setOnPauseListener(new OnPauseListener() {
-                    @Override
-                    public void onPause() {
-                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
-                    }
-                })
-                .setOnCancelListener(new OnCancelListener() {
-                    @Override
-                    public void onCancel() {
-                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
-                        mFragmentOrderDetailBinding.progressBarDownload.setProgress(0);
-                        downloadId = 0;
-                    }
-                })
-                .setOnProgressListener(new OnProgressListener() {
-                    @Override
-                    public void onProgress(Progress progress) {
-                        long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
-                        mFragmentOrderDetailBinding.progressBarDownload.setProgress((int) progressPercent);
-                    }
-                })
-                .start(new OnDownloadListener() {
-                    @Override
-                    public void onDownloadComplete() {
-                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
-                        Toast.makeText(getContext(), getString(R.string.msg_download_complate), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        mFragmentOrderDetailBinding.imageviewDownload.setBackgroundResource(R.drawable.ic_download);
-                        Toast.makeText(getContext(), getString(R.string.error_download_file), Toast.LENGTH_SHORT).show();
-                        mFragmentOrderDetailBinding.progressBarDownload.setProgress(0);
-                        downloadId = 0;
-                    }
-                });
-    }
-
-
-    @Override
-    public void onReorderClick() {
-        String message = getString(R.string.msg_you_order_delived_address) + "\n" + mData.getFullAddressWithNewLine();
-        AlertUtils.showAlertMessageCancelOk(getContext(), message, new AlertUtils.IDialogListenerCancelAndOk() {
-            @Override
-            public void onCancelClick(Dialog dialog) {
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onOkClick(Dialog dialog) {
-                dialog.dismiss();
-                if (Utility.isConnection(getActivity())) {
-                    showProgress();
-                    orderDetailViewModel.reOrderAPI(mData.getId());
-                } else {
-                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onOrderDetails(DataMyOrder orderDetails) {
-        mData = orderDetails;
-        showData();
-    }
-
-    @Override
-    public void onNoOrderData() {
-        mData = null;
-        showData();
-
-    }
-
-    @Override
-    public void onCancelledClick() {
-        if (Utility.isConnection(getActivity())) {
-            showProgress();
-            orderDetailViewModel.onCancelOrder(mData.getId());
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
-    }
-
-    @Override
-    public void onApiCancelSuccess() {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_cancel_order));
-        //update order detail of states and cancel button
-        orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), Constants.OrderStatus.CANCELED.ordinal()));
-        orderDetailViewModel.setIsOrderPlaced(false);
-        mFragmentOrderDetailBinding.textviewStatus.setTextColor(getResources().getColor(R.color.order_status_red));
-        mData.setStatus(Constants.OrderStatus.CANCELED.ordinal());
-        mData.getStatusHistory().add(new DataOrderStatus(Constants.OrderStatus.CANCELED.ordinal()
-                , (new Timestamp(System.currentTimeMillis())).getTime()
-                , Constants.OrderStatusStepper.COMPLETE.ordinal()));
-        orderStatueStepperDataSet();
-        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_ORDER);
-        intent.putExtra(Constants.BUNDLE_IS_ORDER_CANCEL, true);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-    }
-
-    @Override
-    public void onApiCancelError(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-
-    }
-
-    @Override
-    public void onStatusClick() {
-//        ((MainActivity) getActivity()).pushFragments(new OrderStatusFragment(), true, true);
-
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.fragment_order_detail;
-    }
-
 
     public void showData() {
         orderDetailViewModel.updateIsLoading(false);
@@ -429,8 +240,6 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
     }
 
     private void orderStatueStepperDataSet() {
-
-        //order status stepper
         mainStepperAdapter = new OrderStatusStepperAdapter(getActivity(), mData.getStatusHistoryList());
         mFragmentOrderDetailBinding.orderStatus.stepperList.setAdapter(mainStepperAdapter);
         //set dynamic listview height
@@ -451,29 +260,10 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                 break;
             default:
                 mainStepperAdapter.jumpTo(mData.getStatusHistory().size());
-
+                break;
         }
-
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
-    }
-
-    @Override
-    public void onPermissionDenied(int request) {
-        super.onPermissionDenied(request);
-    }
-
-    @Override
-    public void onPermissionGranted(int request) {
-        super.onPermissionGranted(request);
-        onDownloadInvoice();
-    }
 
     private boolean checkAndRequestPermissions() {
         boolean hasPermissionReadData = hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -491,6 +281,125 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onPermissionDenied(int request) {
+        super.onPermissionDenied(request);
+    }
+
+    @Override
+    public void onPermissionGranted(int request) {
+        super.onPermissionGranted(request);
+        performClickDownloadInvoice();
+    }
+
+    @Override
+    public void setOrderDetails(DataMyOrder orderDetails) {
+        mData = orderDetails;
+        showData();
+    }
+
+    @Override
+    public void noData() {
+        mData = null;
+        showData();
+    }
+
+    @Override
+    public void performClickStatus() {
+    }
+
+    @Override
+    public void performClickCancel() {
+        if (Utility.isConnection(getActivity())) {
+            showProgress();
+            orderDetailViewModel.callCancelOrderApi(mData.getId());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+        }
+    }
+
+    @Override
+    public void onCancelledSuccessfully() {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_cancel_order));
+        //update order detail of states and cancel button
+        orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), Constants.OrderStatus.CANCELED.ordinal()));
+        orderDetailViewModel.setIsOrderPlaced(false);
+        mFragmentOrderDetailBinding.textviewStatus.setTextColor(getResources().getColor(R.color.order_status_red));
+        mData.setStatus(Constants.OrderStatus.CANCELED.ordinal());
+        mData.getStatusHistory().add(new DataOrderStatus(Constants.OrderStatus.CANCELED.ordinal()
+                , (new Timestamp(System.currentTimeMillis())).getTime()
+                , Constants.OrderStatusStepper.COMPLETE.ordinal()));
+        orderStatueStepperDataSet();
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_ORDER);
+        intent.putExtra(Constants.BUNDLE_IS_ORDER_CANCEL, true);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+
+    @Override
+    public void performClickDownloadInvoice() {
+        fileName = mData.getOrderNumber() + "_invoice.pdf";
+        String pathWithFolder = Environment.getExternalStorageDirectory().toString() + "/" + getString(R.string.app_name);
+        if (checkAndRequestPermissions()) {
+            if (FileUtils.isFileExist(pathWithFolder + "/" + fileName)) {
+                Utility.fileIntentHandle(getActivity(), new File(pathWithFolder +
+                        "/" + fileName));
+            } else {
+                if (Utility.isConnection(getContext())) {
+                    downloadFile();
+                } else {
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onDownloadInvoiceSuccessfully() {
+        hideProgress();
+        performClickDownloadInvoice();
+    }
+
+    @Override
+    public void performClickReorder() {
+        String message = getString(R.string.msg_you_order_delived_address) + "\n" + mData.getFullAddressWithNewLine();
+        AlertUtils.showAlertMessageCancelOk(getContext(), message, new AlertUtils.IDialogListenerCancelAndOk() {
+            @Override
+            public void onCancelClick(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onOkClick(Dialog dialog) {
+                dialog.dismiss();
+                if (Utility.isConnection(getActivity())) {
+                    showProgress();
+                    orderDetailViewModel.callReorderApi(mData.getId());
+                } else {
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onReorderSuccessfully() {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_reorder_success));
+    }
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+        showData();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
 }

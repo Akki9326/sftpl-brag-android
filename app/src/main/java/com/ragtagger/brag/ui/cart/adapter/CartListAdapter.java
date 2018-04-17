@@ -79,9 +79,9 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
     }
 
     public interface OnItemClick {
-        public void onDeleteItem(int position, DataCart responeData);
+        void onDeleteItem(int position, DataCart responeData);
 
-        public void onQtyClick(int position, DataCart responeData);
+        void onQtyClick(int position, DataCart responeData);
     }
 
     public class ViewHolder extends CoreViewHolder implements CartItemViewModel.OnItemClick {
@@ -92,7 +92,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         public ViewHolder(ItemListCartBinding itemView) {
             super(itemView.getRoot());
             this.itemBind = itemView;
-//            AnimationUtils.setHolderAnimatcateion(itemView.getRoot());
+            //AnimationUtils.setHolderAnimatcateion(itemView.getRoot());
             Utility.applyTypeFace(activity, itemBind.baseLayout);
         }
 

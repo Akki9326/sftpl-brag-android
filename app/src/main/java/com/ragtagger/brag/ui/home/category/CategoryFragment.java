@@ -27,6 +27,8 @@ import com.ragtagger.brag.ui.home.adapter.CategoryListAdapter;
 import com.ragtagger.brag.adapters.ImagePagerAdapter;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.databinding.FragmentCategoryBinding;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
+import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.views.erecyclerview.GridSpacingItemDecoration;
 import com.ragtagger.brag.callback.IOnItemClickListener;
@@ -52,12 +54,14 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Inject
     CategoryViewModel categoryViewModel;
-
     FragmentCategoryBinding mFragmentCategoryBinding;
 
     List<DataCategoryList.Category> mCategoryList;
     List<RImagePager> mBannerList;
 
+    public static CategoryFragment getInstance() {
+        return new CategoryFragment();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,17 +69,15 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         categoryViewModel.setNavigator(this);
     }
 
-
     @Override
     public void beforeViewCreated() {
-
+        mCategoryList = new ArrayList<>();
     }
 
     @Override
     public void afterViewCreated() {
         mFragmentCategoryBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentCategoryBinding.baseLayout);
-        mCategoryList = new ArrayList<>();
 
         categoryViewModel.setNoResult(false);
         categoryViewModel.setNoInternet(false);
@@ -90,7 +92,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
             @Override
             public void onSingleClick(View v) {
                 checkInternetAndCallApi(true);
-
             }
         });
 
@@ -99,28 +100,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void setUpToolbar() {
-
-    }
-
-
-    private void checkInternetAndCallApi(boolean showProgress) {
-        //hideProgressBar();
-        if (Utility.isConnection(getContext())) {
-            categoryViewModel.setNoInternet(false);
-            if (showProgress)
-                showProgress();
-            categoryViewModel.getCategoryData();
-        } else {
-            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    categoryViewModel.setNoInternet(true);
-                }
-            }, 150);
-
-
-        }
     }
 
     @Override
@@ -138,6 +117,23 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         return R.layout.fragment_category;
     }
 
+    private void checkInternetAndCallApi(boolean showProgress) {
+        if (Utility.isConnection(getContext())) {
+            categoryViewModel.setNoInternet(false);
+            if (showProgress)
+                showProgress();
+            categoryViewModel.callGetCategoryApi();
+        } else {
+            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    categoryViewModel.setNoInternet(true);
+                }
+            }, 150);
+        }
+    }
+
     @Override
     public void onItemClick(int position) {
         ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getOptionName(), mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild(), mCategoryList.get(position).getSizeGuide()), true, true);
@@ -148,40 +144,17 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         //((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild()), true, true);
     }
 
-    @Override
-    public void onApiSuccess() {
-        if (isAdded()) {
-            hideProgressBar();
-            if (getActivity() instanceof MainActivity) {
-                ((MainActivity) getActivity()).updateCartNum();
-            }
-            //((HomeFragment)getParentFragment()).initNotificationBadge();
-            ((HomeFragment) getParentFragment()).setNotificationBadge();
-        }
-
-
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        if (isAdded()) {
-            hideProgressBar();
-            if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-                categoryViewModel.setNoInternet(true);
-                return;
-            } else if (error.getHttpCode() == 19) {
-                onNoData();
-                categoryViewModel.setNoInternet(false);
-                return;
-            }
-
-            categoryViewModel.setNoInternet(false);
-            AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+    public void hideProgressBar() {
+        if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
         }
     }
 
+
     @Override
-    public void swipeRefresh() {
+    public void performSwipeRefresh() {
         mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(true);
         checkInternetAndCallApi(false);
     }
@@ -207,7 +180,6 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         } else {
             categoryViewModel.setIsListAvail(false);
         }
-
     }
 
     @Override
@@ -225,14 +197,33 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
         }
     }
 
-
-    public void hideProgressBar() {
-        if (mFragmentCategoryBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-        } else {
-            hideProgress();
+    @Override
+    public void onApiSuccess() {
+        hideProgressBar();
+        if (mActivity != null) {
+            if (mActivity instanceof MainActivity) {
+                ((MainActivity) mActivity).updateCartNum();
+            }
+            ((HomeFragment) getParentFragment()).setNotificationBadge();
         }
     }
 
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgressBar();
+        if (mActivity != null) {
+            if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+                categoryViewModel.setNoInternet(true);
+                return;
+            } else if (error.getHttpCode() == 19) {
+                onNoData();
+                categoryViewModel.setNoInternet(false);
+                return;
+            }
+
+            categoryViewModel.setNoInternet(false);
+            AlertUtils.showAlertMessage(mActivity, error.getHttpCode(), error.getMessage(), null);
+        }
+    }
 
 }

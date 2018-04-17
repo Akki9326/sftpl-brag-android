@@ -8,8 +8,30 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface MoreNavigator extends CoreNavigator {
 
-    void profile();
+    void performItemClickProfile();
 
-    void logout();
+    void performItemClickMyOrder();
+
+    void performItemClickNotification();
+
+    void performItemClickPrivacyPolicy();
+
+    void performItemClickTermsConditions();
+
+    void performItemClickFaqs();
+
+    void performItemClickAboutUs();
+
+    void performItemClickUpdateProfile();
+
+    void performItemClickChangePassword();
+
+    void performItemClickChangeMobileNumber();
+
+    void performItemClickAddUpdateAddress();
+
+    void performItemClickLogout();
+
+    void onLogout();
 
 }

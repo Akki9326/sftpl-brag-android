@@ -115,24 +115,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         }
 
         @Override
-        public void OnCartClick(int position, DataProductList.Products product) {
-            mAddButtonClickListener.OnCartClick(position);
-        }
-
-        @Override
         public void OnListItemClick(int position, DataProductList.Products product) {
             mOnItemClickListener.onItemClick(position);
         }
     }
-
-//    @Override
-//    public int getItemViewType(int position) {
-//        if (isSwitchView) {
-//            return LIST_ITEM;
-//        } else {
-//            return GRID_ITEM;
-//        }
-//    }
 
     public boolean toggleItemViewType() {
         isSwitchView = !isSwitchView;

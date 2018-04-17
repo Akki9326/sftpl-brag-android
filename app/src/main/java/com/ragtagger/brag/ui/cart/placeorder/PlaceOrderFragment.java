@@ -35,6 +35,7 @@ import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -182,10 +183,13 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void setUpToolbar() {
-        if (getActivity() instanceof MainActivity)
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));
+
+        /*if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));
-        else if (getActivity() instanceof NotificationHandlerActivity)
-            ((NotificationHandlerActivity) getActivity()).showPushToolbar(true, false, getResources().getString(R.string.toolbar_label_place_order));
+        else if (getActivity() instanceof NotificationHandlerActivity)//helped when app open from notification, here NotificationHandlerActivity.class is base for notification
+            ((NotificationHandlerActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));*/
     }
 
     @Override

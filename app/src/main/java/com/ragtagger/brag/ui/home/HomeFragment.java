@@ -14,18 +14,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,24 +33,21 @@ import android.widget.TextView;
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
-import com.ragtagger.brag.data.model.datas.DataMoreList;
 import com.ragtagger.brag.databinding.FragmentHomeBinding;
 import com.ragtagger.brag.ui.collection.CollectionFragment;
-import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.home.category.CategoryFragment;
 import com.ragtagger.brag.ui.home.product.list.ProductListFragment;
 import com.ragtagger.brag.ui.more.MoreFragment;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
+import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.views.CustomTypefaceSpan;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import static android.content.ContentValues.TAG;
-import static com.ragtagger.brag.utils.Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE;
 
 /**
  * Created by nikhil.vadoliya on 03-10-2017.
@@ -130,34 +123,30 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         //Default categoryFragment Add
         setFragmentInTab();
         isAddedCategory = true;
-
         initNotificationBadge();
-
-        /*if (menu.size() > 0)
-            homeViewModel.onNavigationClick(menu.getItem(0));*/
     }
 
 
     @Override
     public void setUpToolbar() {
         if (isAdded()) {
-            ((CoreActivity) getActivity()).showToolbar(false, true, true);
+            //((ToolbarActivity) getActivity()).showToolbar(false, true, true);
             switch (mFragmentHomeBinding.bottomNavigation.getSelectedItemId()) {
                 case R.id.bottombar_item_categoty:
                     setToolbarCategory();
-                    Log.i(TAG, "setUpToolbar:  category");
+                    AppLogger.e(TAG + ": setUpToolbar:  Category");
                     break;
                 case R.id.bottombar_item_collection:
                     setToolbarCollection();
-                    Log.i(TAG, "setUpToolbar:  collection");
+                    AppLogger.e(TAG + ": setUpToolbar:  Collection");
                     break;
                 case R.id.bottombar_item_order:
                     setToolbarQuickOrder();
-                    Log.i(TAG, "setUpToolbar:  order");
+                    AppLogger.e(TAG + ": setUpToolbar:  Quick Order");
                     break;
                 case R.id.bottombar_item_more:
                     setToolbarMore();
-                    Log.i(TAG, "setUpToolbar:  more");
+                    AppLogger.e(TAG + ": setUpToolbar:  More");
                     break;
             }
         }
@@ -179,6 +168,25 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         return R.layout.fragment_home;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotificationMore);
+    }
+
+    private void applyFontToMenuItem(MenuItem mi) {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/opensans_regular.ttf");
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
+    }
 
     public void setNotificationBadge() {
         if (isAdded()) {
@@ -217,32 +225,8 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
 
     private void setFragmentInTab() {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_category, new CategoryFragment(), "Category_Tag");
+        transaction.replace(R.id.fragment_container_category, CategoryFragment.getInstance(), "Category_Tag");
         transaction.commit();
-        ((CoreActivity) getActivity()).showToolbar(false, true, true);
-
-    }
-
-    private void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/opensans_regular.ttf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotificationMore);
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
-
     }
 
     @Override
@@ -254,11 +238,17 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     }
 
     @Override
+    public void setToolbarCategory() {
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(false, true, true);
+    }
+
+    @Override
     public void openCollectionFragment() {
         if (!isAddedCollection) {
             isAddedCollection = true;
             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-            transactionTwo.replace(R.id.fragment_container_collection, new CollectionFragment(), "Collection_Tag");
+            transactionTwo.replace(R.id.fragment_container_collection, CollectionFragment.getInstance(), "Collection_Tag");
             transactionTwo.commit();
         }
         mFragmentHomeBinding.fragmentContainerCategory.setVisibility(View.GONE);
@@ -268,15 +258,16 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     }
 
     @Override
+    public void setToolbarCollection() {
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(false, true, true);
+    }
+
+    @Override
     public void openQuickOrderFragement() {
         if (!isAddedOrder) {
             isAddedOrder = true;
             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-
-            Bundle bundle = new Bundle();
-            bundle.putString(BUNDLE_KEY_PRODUCT_LIST_TITLE, getString(R.string.label_quick_order));
-            ProductListFragment fragment = new ProductListFragment();
-            fragment.setArguments(bundle);
             transactionTwo.replace(R.id.fragment_container_order, ProductListFragment.newInstance(true), "Quick_Order_Tag");
             transactionTwo.commit();
         }
@@ -284,7 +275,12 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         mFragmentHomeBinding.fragmentContainerCollection.setVisibility(View.GONE);
         mFragmentHomeBinding.fragmentContainerOrder.setVisibility(View.VISIBLE);
         mFragmentHomeBinding.fragmentContainerMore.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void setToolbarQuickOrder() {
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(false, false, true, getString(R.string.toolbar_label_quick_order));
     }
 
     @Override
@@ -292,7 +288,7 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
         if (!isAddedMore) {
             isAddedMore = true;
             FragmentTransaction transactionTwo = getChildFragmentManager().beginTransaction();
-            transactionTwo.replace(R.id.fragment_container_more, new MoreFragment(), "More_Tag");
+            transactionTwo.replace(R.id.fragment_container_more, MoreFragment.getInstance(), "More_Tag");
             transactionTwo.commit();
         }
         mFragmentHomeBinding.fragmentContainerCategory.setVisibility(View.GONE);
@@ -302,24 +298,9 @@ public class HomeFragment extends CoreFragment<FragmentHomeBinding, HomeViewMode
     }
 
     @Override
-    public void setToolbarCategory() {
-        ((CoreActivity) (getActivity())).showToolbar(false, true, true);
-    }
-
-    @Override
-    public void setToolbarCollection() {
-        ((CoreActivity) (getActivity())).showToolbar(false, true, true);
-    }
-
-    @Override
-    public void setToolbarQuickOrder() {
-        ((CoreActivity) (getActivity())).showToolbar(false, false, true, getString(R.string.toolbar_label_quick_order));
-
-    }
-
-    @Override
     public void setToolbarMore() {
-        ((CoreActivity) (getActivity())).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
     }
 
 

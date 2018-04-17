@@ -36,16 +36,33 @@ public class MoreViewModel extends CoreViewModel<MoreNavigator> {
         fullName.set(name);
     }
 
+    public ObservableField<String> getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String address) {
+        setIsEmptyAddress(address.isEmpty());
+        fullAddress.set(address);
+    }
+
+    public ObservableField<Boolean> getIsEmptyAddress() {
+        return isEmptyAddress;
+    }
+
+    public void setIsEmptyAddress(boolean isEmptyAddress) {
+        this.isEmptyAddress.set(isEmptyAddress);
+    }
+
     public View.OnClickListener onProfileClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().profile();
+                getNavigator().performItemClickProfile();
             }
         };
     }
 
-    public void logout() {
+    void callLogoutApi() {
         Call<RGeneralData> responeCall = getDataManager().logoutCall();
         responeCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
@@ -53,7 +70,7 @@ public class MoreViewModel extends CoreViewModel<MoreNavigator> {
                 if (generalResponse.isStatus()) {
                     getNavigator().onApiSuccess();
                     getDataManager().logout();
-                    getNavigator().logout();
+                    getNavigator().onLogout();
                 } else {
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
@@ -67,21 +84,5 @@ public class MoreViewModel extends CoreViewModel<MoreNavigator> {
 
     }
 
-    public ObservableField<String> getFullAddress() {
 
-        return fullAddress;
-    }
-
-    public void setFullAddress(String address) {
-        setIsEmptyAddress(address.isEmpty() ? true : false);
-        fullAddress.set(address);
-    }
-
-    public ObservableField<Boolean> getIsEmptyAddress() {
-        return isEmptyAddress;
-    }
-
-    public void setIsEmptyAddress(boolean isEmptyAddress) {
-        this.isEmptyAddress.set(isEmptyAddress);
-    }
 }

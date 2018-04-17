@@ -12,6 +12,7 @@ package com.ragtagger.brag.ui.order;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataMyOrder;
 import com.ragtagger.brag.data.model.response.RMyOrderList;
+import com.ragtagger.brag.ui.core.CoreNavigator;
 
 import java.util.List;
 
@@ -20,13 +21,9 @@ import java.util.List;
  */
 
 
-public interface MyOrderNavigator {
+public interface MyOrderNavigator extends CoreNavigator {
 
-    void onApiSuccess();
+    void performSwipeRefresh();
 
-    void onApiError(ApiError error);
-
-    void swipeRefresh();
-
-    void getOrderList(RMyOrderList orderList, List<DataMyOrder> listRespones);
+    void setOrderList(RMyOrderList orderList, List<DataMyOrder> listRespones);
 }

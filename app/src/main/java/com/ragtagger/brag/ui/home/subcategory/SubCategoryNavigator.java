@@ -22,13 +22,9 @@ import java.util.List;
 
 public interface SubCategoryNavigator extends CoreNavigator {
 
-    void onApiSuccess();
-
-    void onApiError(ApiError error);
-
-    void swipeRefresh();
-
-    void setCategoryList(List<DataCategoryList.Category> list);
+    void performSwipeRefresh();
 
     void onNoData();
+
+    void setCategoryList(List<DataCategoryList.Category> list);
 }

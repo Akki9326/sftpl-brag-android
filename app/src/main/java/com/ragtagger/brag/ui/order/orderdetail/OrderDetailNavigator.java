@@ -20,27 +20,22 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
 
 public interface OrderDetailNavigator extends CoreNavigator {
 
-    void onApiReorderSuccess();
+    void setOrderDetails(DataMyOrder orderDetails);
 
-    void onApiReorderError(ApiError error);
+    void noData();
 
-    void onDownloadInvoice();
+    void performClickStatus();
 
-    void onApiSuccessDownload();
+    void performClickCancel();
 
-    void onApiErrorDownload(ApiError error);
+    void onCancelledSuccessfully();
 
-    void onReorderClick();
+    void performClickDownloadInvoice();
 
-    void onOrderDetails(DataMyOrder orderDetails);
+    void onDownloadInvoiceSuccessfully();
 
-    void onNoOrderData();
+    void performClickReorder();
 
-    void onCancelledClick();
+    void onReorderSuccessfully();
 
-    void onApiCancelSuccess();
-
-    void onApiCancelError(ApiError error);
-
-    void onStatusClick();
 }

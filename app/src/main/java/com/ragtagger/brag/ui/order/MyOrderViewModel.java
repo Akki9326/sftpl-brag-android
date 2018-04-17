@@ -37,14 +37,44 @@ public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
 
     }
 
-    public void getOrderData(int page) {
-        Call<RMyOrder> mOrderList = getDataManager().getOrderList(page);
-        mOrderList.enqueue(new ApiResponse<RMyOrder>() {
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
+    }
+
+    public ObservableField<Boolean> getListVisibility() {
+        return visibility;
+    }
+
+    public void setListVisibility(boolean visibility) {
+        this.visibility.set(visibility);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().performSwipeRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
+    }
+
+    void callGetOrderListApi(int page) {
+        getDataManager().getOrderList(page).enqueue(new ApiResponse<RMyOrder>() {
             @Override
             public void onSuccess(RMyOrder myOrderListRespone, Headers headers) {
                 if (myOrderListRespone.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getNavigator().getOrderList(myOrderListRespone.getData(),myOrderListRespone.getData().getObjects());
+                    getNavigator().setOrderList(myOrderListRespone.getData(), myOrderListRespone.getData().getObjects());
                 } else {
                     getNavigator().onApiError(new ApiError(myOrderListRespone.getErrorCode(), myOrderListRespone.getMessage()));
                 }
@@ -56,36 +86,4 @@ public class MyOrderViewModel extends CoreViewModel<MyOrderNavigator> {
             }
         });
     }
-
-    public ObservableField<Boolean> getListVisibility() {
-        return visibility;
-    }
-
-    public void setListVisibility(boolean visibility) {
-        this.visibility.set(visibility);
-    }
-
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getNavigator().swipeRefresh();
-            }
-        };
-    }
-
-    public int[] getColorSchemeResources() {
-        return new int[]{
-                R.color.pink,
-        };
-    }
-
-    public ObservableField<Boolean> getNoInternet() {
-        return noInternet;
-    }
-
-    public void setNoInternet(boolean noInternet) {
-        this.noInternet.set(noInternet);
-    }
-
 }

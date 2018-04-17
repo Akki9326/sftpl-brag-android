@@ -41,17 +41,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                        app:onRefreshListener="@{viewModel.getOnRefreshListener}">
-
-
+                        app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycleView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="65dp" />
-
-
                     </android.support.v4.widget.SwipeRefreshLayout>
 
 
@@ -116,7 +112,7 @@
                                 android:background="@drawable/rounder_corner_solid_pink"
                                 android:clickable="true"
                                 android:gravity="center"
-                                android:onClick="@{viewModel.onContinues()}"
+                                android:onClick="@{viewModel.onContinuesClick()}"
                                 android:paddingBottom="12dp"
                                 android:paddingLeft="26dp"
                                 android:paddingRight="26dp"

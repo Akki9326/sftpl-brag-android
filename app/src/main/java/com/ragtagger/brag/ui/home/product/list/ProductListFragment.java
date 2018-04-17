@@ -10,10 +10,10 @@ package com.ragtagger.brag.ui.home.product.list;
 
 
 /*
-* ERecycleView
-*
-*  mRecyclerView.loadMoreComplete(true)- hide footer loader,complate load more
-* */
+ * ERecycleView
+ *
+ *  mRecyclerView.loadMoreComplete(true)- hide footer loader,complate load more
+ * */
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -37,7 +37,6 @@ import com.ragtagger.brag.data.model.datas.DataFilter;
 import com.ragtagger.brag.data.model.datas.DataProductList;
 import com.ragtagger.brag.data.model.requests.QProductList;
 import com.ragtagger.brag.databinding.FragmentProductListBinding;
-import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.ui.home.product.details.ProductDetailFragment;
@@ -46,6 +45,7 @@ import com.ragtagger.brag.ui.home.product.list.filter.ProductFilterDialogFragmen
 import com.ragtagger.brag.ui.home.product.list.sorting.ProductSortingDialogFragment;
 import com.ragtagger.brag.ui.home.product.quickadd.AddProductDialogFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -69,25 +69,33 @@ import static com.ragtagger.brag.utils.Constants.BUNDLE_KEY_PRODUCT_LIST_TITLE;
 public class ProductListFragment extends CoreFragment<FragmentProductListBinding, ProductListViewModel> implements ProductListNavigator,
         IOnItemClickListener, IOnProductButtonClickListener, ProductSortingDialogFragment.IOnSortListener, ProductFilterDialogFragment.IFilterApplyListener {
 
-
-    public static final int REQ_ADDED_TO_CART = 2221;
-    public static final int RESULT_OK = 0;
+    //constants
+    //view member
+    //class member
+    //basic member
+    private static final int LOAD_LIST = 1;
+    private static final int LOAD_MORE = 5;
+    private int ACTION = 0;
+    private int PAGE_NUM = 1;
 
     @Inject
     ProductListViewModel mProductListViewModel;
     @Inject
     GridLayoutManager mLayoutManager;
-
     FragmentProductListBinding mFragmentProductListBinding;
 
-    private static final int LOAD_LIST = 1;
-    private static final int LOAD_MORE = 5;
+    HashMap<String, String> mColorFilter, mSizeFilter;
+    List<DataProductList.Products> mProductList;
 
-    private int ACTION = 0;
-    private int PAGE_NUM = 1;
+    ProductListAdapter mProductListAdapter;
+    DataProductList mData;
+    QProductList.Filter mRequestFilter;
+    DataFilter.Filter mResponseFilter;
+
     int mSorting;
     int productListSize;
     boolean isClicked = false;
+    boolean isFromQuickOrder = false;
 
     String mTitle;
     String mCategoryName;
@@ -96,17 +104,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     String mSizeGuide;
     String mQuery;
 
-    ProductListAdapter mProductListAdapter;
-
-    List<DataProductList.Products> mProductList;
-    DataProductList mData;
-    QProductList.Filter mRequestFilter;
-    DataFilter.Filter mResponseFilter;
-
-    HashMap<String, String> mColorFilter;
-    HashMap<String, String> mSizeFilter;
-
-    boolean isFromQuickOrder = false;
 
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
         @Override
@@ -272,11 +269,9 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void setUpToolbar() {
-        if (isFromQuickOrder) {
-            ((CoreActivity) (getActivity())).showToolbar(false, false, true, getString(R.string.toolbar_label_quick_order));
-        } else {
-            ((CoreActivity) getActivity()).showToolbar(true, false, true, mTitle);
-        }
+        // this is because we used from two different place one as child fragment(Quick Order of home tab), and other from subcategory, so for subcategory we need to set toolbar
+        if (mActivity != null && mActivity instanceof ToolbarActivity && !isFromQuickOrder)
+            ((ToolbarActivity) mActivity).showToolbar(true, false, true, mTitle);
     }
 
     @Override
@@ -292,6 +287,13 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
     @Override
     public int getLayoutId() {
         return R.layout.fragment_product_list;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
     }
 
     @Override
@@ -314,7 +316,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     private void checkInternetAndCallApi(boolean isShowLoader) {
         if (isAdded())
-            if (Utility.isConnection(getActivity())) {
+            if (Utility.isConnection(mActivity)) {
                 mProductListViewModel.setNoInternet(false);
                 if (ACTION == LOAD_MORE) {
                     PAGE_NUM++;
@@ -334,7 +336,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
                         break;
                     case LOAD_MORE:
-                        AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                        AlertUtils.showAlertMessage(mActivity, 0, null, null);
                         break;
                 }
                 mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
@@ -352,7 +354,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         }
     }
 
-
     @Override
     public void onItemClick(int position) {
         if (!isClicked) {
@@ -367,199 +368,6 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         if (!isClicked) {
             isClicked = true;
             openAddProductDialog(position);
-            enabledClick();
-        }
-    }
-
-    @Override
-    public void OnCartClick(int position) {
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
-    }
-
-    @Override
-    public void onApiSuccess() {
-        hideProgress();
-        if (getParentFragment() instanceof HomeFragment){
-            ((HomeFragment) getParentFragment()).setNotificationBadge();
-
-        }
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideProgress();
-
-        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
-        }
-        if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            switch (ACTION) {
-                case LOAD_LIST:
-                    mProductListViewModel.setNoInternet(true);
-                    break;
-                case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                    break;
-            }
-            return;
-        }
-
-        if (error.getHttpCode() == 19 && (mQuery != null && mQuery.length() > 0)) {
-            switch (ACTION) {
-                case LOAD_LIST:
-                    mProductListViewModel.setNoResult(true);
-                    break;
-                case LOAD_MORE:
-                    mProductListViewModel.setNoResult(false);
-                    AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-                    break;
-            }
-            return;
-        } else if (error.getHttpCode() == 19 && (mQuery == null || mQuery.length() == 0)) {
-            if (ACTION == LOAD_LIST)
-                mProductListViewModel.setNoResult(true);
-            mProductListViewModel.setNoInternet(false);
-            return;
-        }
-
-        mProductListViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-
-    }
-
-    @Override
-    public void swipeRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ACTION = LOAD_LIST;
-                PAGE_NUM = 1;
-                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(true);
-                mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-                checkInternetAndCallApi(false);
-            }
-        }, 1000);
-    }
-
-
-    @Override
-    public void search(String query) {
-        hideKeyboard();
-        mProductListViewModel.setNoResult(false);
-        if (query != null && query.length() > 0) {
-            mQuery = query;
-            ACTION = LOAD_LIST;
-            PAGE_NUM = 1;
-            mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-            checkInternetAndCallApi(false);
-        } else {
-            mQuery = null;
-            ACTION = LOAD_LIST;
-            PAGE_NUM = 1;
-            mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-            checkInternetAndCallApi(false);
-        }
-    }
-
-    @Override
-    public void onNoData() {
-        switch (ACTION) {
-            case LOAD_LIST:
-                mProductListViewModel.setNoResult(true);
-                break;
-            case LOAD_MORE:
-                mProductListViewModel.setNoResult(false);
-                break;
-        }
-    }
-
-    @Override
-    public void setData(DataProductList data) {
-        this.mData = data;
-        this.mSeasonCode = data.getSeasonCode();
-    }
-
-    @Override
-    public void setProductList(int size, List<DataProductList.Products> dataList) {
-        mProductListViewModel.setNoResult(false);
-        switch (ACTION) {
-            case LOAD_LIST:
-                productListSize = size;
-                mProductList.clear();
-                mProductList = dataList;
-
-                mProductListAdapter = new ProductListAdapter(getActivity(), this, this, mProductList);
-                mFragmentProductListBinding.recycleView.setPageSize(20);
-                mFragmentProductListBinding.recycleView.setAdapter(mProductListAdapter);
-                mFragmentProductListBinding.recycleView.setNestedScrollingEnabled(false);
-                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
-                if (size <= 20)
-                    mFragmentProductListBinding.recycleView.setIsLoadingMore(false);
-                break;
-            case LOAD_MORE:
-                mProductListAdapter.addList(dataList, mProductListAdapter.getItemCount(), dataList.size());
-                mFragmentProductListBinding.recycleView.loadMoreComplete(false);
-                break;
-        }
-    }
-
-    @Override
-    public void setFilter(DataFilter.Filter filter) {
-        this.mResponseFilter = filter;
-    }
-
-    @Override
-    public void openFragmentDetails(int position) {
-        ((MainActivity) getActivity()).pushFragments(ProductDetailFragment.newInstance(mData, mProductListAdapter.getList(), position, mSizeGuide, false/*, this, REQ_ADDED_TO_CART*/), true, true);
-    }
-
-    @Override
-    public void openAddProductDialog(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mData);
-        bundle.putInt(Constants.BUNDLE_POSITION, position);
-        bundle.putString(Constants.BUNDLE_SIZE_GUIDE, mSizeGuide);
-        bundle.putParcelableArrayList(Constants.BUNDLE_PRODUCT_LISt, (ArrayList<? extends Parcelable>) mProductListAdapter.getList());
-        AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
-        mAddProductDialogFragment.setCancelable(true);
-        mAddProductDialogFragment.setArguments(bundle);
-        /*mAddProductDialogFragment.setTargetFragment(this, REQ_ADDED_TO_CART);*/
-        mAddProductDialogFragment.show(getFragmentManager(), "");
-    }
-
-    @Override
-    public void openSortingDialog() {
-        if (!isClicked) {
-            isClicked = true;
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
-            ProductSortingDialogFragment productSortingDialogFragment = new ProductSortingDialogFragment();
-            productSortingDialogFragment.setCancelable(true);
-            productSortingDialogFragment.setArguments(bundle);
-            productSortingDialogFragment.show(getChildFragmentManager(), "");
-            enabledClick();
-        }
-    }
-
-    @Override
-    public void openFilterDialog() {
-        if (!isClicked) {
-            isClicked = true;
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.BUNDLE_CATEGORY_NAME, mCategoryName);
-            bundle.putString(Constants.BUNDLE_SUB_CATEGORY_NAME, mSubCategoryName);
-            bundle.putString(Constants.BUNDLE_SEASON_CODE, mSeasonCode);
-            bundle.putParcelable(Constants.BUNDLE_APPLIED_FILTER, mResponseFilter);
-            ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
-            productFilterDialogFragment.setCancelable(true);
-            productFilterDialogFragment.setArguments(bundle);
-            productFilterDialogFragment.show(getChildFragmentManager(), "");
             enabledClick();
         }
     }
@@ -582,5 +390,194 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         checkInternetAndCallApi(true);
     }
 
+    @Override
+    public void performSwipeRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ACTION = LOAD_LIST;
+                PAGE_NUM = 1;
+                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(true);
+                mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+                checkInternetAndCallApi(false);
+            }
+        }, 1000);
+    }
 
+
+    @Override
+    public void performSearch(String query) {
+        hideKeyboard();
+        mProductListViewModel.setNoResult(false);
+        if (query != null && query.length() > 0) {
+            mQuery = query;
+            ACTION = LOAD_LIST;
+            PAGE_NUM = 1;
+            mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+            checkInternetAndCallApi(false);
+        } else {
+            mQuery = null;
+            ACTION = LOAD_LIST;
+            PAGE_NUM = 1;
+            mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+            checkInternetAndCallApi(false);
+        }
+    }
+
+    @Override
+    public void performClickSort(View view) {
+        openSortingDialog();
+    }
+
+    @Override
+    public void openSortingDialog() {
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.BUNDLE_PRODUCT_SORTING, mSorting);
+            ProductSortingDialogFragment productSortingDialogFragment = new ProductSortingDialogFragment();
+            productSortingDialogFragment.setCancelable(true);
+            productSortingDialogFragment.setArguments(bundle);
+            productSortingDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
+    }
+
+
+    @Override
+    public void performClickFilter(View view) {
+        openFilterDialog();
+    }
+
+    @Override
+    public void openFilterDialog() {
+        if (!isClicked) {
+            isClicked = true;
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.BUNDLE_CATEGORY_NAME, mCategoryName);
+            bundle.putString(Constants.BUNDLE_SUB_CATEGORY_NAME, mSubCategoryName);
+            bundle.putString(Constants.BUNDLE_SEASON_CODE, mSeasonCode);
+            bundle.putParcelable(Constants.BUNDLE_APPLIED_FILTER, mResponseFilter);
+            ProductFilterDialogFragment productFilterDialogFragment = new ProductFilterDialogFragment();
+            productFilterDialogFragment.setCancelable(true);
+            productFilterDialogFragment.setArguments(bundle);
+            productFilterDialogFragment.show(getChildFragmentManager(), "");
+            enabledClick();
+        }
+    }
+
+
+    @Override
+    public void setProductList(int size, List<DataProductList.Products> dataList) {
+        mProductListViewModel.setNoResult(false);
+        switch (ACTION) {
+            case LOAD_LIST:
+                productListSize = size;
+                mProductList.clear();
+                mProductList = dataList;
+
+                mProductListAdapter = new ProductListAdapter(mActivity, this, this, mProductList);
+                mFragmentProductListBinding.recycleView.setPageSize(20);
+                mFragmentProductListBinding.recycleView.setAdapter(mProductListAdapter);
+                mFragmentProductListBinding.recycleView.setNestedScrollingEnabled(false);
+                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+                if (size <= 20)
+                    mFragmentProductListBinding.recycleView.setIsLoadingMore(false);
+                break;
+            case LOAD_MORE:
+                mProductListAdapter.addList(dataList, mProductListAdapter.getItemCount(), dataList.size());
+                mFragmentProductListBinding.recycleView.loadMoreComplete(false);
+                break;
+        }
+    }
+
+    @Override
+    public void setFilter(DataFilter.Filter filter) {
+        this.mResponseFilter = filter;
+    }
+
+    @Override
+    public void onNoData() {
+        switch (ACTION) {
+            case LOAD_LIST:
+                mProductListViewModel.setNoResult(true);
+                break;
+            case LOAD_MORE:
+                mProductListViewModel.setNoResult(false);
+                break;
+        }
+    }
+
+    @Override
+    public void setData(DataProductList data) {
+        this.mData = data;
+        this.mSeasonCode = data.getSeasonCode();
+    }
+
+    @Override
+    public void openFragmentDetails(int position) {
+        ((MainActivity) mActivity).pushFragments(ProductDetailFragment.newInstance(mData, mProductListAdapter.getList(), position, mSizeGuide, false), true, true);
+    }
+
+    @Override
+    public void openAddProductDialog(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.BUNDLE_SELETED_PRODUCT, mData);
+        bundle.putInt(Constants.BUNDLE_POSITION, position);
+        bundle.putString(Constants.BUNDLE_SIZE_GUIDE, mSizeGuide);
+        bundle.putParcelableArrayList(Constants.BUNDLE_PRODUCT_LISt, (ArrayList<? extends Parcelable>) mProductListAdapter.getList());
+        AddProductDialogFragment mAddProductDialogFragment = new AddProductDialogFragment();
+        mAddProductDialogFragment.setCancelable(true);
+        mAddProductDialogFragment.setArguments(bundle);
+        mAddProductDialogFragment.show(getFragmentManager(), "");
+    }
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+        if (getParentFragment() instanceof HomeFragment) {
+            ((HomeFragment) getParentFragment()).setNotificationBadge();
+        }
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+
+        if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+        }
+        if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mProductListViewModel.setNoInternet(true);
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(mActivity, 0, null, null);
+                    break;
+            }
+            return;
+        }
+
+        if (error.getHttpCode() == 19 && (mQuery != null && mQuery.length() > 0)) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mProductListViewModel.setNoResult(true);
+                    break;
+                case LOAD_MORE:
+                    mProductListViewModel.setNoResult(false);
+                    AlertUtils.showAlertMessage(mActivity, error.getHttpCode(), error.getMessage(), null);
+                    break;
+            }
+            return;
+        } else if (error.getHttpCode() == 19 && (mQuery == null || mQuery.length() == 0)) {
+            if (ACTION == LOAD_LIST)
+                mProductListViewModel.setNoResult(true);
+            mProductListViewModel.setNoInternet(false);
+            return;
+        }
+
+        mProductListViewModel.setNoInternet(false);
+        AlertUtils.showAlertMessage(mActivity, error.getHttpCode(), error.getMessage(), null);
+    }
 }

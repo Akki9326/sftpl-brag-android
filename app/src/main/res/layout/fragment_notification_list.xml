@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                    app:onRefreshListener="@{viewModel.getOnRefreshListener}">
+                    app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
                     <com.ragtagger.brag.views.erecyclerview.ERecyclerView
                         android:id="@+id/recycleview_notification"

@@ -32,9 +32,38 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
         super(dataManager);
     }
 
+    public ObservableField<Boolean> getListVisibility() {
+        return visibility;
+    }
 
+    public void setListVisibility(boolean visibility) {
+        this.visibility.set(visibility);
+    }
 
-    public void getNotificationListAPI(int page) {
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().performSwipeToRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
+    }
+
+    void callGetNotificationListApi(int page) {
         Call<RNotification> notificationCall = getDataManager().getNotificationList(page);
         notificationCall.enqueue(new ApiResponse<RNotification>() {
             @Override
@@ -61,47 +90,18 @@ public class NotificationListViewModel extends CoreViewModel<NotificationListNav
             @Override
             public void onSuccess(RGeneralData rNotification, Headers headers) {
                 if (rNotification.isStatus()) {
-                    getNavigator().onApiSuccessNotificationRead();
+                    getNavigator().setNotificationRead();
                 } else {
-                    getNavigator().onAPiErrorNotificationRead(new ApiError(rNotification.getErrorCode(), rNotification.getMessage()));
+                    getNavigator().setNotificationReadFailed();
                 }
             }
 
             @Override
             public void onError(ApiError t) {
-                getNavigator().onAPiErrorNotificationRead(t);
+                getNavigator().setNotificationReadFailed();
             }
         });
     }
 
-    public ObservableField<Boolean> getListVisibility() {
-        return visibility;
-    }
 
-    public void setListVisibility(boolean visibility) {
-        this.visibility.set(visibility);
-    }
-
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getNavigator().swipeToRefresh();
-            }
-        };
-    }
-
-    public int[] getColorSchemeResources() {
-        return new int[]{
-                R.color.pink,
-        };
-    }
-
-    public ObservableField<Boolean> getNoInternet() {
-        return noInternet;
-    }
-
-    public void setNoInternet(boolean noInternet) {
-        this.noInternet.set(noInternet);
-    }
 }

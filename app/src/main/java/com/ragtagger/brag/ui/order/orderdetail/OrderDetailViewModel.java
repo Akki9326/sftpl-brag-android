@@ -96,57 +96,6 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         this.address.set(address);
     }
 
-
-    public View.OnClickListener onDownloadInvoice() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onDownloadInvoice();
-            }
-        };
-    }
-
-    public View.OnClickListener onReorder() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onReorderClick();
-            }
-        };
-    }
-
-    public View.OnClickListener onCancelled() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onCancelledClick();
-            }
-        };
-    }
-
-    public void onCancelOrder(String id) {
-        Call<RGeneralData> rGeneralDataCall = getDataManager().cancelOrder(id);
-        rGeneralDataCall.enqueue(new ApiResponse<RGeneralData>() {
-            @Override
-            public void onSuccess(RGeneralData rGeneralData, Headers headers) {
-                if (rGeneralData.isStatus()) {
-                    getNavigator().onApiCancelSuccess();
-                } else {
-                    getNavigator().onApiCancelError(new ApiError(rGeneralData.getErrorCode(), rGeneralData.getMessage()));
-                }
-            }
-
-            @Override
-            public void onError(ApiError t) {
-                getNavigator().onApiCancelError(t);
-            }
-        });
-    }
-
-    public String getInvoiveUrl() {
-        return "https://www.tutorialspoint.com/android/android_tutorial.pdf";
-    }
-
     public void updateFullName(String fullName) {
         this.fullName.set(fullName);
     }
@@ -221,51 +170,6 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         this.mobilenum.set(mobilenum);
     }
 
-
-    void reOrderAPI(String orderId) {
-        Call<RGeneralData> call = getDataManager().reOrder(orderId);
-        call.enqueue(new ApiResponse<RGeneralData>() {
-            @Override
-            public void onSuccess(RGeneralData generalResponse, Headers headers) {
-                if (generalResponse.isStatus()) {
-                    getNavigator().onApiReorderSuccess();
-                } else {
-                    getNavigator().onApiReorderError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
-                }
-            }
-
-            @Override
-            public void onError(ApiError t) {
-                getNavigator().onApiReorderError(t);
-            }
-        });
-    }
-
-    void getOrderDetails(String orderId) {
-        Call<ROrderDetail> call = getDataManager().getOrderDetail(orderId);
-        call.enqueue(new ApiResponse<ROrderDetail>() {
-            @Override
-            public void onSuccess(ROrderDetail rOrderDetail, Headers headers) {
-                if (rOrderDetail.isStatus()) {
-                    getNavigator().onApiSuccess();
-                    if (rOrderDetail.getData() != null) {
-                        getNavigator().onOrderDetails(rOrderDetail.getData());
-                    } else {
-                        getNavigator().onNoOrderData();
-                    }
-                } else {
-                    getNavigator().onApiError(new ApiError(rOrderDetail.getErrorCode(), rOrderDetail.getMessage()));
-                }
-            }
-
-            @Override
-            public void onError(ApiError t) {
-
-            }
-        });
-
-    }
-
     public ObservableField<Boolean> getIsOrderPlaced() {
         return isOrderPlaced;
     }
@@ -282,27 +186,120 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         this.isVisiableInvoice = isVisiableInvoice;
     }
 
-    public void downloadInvoice(String url, final String filePath, final String fileName) {
-        Call<ResponseBody> bodyCall = getDataManager().downloadInvoice(url);
-        bodyCall.enqueue(new ApiResponse<ResponseBody>() {
+    public View.OnClickListener onStatusClick() {
+        return new OnSingleClickListener() {
             @Override
-            public void onSuccess(final ResponseBody responseBody, Headers headers) {
+            public void onSingleClick(View v) {
+                getNavigator().performClickStatus();
+            }
+        };
+    }
 
-                writeResponseBodyToDisk(responseBody, filePath, fileName);
+    public View.OnClickListener onCancelled() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickCancel();
+            }
+        };
+    }
 
+    public View.OnClickListener onDownloadInvoice() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickDownloadInvoice();
+            }
+        };
+    }
+
+    public View.OnClickListener onReorder() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickReorder();
+            }
+        };
+    }
+
+    void callOrderDetailsApi(String orderId) {
+        getDataManager().getOrderDetail(orderId).enqueue(new ApiResponse<ROrderDetail>() {
+            @Override
+            public void onSuccess(ROrderDetail rOrderDetail, Headers headers) {
+                if (rOrderDetail.isStatus()) {
+                    getNavigator().onApiSuccess();
+                    if (rOrderDetail.getData() != null) {
+                        getNavigator().setOrderDetails(rOrderDetail.getData());
+                    } else {
+                        getNavigator().noData();
+                    }
+                } else {
+                    getNavigator().onApiError(new ApiError(rOrderDetail.getErrorCode(), rOrderDetail.getMessage()));
+                }
             }
 
             @Override
             public void onError(ApiError t) {
-                getNavigator().onApiErrorDownload(t);
+
             }
         });
     }
 
+    public void callCancelOrderApi(String id) {
+        getDataManager().cancelOrder(id).enqueue(new ApiResponse<RGeneralData>() {
+            @Override
+            public void onSuccess(RGeneralData rGeneralData, Headers headers) {
+                if (rGeneralData.isStatus()) {
+                    getNavigator().onCancelledSuccessfully();
+                } else {
+                    getNavigator().onApiError(new ApiError(rGeneralData.getErrorCode(), rGeneralData.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    public void callDownloadInvoiceApi(String url, final String filePath, final String fileName) {
+        Call<ResponseBody> bodyCall = getDataManager().downloadInvoice(url);
+        bodyCall.enqueue(new ApiResponse<ResponseBody>() {
+            @Override
+            public void onSuccess(final ResponseBody responseBody, Headers headers) {
+                writeResponseBodyToDisk(responseBody, filePath, fileName);
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+    }
+
+    void callReorderApi(String orderId) {
+        Call<RGeneralData> call = getDataManager().reOrder(orderId);
+        call.enqueue(new ApiResponse<RGeneralData>() {
+            @Override
+            public void onSuccess(RGeneralData generalResponse, Headers headers) {
+                if (generalResponse.isStatus()) {
+                    getNavigator().onReorderSuccessfully();
+                } else {
+                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                }
+            }
+
+            @Override
+            public void onError(ApiError t) {
+                getNavigator().onApiError(t);
+            }
+        });
+    }
+
+
     private boolean writeResponseBodyToDisk(ResponseBody body, String filePath, String filename) {
         try {
-
-
             File file = new File(filePath + "/" + filename);
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -332,7 +329,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
                 return true;
             } catch (IOException e) {
-                getNavigator().onApiErrorDownload(new ApiError(5001, ""));
+                getNavigator().onApiError(new ApiError(5001, ""));
                 return false;
             } finally {
                 if (inputStream != null) {
@@ -342,19 +339,12 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
                 if (outputStream != null) {
                     outputStream.close();
                 }
-                getNavigator().onApiSuccessDownload();
+                getNavigator().onDownloadInvoiceSuccessfully();
             }
         } catch (IOException e) {
             return false;
         }
     }
 
-    public View.OnClickListener onStatusClick() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onStatusClick();
-            }
-        };
-    }
+
 }

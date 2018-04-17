@@ -9,5 +9,6 @@ import com.ragtagger.brag.data.model.ApiError;
 public interface CoreNavigator {
 
     void onApiSuccess();
+
     void onApiError(ApiError error);
 }

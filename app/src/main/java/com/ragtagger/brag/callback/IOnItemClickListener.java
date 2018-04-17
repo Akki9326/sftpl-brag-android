@@ -15,5 +15,5 @@ package com.ragtagger.brag.callback;
 
 public interface IOnItemClickListener {
 
-    public void onItemClick(int position);
+    void onItemClick(int position);
 }

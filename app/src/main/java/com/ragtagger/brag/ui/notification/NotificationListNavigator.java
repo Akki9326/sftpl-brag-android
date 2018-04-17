@@ -14,12 +14,11 @@ import java.util.List;
 
 public interface NotificationListNavigator extends CoreNavigator {
 
+    void performSwipeToRefresh();
 
     void setNotificationList(RNotificationList notificationList, List<DataNotificationList> lists);
 
-    void swipeToRefresh();
+    void setNotificationRead();
 
-    void onApiSuccessNotificationRead();
-
-    void onAPiErrorNotificationRead(ApiError error);
+    void setNotificationReadFailed();
 }

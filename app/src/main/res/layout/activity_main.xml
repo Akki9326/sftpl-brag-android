@@ -30,13 +30,20 @@
             android:orientation="vertical">
 
 
-            <include
+            <!--<include
                 android:id="@+id/toolbar"
                 layout="@layout/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_marginTop="@dimen/margin_top_from_status"
-                app:viewModel="@{viewModel}" />
+                app:viewModel="@{viewModel}" />-->
+
+            <include
+                android:id="@+id/included_toolbar"
+                layout="@layout/toolbar_base"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/margin_top_from_status" />
 
             <View
                 android:layout_width="match_parent"

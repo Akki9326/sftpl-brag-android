@@ -9,13 +9,13 @@ import java.util.List;
  * Created by alpesh.rathod on 2/28/2018.
  */
 
-public interface CollectionNavigator extends CoreNavigator{
+public interface CollectionNavigator extends CoreNavigator {
 
-    void swipeRefresh();
-
-    void onNoData();
+    void performSwipeRefresh();
 
     void setCategoryList(List<DataCategoryList.Category> list);
 
     void setBanner(List<DataCategoryList.Banners> list);
+
+    void onNoData();
 }

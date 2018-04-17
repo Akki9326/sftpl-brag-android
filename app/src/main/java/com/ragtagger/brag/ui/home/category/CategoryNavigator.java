@@ -21,10 +21,9 @@ import java.util.List;
 
 public interface CategoryNavigator extends CoreNavigator {
 
-
-    void swipeRefresh();
-
     void onNoData();
+
+    void performSwipeRefresh();
 
     void setCategoryList(List<DataCategoryList.Category> list);
 

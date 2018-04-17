@@ -18,17 +18,17 @@ public interface HomeNavigator {
 
     void openCategoryFragment();
 
-    void openCollectionFragment();
-
-    void openQuickOrderFragement();
-
-    void openMoreFragment();
-
     void setToolbarCategory();
+
+    void openCollectionFragment();
 
     void setToolbarCollection();
 
+    void openQuickOrderFragement();
+
     void setToolbarQuickOrder();
+
+    void openMoreFragment();
 
     void setToolbarMore();
 }

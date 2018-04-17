@@ -63,11 +63,11 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
         this.isListAvail.set(isListAvail);
     }
 
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+    public SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNavigator().swipeRefresh();
+                getNavigator().performSwipeRefresh();
             }
         };
     }
@@ -78,7 +78,7 @@ public class CollectionViewModel extends CoreViewModel<CollectionNavigator> {
         };
     }
 
-    public void getCollectionList() {
+    public void callGetCollectionListApi() {
         Call<RCollectionList> getCategoryList = getDataManager().getCollectionProduct();
         getCategoryList.enqueue(new ApiResponse<RCollectionList>() {
             @Override

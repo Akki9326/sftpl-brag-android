@@ -10,7 +10,6 @@ package com.ragtagger.brag.ui.home.subcategory;
  */
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,21 +17,21 @@ import android.view.View;
 
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.R;
+import com.ragtagger.brag.callback.IOnItemClickListener;
 import com.ragtagger.brag.callback.OnSingleClickListener;
-import com.ragtagger.brag.ui.home.adapter.CategoryListAdapter;
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.data.model.datas.DataCategoryList;
+import com.ragtagger.brag.data.model.response.RImagePager;
 import com.ragtagger.brag.databinding.FragmentSubCategoryBinding;
-import com.ragtagger.brag.views.erecyclerview.GridSpacingItemDecoration;
-import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
+import com.ragtagger.brag.ui.home.adapter.CategoryListAdapter;
 import com.ragtagger.brag.ui.home.product.list.ProductListFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
-import com.ragtagger.brag.callback.IOnItemClickListener;
-import com.ragtagger.brag.data.model.datas.DataCategoryList;
-import com.ragtagger.brag.data.model.response.RImagePager;
+import com.ragtagger.brag.views.erecyclerview.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,8 +122,8 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void setUpToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(true, false, true, mCategory == null ? getString(R.string.toolbar_label_sub_category) : mCategory);
-
+        if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(true, false, true, mCategory == null ? getString(R.string.toolbar_label_sub_category) : mCategory);
     }
 
     @Override
@@ -143,12 +142,6 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     }
 
     @Override
-    public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(ProductListFragment.newInstance(mCategory, mCategoryList.get(position).getOptionName(), mSizeGuide), true, true);
-
-    }
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
@@ -157,19 +150,17 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     }
 
     private void checkInternet(boolean showProgress) {
-
-        if (Utility.isConnection(getActivity())) {
-            categoryViewModel.setNoInternet(false);
-            if (showProgress)
-                showProgress();
-            categoryViewModel.getSubCategoryData();
-        } else {
-            categoryViewModel.setNoInternet(true);
-            hideProgressBar();
-        }
-
+        if (mActivity != null)
+            if (Utility.isConnection(mActivity)) {
+                categoryViewModel.setNoInternet(false);
+                if (showProgress)
+                    showProgress();
+                categoryViewModel.callGetSubCategoryDataApi();
+            } else {
+                categoryViewModel.setNoInternet(true);
+                hideProgressBar();
+            }
     }
-
 
     private void showData() {
         adapter = new CategoryListAdapter(getContext(), mCategoryList, this);
@@ -177,29 +168,22 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         mFragmentSubCategoryBinding.recycleView.setNestedScrollingEnabled(false);
     }
 
-
-    @Override
-    public void onApiSuccess() {
-        hideProgressBar();
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideProgressBar();
-        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            categoryViewModel.setNoInternet(true);
-            return;
+    public void hideProgressBar() {
+        if (mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
         }
-        categoryViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 
     @Override
-    public void swipeRefresh() {
-        //// TODO: 3/12/2018 remove comment for swipe refresh
+    public void onItemClick(int position) {
+        ((MainActivity) mActivity).pushFragments(ProductListFragment.newInstance(mCategory, mCategoryList.get(position).getOptionName(), mSizeGuide), true, true);
+    }
+
+    @Override
+    public void performSwipeRefresh() {
         mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-        /*mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(true);
-        checkInternet(false);*/
     }
 
     @Override
@@ -215,11 +199,19 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
         showData();
     }
 
-    public void hideProgressBar() {
-        if (mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-        } else {
-            hideProgress();
+    @Override
+    public void onApiSuccess() {
+        hideProgressBar();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgressBar();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            categoryViewModel.setNoInternet(true);
+            return;
         }
+        categoryViewModel.setNoInternet(false);
+        AlertUtils.showAlertMessage(mActivity, error.getHttpCode(), error.getMessage(), null);
     }
 }

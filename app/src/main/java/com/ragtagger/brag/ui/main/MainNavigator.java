@@ -9,10 +9,12 @@ package com.ragtagger.brag.ui.main;
  * agreement of Sailfin Technologies, Pvt. Ltd.
  */
 
+import com.ragtagger.brag.ui.toolbar.ToolbarNavigator;
+
 /**
  * Created by nikhil.vadoliya on 14-02-2018.
  */
 
 
-public interface MainNavigator {
+public interface MainNavigator extends ToolbarNavigator {
 }

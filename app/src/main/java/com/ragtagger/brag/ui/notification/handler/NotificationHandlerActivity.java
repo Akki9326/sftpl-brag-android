@@ -6,21 +6,17 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.View;
 
 import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
-import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataNotification;
 import com.ragtagger.brag.databinding.ActivityNotificationHandlerBinding;
 import com.ragtagger.brag.ui.cart.CartFragment;
-import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.home.product.details.ProductDetailFragment;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.Constants;
-import com.ragtagger.brag.utils.NotificationUtils;
 import com.ragtagger.brag.utils.Utility;
 
 import javax.inject.Inject;
@@ -31,7 +27,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.ragtagger.brag.utils.Constants.BUNDLE_NOTIFICATION_MODEL;
 
-public class NotificationHandlerActivity extends CoreActivity<NotificationHandlerActivity, ActivityNotificationHandlerBinding, NotificationHandlerViewModel> implements NotificationHandlerNavigator, HasSupportFragmentInjector, CoreActivity.OnToolbarSetupListener {
+public class NotificationHandlerActivity extends ToolbarActivity<NotificationHandlerActivity, ActivityNotificationHandlerBinding, NotificationHandlerViewModel> implements NotificationHandlerNavigator, HasSupportFragmentInjector {
 
     @Inject
     NotificationHandlerViewModel mNotificationHandlerViewModel;
@@ -70,7 +66,6 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
                             ProductDetailFragment fragmentDetails = ProductDetailFragment.newInstance(mNotification.getContentId(), true, true);
                             pushFragments(fragmentDetails, false, false);
                             break;
-
                     }
 
                     if (Utility.isConnection(getApplicationContext())) {
@@ -104,46 +99,13 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
 
     @Override
     public void afterLayoutSet() {
+        super.afterLayoutSet();
         mActivityNotificationHandlerBinding = getViewDataBinding();
         Utility.applyTypeFace(getApplicationContext(), mActivityNotificationHandlerBinding.baseLayout);
-        // TODO: 16-02-2018 move to core activity
-        if (bActivity instanceof OnToolbarSetupListener) {
-            ((OnToolbarSetupListener) bActivity).setUpToolbar();
-        }
-    }
-
-
-    @Override
-    public void onApiSuccess() {
-
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-
     }
 
     public void pushFragments(Fragment fragment, boolean shouldAnimate, boolean shouldAdd) {
-
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        if (shouldAnimate) {
-            ft.setCustomAnimations(R.anim.right_in, R.anim.left_out,
-                    R.anim.left_in, R.anim.right_out);
-        }
-        if (shouldAdd) {
-            ft.addToBackStack(null);
-        }
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) != null) {
-            ft.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
-        }
-        ft.add(R.id.fragment_container, fragment);
-
-        if (!isFinishing()) {
-            ft.commitAllowingStateLoss();
-        } else {
-            ft.commit();
-        }
+        pushFragments(fragment, shouldAnimate, shouldAdd, null);
     }
 
     public void pushFragments(Fragment fragment, boolean shouldAnimate, boolean shouldAdd, String tag) {
@@ -169,46 +131,12 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
         }
     }
 
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentDispatchingAndroidInjector;
-    }
-
-    @Override
-    public void setUpToolbar() {
-        mNotificationHandlerViewModel.updateToolbarTitle(mTitle);
-        mActivityNotificationHandlerBinding.toolbar.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Utility.hideSoftkeyboard(NotificationHandlerActivity.this, view);
-                onBackPressed();
-            }
-        });
-
-        mActivityNotificationHandlerBinding.toolbar.linearCart.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                pushFragments(new CartFragment(), true, true, "Cart");
-            }
-        });
-    }
-
-    public void showPushToolbar(boolean showBack, boolean showCart, String title) {
-        mNotificationHandlerViewModel.updateToolbarTitle(title);
-        mActivityNotificationHandlerBinding.toolbar.linearCart.setVisibility(showCart ? View.VISIBLE : View.GONE);
-        mActivityNotificationHandlerBinding.toolbar.imageViewBack.setVisibility(showBack ? View.VISIBLE : View.GONE);
-    }
 
     public void updateCartNum() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (BragApp.CartNumber == 0) {
-                    mActivityNotificationHandlerBinding.toolbar.badgeTvToolbar.setVisibility(View.GONE);
-                } else {
-                    mActivityNotificationHandlerBinding.toolbar.badgeTvToolbar.setVisibility(View.VISIBLE);
-                    mActivityNotificationHandlerBinding.toolbar.badgeTvToolbar.setText(Utility.getBadgeNumber(BragApp.CartNumber));
-                }
+                setBadgeCount(BragApp.CartNumber);
             }
         }, 500);
 
@@ -219,11 +147,22 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
     }
 
     @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
+    }
+
+    @Override
+    public void onApiSuccess() {
+
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+
+    }
+
+    @Override
     public void onApiSuccessNotificationRead() {
-
-//        BragApp.NotificationNumber--;
-//        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION));
-
     }
 
     @Override
@@ -232,12 +171,15 @@ public class NotificationHandlerActivity extends CoreActivity<NotificationHandle
     }
 
     @Override
-    public void onApiSuccessNotificationUnread() {
-
+    public void performCartClick() {
+        super.performCartClick();
+        pushFragments(new CartFragment(), true, true, "Cart");
     }
 
     @Override
-    public void onApiErrorNotificationUnread() {
-
+    public void performBackClick() {
+        super.performBackClick();
+        Utility.hideSoftkeyboard(NotificationHandlerActivity.this);
+        onBackPressed();
     }
 }

@@ -30,6 +30,7 @@ import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.home.HomeFragment;
 import com.ragtagger.brag.ui.home.product.list.ProductListFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -49,15 +50,13 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     @Inject
     CollectionViewModel mCollectionViewModel;
-
     FragmentCollectionBinding mFragmentCollectionBinding;
 
     List<DataCategoryList.Category> mCollectionList;
     List<RImagePager> mBannerList;
-
     CollectionListAdapter mAdapter;
 
-    public static CollectionFragment newInstance() {
+    public static CollectionFragment getInstance() {
         Bundle args = new Bundle();
         CollectionFragment fragment = new CollectionFragment();
         fragment.setArguments(args);
@@ -104,7 +103,8 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     @Override
     public void setUpToolbar() {
-
+        /*if (mActivity != null && mActivity instanceof ToolbarActivity)
+            ((ToolbarActivity) mActivity).showToolbar(false, true, true);*/
     }
 
     @Override
@@ -127,7 +127,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
             mCollectionViewModel.setNoInternet(false);
             if (showProgress)
                 showProgress();
-            mCollectionViewModel.getCollectionList();
+            mCollectionViewModel.callGetCollectionListApi();
         } else {
             hideProgressBar();
             new Handler().postDelayed(new Runnable() {
@@ -142,9 +142,18 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
 
     }
 
+    public void hideProgressBar() {
+        if (mFragmentCollectionBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+        }
+    }
+
     @Override
     public void onItemClick(int position) {
-        ((MainActivity) getActivity()).pushFragments(ProductListFragment.newInstance(mCollectionList.get(position).getOptionName(), mCollectionList.get(position).getSizeGuide()), true, true);
+        if (mActivity != null)
+            ((MainActivity) mActivity).pushFragments(ProductListFragment.newInstance(mCollectionList.get(position).getOptionName(), mCollectionList.get(position).getSizeGuide()), true, true);
     }
 
     @Override
@@ -153,29 +162,7 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
     }
 
     @Override
-    public void onApiSuccess() {
-        hideProgressBar();
-        ((HomeFragment) getParentFragment()).setNotificationBadge();
-
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideProgressBar();
-        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            mCollectionViewModel.setNoInternet(true);
-            return;
-        } else if (error.getHttpCode() == 19) {
-            onNoData();
-            mCollectionViewModel.setNoInternet(false);
-            return;
-        }
-        mCollectionViewModel.setNoInternet(false);
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void swipeRefresh() {
+    public void performSwipeRefresh() {
         mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(true);
         checkInternetAndCallApi(false);
     }
@@ -205,18 +192,31 @@ public class CollectionFragment extends CoreFragment<FragmentCollectionBinding, 
             for (DataCategoryList.Banners item : list) {
                 mBannerList.add(new RImagePager(item.getUrl(), item.getId()));
             }
-            mFragmentCollectionBinding.viewPager.setAdapter(new ImagePagerAdapter(getActivity(), mBannerList, this));
+            mFragmentCollectionBinding.viewPager.setAdapter(new ImagePagerAdapter(mActivity, mBannerList, this));
             mFragmentCollectionBinding.pagerView.setViewPager(mFragmentCollectionBinding.viewPager);
         } else {
             mCollectionViewModel.setIsBannerAvail(false);
         }
     }
 
-    public void hideProgressBar() {
-        if (mFragmentCollectionBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentCollectionBinding.swipeRefreshLayout.setRefreshing(false);
-        } else {
-            hideProgress();
+    @Override
+    public void onApiSuccess() {
+        hideProgressBar();
+        ((HomeFragment) getParentFragment()).setNotificationBadge();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgressBar();
+        if (error.getHttpCode() == 0 && error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            mCollectionViewModel.setNoInternet(true);
+            return;
+        } else if (error.getHttpCode() == 19) {
+            onNoData();
+            mCollectionViewModel.setNoInternet(false);
+            return;
         }
+        mCollectionViewModel.setNoInternet(false);
+        AlertUtils.showAlertMessage(mActivity, error.getHttpCode(), error.getMessage(), null);
     }
 }

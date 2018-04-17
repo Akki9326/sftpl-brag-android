@@ -129,7 +129,7 @@
     <string name="label_my_order">My Order</string>
     <string name="label_pri_policy">Privacy Policy</string>
     <string name="label_terms_and"><![CDATA[Terms & Conditions]]></string>
-    <string name="label_version">version </string>
+    <string name="label_version">version %s</string>
     <string name="label_logout">Logout</string>
     <string name="msg_logout">Are you sure you want to logout?</string>
     <string name="btn_yes">Yes</string>

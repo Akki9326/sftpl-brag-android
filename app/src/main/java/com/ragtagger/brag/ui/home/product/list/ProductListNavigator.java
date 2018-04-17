@@ -1,5 +1,7 @@
 package com.ragtagger.brag.ui.home.product.list;
 
+import android.view.View;
+
 import com.ragtagger.brag.data.model.datas.DataFilter;
 import com.ragtagger.brag.data.model.datas.DataProductList;
 import com.ragtagger.brag.ui.core.CoreNavigator;
@@ -12,9 +14,17 @@ import java.util.List;
 
 public interface ProductListNavigator extends CoreNavigator {
 
-    void swipeRefresh();
+    void performSwipeRefresh();
 
-    void search(String query);
+    void performSearch(String query);
+
+    void performClickSort(View view);
+
+    void openSortingDialog();
+
+    void performClickFilter(View view);
+
+    void openFilterDialog();
 
     void onNoData();
 
@@ -27,8 +37,4 @@ public interface ProductListNavigator extends CoreNavigator {
     void openFragmentDetails(int position);
 
     void openAddProductDialog(int position);
-
-    void openSortingDialog();
-
-    void openFilterDialog();
 }

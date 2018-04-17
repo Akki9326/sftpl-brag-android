@@ -36,28 +36,84 @@ import retrofit2.Call;
 
 public class CartViewModel extends CoreViewModel<CartNavigator> {
 
-    RCartList response;
     ObservableField<String> total = new ObservableField<>();
     ObservableField<Integer> listNum = new ObservableField<>();
     ObservableField<Boolean> visibility = new ObservableField<>();
-    ObservableField<String> listSize = new ObservableField<>();
     ObservableField<Boolean> noInternet = new ObservableField<>();
-    String itemsLable;
-
 
     public CartViewModel(IDataManager dataManager) {
         super(dataManager);
     }
 
-    public void getCartData() {
+    public ObservableField<String> getTotalPrice() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total.set(total);
+    }
+
+    public ObservableField<Boolean> getListVisibility() {
+        return visibility;
+    }
+
+    public void setListVisibility(boolean visibility) {
+        this.visibility.set(visibility);
+    }
+
+    public void setListNum(int count) {
+        this.listNum.set(count);
+    }
+
+    public ObservableField<Boolean> getNoInternet() {
+        return noInternet;
+    }
+
+    public void setNoInternet(boolean noInternet) {
+        this.noInternet.set(noInternet);
+    }
+
+    public View.OnClickListener onContinuesClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickContinues();
+            }
+        };
+    }
+
+    public View.OnClickListener onPriceClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickPrice();
+            }
+        };
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().performSwipeRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
+    }
+
+    void callGetCartDataApi() {
         Call<RCartList> cartListResponseCall = getDataManager().getCartList("item/getCart");
         cartListResponseCall.enqueue(new ApiResponse<RCartList>() {
             @Override
             public void onSuccess(RCartList cartListResponse, Headers headers) {
                 if (cartListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    getNavigator().getCartList(cartListResponse.getData());
-
+                    getNavigator().setCartList(cartListResponse.getData());
                 } else {
                     getNavigator().onApiError(new ApiError(cartListResponse.getErrorCode(), cartListResponse.getMessage()));
                 }
@@ -70,13 +126,12 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
         });
     }
 
-    public void removeFromCart(String itemId) {
+    void callRemoveFromCartApi(String itemId) {
         Call<RGeneralData> cartListResponseCall = getDataManager().removeFromCart("item/removeFromCart/" + itemId);
         cartListResponseCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
             public void onSuccess(RGeneralData cartListResponse, Headers headers) {
                 if (cartListResponse.isStatus()) {
-//                    BragApp.CartNumber--;
                     BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
                     getNavigator().onSuccessDeleteFromAPI();
 
@@ -92,81 +147,7 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
         });
     }
 
-    public ObservableField<String> getTotalPrice() {
-        return total;
-    }
-
-    public ObservableField<Boolean> getListVisibility() {
-        return visibility;
-    }
-
-    public void setListVisibility(boolean visibility) {
-        this.visibility.set(visibility);
-    }
-
-
-    public void setTotal(String total) {
-        this.total.set(total);
-    }
-
-    public void setListNum(int count) {
-        this.listNum.set(count);
-    }
-
-
-    public View.OnClickListener onContinues() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onContinuesClick();
-            }
-        };
-    }
-
-    public View.OnClickListener onPriceClick() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onPriceClick();
-            }
-        };
-    }
-
-
-    public void setListSize(int listSize) {
-        this.listSize.set(String.valueOf(listSize));
-        if (listSize > 1) {
-            itemsLable = "items";
-        } else {
-            itemsLable = "item";
-        }
-    }
-
-    public ObservableField<String> getListSize() {
-        return listSize;
-    }
-
-    public String getItemsLable() {
-        return itemsLable;
-    }
-
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getNavigator().swipeRefresh();
-            }
-        };
-    }
-
-    public int[] getColorSchemeResources() {
-        return new int[]{
-                R.color.pink,
-        };
-    }
-
-
-    public void editQty(String id, String itemId, int qty) {
+    void callEditQtyApi(String id, String itemId, int qty) {
         Call<RAddToCart> callAddToCart = getDataManager().addToCart(new QAddToCart(id, itemId, qty));
         callAddToCart.enqueue(new ApiResponse<RAddToCart>() {
             @Override
@@ -177,7 +158,6 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
                     } else {
                         getNavigator().onSuccessEditQtyFromAPI();
                     }
-
                 } else {
                     getNavigator().onErrorEditQtyFromAPI(new ApiError(rAddToCart.getErrorCode(), rAddToCart.getMessage()));
                 }
@@ -188,13 +168,5 @@ public class CartViewModel extends CoreViewModel<CartNavigator> {
                 getNavigator().onErrorEditQtyFromAPI(t);
             }
         });
-    }
-
-    public ObservableField<Boolean> getNoInternet() {
-        return noInternet;
-    }
-
-    public void setNoInternet(boolean noInternet) {
-        this.noInternet.set(noInternet);
     }
 }

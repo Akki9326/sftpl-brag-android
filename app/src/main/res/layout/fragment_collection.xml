@@ -37,7 +37,7 @@
                     android:layout_height="match_parent"
                     android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}"
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                    app:onRefreshListener="@{viewModel.getOnRefreshListener}">
+                    app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
                     <LinearLayout
                         android:layout_width="match_parent"

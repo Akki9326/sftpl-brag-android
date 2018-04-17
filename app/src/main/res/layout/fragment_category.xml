@@ -34,7 +34,7 @@
                     android:layout_height="match_parent"
                     android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}"
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                    app:onRefreshListener="@{viewModel.getOnRefreshListener}">
+                    app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
                     <android.support.v4.widget.NestedScrollView
                         android:id="@+id/scrollview"

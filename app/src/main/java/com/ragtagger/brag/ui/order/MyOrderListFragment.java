@@ -30,6 +30,7 @@ import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.order.adapter.MyOrderListAdapter;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -46,21 +47,22 @@ import javax.inject.Inject;
  */
 
 
-public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, MyOrderViewModel> implements MyOrderNavigator, MyOrderListAdapter.OnItemClick {
+public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, MyOrderViewModel> implements MyOrderListAdapter.OnItemClick, MyOrderNavigator {
 
-    private int ACTION = 0;
     private static final int LOAD_LIST = 1;
     private static final int LOAD_MORE = 5;
-    private int PAGE_NUM = 1;
-    int totalOrderList;
-    int positionOfItemClick;
 
     @Inject
     MyOrderViewModel mMyOrderViewModel;
     FragmentMyOrderBinding mFragmentMyOrderBinding;
 
-    List<DataMyOrder> mList;
     MyOrderListAdapter listAdapter;
+    List<DataMyOrder> mList;
+
+    private int ACTION = 0;
+    private int PAGE_NUM = 1;
+    int totalOrderList;
+    int positionOfItemClick;
 
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
         @Override
@@ -68,7 +70,6 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
                         return;
                     }
@@ -81,6 +82,16 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
                     }
                 }
             }, 500);
+        }
+    };
+
+    private BroadcastReceiver mUpdateOrder = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(Constants.BUNDLE_IS_ORDER_CANCEL)) {
+                mList.get(positionOfItemClick).setStatus(Constants.OrderStatus.CANCELED.ordinal());
+                listAdapter.notifyDataSetChanged();
+            }
         }
     };
 
@@ -110,22 +121,18 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
             }
         });
 
-
         ACTION = LOAD_LIST;
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 checkInternetAndCallApi(true);
             }
         }, 300);
-
-
     }
 
     @Override
     public void setUpToolbar() {
-        ((MainActivity) getActivity()).showToolbar(true, false, false, getString(R.string.toolbar_my_order));
+        ((ToolbarActivity) mActivity).showToolbar(true, false, false, getString(R.string.toolbar_my_order));
     }
 
     @Override
@@ -144,6 +151,33 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
         return R.layout.fragment_my_order;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateOrder);
+    }
+
+    public void initializeData() {
+        mFragmentMyOrderBinding.recycleview.setHasFixedSize(true);
+        mFragmentMyOrderBinding.recycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mFragmentMyOrderBinding.recycleview.setMotionEventSplittingEnabled(false);
+        mFragmentMyOrderBinding.recycleview.loadMoreComplete(true);
+        mFragmentMyOrderBinding.recycleview.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
+        mFragmentMyOrderBinding.recycleview.setOnLoadMoreListener(mOnLoadMoreListener);
+        mFragmentMyOrderBinding.recycleview.setPageSize(20);
+
+        Utility.applyTypeFace(getActivity(), mFragmentMyOrderBinding.baseLayout);
+        mFragmentMyOrderBinding.linearEmpty.setVisibility(View.GONE);
+        mList = new ArrayList<>();
+    }
+
     private void checkInternetAndCallApi(boolean isShowLoader) {
         if (isAdded())
             if (Utility.isConnection(getActivity())) {
@@ -156,7 +190,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
                         showProgress();
                     PAGE_NUM = 1;
                 }
-                mMyOrderViewModel.getOrderData(PAGE_NUM);
+                mMyOrderViewModel.callGetOrderListApi(PAGE_NUM);
             } else {
                 switch (ACTION) {
                     case LOAD_LIST:
@@ -178,23 +212,15 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
             }
     }
 
-    public void initializeData() {
-
-
-        mFragmentMyOrderBinding.recycleview.setHasFixedSize(true);
-        mFragmentMyOrderBinding.recycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mFragmentMyOrderBinding.recycleview.setMotionEventSplittingEnabled(false);
-        mFragmentMyOrderBinding.recycleview.loadMoreComplete(true);
-        mFragmentMyOrderBinding.recycleview.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
-        mFragmentMyOrderBinding.recycleview.setOnLoadMoreListener(mOnLoadMoreListener);
-        mFragmentMyOrderBinding.recycleview.setPageSize(20);
-
-        Utility.applyTypeFace(getActivity(), mFragmentMyOrderBinding.baseLayout);
-
-        mFragmentMyOrderBinding.linearEmpty.setVisibility(View.GONE);
-
-        mList = new ArrayList<>();
+    public void hideLoader() {
+        if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+            mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
+        }
     }
+
 
     @Override
     public void onItemClick(int position, DataMyOrder responeData) {
@@ -204,35 +230,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
-    }
-
-    @Override
-    public void onApiSuccess() {
-        hideLoader();
-
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideLoader();
-        if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
-            switch (ACTION) {
-                case LOAD_LIST:
-                    mMyOrderViewModel.setNoInternet(true);
-                    break;
-                case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void swipeRefresh() {
+    public void performSwipeRefresh() {
         mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(true);
         ACTION = LOAD_LIST;
         mFragmentMyOrderBinding.recycleview.setIsLoadingMore(true);
@@ -240,8 +238,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     }
 
     @Override
-    public void getOrderList(RMyOrderList orderList, List<DataMyOrder> listRespones) {
-
+    public void setOrderList(RMyOrderList orderList, List<DataMyOrder> listRespones) {
         switch (ACTION) {
             case LOAD_LIST:
                 totalOrderList = orderList.getCount();
@@ -264,33 +261,27 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
                 break;
         }
-
         mMyOrderViewModel.setListVisibility(!mList.isEmpty());
     }
 
 
-    public void hideLoader() {
-        if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(false);
-        } else {
-            hideProgress();
-            mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
-        }
+    @Override
+    public void onApiSuccess() {
+        hideLoader();
     }
 
-    private BroadcastReceiver mUpdateOrder = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.BUNDLE_IS_ORDER_CANCEL)) {
-                mList.get(positionOfItemClick).setStatus(Constants.OrderStatus.CANCELED.ordinal());
-                listAdapter.notifyDataSetChanged();
+    @Override
+    public void onApiError(ApiError error) {
+        hideLoader();
+        if (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mMyOrderViewModel.setNoInternet(true);
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                    break;
             }
         }
-    };
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateOrder);
     }
 }

@@ -26,13 +26,13 @@ import dagger.android.support.AndroidSupportInjection;
 
 public abstract class CoreFragment<T extends ViewDataBinding, V extends CoreViewModel> extends Fragment {
 
-    protected CoreActivity mActivity;
+    private View mRootView;
+    private CustomProgressDialog mProgressDialog;
+
     private T mViewDataBinding;
     private V mViewModel;
-    private View mRootView;
+    protected CoreActivity mActivity;
 
-
-    private CustomProgressDialog mProgressDialog;
 
     @Override
     public void onAttach(Context context) {

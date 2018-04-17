@@ -34,6 +34,7 @@ import com.ragtagger.brag.ui.home.product.details.ProductDetailFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
 import com.ragtagger.brag.ui.notification.adapter.NotificationListAdapter;
 import com.ragtagger.brag.ui.order.orderdetail.OrderDetailFragment;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
@@ -52,22 +53,23 @@ import javax.inject.Inject;
 
 public class NotificationListFragment extends CoreFragment<FragmentNotificationListBinding, NotificationListViewModel> implements NotificationListNavigator, IOnItemClickListener {
 
-    @Inject
-    NotificationListViewModel mNotificationListViewModel;
-
-    FragmentNotificationListBinding mFragmentNotificationListBinding;
-
-    private int ACTION = 0;
     private static final int LOAD_LIST = 1;
     private static final int LOAD_MORE = 5;
+
+    @Inject
+    NotificationListViewModel mNotificationListViewModel;
+    FragmentNotificationListBinding mFragmentNotificationListBinding;
+
+    NotificationListAdapter mListAdapter;
+    List<DataNotificationList> mListData;
+
+    private int ACTION = 0;
     private int PAGE_NUM = 1;
+
     int totalNotification;
     int position;
     boolean isListApi = false;
     private long mLastClickTime = 0;
-
-    NotificationListAdapter mListAdapter;
-    List<DataNotificationList> mListData;
 
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
         @Override
@@ -75,7 +77,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()) {
                         return;
                     }
@@ -91,6 +92,10 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         }
     };
 
+    public static NotificationListFragment getInstance() {
+        return new NotificationListFragment();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +106,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     public void beforeViewCreated() {
         mListData = new ArrayList<>();
         mListAdapter = new NotificationListAdapter(getActivity(), mListData, this);
-
-
     }
 
     @Override
@@ -142,7 +145,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void setUpToolbar() {
-        mActivity.showToolbar(true, false, false, Utility.getNotificationlabel(getActivity()));
+        ((ToolbarActivity) mActivity).showToolbar(true, false, false, Utility.getNotificationlabel(mActivity));
     }
 
     @Override
@@ -160,6 +163,13 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         return R.layout.fragment_notification_list;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
+    }
+
     private void checkInternetAndCallApi(boolean isShowLoader) {
         if (isAdded()) {
             isListApi = true;
@@ -173,7 +183,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                         showProgress();
                     PAGE_NUM = 1;
                 }
-                mNotificationListViewModel.getNotificationListAPI(PAGE_NUM);
+                mNotificationListViewModel.callGetNotificationListApi(PAGE_NUM);
             } else {
 
                 switch (ACTION) {
@@ -196,6 +206,15 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         }
     }
 
+    public void hideLoader() {
+        if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()) {
+            mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(false);
+        } else {
+            hideProgress();
+            mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
+        }
+    }
+
     @Override
     public void onItemClick(int position) {
         if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
@@ -205,8 +224,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         this.position = position;
 
         DataNotificationList dataNotification = mListData.get(position);
-
-
         //read notification api
         isListApi = false;
         switch (Constants.NotificationType.values()[dataNotification.getNotificationType()]) {
@@ -229,42 +246,17 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
             if (!dataNotification.isAttended())
                 mNotificationListViewModel.notificationRead(dataNotification.getId());
         } else {
-
-            onApiSuccessNotificationRead();
-
+            setNotificationRead();
         }
-
     }
 
     @Override
-    public void onApiSuccess() {
-        hideLoader();
-        setUpToolbar();
-        //updated notification count display
-        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    public void performSwipeToRefresh() {
+        mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(true);
+        ACTION = LOAD_LIST;
+        mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
+        checkInternetAndCallApi(false);
     }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideLoader();
-        if (isListApi && (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode)) {
-            switch (ACTION) {
-                case LOAD_LIST:
-                    mNotificationListViewModel.setNoInternet(true);
-                    break;
-                case LOAD_MORE:
-                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-                    break;
-            }
-
-            return;
-        }
-
-        isListApi = true;
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
 
     @Override
     public void setNotificationList(RNotificationList notificationList, List<DataNotificationList> lists) {
@@ -294,16 +286,9 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     }
 
-    @Override
-    public void swipeToRefresh() {
-        mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(true);
-        ACTION = LOAD_LIST;
-        mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
-        checkInternetAndCallApi(false);
-    }
 
     @Override
-    public void onApiSuccessNotificationRead() {
+    public void setNotificationRead() {
         if (!mListData.get(position).isAttended()) {
             mListData.get(position).setAttended(true);
             mListAdapter.notifyDataSetChanged();
@@ -315,23 +300,36 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
     }
 
     @Override
-    public void onAPiErrorNotificationRead(ApiError error) {
-        onApiSuccessNotificationRead();
-    }
-
-    public void hideLoader() {
-        if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()) {
-            mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(false);
-        } else {
-            hideProgress();
-            mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
-        }
+    public void setNotificationReadFailed() {
+        setNotificationRead();
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
+    public void onApiSuccess() {
+        hideLoader();
+        setUpToolbar();
+        //updated notification count display
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideLoader();
+        if (isListApi && (error.getHttpCode() == 0 || error.getHttpCode() == Constants.IErrorCode.notInternetConnErrorCode)) {
+            switch (ACTION) {
+                case LOAD_LIST:
+                    mNotificationListViewModel.setNoInternet(true);
+                    break;
+                case LOAD_MORE:
+                    AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+                    break;
+            }
+            return;
+        }
+
+        isListApi = true;
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
+    }
+
 }

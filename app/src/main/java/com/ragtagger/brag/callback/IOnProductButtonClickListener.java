@@ -15,5 +15,4 @@ package com.ragtagger.brag.callback;
 
 public interface IOnProductButtonClickListener {
     void OnAddListener(int position);
-    void OnCartClick(int position);
 }

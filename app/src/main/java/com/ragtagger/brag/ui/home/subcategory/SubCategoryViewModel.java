@@ -54,16 +54,35 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
         this.noResult.set(noResult);
     }
 
-    public void getSubCategoryData() {
-        Call<RCategoryList> mCategoryRespone = getDataManager().getCategoryProduct();
-        mCategoryRespone.enqueue(new ApiResponse<RCategoryList>() {
+    public ObservableField<String> getProductImg() {
+        return productImg;
+    }
+
+    public void setProductImg(String url) {
+        productImg.set(url);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNavigator().performSwipeRefresh();
+            }
+        };
+    }
+
+    public int[] getColorSchemeResources() {
+        return new int[]{
+                R.color.pink,
+        };
+    }
+
+    void callGetSubCategoryDataApi() {
+        getDataManager().getCategoryProduct().enqueue(new ApiResponse<RCategoryList>() {
             @Override
             public void onSuccess(RCategoryList categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {
                     getNavigator().onApiSuccess();
-                    // TODO: 27-02-2018 :onSwiptoRefresh
-                    //getNavigator().OnSuccessPullToRefresh(categoryListResponse.getData());
-
                     if (categoryListResponse.getData() != null && categoryListResponse.getData().getCategories() != null && categoryListResponse.getData().getCategories().size() > 0) {
                         getNavigator().setCategoryList(categoryListResponse.getData().getCategories());
                     } else {
@@ -79,29 +98,5 @@ public class SubCategoryViewModel extends CoreViewModel<SubCategoryNavigator> {
                 getNavigator().onApiError(t);
             }
         });
-    }
-
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getNavigator().swipeRefresh();
-            }
-        };
-    }
-
-    public int[] getColorSchemeResources() {
-        return new int[]{
-                R.color.pink,
-        };
-    }
-
-
-    public void setProductImg(String url) {
-        productImg.set(url);
-    }
-
-    public ObservableField<String> getProductImg() {
-        return productImg;
     }
 }

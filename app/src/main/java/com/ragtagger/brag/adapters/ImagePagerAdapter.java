@@ -54,12 +54,9 @@ public class ImagePagerAdapter extends PagerAdapter implements ImagePagerItem.It
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-
-
         ItemImagePagerBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext())
                 , R.layout.item_image_pager, null, false);
         dataBinding.setViewModel(new ImagePagerItem(mPagerRespones.get(position), mContext, position, this));
-        //dataBinding.setVariable(BR.viewModel, mPagerRespones.get(position));
         container.addView(dataBinding.getRoot());
         return dataBinding.getRoot();
     }

@@ -68,18 +68,12 @@ public class ItemProductViewModel extends BaseObservable {
         mListener.OnAddClick(posistion, mProduct);
     }
 
-    public void onCartClick(View v) {
-        mListener.OnCartClick(posistion, mProduct);
-    }
-
     public void OnListItemClick(View v) {
         mListener.OnListItemClick(posistion, mProduct);
     }
 
     public interface ItemProductViewModelListener {
         void OnAddClick(int position, DataProductList.Products product);
-
-        void OnCartClick(int position, DataProductList.Products product);
 
         void OnListItemClick(int position, DataProductList.Products product);
     }

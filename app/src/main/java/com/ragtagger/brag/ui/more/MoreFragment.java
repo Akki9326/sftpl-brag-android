@@ -39,9 +39,11 @@ import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.databinding.FragmentMoreBinding;
 import com.ragtagger.brag.data.model.datas.DataMoreList;
 import com.ragtagger.brag.data.model.datas.DataUser;
+import com.ragtagger.brag.ui.collection.CollectionFragment;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.home.HomeFragment;
+import com.ragtagger.brag.ui.toolbar.ToolbarActivity;
 import com.ragtagger.brag.views.FullScreenImageDialogFragment;
 import com.ragtagger.brag.ui.notification.NotificationListFragment;
 import com.ragtagger.brag.views.webview.WebviewDialogFragment;
@@ -68,10 +70,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
 
     @Inject
     MoreViewModel mMoreViewModel;
-
     FragmentMoreBinding mFragmentMoreBinding;
-
-
     DataUser mUserData;
     MoreListAdapter moreListAdapter;
     List<DataMoreList> moreListData;
@@ -79,6 +78,53 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     Dialog alertDialog;
 
     private long mLastClickTime = 0;
+
+    private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (moreListData != null) {
+                moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((ToolbarActivity) getActivity()).getNotificationLabel()));
+                moreListAdapter.notifyDataSetChanged();
+                //update in badge number
+                ((HomeFragment) getParentFragment()).setNotificationBadge();
+            }
+        }
+    };
+    private BroadcastReceiver mUpdateNotificationMore = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (moreListData != null) {
+                moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((ToolbarActivity) getActivity()).getNotificationLabel()));
+                moreListAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
+    private BroadcastReceiver mUpdateProfile = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
+                if (intent.getBooleanExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE, true)) {
+                    mMoreViewModel.setFullAddress(mMoreViewModel.getDataManager().getUserData().getFullAddressWithNewLine());
+                } else if (intent.hasExtra(Constants.BUNDLE_KEY_MOBILE_NUM)) {
+                    //if successfully change moblie  num than update userprofile prefrence
+                    DataUser dataUser = mMoreViewModel.getDataManager().getUserData();
+                    dataUser.setMobileNumber(intent.getStringExtra(Constants.BUNDLE_KEY_MOBILE_NUM));
+                    mMoreViewModel.getDataManager().setUserData(new Gson().toJson(dataUser));
+                    mUserData = mMoreViewModel.getDataManager().getUserData();
+                } else {
+                    mMoreViewModel.setFullName(mMoreViewModel.getDataManager().getUserData().getFullName());
+                }
+            }
+        }
+    };
+
+    public static MoreFragment getInstance() {
+        Bundle args = new Bundle();
+        MoreFragment fragment = new MoreFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,12 +148,11 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     public void afterViewCreated() {
         mFragmentMoreBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentMoreBinding.baseLayout);
-
         mFragmentMoreBinding.imageviewProfile.setVisibility(View.GONE);
 
         //footer (version name)
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_more_list, null, false);
-        ((TextView) footerView.findViewById(R.id.textview_version)).setText(getString(R.string.label_version) + " " + BuildConfig.VERSION_NAME);
+        ((TextView) footerView.findViewById(R.id.textview_version)).setText(getString(R.string.label_version, BuildConfig.VERSION_NAME));
         Utility.applyTypeFace(getActivity(), (LinearLayout) footerView.findViewById(R.id.base_layout));
         mFragmentMoreBinding.listview.addFooterView(footerView, null, false);
 
@@ -121,82 +166,43 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                 mLastClickTime = SystemClock.elapsedRealtime();
 
                 int viewId = (int) moreListAdapter.getItemId(position);
-                Intent intent;
-                Bundle bundle;
-                WebviewDialogFragment dialogFragment;
                 switch (viewId) {
                     case 1://order list
-                        ((MainActivity) getActivity()).pushFragments(new MyOrderListFragment()
-                                , true, true);
+                        performItemClickMyOrder();
                         break;
-                    case 2://privacy policy
-                        bundle = new Bundle();
-                        bundle.putString(Constants.BUNDLE_TITLE, "Privacy");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-privacy-policy");
-                        dialogFragment = new WebviewDialogFragment();
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(getChildFragmentManager(), "");
+                    case 2://notification list
+                        performItemClickNotification();
                         break;
-                    case 3://terms & conditions
-                        bundle = new Bundle();
-                        bundle.putString(Constants.BUNDLE_TITLE, "Terms and Condition");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-terms-and-condition");
-                        dialogFragment = new WebviewDialogFragment();
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(getChildFragmentManager(), "");
+                    case 3://privacy policy
+                        performItemClickPrivacyPolicy();
                         break;
-                    case 4://change password
-                        intent = new Intent(getActivity(), UserProfileActivity.class);
-                        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
-                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_PASS.ordinal());
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    case 4://terms & conditions
+                        performItemClickTermsConditions();
                         break;
-                    case 5://logout
-                        showAlertMessageLogOut(getActivity(), getString(R.string.msg_logout));
+                    case 5://faqs
+                        performItemClickFaqs();
+                        break;
+                    case 6://about us
+                        performItemClickAboutUs();
+                        break;
+                    case 7://update profile
+                        performItemClickUpdateProfile();
                         break;
 
-                    case 6://change mobile number
-                        intent = new Intent(getActivity(), UserProfileActivity.class);
-                        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
-                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_MOBILE.ordinal());
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    case 8://change password
+                        performItemClickChangePassword();
                         break;
-                    case 7://notification list
-                        ((MainActivity) getActivity()).pushFragments(new NotificationListFragment(), true, true);
+                    case 9://change mobile number
+                        performItemClickChangeMobileNumber();
                         break;
-                    case 8://update profile
-                        intent = new Intent(getActivity(), UserProfileActivity.class);
-                        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
-                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.UPDATE_PROFILE.ordinal());
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    case 10://add and edit address
+                        performItemClickAddUpdateAddress();
+                        break;
+                    case 11://logout
+                        performItemClickLogout();
                         break;
 
-                    case 9://add and edit address
-                        intent = new Intent(getActivity(), UserProfileActivity.class);
-                        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                        break;
 
-                    case 10://faqs
-                        bundle = new Bundle();
-                        bundle.putString(Constants.BUNDLE_TITLE, "FAQs");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-faqs");
-                        dialogFragment = new WebviewDialogFragment();
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(getChildFragmentManager(), "");
-                        break;
-                    case 11://about us
-                        bundle = new Bundle();
-                        bundle.putString(Constants.BUNDLE_TITLE, "About us");
-                        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-about-us");
-                        dialogFragment = new WebviewDialogFragment();
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(getChildFragmentManager(), "");
-                        break;
                 }
             }
         });
@@ -204,12 +210,14 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         mMoreViewModel.setFullName(mUserData.getFullName());
         mMoreViewModel.setFullAddress(mUserData.getFullAddressWithNewLine());
         moreListData = new ArrayList<>();
+
         moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new DataMoreList(Constants.MoreList.MY_ORDER.getNumericType(), getResources().getDrawable(R.drawable.ic_order),
                 getString(R.string.label_my_order)));
         moreListData.add(new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more),
                 Utility.getNotificationlabel(getActivity())));
+
         moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
         moreListData.add(new DataMoreList(Constants.MoreList.PRIVACY_POLICY.getNumericType(), getResources().getDrawable(R.drawable.ic_privacy_policy),
@@ -220,16 +228,17 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                 getString(R.string.label_faq)));
         moreListData.add(new DataMoreList(Constants.MoreList.ABOUT_US.getNumericType(), getResources().getDrawable(R.drawable.ic_about_us),
                 getString(R.string.label_about_us)));
+
         moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
-                getString(R.string.label_add_update_address)));
+        moreListData.add(new DataMoreList(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_update_profile),
+                getString(R.string.label_update_profile)));
         moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
                 getString(R.string.label_change_pass)));
         moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_change_mob_num),
                 getString(R.string.label_change_mobile_num)));
-        moreListData.add(new DataMoreList(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_update_profile),
-                getString(R.string.label_update_profile)));
+        moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
+                getString(R.string.label_add_update_address)));
         moreListData.add(new DataMoreList(Constants.MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
                 getString(R.string.label_logout)));
 
@@ -242,7 +251,6 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
 
     @Override
     public void setUpToolbar() {
-        ((CoreActivity) getActivity()).showToolbar(false, false, false, getString(R.string.toolbar_label_more));
     }
 
     @Override
@@ -260,10 +268,15 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         return R.layout.fragment_more;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotificationMore);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateProfile);
+    }
 
     private void showAlertMessageLogOut(final Context mContext, String s) {
-
-
         try {
             alertDialog = new Dialog(mContext);
 
@@ -289,7 +302,7 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                     alertDialog.dismiss();
                     if (Utility.isConnection(getActivity())) {
                         showProgress();
-                        mMoreViewModel.logout();
+                        mMoreViewModel.callLogoutApi();
                         //LogOutAPI();
                     } else {
                         AlertUtils.showAlertMessage(getActivity(), 0, null, null);
@@ -303,59 +316,110 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
+    public void performItemClickProfile() {
     }
 
-    private BroadcastReceiver mUpdateNotification = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (moreListData != null) {
-                moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
-                moreListAdapter.notifyDataSetChanged();
-                //update in badge number
-                ((HomeFragment) getParentFragment()).setNotificationBadge();
-            }
-        }
-    };
-    private BroadcastReceiver mUpdateNotificationMore = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (moreListData != null) {
-                moreListData.set(2, new DataMoreList(Constants.MoreList.NOTIFICATION.getNumericType(), getResources().getDrawable(R.drawable.ic_notification_more), ((CoreActivity) getActivity()).getNotificationlabel()));
-                moreListAdapter.notifyDataSetChanged();
-            }
-        }
-    };
-
-    private BroadcastReceiver mUpdateProfile = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
-                if (intent.getBooleanExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE, true)) {
-                    mMoreViewModel.setFullAddress(mMoreViewModel.getDataManager().getUserData().getFullAddressWithNewLine());
-                } else if (intent.hasExtra(Constants.BUNDLE_KEY_MOBILE_NUM)) {
-                    //if successfully change moblie  num than update userprofile prefrence
-                    DataUser dataUser = mMoreViewModel.getDataManager().getUserData();
-                    dataUser.setMobileNumber(intent.getStringExtra(Constants.BUNDLE_KEY_MOBILE_NUM));
-                    mMoreViewModel.getDataManager().setUserData(new Gson().toJson(dataUser));
-                    mUserData = mMoreViewModel.getDataManager().getUserData();
-                } else {
-                    mMoreViewModel.setFullName(mMoreViewModel.getDataManager().getUserData().getFullName());
-                }
-            }
-        }
-    };
+    @Override
+    public void performItemClickMyOrder() {
+        ((MainActivity) getActivity()).pushFragments(new MyOrderListFragment()
+                , true, true);
+    }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotification);
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateNotificationMore);
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateProfile);
+    public void performItemClickNotification() {
+        ((MainActivity) getActivity()).pushFragments(NotificationListFragment.getInstance(), true, true);
+    }
 
+    @Override
+    public void performItemClickPrivacyPolicy() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_TITLE, "Privacy");
+        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-privacy-policy");
+        WebviewDialogFragment dialogFragment = new WebviewDialogFragment();
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void performItemClickTermsConditions() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_TITLE, "Terms and Condition");
+        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-terms-and-condition");
+        WebviewDialogFragment dialogFragment = new WebviewDialogFragment();
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void performItemClickFaqs() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_TITLE, "FAQs");
+        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-faqs");
+        WebviewDialogFragment dialogFragment = new WebviewDialogFragment();
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void performItemClickAboutUs() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_TITLE, "About us");
+        bundle.putString(Constants.BUNDLE_SUBTITLE, "https://bragstore.com/pages/b2b-about-us");
+        WebviewDialogFragment dialogFragment = new WebviewDialogFragment();
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getChildFragmentManager(), "");
+    }
+
+    @Override
+    public void performItemClickUpdateProfile() {
+        Intent intent;
+        intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.UPDATE_PROFILE.ordinal());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void performItemClickChangePassword() {
+        Intent intent;
+        intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_PASS.ordinal());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void performItemClickChangeMobileNumber() {
+        Intent intent;
+        intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_MOBILE, mUserData.getMobileNumber());
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.CHANGE_MOBILE.ordinal());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void performItemClickAddUpdateAddress() {
+        Intent intent;
+        intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void performItemClickLogout() {
+        showAlertMessageLogOut(getActivity(), getString(R.string.msg_logout));
+    }
+
+    @Override
+    public void onLogout() {
+        Intent intent = new Intent(getActivity(), SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     @Override
@@ -368,26 +432,4 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
-
-    @Override
-    public void profile() {
-        Bundle args = new Bundle();
-        args.putString(Constants.BUNDLE_IMAGE_URL, "http://cdn.shopify.com/s/files/1/1629/9535/t/2/assets/feature1.jpg?9636438770338163967");
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
-        mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
-        mDialogFragmentImage.setArguments(args);
-        mDialogFragmentImage.show(fm, "");
-    }
-
-    @Override
-    public void logout() {
-        Intent intent = new Intent(getActivity(), SplashActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        getActivity().finish();
-    }
-
-
 }

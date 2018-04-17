@@ -13,18 +13,19 @@ import android.databinding.ObservableField;
 
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.ui.core.CoreViewModel;
+import com.ragtagger.brag.ui.toolbar.ToolbarViewModel;
 
 /**
  * Created by nikhil.vadoliya on 14-02-2018.
  */
 
 
-public class MainViewModel extends CoreViewModel<MainNavigator> {
+public class MainViewModel extends ToolbarViewModel<MainNavigator> {
     public MainViewModel(IDataManager dataManager) {
         super(dataManager);
     }
 
-    ObservableField<String> toolbarTitle = new ObservableField<>();
+    /*ObservableField<String> toolbarTitle = new ObservableField<>();
 
     public ObservableField<String> getToolbarTitle() {
         return toolbarTitle;
@@ -32,5 +33,5 @@ public class MainViewModel extends CoreViewModel<MainNavigator> {
 
     public void updateToolbartitle(String title) {
         toolbarTitle.set(title);
-    }
+    }*/
 }

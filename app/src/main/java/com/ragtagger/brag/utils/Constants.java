@@ -134,16 +134,18 @@ public class Constants {
 
     public enum MoreList {
         MY_ORDER(1),
-        PRIVACY_POLICY(2),
-        TERMS_AND(3),
-        CHANGE_PASS(4),
-        LOGOUT(5),
-        CHANGE_MOBILE(6),
-        NOTIFICATION(7),
-        USER_PROFILE(8),
-        CHANGE_ADDRESS(9),
-        FAQ(10),
-        ABOUT_US(11);
+        NOTIFICATION(2),
+
+        PRIVACY_POLICY(3),
+        TERMS_AND(4),
+        FAQ(5),
+        ABOUT_US(6),
+
+        USER_PROFILE(7),
+        CHANGE_PASS(8),
+        CHANGE_MOBILE(9),
+        CHANGE_ADDRESS(10),
+        LOGOUT(11);
 
         MoreList(int i) {
             this.type = i;

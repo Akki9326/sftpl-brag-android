@@ -75,11 +75,11 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         this.isListAvail.set(isListAvail);
     }
 
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+    public SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNavigator().swipeRefresh();
+                getNavigator().performSwipeRefresh();
             }
         };
     }
@@ -90,9 +90,8 @@ public class CategoryViewModel extends CoreViewModel<CategoryNavigator> {
         };
     }
 
-    public void getCategoryData() {
-        Call<RCategoryList> mCategoryRespone = getDataManager().getCategoryProduct();
-        mCategoryRespone.enqueue(new ApiResponse<RCategoryList>() {
+    void callGetCategoryApi() {
+        getDataManager().getCategoryProduct().enqueue(new ApiResponse<RCategoryList>() {
             @Override
             public void onSuccess(RCategoryList categoryListResponse, Headers headers) {
                 if (categoryListResponse.isStatus()) {

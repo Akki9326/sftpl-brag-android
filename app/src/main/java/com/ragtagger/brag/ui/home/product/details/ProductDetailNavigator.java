@@ -17,29 +17,28 @@ import java.util.List;
 
 public interface ProductDetailNavigator extends CoreNavigator {
 
-    void sizeGuide();
-
-    void plus();
-
-    void minus();
-
-    void onEditTextQty();
-
-    void addToCart();
-
-    void onAddedToCart(List<DataAddToCart> data);
-
-    void notifyMe();
-
-    void onNotifyMeSuccess(String msg);
-
-    void onApiSuccessProductDetail(DataProductList.Products products);
-
-    void onApiErrorProductDetail(ApiError error);
+    void performClickSizeGuide();
 
     void afterTextChanged(Editable s);
 
+    boolean onEditorActionHide(TextView textView, int i, KeyEvent keyEvent);
+
+    void performClickPlus();
+
+    void performClickMinus();
+
+    void onEditTextQty();
+
+    void performAddToCartClick();
+
+    void onAddedToCart(List<DataAddToCart> data);
+
     void updatePushCart();
 
-    boolean onEditorActionHide(TextView textView, int i, KeyEvent keyEvent);
+    void performClickNotifyMe();
+
+    void onNotifyMeSuccess(String msg);
+
+    void setProductDetails(DataProductList.Products products);
+
 }

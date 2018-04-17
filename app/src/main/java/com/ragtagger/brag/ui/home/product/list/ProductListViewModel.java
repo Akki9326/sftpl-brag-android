@@ -56,30 +56,11 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
         super(dataManager);
     }
 
-
-    public View.OnClickListener onSortClick() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().openSortingDialog();
-            }
-        };
-    }
-
-    public View.OnClickListener onFilterClick() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().openFilterDialog();
-            }
-        };
-    }
-
     public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNavigator().swipeRefresh();
+                getNavigator().performSwipeRefresh();
             }
         };
     }
@@ -94,7 +75,7 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
                                         @Nullable final KeyEvent keyEvent) {
 
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            getNavigator().search(textView.getText().toString().toLowerCase());
+            getNavigator().performSearch(textView.getText().toString().toLowerCase());
             return true;
         }
         return false;
@@ -102,10 +83,28 @@ public class ProductListViewModel extends CoreViewModel<ProductListNavigator> {
 
     public void afterTextChanged(Editable s) {
         if (s != null && s.length() <= 0)
-            getNavigator().search("");
+            getNavigator().performSearch("");
     }
 
-    public void getProductList(int page, String category, String subCategory, String seasonCode, final String q, int sorting, QProductList.Filter filter) {
+    public View.OnClickListener onSortClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickSort(v);
+            }
+        };
+    }
+
+    public View.OnClickListener onFilterClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickFilter(v);
+            }
+        };
+    }
+
+    void getProductList(int page, String category, String subCategory, String seasonCode, final String q, int sorting, QProductList.Filter filter) {
         QProductList query = new QProductList();
         query.setCategory(category);
         query.setSubCategory(subCategory);

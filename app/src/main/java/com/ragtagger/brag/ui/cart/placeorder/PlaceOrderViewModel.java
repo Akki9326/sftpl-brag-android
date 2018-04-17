@@ -76,11 +76,37 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         return itemsLable;
     }
 
-    public View.OnClickListener onPlaceOrder() {
+    public ObservableField<Boolean> IsAddressAvaliable() {
+        return isAddressAvaliable;
+    }
+
+    public void setIsAddressAvaliable(boolean isAddressAvaliable) {
+        this.isAddressAvaliable.set(isAddressAvaliable);
+    }
+
+    public DataUserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(DataUserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public ObservableField<String> getFullAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        if (!address.isEmpty())
+            setIsAddressAvaliable(true);
+        this.address.set(address);
+    }
+
+    public View.OnClickListener onAddAddress() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onPlaceOrder();
+                getNavigator().performClickAddAddress();
             }
         };
     }
@@ -89,30 +115,31 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onEditAddress();
+                getNavigator().performClickEditAddress();
             }
         };
     }
 
-    public View.OnClickListener onAddAddress() {
-        return new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                getNavigator().onAddAddress();
-            }
-        };
-    }
 
     public View.OnClickListener onPriceLabelClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                getNavigator().onPriceLabelClick();
+                getNavigator().performClickPrice();
             }
         };
     }
 
-    public void getUserProfile() {
+    public View.OnClickListener onPlaceOrder() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickPlaceOrder();
+            }
+        };
+    }
+
+    public void callGetUserProfileApi() {
         Call<RLogin> responseCall = getDataManager().getUserProfile("user/getProfile");
         responseCall.enqueue(new ApiResponse<RLogin>() {
             @Override
@@ -138,48 +165,22 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         });
     }
 
-    public ObservableField<String> getFullAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        if (!address.isEmpty())
-            setIsAddressAvaliable(true);
-        this.address.set(address);
-    }
-
-    public void placeOrderAPI(QPlaceOrder placeOrder) {
+    public void callPlaceOrderApi(QPlaceOrder placeOrder) {
         Call<RGeneralData> responseCall = getDataManager().placeOrder(placeOrder);
         responseCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
             public void onSuccess(RGeneralData generalResponse, Headers headers) {
                 if (generalResponse.isStatus()) {
-                    getNavigator().onApiSuccessPlaceOrder();
+                    getNavigator().placedOrderSuccessfully();
                 } else {
-                    getNavigator().onApiErrorPlaceOrder(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
             }
 
             @Override
             public void onError(ApiError t) {
-                getNavigator().onApiErrorPlaceOrder(t);
+                getNavigator().onApiError(t);
             }
         });
-    }
-
-    public ObservableField<Boolean> IsAddressAvaliable() {
-        return isAddressAvaliable;
-    }
-
-    public void setIsAddressAvaliable(boolean isAddressAvaliable) {
-        this.isAddressAvaliable.set(isAddressAvaliable);
-    }
-
-    public DataUserAddress getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(DataUserAddress userAddress) {
-        this.userAddress = userAddress;
     }
 }

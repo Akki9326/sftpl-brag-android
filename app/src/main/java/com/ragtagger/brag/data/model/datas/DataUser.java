@@ -32,6 +32,7 @@ public class DataUser implements Parcelable {
     private String lastModifiedBy;
     private Long lastModifiedDate;
     private Boolean isActive;
+    private int userType;
     private Boolean isDeleted;
     private List<DataUserAddress> addresses;
     private String gstin;
@@ -225,63 +226,6 @@ public class DataUser implements Parcelable {
         this.saleTypeModel = saleTypeModel;
     }
 
-    /*@Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.title);
-        dest.writeString(this.firstName);
-        dest.writeString(this.lastName);
-        dest.writeString(this.mobileNumber);
-        dest.writeString(this.email);
-        dest.writeString(this.password);
-        dest.writeValue(this.approvalStatus);
-        dest.writeValue(this.createdDate);
-        dest.writeString(this.lastModifiedBy);
-        dest.writeValue(this.lastModifiedDate);
-        dest.writeValue(this.isActive);
-        dest.writeValue(this.isDeleted);
-        dest.writeTypedList(this.addresses);
-        dest.writeString(this.gstin);
-    }
-
-    public DataUser() {
-    }
-
-    protected DataUser(Parcel in) {
-        this.id = in.readString();
-        this.title = in.readString();
-        this.firstName = in.readString();
-        this.lastName = in.readString();
-        this.mobileNumber = in.readString();
-        this.email = in.readString();
-        this.password = in.readString();
-        this.approvalStatus = (Long) in.readValue(Long.class.getClassLoader());
-        this.createdDate = (Long) in.readValue(Long.class.getClassLoader());
-        this.lastModifiedBy = in.readString();
-        this.lastModifiedDate = (Long) in.readValue(Long.class.getClassLoader());
-        this.isActive = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.isDeleted = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.addresses = in.createTypedArrayList(DataUserAddress.CREATOR);
-        this.gstin = in.readString();
-    }
-
-    public static final Parcelable.Creator<DataUser> CREATOR = new Parcelable.Creator<DataUser>() {
-        @Override
-        public DataUser createFromParcel(Parcel source) {
-            return new DataUser(source);
-        }
-
-        @Override
-        public DataUser[] newArray(int size) {
-            return new DataUser[size];
-        }
-    };*/
-
     @Override
     public int describeContents() {
         return 0;
@@ -301,6 +245,7 @@ public class DataUser implements Parcelable {
         dest.writeString(this.lastModifiedBy);
         dest.writeValue(this.lastModifiedDate);
         dest.writeValue(this.isActive);
+        dest.writeInt(this.userType);
         dest.writeValue(this.isDeleted);
         dest.writeTypedList(this.addresses);
         dest.writeString(this.gstin);
@@ -325,6 +270,7 @@ public class DataUser implements Parcelable {
         this.lastModifiedBy = in.readString();
         this.lastModifiedDate = (Long) in.readValue(Long.class.getClassLoader());
         this.isActive = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.userType = in.readInt();
         this.isDeleted = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.addresses = in.createTypedArrayList(DataUserAddress.CREATOR);
         this.gstin = in.readString();

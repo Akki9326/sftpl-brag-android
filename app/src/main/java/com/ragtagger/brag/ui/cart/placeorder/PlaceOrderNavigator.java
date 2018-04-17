@@ -10,27 +10,22 @@ package com.ragtagger.brag.ui.cart.placeorder;
  */
 
 import com.ragtagger.brag.data.model.ApiError;
+import com.ragtagger.brag.ui.core.CoreNavigator;
 
 /**
  * Created by nikhil.vadoliya on 21-02-2018.
  */
 
 
-public interface PlaceOrderNavigator {
+public interface PlaceOrderNavigator extends CoreNavigator{
 
-    void onApiSuccess();
+    void performClickAddAddress();
 
-    void onApiError(ApiError error);
+    void performClickEditAddress();
 
-    void onPlaceOrder();
+    void performClickPrice();
 
-    void onEditAddress();
+    void performClickPlaceOrder();
 
-    void onAddAddress();
-
-    void onPriceLabelClick();
-
-    void onApiSuccessPlaceOrder();
-
-    void onApiErrorPlaceOrder(ApiError error);
+    void placedOrderSuccessfully();
 }

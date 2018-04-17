@@ -53,19 +53,27 @@ import javax.inject.Inject;
 public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, PlaceOrderViewModel>
         implements PlaceOrderNavigator, PlaceOrderCartListAdapter.OnItemClick {
 
-
     public static final int REQUEST_QTY = 1;
-    int positionQty;
 
     @Inject
     PlaceOrderViewModel mPlaceOrderViewModel;
     FragmentPlaceOrderBinding mFragmentPlaceOrderBinding;
-
     PlaceOrderCartListAdapter mAdapter;
+
     List<DataCart> mList;
+    int positionQty;
+
+    private BroadcastReceiver mUpdateProfile = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
+                mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData()
+                        .getFullAddressWithNewLine());
+            }
+        }
+    };
 
     public static PlaceOrderFragment newInstance(List<DataCart> cartList) {
-
         Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.BUNDLE_CART_LIST, (ArrayList<? extends Parcelable>) cartList);
         PlaceOrderFragment fragment = new PlaceOrderFragment();
@@ -80,92 +88,6 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
                 mUpdateProfile, new IntentFilter(Constants.LOCALBROADCAST_UPDATE_PROFILE));
     }
-
-    private void checkInternetAndCallApi() {
-        if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mPlaceOrderViewModel.getUserProfile();
-        }
-    }
-
-    @Override
-    public void onApiSuccess() {
-        hideProgress();
-
-    }
-
-    @Override
-    public void onApiError(ApiError error) {
-        hideKeyboard();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
-    @Override
-    public void onPlaceOrder() {
-        if (!mPlaceOrderViewModel.isAddressAvaliable.get()) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
-        } else if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mPlaceOrderViewModel.placeOrderAPI(new QPlaceOrder());
-        } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
-        }
-
-    }
-
-    @Override
-    public void onEditAddress() {
-        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
-        intent.putExtra(Constants.BUNDLE_ADDRESS, mPlaceOrderViewModel.getUserAddress());
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
-    }
-
-    @Override
-    public void onAddAddress() {
-        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
-    }
-
-    @Override
-    public void onPriceLabelClick() {
-        mFragmentPlaceOrderBinding.nestedScroll.smoothScrollTo(0, (mFragmentPlaceOrderBinding.viewDummy).getTop());
-
-    }
-
-    @Override
-    public void onApiSuccessPlaceOrder() {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), 2001, null, new AlertUtils.IDismissDialogListener() {
-            @Override
-            public void dismissDialog(Dialog dialog) {
-                hideProgress();
-                dialog.dismiss();
-                BragApp.CartNumber = 0;
-
-                if (getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).updateCartNum();
-                    ((MainActivity) getActivity()).clearStackForPlaceOrder();
-                    Intent intent = new Intent(Constants.ACTION_UPDATE_LIST_CART_ICON_STATE);
-                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-                } else if (getActivity() instanceof NotificationHandlerActivity) {
-                    ((NotificationHandlerActivity) getActivity()).updateCartNum();
-                    ((NotificationHandlerActivity) getActivity()).clearStackForPlaceOrder();
-                }
-
-            }
-        });
-    }
-
-    @Override
-    public void onApiErrorPlaceOrder(ApiError error) {
-        hideProgress();
-        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
-    }
-
 
     @Override
     public void beforeViewCreated() {
@@ -185,11 +107,6 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     public void setUpToolbar() {
         if (mActivity != null && mActivity instanceof ToolbarActivity)
             ((ToolbarActivity) mActivity).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));
-
-        /*if (getActivity() instanceof MainActivity)
-            ((MainActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));
-        else if (getActivity() instanceof NotificationHandlerActivity)//helped when app open from notification, here NotificationHandlerActivity.class is base for notification
-            ((NotificationHandlerActivity) getActivity()).showToolbar(true, false, false, getResources().getString(R.string.toolbar_label_place_order));*/
     }
 
     @Override
@@ -207,9 +124,29 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         return R.layout.fragment_place_order;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setUpToolbar();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
+                mUpdateProfile);
+        super.onPause();
+    }
+
+    private void checkInternetAndCallApi() {
+        if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mPlaceOrderViewModel.callGetUserProfileApi();
+        }
+    }
+
     public void initializeData() {
-
-
         mFragmentPlaceOrderBinding.recycleview.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mFragmentPlaceOrderBinding.recycleview.setLayoutManager(layoutManager);
@@ -222,42 +159,24 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
         mList = new ArrayList<>();
         mList = getArguments().getParcelableArrayList(Constants.BUNDLE_CART_LIST);
-
-
     }
 
     public void showData() {
-
-
         //default address pre filled
         mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData().getFullAddressWithNewLine());
 
         mAdapter = new PlaceOrderCartListAdapter(getActivity(), mList, this);
         mFragmentPlaceOrderBinding.recycleview.setAdapter(mAdapter);
         setTotalPrice();
-
-
-    }
-
-    @Override
-    public void onQtyClick(int position, DataCart responeData) {
     }
 
     private void setTotalPrice() {
-
         double total = 0;
         for (int i = 0; i < mList.size(); i++) {
             total += (mList.get(i).getQuantity()) * (mList.get(i).getItem().getUnitPrice());
         }
         mPlaceOrderViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(total));
         mPlaceOrderViewModel.setListSize(mList.size());
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden)
-            setUpToolbar();
     }
 
     @Override
@@ -277,26 +196,78 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                     }
                 }, 1000);
             }
-
-
         }
     }
 
-    private BroadcastReceiver mUpdateProfile = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.BUNDLE_IS_ADDRESS_UPDATE)) {
-                mPlaceOrderViewModel.setAddress(mPlaceOrderViewModel.getDataManager().getUserData()
-                        .getFullAddressWithNewLine());
-            }
-        }
-    };
+    @Override
+    public void onQtyClick(int position, DataCart responeData) {
+    }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
-                mUpdateProfile);
-        super.onPause();
+    public void performClickAddAddress() {
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void performClickEditAddress() {
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra(Constants.BUNDLE_PROFILE_IS_FROM, Constants.ProfileIsFrom.ADD_EDIT_ADDRESS.ordinal());
+        intent.putExtra(Constants.BUNDLE_ADDRESS, mPlaceOrderViewModel.getUserAddress());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+    @Override
+    public void performClickPrice() {
+        mFragmentPlaceOrderBinding.nestedScroll.smoothScrollTo(0, (mFragmentPlaceOrderBinding.viewDummy).getTop());
+    }
+
+    @Override
+    public void performClickPlaceOrder() {
+        if (!mPlaceOrderViewModel.isAddressAvaliable.get()) {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
+        } else if (Utility.isConnection(getActivity())) {
+            showProgress();
+            mPlaceOrderViewModel.callPlaceOrderApi(new QPlaceOrder());
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+        }
+    }
+
+    @Override
+    public void placedOrderSuccessfully() {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), 2001, null, new AlertUtils.IDismissDialogListener() {
+            @Override
+            public void dismissDialog(Dialog dialog) {
+                hideProgress();
+                dialog.dismiss();
+                BragApp.CartNumber = 0;
+
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).updateCartNum();
+                    ((MainActivity) getActivity()).clearStackForPlaceOrder();
+                    Intent intent = new Intent(Constants.ACTION_UPDATE_LIST_CART_ICON_STATE);
+                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                } else if (getActivity() instanceof NotificationHandlerActivity) {
+                    ((NotificationHandlerActivity) getActivity()).updateCartNum();
+                    ((NotificationHandlerActivity) getActivity()).clearStackForPlaceOrder();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onApiSuccess() {
+        hideProgress();
+    }
+
+    @Override
+    public void onApiError(ApiError error) {
+        hideProgress();
+        AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 }

@@ -44,16 +44,13 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
 
     public static final int RESULT_CODE_QTY = 2;
 
-
     @Inject
     EditQtyDialogViewModel mEditQtyDialogViewModel;
     DialogFragmentEditQtyBinding mDialogFragmentEditQtyBinding;
 
-
     int qty;
     int numProductStock = 0;
     boolean isValidQty;
-
 
     @Nullable
     @Override
@@ -70,15 +67,18 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
 
     @Override
     public Dialog onCreateFragmentDialog(Bundle savedInstanceState, Dialog dialog) {
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
         return dialog;
     }
 
     @Override
     public void beforeViewCreated() {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        isValidQty = true;
 
         if (getArguments() != null) {
             if (getArguments().containsKey(Constants.BUNDLE_QTY))
@@ -92,13 +92,11 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
     @Override
     public void afterViewCreated() {
         mDialogFragmentEditQtyBinding = getViewDataBinding();
-
-        isValidQty = true;
         Utility.applyTypeFace(getActivity(), mDialogFragmentEditQtyBinding.baseLayout);
 
-//        mEditQtyDialogViewModel.setQty(qty);
-        mDialogFragmentEditQtyBinding.edittextQty.setText(String.valueOf(qty));
         mEditQtyDialogViewModel.setAvailableStock(numProductStock);
+        mDialogFragmentEditQtyBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+        mDialogFragmentEditQtyBinding.edittextQty.setText(String.valueOf(qty));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -106,9 +104,6 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
 
             }
         }, 200);
-
-        mDialogFragmentEditQtyBinding.edittextQty.setFilters(
-                new InputFilter[]{new InputFilter.LengthFilter(3)});
     }
 
     @Override
@@ -132,27 +127,13 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
     }
 
     @Override
-    public void onDoneClick() {
-
-        if (!mDialogFragmentEditQtyBinding.textviewDone.isEnabled()) {
-            return;
-        } else if (Validation.isEmpty(mDialogFragmentEditQtyBinding.edittextQty)) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_enter_qty));
-        } else if (Integer.parseInt(mDialogFragmentEditQtyBinding.edittextQty.getText().toString()) == 0) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_qty_not_empty));
-        } else if (!isValidQty) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_valid_qty));
-        } else {
-            Intent intent = new Intent();
-            intent.putExtra(Constants.BUNDLE_QTY, Integer.valueOf(mDialogFragmentEditQtyBinding.edittextQty.getText().toString()));
-            getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE_QTY, intent);
-            dismiss();
-        }
-
+    public void performClickDone() {
+        if (isAdded())
+            mEditQtyDialogViewModel.validateEditQtyForm(getActivity(), mDialogFragmentEditQtyBinding.textviewDone, mDialogFragmentEditQtyBinding.edittextQty, isValidQty);
     }
 
     @Override
-    public void afterTextChanged(Editable s) {
+    public void performActionAfterTextChanged(Editable s) {
         if (s != null) {
             if (s.toString().trim().length() == 0 || new Integer(s.toString()).intValue() == 0) {
                 mDialogFragmentEditQtyBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
@@ -171,5 +152,18 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
                 mDialogFragmentEditQtyBinding.textviewDone.setEnabled(true);
             }
         }
+    }
+
+    @Override
+    public void validEditQtyForm() {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BUNDLE_QTY, Integer.valueOf(mDialogFragmentEditQtyBinding.edittextQty.getText().toString()));
+        getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE_QTY, intent);
+        dismiss();
+    }
+
+    @Override
+    public void invalidEditQtyForm(String msg) {
+        AlertUtils.showAlertMessage(getActivity(), msg);
     }
 }

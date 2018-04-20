@@ -55,22 +55,18 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public String getProduct_name() {
-//        return responeData.getProduct_name();
         return "Product Name";
     }
 
     public String getProduct_image_url() {
-//        return responeData.getProduct_image_url();
         return "";
     }
 
     public String getProduct_qty() {
-//        return responeData.getProduct_qty();
         return "";
     }
 
     public String getProduct_price() {
-//        return responeData.getProduct_price();
         return "";
     }
 
@@ -102,5 +98,13 @@ public class MyOrderItemViewModel extends BaseObservable {
 
     public int getStatusColor() {
         return responeData.getOrderStatesColor(context);
+    }
+
+    public boolean hasOrderedBy() {
+        return responeData.getOrderedBy() != null;
+    }
+
+    public String getOrderedBy() {
+        return responeData.getOrderedBy();
     }
 }

@@ -65,6 +65,7 @@ public class Constants {
     public static final String BUNDLE_SUB_CATEGORY_NAME = "bundleSubCategoryId";
     public static final String BUNDLE_SEASON_CODE = "bundleSeasonCode";
     public static final String BUNDLE_APPLIED_FILTER = "bundleAppliedFilter";
+    public static final String BUNDLE_CHECKED_CUSTOMER= "bundleCheckedCustomer";
 
     public static final int EXIT_TIME_INTERVAL = 2000;
     public static final String BUNDLE_KEY_STATE = "bundlestate";
@@ -84,6 +85,8 @@ public class Constants {
     public static final String BUNDLE_IS_FROM_NOTIFICATION = "bundleisFromNotification";
     public static final String BUNDLE_IS_RESIZE_NOTIFICATION = "bundleisResizeNotification";
     public static final String BUNDLE_IS_QUICK_ORDER = "isquickorder";
+
+    public static final String BUNDLE_SELECTED_CUSTOMER= "bundleSelectedCustomer";
 
     public interface ApiHelper {
         //String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo

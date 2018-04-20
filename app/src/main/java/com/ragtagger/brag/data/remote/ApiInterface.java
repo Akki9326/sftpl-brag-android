@@ -24,6 +24,7 @@ import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.model.response.RCartList;
 import com.ragtagger.brag.data.model.response.RCategoryList;
 import com.ragtagger.brag.data.model.response.RChangePassword;
+import com.ragtagger.brag.data.model.response.RCheckCustomer;
 import com.ragtagger.brag.data.model.response.RCollectionList;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGeneralData;
@@ -167,4 +168,7 @@ public interface ApiInterface {
 
     @GET("notification/getUnreadCount")
     Call<RNotificationUnread> notificationUnread();
+
+    @GET("checkCustomerCode")
+    Call<RCheckCustomer> checkCustomer(@Query("customerCode") String customerCode);
 }

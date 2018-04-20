@@ -17,7 +17,9 @@ import com.ragtagger.brag.ui.core.CoreNavigator;
  */
 
 
-public interface PlaceOrderNavigator extends CoreNavigator{
+public interface PlaceOrderNavigator extends CoreNavigator {
+
+    void performClickSelectCustomer();
 
     void performClickAddAddress();
 

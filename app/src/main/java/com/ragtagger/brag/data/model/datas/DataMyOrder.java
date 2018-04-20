@@ -34,6 +34,7 @@ public class DataMyOrder implements Parcelable {
     private boolean isActive;
     private String addressId;
     private String orderNumber;
+    private String orderedBy;
     private double totalAmount;
     private double payableAmount;
     private DataUserAddress address;
@@ -107,6 +108,14 @@ public class DataMyOrder implements Parcelable {
         this.orderNumber = orderNumber;
     }
 
+    public String getOrderedBy() {
+        return orderedBy;
+    }
+
+    public void setOrderedBy(String orderedBy) {
+        this.orderedBy = orderedBy;
+    }
+
     public double getTotalAmount() {
         return totalAmount;
     }
@@ -168,6 +177,7 @@ public class DataMyOrder implements Parcelable {
         dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
         dest.writeString(this.addressId);
         dest.writeString(this.orderNumber);
+        dest.writeString(this.orderedBy);
         dest.writeDouble(this.totalAmount);
         dest.writeDouble(this.payableAmount);
         dest.writeParcelable(this.address, flags);
@@ -191,6 +201,7 @@ public class DataMyOrder implements Parcelable {
         this.isActive = in.readByte() != 0;
         this.addressId = in.readString();
         this.orderNumber = in.readString();
+        this.orderedBy=in.readString();
         this.totalAmount = in.readInt();
         this.payableAmount = in.readDouble();
         try {

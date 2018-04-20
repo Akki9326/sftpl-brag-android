@@ -27,10 +27,13 @@ import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataCart;
+import com.ragtagger.brag.data.model.datas.DataUser;
 import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.databinding.FragmentPlaceOrderBinding;
 import com.ragtagger.brag.ui.authentication.profile.UserProfileActivity;
 import com.ragtagger.brag.ui.cart.adapter.PlaceOrderCartListAdapter;
+import com.ragtagger.brag.ui.cart.editquantity.EditQtyDialogFragment;
+import com.ragtagger.brag.ui.cart.onbehalf.OnBehalfDialogFragment;
 import com.ragtagger.brag.ui.core.CoreActivity;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.main.MainActivity;
@@ -54,6 +57,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         implements PlaceOrderNavigator, PlaceOrderCartListAdapter.OnItemClick {
 
     public static final int REQUEST_QTY = 1;
+    public static final int REQUEST_CUSTOMER_ID = 2;
 
     @Inject
     PlaceOrderViewModel mPlaceOrderViewModel;
@@ -199,11 +203,25 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                     }
                 }, 1000);
             }
+        } else if (requestCode == REQUEST_CUSTOMER_ID && resultCode == OnBehalfDialogFragment.RESULT_CODE_CUSTOMER && data != null) {
+            DataUser customer = data.getParcelableExtra(Constants.BUNDLE_CHECKED_CUSTOMER);
+            mPlaceOrderViewModel.setIsCustomerSelected(true);
+            mPlaceOrderViewModel.setCustomerName(customer.getFirstName());
         }
     }
 
     @Override
     public void onQtyClick(int position, DataCart responeData) {
+    }
+
+    @Override
+    public void performClickSelectCustomer() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_SELECTED_CUSTOMER, "");
+        OnBehalfDialogFragment dialogFragment = new OnBehalfDialogFragment();
+        dialogFragment.setTargetFragment(this, REQUEST_CUSTOMER_ID);
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getFragmentManager(), "");
     }
 
     @Override

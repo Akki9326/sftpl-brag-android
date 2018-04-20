@@ -2,6 +2,7 @@ package com.ragtagger.brag.di.builder;
 
 import com.ragtagger.brag.ui.authentication.profile.addeditaddress.AddEditAddresstProvider;
 import com.ragtagger.brag.ui.authentication.profile.addeditaddress.statedialog.StateDialogProvider;
+import com.ragtagger.brag.ui.cart.onbehalf.OnBehalfDialogProvider;
 import com.ragtagger.brag.ui.collection.CollectionProvider;
 import com.ragtagger.brag.ui.home.category.CategoryFragmentProvider;
 import com.ragtagger.brag.ui.cart.CartFragmentProvider;
@@ -60,7 +61,7 @@ public abstract class ActivityBuilder {
             , PlaceOrderFragmentProvider.class
             , MyOrderProvider.class, MoreProvider.class,
             NotificationListProvider.class, CollectionProvider.class,
-            WebviewDailogProvider.class})
+            WebviewDailogProvider.class, OnBehalfDialogProvider.class})
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {UserProfileModule.class, ChangePassProvider.class, ForgotPasswordProvider.class,

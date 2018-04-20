@@ -182,6 +182,7 @@
     <string name="label_add_update_address">Add/Update Address</string>
     <string name="error_code_1011">Please update the application for better experience.</string>
     <string name="label_qty_s">Qty :</string>
+    <string name="label_customer_code">Customer Code :</string>
     <string name="label_price_s">Price :</string>
     <string name="label_add_to_cart_small">Add to Cart</string>
     <string name="msg_password_change_successfull">Your password updated successfully.</string>
@@ -191,6 +192,7 @@
     <string name="error_qty_not_empty">Please enter at least one quantity.</string>
     <string name="error_enter_qty">Please enter product quantity.</string>
     <string name="error_valid_qty">Please enter valid quantity.</string>
+    <string name="error_empty_customer_code">Please enter customer code.</string>
     <string name="label_change_mobile_num">Change Mobile Number</string>
     <string name="label_update_profile">Update Profile</string>
     <string name="label_new_mobile_no">New mobile number</string>
@@ -325,6 +327,7 @@
     <string name="msg_otp_resend">OTP resent.</string>
     <string name="label_amount">Amount</string>
     <string name="label_amount_ast">Amount:</string>
+    <string name="label_ordered_by">Ordered By :</string>
     <string name="label_size_guide"><u>Size Guide</u></string>
     <string name="msg_invoice_not_generated">Invoice is not available, please try after sometime.</string>
     <string name="toolbar_label_order_status">Order Status</string>

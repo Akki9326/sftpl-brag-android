@@ -18,6 +18,11 @@ import android.text.Editable;
 
 public interface EditQtyDialogNavigator {
 
-    void onDoneClick();
-    void afterTextChanged(Editable s);
+    void performClickDone();
+
+    void performActionAfterTextChanged(Editable s);
+
+    void validEditQtyForm();
+
+    void invalidEditQtyForm(String msg);
 }

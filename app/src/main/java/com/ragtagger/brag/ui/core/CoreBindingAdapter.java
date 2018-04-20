@@ -22,10 +22,10 @@ import com.ragtagger.brag.views.RoundView;
  */
 
 /*
-* This class use in Binding in Recycleview
-* -it is provide attr in xml file
-* for example : if u want load image by picasso than make one method loadImage and give annotation @BindingAdapter
-* -In u write in BindingAdapter that u in xml file here bind:imageUrl use in xml file for load image from url*/
+ * This class use in Binding in Recycleview
+ * -it is provide attr in xml file
+ * for example : if u want load image by picasso than make one method loadImage and give annotation @BindingAdapter
+ * -In u write in BindingAdapter that u in xml file here bind:imageUrl use in xml file for load image from url*/
 public class CoreBindingAdapter {
 
     @BindingAdapter("bind:imageUrl")
@@ -44,7 +44,6 @@ public class CoreBindingAdapter {
     public static void bindEditText(EditText editText, CharSequence value) {
         if (!editText.getText().toString().equals(value.toString())) {
             editText.setText(value);
-//            editText.setSelection(2);
         }
     }
 

@@ -18,6 +18,7 @@ import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.data.model.requests.QProductList;
 import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.model.response.RChangePassword;
+import com.ragtagger.brag.data.model.response.RCheckCustomer;
 import com.ragtagger.brag.data.model.response.RFilter;
 import com.ragtagger.brag.data.model.response.RGetRequired;
 import com.ragtagger.brag.data.model.response.RMyOrder;
@@ -250,6 +251,11 @@ public class AppDataManager implements IDataManager {
     @Override
     public Call<RNotification> getNotificationList(int page) {
         return mApiManager.getNotificationList(page);
+    }
+
+    @Override
+    public Call<RCheckCustomer> checkCustomer(String customerCode) {
+        return mApiManager.checkCustomer(customerCode);
     }
 
     @Override

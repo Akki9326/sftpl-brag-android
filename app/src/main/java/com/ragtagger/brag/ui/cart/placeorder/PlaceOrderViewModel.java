@@ -131,6 +131,14 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         this.userAddress = userAddress;
     }
 
+    public View.OnClickListener onSelectCustomerClick() {
+        return new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                getNavigator().performClickSelectCustomer();
+            }
+        };
+    }
 
     public View.OnClickListener onAddAddress() {
         return new OnSingleClickListener() {

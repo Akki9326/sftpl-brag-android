@@ -117,6 +117,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/rounder_corner_solid_pink"
+                            android:onClick="@{viewModel.onSelectCustomerClick()}"
                             android:padding="10dp"
                             android:tag="@string/font_opensans_regular_id"
                             android:text="@{viewModel.isCustomerSelected ? (@string/label_change_customer):(@string/label_select_customer)}"

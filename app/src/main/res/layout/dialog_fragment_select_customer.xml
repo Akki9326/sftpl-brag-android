@@ -1,0 +1,100 @@
+<layout xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ragtagger.brag.ui.cart.onbehalf.OnBehalfDialogViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounder_corner_solid_white"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:tag="@string/font_opensans_regular_id"
+                android:text="@string/app_name"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray_transparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="@string/font_opensans_regular_id"
+                    android:text="@string/label_customer_code"
+                    android:textColor="@color/text_black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/edittext_customer"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel.customer}"
+                        android:textColor="@color/text_black"
+                        android:textCursorDrawable="@drawable/cursor"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <View
+                        android:layout_width="70dp"
+                        android:layout_height="1dp"
+                        android:background="@color/gray" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray_transparent" />
+
+            <TextView
+                android:id="@+id/textview_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{viewModel.onDoneClick()}"
+                android:padding="10dp"
+                android:tag="@string/font_opensans_bold_id"
+                android:text="@string/button_done"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

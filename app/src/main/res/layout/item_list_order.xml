@@ -127,17 +127,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_created_by"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:visibility="@{viewModel.hasOrderedBy()?View.VISIBLE:View.GONE}">
+                    android:visibility="@{viewModel.orderedByVisible ?View.VISIBLE:View.GONE}">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:tag="@string/font_opensans_regular_id"
                         android:text="@string/label_ordered_by"
                         android:textColor="@color/text_black"
@@ -147,8 +146,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:tag="@string/font_opensans_semi_bold_id"
+                        android:tag="@string/font_opensans_regular_id"
                         android:text="@{viewModel.orderedBy}"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_onbehalf_of"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="@{viewModel.onBehalfOfVisible ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_on_behalf_of"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_very_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel.onBehalfOf}"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_very_small" />
                 </LinearLayout>

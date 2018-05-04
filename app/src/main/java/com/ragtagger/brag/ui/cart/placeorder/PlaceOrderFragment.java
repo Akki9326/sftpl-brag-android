@@ -63,6 +63,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     PlaceOrderViewModel mPlaceOrderViewModel;
     FragmentPlaceOrderBinding mFragmentPlaceOrderBinding;
     PlaceOrderCartListAdapter mAdapter;
+    DataUser mSelectedCustomer;//used when you used onbehalf feature
 
     List<DataCart> mList;
     int positionQty;
@@ -204,9 +205,9 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                 }, 1000);
             }
         } else if (requestCode == REQUEST_CUSTOMER_ID && resultCode == OnBehalfDialogFragment.RESULT_CODE_CUSTOMER && data != null) {
-            DataUser customer = data.getParcelableExtra(Constants.BUNDLE_CHECKED_CUSTOMER);
+            mSelectedCustomer = data.getParcelableExtra(Constants.BUNDLE_CHECKED_CUSTOMER);
             mPlaceOrderViewModel.setIsCustomerSelected(true);
-            mPlaceOrderViewModel.setCustomerName(customer.getFirstName());
+            mPlaceOrderViewModel.setCustomerName(mSelectedCustomer.getFullName());
         }
     }
 
@@ -248,14 +249,23 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
 
     @Override
     public void performClickPlaceOrder() {
-        if (!mPlaceOrderViewModel.isAddressAvailable.get()) {
-            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
-        } else if (Utility.isConnection(getActivity())) {
-            showProgress();
-            mPlaceOrderViewModel.callPlaceOrderApi(new QPlaceOrder());
+        if (mPlaceOrderViewModel.getIsSalesUser()) {
+            if (!mPlaceOrderViewModel.isCustomerSelected.get())
+                AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_select_customer));
+            else if (mSelectedCustomer != null && mSelectedCustomer.getId() != null && !mSelectedCustomer.getId().equals(""))
+                mPlaceOrderViewModel.callPlaceOrderApi(mSelectedCustomer.getId());
         } else {
-            AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            if (!mPlaceOrderViewModel.isAddressAvailable.get()) {
+                AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
+            } else if (Utility.isConnection(getActivity())) {
+                showProgress();
+                mPlaceOrderViewModel.callPlaceOrderApi(null);
+            } else {
+                AlertUtils.showAlertMessage(getActivity(), 0, null, null);
+            }
         }
+
+
     }
 
     @Override

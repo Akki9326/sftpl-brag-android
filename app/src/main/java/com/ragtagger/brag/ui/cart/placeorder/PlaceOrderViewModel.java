@@ -203,8 +203,8 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         });
     }
 
-    public void callPlaceOrderApi(QPlaceOrder placeOrder) {
-        Call<RGeneralData> responseCall = getDataManager().placeOrder(placeOrder);
+    public void callPlaceOrderApi(String customer) {
+        Call<RGeneralData> responseCall = getDataManager().placeOrder(customer);
         responseCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
             public void onSuccess(RGeneralData generalResponse, Headers headers) {

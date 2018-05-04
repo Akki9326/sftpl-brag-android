@@ -1,6 +1,7 @@
 package com.ragtagger.brag.ui.authentication.signup;
 
 import android.app.Activity;
+import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -35,8 +36,18 @@ import retrofit2.Call;
 
 public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
 
+    ObservableField<Boolean> isSalesRepresentative = new ObservableField<>();
+
     public SignUpViewModel(IDataManager dataManager) {
         super(dataManager);
+    }
+
+    public void setIsSalesRepresentative(boolean isVisible) {
+        this.isSalesRepresentative.set(isVisible);
+    }
+
+    public ObservableField<Boolean> getIsSalesRepresentative() {
+        return isSalesRepresentative;
     }
 
     public View.OnClickListener onTypeDropdownClick() {
@@ -122,7 +133,7 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
         });
     }
 
-    void validateSignUpForm(Activity activity, EditText firstName, EditText email, EditText mobile, EditText password, EditText confirmPassword, EditText gstin, TextView state) {
+    void validateSignUpForm(Activity activity, EditText firstName, EditText email, EditText mobile, EditText password, EditText confirmPassword, EditText gstin, TextView state, boolean isSalesRepresentative) {
         if (Validation.isEmpty(firstName)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_please_enter_first_name));
         } else if (Validation.isEmpty(email)) {
@@ -139,11 +150,11 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_confirm_pass));
         } else if (!(password.getText().toString().equals(confirmPassword.getText().toString()))) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_password_not_match));
-        } else if (Validation.isEmpty(gstin)) {
+        } else if (!isSalesRepresentative && Validation.isEmpty(gstin)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_enter_gst));
-        } else if (!Validation.isValidGST(gstin)) {
+        } else if (!isSalesRepresentative && !Validation.isValidGST(gstin)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_gst_valid));
-        } else if (Validation.isEmpty(state)) {
+        } else if (!isSalesRepresentative && Validation.isEmpty(state)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_state));
         } else if (Utility.isConnection(activity)) {
             getNavigator().validSignUpForm();

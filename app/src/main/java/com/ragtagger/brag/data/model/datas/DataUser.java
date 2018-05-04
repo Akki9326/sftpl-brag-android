@@ -150,7 +150,10 @@ public class DataUser implements Parcelable {
     }
 
     public String getFullName() {
-        return firstName + " " + lastName;
+        if (lastName != null && !lastName.equals("null") && !lastName.equals(""))
+            return firstName + " " + lastName;
+        else
+            return firstName;
     }
 
     public List<DataUserAddress> getAddresses() {

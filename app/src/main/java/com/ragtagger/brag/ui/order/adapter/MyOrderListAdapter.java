@@ -36,12 +36,16 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
     List<DataMyOrder> listRespones = Collections.emptyList();
     OnItemClick onItemClick;
     Activity activity;
+    String mCurrentUser;
+    boolean isSalesRepresentative;
 
     public MyOrderListAdapter(Activity activity, List<DataMyOrder> listRespones
-            , OnItemClick onItemClick) {
+            , OnItemClick onItemClick, String currentUser, boolean isSalesRepresentative) {
         this.listRespones = listRespones;
         this.activity = activity;
         this.onItemClick = onItemClick;
+        this.mCurrentUser = currentUser;
+        this.isSalesRepresentative = isSalesRepresentative;
     }
 
     @Override
@@ -83,7 +87,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
         void bindCartData(int position, DataMyOrder responeData) {
             pos = position;
-            itemBind.setViewModel(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this));
+            itemBind.setViewModel(new MyOrderItemViewModel(itemView.getContext(), position, responeData, this, mCurrentUser, isSalesRepresentative));
             itemBind.executePendingBindings();
         }
 

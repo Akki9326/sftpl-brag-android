@@ -95,21 +95,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:tag="@string/font_opensans_bold_id"
-                            android:text="@{viewModel.customerName}"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_medium"
-                            android:visibility="@{viewModel.isCustomerSelected?View.VISIBLE:View.GONE}" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="Msg will be here"
+                            android:text="@{viewModel.isCustomerSelected ? (@string/msg_placing_order_on_behalf(viewModel.customerName)): (@string/msg_select_customer)}"
                             android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_very_small_12"
-                            android:visibility="@{viewModel.isCustomerSelected?View.GONE:View.VISIBLE}" />
+                            android:textSize="@dimen/text_size_very_small_12" />
 
                         <TextView
                             android:layout_width="wrap_content"

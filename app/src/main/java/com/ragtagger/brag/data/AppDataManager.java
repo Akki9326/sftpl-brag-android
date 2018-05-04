@@ -234,8 +234,8 @@ public class AppDataManager implements IDataManager {
     }
 
     @Override
-    public Call<RGeneralData> placeOrder(QPlaceOrder placeOrder) {
-        return mApiManager.placeOrder(placeOrder);
+    public Call<RGeneralData> placeOrder(String onBehalfOf) {
+        return mApiManager.placeOrder(onBehalfOf);
     }
 
 

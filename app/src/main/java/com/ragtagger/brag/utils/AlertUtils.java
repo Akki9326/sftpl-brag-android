@@ -181,12 +181,12 @@ public class AlertUtils {
                 case 24:
                     message = activity.getResources().getString(R.string.error_code_24);
                     break;
-//                case 25:
-//                    message = activity.getResources().getString(R.string.error_code_25);
-//                    break;
-//                case 26:
-//                    message = activity.getResources().getString(R.string.error_code_26);
-//                    break;
+                case 25:
+                    message = activity.getResources().getString(R.string.error_code_25);
+                    break;
+                case 26:
+                    message = activity.getResources().getString(R.string.error_code_26);
+                    break;
 //                case 27:
 //                    message = activity.getResources().getString(R.string.error_code_27);
 //                    break;

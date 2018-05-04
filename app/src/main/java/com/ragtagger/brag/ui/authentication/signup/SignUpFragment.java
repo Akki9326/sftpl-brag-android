@@ -105,6 +105,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         mUserTypeDropDown.add(new DropdownItem("Sales representative", Constants.UserType.SALES_REPRESENTATIVE.getId()));
         mFragmentSignUpBinding.textviewUserType.setText(mUserTypeDropDown.get(0).getValue());
         mSelectedUserType = mUserTypeDropDown.get(0).getId();
+        mSignUpViewModel.setIsSalesRepresentative(true);
 
         checkInternetAndCallApi();
     }
@@ -180,7 +181,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedState, mSelectedSalesType, mSelectedChannel);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel);
         }
     }
 
@@ -191,7 +192,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedState, mSelectedSalesType, mSelectedChannel);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel);
         }
     }
 
@@ -245,6 +246,12 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
                 @Override
                 public void onItemClick(String str, int i) {
                     mSelectedUserType = i;
+                    if (mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId()) {
+                        mSignUpViewModel.setIsSalesRepresentative(false);
+                        mFragmentSignUpBinding.edittextGstIn.setText("");
+                    } else {
+                        mSignUpViewModel.setIsSalesRepresentative(true);
+                    }
                 }
             });
         } catch (Exception e) {
@@ -305,7 +312,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     @Override
     public void performClickSignUp() {
         if (isAdded())
-            mSignUpViewModel.validateSignUpForm(getActivity(), mFragmentSignUpBinding.edittextFirstname, mFragmentSignUpBinding.edittextEmail, mFragmentSignUpBinding.edittextMobileNum, mFragmentSignUpBinding.edittextPassword, mFragmentSignUpBinding.edittextConfirmPassword, mFragmentSignUpBinding.edittextGstIn, mFragmentSignUpBinding.edittextState);
+            mSignUpViewModel.validateSignUpForm(getActivity(), mFragmentSignUpBinding.edittextFirstname, mFragmentSignUpBinding.edittextEmail, mFragmentSignUpBinding.edittextMobileNum, mFragmentSignUpBinding.edittextPassword, mFragmentSignUpBinding.edittextConfirmPassword, mFragmentSignUpBinding.edittextGstIn, mFragmentSignUpBinding.edittextState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId());
     }
 
     @Override
@@ -320,7 +327,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedState, mSelectedSalesType, mSelectedChannel);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel);
         }
     }
 

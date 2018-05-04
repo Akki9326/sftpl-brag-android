@@ -34,7 +34,6 @@ public class DataMyOrder implements Parcelable {
     private boolean isActive;
     private String addressId;
     private String orderNumber;
-    private String orderedBy;
     private double totalAmount;
     private double payableAmount;
     private DataUserAddress address;
@@ -43,6 +42,7 @@ public class DataMyOrder implements Parcelable {
     private String invoiceUrl;
     private List<DataCart> cart;
     private List<DataOrderStatus> statusHistory;
+    private DataUser orderOnBehalfModel;
 
     public String getId() {
         return id;
@@ -69,7 +69,12 @@ public class DataMyOrder implements Parcelable {
     }
 
     public String getCreateDateString() {
-        return DateFormatter.convertMillisToStringDate(getCreatedDate(), DateFormatter.dd_MMM_YYYY_HH_MM_A);
+        if (getCreatedDate() != null) {
+            //replacement added because of device specific issue, on mi devices it show in small caps
+            return DateFormatter.convertMillisToStringDate(getCreatedDate(), DateFormatter.dd_MMM_YYYY_HH_MM_A).replace("am", "AM").replace("pm", "PM");
+        } else {
+            return "";
+        }
     }
 
     public int getOrderStatesColor(Context context) {
@@ -108,13 +113,6 @@ public class DataMyOrder implements Parcelable {
         this.orderNumber = orderNumber;
     }
 
-    public String getOrderedBy() {
-        return orderedBy;
-    }
-
-    public void setOrderedBy(String orderedBy) {
-        this.orderedBy = orderedBy;
-    }
 
     public double getTotalAmount() {
         return totalAmount;
@@ -164,75 +162,9 @@ public class DataMyOrder implements Parcelable {
         this.cart = cart;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public DataUser getOrderOnBehalfModel() {
+        return orderOnBehalfModel;
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.userId);
-        dest.writeLong(this.createdDate);
-        dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
-        dest.writeString(this.addressId);
-        dest.writeString(this.orderNumber);
-        dest.writeString(this.orderedBy);
-        dest.writeDouble(this.totalAmount);
-        dest.writeDouble(this.payableAmount);
-        dest.writeParcelable(this.address, flags);
-        dest.writeInt(this.status);
-        dest.writeString(this.invoiceUrl);
-        if (cart == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(cart);
-        }
-    }
-
-    public DataMyOrder() {
-    }
-
-    protected DataMyOrder(Parcel in) {
-        this.id = in.readString();
-        this.userId = in.readString();
-        this.createdDate = in.readLong();
-        this.isActive = in.readByte() != 0;
-        this.addressId = in.readString();
-        this.orderNumber = in.readString();
-        this.orderedBy=in.readString();
-        this.totalAmount = in.readInt();
-        this.payableAmount = in.readDouble();
-        try {
-            this.address = in.readParcelable(DataUserAddress.class.getClassLoader());
-        } catch (Exception e) {
-            this.address = null;
-        }
-
-        this.status = in.readInt();
-        this.invoiceUrl = in.readString();
-
-        if (in.readByte() == 0x01) {
-            cart = new ArrayList<DataCart>();
-            in.readList(cart, DataCart.class.getClassLoader());
-        } else {
-            cart = null;
-        }
-    }
-
-    public static final Parcelable.Creator<DataMyOrder> CREATOR = new Parcelable.Creator<DataMyOrder>() {
-        @Override
-        public DataMyOrder createFromParcel(Parcel source) {
-            return new DataMyOrder(source);
-        }
-
-        @Override
-        public DataMyOrder[] newArray(int size) {
-            return new DataMyOrder[size];
-        }
-    };
-
 
     public String getFullAddressWithNewLine() {
         if (getAddress() != null) {
@@ -355,4 +287,87 @@ public class DataMyOrder implements Parcelable {
         }
 
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.userId);
+        dest.writeLong(this.createdDate);
+        dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
+        dest.writeString(this.addressId);
+        dest.writeString(this.orderNumber);
+        dest.writeDouble(this.totalAmount);
+        dest.writeDouble(this.payableAmount);
+        dest.writeParcelable(this.address, flags);
+        dest.writeInt(this.status);
+        dest.writeParcelable(this.user, flags);
+        dest.writeParcelable(this.orderOnBehalfModel, flags);
+        dest.writeString(this.invoiceUrl);
+        if (cart == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(cart);
+        }
+    }
+
+    public DataMyOrder() {
+    }
+
+    protected DataMyOrder(Parcel in) {
+        this.id = in.readString();
+        this.userId = in.readString();
+        this.createdDate = in.readLong();
+        this.isActive = in.readByte() != 0;
+        this.addressId = in.readString();
+        this.orderNumber = in.readString();
+        this.totalAmount = in.readInt();
+        this.payableAmount = in.readDouble();
+        try {
+            this.address = in.readParcelable(DataUserAddress.class.getClassLoader());
+        } catch (Exception e) {
+            this.address = null;
+        }
+
+        this.status = in.readInt();
+
+        try {
+            this.user = in.readParcelable(DataUser.class.getClassLoader());
+        } catch (Exception e) {
+            this.user = null;
+        }
+
+        try {
+            this.orderOnBehalfModel = in.readParcelable(DataUser.class.getClassLoader());
+        } catch (Exception e) {
+            this.orderOnBehalfModel = null;
+        }
+
+
+        this.invoiceUrl = in.readString();
+
+        if (in.readByte() == 0x01) {
+            cart = new ArrayList<DataCart>();
+            in.readList(cart, DataCart.class.getClassLoader());
+        } else {
+            cart = null;
+        }
+    }
+
+    public static final Parcelable.Creator<DataMyOrder> CREATOR = new Parcelable.Creator<DataMyOrder>() {
+        @Override
+        public DataMyOrder createFromParcel(Parcel source) {
+            return new DataMyOrder(source);
+        }
+
+        @Override
+        public DataMyOrder[] newArray(int size) {
+            return new DataMyOrder[size];
+        }
+    };
 }

@@ -144,8 +144,8 @@ public interface ApiInterface {
     @GET
     Call<RLogin> getUserProfile(@Url String s);
 
-    @POST("order/add")
-    Call<RGeneralData> placeOrder(@Body QPlaceOrder placeOrder);
+    @GET("order/add")
+    Call<RGeneralData> placeOrder(@Query("orderOnBehalf") String onBehalfOf);
 
     @GET("order/reOrder/{orderId}")
     Call<RGeneralData> reOrder(@Path("orderId") String id);

@@ -46,7 +46,7 @@
     <string name="error_code_9">The user is not yet approved.</string>
     <string name="error_code_10">Your subscription might have expired, please contact Administrator.</string>
     <string name="error_code_11">Mobile number not found, please sign up.</string>
-    <string name="error_code_12">User already exists.</string>
+    <string name="error_code_12">Sorry, you don\'t have permission.</string>
     <string name="error_code_13">Your subscription might have expired, please contact Administrator.</string>
     <string name="error_code_14">Please complete the signup process.</string>
     <string name="error_code_15">Mobile number not found. Please try again with a valid mobile number.</string>
@@ -59,8 +59,8 @@
     <string name="error_code_22">Please Add your address.</string>
     <string name="error_code_23">Maximum quantity exceeded.</string>
     <string name="error_code_24">Please enter valid GSTIN.</string>
-    <!--<string name="error_code_25">Record is already available.</string>-->
-    <!--<string name="error_code_26">Category you have entered is already available as the subcategory.</string>-->
+    <string name="error_code_25">Customer has not specified his/her address. Please ask him/her to add address.</string>
+    <string name="error_code_26">Invalid customer code.</string>
     <!--<string name="error_code_27">Invalid mobile number.</string>-->
     <!--<string name="error_code_28">Interaction is already available.</string>-->
     <!--<string name="error_code_29">Interaction is already available.</string>-->
@@ -194,7 +194,7 @@
     <string name="error_valid_qty">Please enter valid quantity.</string>
     <string name="error_empty_customer_code">Please enter customer code.</string>
     <string name="label_change_mobile_num">Change Mobile Number</string>
-    <string name="label_update_profile">Update Profile</string>
+    <string name="label_update_profile">Profile</string>
     <string name="label_new_mobile_no">New mobile number</string>
     <string name="hint_new_mobile_num"><font size="12">New Mobile Number</font></string>
     <string name="error_empty_new_mobile_num">Please enter mobile number.</string>
@@ -208,7 +208,7 @@
     <string name="toolbar_label_productlist">Product List</string>
     <string name="toolbar_label_product_detail">Product Detail</string>
     <string name="toolbar_label_change_password">Change Password</string>
-    <string name="toolbar_label_update_password">Update Profile</string>
+    <string name="toolbar_label_update_password">Profile</string>
     <string name="toolbar_label_change_mobile_num">Change Mobile Number</string>
 
     <string name="toolbar_label_quick_order">Quick Order</string>
@@ -328,10 +328,13 @@
     <string name="label_amount">Amount</string>
     <string name="label_amount_ast">Amount:</string>
     <string name="label_ordered_by">Ordered By :</string>
+    <string name="label_on_behalf_of">Ordered On Behalf Of :</string>
     <string name="label_size_guide"><u>Size Guide</u></string>
     <string name="msg_invoice_not_generated">Invoice is not available, please try after sometime.</string>
     <string name="toolbar_label_order_status">Order Status</string>
     <string name="label_order_status">ORDER STATUS</string>
     <string name="label_place_order">We have received your order. Please wait till the administrator acts on it.</string>
     <string name="hint_user_type">User Type</string>
+    <string name="msg_select_customer">Please select customer for whom you want to place order.</string>
+    <string name="msg_placing_order_on_behalf">You are placing order on behalf of %s.</string>
 </resources>

@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ragtagger.brag.ui.authentication.signup.SignUpViewModel" />
@@ -217,114 +219,122 @@
                     android:paddingBottom="5dp"
                     android:tag="@string/font_opensans_regular_id" />
 
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/pink" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_gst_in"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.isSalesRepresentative? View.VISIBLE : View.GONE}">
 
-                <EditText
-                    android:id="@+id/edittext_gst_in"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:hint="@string/hint_gst_in_ast"
-                    android:imeOptions="actionNext"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    android:paddingBottom="5dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/pink" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/pink" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_channel"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_gst_in"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
 
-                <TextView
-                    android:id="@+id/textview_channel"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:onClick="@{viewModel.onChannelDropdownClick()}"
-                    android:paddingBottom="5dp"
-                    android:tag="@string/font_opensans_regular_id" />
+                    <EditText
+                        android:id="@+id/edittext_gst_in"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:hint="@string/hint_gst_in_ast"
+                        android:imeOptions="actionNext"
+                        android:maxLength="15"
+                        android:maxLines="1"
+                        android:paddingBottom="5dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/pink" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_sale_type"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/pink" />
 
-                <TextView
-                    android:id="@+id/textview_sale_type"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:onClick="@{viewModel.onSaleTypeDropdownClick()}"
-                    android:paddingBottom="5dp"
-                    android:tag="@string/font_opensans_regular_id" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_channel"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/pink" />
+                    <TextView
+                        android:id="@+id/textview_channel"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:onClick="@{viewModel.onChannelDropdownClick()}"
+                        android:paddingBottom="5dp"
+                        android:tag="@string/font_opensans_regular_id" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_state"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/pink" />
 
-                <TextView
-                    android:id="@+id/edittext_state"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:hint="@string/hint_state_ast"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    android:onClick="@{viewModel.onStateClick()}"
-                    android:paddingBottom="5dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_sale_type"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:id="@+id/textview_sale_type"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:onClick="@{viewModel.onSaleTypeDropdownClick()}"
+                        android:paddingBottom="5dp"
+                        android:tag="@string/font_opensans_regular_id" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/pink" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_state"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:id="@+id/edittext_state"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:hint="@string/hint_state_ast"
+                        android:maxLength="15"
+                        android:maxLines="1"
+                        android:onClick="@{viewModel.onStateClick()}"
+                        android:paddingBottom="5dp" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"

@@ -2,6 +2,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ragtagger.brag.ui.authentication.profile.updateprofile.UpdateProfileViewModel" />
@@ -45,6 +47,7 @@
                     android:id="@+id/edittext_firstname"
                     style="@style/NormalEditText"
                     android:background="@null"
+                    android:enabled="false"
                     android:hint="@string/hint_first_name"
                     android:imeOptions="actionNext"
                     android:maxLength="@integer/max_length"
@@ -75,6 +78,7 @@
                     android:id="@+id/edittext_lastname"
                     style="@style/NormalEditText"
                     android:background="@null"
+                    android:enabled="false"
                     android:hint="@string/hint_last_name"
                     android:imeOptions="actionNext"
                     android:maxLength="@integer/max_length"
@@ -104,6 +108,7 @@
                     android:id="@+id/edittext_email"
                     style="@style/NormalEditText"
                     android:background="@null"
+                    android:enabled="false"
                     android:hint="@string/hint_email_ast"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
@@ -112,118 +117,131 @@
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@{viewModel.email}" />
 
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="3dp"
-                    android:alpha=".5"
-                    android:background="@color/pink" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_gst_in"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.isSalesRepresentative ? View.VISIBLE : View.GONE}">
 
-                <EditText
-                    android:id="@+id/edittext_gst_in"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:hint="@string/hint_gst_in_ast"
-                    android:imeOptions="actionNext"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    android:paddingBottom="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@{viewModel.gstNum}" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="3dp"
+                        android:alpha=".5"
+                        android:background="@color/pink" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/pink" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_gst_in"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_channel"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    <EditText
+                        android:id="@+id/edittext_gst_in"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="@string/hint_gst_in_ast"
+                        android:imeOptions="actionNext"
+                        android:maxLength="15"
+                        android:maxLines="1"
+                        android:paddingBottom="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel.gstNum}" />
 
-                <TextView
-                    android:id="@+id/textview_channel"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:onClick="@{viewModel.onChannelDropdownClick()}"
-                    android:paddingBottom="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@{viewModel.channel}" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/pink" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/pink" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_sale_type"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_channel"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
 
-                <TextView
-                    android:id="@+id/textview_sale_type"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:onClick="@{viewModel.onSaleTypeDropdownClick()}"
-                    android:paddingBottom="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@{viewModel.saleType}" />
+                    <TextView
+                        android:id="@+id/textview_channel"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:onClick="@{viewModel.onChannelDropdownClick()}"
+                        android:paddingBottom="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel.channel}" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/pink" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/pink" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/label_state"
-                    android:textColor="@color/pink"
-                    android:textSize="@dimen/text_size_very_small_12" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_sale_type"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
 
-                <TextView
-                    android:id="@+id/edittext_state"
-                    style="@style/NormalEditText"
-                    android:background="@null"
-                    android:hint="@string/hint_state_ast"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    android:onClick="@{viewModel.onStateClick()}"
-                    android:paddingBottom="5dp"
-                    android:text="@{viewModel.state}" />
+                    <TextView
+                        android:id="@+id/textview_sale_type"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:onClick="@{viewModel.onSaleTypeDropdownClick()}"
+                        android:paddingBottom="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@{viewModel.saleType}" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/pink" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/label_state"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/text_size_very_small_12" />
+
+                    <TextView
+                        android:id="@+id/edittext_state"
+                        style="@style/NormalEditText"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="@string/hint_state_ast"
+                        android:maxLength="15"
+                        android:maxLines="1"
+                        android:onClick="@{viewModel.onStateClick()}"
+                        android:paddingBottom="5dp"
+                        android:text="@{viewModel.state}" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -248,7 +266,8 @@
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@string/button_update"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="gone" />
 
 
             </LinearLayout>

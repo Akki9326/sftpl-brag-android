@@ -198,8 +198,8 @@ public class AppApiManager implements IApiManager {
     }
 
     @Override
-    public Call<RGeneralData> placeOrder(QPlaceOrder placeOrder) {
-        return mApiInterface.placeOrder(placeOrder);
+    public Call<RGeneralData> placeOrder(String url) {
+        return mApiInterface.placeOrder(url);
     }
 
     @Override

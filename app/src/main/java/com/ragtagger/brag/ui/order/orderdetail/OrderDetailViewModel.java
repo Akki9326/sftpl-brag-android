@@ -21,6 +21,7 @@ import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.data.model.response.ROrderDetail;
 import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
+import com.ragtagger.brag.utils.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,10 +56,17 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
     ObservableField<String> totalPayable = new ObservableField<>();
     ObservableField<Integer> listSize = new ObservableField<>();
     String itemsLable;
+    ObservableField<Boolean> isOrderByVisible = new ObservableField<>();
+    ObservableField<String> orderedBy = new ObservableField<>();
+    ObservableField<Boolean> isOnBehalfOfVisible = new ObservableField<>();
+    ObservableField<String> onBehalfOf = new ObservableField<>();
 
     ObservableField<Boolean> isLoading = new ObservableField<>();
     ObservableField<Boolean> hasData = new ObservableField<>();
     ObservableField<Boolean> isVisiableInvoice = new ObservableField<>();
+
+    ObservableField<Boolean> isReOrderedVisible = new ObservableField<>();
+    ObservableField<Boolean> isCancelOrderVisible = new ObservableField<>();
 
     public ObservableField<Boolean> getIsLoading() {
         return isLoading;
@@ -184,6 +192,58 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
 
     public void setIsVisiableInvoice(ObservableField<Boolean> isVisiableInvoice) {
         this.isVisiableInvoice = isVisiableInvoice;
+    }
+
+    public boolean getIsSalesUser() {
+        return getDataManager().getUserData().getUserType() == Constants.UserType.SALES_REPRESENTATIVE.getId();
+    }
+
+    public void setOrderByVisibility(boolean isVisible) {
+        isOrderByVisible.set(isVisible);
+    }
+
+    public ObservableField<Boolean> getIsOrderByVisible() {
+        return isOrderByVisible;
+    }
+
+    public void setOrderedBy(String orderedBy) {
+        this.orderedBy.set(orderedBy);
+    }
+
+    public ObservableField<String> getOrderedBy() {
+        return orderedBy;
+    }
+
+    public void setIsOnBehalfOfVisible(boolean isVisible){
+        this.isOnBehalfOfVisible.set(isVisible);
+    }
+
+    public ObservableField<Boolean> getIsOnBehalfOfVisible() {
+        return isOnBehalfOfVisible;
+    }
+
+    public void setOnBehalfOf(String onBehalfOf){
+        this.onBehalfOf.set(onBehalfOf);
+    }
+
+    public ObservableField<String> getOnBehalfOf() {
+        return onBehalfOf;
+    }
+
+    public void setReorderVisibility(boolean isVisible){
+        this.isReOrderedVisible.set(isVisible);
+    }
+
+    public ObservableField<Boolean> getIsReOrderedVisible() {
+        return isReOrderedVisible;
+    }
+
+    public void setCancelOrderVisibility(boolean isVisible){
+        this.isCancelOrderVisible.set(isVisible);
+    }
+
+    public ObservableField<Boolean> getIsCancelOrderVisible() {
+        return isCancelOrderVisible;
     }
 
     public View.OnClickListener onStatusClick() {

@@ -55,7 +55,8 @@ public class DataOrderStatus implements Comparable<DataOrderStatus> {
 
     public String getStatusDate() {
         if (getCreatedDate() != null) {
-            return DateFormatter.convertMillisToStringDate(getCreatedDate(), DateFormatter.dd_MMM_YYYY_HH_MM_A);
+            //replacement added because of device specific issue, on mi devices it show in small caps
+            return DateFormatter.convertMillisToStringDate(getCreatedDate(), DateFormatter.dd_MMM_YYYY_HH_MM_A).replace("am", "AM").replace("pm", "PM");
         } else {
             return "";
         }

@@ -244,7 +244,7 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
                 totalOrderList = orderList.getCount();
                 mList.clear();
                 mList.addAll(listRespones);
-                listAdapter = new MyOrderListAdapter(getActivity(), mList, this);
+                listAdapter = new MyOrderListAdapter(getActivity(), mList, this, mMyOrderViewModel.getDataManager().getUserData().getId(), mMyOrderViewModel.getDataManager().getUserData().getUserType() == Constants.UserType.SALES_REPRESENTATIVE.getId());
                 mFragmentMyOrderBinding.recycleview.setAdapter(listAdapter);
                 mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(false);
 

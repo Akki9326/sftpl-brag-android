@@ -205,11 +205,18 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         orderDetailViewModel.updateIsLoading(false);
         if (isAdded())
             if (mData != null) {
-                if (mData.getUser() != null && mData.getAddress() != null) {
+                if (mData.getUser() != null && mData.getOrderOnBehalfModel() != null && mData.getAddress() != null) {
+                    orderDetailViewModel.setOrderByVisibility((!orderDetailViewModel.getIsSalesUser() && !(orderDetailViewModel.getDataManager().getUserData().getId()).equals(mData.getUser().getId())));
+                    orderDetailViewModel.setOrderedBy((mData.getUser() != null && mData.getUser().getFullName() != null) ? mData.getUser().getFullName() : "");
+                    orderDetailViewModel.setIsOnBehalfOfVisible(orderDetailViewModel.getIsSalesUser() && !(orderDetailViewModel.getDataManager().getUserData().getId()).equals(mData.getOrderOnBehalfModel().getId()));
+                    orderDetailViewModel.setOnBehalfOf((mData.getOrderOnBehalfModel() != null && mData.getOrderOnBehalfModel().getFullName() != null) ? mData.getOrderOnBehalfModel().getFullName() : "");
+                    orderDetailViewModel.setReorderVisibility(!orderDetailViewModel.getIsSalesUser() && (orderDetailViewModel.getDataManager().getUserData().getId()).equals(mData.getUser().getId()));
+                    orderDetailViewModel.setCancelOrderVisibility((mData.getStatus() == Constants.OrderStatus.PLACED.ordinal()) && (orderDetailViewModel.getDataManager().getUserData().getId()).equals(mData.getUser().getId()));
+
                     orderDetailViewModel.updateHasData(true);
                     orderDetailViewModel.updateOrderId(mData.getOrderNumber());
                     orderDetailViewModel.updateAddress(mData.getFullAddressWithNewLine());
-                    orderDetailViewModel.updateFullName(mData.getUser().getFullName());
+                    orderDetailViewModel.updateFullName(mData.getOrderOnBehalfModel().getFullName());
                     orderDetailViewModel.updateIsOrderApprove(mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal()
                             || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()
                             || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal());
@@ -217,7 +224,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
                     orderDetailViewModel.updateTotalCartNum(mData.getCart().size());
                     orderDetailViewModel.updateOrderStateDate(mData.getCreateDateString());
                     orderDetailViewModel.setTotal(Utility.getIndianCurrencyPriceFormatWithComma(mData.getTotalAmount()));
-                    orderDetailViewModel.setMobilenum(mData.getUser().getMobileNumber());
+                    orderDetailViewModel.setMobilenum(mData.getOrderOnBehalfModel().getMobileNumber());
                     orderDetailViewModel.setIsOrderPlaced(mData.getStatus() == Constants.OrderStatus.PLACED.ordinal());
                     orderDetailViewModel.setTotalPayable(Utility.getIndianCurrencyPriceFormatWithComma(
                             (mData.getStatus() == Constants.OrderStatus.APPROVED.ordinal() || mData.getStatus() == Constants.OrderStatus.DISPATCHED.ordinal() || mData.getStatus() == Constants.OrderStatus.DELIVERED.ordinal()) ? (mData.getPayableAmount()) :
@@ -327,6 +334,7 @@ public class OrderDetailFragment extends CoreFragment<FragmentOrderDetailBinding
         //update order detail of states and cancel button
         orderDetailViewModel.updateOrderState(Constants.OrderStatus.getOrderStatusLabel(getContext(), Constants.OrderStatus.CANCELED.ordinal()));
         orderDetailViewModel.setIsOrderPlaced(false);
+        orderDetailViewModel.setCancelOrderVisibility(false);
         mFragmentOrderDetailBinding.textviewStatus.setTextColor(getResources().getColor(R.color.order_status_red));
         mData.setStatus(Constants.OrderStatus.CANCELED.ordinal());
         mData.getStatusHistory().add(new DataOrderStatus(Constants.OrderStatus.CANCELED.ordinal()

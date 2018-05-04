@@ -18,6 +18,8 @@ public interface UpdateProfileNavigator extends CoreNavigator {
 
     void afterGetProfile(DataUser dataUser);
 
+    void setData();
+
     void setState(List<DataState> states);
 
     void setSelectedState(DataState state);

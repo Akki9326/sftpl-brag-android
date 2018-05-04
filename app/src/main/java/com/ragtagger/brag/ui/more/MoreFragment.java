@@ -185,18 +185,17 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
                     case 6://about us
                         performItemClickAboutUs();
                         break;
-                    case 7://update profile
-                        performItemClickUpdateProfile();
+                    case 7://add and edit address
+                        performItemClickAddUpdateAddress();
                         break;
-
                     case 8://change password
                         performItemClickChangePassword();
                         break;
                     case 9://change mobile number
                         performItemClickChangeMobileNumber();
                         break;
-                    case 10://add and edit address
-                        performItemClickAddUpdateAddress();
+                    case 10://update profile
+                        performItemClickUpdateProfile();
                         break;
                     case 11://logout
                         performItemClickLogout();
@@ -231,14 +230,14 @@ public class MoreFragment extends CoreFragment<FragmentMoreBinding, MoreViewMode
 
         moreListData.add(new DataMoreList(0, getResources().getDrawable(R.drawable.ic_cart),
                 ""));
-        moreListData.add(new DataMoreList(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_update_profile),
-                getString(R.string.label_update_profile)));
+        moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
+                getString(R.string.label_add_update_address)));
         moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_PASS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_pass),
                 getString(R.string.label_change_pass)));
         moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_MOBILE.getNumericType(), getResources().getDrawable(R.drawable.ic_change_mob_num),
                 getString(R.string.label_change_mobile_num)));
-        moreListData.add(new DataMoreList(Constants.MoreList.CHANGE_ADDRESS.getNumericType(), getResources().getDrawable(R.drawable.ic_change_address),
-                getString(R.string.label_add_update_address)));
+        moreListData.add(new DataMoreList(Constants.MoreList.USER_PROFILE.getNumericType(), getResources().getDrawable(R.drawable.ic_update_profile),
+                getString(R.string.label_update_profile)));
         moreListData.add(new DataMoreList(Constants.MoreList.LOGOUT.getNumericType(), getResources().getDrawable(R.drawable.ic_logout),
                 getString(R.string.label_logout)));
 

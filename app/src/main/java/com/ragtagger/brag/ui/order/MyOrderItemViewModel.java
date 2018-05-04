@@ -28,12 +28,16 @@ public class MyOrderItemViewModel extends BaseObservable {
     DataMyOrder responeData;
     OnItemClick onItemClick;
     int position;
+    String mCurrentUser;
+    boolean isSalesRepresentative;
 
-    public MyOrderItemViewModel(Context context, int position, DataMyOrder responeData, OnItemClick onItemClick) {
+    public MyOrderItemViewModel(Context context, int position, DataMyOrder responeData, OnItemClick onItemClick, String currentUser/*Current user id*/, boolean isSaleseRepresentative/*is ucrrent user salse representative*/) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
         this.position = position;
+        this.mCurrentUser = currentUser;
+        this.isSalesRepresentative = isSaleseRepresentative;
     }
 
 
@@ -84,6 +88,9 @@ public class MyOrderItemViewModel extends BaseObservable {
     }
 
     public String getCreateDateString() {
+        if (responeData.getCreateDateString() != null)
+            //replacement added because of device specific issue, on mi devices it show in small caps
+            return responeData.getCreateDateString().replace("am", "AM").replace("pm", "PM");
         return responeData.getCreateDateString();
     }
 
@@ -100,11 +107,19 @@ public class MyOrderItemViewModel extends BaseObservable {
         return responeData.getOrderStatesColor(context);
     }
 
-    public boolean hasOrderedBy() {
-        return responeData.getOrderedBy() != null;
+    public boolean isOrderedByVisible() {
+        return (!isSalesRepresentative && !mCurrentUser.equals(responeData.getUser().getId()));
     }
 
     public String getOrderedBy() {
-        return responeData.getOrderedBy();
+        return (responeData.getUser() != null && responeData.getUser().getFullName() != null) ? responeData.getUser().getFullName() : "";
+    }
+
+    public boolean isOnBehalfOfVisible() {
+        return isSalesRepresentative && !mCurrentUser.equals(responeData.getOrderOnBehalfModel().getId());
+    }
+
+    public String getOnBehalfOf() {
+        return (responeData.getOrderOnBehalfModel() != null && responeData.getOrderOnBehalfModel().getFullName() != null) ? responeData.getOrderOnBehalfModel().getFullName() : "";
     }
 }

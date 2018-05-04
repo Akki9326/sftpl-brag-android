@@ -125,7 +125,7 @@ public interface IApiManager extends ApiInterface {
     Call<RLogin> getUserProfile(String s);
 
     @Override
-    Call<RGeneralData> placeOrder(QPlaceOrder placeOrder);
+    Call<RGeneralData> placeOrder(String onBehalfOf);
 
     @Override
     Call<RGeneralData> reOrder(String id);

@@ -20,6 +20,8 @@ import com.ragtagger.brag.databinding.FragmentEditUserProfileBinding;
 import com.ragtagger.brag.ui.authentication.profile.addeditaddress.statedialog.StateDialogFragment;
 import com.ragtagger.brag.ui.core.CoreFragment;
 import com.ragtagger.brag.ui.authentication.profile.UserProfileActivity;
+import com.ragtagger.brag.ui.main.MainActivity;
+import com.ragtagger.brag.ui.notification.handler.NotificationHandlerActivity;
 import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.AppLogger;
 import com.ragtagger.brag.utils.Constants;
@@ -141,6 +143,18 @@ public class UpdateProfileFragment extends CoreFragment<FragmentEditUserProfileB
     public void afterGetProfile(DataUser dataUser) {
         mUserProfileViewModel.fillUserData();
         mUserProfileViewModel.callGetRequiredDataApi();
+    }
+
+    @Override
+    public void setData() {
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).updateCartNum();
+        else if (getActivity() instanceof NotificationHandlerActivity)
+            ((NotificationHandlerActivity) getActivity()).updateCartNum();
+
+        //updated notification count display
+        Intent intent = new Intent(Constants.LOCALBROADCAST_UPDATE_NOTIFICATION);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
 
     @Override

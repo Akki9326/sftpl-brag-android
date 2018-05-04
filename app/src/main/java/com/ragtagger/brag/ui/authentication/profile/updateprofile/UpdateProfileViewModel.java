@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
+import com.ragtagger.brag.BragApp;
 import com.ragtagger.brag.R;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
@@ -45,6 +46,7 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
     ObservableField<String> channel = new ObservableField<>();
     ObservableField<String> saleType = new ObservableField<>();
     ObservableField<String> state = new ObservableField<>();
+    ObservableField<Boolean> isSalesRepresentative = new ObservableField<>();
 
     public void setFirstName(String firstName) {
         this.firstName.set(firstName);
@@ -100,6 +102,14 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
 
     public ObservableField<String> getState() {
         return state;
+    }
+
+    public void setIsSalesRepresentative(boolean isVisible) {
+        this.isSalesRepresentative.set(isVisible);
+    }
+
+    public ObservableField<Boolean> getIsSalesRepresentative() {
+        return isSalesRepresentative;
     }
 
     public View.OnClickListener onChannelDropdownClick() {
@@ -161,6 +171,9 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
                 if (rGetRequired.isStatus()) {
                     getNavigator().afterGettingRequiredData();
                     if (rGetRequired.getData() != null) {
+                        BragApp.CartNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_CART_NUM));
+                        BragApp.NotificationNumber = Integer.parseInt(headers.get(Constants.ApiHelper.MAP_KEY_NOTIFICATION_NUM));
+                        getNavigator().setData();
                         if (rGetRequired.getData().getStates() != null) {
                             getNavigator().setState(rGetRequired.getData().getStates());
                         }
@@ -194,9 +207,9 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
             getNavigator().invalidProfileForm(activity.getString(R.string.error_please_email));
         } else if (!Validation.isEmailValid(email)) {
             getNavigator().invalidProfileForm(activity.getString(R.string.error_email_valid));
-        } else if (Validation.isEmpty(gstIn)) {
+        } else if ((getDataManager().getUserData().getUserType() != Constants.UserType.SALES_REPRESENTATIVE.getId()) && Validation.isEmpty(gstIn)) {
             getNavigator().invalidProfileForm(activity.getString(R.string.error_enter_gst));
-        } else if (!Validation.isValidGST(gstIn)) {
+        } else if ((getDataManager().getUserData().getUserType() != Constants.UserType.SALES_REPRESENTATIVE.getId()) && !Validation.isValidGST(gstIn)) {
             getNavigator().invalidProfileForm(activity.getString(R.string.error_gst_valid));
         } else if (Utility.isConnection(activity)) {
             getNavigator().validProfileForm();
@@ -210,7 +223,7 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
         userData.setFirstName(firstName);
         userData.setLastName(lastName);
         userData.setEmail(email);
-        userData.setGstin(gstNum);
+        userData.setGstin(getDataManager().getUserData().getUserType() == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : gstNum);
         userData.setState(state);
         userData.setChannelModel(channel);
         userData.setSaleTypeModel(saleType);
@@ -238,10 +251,11 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
         setFirstName(getDataManager().getUserData().getFirstName());
         setLastName(getDataManager().getUserData().getLastName());
         setEmail(getDataManager().getUserData().getEmail());
-        setGstNum(getDataManager().getUserData().getGstin());
-        setChannel(getDataManager().getUserData().getChannelModel().getText());
-        setSaleType(getDataManager().getUserData().getSaleTypeModel().getText());
-        setState(getDataManager().getUserData().getState().getText());
+        setIsSalesRepresentative(getDataManager().getUserData().getUserType() != Constants.UserType.SALES_REPRESENTATIVE.getId());
+        setGstNum(getDataManager().getUserData().getUserType() == Constants.UserType.SALES_REPRESENTATIVE.getId() ? "" : getDataManager().getUserData().getGstin());
+        setChannel((getDataManager().getUserData().getChannelModel() != null && getDataManager().getUserData().getChannelModel().getText() != null) ? getDataManager().getUserData().getChannelModel().getText() : "");
+        setSaleType((getDataManager().getUserData().getSaleTypeModel() != null && getDataManager().getUserData().getSaleTypeModel().getText() != null) ? getDataManager().getUserData().getSaleTypeModel().getText() : "");
+        setState((getDataManager().getUserData().getState() != null && getDataManager().getUserData().getState().getText() != null) ? getDataManager().getUserData().getState().getText() : "");
 
         getNavigator().setSelectedState(getDataManager().getUserData().getState());
         getNavigator().setSelectedChannel(getDataManager().getUserData().getChannelModel());

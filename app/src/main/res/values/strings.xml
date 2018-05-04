@@ -179,7 +179,7 @@
     <string name="label_new_password">New password</string>
     <string name="hint_new_password_ast"><font size="12">New password*</font></string>
     <string name="label_change_pass">Change Password</string>
-    <string name="label_add_update_address">Add/Update Address</string>
+    <string name="label_add_update_address">Address</string>
     <string name="error_code_1011">Please update the application for better experience.</string>
     <string name="label_qty_s">Qty :</string>
     <string name="label_customer_code">Customer Code :</string>
@@ -273,7 +273,7 @@
     <string name="label_notification_read">Notification Read</string>
     <string name="label_send_otp_to_mobile">Please type OTP sent to your mobile number.</string>
 
-    <string name="label_edit_address">Edit Address</string>
+    <string name="label_edit_address">View Address</string>
     <string name="label_add_address">Add Address</string>
     <string name="label_select_customer">Select Customer</string>
     <string name="label_change_customer">Change Customer</string>
@@ -305,6 +305,7 @@
     <string name="label_sorting_price_high_to_low">Price -- High to Low</string>
     <string name="label_sort_by_camel">Sort By</string>
     <string name="label_avail_qty">(available : %s)</string>
+    <string name="label_mob">M: %s</string>
     <string name="label_select_state">Select State</string>
     <string name="error_pincode_valid">Please enter valid pincode.</string>
     <string name="error_add_address">Please add address which want to place order.</string>

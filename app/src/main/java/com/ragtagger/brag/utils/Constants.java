@@ -89,9 +89,9 @@ public class Constants {
     public static final String BUNDLE_SELECTED_CUSTOMER = "bundleSelectedCustomer";
 
     public interface ApiHelper {
-        //String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
-        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
-        //String BASE_URL = "http://192.168.131.141:8084/BRAGWeb/api/"; //local
+        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
+        //String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
+        //String BASE_URL = "http://192.168.131.151:8084/BRAGWeb/api/"; //karan
         //String BASE_URL = "http://192.168.131.114:8085/BRAGWeb/api/"; //tushar
 
         String API_VERSION = "v1/";

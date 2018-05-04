@@ -65,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:tag="@string/font_opensans_regular_id"
-                            android:text="@{viewModel.mobileNum}"
+                            android:text="@{@string/label_mob(viewModel.mobileNum)}"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/text_size_very_small_12" />
 
@@ -81,7 +81,10 @@
                             android:text="@{viewModel.isAddressAvailable ? (@string/label_edit_address):(@string/label_add_address)}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_very_small_12" />
-
+                        <!--
+                        android:visibility="@{viewModel.isAddressAvailable ?  View.GONE : View.VISIBLE}"
+                        android:onClick="@{viewModel.onAddAddress()}"
+                        android:text="@{(@string/label_add_address)}"-->
                     </LinearLayout>
 
                     <LinearLayout

@@ -236,7 +236,6 @@
                         android:background="@null"
                         android:enabled="false"
                         android:hint="@string/hint_state_ast"
-                        android:maxLength="15"
                         android:maxLines="1"
                         android:onClick="@{viewModel.onStateClick()}"
                         android:paddingBottom="5dp"
@@ -268,8 +267,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small"
                     android:visibility="gone" />
-
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

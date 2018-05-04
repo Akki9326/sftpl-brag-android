@@ -53,6 +53,7 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
     ObservableField<Boolean> isAddressAvaliable = new ObservableField<>();
 
     DataUserAddress userAddress;
+    DataState userState;
 
     public AddEditAddressViewModel(IDataManager dataManager) {
         super(dataManager);
@@ -223,6 +224,7 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
                 if (loginResponse.isStatus()) {
                     if (loginResponse.getData().getAddresses() == null || loginResponse.getData().getAddresses().isEmpty()) {
                         setIsAddressAvaliable(false);
+                        setUserState(loginResponse.getData().getState());
                     } else {
                         setUserAddress(loginResponse.getData().getAddresses().get(0));
                         setIsAddressAvaliable(true);
@@ -238,6 +240,14 @@ public class AddEditAddressViewModel extends CoreViewModel<AddEditAddressNavigat
                 getNavigator().onApiErrorUserProfile(new ApiError(t.getHttpCode(), t.getMessage()));
             }
         });
+    }
+
+    public DataState getUserState() {
+        return userState;
+    }
+
+    public void setUserState(DataState state) {
+        this.userState = state;
     }
 
 

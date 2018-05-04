@@ -15,6 +15,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ragtagger.brag.BR;
@@ -133,10 +134,24 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
             mAddressId = userAddress.getId();
 
             mAddEditAddressBinding.edittextAddress.setText(userAddress.getAddress());
+            mAddEditAddressBinding.edittextAddress.setEnabled(false);
+
             mAddEditAddressBinding.edittextCity.setText(userAddress.getCity());
+            mAddEditAddressBinding.edittextCity.setEnabled(false);
+
             mAddEditAddressBinding.edittextLandmark.setText(userAddress.getLandmark());
+            mAddEditAddressBinding.edittextLandmark.setEnabled(false);
+
             mAddEditAddressBinding.edittextPincode.setText(String.valueOf(userAddress.getPincode()));
+            mAddEditAddressBinding.edittextPincode.setEnabled(false);
+
             mAddEditAddressBinding.textviewState.setText(userAddress.getState().getText());
+            mAddEditAddressBinding.textviewState.setEnabled(false);
+
+            mAddEditAddressBinding.textviewAddUpdate.setVisibility(View.GONE);
+        } else {
+            selectedState = mAddEditViewModel.getUserState();
+            mAddEditAddressBinding.textviewState.setText(selectedState.getText());
         }
     }
 

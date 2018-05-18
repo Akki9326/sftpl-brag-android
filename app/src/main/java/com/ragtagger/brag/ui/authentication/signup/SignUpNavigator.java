@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ragtagger.brag.data.model.datas.DataChannel;
-import com.ragtagger.brag.data.model.datas.DataGetRequired;
 import com.ragtagger.brag.data.model.datas.DataSaleType;
 import com.ragtagger.brag.data.model.datas.DataState;
 import com.ragtagger.brag.ui.core.CoreNavigator;
@@ -19,6 +18,8 @@ import java.util.List;
 public interface SignUpNavigator extends CoreNavigator {
 
     boolean onEditorActionConfirmPass(TextView textView, int i, KeyEvent keyEvent);
+
+    boolean onEditorActionPincode(TextView textView, int i, KeyEvent keyEvent);
 
     void setState(List<DataState> states);
 

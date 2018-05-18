@@ -31,6 +31,17 @@ public class QAddAddress {
     private Boolean isActive;
     private Boolean isDeleted;
 
+    public QAddAddress() {
+    }
+
+    public QAddAddress(String address, String landmark, String city, DataState state, int pincode) {
+        this.address = address;
+        this.landmark = landmark;
+        this.city = city;
+        this.state = state;
+        this.pincode = pincode;
+    }
+
     public String getId() {
         return id;
     }

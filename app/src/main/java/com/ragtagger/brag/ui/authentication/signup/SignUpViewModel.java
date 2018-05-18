@@ -14,15 +14,14 @@ import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataChannel;
-import com.ragtagger.brag.data.model.datas.DataGetRequired;
 import com.ragtagger.brag.data.model.datas.DataSaleType;
 import com.ragtagger.brag.data.model.datas.DataState;
-import com.ragtagger.brag.data.model.response.RGetRequired;
-import com.ragtagger.brag.data.remote.ApiResponse;
+import com.ragtagger.brag.data.model.requests.QAddAddress;
 import com.ragtagger.brag.data.model.requests.QSignUp;
+import com.ragtagger.brag.data.model.response.RGetRequired;
 import com.ragtagger.brag.data.model.response.RSignUp;
+import com.ragtagger.brag.data.remote.ApiResponse;
 import com.ragtagger.brag.ui.core.CoreViewModel;
-import com.ragtagger.brag.utils.AlertUtils;
 import com.ragtagger.brag.utils.Constants;
 import com.ragtagger.brag.utils.Utility;
 import com.ragtagger.brag.utils.Validation;
@@ -133,7 +132,8 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
         });
     }
 
-    void validateSignUpForm(Activity activity, EditText firstName, EditText email, EditText mobile, EditText password, EditText confirmPassword, EditText gstin, TextView state, boolean isSalesRepresentative) {
+    void validateSignUpForm(Activity activity, EditText firstName, EditText email, EditText mobile, EditText password, EditText confirmPassword, EditText gstin,
+                            EditText address, EditText city, EditText pincode, TextView state, boolean isSalesRepresentative) {
         if (Validation.isEmpty(firstName)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_please_enter_first_name));
         } else if (Validation.isEmpty(email)) {
@@ -154,8 +154,14 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_enter_gst));
         } else if (!isSalesRepresentative && !Validation.isValidGST(gstin)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_gst_valid));
+        } else if (!isSalesRepresentative && Validation.isEmpty(address)) {
+            getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_address));
+        } else if (!isSalesRepresentative && Validation.isEmpty(city)) {
+            getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_city));
         } else if (!isSalesRepresentative && Validation.isEmpty(state)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_state));
+        } else if (!isSalesRepresentative && Validation.isEmpty(pincode)) {
+            getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_pincode));
         } else if (Utility.isConnection(activity)) {
             getNavigator().validSignUpForm();
         } else {
@@ -164,8 +170,14 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
     }
 
 
-    void callSignUpApi(String firstname, String lastname, String email, String mobilenumber, String password, int userType, String gstin, DataState state, DataSaleType salesType, DataChannel channel) {
-        QSignUp signInRequest = new QSignUp(firstname, lastname, email, mobilenumber, password, userType, gstin, state, salesType, channel);
+    void callSignUpApi(String firstname, String lastname, String email, String mobilenumber, String password, int userType, String gstin,
+                       DataState state, DataSaleType salesType, DataChannel channel, QAddAddress mAddress) {
+        QSignUp signInRequest;
+        if (userType == Constants.UserType.SALES_REPRESENTATIVE.getId()) {
+            signInRequest = new QSignUp(firstname, lastname, email, mobilenumber, password, userType, gstin, state, salesType, channel);
+        } else {
+            signInRequest = new QSignUp(firstname, lastname, email, mobilenumber, password, userType, gstin, state, salesType, channel, mAddress);
+        }
         Call<RSignUp> mSignUpResponeCall = getDataManager().userSignIn(signInRequest);
         mSignUpResponeCall.enqueue(new ApiResponse<RSignUp>() {
             @Override
@@ -184,5 +196,11 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
             }
         });
     }
+
+    public boolean onEditorActionPincode(@NonNull final TextView textView, final int actionId,
+                                         @Nullable final KeyEvent keyEvent) {
+        return getNavigator().onEditorActionPincode(textView, actionId, keyEvent);
+    }
+
 
 }

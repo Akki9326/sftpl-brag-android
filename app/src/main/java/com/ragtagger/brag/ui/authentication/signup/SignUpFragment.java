@@ -27,6 +27,7 @@ import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataChannel;
 import com.ragtagger.brag.data.model.datas.DataSaleType;
 import com.ragtagger.brag.data.model.datas.DataState;
+import com.ragtagger.brag.data.model.requests.QAddAddress;
 import com.ragtagger.brag.databinding.FragmentSignUpBinding;
 import com.ragtagger.brag.ui.authentication.otp.OTPFragment;
 import com.ragtagger.brag.ui.authentication.profile.addeditaddress.statedialog.StateDialogFragment;
@@ -73,6 +74,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     DataChannel mSelectedChannel;
     DataSaleType mSelectedSalesType;
     DataState mSelectedState;
+    QAddAddress mAddress;
 
 
     @Override
@@ -178,10 +180,21 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         super.onPermissionDenied(request);
 
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            if (mSelectedUserType != Constants.UserType.SALES_REPRESENTATIVE.getId())
+                mAddress = new QAddAddress(mFragmentSignUpBinding.edittextAddress.getText().toString().trim(),
+                        mFragmentSignUpBinding.edittextLandmark.getText().toString().trim(),
+                        mFragmentSignUpBinding.edittextCity.getText().toString().trim(),
+                        mSelectedState, Integer.parseInt(mFragmentSignUpBinding.edittextPincode.getText().toString()));
             showProgress();
-            mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+            mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(),
+                    mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(),
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mAddress);
         }
     }
 
@@ -189,15 +202,36 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     public void onPermissionGranted(int request) {
         super.onPermissionGranted(request);
         if (request == REQ_SMS_SEND_RECEIVED_READ) {
+            if (mSelectedUserType != Constants.UserType.SALES_REPRESENTATIVE.getId())
+                mAddress = new QAddAddress(mFragmentSignUpBinding.edittextAddress.getText().toString().trim(),
+                        mFragmentSignUpBinding.edittextLandmark.getText().toString().trim(),
+                        mFragmentSignUpBinding.edittextCity.getText().toString().trim(),
+                        mSelectedState, Integer.parseInt(mFragmentSignUpBinding.edittextPincode.getText().toString()));
             showProgress();
-            mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
+            mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(),
+                    mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(),
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mAddress);
+
         }
     }
 
     @Override
     public boolean onEditorActionConfirmPass(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            mFragmentSignUpBinding.textviewSignup.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onEditorActionPincode(TextView textView, int i, KeyEvent keyEvent) {
         if (i == EditorInfo.IME_ACTION_DONE) {
             mFragmentSignUpBinding.textviewSignup.performClick();
             return true;
@@ -312,7 +346,10 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     @Override
     public void performClickSignUp() {
         if (isAdded())
-            mSignUpViewModel.validateSignUpForm(getActivity(), mFragmentSignUpBinding.edittextFirstname, mFragmentSignUpBinding.edittextEmail, mFragmentSignUpBinding.edittextMobileNum, mFragmentSignUpBinding.edittextPassword, mFragmentSignUpBinding.edittextConfirmPassword, mFragmentSignUpBinding.edittextGstIn, mFragmentSignUpBinding.edittextState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId());
+            mSignUpViewModel.validateSignUpForm(getActivity(), mFragmentSignUpBinding.edittextFirstname, mFragmentSignUpBinding.edittextEmail, mFragmentSignUpBinding.edittextMobileNum, mFragmentSignUpBinding.edittextPassword, mFragmentSignUpBinding.edittextConfirmPassword, mFragmentSignUpBinding.edittextGstIn
+                    , mFragmentSignUpBinding.edittextAddress, mFragmentSignUpBinding.edittextCity, mFragmentSignUpBinding.edittextPincode, mFragmentSignUpBinding.edittextState,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId()
+            );
     }
 
     @Override
@@ -324,10 +361,17 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
     public void validSignUpForm() {
         Utility.hideSoftkeyboard(getActivity());
         if (checkAndRequestPermissions()) {
+            if (mSelectedUserType != Constants.UserType.SALES_REPRESENTATIVE.getId())
+                mAddress = new QAddAddress(mFragmentSignUpBinding.edittextAddress.getText().toString().trim(),
+                        mFragmentSignUpBinding.edittextLandmark.getText().toString().trim(),
+                        mFragmentSignUpBinding.edittextCity.getText().toString().trim(),
+                        mSelectedState, Integer.parseInt(mFragmentSignUpBinding.edittextPincode.getText().toString()));
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
                     mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel);
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel,
+                    mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mAddress);
         }
     }
 

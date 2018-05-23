@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -108,7 +109,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         mFragmentSignUpBinding.textviewUserType.setText(mUserTypeDropDown.get(0).getValue());
         mSelectedUserType = mUserTypeDropDown.get(0).getId();
         mSignUpViewModel.setIsSalesRepresentative(true);
-
+        mFragmentSignUpBinding.edittextPincode.setFilters(new InputFilter[]{getInputFilterForPincode()});
         checkInternetAndCallApi();
     }
 
@@ -397,4 +398,35 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
+
+
+    private InputFilter getInputFilterForPincode() {
+        InputFilter filter = new InputFilter() {
+
+
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                StringBuilder builder = new StringBuilder(dest);
+                builder.replace(dstart, dend, source
+                        .subSequence(start, end).toString());
+
+                //max 6 digit allow
+                if (builder.length() > 6) {
+                    return "";
+                }
+                //init 0 not allow
+                if (dstart == 0 && source.toString().equals("0")) {
+                    return "";
+                } else {
+                    return null;
+                }
+
+            }
+        };
+        return filter;
+    }
+
+
 }
+

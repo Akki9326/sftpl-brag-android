@@ -14,6 +14,7 @@ import com.ragtagger.brag.data.model.requests.QLogin;
 import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.data.model.requests.QProductList;
 import com.ragtagger.brag.data.model.requests.QSignUp;
+import com.ragtagger.brag.data.model.requests.QSubCategory;
 import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.model.response.RCartList;
 import com.ragtagger.brag.data.model.response.RCategoryList;
@@ -34,6 +35,7 @@ import com.ragtagger.brag.data.model.response.RProduct;
 import com.ragtagger.brag.data.model.response.RProductList;
 import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.data.model.response.RStateList;
+import com.ragtagger.brag.data.model.response.RSubCategory;
 import com.ragtagger.brag.data.model.response.RUserAddress;
 
 import javax.inject.Inject;
@@ -125,6 +127,12 @@ public class AppApiManager implements IApiManager {
     public Call<RCategoryList> getCategoryProduct() {
         return mApiInterface.getCategoryProduct();
     }
+
+    @Override
+    public Call<RSubCategory> getSubCategory(int page, String categoryId, QSubCategory body) {
+        return mApiInterface.getSubCategory(page,categoryId,body);
+    }
+
 
     @Override
     public Call<RCollectionList> getCollectionProduct() {

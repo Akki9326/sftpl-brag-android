@@ -20,6 +20,7 @@ import com.ragtagger.brag.data.model.requests.QLogin;
 import com.ragtagger.brag.data.model.requests.QPlaceOrder;
 import com.ragtagger.brag.data.model.requests.QProductList;
 import com.ragtagger.brag.data.model.requests.QSignUp;
+import com.ragtagger.brag.data.model.requests.QSubCategory;
 import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.model.response.RCartList;
 import com.ragtagger.brag.data.model.response.RCategoryList;
@@ -39,6 +40,7 @@ import com.ragtagger.brag.data.model.response.RProduct;
 import com.ragtagger.brag.data.model.response.RProductList;
 import com.ragtagger.brag.data.model.response.RSignUp;
 import com.ragtagger.brag.data.model.response.RStateList;
+import com.ragtagger.brag.data.model.response.RSubCategory;
 import com.ragtagger.brag.data.model.response.RUserAddress;
 
 import okhttp3.ResponseBody;
@@ -101,6 +103,11 @@ public interface ApiInterface {
 
     @GET("home/get/1")
     Call<RCategoryList> getCategoryProduct();
+
+
+    @POST("home/getChild/{categoryId}/{page}")
+    Call<RSubCategory> getSubCategory(@Path("page") int page, @Path("categoryId") String categoryId,@Body QSubCategory body);
+
 
     @GET("home/get/2")
     Call<RCollectionList> getCollectionProduct();

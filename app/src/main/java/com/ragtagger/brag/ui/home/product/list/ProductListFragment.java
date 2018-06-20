@@ -111,11 +111,9 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
                         return;
                     }
-
                     if (mProductList.size() != productListSize) {
                         ACTION = LOAD_MORE;
                         checkInternetAndCallApi(false);
@@ -253,6 +251,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         mFragmentProductListBinding.recycleView.setDrawingCacheEnabled(true);
         mFragmentProductListBinding.recycleView.setMotionEventSplittingEnabled(false);
         mFragmentProductListBinding.recycleView.addItemDecoration(new GridSpacingItemDecoration(2, 10, false));
+
         mFragmentProductListBinding.recycleView.loadMoreComplete(true);
         mFragmentProductListBinding.recycleView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
         mFragmentProductListBinding.recycleView.setOnLoadMoreListener(mOnLoadMoreListener);

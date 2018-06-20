@@ -11,6 +11,8 @@ package com.ragtagger.brag.ui.home.subcategory;
 
 import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.datas.DataCategoryList;
+import com.ragtagger.brag.data.model.datas.DataSubCategory;
+import com.ragtagger.brag.data.model.response.RSubCategory;
 import com.ragtagger.brag.ui.core.CoreNavigator;
 
 import java.util.List;
@@ -26,5 +28,5 @@ public interface SubCategoryNavigator extends CoreNavigator {
 
     void onNoData();
 
-    void setCategoryList(List<DataCategoryList.Category> list);
+    void setCategoryList(int count,List<DataSubCategory.DataObject> list);
 }

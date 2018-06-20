@@ -56,11 +56,17 @@
                                 bind:imageUrl="@{viewModel.productImg}"
                                 android:scaleType="centerCrop" />-->
 
-                            <android.support.v7.widget.RecyclerView
+                            <!--<android.support.v7.widget.RecyclerView
                                 android:id="@+id/recycleView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
+-->
 
+                            <com.ragtagger.brag.views.erecyclerview.ERecyclerView
+                                android:id="@+id/recycleView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fillViewport="true" />
                         </LinearLayout>
                     </android.support.v4.widget.NestedScrollView>
                 </android.support.v4.widget.SwipeRefreshLayout>

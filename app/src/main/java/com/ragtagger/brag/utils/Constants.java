@@ -62,6 +62,7 @@ public class Constants {
     public static final String BUNDLE_ORDER_DATA = "bundleorderData";
     public static final String BUNDLE_CATEGORY_LIST = "bundlecategorylist";
     public static final String BUNDLE_CATEGORY_NAME = "bundleCategoryId";
+    public static final String BUNDLE_CATEGORY_OBJECT = "selected_category_object";
     public static final String BUNDLE_SUB_CATEGORY_NAME = "bundleSubCategoryId";
     public static final String BUNDLE_SEASON_CODE = "bundleSeasonCode";
     public static final String BUNDLE_APPLIED_FILTER = "bundleAppliedFilter";
@@ -89,8 +90,8 @@ public class Constants {
     public static final String BUNDLE_SELECTED_CUSTOMER = "bundleSelectedCustomer";
 
     public interface ApiHelper {
-        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
-        //String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
+      //  String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
+        String BASE_URL = "http://192.168.131.10:8091/BRAGWeb/api/"; //local
         //String BASE_URL = "http://192.168.131.152:8084/BRAGWeb/api/"; //karan
         //String BASE_URL = "http://192.168.131.114:8085/BRAGWeb/api/"; //tushar
 

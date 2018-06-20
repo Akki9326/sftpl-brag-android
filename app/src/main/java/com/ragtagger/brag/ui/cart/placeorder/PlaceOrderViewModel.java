@@ -211,6 +211,7 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
                 if (generalResponse.isStatus()) {
                     getNavigator().placedOrderSuccessfully();
                 } else {
+                    getNavigator().setEnabledDisabledPlaceOrder(true);
                     getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
                 }
             }

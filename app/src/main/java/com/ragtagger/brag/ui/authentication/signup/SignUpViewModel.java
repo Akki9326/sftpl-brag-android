@@ -162,6 +162,8 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_state));
         } else if (!isSalesRepresentative && Validation.isEmpty(pincode)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_empty_pincode));
+        } else if (!isSalesRepresentative && !Validation.isValidPincode(pincode)) {
+            getNavigator().invalidSignUpForm(activity.getString(R.string.error_pincode_valid));
         } else if (Utility.isConnection(activity)) {
             getNavigator().validSignUpForm();
         } else {

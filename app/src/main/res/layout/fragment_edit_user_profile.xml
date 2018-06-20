@@ -236,9 +236,10 @@
                         android:background="@null"
                         android:enabled="false"
                         android:hint="@string/hint_state_ast"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:onClick="@{viewModel.onStateClick()}"
                         android:paddingBottom="5dp"
+                        android:singleLine="false"
                         android:text="@{viewModel.state}" />
                 </LinearLayout>
 

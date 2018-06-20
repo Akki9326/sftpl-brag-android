@@ -420,10 +420,10 @@
                         style="@style/NormalEditText"
                         android:background="@null"
                         android:hint="@string/hint_state_ast"
-                        android:maxLength="15"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:onClick="@{viewModel.onStateClick()}"
-                        android:paddingBottom="5dp" />
+                        android:paddingBottom="5dp"
+                        android:singleLine="false" />
 
                     <View
                         android:layout_width="match_parent"

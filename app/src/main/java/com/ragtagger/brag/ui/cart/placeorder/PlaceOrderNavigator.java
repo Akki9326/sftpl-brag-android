@@ -29,5 +29,7 @@ public interface PlaceOrderNavigator extends CoreNavigator {
 
     void performClickPlaceOrder();
 
+    void setEnabledDisabledPlaceOrder(boolean setEnabled);
+
     void placedOrderSuccessfully();
 }

@@ -61,7 +61,7 @@ public class Validation {
 
     public static boolean isValidPincode(EditText mEditText) {
 
-        return mEditText.getText().toString().trim().length() == 6;
+        return mEditText.getText().toString().trim().length() == 6 && !mEditText.getText().toString().trim().startsWith("0");
     }
 
     public static boolean isTwoStringSameFormPassword(EditText mEditTextFirst, EditText mEditTextSecond) {

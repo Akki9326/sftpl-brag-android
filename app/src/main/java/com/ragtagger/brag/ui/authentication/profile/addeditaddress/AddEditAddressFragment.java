@@ -128,6 +128,8 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
     public void setUserProfile() {
         hideProgress();
         if (mAddEditViewModel.isAddressAvaliable.get()) {
+            mAddEditAddressBinding.textviewAddUpdate.setVisibility(View.GONE);
+
             DataUserAddress userAddress = mAddEditViewModel.getUserAddress();
 
             selectedState = new DataState(userAddress.getState().getId(), userAddress.getState().getText());
@@ -135,23 +137,24 @@ public class AddEditAddressFragment extends CoreFragment<FragmentAddEditAddressB
 
             mAddEditAddressBinding.edittextAddress.setText(userAddress.getAddress());
             mAddEditAddressBinding.edittextAddress.setEnabled(false);
+            mAddEditAddressBinding.edittextAddress.setKeyListener(null);
 
             mAddEditAddressBinding.edittextCity.setText(userAddress.getCity());
             mAddEditAddressBinding.edittextCity.setEnabled(false);
 
             mAddEditAddressBinding.edittextLandmark.setText(userAddress.getLandmark());
             mAddEditAddressBinding.edittextLandmark.setEnabled(false);
+            mAddEditAddressBinding.edittextLandmark.setKeyListener(null);
 
             mAddEditAddressBinding.edittextPincode.setText(String.valueOf(userAddress.getPincode()));
             mAddEditAddressBinding.edittextPincode.setEnabled(false);
 
             mAddEditAddressBinding.textviewState.setText(userAddress.getState().getText());
             mAddEditAddressBinding.textviewState.setEnabled(false);
-
-            mAddEditAddressBinding.textviewAddUpdate.setVisibility(View.GONE);
         } else {
+            mAddEditAddressBinding.textviewAddUpdate.setVisibility(View.VISIBLE);
             selectedState = mAddEditViewModel.getUserState();
-            mAddEditAddressBinding.textviewState.setText(selectedState.getText());
+            mAddEditAddressBinding.textviewState.setText(selectedState != null ? selectedState.getText() : "");
         }
     }
 

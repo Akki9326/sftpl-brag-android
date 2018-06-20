@@ -43,10 +43,11 @@
                     android:id="@+id/edittext_address"
                     style="@style/NormalEditText"
                     android:background="@null"
+                    android:ellipsize="end"
                     android:hint="@string/hint_address"
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
-                    android:maxLength="@integer/max_length_address"
+                    android:maxLength="@integer/max_length"
                     android:paddingBottom="5dp"
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@{viewModel.address}" />
@@ -73,6 +74,7 @@
                     android:id="@+id/edittext_landmark"
                     style="@style/NormalEditText"
                     android:background="@null"
+                    android:ellipsize="end"
                     android:hint="@string/hint_landmark"
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
@@ -198,7 +200,8 @@
                     android:tag="@string/font_opensans_regular_id"
                     android:text="@{viewModel.IsAddressAvaliable() ?(@string/button_update): (@string/button_add)}"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="gone" />
 
 
             </LinearLayout>

@@ -252,8 +252,10 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
         if (mPlaceOrderViewModel.getIsSalesUser()) {
             if (!mPlaceOrderViewModel.isCustomerSelected.get())
                 AlertUtils.showAlertMessage(getActivity(), getString(R.string.msg_select_customer));
-            else if (mSelectedCustomer != null && mSelectedCustomer.getId() != null && !mSelectedCustomer.getId().equals(""))
+            else if (mSelectedCustomer != null && mSelectedCustomer.getId() != null && !mSelectedCustomer.getId().equals("")) {
                 mPlaceOrderViewModel.callPlaceOrderApi(mSelectedCustomer.getId());
+                setEnabledDisabledPlaceOrder(false);
+            }
         } else {
             if (!mPlaceOrderViewModel.isAddressAvailable.get()) {
                 AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_add_address));
@@ -269,6 +271,11 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
     }
 
     @Override
+    public void setEnabledDisabledPlaceOrder(boolean isEnabled) {
+        mFragmentPlaceOrderBinding.textviewPlaceOrder.setEnabled(isEnabled);
+    }
+
+    @Override
     public void placedOrderSuccessfully() {
         hideProgress();
         AlertUtils.showAlertMessage(getActivity(), 2001, null, new AlertUtils.IDismissDialogListener() {
@@ -278,6 +285,7 @@ public class PlaceOrderFragment extends CoreFragment<FragmentPlaceOrderBinding, 
                 dialog.dismiss();
                 BragApp.CartNumber = 0;
 
+                setEnabledDisabledPlaceOrder(true);
                 if (getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).updateCartNum();
                     ((MainActivity) getActivity()).clearStackForPlaceOrder();

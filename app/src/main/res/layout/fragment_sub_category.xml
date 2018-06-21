@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/tools">
-
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="com.ragtagger.brag.ui.home.subcategory.SubCategoryViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <!--    <RelativeLayout
+            android:id="@+id/base_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,39 +41,12 @@
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                     app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
-
-                    <android.support.v4.widget.NestedScrollView
-                        android:id="@+id/scrollview"
+                    <com.ragtagger.brag.views.erecyclerview.ERecyclerView
+                        android:id="@+id/recycleView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fillViewport="true"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:focusableInTouchMode="true"
-                            android:orientation="vertical">
-
-                            <!--<ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                bind:imageUrl="@{viewModel.productImg}"
-                                android:scaleType="centerCrop" />-->
-
-                            <!--<android.support.v7.widget.RecyclerView
-                                android:id="@+id/recycleView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
--->
-
-                            <com.ragtagger.brag.views.erecyclerview.ERecyclerView
-                                android:id="@+id/recycleView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fillViewport="true" />
-                        </LinearLayout>
-                    </android.support.v4.widget.NestedScrollView>
                 </android.support.v4.widget.SwipeRefreshLayout>
 
                 <!--No list-->

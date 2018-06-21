@@ -252,7 +252,16 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void performSwipeRefresh() {
-        mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ACTION = LOAD_LIST;
+                PAGE_NUM = 1;
+                mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+                mFragmentSubCategoryBinding.recycleView.setIsLoadingMore(true);
+                checkInternetAndCallApi(false);
+            }
+        }, 1000);
     }
 
     @Override

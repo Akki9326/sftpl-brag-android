@@ -77,6 +77,7 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
                 @Override
                 public void run() {
                     if (mFragmentSubCategoryBinding.swipeRefreshLayout.isRefreshing()) {
+                        mFragmentSubCategoryBinding.recycleView.loadMoreComplete(false);
                         return;
                     }
                     if (mSubCategoryList.size() != subCategoryListSize) {
@@ -252,16 +253,21 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
     @Override
     public void performSwipeRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ACTION = LOAD_LIST;
-                PAGE_NUM = 1;
-                mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
-                mFragmentSubCategoryBinding.recycleView.setIsLoadingMore(true);
-                checkInternetAndCallApi(false);
-            }
-        }, 1000);
+        if (!mFragmentSubCategoryBinding.recycleView.isLoadingData()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ACTION = LOAD_LIST;
+                    PAGE_NUM = 1;
+                    mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+                    mFragmentSubCategoryBinding.recycleView.setIsLoadingMore(true);
+                    checkInternetAndCallApi(false);
+                }
+            }, 1000);
+        } else {
+            mFragmentSubCategoryBinding.swipeRefreshLayout.setRefreshing(false);
+            mFragmentSubCategoryBinding.recycleView.setIsLoadingMore(true);
+        }
     }
 
     @Override

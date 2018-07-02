@@ -174,6 +174,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         if (isAdded()) {
             isListApi = true;
             if (Utility.isConnection(getActivity())) {
+                ((ToolbarActivity) mActivity).enableBackButton(false);
                 mNotificationListViewModel.setNoInternet(false);
                 if (ACTION == LOAD_MORE) {
                     PAGE_NUM++;
@@ -185,7 +186,6 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 }
                 mNotificationListViewModel.callGetNotificationListApi(PAGE_NUM);
             } else {
-
                 switch (ACTION) {
                     case LOAD_LIST:
                         new Handler().postDelayed(new Runnable() {
@@ -202,6 +202,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 }
                 hideLoader();
                 mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
+                ((ToolbarActivity) mActivity).enableBackButton(true);
             }
         }
     }
@@ -283,6 +284,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
                 break;
         }
+        ((ToolbarActivity) mActivity).enableBackButton(true);
 
     }
 
@@ -329,6 +331,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
         }
 
         isListApi = true;
+        ((ToolbarActivity) mActivity).enableBackButton(true);
         AlertUtils.showAlertMessage(getActivity(), error.getHttpCode(), error.getMessage(), null);
     }
 

@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.ragtagger.brag.callback.OnSingleClickListener;
 import com.ragtagger.brag.data.IDataManager;
 import com.ragtagger.brag.data.model.ApiError;
@@ -214,7 +215,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         return orderedBy;
     }
 
-    public void setIsOnBehalfOfVisible(boolean isVisible){
+    public void setIsOnBehalfOfVisible(boolean isVisible) {
         this.isOnBehalfOfVisible.set(isVisible);
     }
 
@@ -222,7 +223,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         return isOnBehalfOfVisible;
     }
 
-    public void setOnBehalfOf(String onBehalfOf){
+    public void setOnBehalfOf(String onBehalfOf) {
         this.onBehalfOf.set(onBehalfOf);
     }
 
@@ -230,7 +231,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         return onBehalfOf;
     }
 
-    public void setReorderVisibility(boolean isVisible){
+    public void setReorderVisibility(boolean isVisible) {
         this.isReOrderedVisible.set(isVisible);
     }
 
@@ -238,7 +239,7 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
         return isReOrderedVisible;
     }
 
-    public void setCancelOrderVisibility(boolean isVisible){
+    public void setCancelOrderVisibility(boolean isVisible) {
         this.isCancelOrderVisible.set(isVisible);
     }
 
@@ -388,7 +389,8 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
                 outputStream.flush();
 
                 return true;
-            } catch (IOException e) {
+            } catch (Exception e) {
+                Crashlytics.logException(e);
                 getNavigator().onApiError(new ApiError(5001, ""));
                 return false;
             } finally {
@@ -401,7 +403,8 @@ public class OrderDetailViewModel extends CoreViewModel<OrderDetailNavigator> {
                 }
                 getNavigator().onDownloadInvoiceSuccessfully();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            Crashlytics.logException(e);
             return false;
         }
     }

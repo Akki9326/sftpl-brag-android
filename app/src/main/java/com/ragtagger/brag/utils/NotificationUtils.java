@@ -25,6 +25,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import com.crashlytics.android.Crashlytics;
 import com.ragtagger.brag.R;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ import java.util.List;
  */
 
 
-public class NotificationUtils{
+public class NotificationUtils {
 
     private static String TAG = NotificationUtils.class.getSimpleName();
 
@@ -156,7 +157,8 @@ public class NotificationUtils{
             InputStream input = connection.getInputStream();
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
-        } catch (IOException e) {
+        } catch (Exception e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
             return null;
         }

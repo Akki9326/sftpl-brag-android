@@ -58,6 +58,10 @@ public abstract class ToolbarActivity<CA extends ToolbarActivity, VB extends Vie
         performCartClick();
     }
 
+    public void enableBackButton(boolean isEnable) {
+        mToolbarBinding.imageViewBack.setEnabled(isEnable);
+    }
+
     public void showToolbar(boolean displayBack, boolean displayLogo, boolean displayCart, String title) {
         mToolbarViewModel.setDisplayBack(displayBack);
         mToolbarViewModel.setDisplayLogo(displayLogo);

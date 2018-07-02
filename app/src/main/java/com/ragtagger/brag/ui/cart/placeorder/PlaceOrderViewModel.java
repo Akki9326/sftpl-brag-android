@@ -208,11 +208,16 @@ public class PlaceOrderViewModel extends CoreViewModel<PlaceOrderNavigator> {
         responseCall.enqueue(new ApiResponse<RGeneralData>() {
             @Override
             public void onSuccess(RGeneralData generalResponse, Headers headers) {
-                if (generalResponse.isStatus()) {
-                    getNavigator().placedOrderSuccessfully();
+                if (generalResponse != null) {
+                    if (generalResponse.isStatus()) {
+                        getNavigator().placedOrderSuccessfully();
+                    } else {
+                        getNavigator().setEnabledDisabledPlaceOrder(true);
+                        getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                    }
                 } else {
                     getNavigator().setEnabledDisabledPlaceOrder(true);
-                    getNavigator().onApiError(new ApiError(generalResponse.getErrorCode(), generalResponse.getMessage()));
+                    getNavigator().onApiError(new ApiError(Constants.IErrorCode.defaultErrorCode, Constants.IErrorMessage.IO_EXCEPTION));
                 }
             }
 

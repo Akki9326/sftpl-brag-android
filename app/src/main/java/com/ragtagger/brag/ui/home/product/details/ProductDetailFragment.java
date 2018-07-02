@@ -442,7 +442,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         } else if (getActivity() instanceof NotificationHandlerActivity) {
             ((NotificationHandlerActivity) getActivity()).updateCartNum();
         }
-        ((CoreActivity) getActivity()).showToast(getString(R.string.label_item_added_to_cart));
+       // if(isAdded()) {
+            ((CoreActivity) getActivity()).showToast(getString(R.string.label_item_added_to_cart));
+       // }
     }
 
     @Override

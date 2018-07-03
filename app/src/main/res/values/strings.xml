@@ -338,4 +338,6 @@
     <string name="hint_user_type">User Type</string>
     <string name="msg_select_customer">Please select customer for whom you want to place order.</string>
     <string name="msg_placing_order_on_behalf">You are placing order on behalf of %s.</string>
+
+    <string name="error_size_guide_not_avail">Size guide not available.</string>
 </resources>

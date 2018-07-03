@@ -322,7 +322,9 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         }
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getBaseActivity()).updateCartNum();
-        ((MainActivity) getBaseActivity()).showToast(getString(R.string.label_item_added_to_cart));
+
+        if (isAdded())
+            ((MainActivity) getBaseActivity()).showToast(getString(R.string.label_item_added_to_cart));
         dismissDialog("");
     }
 

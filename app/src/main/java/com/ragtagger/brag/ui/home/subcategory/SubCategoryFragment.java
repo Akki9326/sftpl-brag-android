@@ -93,11 +93,12 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
 
 
     public static SubCategoryFragment newInstance(String category, String url, List<DataCategoryList.Category> list,
-                                                  String sizeGuide) {
+                                                  String sizeGuide, DataCategoryList.Category mSelectedCategory) {
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_CATEGORY_NAME, category);
         args.putString(Constants.BUNDLE_IMAGE_URL, url);
         args.putString(Constants.BUNDLE_SIZE_GUIDE, sizeGuide);
+        args.putParcelable(Constants.BUNDLE_CATEGORY_OBJECT, mSelectedCategory);
         args.putParcelableArrayList(Constants.BUNDLE_CATEGORY_LIST, (ArrayList<? extends Parcelable>) list);
         SubCategoryFragment fragment = new SubCategoryFragment();
         fragment.setArguments(args);
@@ -105,13 +106,13 @@ public class SubCategoryFragment extends CoreFragment<FragmentSubCategoryBinding
     }
 
 
-    public static SubCategoryFragment newInstance(DataCategoryList.Category mSelectedCategory) {
+    /*public static SubCategoryFragment newInstance(DataCategoryList.Category mSelectedCategory) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.BUNDLE_CATEGORY_OBJECT, mSelectedCategory);
         SubCategoryFragment fragment = new SubCategoryFragment();
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
 
     @Override

@@ -355,14 +355,18 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void performClickSizeGuide() {
-        Bundle args = new Bundle();
-        args.putString(Constants.BUNDLE_IMAGE_URL, mSizeGuide);
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
-        mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
-        mDialogFragmentImage.setArguments(args);
-        mDialogFragmentImage.show(fm, "");
+        if (mSizeGuide != null && !mSizeGuide.equals("")) {
+            Bundle args = new Bundle();
+            args.putString(Constants.BUNDLE_IMAGE_URL, mSizeGuide);
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            DialogFragment mDialogFragmentImage = new FullScreenImageDialogFragment();
+            mDialogFragmentImage.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
+            mDialogFragmentImage.setArguments(args);
+            mDialogFragmentImage.show(fm, "");
+        } else {
+            AlertUtils.showAlertMessage(getActivity(), getString(R.string.error_size_guide_not_avail));
+        }
     }
 
     @Override
@@ -442,9 +446,9 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         } else if (getActivity() instanceof NotificationHandlerActivity) {
             ((NotificationHandlerActivity) getActivity()).updateCartNum();
         }
-       // if(isAdded()) {
-            ((CoreActivity) getActivity()).showToast(getString(R.string.label_item_added_to_cart));
-       // }
+        // if(isAdded()) {
+        ((CoreActivity) getActivity()).showToast(getString(R.string.label_item_added_to_cart));
+        // }
     }
 
     @Override

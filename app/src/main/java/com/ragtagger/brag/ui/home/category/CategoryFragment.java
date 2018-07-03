@@ -136,9 +136,9 @@ public class CategoryFragment extends CoreFragment<FragmentCategoryBinding, Cate
 
     @Override
     public void onItemClick(int position) {
-        // ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getOptionName(), mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild(), mCategoryList.get(position).getSizeGuide()), true, true);
-        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position)),
-                true, true);
+        ((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position).getOptionName(), mCategoryList.get(position).getUrl(), mCategoryList.get(position).getChild(), mCategoryList.get(position).getSizeGuide(), mCategoryList.get(position)), true, true);
+        /*((MainActivity) getActivity()).pushFragments(SubCategoryFragment.newInstance(mCategoryList.get(position)),
+                true, true);*/
     }
 
     @Override

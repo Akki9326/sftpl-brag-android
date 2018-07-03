@@ -32,7 +32,7 @@ import dagger.android.support.AndroidSupportInjection;
  * Created by alpesh.rathod on 2/20/2018.
  */
 
-public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends CoreViewModel> extends DialogFragment{
+public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends CoreViewModel> extends DialogFragment {
 
     private CoreActivity mActivity;
     private T mViewDataBinding;
@@ -90,8 +90,8 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog= super.onCreateDialog(savedInstanceState);
-        return onCreateFragmentDialog(savedInstanceState,dialog);
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        return onCreateFragmentDialog(savedInstanceState, dialog);
     }
 
     @Override
@@ -111,8 +111,10 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
     }
 
     public void dismissDialog(String tag) {
-        dismiss();
-        getBaseActivity().onFragmentDetached(tag);
+        if (isAdded()) {
+            dismiss();
+            getBaseActivity().onFragmentDetached(tag);
+        }
     }
 
     private void performDependencyInjection() {
@@ -135,7 +137,7 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
 
 
     @Override
-    public  void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -145,7 +147,7 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
         }
     }
 
-    public  void requestPermission(int request, String... permissions) {
+    public void requestPermission(int request, String... permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             List<String> needrequest = new ArrayList<>();
             for (String permission : permissions) {
@@ -162,10 +164,10 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
         onPermissionGranted(request);
     }
 
-    public  void onPermissionGranted(int request) {
+    public void onPermissionGranted(int request) {
     }
 
-    public  void onPermissionDenied(int request) {
+    public void onPermissionDenied(int request) {
     }
 
 
@@ -210,7 +212,7 @@ public abstract class CoreDialogFragment<T extends ViewDataBinding, V extends Co
         return mViewDataBinding;
     }
 
-    public abstract Dialog onCreateFragmentDialog(Bundle savedInstanceState,Dialog dialog);
+    public abstract Dialog onCreateFragmentDialog(Bundle savedInstanceState, Dialog dialog);
 
     /**
      * To perform operation before view set like bundle data and other data initialization

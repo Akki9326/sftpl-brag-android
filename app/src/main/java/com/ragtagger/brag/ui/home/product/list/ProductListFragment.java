@@ -255,7 +255,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
         mFragmentProductListBinding.recycleView.loadMoreComplete(true);
         mFragmentProductListBinding.recycleView.setLoadMoreView(DefaultLoadMoreFooter.getResource(), null);
         mFragmentProductListBinding.recycleView.setOnLoadMoreListener(mOnLoadMoreListener);
-
+        setEmptyAdapter(mFragmentProductListBinding.recycleView);
         ACTION = LOAD_LIST;
         new Handler().postDelayed(new Runnable() {
             @Override

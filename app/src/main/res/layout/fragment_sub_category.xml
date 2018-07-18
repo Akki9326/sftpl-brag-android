@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ragtagger.brag.ui.home.subcategory.SubCategoryViewModel" />
@@ -14,12 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <!--    <RelativeLayout
-            android:id="@+id/base_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:orientation="vertical">-->
+        <!--    <RelativeLayout
+                android:id="@+id/base_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,30 +34,39 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="@{viewModel.noInternet ? View.GONE : View.VISIBLE}">
-                <!--List-->
+
                 <android.support.v4.widget.SwipeRefreshLayout
                     android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}"
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                     app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
-                    <com.ragtagger.brag.views.erecyclerview.ERecyclerView
-                        android:id="@+id/recycleView"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fillViewport="true" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <!--List-->
+                        <com.ragtagger.brag.views.erecyclerview.ERecyclerView
+                            android:id="@+id/recycleView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}" />
+
+                        <!--No list-->
+                        <include
+                            android:id="@+id/layout_result"
+                            layout="@layout/layout_result_no_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}" />
+                    </LinearLayout>
 
                 </android.support.v4.widget.SwipeRefreshLayout>
 
-                <!--No list-->
-                <include
-                    android:id="@+id/layout_result"
-                    layout="@layout/layout_result_no_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}" />
+
             </LinearLayout>
             <!--No internet screen-->
             <LinearLayout

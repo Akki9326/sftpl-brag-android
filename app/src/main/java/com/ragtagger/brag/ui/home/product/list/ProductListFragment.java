@@ -112,6 +112,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                 @Override
                 public void run() {
                     if (mFragmentProductListBinding.swipeRefreshLayout.isRefreshing()) {
+                        mFragmentProductListBinding.recycleView.loadMoreComplete(false);
                         return;
                     }
                     if (mProductList.size() != productListSize) {
@@ -391,16 +392,21 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void performSwipeRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ACTION = LOAD_LIST;
-                PAGE_NUM = 1;
-                mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(true);
-                mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
-                checkInternetAndCallApi(false);
-            }
-        }, 1000);
+        if (!mFragmentProductListBinding.recycleView.isLoadingData()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ACTION = LOAD_LIST;
+                    PAGE_NUM = 1;
+                    mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(true);
+                    mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+                    checkInternetAndCallApi(false);
+                }
+            }, 1000);
+        } else {
+            mFragmentProductListBinding.swipeRefreshLayout.setRefreshing(false);
+            mFragmentProductListBinding.recycleView.setIsLoadingMore(true);
+        }
     }
 
 
@@ -558,6 +564,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             return;
         }
 
+        //error code 19 = no data available
         if (error.getHttpCode() == 19 && (mQuery != null && mQuery.length() > 0)) {
             switch (ACTION) {
                 case LOAD_LIST:

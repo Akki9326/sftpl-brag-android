@@ -30,12 +30,10 @@
                 android:orientation="vertical"
                 android:visibility="@{viewModel.noInternet ? View.GONE : View.VISIBLE}">
 
-                <!--List-->
                 <android.support.v4.widget.SwipeRefreshLayout
                     android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}"
                     app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                     app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
@@ -43,10 +41,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
-                        <!--Main screen-->
+                        <!--List-->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}"
                             android:orientation="vertical">
 
                             <android.support.v4.widget.NestedScrollView
@@ -96,33 +95,33 @@
 
 
                         </LinearLayout>
+                        <!--No List-->
+                        <LinearLayout
+                            android:id="@+id/layout_result"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}">
+
+                            <!--<ImageView
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_category"
+                                android:tint="@color/gray_10" />-->
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:tag="@string/font_opensans_regular_id"
+                                android:text="@string/error_empty_collection_list"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/text_size_large" />
+                        </LinearLayout>
                     </LinearLayout>
                 </android.support.v4.widget.SwipeRefreshLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_result"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}">
-
-                    <!--<ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_category"
-                        android:tint="@color/gray_10" />-->
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tag="@string/font_opensans_regular_id"
-                        android:text="@string/error_empty_collection_list"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
             </LinearLayout>
 
             <!--No internet screen-->

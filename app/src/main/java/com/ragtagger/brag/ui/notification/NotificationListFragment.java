@@ -78,6 +78,7 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
                 @Override
                 public void run() {
                     if (mFragmentNotificationListBinding.swipeRefreshLayout.isRefreshing()) {
+                        mFragmentNotificationListBinding.recycleviewNotification.loadMoreComplete(false);
                         return;
                     }
 
@@ -253,10 +254,15 @@ public class NotificationListFragment extends CoreFragment<FragmentNotificationL
 
     @Override
     public void performSwipeToRefresh() {
-        mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(true);
-        ACTION = LOAD_LIST;
-        mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
-        checkInternetAndCallApi(false);
+        if (!mFragmentNotificationListBinding.recycleviewNotification.isLoadingData()) {
+            mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(true);
+            ACTION = LOAD_LIST;
+            mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
+            checkInternetAndCallApi(false);
+        } else {
+            mFragmentNotificationListBinding.swipeRefreshLayout.setRefreshing(false);
+            mFragmentNotificationListBinding.recycleviewNotification.setIsLoadingMore(true);
+        }
     }
 
     @Override

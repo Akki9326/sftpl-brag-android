@@ -67,13 +67,14 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
     private OnLoadMoreListener mOnLoadMoreListener = new OnLoadMoreListener() {
         @Override
         public void onLoadMore() {
+            if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
+                mFragmentMyOrderBinding.recycleview.loadMoreComplete(false);
+                return;
+            }
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (mFragmentMyOrderBinding.swipeRefreshLayout.isRefreshing()) {
-                        return;
-                    }
-
                     if (mList.size() != totalOrderList) {
                         ACTION = LOAD_MORE;
                         checkInternetAndCallApi(false);
@@ -174,7 +175,8 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
         mFragmentMyOrderBinding.recycleview.setPageSize(20);
 
         Utility.applyTypeFace(getActivity(), mFragmentMyOrderBinding.baseLayout);
-        mFragmentMyOrderBinding.linearEmpty.setVisibility(View.GONE);
+        //mFragmentMyOrderBinding.linearEmpty.setVisibility(View.GONE);
+        mMyOrderViewModel.setListVisibility(true);
         mList = new ArrayList<>();
     }
 
@@ -231,10 +233,15 @@ public class MyOrderListFragment extends CoreFragment<FragmentMyOrderBinding, My
 
     @Override
     public void performSwipeRefresh() {
-        mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(true);
-        ACTION = LOAD_LIST;
-        mFragmentMyOrderBinding.recycleview.setIsLoadingMore(true);
-        checkInternetAndCallApi(false);
+        if (!mFragmentMyOrderBinding.recycleview.isLoadingData()) {
+            mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(true);
+            ACTION = LOAD_LIST;
+            mFragmentMyOrderBinding.recycleview.setIsLoadingMore(true);
+            checkInternetAndCallApi(false);
+        } else {
+            mFragmentMyOrderBinding.swipeRefreshLayout.setRefreshing(false);
+            mFragmentMyOrderBinding.recycleview.setIsLoadingMore(true);
+        }
     }
 
     @Override

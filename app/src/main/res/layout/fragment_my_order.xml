@@ -29,7 +29,6 @@
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{viewModel.listVisibility ? View.VISIBLE : View.GONE}"
                 app:colorSchemeResources="@{viewModel.colorSchemeResources}"
                 app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
@@ -40,38 +39,33 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-
                     <com.ragtagger.brag.views.erecyclerview.ERecyclerView
                         android:id="@+id/recycleview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.listVisibility ? View.VISIBLE : View.GONE}" />
+
+                    <LinearLayout
+                        android:id="@+id/linear_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:tag="@string/font_opensans_regular_id"
+                            android:text="@string/error_empty_order_list"
+                            android:textColor="@color/disabled_gray"
+                            android:textSize="@dimen/text_size_large" />
+                    </LinearLayout>
                 </LinearLayout>
             </android.support.v4.widget.SwipeRefreshLayout>
 
-            <LinearLayout
-                android:id="@+id/linear_empty"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
 
-                <!--  <ImageView
-                      android:layout_width="150dp"
-                      android:layout_height="150dp"
-                      android:padding="10dp"
-                      android:src="@drawable/ic_order"
-                      android:tint="@color/gray_10" />-->
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="@string/font_opensans_regular_id"
-                    android:text="@string/error_empty_order_list"
-                    android:textColor="@color/disabled_gray"
-                    android:textSize="@dimen/text_size_small" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

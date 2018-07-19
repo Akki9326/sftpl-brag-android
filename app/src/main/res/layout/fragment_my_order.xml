@@ -25,46 +25,43 @@
             android:orientation="vertical"
             android:visibility="@{!viewModel.noInternet ? View.VISIBLE : View.GONE}">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                app:onRefreshListener="@{viewModel.setOnRefreshListener}">
+                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/linear_order_list"
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+                    app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
                     <com.ragtagger.brag.views.erecyclerview.ERecyclerView
                         android:id="@+id/recycleview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{viewModel.listVisibility ? View.VISIBLE : View.GONE}" />
+                </android.support.v4.widget.SwipeRefreshLayout>
 
-                    <LinearLayout
-                        android:id="@+id/linear_empty"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
+                <LinearLayout
+                    android:id="@+id/linear_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/error_empty_order_list"
-                            android:textColor="@color/disabled_gray"
-                            android:textSize="@dimen/text_size_large" />
-                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/error_empty_order_list"
+                        android:textColor="@color/disabled_gray"
+                        android:textSize="@dimen/text_size_large" />
                 </LinearLayout>
-            </android.support.v4.widget.SwipeRefreshLayout>
 
+            </FrameLayout>
 
         </LinearLayout>
 

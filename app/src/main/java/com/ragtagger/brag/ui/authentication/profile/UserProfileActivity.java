@@ -164,7 +164,6 @@ public class UserProfileActivity extends CoreActivity<UserProfileActivity, Activ
 
     @Override
     public void pushChangeMobileNoFragment() {
-        //pushFragmentInChangeContainer(new ForgetPasswordFragment(), false, false, "Change_Mobile");
         pushFragmentInChangeContainer(ChangeMobileNumberFragment.newInstance(), false, false, "Change_Mobile");
     }
 

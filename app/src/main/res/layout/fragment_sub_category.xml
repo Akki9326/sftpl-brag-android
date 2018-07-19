@@ -35,17 +35,18 @@
                 android:orientation="vertical"
                 android:visibility="@{viewModel.noInternet ? View.GONE : View.VISIBLE}">
 
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/swipe_refresh_layout"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                    app:onRefreshListener="@{viewModel.setOnRefreshListener}">
+                    android:layout_height="match_parent">
 
-                    <LinearLayout
+                    <android.support.v4.widget.SwipeRefreshLayout
+                        android:id="@+id/swipe_refresh_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:background="@android:color/transparent"
+                        app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+                        app:onRefreshListener="@{viewModel.setOnRefreshListener}">
+
 
                         <!--List-->
                         <com.ragtagger.brag.views.erecyclerview.ERecyclerView
@@ -54,18 +55,16 @@
                             android:layout_height="wrap_content"
                             android:fillViewport="true"
                             android:visibility="@{viewModel.noResult ? View.GONE : View.VISIBLE}" />
+                    </android.support.v4.widget.SwipeRefreshLayout>
 
-                        <!--No list-->
-                        <include
-                            android:id="@+id/layout_result"
-                            layout="@layout/layout_result_no_data"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}" />
-                    </LinearLayout>
-
-                </android.support.v4.widget.SwipeRefreshLayout>
-
+                    <!--No list-->
+                    <include
+                        android:id="@+id/layout_result"
+                        layout="@layout/layout_result_no_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="@{viewModel.noResult ? View.VISIBLE : View.GONE}" />
+                </FrameLayout>
 
             </LinearLayout>
             <!--No internet screen-->

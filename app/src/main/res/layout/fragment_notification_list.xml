@@ -23,57 +23,45 @@
             android:orientation="vertical"
             android:visibility="@{viewModel.noInternet ? View.GONE : View.VISIBLE}">
 
-            <!--<LinearLayout
-                android:id="@+id/linear_cart"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/white">-->
+                android:layout_height="match_parent">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:colorSchemeResources="@{viewModel.colorSchemeResources}"
-                app:onRefreshListener="@{viewModel.setOnRefreshListener}">
-
-                <LinearLayout
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:background="@android:color/transparent"
+                    app:colorSchemeResources="@{viewModel.colorSchemeResources}"
+                    app:onRefreshListener="@{viewModel.setOnRefreshListener}">
 
                     <!--List-->
                     <com.ragtagger.brag.views.erecyclerview.ERecyclerView
                         android:id="@+id/recycleview_notification"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{viewModel.listVisibility ? View.VISIBLE :View.GONE}" />
+                </android.support.v4.widget.SwipeRefreshLayout>
 
-                    <!--No List-->
-                    <LinearLayout
-                        android:id="@+id/linear_no_notification"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
+                <!--No List-->
+                <LinearLayout
+                    android:id="@+id/linear_no_notification"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.listVisibility ? View.GONE : View.VISIBLE}">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:tag="@string/font_opensans_regular_id"
-                            android:text="@string/error_empty_notification"
-                            android:textColor="@color/disabled_gray"
-                            android:textSize="@dimen/text_size_large" />
-                    </LinearLayout>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:tag="@string/font_opensans_regular_id"
+                        android:text="@string/error_empty_notification"
+                        android:textColor="@color/disabled_gray"
+                        android:textSize="@dimen/text_size_large" />
                 </LinearLayout>
-            </android.support.v4.widget.SwipeRefreshLayout>
-            <!--</LinearLayout>-->
-
-
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout

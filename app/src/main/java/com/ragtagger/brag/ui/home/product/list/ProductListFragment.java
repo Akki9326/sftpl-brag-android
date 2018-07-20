@@ -232,7 +232,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void afterViewCreated() {
-        Toast.makeText(getActivity(),"Last item",Toast.LENGTH_SHORT).show();
+
         mFragmentProductListBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentProductListBinding.baseLayout);
         Utility.hideSoftkeyboard(getActivity());

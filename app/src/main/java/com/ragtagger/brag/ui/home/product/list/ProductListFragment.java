@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ragtagger.brag.BR;
 import com.ragtagger.brag.R;
@@ -119,7 +120,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                         ACTION = LOAD_MORE;
                         checkInternetAndCallApi(false);
                     } else {
-                        mFragmentProductListBinding.recycleView.loadMoreComplete(true);
+                        mFragmentProductListBinding.recycleView.loadMoreComplete(false);
                     }
                 }
             }, 500);
@@ -231,6 +232,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
 
     @Override
     public void afterViewCreated() {
+        Toast.makeText(getActivity(),"Last item",Toast.LENGTH_SHORT).show();
         mFragmentProductListBinding = getViewDataBinding();
         Utility.applyTypeFace(getBaseActivity(), mFragmentProductListBinding.baseLayout);
         Utility.hideSoftkeyboard(getActivity());
@@ -558,6 +560,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                     mProductListViewModel.setNoInternet(true);
                     break;
                 case LOAD_MORE:
+                    mFragmentProductListBinding.recycleView.loadMoreComplete(false);
                     AlertUtils.showAlertMessage(mActivity, 0, null, null);
                     break;
             }
@@ -573,6 +576,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
                 case LOAD_MORE:
                     mProductListViewModel.setNoResult(false);
                     AlertUtils.showAlertMessage(mActivity, error.getHttpCode(), error.getMessage(), null);
+                    mFragmentProductListBinding.recycleView.loadMoreComplete(false);
                     break;
             }
             return;
@@ -580,6 +584,7 @@ public class ProductListFragment extends CoreFragment<FragmentProductListBinding
             if (ACTION == LOAD_LIST)
                 mProductListViewModel.setNoResult(true);
             mProductListViewModel.setNoInternet(false);
+            mFragmentProductListBinding.recycleView.loadMoreComplete(false);
             return;
         }
 

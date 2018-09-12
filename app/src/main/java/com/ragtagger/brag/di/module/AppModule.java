@@ -151,7 +151,7 @@ public class AppModule {
 
         // Setup Logging interceptor
         HttpLoggingInterceptor mLoggingInterceptor = new HttpLoggingInterceptor();
-        mLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        mLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Interceptor interceptor = new Interceptor() {

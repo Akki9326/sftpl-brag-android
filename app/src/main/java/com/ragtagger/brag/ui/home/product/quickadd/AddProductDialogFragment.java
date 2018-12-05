@@ -243,7 +243,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
             mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
             mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
             mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
-            if (mSizedProduct.getStockData() > 0) {
+            if (mSizedProduct.getStockData() >= 0) {
                 mAddProductDialogViewModel.updateQty(String.valueOf(1));
                 mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
                 mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.text_black));
@@ -258,7 +258,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
             mAddProductDialogViewModel.updateProductName(mSizedProduct.getDescription());
             mAddProductDialogViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
-            mAddProductDialogViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
+            //mAddProductDialogViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
 
 
             mAddProductDialogViewModel.updateProPrice(Utility.getIndianCurrencyPriceFormat(mSizedProduct.getUnitPrice()));
@@ -331,13 +331,17 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
     @Override
     public void afterTextChanged(Editable s) {
         if (s != null) {
-            if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
-                mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
+            /*if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
                 mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
+                mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
                 mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
             } else if (Integer.valueOf(s.toString()) > mSizedProduct.getStockData()) {
                 mDialogFragmentAddProductBinding.textviewMax.setTextColor(Color.RED);
                 mDialogFragmentAddProductBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.gray_transparent));
+                mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
+            }*/
+            if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
+                mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
                 mDialogFragmentAddProductBinding.textviewAddCart.setEnabled(false);
             } else {
                 mDialogFragmentAddProductBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
@@ -347,7 +351,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
         }
     }
 
-    @Override
+    /*@Override
     public void notifyMe() {
         if (Utility.isConnection(getActivity())) {
             mAddProductDialogViewModel.notifyMe(mSizedProduct.getNo());
@@ -355,7 +359,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
             AlertUtils.showAlertMessage(getActivity(), 0, null, null);
 
         }
-    }
+    }*/
 
     @Override
     public void onNotifyMeSuccess(String msg) {

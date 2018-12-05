@@ -91,11 +91,11 @@ public class Constants {
 
     public interface ApiHelper {
 
-        String BASE_URL = "http://brag-b2b.ap-south-1.elasticbeanstalk.com/api/";//live
-        //String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
+        //String BASE_URL = "http://brag-b2b.ap-south-1.elasticbeanstalk.com/api/";//live
+        String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
         //String BASE_URL = "http://192.168.131.144:8084/BRAGWeb/api/"; //local
         //String BASE_URL = "http://192.168.131.134:8084/BRAGWeb/api/"; //karan
-        //String BASE_URL = "http://192.168.131.114:8085/BRAGWeb/api/"; //tushar
+        //String BASE_URL = "http://192.168.131.142:8085/BRAGWeb/api/"; //mihir
 
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;
@@ -122,8 +122,8 @@ public class Constants {
     }
 
     public interface IErrorMessage {
-        String CONTENT_NOT_MODIFIED = "Content not modified";
-        String OTHER_EXCEPTION = "We could not complete your request";
+        String CONTENT_NOT_MODIFIED = "Content not modified.";
+        String OTHER_EXCEPTION = "We could not complete your request.";
         String SOMETHING_WRONG_ERROR = "Something went wrong!!\nPlease try again later.";
 
         String IO_EXCEPTION = "Something went wrong!!\nPlease try again later.";

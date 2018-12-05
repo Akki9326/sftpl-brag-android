@@ -144,6 +144,7 @@
     <string name="hint_gst_in_ast"><font size="12">GSTIN Number*</font></string>
     <string name="hint_state_ast"><font size="12">State*</font></string>
     <string name="hint_email_ast"><font size="12">Email*</font></string>
+    <string name="hint_email"><font size="12">Email</font></string>
     <string name="hint_city_ast"><font size="12">City*</font></string>
     <string name="hint_password_ast"><font size="12">Password*</font></string>
     <string name="hint_pincode_ast"><font size="12">Pincode*</font></string>

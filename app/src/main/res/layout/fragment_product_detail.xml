@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingBottom="20dp"
                 android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:paddingRight="5dp"
+                android:paddingBottom="20dp">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -167,8 +167,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="50dp"
                             android:layout_marginTop="10dp"
+                            android:layout_marginBottom="50dp"
                             android:background="@color/filter_bg_color"
                             android:orientation="vertical"
                             android:padding="10dp">
@@ -203,7 +203,7 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
-                <TextView
+                <!--<TextView
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="@color/gray"
@@ -213,14 +213,14 @@
                     android:text="@string/label_notify_me"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_medium"
-                    android:visibility="@{viewModel.notify ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{viewModel.notify ? View.VISIBLE : View.GONE}" /-->>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="@color/gray"
-                    android:orientation="horizontal"
-                    android:visibility="@{viewModel.notify ? View.GONE : View.VISIBLE}">
+                    android:orientation="horizontal">
+                    <!--android:visibility="@{viewModel.notify ? View.GONE : View.VISIBLE}"-->
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -270,10 +270,10 @@
                                 android:maxLength="3"
                                 android:onClick="@{viewModel.onEditTextQtyClick()}"
                                 android:onEditorAction="@{viewModel.onEditorActionHide}"
-                                android:paddingBottom="5dp"
                                 android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
                                 android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="5dp"
                                 android:tag="@string/font_opensans_regular_id"
                                 android:text="@{viewModel.qty}"
                                 android:textSize="@dimen/text_size_medium" />

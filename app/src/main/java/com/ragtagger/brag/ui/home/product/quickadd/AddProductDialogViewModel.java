@@ -11,7 +11,6 @@ import com.ragtagger.brag.data.model.ApiError;
 import com.ragtagger.brag.data.model.requests.QAddToCart;
 import com.ragtagger.brag.data.model.response.RAddToCart;
 import com.ragtagger.brag.data.remote.ApiResponse;
-import com.ragtagger.brag.data.model.response.RGeneralData;
 import com.ragtagger.brag.ui.core.CoreViewModel;
 import com.ragtagger.brag.utils.Constants;
 
@@ -28,7 +27,7 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
     private final ObservableField<String> qty = new ObservableField<>();
     private final ObservableField<String> proPrice = new ObservableField<>();
     private final ObservableField<String> productName = new ObservableField<>();
-    private final ObservableField<Boolean> notify = new ObservableField<>();
+    /*private final ObservableField<Boolean> notify = new ObservableField<>();*/
     private final ObservableField<Boolean> hasSizeGuide = new ObservableField<>();
 
     public AddProductDialogViewModel(IDataManager dataManager) {
@@ -67,13 +66,13 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
         return productName;
     }
 
-    public ObservableField<Boolean> getNotify() {
+    /*public ObservableField<Boolean> getNotify() {
         return notify;
     }
 
     public void updateNotifyMe(boolean notify) {
         this.notify.set(notify);
-    }
+    }*/
 
     public ObservableField<Boolean> getHasSizeGuide() {
         return hasSizeGuide;
@@ -122,14 +121,14 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
         getNavigator().afterTextChanged(s);
     }
 
-    public View.OnClickListener onNotifyMeClick() {
+    /*public View.OnClickListener onNotifyMeClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 getNavigator().notifyMe();
             }
         };
-    }
+    }*/
 
     public void addToCart(String itemId, int qty) {
         Call<RAddToCart> callAddToCart = getDataManager().addToCart(new QAddToCart(itemId, qty));
@@ -157,7 +156,7 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
         });
     }
 
-    public void notifyMe(String itemNo) {
+    /*public void notifyMe(String itemNo) {
         Call<RGeneralData> mCallNotifyMe = getDataManager().notifyMe(itemNo);
         mCallNotifyMe.enqueue(new ApiResponse<RGeneralData>() {
             @Override
@@ -175,5 +174,5 @@ public class AddProductDialogViewModel extends CoreViewModel<AddProductDialogNav
                 getNavigator().onApiError(t);
             }
         });
-    }
+    }*/
 }

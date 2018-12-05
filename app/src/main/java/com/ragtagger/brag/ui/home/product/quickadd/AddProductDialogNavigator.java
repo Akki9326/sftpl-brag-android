@@ -23,7 +23,7 @@ public interface AddProductDialogNavigator extends CoreNavigator {
 
     void afterTextChanged(Editable s);
 
-    void notifyMe();
+    //void notifyMe();
 
     void onNotifyMeSuccess(String msg);
 

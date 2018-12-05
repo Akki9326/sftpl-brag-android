@@ -99,7 +99,7 @@
                     android:id="@+id/edittext_email"
                     style="@style/NormalEditText"
                     android:background="@null"
-                    android:hint="@string/hint_email_ast"
+                    android:hint="@string/hint_email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLength="@integer/max_length"

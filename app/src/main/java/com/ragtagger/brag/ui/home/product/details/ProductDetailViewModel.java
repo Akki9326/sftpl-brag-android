@@ -34,7 +34,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
     private final ObservableField<String> productProPrice = new ObservableField<>();
     private final ObservableField<String> productProDetail = new ObservableField<>();
     private final ObservableField<String> productProShortDetail = new ObservableField<>();
-    private final ObservableField<Boolean> notify = new ObservableField<>();
+    /*private final ObservableField<Boolean> notify = new ObservableField<>();*/
     private final ObservableField<Boolean> hasSizeGuide = new ObservableField<>();
     ObservableField<Boolean> isLoading = new ObservableField<>();
 
@@ -90,13 +90,13 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         this.productProDetail.set(proDetail);
     }
 
-    public ObservableField<Boolean> getNotify() {
+    /*public ObservableField<Boolean> getNotify() {
         return notify;
     }
 
     public void updateNotifyMe(boolean notify) {
         this.notify.set(notify);
-    }
+    }*/
 
     public ObservableField<Boolean> getHasSizeGuide() {
         return hasSizeGuide;
@@ -160,14 +160,14 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         };
     }
 
-    public View.OnClickListener onNotifyMeClick() {
+   /* public View.OnClickListener onNotifyMeClick() {
         return new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 getNavigator().performClickNotifyMe();
             }
         };
-    }
+    }*/
 
 
     public void addToCart(String itemId, int qty) {
@@ -196,7 +196,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
         });
     }
 
-    public void notifyMe(String itemNo) {
+    /*public void notifyMe(String itemNo) {
         Call<RGeneralData> mCallNotifyMe = getDataManager().notifyMe(itemNo);
         mCallNotifyMe.enqueue(new ApiResponse<RGeneralData>() {
             @Override
@@ -214,7 +214,7 @@ public class ProductDetailViewModel extends CoreViewModel<ProductDetailNavigator
                 getNavigator().onApiError(t);
             }
         });
-    }
+    }*/
 
     public void getProductDetail(String id) {
         Call<RProduct> productCall = getDataManager().getProductDetail(id);

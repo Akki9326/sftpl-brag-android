@@ -35,7 +35,7 @@ public interface ProductDetailNavigator extends CoreNavigator {
 
     void updatePushCart();
 
-    void performClickNotifyMe();
+    //void performClickNotifyMe();
 
     void onNotifyMeSuccess(String msg);
 

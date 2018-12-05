@@ -203,9 +203,9 @@ public class UpdateProfileViewModel extends CoreViewModel<UpdateProfileNavigator
     void validateUpdateProfileForm(Activity activity, EditText firstName, EditText email, EditText gstIn, TextView state) {
         if (Validation.isEmpty(firstName)) {
             getNavigator().invalidProfileForm(activity.getString(R.string.error_please_enter_first_name));
-        } else if (Validation.isEmpty(email)) {
+        }/* else if (Validation.isEmpty(email)) {
             getNavigator().invalidProfileForm(activity.getString(R.string.error_please_email));
-        } else if (!Validation.isEmailValid(email)) {
+        }*/ else if (!Validation.isEmpty(email) && !Validation.isEmailValid(email)) {
             getNavigator().invalidProfileForm(activity.getString(R.string.error_email_valid));
         } else if ((getDataManager().getUserData().getUserType() != Constants.UserType.SALES_REPRESENTATIVE.getId()) && Validation.isEmpty(gstIn)) {
             getNavigator().invalidProfileForm(activity.getString(R.string.error_enter_gst));

@@ -307,7 +307,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
             mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
             updateQtyCursor();
-            if (mSizedProduct.getStockData() > 0) {
+            if (mSizedProduct.getStockData() >= 0) {
                 mQuality = 1;
                 mFragmentProductDetailBinding.textViewQty.setText(String.valueOf(1));
                 mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
@@ -318,7 +318,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
             mProductDetailViewModel.updateProductProDetail(mSizedProduct.getDescription());
             mProductDetailViewModel.updateProductProShortDetail(mSizedProduct.getDescription2Modified());
-            mProductDetailViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
+            //mProductDetailViewModel.updateNotifyMe(mSizedProduct.getStockData() <= 0);
             mProductDetailViewModel.updateProductProPrice(Utility.getIndianCurrencyPriceFormat(mSizedProduct.getUnitPrice()));
             mProductDetailViewModel.updateMaxQty(String.valueOf(mSizedProduct.getStockData()));
         }
@@ -372,12 +372,17 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
     @Override
     public void afterTextChanged(Editable s) {
         if (s != null) {
-            if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
+            /*if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
                 mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
                 mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
                 mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
             } else if (Integer.valueOf(s.toString()) > mSizedProduct.getStockData()) {
                 mFragmentProductDetailBinding.textViewAvailQty.setTextColor(Color.RED);
+                mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
+                mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
+            }*/
+            if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
+                mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
                 mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
                 mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
             } else {
@@ -396,7 +401,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void performClickPlus() {
-        if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()) < mSizedProduct.getStockData()) {//if (mQuality < mSizedProduct.getStockData()) {
+        /*if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()) < mSizedProduct.getStockData()) {//if (mQuality < mSizedProduct.getStockData()) {
             mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality++;
             mFragmentProductDetailBinding.textViewQty.setText(String.valueOf(mQuality));
@@ -405,13 +410,23 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
             mFragmentProductDetailBinding.textViewQty.setText(String.valueOf(1));
         } else {
             ((CoreActivity) getActivity()).showToast(getString(R.string.error_no_more_quantity));
+        }*/
+        if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0) {
+            mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
+            mQuality++;
+            mFragmentProductDetailBinding.textViewQty.setText(String.valueOf(mQuality));
+        } else if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() == 0) {
+            mQuality = 1;
+            mFragmentProductDetailBinding.textViewQty.setText(String.valueOf(1));
         }
+
         updateQtyCursor();
     }
 
     @Override
     public void performClickMinus() {
         if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()) == 1) {
+            //do nothing
         } else if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0) {
             mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality--;
@@ -460,14 +475,14 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         }
     }
 
-    @Override
+    /*@Override
     public void performClickNotifyMe() {
         if (Utility.isConnection(getActivity())) {
             mProductDetailViewModel.notifyMe(mSizedProduct.getNo());
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
-    }
+    }*/
 
     @Override
     public void onNotifyMeSuccess(String msg) {

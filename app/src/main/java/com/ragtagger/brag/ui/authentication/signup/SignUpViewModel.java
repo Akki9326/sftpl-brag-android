@@ -136,9 +136,9 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
                             EditText address, EditText city, EditText pincode, TextView state, boolean isSalesRepresentative) {
         if (Validation.isEmpty(firstName)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_please_enter_first_name));
-        } else if (Validation.isEmpty(email)) {
+        } /*else if (Validation.isEmpty(email)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_please_email));
-        } else if (!Validation.isEmailValid(email)) {
+        } */ else if (!Validation.isEmpty(email) && !Validation.isEmailValid(email)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_email_valid));
         } else if (Validation.isEmpty(mobile)) {
             getNavigator().invalidSignUpForm(activity.getString(R.string.error_enter_mobile));
@@ -176,9 +176,9 @@ public class SignUpViewModel extends CoreViewModel<SignUpNavigator> {
                        DataState state, DataSaleType salesType, DataChannel channel, QAddAddress mAddress) {
         QSignUp signInRequest;
         if (userType == Constants.UserType.SALES_REPRESENTATIVE.getId()) {
-            signInRequest = new QSignUp(firstname, lastname, email, mobilenumber, password, userType, gstin, state, salesType, channel);
+            signInRequest = new QSignUp(firstname, lastname, email != null && email.equals("") ? null : email, mobilenumber, password, userType, gstin, state, salesType, channel);
         } else {
-            signInRequest = new QSignUp(firstname, lastname, email, mobilenumber, password, userType, gstin, state, salesType, channel, mAddress);
+            signInRequest = new QSignUp(firstname, lastname, email != null && email.equals("") ? null : email, mobilenumber, password, userType, gstin, state, salesType, channel, mAddress);
         }
         Call<RSignUp> mSignUpResponeCall = getDataManager().userSignIn(signInRequest);
         mSignUpResponeCall.enqueue(new ApiResponse<RSignUp>() {

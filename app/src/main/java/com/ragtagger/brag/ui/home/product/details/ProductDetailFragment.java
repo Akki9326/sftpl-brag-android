@@ -9,7 +9,6 @@ package com.ragtagger.brag.ui.home.product.details;
  */
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -381,6 +380,10 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
                 mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
                 mFragmentProductDetailBinding.textviewAddCart.setEnabled(false);
             }*/
+           /* //not allow to enter 0
+            if (s.toString().startsWith("0")) {
+                mFragmentProductDetailBinding.textViewQty.setText(s.toString().replace("0", ""));
+            }*/
             if (s.toString().trim().length() == 0 || Integer.valueOf(s.toString()) == 0) {
                 mFragmentProductDetailBinding.textViewAvailQty.setTextColor(getResources().getColor(R.color.gray_transparent));
                 mFragmentProductDetailBinding.textviewAddCart.setTextColor(getResources().getColor(R.color.disabled_gray));
@@ -411,7 +414,7 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
         } else {
             ((CoreActivity) getActivity()).showToast(getString(R.string.error_no_more_quantity));
         }*/
-        if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0) {
+        if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && !mFragmentProductDetailBinding.textViewQty.getText().toString().equals("999999")) {
             mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality++;
             mFragmentProductDetailBinding.textViewQty.setText(String.valueOf(mQuality));
@@ -425,8 +428,11 @@ public class ProductDetailFragment extends CoreFragment<FragmentProductDetailBin
 
     @Override
     public void performClickMinus() {
+
         if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0 && Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString()) == 1) {
             //do nothing
+        } else if (mFragmentProductDetailBinding.textViewQty.getText().toString().trim().length() == 0 || Integer.valueOf(mFragmentProductDetailBinding.textViewQty.getText().toString()) == 0) {
+//do nothing
         } else if (mFragmentProductDetailBinding.textViewQty.getText().toString().length() > 0) {
             mQuality = Integer.parseInt(mFragmentProductDetailBinding.textViewQty.getText().toString());
             mQuality--;

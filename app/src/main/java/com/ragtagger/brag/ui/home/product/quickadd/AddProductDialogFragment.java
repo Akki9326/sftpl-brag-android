@@ -262,7 +262,7 @@ public class AddProductDialogFragment extends CoreDialogFragment<DialogFragmentA
 
 
             mAddProductDialogViewModel.updateProPrice(Utility.getIndianCurrencyPriceFormat(mSizedProduct.getUnitPrice()));
-            mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+            mDialogFragmentAddProductBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
         }
     }
 

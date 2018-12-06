@@ -95,8 +95,7 @@ public class Constants {
         String BASE_URL = "http://27.54.166.146:8090/BRAGWeb/api/";//demo
         //String BASE_URL = "http://192.168.131.144:8084/BRAGWeb/api/"; //local
         //String BASE_URL = "http://192.168.131.134:8084/BRAGWeb/api/"; //karan
-        //String BASE_URL = "http://192.168.131.142:8085/BRAGWeb/api/"; //mihir
-
+//        String BASE_URL = "http://192.168.131.140:8085/BRAGWeb/api/"; //mihir
         String API_VERSION = "v1/";
         String APP_VERSION = BuildConfig.VERSION_NAME;
         String FULL_URL = BASE_URL + API_VERSION;

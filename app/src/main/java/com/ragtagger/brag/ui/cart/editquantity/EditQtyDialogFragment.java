@@ -95,7 +95,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
         Utility.applyTypeFace(getActivity(), mDialogFragmentEditQtyBinding.baseLayout);
 
         mEditQtyDialogViewModel.setAvailableStock(numProductStock);
-        mDialogFragmentEditQtyBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+        mDialogFragmentEditQtyBinding.edittextQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
         mDialogFragmentEditQtyBinding.edittextQty.setText(String.valueOf(qty));
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -135,7 +135,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
     @Override
     public void performActionAfterTextChanged(Editable s) {
         if (s != null) {
-            if (s.toString().trim().length() == 0 || new Integer(s.toString()).intValue() == 0) {
+            /*if (s.toString().trim().length() == 0 || new Integer(s.toString()).intValue() == 0) {
                 mDialogFragmentEditQtyBinding.textviewMax.setTextColor(getResources().getColor(R.color.text_black));
                 mDialogFragmentEditQtyBinding.textviewDone.setTextColor(getResources().getColor(R.color.gray_transparent));
                 isValidQty = false;
@@ -150,7 +150,7 @@ public class EditQtyDialogFragment extends CoreDialogFragment<DialogFragmentEdit
                 mDialogFragmentEditQtyBinding.textviewDone.setTextColor(getResources().getColor(R.color.text_black));
                 isValidQty = true;
                 mDialogFragmentEditQtyBinding.textviewDone.setEnabled(true);
-            }
+            }*/
         }
     }
 

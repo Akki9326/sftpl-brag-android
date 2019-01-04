@@ -174,7 +174,7 @@
                                 android:gravity="center"
                                 android:inputType="number"
                                 android:maxWidth="120dp"
-                                android:maxLength="2"
+                                android:maxLength="6"
                                 android:onClick="@{viewModel.onEditQtyClick()}"
                                 android:paddingLeft="15dp"
                                 android:paddingTop="2dp"

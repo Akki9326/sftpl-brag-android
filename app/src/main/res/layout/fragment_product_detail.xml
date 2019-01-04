@@ -197,11 +197,7 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+
 
                 <!--<TextView
                     android:layout_width="match_parent"
@@ -213,11 +209,12 @@
                     android:text="@string/label_notify_me"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_medium"
-                    android:visibility="@{viewModel.notify ? View.VISIBLE : View.GONE}" /-->>
+                    android:visibility="@{viewModel.notify ? View.VISIBLE : View.GONE}" /-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+                    android:layout_alignParentBottom="true"
                     android:background="@color/gray"
                     android:orientation="horizontal">
                     <!--android:visibility="@{viewModel.notify ? View.GONE : View.VISIBLE}"-->
@@ -239,10 +236,11 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+
                             android:gravity="center"
+
                             android:orientation="horizontal">
 
                             <ImageView
@@ -257,8 +255,11 @@
                                 android:tint="@color/gray" />
 
                             <EditText
+
                                 android:id="@+id/textView_qty"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="5dp"
@@ -267,7 +268,7 @@
                                 android:cursorVisible="false"
                                 android:imeOptions="actionDone"
                                 android:inputType="number"
-                                android:maxLength="3"
+                                android:maxLength="6"
                                 android:onClick="@{viewModel.onEditTextQtyClick()}"
                                 android:onEditorAction="@{viewModel.onEditorActionHide}"
                                 android:paddingLeft="10dp"
@@ -310,7 +311,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
-            </LinearLayout>
+
 
             <View
                 android:id="@+id/dummay"

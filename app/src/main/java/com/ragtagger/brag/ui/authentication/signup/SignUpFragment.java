@@ -189,7 +189,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(),
                     mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
-                    mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
+                    mFragmentSignUpBinding.edittextEmail.getText().toString().trim().length() == 0 ? null : mFragmentSignUpBinding.edittextEmail.getText().toString().trim(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
                     , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType,
                     mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(),
                     mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState,
@@ -211,7 +211,7 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(),
                     mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
-                    mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
+                    mFragmentSignUpBinding.edittextEmail.getText().toString().trim().length()==0?null:mFragmentSignUpBinding.edittextEmail.getText().toString().trim(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
                     , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType,
                     mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(),
                     mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState,
@@ -369,8 +369,8 @@ public class SignUpFragment extends CoreFragment<FragmentSignUpBinding, SignUpVi
                         mSelectedState, Integer.parseInt(mFragmentSignUpBinding.edittextPincode.getText().toString()));
             showProgress();
             mSignUpViewModel.callSignUpApi(mFragmentSignUpBinding.edittextFirstname.getText().toString(), mFragmentSignUpBinding.edittextLastname.getText().toString().trim(),
-                    mFragmentSignUpBinding.edittextEmail.getText().toString(), mFragmentSignUpBinding.edittextMobileNum.getText().toString()
-                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType,
+                    mFragmentSignUpBinding.edittextEmail.getText().toString().trim().length() == 0 ? null : mFragmentSignUpBinding.edittextEmail.getText().toString().trim(), mFragmentSignUpBinding.edittextMobileNum.getText().toString().trim()
+                    , mFragmentSignUpBinding.edittextPassword.getText().toString(), mSelectedUserType, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mFragmentSignUpBinding.edittextGstIn.getText().toString().trim(), mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedState, mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedSalesType,
                     mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mSelectedChannel,
                     mSelectedUserType == Constants.UserType.SALES_REPRESENTATIVE.getId() ? null : mAddress);
         }

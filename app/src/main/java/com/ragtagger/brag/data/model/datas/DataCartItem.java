@@ -43,6 +43,15 @@ public class DataCartItem implements Parcelable {
     private List<String> images = null;
     private Boolean alreadyInCart;
     private String colorHexCode;
+    private String itemId;
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
 
     public String getNo() {
         return no;

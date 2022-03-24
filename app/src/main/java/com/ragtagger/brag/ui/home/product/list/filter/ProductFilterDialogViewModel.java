@@ -84,6 +84,30 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
         };
     }
 
+    public static List<DataFilter.ColorCode> getColorCodeList(HashMap<String, DataFilter.ColorCode> mMapSelectedColor,
+                                                              final DataFilter.Filter appliedFilter, RFilter rFilter) {
+        List<DataFilter.ColorCode> colorCodeList = new ArrayList<>();
+
+        if (appliedFilter != null) {
+            if (appliedFilter.getColorCodes() != null && appliedFilter.getColorCodes().size() > 0)
+                for (DataFilter.ColorCode item : appliedFilter.getColorCodes())
+                    mMapSelectedColor.put(item.getKey(), item);
+
+            for (DataFilter.ColorCode color : rFilter.getData().getFilter().getColorCodes()) {
+                if (!Common.isNotNullOrEmpty(color.getHash()))
+                    color.setHash("#000000");
+
+                if (mMapSelectedColor.containsKey(color.getKey()))
+                    color.setSelected(true);
+                colorCodeList.add(color);
+            }
+        } else {
+            colorCodeList = rFilter.getData().getFilter().getColorCodes();
+        }
+
+        return colorCodeList;
+    }
+
     public void getFilter(String category, String subCategory, String seasonCode, final DataFilter.Filter appliedFilter) {
         final QGetFilter filter = new QGetFilter();
         filter.setCategory(category);
@@ -98,27 +122,8 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
                     if (rFilter.getData() != null && rFilter.getData().getFilter() != null) {
                         getNavigator().onSetData();
                         if (rFilter.getData().getFilter().getColorCodes() != null && rFilter.getData().getFilter().getColorCodes().size() > 0) {
-
-                            List<DataFilter.ColorCode> colorCodeList = new ArrayList<>();
                             HashMap<String, DataFilter.ColorCode> mMapSelectedColor = new HashMap<>();
-
-                            if (appliedFilter != null) {
-                                if (appliedFilter.getColorCodes() != null && appliedFilter.getColorCodes().size() > 0)
-                                    for (DataFilter.ColorCode item : appliedFilter.getColorCodes())
-                                        mMapSelectedColor.put(item.getKey(), item);
-
-                                for (DataFilter.ColorCode color : rFilter.getData().getFilter().getColorCodes()) {
-                                    if (!Common.isNotNullOrEmpty(color.getHash()))
-                                        color.setHash("#000000");
-
-                                    if (mMapSelectedColor.containsKey(color.getKey()))
-                                        color.setSelected(true);
-                                    colorCodeList.add(color);
-                                }
-                            } else {
-                                colorCodeList = rFilter.getData().getFilter().getColorCodes();
-                            }
-
+                            List<DataFilter.ColorCode> colorCodeList = getColorCodeList(mMapSelectedColor, appliedFilter, rFilter);
                             getNavigator().setColorFilter(colorCodeList, mMapSelectedColor);
                         } else {
                             getNavigator().noColorFilter();
@@ -127,8 +132,8 @@ public class ProductFilterDialogViewModel extends CoreViewModel<ProductFilterDia
                         if (rFilter.getData().getFilter().getSizeCodes() != null && rFilter.getData().getFilter().getSizeCodes().size() > 0) {
                             List<DataFilter.SizeCode> sizeModels = new ArrayList<>();
                             HashMap<String, DataFilter.SizeCode> mMapSelectedSize = new HashMap<>();
-                            if (appliedFilter != null) {
 
+                            if (appliedFilter != null) {
                                 if (appliedFilter.getSizeCodes() != null && appliedFilter.getSizeCodes().size() > 0)
                                     for (String item : appliedFilter.getSizeCodes())
                                         mMapSelectedSize.put(item, new DataFilter.SizeCode(item, true));

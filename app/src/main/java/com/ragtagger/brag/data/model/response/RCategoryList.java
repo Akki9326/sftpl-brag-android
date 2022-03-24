@@ -15,37 +15,8 @@ import com.ragtagger.brag.data.model.datas.DataCategoryList;
  */
 
 
-public class RCategoryList {
-
-    private boolean status;
-    private Integer errorCode;
-    private String message;
+public class RCategoryList extends BaseResponse {
     private DataCategoryList data;
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public DataCategoryList getData() {
         return data;
     }

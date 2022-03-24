@@ -18,35 +18,8 @@ import java.util.List;
  */
 
 
-public class RCartList {
-    private boolean status;
-    private Integer errorCode;
-    private String message;
+public class RCartList extends BaseResponse {
     private List<DataCart> data;
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public List<DataCart> getData() {
         return data;

@@ -20,20 +20,14 @@ public class DataOrderDetail {
 
     private String id;
     private String order_id;
-    private String product_name;
-    private String product_image_url;
-    private String product_qty;
-    private String product_price;
     private DataAddress address;
+    private DataOrderProductDetail dataOrderProductDetail;
 
     public DataOrderDetail(String id, String order_id, String product_name
             , String product_image_url, String product_qty, String product_price) {
         this.id = id;
         this.order_id = order_id;
-        this.product_name = product_name;
-        this.product_image_url = product_image_url;
-        this.product_qty = product_qty;
-        this.product_price = product_price;
+        this.dataOrderProductDetail = new DataOrderProductDetail(product_name, product_image_url, product_qty, product_price);
     }
 
     public String getId() {
@@ -44,48 +38,20 @@ public class DataOrderDetail {
         this.id = id;
     }
 
+    public DataOrderProductDetail getDataOrderProductDetail() {
+        return dataOrderProductDetail;
+    }
+
+    public void setDataOrderProductDetail(DataOrderProductDetail dataOrderProductDetail) {
+        this.dataOrderProductDetail = dataOrderProductDetail;
+    }
+
     public String getOrder_id() {
         return order_id;
     }
 
     public void setOrder_id(String order_id) {
         this.order_id = order_id;
-    }
-
-    public String getProduct_name() {
-        return product_name;
-    }
-
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
-    }
-
-    public String getProduct_image_url() {
-        return product_image_url;
-    }
-
-    public void setProduct_image_url(String product_image_url) {
-        this.product_image_url = product_image_url;
-    }
-
-    public String getProduct_qty() {
-        return product_qty;
-    }
-
-    public void setProduct_qty(String product_qty) {
-        this.product_qty = product_qty;
-    }
-
-    public String getProduct_price() {
-        return product_price;
-    }
-
-    public void setProduct_price(String product_price) {
-        this.product_price = product_price;
-    }
-
-    public String getProductPriceWithSym() {
-        return Utility.getIndianCurrencyPriceFormat(Integer.parseInt(getProduct_price()));
     }
 
     public DataAddress getAddress() {

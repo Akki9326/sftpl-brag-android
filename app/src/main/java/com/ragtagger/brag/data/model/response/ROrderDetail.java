@@ -16,11 +16,8 @@ import com.ragtagger.brag.data.model.datas.DataMyOrder;
  */
 
 
-public class ROrderDetail {
+public class ROrderDetail extends BaseResponse {
 
-    private boolean status;
-    private Integer errorCode;
-    private String message;
     private DataMyOrder data;
 
     public DataMyOrder getData() {
@@ -30,29 +27,4 @@ public class ROrderDetail {
     public void setData(DataMyOrder data) {
         this.data = data;
     }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
 }

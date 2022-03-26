@@ -15,36 +15,8 @@ import com.ragtagger.brag.data.model.datas.DataCollectionList;
  */
 
 
-public class RCollectionList {
-
-    private boolean status;
-    private Integer errorCode;
-    private String message;
+public class RCollectionList extends BaseResponse {
     private DataCollectionList data;
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public DataCollectionList getData() {
         return data;

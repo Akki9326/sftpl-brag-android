@@ -14,35 +14,8 @@ package com.ragtagger.brag.data.model.response;
  */
 
 
-public class RNotification {
-    private boolean status;
-    private String message;
-    private Integer errorCode;
+public class RNotification extends BaseResponse {
     private RNotificationList data;
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
 
     public RNotificationList getData() {
         return data;

@@ -25,81 +25,81 @@ public class AppPrefsManager implements IPreferenceManager {
     private static final String NOTIFICATION_ID ="notificationid" ;
     private static final String USER_DATA = "userdata";
 
-    private final SharedPreferences mPref;
+    private final SharedPreferences sharedPreferences;
 
     @Inject
     public AppPrefsManager(Context context, @PreferenceInfo String prefFileName) {
-        this.mPref = context.getSharedPreferences(prefFileName,Context.MODE_PRIVATE);
+        this.sharedPreferences = context.getSharedPreferences(prefFileName,Context.MODE_PRIVATE);
     }
 
     @Override
     public void setIsLogin(boolean isLogin) {
-        mPref.edit().putBoolean(IS_LOGIN, isLogin).commit();
+        sharedPreferences.edit().putBoolean(IS_LOGIN, isLogin).commit();
     }
 
     @Override
     public boolean isLogin() {
-        return mPref.getBoolean(IS_LOGIN, false);
+        return sharedPreferences.getBoolean(IS_LOGIN, false);
     }
 
     @Override
     public void setAccessToken(String token) {
-        mPref.edit().putString(ACCESS_TOKEN, token).commit();
+        sharedPreferences.edit().putString(ACCESS_TOKEN, token).commit();
     }
 
     @Override
     public String getAccessToken() {
-        return mPref.getString(ACCESS_TOKEN, "");
+        return sharedPreferences.getString(ACCESS_TOKEN, "");
     }
 
     @Override
     public void setDeviceToken(String deviceToken) {
-        mPref.edit().putString(DEVICE_TOKEN, deviceToken).commit();
+        sharedPreferences.edit().putString(DEVICE_TOKEN, deviceToken).commit();
     }
 
     @Override
     public String getDeviceToken() {
-        return mPref.getString(DEVICE_TOKEN, "");
+        return sharedPreferences.getString(DEVICE_TOKEN, "");
     }
 
     @Override
     public void setNotificationId(int notificationId) {
-        mPref.edit().putInt(NOTIFICATION_ID, notificationId).commit();
+        sharedPreferences.edit().putInt(NOTIFICATION_ID, notificationId).commit();
     }
 
     @Override
     public int getNotificationId() {
-        return mPref.getInt(NOTIFICATION_ID, 0);
+        return sharedPreferences.getInt(NOTIFICATION_ID, 0);
     }
 
     @Override
     public void setDeviceTypeAndOsVer(String deviceName, String osVersion) {
-        mPref.edit().putString(DEVICE_TYPE, deviceName).commit();
-        mPref.edit().putString(OS_VERSION, osVersion).commit();
+        sharedPreferences.edit().putString(DEVICE_TYPE, deviceName).commit();
+        sharedPreferences.edit().putString(OS_VERSION, osVersion).commit();
     }
 
     @Override
     public String getOsVersion() {
-        return mPref.getString(OS_VERSION, "");
+        return sharedPreferences.getString(OS_VERSION, "");
     }
 
     @Override
     public String getDeviceType() {
-        return mPref.getString(DEVICE_TYPE, "");
+        return sharedPreferences.getString(DEVICE_TYPE, "");
     }
 
     @Override
     public void setUserData(String s) {
-        mPref.edit().putString(USER_DATA, s).commit();
+        sharedPreferences.edit().putString(USER_DATA, s).commit();
     }
 
     @Override
     public DataUser getUserData() {
-        return new Gson().fromJson(mPref.getString(USER_DATA, ""), DataUser.class);
+        return new Gson().fromJson(sharedPreferences.getString(USER_DATA, ""), DataUser.class);
     }
 
     @Override
     public void logout() {
-        mPref.edit().clear().commit();
+        sharedPreferences.edit().clear().commit();
     }
 }

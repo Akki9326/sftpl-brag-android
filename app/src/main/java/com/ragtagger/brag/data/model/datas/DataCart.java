@@ -21,7 +21,6 @@ public class DataCart implements Parcelable {
 
 
     private String id;
-    private String itemId;
     private int quantity;
     private long createdDate;
     private DataCartItem item;
@@ -32,14 +31,6 @@ public class DataCart implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
     }
 
     public int getQuantity() {
@@ -74,7 +65,7 @@ public class DataCart implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
-        dest.writeString(this.itemId);
+        dest.writeString(this.item.getItemId());
         dest.writeInt(this.quantity);
         dest.writeLong(this.createdDate);
         dest.writeParcelable(this.item, flags);
@@ -85,10 +76,11 @@ public class DataCart implements Parcelable {
 
     protected DataCart(Parcel in) {
         this.id = in.readString();
-        this.itemId = in.readString();
+        String itemId = in.readString();
         this.quantity = in.readInt();
         this.createdDate = in.readLong();
         this.item = in.readParcelable(DataCartItem.class.getClassLoader());
+        this.item.setItemId(itemId);
     }
 
     public static final Parcelable.Creator<DataCart> CREATOR = new Parcelable.Creator<DataCart>() {

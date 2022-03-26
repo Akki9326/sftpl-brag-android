@@ -28,7 +28,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends ToolbarActivity<MainActivity, ActivityMainBinding, MainViewModel> implements MainNavigator, HasSupportFragmentInjector {
-
     @Inject
     MainViewModel mMainViewModel;
 
@@ -167,7 +166,4 @@ public class MainActivity extends ToolbarActivity<MainActivity, ActivityMainBind
     public void onApiError(ApiError error) {
 
     }
-
-
 }
-

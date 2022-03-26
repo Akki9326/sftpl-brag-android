@@ -193,7 +193,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
         if (Utility.isConnection(getActivity())) {
             showProgress();
             mCartItemDeleteData = responeData;
-            cartViewModel.callRemoveFromCartApi(responeData.getItemId());
+            cartViewModel.callRemoveFromCartApi(responeData.getItem().getItemId());
         } else {
             AlertUtils.showAlertMessage(getActivity(), 0, null, null);
         }
@@ -202,7 +202,7 @@ public class CartFragment extends CoreFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onQtyClick(int position, DataCart responeData) {
         positionQty = mList.indexOf(responeData);
-        mEditQtyItemNo = mList.get(positionQty).getItemId();
+        mEditQtyItemNo = mList.get(positionQty).getItem().getItemId();
         mEditQtyItemId = mList.get(positionQty).getId();
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.BUNDLE_QTY, mList.get(positionQty).getQuantity());

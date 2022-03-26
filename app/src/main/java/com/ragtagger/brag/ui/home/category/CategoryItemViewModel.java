@@ -24,14 +24,14 @@ public class CategoryItemViewModel {
     Context context;
     DataCategoryList.Category responeData;
     OnItemClickListener onItemClick;
-    int position;
+    int itemPosition;
 
 
     public CategoryItemViewModel(Context context, int position, DataCategoryList.Category responeData, OnItemClickListener onItemClick) {
         this.context = context;
         this.responeData = responeData;
         this.onItemClick = onItemClick;
-        this.position = position;
+        this.itemPosition = position;
     }
 
     public void setResponeData(DataCategoryList.Category responeData) {
@@ -41,7 +41,7 @@ public class CategoryItemViewModel {
 
 
     public void onItemClick(View view) {
-        onItemClick.onItemClick(position, responeData);
+        onItemClick.onItemClick(itemPosition, responeData);
     }
 
     public String getId() {

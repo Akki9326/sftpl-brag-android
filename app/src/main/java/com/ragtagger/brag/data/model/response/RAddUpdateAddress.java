@@ -16,35 +16,8 @@ import com.ragtagger.brag.data.model.datas.DataUserAddress;
  */
 
 
-public class RAddUpdateAddress {
-    private boolean status;
-    private Integer errorCode;
-    private String message;
+public class RAddUpdateAddress extends BaseResponse {
     private DataUserAddress data;
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public DataUserAddress getData() {
         return data;
